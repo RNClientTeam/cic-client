@@ -1,0 +1,3 @@
+rootProject.name = 'cic_client'
+
+include ':app'
