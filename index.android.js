@@ -18,6 +18,7 @@ export default class cic_client extends Component {
       <View style={styles.container}>
         <Text style={styles.welcome}>
           首页
+          
         </Text>
         <Text style={styles.instructions}>
           Double tap R on your keyboard to reload,{'\n'}
