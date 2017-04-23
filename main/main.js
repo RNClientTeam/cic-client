@@ -80,7 +80,6 @@ export default class Main extends Component {
             </TabNavigator.Item>
         )
     }
-
     /**
      * 配置场景动画
      * @param route 路由
