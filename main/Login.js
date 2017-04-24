@@ -29,12 +29,12 @@ export default class Login extends Component {
                 {/**用户名**/}
                 <MyTextInput
                     placeholder="请输入用户名"
-                    leftImageSource={require('../resource/ic_user.png')}
+                    leftImageSource={require('../resource/imgs/login/ic_user.png')}
                     style={styles.myInput}/>
                 {/**密码**/}
                 <MyTextInput
                     placeholder="请输入密码"
-                    leftImageSource={require('../resource/ic_lock.png')}
+                    leftImageSource={require('../resource/imgs/login/ic_lock.png')}
                     style={styles.myInput}
                     secureTextEntry={true}/>
 
