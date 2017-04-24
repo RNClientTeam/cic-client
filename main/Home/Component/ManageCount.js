@@ -31,11 +31,11 @@ const styles = StyleSheet.create({
     countStyle:{
         color:'#f28214',
         fontWeight:'bold',
-        fontSize:15
+        fontSize:16
     },
     nameStyle:{
         color:'#666',
-        fontSize:14,
+        fontSize:13,
         marginTop:7
     }
 });
