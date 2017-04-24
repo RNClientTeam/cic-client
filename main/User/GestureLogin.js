@@ -16,20 +16,20 @@ export default class GestureLogin extends Component {
         super();
         this.state = {
             status: 'normal',
-            message: '手势密码是Z'
+            message: '使用手势密码登录'
         }
     }
     onStart() {
         this.setState({
             status: 'normal',
-            message: 'Please input your password.'
+            message: '使用手势密码登录'
         });
     }
     onEnd(password) {
         if (password == Password1) {
             this.setState({
                 status: 'right',
-                message: 'Password is right, success.'
+                message: '密码错误，请重试'
             });
 
             // your codes to close this view
@@ -52,6 +52,11 @@ export default class GestureLogin extends Component {
         return(
             <GesturePassword
                 ref='pg'
+                source={require('../../resource/imgs/login/bgImage.png')}
+                testSource={require('../../resource/imgs/login/safe.png')}
+                allowCross={true}
+                interval={500}
+                rightColor='white'
                 status={this.state.status}
                 message={this.state.message}
                 onStart={() => this.onStart()}
