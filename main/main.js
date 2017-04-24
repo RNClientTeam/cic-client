@@ -16,7 +16,7 @@ import Message from './Message/Message.js';
 import User from './User/User.js';
 import Organization from './Organization/Organization.js';
 var {width,height} = Dimensions.get('window');
-var tabImg = [require('../resource/imgs/login/ic_user.png')];
+var tabImg = [require('../resource/ic_user.png')];
 
 export default class Main extends Component {
     constructor(props) {
