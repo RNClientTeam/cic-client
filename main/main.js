@@ -57,8 +57,8 @@ export default class Main extends Component {
             <TabNavigator.Item
                 selected={this.state.selectedTab === tabName}
                 title={title}
-                renderIcon={() => <Image source={iconSrc} style={styles.imgSty}/>}
-                renderSelectedIcon={() => <Image source={selIconSrc} style={styles.imgSty}/>}
+                renderIcon={() => <Image source={iconSrc} style={styles.imgSty} resizeMode="contain"/>}
+                renderSelectedIcon={() => <Image source={selIconSrc} style={styles.imgSty} resizeMode="contain"/>}
                 renderAsOriginal={true}
                 selectedTitleStyle={{color:'#99000b'}}
                 onPress={() => {this.setState({selectedTab:tabName});}}>
@@ -114,5 +114,9 @@ const styles = StyleSheet.create({
     tabBarHidden: {
         height: 0,
         overflow: 'hidden'
+    },
+    imgSty: {
+        width: 22,
+        height: 22
     }
 });
