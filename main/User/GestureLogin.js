@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 
 import GesturePassword from 'react-native-gesture-password';
+import Main from '../main.js';
 var Password1 = '1235789';
 
 export default class GestureLogin extends Component {
@@ -15,7 +16,7 @@ export default class GestureLogin extends Component {
         super();
         this.state = {
             status: 'normal',
-            message: 'Please input your password.'
+            message: '手势密码是Z'
         }
     }
     onStart() {
@@ -32,6 +33,14 @@ export default class GestureLogin extends Component {
             });
 
             // your codes to close this view
+            const {navigator} = this.props;
+            if (navigator) {
+                navigator.replace({
+                    component: Main,
+                    name: 'Main',
+                    type: 'fade'
+                });
+            }
         } else {
             this.setState({
                 status: 'wrong',
