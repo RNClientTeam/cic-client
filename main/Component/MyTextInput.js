@@ -1,3 +1,6 @@
+/**
+ * 登录模块输入框组件
+ */
 "use strict";
 import React, {Component} from 'react';
 import {
