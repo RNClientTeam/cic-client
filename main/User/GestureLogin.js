@@ -1,13 +1,12 @@
 "use strict";
 import React, {Component} from 'react';
 import {
-    StyleSheet,
     View,
     Image,
     TextInput
 } from 'react-native';
 
-import GesturePassword from 'react-native-gesture-password';
+import GesturePassword from '../lib/gesturePassword/index.js';
 import Main from '../main.js';
 var Password1 = '1235789';
 
@@ -27,12 +26,6 @@ export default class GestureLogin extends Component {
     }
     onEnd(password) {
         if (password == Password1) {
-            this.setState({
-                status: 'right',
-                message: '密码错误，请重试'
-            });
-
-            // your codes to close this view
             const {navigator} = this.props;
             if (navigator) {
                 navigator.replace({
@@ -44,7 +37,7 @@ export default class GestureLogin extends Component {
         } else {
             this.setState({
                 status: 'wrong',
-                message: 'Password is wrong, try again.'
+                message: '密码有误，请重试'
             });
         }
     }
@@ -52,8 +45,8 @@ export default class GestureLogin extends Component {
         return(
             <GesturePassword
                 ref='pg'
-                source={require('../../resource/imgs/login/bgImage.png')}
-                testSource={require('../../resource/imgs/login/safe.png')}
+                bgSource={require('../../resource/imgs/login/bgImage.png')}
+                safeSource={require('../../resource/imgs/login/safe.png')}
                 allowCross={true}
                 interval={500}
                 rightColor='white'
@@ -64,7 +57,3 @@ export default class GestureLogin extends Component {
         );
     }
 }
-
-const styles = StyleSheet.create({
-
-})
