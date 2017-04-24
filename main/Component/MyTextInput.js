@@ -1,6 +1,3 @@
-/**
- * 登录模块输入框组件
- */
 "use strict";
 import React, {Component} from 'react';
 import {
@@ -11,13 +8,6 @@ import {
 } from 'react-native';
 
 export default class MyTextInput extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            text: ''
-        }
-    }
-
     render() {
         return(
             <View style={[styles.viewSty,this.props.style]}>
@@ -30,8 +20,8 @@ export default class MyTextInput extends Component {
                     placeholder={this.props.placeholder}
                     autoCorrect={false}
                     underlineColorAndroid='transparent'
-                    onChangeText={(text)=>this.setState({text})}
-                    value={this.state.text}
+                    onChangeText={(text)=>this.props.onChangeText(text)}
+                    value={this.props.text}
                     secureTextEntry={this.props.secureTextEntry}
                     clearButtonMode='while-editing'/>
             </View>
