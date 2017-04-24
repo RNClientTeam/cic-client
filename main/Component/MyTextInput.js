@@ -13,10 +13,11 @@ export default class MyTextInput extends Component {
             <View style={[styles.viewSty,this.props.style]}>
                 {
                     this.props.leftImageSource &&
-                    <Image source={this.props.leftImageSource}/>
+                    <Image source={this.props.leftImageSource}
+                        style={styles.img}/>
                 }
                 <TextInput
-                    style={{flex:1, marginLeft:8}}
+                    style={styles.textSty}
                     placeholder={this.props.placeholder}
                     autoCorrect={false}
                     underlineColorAndroid='transparent'
@@ -33,5 +34,16 @@ const styles = StyleSheet.create({
     viewSty: {
         flexDirection: 'row',
         alignItems:'center'
+    },
+    img: {
+        width: 20,
+        height: 24,
+        marginHorizontal: 10
+    },
+    textSty: {
+        flex:1,
+        paddingLeft:10,
+        borderLeftWidth:1,
+        borderLeftColor:'blue'
     }
 })
