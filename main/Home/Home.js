@@ -7,46 +7,41 @@ import {
     Image,
     Dimensions,
     TouchableOpacity,
-    ScrollView,
-    StatusBar
+    ScrollView
 } from 'react-native';
 const  {width, height} = Dimensions.get('window');
-// import StatusBar from '../Component/StatusBar'
+import StatusBar from '../Component/StatusBar'
 import MenuItems from './Component/MenuItems'
 import ManageState from './Component/ManageState'
 import Notification from './Component/Notification'
 export default class Home extends Component {
     render() {
         return(
-        <ScrollView>
-            <View style={styles.viewSty}>
-                <StatusBar
-                    style={{height:20}}
-                    backgroundColor='#216fd0'
-                    translucent={true}
-                    hidden={true}
-                    animated={true}
-                    networkActivityIndicatorVisible={true}/>
-                <View style={styles.navigationStyle}>
-                    <Image style={styles.logoStyle} source={require('../../resource/imgs/home/home_logo.png')}/>
-                    <Text style={styles.logoText}>九州方圆</Text>
-                    <View style={styles.operationViewStyle}>
-                        <TouchableOpacity onPress={this.onPressSweep.bind(this)}>
-                            <Image style={styles.sweepStyle} source={require('../../resource/imgs/home/sweep.png')}/>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={this.onPresSigned.bind(this)}>
-                            <Image style={styles.signedStyle} source={require('../../resource/imgs/home/signed.png')}/>
-                        </TouchableOpacity>
+        <View>
+            <StatusBar/>
+            <ScrollView>
+                <View style={styles.viewSty}>
+                    <View style={styles.navigationStyle}>
+                        <Image style={styles.logoStyle} source={require('../../resource/imgs/home/home_logo.png')}/>
+                        <Text style={styles.logoText}>九州方圆</Text>
+                        <View style={styles.operationViewStyle}>
+                            <TouchableOpacity onPress={this.onPressSweep.bind(this)}>
+                                <Image style={styles.sweepStyle} source={require('../../resource/imgs/home/sweep.png')}/>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={this.onPresSigned.bind(this)}>
+                                <Image style={styles.signedStyle} source={require('../../resource/imgs/home/signed.png')}/>
+                            </TouchableOpacity>
+                        </View>
                     </View>
+                    {/*菜单栏*/}
+                    <MenuItems/>
+                    {/*公司经营状况*/}
+                    <ManageState/>
+                    {/*最新消息*/}
+                    <Notification/>
                 </View>
-                {/*菜单栏*/}
-                <MenuItems/>
-                {/*公司经营状况*/}
-                <ManageState/>
-                {/*最新消息*/}
-                <Notification/>
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </View>
         );
     }
 
