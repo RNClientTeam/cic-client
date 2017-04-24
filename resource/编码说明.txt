@@ -1,0 +1,4 @@
+涉及到宽高统一配：
+const  {width, height} = Dimensions.get('window');
+
+上边高度44  下边49  状态栏（显示网络 电量那一部分)是20

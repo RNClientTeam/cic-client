@@ -9,12 +9,15 @@
   "dependencies": {
     "react": "16.0.0-alpha.6",
     "react-native": "0.43.4",
+    "react-native-gesture-password": "^0.2.0",
+    "react-native-icon-badge": "^1.1.1",
     "react-native-tab-navigator": "^0.3.3"
   },
   "devDependencies": {
     "babel-jest": "19.0.0",
     "babel-preset-react-native": "1.9.1",
     "jest": "19.0.2",
+    "react-native-camera": "^0.6.0",
     "react-test-renderer": "16.0.0-alpha.6"
   },
   "jest": {
