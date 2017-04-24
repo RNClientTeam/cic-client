@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 var {width, height} = Dimensions.get('window');
-import Main from './Main.js';
+import Main from './main.js';
 import MyTextInput from './Component/MyTextInput.js';
 import GestureLogin from './User/GestureLogin.js';
 import {getKey} from './Util/Util.js';
@@ -52,14 +52,14 @@ export default class Login extends Component {
                 {/**用户名**/}
                 <MyTextInput
                     placeholder="请输入用户名"
-                    leftImageSource={require('../resource/ic_user.png')}
+                    leftImageSource={require('../resource/imgs/login/ic_user.png')}
                     style={styles.myInput}
                     text={this.state.username}
                     onChangeText={(text)=>this.setState({username:text})}/>
                 {/**密码**/}
                 <MyTextInput
                     placeholder="请输入密码"
-                    leftImageSource={require('../resource/ic_lock.png')}
+                    leftImageSource={require('../resource/imgs/login/ic_lock.png')}
                     style={styles.myInput}
                     secureTextEntry={true}
                     text={this.state.password}
