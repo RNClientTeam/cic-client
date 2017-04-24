@@ -3,7 +3,6 @@ package com.cic_client;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.eguma.barcodescanner.BarcodeScannerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -23,8 +22,7 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new BarcodeScannerPackage()
+          new MainReactPackage()
       );
     }
   };
