@@ -7,7 +7,8 @@ import {
     TouchableWithoutFeedback,
     Dimensions,
     ScrollView,
-    AsyncStorage
+    AsyncStorage,
+    Image
 } from 'react-native';
 
 var {width, height} = Dimensions.get('window');
@@ -42,12 +43,8 @@ export default class Login extends Component {
             <ScrollView style={styles.flex}
                 contentContainerStyle={{alignItems:'center'}}
                 bounces={false}>
-                <Text style={styles.text1}>
-                    九州方圆
-                </Text>
-                <Text style={styles.text2}>
-                    业务管理信息系统
-                </Text>
+                <Image source={require('../resource/imgs/login/loginBG.png')}
+                    style={styles.loginBG} resizeMode="contain"/>
 
                 {/**用户名**/}
                 <MyTextInput
@@ -117,7 +114,7 @@ const styles = StyleSheet.create({
         fontWeight: '300'
     },
     myInput: {
-        width:width - 80,
+        width:width - 60,
         height:40,
         borderWidth: 1,
         borderColor: '#c2c2c2',
@@ -139,11 +136,16 @@ const styles = StyleSheet.create({
         color: 'white'
     },
     warningSty: {
-        width:width - 80,
+        width:width - 60,
         height: 25,
         fontSize: 12,
         color: 'red',
         marginTop: 40,
         marginBottom: 2
+    },
+    loginBG: {
+        width: width,
+        height: width * 0.713,
+        marginBottom: 50
     }
 });
