@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 var {width, height} = Dimensions.get('window');
-import Main from './Main.js';
+import Main from './main.js';
 import MyTextInput from './Component/MyTextInput.js';
 
 export default class Login extends Component {
