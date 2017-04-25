@@ -69,7 +69,7 @@ export default class Main extends Component {
                 renderIcon={() => <Image source={iconSrc} style={styles.imgSty} resizeMode="contain"/>}
                 renderSelectedIcon={() => <Image source={selIconSrc} style={styles.imgSty} resizeMode="contain"/>}
                 renderAsOriginal={true}
-                selectedTitleStyle={{color:'#99000b'}}
+                selectedTitleStyle={{color:'#216fd0'}}
                 onPress={() => {this.setState({selectedTab:tabName});}}>
                 <Navigator
                     ref={tabName}
