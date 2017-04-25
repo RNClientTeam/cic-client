@@ -3,16 +3,21 @@ import React, {Component} from 'react';
 import {
     StyleSheet,
     View,
-    Text
+    Text,
+    Dimensions
 } from 'react-native';
-
+const {width} = Dimensions.get('window');
+/**
+ *测试日历
+ */
+import Calendar from './Component/Calendar'
+import StatusBar from '../Component/StatusBar'
 export default class Message extends Component {
     render() {
-        return(
+        return (
             <View style={styles.viewSty}>
-                <Text>
-                    Message
-                </Text>
+                <StatusBar/>
+                <Calendar/>
             </View>
         );
     }
@@ -20,8 +25,6 @@ export default class Message extends Component {
 
 const styles = StyleSheet.create({
     viewSty: {
-        flex:1,
-        alignItems:'center',
-        justifyContent:'center'
+        flex: 1
     }
 })

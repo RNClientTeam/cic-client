@@ -18,4 +18,4 @@ export default class HomeHeader extends Component{
 
 const styles = StyleSheet.create({
 
-})
+});
