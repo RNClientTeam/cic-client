@@ -63,17 +63,18 @@ export default class Main extends Component {
                 selectedTitleStyle={{color:'#99000b'}}
                 onPress={() => {this.setState({selectedTab:tabName});}}>
                 <Navigator
+                    ref={tabName}
                     initialRoute={{
                         name:tabName,
                         component:tabComponent
                     }}
+                    onWillFocus={this.onWillFocus.bind(this, tabName)}
                     configureScene={this.configureScene}
                     renderScene={(route, navigator)=>{
                         return (
                             <route.component
                                 {...route.params}
-                                navigator={navigator}
-                                hideTabbar={this.hideTabbar.bind(this)}/>
+                                navigator={navigator}/>
                         );
                     }}
                 />
@@ -101,9 +102,14 @@ export default class Main extends Component {
         return true;
     }
 
-    //修改底部导航栏的显示状态
-    hideTabbar(hidden) {
-        this.setState({hideBottomTab: hidden});
+    onWillFocus(tabName) {
+        if (this.refs[tabName]) {
+            if (this.refs[tabName].getCurrentRoutes().length === 2) {
+                this.setState({hideBottomTab: false});
+            } else {
+                this.setState({hideBottomTab: true});
+            }
+        }
     }
 }
 

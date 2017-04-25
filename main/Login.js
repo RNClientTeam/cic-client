@@ -4,7 +4,7 @@ import {
     StyleSheet,
     View,
     Text,
-    TouchableWithoutFeedback,
+    TouchableHighlight,
     Dimensions,
     ScrollView,
     AsyncStorage,
@@ -29,11 +29,14 @@ export default class Login extends Component {
     componentWillMount() {
         AsyncStorage.getItem(getKey('gestureSecret'), (error, result) => {
             //获取到有手势密码,切换路由到手势解锁登录
-            if (!result) {
+            if (result) {
                 this.props.navigator.replace({
                     name: 'GestureLogin',
                     component: GestureLogin,
-                    type: 'fade'
+                    type: 'fade',
+                    params: {
+                        password: result
+                    }
                 });
             }
         });
@@ -45,6 +48,9 @@ export default class Login extends Component {
                 bounces={false}>
                 <Image source={require('../resource/imgs/login/loginBG.png')}
                     style={styles.loginBG} resizeMode="contain"/>
+
+                {/**用户名或密码输入有误的提示信息**/}
+                <Text style={styles.warningSty}>{this.state.warningText}</Text>
 
                 {/**用户名**/}
                 <MyTextInput
@@ -62,16 +68,18 @@ export default class Login extends Component {
                     text={this.state.password}
                     onChangeText={(text)=>this.setState({password:text})}/>
 
-                {/**用户名或密码输入有误的提示信息**/}
-                <Text style={styles.warningSty}>{this.state.warningText}</Text>
+                {/**忘记密码**/}
+                <TouchableHighlight underlayColor='transparent' onPress={()=>{}} style={{alignSelf:'flex-start',marginLeft:20}}>
+                    <Text style={styles.forgetPassword}>忘记密码？</Text>
+                </TouchableHighlight>
                 {/**登录**/}
-                <TouchableWithoutFeedback onPress={this.onPress.bind(this)}>
+                <TouchableHighlight onPress={this.onPress.bind(this)} underlayColor='transparent' style={styles.loginTouch}>
                     <View style={styles.loginView}>
                         <Text style={styles.loginText}>
                             登录
                         </Text>
                     </View>
-                </TouchableWithoutFeedback>
+                </TouchableHighlight>
             </ScrollView>
         );
     }
@@ -98,54 +106,42 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white'
     },
-    text1: {
-        fontSize: 40,
-        color: 'blue',
-        marginTop: 80,
-        marginBottom: 20,
-        fontWeight: '300',
-        letterSpacing: 18,
-        paddingLeft: 18
-    },
-    text2: {
-        fontSize: 28,
-        color: 'blue',
-        marginBottom: 80,
-        fontWeight: '300'
-    },
     myInput: {
-        width:width - 60,
-        height:40,
+        width:width - 40,
+        height:height*0.0705,
         borderWidth: 1,
-        borderColor: '#c2c2c2',
+        borderColor: '#dadada',
         borderRadius: 5,
-        alignSelf: 'center',
-        marginBottom: 10,
-        backgroundColor: '#f2f2f2'
+        marginBottom: 0.0335*height
     },
     loginView: {
         alignItems:'center',
         justifyContent:'center',
-        width:width - 80,
-        height:40,
+        width:width - 40,
+        height:height*0.0705,
         borderRadius:5,
-        backgroundColor:'blue'
+        backgroundColor:'#0965b5'
     },
     loginText: {
         fontSize: 20,
         color: 'white'
     },
     warningSty: {
-        width:width - 60,
+        width:width - 40,
         height: 25,
-        fontSize: 12,
-        color: 'red',
-        marginTop: 40,
-        marginBottom: 2
+        fontSize: 14,
+        color: 'red'
     },
     loginBG: {
         width: width,
         height: width * 0.713,
-        marginBottom: 50
+        marginBottom: height*0.0334
+    },
+    forgetPassword: {
+        fontSize: 16,
+        color: '#1969b8'
+    },
+    loginTouch: {
+        marginTop: height*0.14
     }
 });

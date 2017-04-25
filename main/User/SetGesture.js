@@ -3,40 +3,51 @@ import React, {Component} from 'react';
 import {
     View,
     Image,
-    TextInput
+    TextInput,
+    AsyncStorage
 } from 'react-native';
 
 import GesturePassword from '../lib/gesturePassword/index.js';
 import Main from '../main.js';
+import {getKey} from '../Util/Util.js';
+var Password1 = '';
 
 export default class GestureLogin extends Component {
     constructor() {
         super();
         this.state = {
             status: 'normal',
-            message: '使用手势密码登录'
+            message: '请设置手势密码'
         }
     }
     onStart() {
         this.setState({
             status: 'normal',
-            message: '使用手势密码登录'
+            message: '请设置手势密码'
         });
     }
     onEnd(password) {
-        if (password == this.props.password) {
-            const {navigator} = this.props;
-            if (navigator) {
-                navigator.replace({
-                    component: Main,
-                    name: 'Main',
-                    type: 'fade'
-                });
-            }
-        } else {
+        if (Password1 === '') {
+            Password1 = password;
+            this.setState({
+                status: 'normal',
+                message: '请再次输入密码'
+            });
+        } else if (Password1 !== password){
             this.setState({
                 status: 'wrong',
-                message: '密码有误，请重试'
+                message: '两次密码不一样，请重新设置'
+            });
+            Password1 = '';
+        } else if (Password1 === password) {
+            this.setState({
+                status: 'right',
+                message: '设置密码成功'
+            });
+            AsyncStorage.setItem(getKey('gestureSecret'), password, (error) => {
+                if (!error) {
+                    this.props.navigator.pop();
+                }
             });
         }
     }
@@ -49,7 +60,7 @@ export default class GestureLogin extends Component {
                 allowCross={true}
                 interval={500}
                 rightColor='white'
-                isLogin={true}
+                isLogin={false}
                 status={this.state.status}
                 message={this.state.message}
                 onStart={() => this.onStart()}
