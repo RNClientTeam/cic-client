@@ -85,11 +85,14 @@ export default class GesturePassword extends Component {
                     <Line ref='line' color={color} />
                 </View>
 
-                <TouchableHighlight onPress={this.onPress.bind(this)} style={styles.touchSty} underlayColor='transparent'>
-                    <Text style={styles.forgetText}>
-                        忘记手势密码？
-                    </Text>
-                </TouchableHighlight>
+                {
+                    this.props.isLogin &&
+                    <TouchableHighlight onPress={this.onPress.bind(this)} style={styles.touchSty} underlayColor='transparent'>
+                        <Text style={styles.forgetText}>
+                            忘记手势密码？
+                        </Text>
+                    </TouchableHighlight>
+                }
             </Image>
         )
     }
