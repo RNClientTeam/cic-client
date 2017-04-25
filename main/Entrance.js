@@ -7,9 +7,14 @@ import {
     Image
 } from 'react-native';
 
+import Splash from 'react-native-splash-screen';
+
 import Login from './Login.js';
 
 export default class Entrance extends Component {
+    componentDidMount() {
+        Splash.hide();
+    }
     render() {
         return(
             <Navigator

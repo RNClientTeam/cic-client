@@ -15,7 +15,7 @@ import Circle from './circle'
 const Width = Dimensions.get('window').width
 const Height = Dimensions.get('window').height
 const Top = (Height - Width)/2.0 * 1.5
-const Radius = Width / 10
+const Radius = Width / 12
 
 export default class GesturePassword extends Component {
     constructor(props) {
@@ -28,14 +28,13 @@ export default class GesturePassword extends Component {
 
         // getInitialState
         let circles = [];
-        let Margin = Radius;
         for (let i=0; i < 9; i++) {
             let p = i % 3;
             let q = parseInt(i / 3);
             circles.push({
                 isActive: false,
-                x: p * (Radius * 2 + Margin) + Margin + Radius,
-                y: q * (Radius * 2 + Margin) + Margin + Radius
+                x: p * (Radius * 3.5 ) + 2.5*Radius,
+                y: q * (Radius * 3.5 ) + 2.5*Radius
             });
         }
 
@@ -72,7 +71,7 @@ export default class GesturePassword extends Component {
         let color = this.props.status === 'wrong' ? this.props.wrongColor : this.props.rightColor;
 
         return (
-            <Image style={{width: Width, height:Height}}
+            <Image style={{width: Width, height:Height,backgroundColor:'white'}}
                 source={this.props.bgSource}>
                 <Image style={styles.safeImage} source={this.props.safeSource}/>
                 <View style={styles.message}>
@@ -86,11 +85,14 @@ export default class GesturePassword extends Component {
                     <Line ref='line' color={color} />
                 </View>
 
-                <TouchableHighlight onPress={this.onPress.bind(this)} style={styles.touchSty} underlayColor='transparent'>
-                    <Text style={styles.forgetText}>
-                        忘记手势密码？
-                    </Text>
-                </TouchableHighlight>
+                {
+                    this.props.isLogin &&
+                    <TouchableHighlight onPress={this.onPress.bind(this)} style={styles.touchSty} underlayColor='transparent'>
+                        <Text style={styles.forgetText}>
+                            忘记手势密码？
+                        </Text>
+                    </TouchableHighlight>
+                }
             </Image>
         )
     }
@@ -323,7 +325,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     msgText: {
-        fontSize: 16
+        fontSize: 16,
+        backgroundColor:'transparent'
     },
     safeImage: {
         width: 80,
