@@ -8,8 +8,9 @@
  */
 
 #import "AppDelegate.h"
-#import <React/RCTBundleURLProvider.h>
+#import "SplashScreen.h"
 #import <React/RCTRootView.h>
+#import <React/RCTBundleURLProvider.h>
 
 @implementation AppDelegate
 
@@ -30,6 +31,9 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  
+  //修复启动白屏问题
+  [SplashScreen show];
   return YES;
 }
 
