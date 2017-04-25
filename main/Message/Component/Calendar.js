@@ -15,8 +15,8 @@ export default class Calendar extends Component{
     constructor(props){
         super(props);
         this.state = {
-            year:new Date().getFullYear()-1,//当前年份
-            month:new Date().getMonth()-2,//当前月份
+            year:new Date().getFullYear(),//当前年份
+            month:new Date().getMonth(),//当前月份
             today:new Date().getDate(),//今天日期
         }
     }
