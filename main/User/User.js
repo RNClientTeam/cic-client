@@ -7,7 +7,8 @@ import {
     Dimensions,
     ListView,
     Image,
-    TouchableHighlight
+    TouchableHighlight,
+    Alert
 } from 'react-native';
 
 import SetGesture from './SetGesture';
@@ -47,42 +48,35 @@ export default class User extends Component {
         );
     }
 
-    onPress(rowData) {
+    onPress(index) {
         const {navigator} = this.props;
-        switch (rowData) {
-            case '修改密码':
+        if (index == 0) {
 
-                break;
-            case '修改手势密码':
-                if (navigator) {
-                    navigator.push({
-                        component: SetGesture,
-                        name: 'SetGesture'
-                    });
-                }
-                break;
-            case '提醒设置':
+        } else if (index == 1) {
+            navigator.push({
+                component: SetGesture,
+                name: 'SetGesture'
+            });
+        } else if (index == 2) {
 
-                break;
-            case '版本更新':
+        } else if (index == 3) {
 
-                break;
-            case '退出登录':
-                if (navigator) {
+        } else {
+            Alert.alert('温馨提示', '确定退出登录？',[
+                {text: '取消'},
+                {text: '确定', onPress() {
                     navigator.replace({
                         component: Login,
                         name: 'Login'
                     });
-                }
-                break;
-            default:
-
+                }}
+            ]);
         }
     }
 
     renderRow(rowData, sectionId, rowId) {
         return (
-            <TouchableHighlight underlayColor='transparent' onPress={this.onPress.bind(this, rowData)}>
+            <TouchableHighlight underlayColor='transparent' onPress={this.onPress.bind(this, rowId)}>
                 <View style={styles.rowSty}>
                     <Image source={imgNames[rowId]} style={styles.imgSty} resizeMode='contain'/>
                     <Text style={styles.rowDataSty}>{rowData}</Text>
@@ -114,7 +108,7 @@ export default class User extends Component {
             <View>
                 <View style={styles.footerView}>
                 </View>
-                <TouchableHighlight underlayColor='transparent' onPress={this.onPress.bind(this,'退出登录')}>
+                <TouchableHighlight underlayColor='transparent' onPress={this.onPress.bind(this)}>
                     <View style={styles.rowSty}>
                         <Image source={imgNames[4]} style={styles.imgSty} resizeMode='contain'/>
                         <Text style={styles.rowDataSty}>退出登录</Text>
@@ -186,13 +180,15 @@ const styles = StyleSheet.create({
         height: 0.0997*height
     },
     userName: {
-        marginVertical: 15,
+        marginTop: 12,
         color: 'white',
         fontSize: 17
     },
     recommendView: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        flex: 1,
+        paddingBottom: 5
     },
     recommendText: {
         fontSize: 12,
@@ -206,7 +202,7 @@ const styles = StyleSheet.create({
     department: {
         color: 'white',
         fontSize: 11,
-        marginTop: 22,
+        marginBottom: 10,
         backgroundColor: 'transparent'
     },
     userBg: {
