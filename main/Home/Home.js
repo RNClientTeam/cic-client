@@ -15,6 +15,7 @@ import MenuItems from './Component/MenuItems'
 import ManageState from './Component/ManageState'
 import Notification from './Component/Notification'
 import Signed from './Signed/Signed'
+import CameraPage from  './../Util/CameraPage';
 export default class Home extends Component {
     render() {
         return(
@@ -49,7 +50,10 @@ export default class Home extends Component {
      * 扫一扫
      */
     onPressSweep(){
-
+        this.props.navigator.push({
+            component: CameraPage,
+            name: 'Sweep'
+        })
     }
 
     /**
