@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import StatusBar from '../Component/StatusBar'
 import Camera from 'react-native-camera';
+var page =1;
 export default class CameraPage extends Component{
     constructor(props) {
         super(props);
@@ -129,9 +130,21 @@ export default class CameraPage extends Component{
     }
     //扫描二维码
     onBarCodeRead=(e)=>{
-        console.log(e.data);
-        alert(e.data);
+        if(page == 1){
+            page = 2;
+            console.log(e.data);
+            Alert.alert(e.data, e.data, [
+                {text: '完成', onPress: ()=>{this.comeBack()}},
+                {text: '重新扫描', onPress: ()=> {page = 1}}
+            ]);
+        }else{}
     };
+    comeBack() {
+        const {navigator} = this.props.navigator;
+        if(navigator) {
+            navigator.pop();
+        }
+    }
     render() {
         return (
             <View style={styles.container}>
@@ -186,27 +199,6 @@ export default class CameraPage extends Component{
                         null
                     }
                     <View style={styles.buttonsSpace} />
-                    {
-                        !this.state.isRecording
-                        &&
-                        <TouchableOpacity
-                            style={styles.captureButton}
-                            onPress={this.startRecording}
-                        >
-                            <Image
-                                source={require('./assets/ic_videocam_36pt.png')}
-                            />
-                        </TouchableOpacity>
-                        ||
-                        <TouchableOpacity
-                            style={styles.captureButton}
-                            onPress={this.stopRecording}
-                        >
-                            <Image
-                                source={require('./assets/ic_stop_36pt.png')}
-                            />
-                        </TouchableOpacity>
-                    }
                 </View>
             </View>
         );
