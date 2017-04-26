@@ -14,6 +14,7 @@ import StatusBar from '../Component/StatusBar'
 import MenuItems from './Component/MenuItems'
 import ManageState from './Component/ManageState'
 import Notification from './Component/Notification'
+import CameraPage from './Component/CameraPage';
 export default class Home extends Component {
     render() {
         return(
@@ -49,7 +50,13 @@ export default class Home extends Component {
      * 扫一扫
      */
     onPressSweep(){
-
+        const {navigator} = this.props;
+        if (navigator) {
+            navigator.push({
+                component: CameraPage,
+                name: 'CameraPage'
+            });
+        }
     }
 
     /**

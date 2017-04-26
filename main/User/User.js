@@ -11,8 +11,16 @@ import {
 } from 'react-native';
 
 import SetGesture from './SetGesture';
+import Login from '../Login.js';
 var {width, height} = Dimensions.get('window');
 var dataSource=['修改密码','修改手势密码','提醒设置','版本更新'];
+var imgNames = [
+    require('../../resource/imgs/user/lock.png'),
+    require('../../resource/imgs/user/gesture.png'),
+    require('../../resource/imgs/user/remind.png'),
+    require('../../resource/imgs/user/update.png'),
+    require('../../resource/imgs/user/logout.png')
+];
 
 export default class User extends Component {
     constructor() {
@@ -20,6 +28,11 @@ export default class User extends Component {
         this.ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2
         });
+        this.state = {
+            username: '王韵杰',
+            recommend: '安全勘测工程师',
+            department: '单位名称：安全监测监控部'
+        }
     }
     render() {
         return(
@@ -35,24 +48,43 @@ export default class User extends Component {
     }
 
     onPress(rowData) {
-        if (rowData === '修改手势密码') {
-            const {navigator} = this.props;
-            if (navigator) {
-                navigator.push({
-                    component: SetGesture,
-                    name: 'SetGesture'
-                });
-            }
-        } else {
-            alert(rowData);
+        const {navigator} = this.props;
+        switch (rowData) {
+            case '修改密码':
+
+                break;
+            case '修改手势密码':
+                if (navigator) {
+                    navigator.push({
+                        component: SetGesture,
+                        name: 'SetGesture'
+                    });
+                }
+                break;
+            case '提醒设置':
+
+                break;
+            case '版本更新':
+
+                break;
+            case '退出登录':
+                if (navigator) {
+                    navigator.replace({
+                        component: Login,
+                        name: 'Login'
+                    });
+                }
+                break;
+            default:
+
         }
     }
 
-    renderRow(rowData) {
+    renderRow(rowData, sectionId, rowId) {
         return (
             <TouchableHighlight underlayColor='transparent' onPress={this.onPress.bind(this, rowData)}>
                 <View style={styles.rowSty}>
-                    <Image source={require('../../resource/imgs/login/ic_lock.png')} style={styles.imgSty} resizeMode='contain'/>
+                    <Image source={imgNames[rowId]} style={styles.imgSty} resizeMode='contain'/>
                     <Text style={styles.rowDataSty}>{rowData}</Text>
                 </View>
             </TouchableHighlight>
@@ -62,6 +94,15 @@ export default class User extends Component {
     renderHeader() {
         return (
             <View style={styles.header}>
+                <Image source={require('../../resource/imgs/user/user_bg.png')} style={styles.userBg}>
+                    <Image source={require('../../resource/imgs/user/default_icon.png')} style={styles.userIcon}/>
+                    <Text style={styles.userName}>{this.state.username}</Text>
+                    <View style={styles.recommendView}>
+                        <Image source={require('../../resource/imgs/user/recommend.png')} style={styles.recommendImg}/>
+                        <Text style={styles.recommendText}>{this.state.recommend}</Text>
+                    </View>
+                    <Text style={styles.department}>{this.state.department}</Text>
+                </Image>
                 <View style={styles.headerTail}>
                 </View>
             </View>
@@ -75,7 +116,7 @@ export default class User extends Component {
                 </View>
                 <TouchableHighlight underlayColor='transparent' onPress={this.onPress.bind(this,'退出登录')}>
                     <View style={styles.rowSty}>
-                        <Image source={require('../../resource/imgs/login/ic_lock.png')} style={styles.imgSty} resizeMode='contain'/>
+                        <Image source={imgNames[4]} style={styles.imgSty} resizeMode='contain'/>
                         <Text style={styles.rowDataSty}>退出登录</Text>
                     </View>
                 </TouchableHighlight>
@@ -101,14 +142,13 @@ const styles = StyleSheet.create({
         width: width,
         height: height * 0.3851,
         backgroundColor: '#216fd0',
-        alignItems:'center'
+        justifyContent: 'flex-end'
     },
     headerTail: {
         width: width,
         height: height * 0.0228,
         backgroundColor: '#f2f2f2',
-        position:'absolute',
-        bottom:-1
+        marginBottom: -1
     },
     rowSty: {
         flexDirection: 'row',
@@ -140,5 +180,38 @@ const styles = StyleSheet.create({
         backgroundColor:'#f2f2f2',
         height: 17,
         width: width
+    },
+    userIcon: {
+        width: 0.0997*height,
+        height: 0.0997*height
+    },
+    userName: {
+        marginVertical: 15,
+        color: 'white',
+        fontSize: 17
+    },
+    recommendView: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    recommendText: {
+        fontSize: 12,
+        color: 'white'
+    },
+    recommendImg: {
+        width: 13,
+        height: 15,
+        marginRight: 10
+    },
+    department: {
+        color: 'white',
+        fontSize: 11,
+        marginTop: 22,
+        backgroundColor: 'transparent'
+    },
+    userBg: {
+        width: width,
+        height: height * 0.2624,
+        alignItems: 'center'
     }
 });
