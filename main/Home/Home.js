@@ -9,16 +9,17 @@ import {
     TouchableOpacity,
     ScrollView
 } from 'react-native';
-const  {width, height} = Dimensions.get('window');
+const  {width} = Dimensions.get('window');
 import StatusBar from '../Component/StatusBar'
 import MenuItems from './Component/MenuItems'
 import ManageState from './Component/ManageState'
 import Notification from './Component/Notification'
+import Signed from './Signed/Signed'
 export default class Home extends Component {
     render() {
         return(
         <View>
-            <StatusBar>
+            <StatusBar notBack={true} navigator={this.props.navigator}>
                 <Image style={styles.logoStyle} source={require('../../resource/imgs/home/home_logo.png')}/>
                 <Text style={styles.logoText}>九州方圆</Text>
                 <View style={styles.operationViewStyle}>
@@ -56,6 +57,10 @@ export default class Home extends Component {
      */
     onPresSigned(){
 
+        this.props.navigator.push({
+            component: Signed,
+            name: 'Signed'
+        })
     }
 }
 

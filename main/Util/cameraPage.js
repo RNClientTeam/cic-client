@@ -131,7 +131,7 @@ export default class CameraPage extends Component{
     onBarCodeRead=(e)=>{
         console.log(e.data);
         alert(e.data);
-    }
+    };
     render() {
         return (
             <View style={styles.container}>
