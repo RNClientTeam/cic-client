@@ -8,7 +8,7 @@ import {
     Dimensions,
     Image
 } from 'react-native';
-import CameraPage from  './Util/cameraPage';
+import CameraPage from  './Util/CameraPage';
 import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 import TabNavigator from 'react-native-tab-navigator';
 import Home from './Home/Home.js';

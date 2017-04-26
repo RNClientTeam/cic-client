@@ -56,7 +56,6 @@ export default class Home extends Component {
      * 签到
      */
     onPresSigned(){
-
         this.props.navigator.push({
             component: Signed,
             name: 'Signed'
