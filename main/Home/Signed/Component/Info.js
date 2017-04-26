@@ -19,7 +19,6 @@ export default class Info extends Component{
         super(props);
         this.state = {
             location:'北京市北京市朝阳区安贞街道胜古南里21号楼1单元202',
-            currentTime:getCurrentTime(),
             remark:''
         }
     }
@@ -27,8 +26,7 @@ export default class Info extends Component{
     render(){
         return(
             <View style={styles.info}>
-                <InfoCell src={require('../../../../resource/imgs/home/signed/location.png')} data={this.state.location}/>
-                <InfoCell src={require('../../../../resource/imgs/home/signed/time.png')} data={this.state.currentTime}/>
+                <InfoCell src={require('../../../../resource/imgs/home/signed/time.png')} data={this.props.currentTime}/>
                 <InfoCell src={require('../../../../resource/imgs/home/signed/remark.png')} data=''/>
                 <View style={styles.inputView}>
                     <TextInput
@@ -39,24 +37,13 @@ export default class Info extends Component{
                         onChangeText={(remark) => this.setState({remark})}
                     />
                 </View>
-                <TouchableOpacity onPress={this.getSigned.bind(this)}>
-                    <Image style={styles.signedButton} source={require('../../../../resource/imgs/home/signed/signedButton.png')}/>
-                </TouchableOpacity>
             </View>
         )
     }
 
-    getSigned(){
-        this.setState({
-            currentTime:getCurrentTime()
-        })
-    }
 }
 
 const styles = StyleSheet.create({
-    info:{
-        alignItems:'center',
-    },
     inputView:{
         backgroundColor:'#fff',
         paddingBottom:20,
@@ -69,10 +56,5 @@ const styles = StyleSheet.create({
         marginLeft:width*0.1,
         borderRadius:10,
         fontSize:15
-    },
-    signedButton:{
-        width:width*0.2,
-        height:width*0.2,
-        marginTop:width*0.1
     }
 });
