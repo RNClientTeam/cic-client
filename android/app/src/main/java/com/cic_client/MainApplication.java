@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.eguma.barcodescanner.BarcodeScannerPackage;
 import com.facebook.react.ReactApplication;
+import com.rnfs.RNFSPackage;
+import com.keyee.pdfview.PDFView;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.cboy.rn.splashscreen.SplashScreenReactPackage;
 import com.facebook.react.ReactNativeHost;
@@ -28,11 +30,14 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
               new MainReactPackage(),
+              new RNFSPackage(),
+              new PDFView(),
               new RNSpinkitPackage(),
               new RCTCameraPackage(),
               new BarcodeScannerPackage(),
               new SplashScreenReactPackage(),
-              new RNSpinkitPackage()
+              new RNSpinkitPackage(),
+              new AnExampleReactPackage()
       );
     }
 

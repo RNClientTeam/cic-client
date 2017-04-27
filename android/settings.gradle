@@ -1,13 +1,20 @@
+include ':app'
 rootProject.name = 'cic_client'
-include ':react-native-spinkit'
-project(':react-native-spinkit').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-spinkit/android')
+
 include ':react-native-splash-screen'
 project(':react-native-splash-screen').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-splash-screen/android')
+
 include ':react-native-barcodescanner'
 project(':react-native-barcodescanner').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-barcodescanner/android')
+
 include ':react-native-camera'
 project(':react-native-camera').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-camera/android')
 
-include ':app'
 include ':react-native-spinkit'
 project(':react-native-spinkit').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-spinkit/android')
+
+include ':PDFView'
+project(':PDFView').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-pdf-view/android')
+
+include ':react-native-fs'
+project(':react-native-fs').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fs/android')

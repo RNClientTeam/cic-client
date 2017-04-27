@@ -16,6 +16,7 @@ import ManageState from './Component/ManageState'
 import Notification from './Component/Notification'
 import Signed from './Signed/Signed'
 // import CameraPage from  './../Util/CameraPage';
+import DownLoadFc from  './../Util/DownLoadFc';
 import CameraPage from './Component/CameraPage';
 export default class Home extends Component {
     render() {
@@ -23,7 +24,7 @@ export default class Home extends Component {
         <View>
             <StatusBar notBack={true} navigator={this.props.navigator}>
                 <Image style={styles.logoStyle} source={require('../../resource/imgs/home/home_logo.png')}/>
-                <Text style={styles.logoText}>九州方圆</Text>
+                <Text onPress={this.test} style={styles.logoText}>九州方圆</Text>
                 <View style={styles.operationViewStyle}>
                     <TouchableOpacity onPress={this.onPressSweep.bind(this)}>
                         <Image style={styles.sweepStyle} source={require('../../resource/imgs/home/sweep.png')}/>
@@ -46,7 +47,10 @@ export default class Home extends Component {
         </View>
         );
     }
-
+    test(){
+        let s = 'http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg';
+        DownLoadFc.DownLoadFc(s);
+    }
     /**
      * 扫一扫
      */
