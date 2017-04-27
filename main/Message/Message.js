@@ -15,7 +15,6 @@ import Calendar from './Component/Calendar'
 import StatusBar from '../Component/StatusBar'
 export default class Message extends Component {
     render() {
-        let type = this.state.types[this.state.index];
         return (
             <View style={styles.viewSty}>
                 <StatusBar notBack={true}/>

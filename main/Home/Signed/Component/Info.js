@@ -35,6 +35,8 @@ export default class Info extends Component{
                         autoFocus={true}
                         placeholder='请填写备注信息'
                         onChangeText={(remark) => this.setState({remark})}
+                        underlineColorAndroid="transparent"
+                        textAlignVertical="top"
                     />
                 </View>
             </View>

@@ -7,17 +7,24 @@ import {
     View,
     StyleSheet,
     Dimensions,
-    Text
+    Text,
+    TouchableOpacity
 } from 'react-native'
 const {width}  = Dimensions.get('window');
 
 export default class CalendarCell extends Component{
     render(){
         return(
-            <View style={styles.calendarCellContainer}>
-                <Text style={styles.singleDay}>{this.props.day>0?this.props.day:""}</Text>
-            </View>
+            <TouchableOpacity onPress={this.checkThisDay.bind(this)}>
+                <View style={styles.calendarCellContainer}>
+                    <Text style={styles.singleDay}>{this.props.date>0?this.props.date+'':''}</Text>
+                </View>
+            </TouchableOpacity>
         )
+    }
+
+    checkThisDay(){
+        alert(1)
     }
 }
 

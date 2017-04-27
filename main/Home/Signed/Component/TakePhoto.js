@@ -11,7 +11,7 @@ import {
     TouchableOpacity
 } from 'react-native'
 const {width, height}  = Dimensions.get('window');
-import CameraPage from '../../../Util/CameraPage'
+import CameraPage from '../../Component/CameraPage'
 export default class TakePhoto extends Component{
     render(){
         return(
