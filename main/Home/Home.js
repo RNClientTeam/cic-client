@@ -24,7 +24,7 @@ export default class Home extends Component {
         <View>
             <StatusBar notBack={true} navigator={this.props.navigator}>
                 <Image style={styles.logoStyle} source={require('../../resource/imgs/home/home_logo.png')}/>
-                <Text onPress={this.test} style={styles.logoText}>九州方圆</Text>
+                <Text onPress={this.test.bind(this)} style={styles.logoText}>九州方圆</Text>
                 <View style={styles.operationViewStyle}>
                     <TouchableOpacity onPress={this.onPressSweep.bind(this)}>
                         <Image style={styles.sweepStyle} source={require('../../resource/imgs/home/sweep.png')}/>
