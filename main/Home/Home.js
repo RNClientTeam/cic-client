@@ -48,8 +48,9 @@ export default class Home extends Component {
         );
     }
     test(){
+        let p = 'http://image.tianjimedia.com/imagelist/2009/190/caq4z56jadof.pdf';
         let s = 'http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg';
-        DownLoadFc.DownLoadFc(s);
+        DownLoadFc.DownLoadFc(p);
     }
     /**
      * 扫一扫
