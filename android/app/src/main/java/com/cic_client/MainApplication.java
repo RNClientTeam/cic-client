@@ -1,9 +1,11 @@
 package com.cic_client;
 
 import android.app.Application;
-
 import com.eguma.barcodescanner.BarcodeScannerPackage;
 import com.facebook.react.ReactApplication;
+import com.keyee.pdfview.PDFView;
+import com.yoloci.fileupload.FileUploadPackage;
+import com.rnfs.RNFSPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.cboy.rn.splashscreen.SplashScreenReactPackage;
 import com.facebook.react.ReactNativeHost;
@@ -27,6 +29,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
               new MainReactPackage(),
+            new PDFView(),
+            new FileUploadPackage(),
+              new RNFSPackage(),
               new RNSpinkitPackage(),
               new RCTCameraPackage(),
               new BarcodeScannerPackage(),

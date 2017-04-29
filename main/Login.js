@@ -8,7 +8,8 @@ import {
     Dimensions,
     ScrollView,
     AsyncStorage,
-    Image
+    Image,
+    Keyboard
 } from 'react-native';
 
 var {width, height} = Dimensions.get('window');
@@ -41,10 +42,25 @@ export default class Login extends Component {
             }
         });
     }
+    componentDidMount() {
+        this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', this._keyboardWillShow.bind(this));
+        this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', this._keyboardWillHide.bind(this));
+    }
+    //键盘弹出调用
+    _keyboardWillShow() {
+        this.refs.scroll.scrollTo({x:0, y:50, animated:true});
+    }
+
+    //键盘收起调用
+    _keyboardWillHide() {
+        this.refs.scroll.scrollTo({x:0, y:0, animated:true});
+    }
     render() {
         return(
             <ScrollView style={styles.flex}
                 contentContainerStyle={{alignItems:'center'}}
+                ref="scroll"
+                overScrollMode='always'
                 bounces={false}>
                 <Image source={require('../resource/imgs/login/loginBG.png')}
                     style={styles.loginBG} resizeMode="contain"/>
@@ -98,6 +114,11 @@ export default class Login extends Component {
                 });
             }
         }
+    }
+
+    componentWillUnmount() {
+        this.keyboardWillShowListener.remove();
+        this.keyboardWillHideListener.remove();
     }
 }
 

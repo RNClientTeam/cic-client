@@ -126,6 +126,9 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-pdf-view')
+    compile project(':react-native-fileupload')
+    compile project(':react-native-fs')
     compile project(':react-native-spinkit')
     compile project(':react-native-splash-screen')
     compile project(':react-native-camera')
