@@ -14,13 +14,14 @@ export default class MenuItems extends Component{
     render(){
         return(
             <View style={styles.containerStyle}>
-                <MenuItem src={require('../../../resource/imgs/home/commission.png')} name='待办' badge="118"/>
-                <MenuItem src={require('../../../resource/imgs/home/remind.png')} name='提醒' badge="39"/>
-                <MenuItem src={require('../../../resource/imgs/home/watch.png')} name='监控' badge="0"/>
-                <MenuItem src={require('../../../resource/imgs/home/applications.png')} name='应用'/>
+                <MenuItem navigator={this.props.navigator}  src={require('../../../resource/imgs/home/commission.png')} name='待办' badge="118"/>
+                <MenuItem navigator={this.props.navigator} src={require('../../../resource/imgs/home/remind.png')} name='提醒' badge="39"/>
+                <MenuItem navigator={this.props.navigator} src={require('../../../resource/imgs/home/watch.png')} name='监控' badge="0"/>
+                <MenuItem navigator={this.props.navigator} src={require('../../../resource/imgs/home/applications.png')} name='应用'/>
             </View>
         )
     }
+
 };
 
 const styles = StyleSheet.create({
