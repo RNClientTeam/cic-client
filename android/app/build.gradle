@@ -130,7 +130,6 @@ dependencies {
     compile project(':react-native-pdf-view')
     compile project(':react-native-image-crop-picker')
     compile project(':react-native-fs')
-    compile project(':PDFView')
     compile project(':react-native-spinkit')
     compile project(':react-native-splash-screen')
     compile project(':react-native-camera')

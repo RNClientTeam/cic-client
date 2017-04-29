@@ -28,7 +28,7 @@ export default class Signed extends Component{
         return(
             <View style={styles.SignedContainer}>
                 <StatusBar navigator={this.props.navigator} title="签到"/>
-                <Loading/>
+                {/*<Loading/>*/}
                 <TakePhoto navigator={this.props.navigator}/>
                 <Info currentTime={this.state.currentTime} />
                 <TouchableOpacity onPress={this.getSigned.bind(this)}>
