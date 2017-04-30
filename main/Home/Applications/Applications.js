@@ -17,38 +17,38 @@ import {
 var {width, height}  = Dimensions.get('window');
 import StatusBar from '../../Component/StatusBar'
 var commonlyApp = [
-    {title:'前期进度计划执行', image: require('../../../resource/imgs/home/applications/attendance.png')},
-    {title:'工程子项拆分', image: require('../../../resource/imgs/home/applications/inspectionPlan.png')},
-    {title:'工程范围交接', image: require('../../../resource/imgs/home/applications/inspectionRecord.png')}
+    {title:'前期进度计划执行', image: require('../../../resource/imgs/home/applications/scheduleExecution.png')},
+    {title:'工程子项拆分', image: require('../../../resource/imgs/home/applications/engineeringSubdivision.png')},
+    {title:'工程范围交接', image: require('../../../resource/imgs/home/applications/engineeringTransfer.png')}
 ];
 var businessApp = [
-    {title:'前期进度计划执行', image: require('../../../resource/imgs/home/applications/attendance.png')},
-    {title:'程子项拆分', image: require('../../../resource/imgs/home/applications/attendance.png')},
-    {title:'工程范围交接', image: require('../../../resource/imgs/home/applications/attendance.png')},
-    {title:'实施进度计划', image: require('../../../resource/imgs/home/applications/attendance.png')},
-    {title:'施工进度计划编制', image: require('../../../resource/imgs/home/applications/attendance.png')},
-    {title:'施工进度计划执行', image: require('../../../resource/imgs/home/applications/attendance.png')},
-    {title:'施工日计划', image: require('../../../resource/imgs/home/applications/attendance.png')},
-    {title:'部门计划编制', image: require('../../../resource/imgs/home/applications/attendance.png')},
-    {title:'部门计划执行', image: require('../../../resource/imgs/home/applications/attendance.png')},
-    {title:'质量检查计划', image: require('../../../resource/imgs/home/applications/attendance.png')},
-    {title:'质量检查记录', image: require('../../../resource/imgs/home/applications/attendance.png')},
-    {title:'安全检查计划', image: require('../../../resource/imgs/home/applications/attendance.png')},
-    {title:'安全检查记录', image: require('../../../resource/imgs/home/applications/attendance.png')}
+    {title:'前期进度计划执行', image: require('../../../resource/imgs/home/applications/scheduleExecution.png')},
+    {title:'工程子项拆分', image: require('../../../resource/imgs/home/applications/engineeringSubdivision.png')},
+    {title:'工程范围交接', image: require('../../../resource/imgs/home/applications/engineeringTransfer.png')},
+    {title:'实施进度计划', image: require('../../../resource/imgs/home/applications/implementationSchedule.png')},
+    {title:'施工进度计划编制', image: require('../../../resource/imgs/home/applications/schedulePlanning.png')},
+    {title:'施工进度计划执行', image: require('../../../resource/imgs/home/applications/executionConstruction.png')},
+    {title:'施工日计划', image: require('../../../resource/imgs/home/applications/dailyPlan.png')},
+    {title:'部门计划编制', image: require('../../../resource/imgs/home/applications/departmentalPlanning.png')},
+    {title:'部门计划执行', image: require('../../../resource/imgs/home/applications/departmentPlanExecution.png')},
+    {title:'质量检查计划', image: require('../../../resource/imgs/home/applications/qualityInspectionPlan.png')},
+    {title:'质量检查记录', image: require('../../../resource/imgs/home/applications/qualityInspectionRecord.png')},
+    {title:'安全检查计划', image: require('../../../resource/imgs/home/applications/inspectionPlan.png')},
+    {title:'安全检查记录', image: require('../../../resource/imgs/home/applications/inspectionRecord.png')}
 ];
 var tradingApp = [
-    {title:'前期进度计划执行', image: require('../../../resource/imgs/home/applications/attendance.png')},
-    {title:'程子项拆分', image: require('../../../resource/imgs/home/applications/attendance.png')},
-    {title:'工程范围交接', image: require('../../../resource/imgs/home/applications/attendance.png')},
-    {title:'实施进度计划', image: require('../../../resource/imgs/home/applications/attendance.png')}
+    {title:'物资采购', image: require('../../../resource/imgs/home/applications/materialPurchasing.png')},
+    {title:'项目成本', image: require('../../../resource/imgs/home/applications/projectCost.png')},
+    {title:'项目收款', image: require('../../../resource/imgs/home/applications/projectPayment.png')},
+    {title:'项目核算', image: require('../../../resource/imgs/home/applications/projectAccounting.png')}
 ];
 var officialApp = [
-    {title:'前期进度计划执行', image: require('../../../resource/imgs/home/applications/attendance.png')},
-    {title:'程子项拆分', image: require('../../../resource/imgs/home/applications/attendance.png')},
-    {title:'工程范围交接', image: require('../../../resource/imgs/home/applications/attendance.png')}
+    {title:'工作计划', image: require('../../../resource/imgs/home/applications/workPlane.png')},
+    {title:'考勤', image: require('../../../resource/imgs/home/applications/attendance.png')},
+    {title:'办公用品', image: require('../../../resource/imgs/home/applications/officeSupplies.png')}
 ];
 var otherApp = [
-    {title:'工程范围交接', image: require('../../../resource/imgs/home/applications/attendance.png')}
+    {title:'派车申请', image: require('../../../resource/imgs/home/applications/applyFor.png')}
 ];
 var imgDown = require('../../../resource/imgs/home/applications/down.png');
 var imgLeft = require('../../../resource/imgs/user/push_in.png');
