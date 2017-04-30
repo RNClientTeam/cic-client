@@ -44,17 +44,18 @@ const styles = StyleSheet.create({
         marginBottom: width * 0.03,
         marginLeft: width * 0.02,
         borderWidth: 1,
-        borderColor: '#ddd'
+        borderColor: '#ddd',
+        width: width * 0.96,
     },
     aboutProject: {
-        width: width * 0.96,
         backgroundColor: '#fff',
         height: width * 0.2
     },
     aboutPrincipal: {
-        width: width * 0.96,
         backgroundColor: '#f6f9fa',
         height: width * 0.2
-    }, numState: {}, projectName: {}
+    },
+    numState: {},
+    projectName: {}
 
 });
