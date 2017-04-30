@@ -46,7 +46,11 @@ export default class StatusBar extends Component {
     }
 
     goBack() {
-        this.props.navigator.pop();
+        if(this.props.backButtonFun){
+            this.props.backButtonFun();
+        }else{
+            this.props.navigator.pop();
+        }
     }
 }
 

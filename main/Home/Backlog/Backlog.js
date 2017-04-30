@@ -16,17 +16,18 @@ import SendView from './Component/SendView'
 import ApproveView from './Component/ApproveView'
 import CopyToView from './Component/CopyToView'
 export default class Backlog extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            index:0
+            index: 0
         }
     }
+
     render() {
         return (
             <View style={styles.backlog}>
                 <StatusBar navigator={this.props.navigator} title="待办"/>
-                <BacklogHeader selectTag={(i)=>this.selectTag(i)} currentIndex={this.state.index}/>
+                <BacklogHeader selectTag={(i) => this.selectTag(i)} currentIndex={this.state.index}/>
                 <ScrollView
                     horizontal={true}
                     ref='todoScroll'
@@ -41,17 +42,18 @@ export default class Backlog extends Component {
         )
     }
 
-    selectTag(index){
+
+    selectTag(index) {
         this.setState({
-            index:index
+            index: index
         });
-        this.refs.todoScroll.scrollTo({x:width*index,y:0,animated:true})
+        this.refs.todoScroll.scrollTo({x: width * index, y: 0, animated: true})
     }
 }
 
 const styles = StyleSheet.create({
-    backlog:{
-        flex:1,
-        backgroundColor:"#fff"
+    backlog: {
+        flex: 1,
+        backgroundColor: "#fff"
     }
 });
