@@ -1,11 +1,13 @@
 package com.cic_client;
 
 import android.app.Application;
+
 import com.eguma.barcodescanner.BarcodeScannerPackage;
 import com.facebook.react.ReactApplication;
 import com.keyee.pdfview.PDFView;
-import com.yoloci.fileupload.FileUploadPackage;
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.rnfs.RNFSPackage;
+import com.keyee.pdfview.PDFView;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.cboy.rn.splashscreen.SplashScreenReactPackage;
 import com.facebook.react.ReactNativeHost;
@@ -13,6 +15,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
+import com.react.rnspinkit.RNSpinkitPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,12 +33,15 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
               new MainReactPackage(),
             new PDFView(),
-            new FileUploadPackage(),
+            new PickerPackage(),
               new RNFSPackage(),
+              new PDFView(),
               new RNSpinkitPackage(),
               new RCTCameraPackage(),
               new BarcodeScannerPackage(),
-              new SplashScreenReactPackage()
+              new SplashScreenReactPackage(),
+              new RNSpinkitPackage(),
+              new AnExampleReactPackage()
       );
     }
 

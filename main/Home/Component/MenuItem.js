@@ -13,10 +13,11 @@ import {
 } from 'react-native';
 const {width} = Dimensions.get('window');
 import IconBadge from 'react-native-icon-badge'
+import Backlog from '../Backlog/Backlog'
 export default class MenuItem extends Component {
     render() {
         return (
-            <TouchableOpacity style={styles.containerStyle}>
+            <TouchableOpacity style={styles.containerStyle} onPress={this.skipTo.bind(this)}>
                 {(this.props.badge && this.props.badge > 0) ?
                     <IconBadge
                         MainElement={
@@ -43,6 +44,15 @@ export default class MenuItem extends Component {
 
             </TouchableOpacity>
         )
+    }
+
+    skipTo(){
+        if(this.props.name === '待办'){
+            this.props.navigator.push({
+                name:'backlog',
+                component:Backlog
+            })
+        }
     }
 }
 

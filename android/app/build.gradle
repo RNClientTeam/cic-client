@@ -84,7 +84,7 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "25.0.0"
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         applicationId "com.cic_client"
@@ -95,6 +95,7 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
+        vectorDrawables.useSupportLibrary = true
     }
     splits {
         abi {
@@ -127,7 +128,7 @@ android {
 
 dependencies {
     compile project(':react-native-pdf-view')
-    compile project(':react-native-fileupload')
+    compile project(':react-native-image-crop-picker')
     compile project(':react-native-fs')
     compile project(':react-native-spinkit')
     compile project(':react-native-splash-screen')

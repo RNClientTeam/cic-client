@@ -16,6 +16,7 @@ import ManageState from './Component/ManageState'
 import Notification from './Component/Notification'
 import Signed from './Signed/Signed'
 // import CameraPage from  './../Util/CameraPage';
+import DownLoadFc from  './../Util/DownLoadFc';
 import CameraPage from './Component/CameraPage';
 export default class Home extends Component {
     render() {
@@ -23,10 +24,10 @@ export default class Home extends Component {
         <View>
             <StatusBar notBack={true} navigator={this.props.navigator}>
                 <Image style={styles.logoStyle} source={require('../../resource/imgs/home/home_logo.png')}/>
-                <Text style={styles.logoText}>九州方圆</Text>
+                <Text onPress={this.test.bind(this)} style={styles.logoText}>九州方圆</Text>
                 <View style={styles.operationViewStyle}>
                     <TouchableOpacity onPress={this.onPressSweep.bind(this)}>
-                        <Image style={styles.sweepStyle} source={require('../../resource/imgs/home/sweep.png')}/>
+                        <Image style={styles.sweepStyle}  source={require('../../resource/imgs/home/sweep.png')}/>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={this.onPresSigned.bind(this)}>
                         <Image style={styles.signedStyle} source={require('../../resource/imgs/home/signed.png')}/>
@@ -36,7 +37,7 @@ export default class Home extends Component {
             <ScrollView>
                 <View style={styles.viewSty}>
                     {/*菜单栏*/}
-                    <MenuItems/>
+                    <MenuItems navigator={this.props.navigator} />
                     {/*公司经营状况*/}
                     <ManageState/>
                     {/*最新消息*/}
@@ -46,7 +47,11 @@ export default class Home extends Component {
         </View>
         );
     }
-
+    test(){
+        let p = 'http://image.tianjimedia.com/imagelist/2009/190/caq4z56jadof.pdf';
+        let s = 'http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg';
+        DownLoadFc.DownLoadFc(p);
+    }
     /**
      * 扫一扫
      */

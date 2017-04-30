@@ -52,7 +52,7 @@ export default class Calendar extends Component{
         }
         for(let i = 0;i<renderCalendarArr.length;i++){
             renderCalendarCell.push(
-                <CalendarCell day={renderCalendarArr[i]} key={i}/>
+                <CalendarCell date={renderCalendarArr[i]} key={i}/>
             )
         }
         return renderCalendarCell;
