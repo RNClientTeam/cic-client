@@ -14,6 +14,7 @@ import {
 const {width} = Dimensions.get('window');
 import IconBadge from 'react-native-icon-badge'
 import Backlog from '../Backlog/Backlog'
+import Applications from '../Applications/Applications'
 export default class MenuItem extends Component {
     render() {
         return (
@@ -51,6 +52,11 @@ export default class MenuItem extends Component {
             this.props.navigator.push({
                 name:'backlog',
                 component:Backlog
+            })
+        } else if (this.props.name === '应用') {
+            this.props.navigator.push({
+                name: 'Applications',
+                component: Applications
             })
         }
     }
