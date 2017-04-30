@@ -16,6 +16,7 @@ import {
 
 var {width, height}  = Dimensions.get('window');
 import StatusBar from '../../Component/StatusBar'
+import EarlierStage from './EarlierStage/EarlierStage'
 var commonlyApp = [
     {title:'前期进度计划执行', image: require('../../../resource/imgs/home/applications/scheduleExecution.png')},
     {title:'工程子项拆分', image: require('../../../resource/imgs/home/applications/engineeringSubdivision.png')},
@@ -113,7 +114,12 @@ export default class Applications extends Component {
     }
 
     itemPress(item, index) {
-
+        if(item.title === '前期进度计划执行') {
+            this.props.navigator.push({
+                component: EarlierStage,
+                name: 'EarlierStage'
+            })
+        }
     }
 
     //分组头
@@ -124,7 +130,7 @@ export default class Applications extends Component {
                 <TouchableOpacity onPress={this.sectionOnPress.bind(this,section.key)}>
                     <View style={{width:45,height:45,alignItems:'center',justifyContent:'center'}}>
                         <Image source={this.state.imgSource}
-                            style={{width:17,height:17}} resizeMode="contain"/>
+                            style={{width:15,height:15}} resizeMode="contain"/>
                     </View>
                 </TouchableOpacity>
             </View>
