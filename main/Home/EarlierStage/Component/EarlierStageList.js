@@ -11,13 +11,32 @@ import {
     Text
 } from 'react-native'
 const {width} = Dimensions.get('window');
-
+import EarlierStageListCell from './EarlierStageListCell'
 export default class EarlierStageList extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={
-            dataSource:[
-                {number:'CX_DS16052',state:'执行中',planName:'人大技术学院配电增容改造技术咨询',contentNum:18}
+        this.state = {
+            dataSource: [
+                {
+                    number: 'CX_DS16052',
+                    state: '执行中',
+                    planName: '人大技术学院配电增容改造技术咨询',
+                    contentNum: 18,
+                    principal: '杨磊',
+                    department: '技术部',
+                    schedule: '10%',
+                    time: '2017/11/11-2017/12/12'
+                },
+                {
+                    number: 'CX_DS16052',
+                    state: '执行中',
+                    planName: '人大技术学院配电增容改造技术咨询',
+                    contentNum: 18,
+                    principal: '杨磊',
+                    department: '技术部',
+                    schedule: '10%',
+                    time: '2017/11/11-2017/12/12'
+                }
             ]
         }
     }
@@ -25,11 +44,20 @@ export default class EarlierStageList extends Component {
     render() {
         return (
             <FlatList
-                data={[{key: 'a'}, {key: 'b'}]}
-                renderItem={({item}) => <Text>{item.key}</Text>}
+                data={this.state.dataSource}
+                renderItem={this._renderItem}
+                keyExtractor={this._keyExtractor}
             />
         )
     }
+
+    _keyExtractor = (item, index) =>item.id;
+
+    _renderItem = ({item}) => (
+        <EarlierStageListCell data={item} key={item.id}/>
+    )
+
+
 }
 
 const styles = StyleSheet.create({});
