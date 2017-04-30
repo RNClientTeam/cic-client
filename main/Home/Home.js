@@ -18,7 +18,6 @@ import Signed from './Signed/Signed'
 import DownLoadFc from  './../Util/DownLoadFc';
 import CameraPage from './Component/CameraPage';
 
-import EarlierStage from './EarlierStage/EarlierStage'
 
 export default class Home extends Component {
     render() {
@@ -50,13 +49,9 @@ export default class Home extends Component {
         );
     }
     test(){
-        // let p = 'http://image.tianjimedia.com/imagelist/2009/190/caq4z56jadof.pdf';
-        // let s = 'http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg';
-        // DownLoadFc.DownLoadFc(p);
-        this.props.navigator.push({
-            name:'earlierStage',
-            component:EarlierStage
-        })
+        let p = 'http://image.tianjimedia.com/imagelist/2009/190/caq4z56jadof.pdf';
+        let s = 'http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg';
+        DownLoadFc.DownLoadFc(p);
     }
     /**
      * 扫一扫
