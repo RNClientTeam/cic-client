@@ -15,9 +15,11 @@ import MenuItems from './Component/MenuItems'
 import ManageState from './Component/ManageState'
 import Notification from './Component/Notification'
 import Signed from './Signed/Signed'
-// import CameraPage from  './../Util/CameraPage';
 import DownLoadFc from  './../Util/DownLoadFc';
 import CameraPage from './Component/CameraPage';
+
+import EarlierStage from './EarlierStage/EarlierStage'
+
 export default class Home extends Component {
     render() {
         return(
@@ -48,9 +50,13 @@ export default class Home extends Component {
         );
     }
     test(){
-        let p = 'http://image.tianjimedia.com/imagelist/2009/190/caq4z56jadof.pdf';
-        let s = 'http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg';
-        DownLoadFc.DownLoadFc(p);
+        // let p = 'http://image.tianjimedia.com/imagelist/2009/190/caq4z56jadof.pdf';
+        // let s = 'http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg';
+        // DownLoadFc.DownLoadFc(p);
+        this.props.navigator.push({
+            name:'earlierStage',
+            component:EarlierStage
+        })
     }
     /**
      * 扫一扫
