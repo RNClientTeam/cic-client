@@ -76,8 +76,7 @@ export default class TakePhoto extends Component {
                 }).then(image => {
                     console.log('received image', image);
                     this.setState({
-                        image: {uri: image.path, width: image.width, height: image.height},
-                        images: null
+                        image: {uri: image.path, width: image.width, height: image.height}
                     });
                 }).catch(e => alert(e));
         }
