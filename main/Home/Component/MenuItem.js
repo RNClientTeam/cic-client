@@ -14,6 +14,7 @@ import {
 const {width} = Dimensions.get('window');
 import IconBadge from 'react-native-icon-badge'
 import Backlog from '../Backlog/Backlog'
+import Remind from '../Remind/Remind'
 export default class MenuItem extends Component {
     render() {
         return (
@@ -51,6 +52,11 @@ export default class MenuItem extends Component {
             this.props.navigator.push({
                 name:'backlog',
                 component:Backlog
+            })
+        }else if(this.props.name === '提醒'){
+            this.props.navigator.push({
+                name:'remind',
+                component:Remind
             })
         }
     }
