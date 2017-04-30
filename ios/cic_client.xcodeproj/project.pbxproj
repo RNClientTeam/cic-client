@@ -43,6 +43,9 @@
 		FA0ECE0D1EB313E5003D4238 /* libimageCropPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA0ECDEE1EB312D9003D4238 /* libimageCropPicker.a */; };
 		FA0ECE8C1EB330D2003D4238 /* libRNPDFView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA0ECE891EB330B3003D4238 /* libRNPDFView.a */; };
 		FA0ECE8D1EB330F1003D4238 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
+		FA0ECEE81EB5D353003D4238 /* QBImagePicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA0ECEE71EB5D353003D4238 /* QBImagePicker.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		FA0ECF091EB5D357003D4238 /* RSKImageCropper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA0ECF081EB5D357003D4238 /* RSKImageCropper.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		FA0ECF0B1EB5D703003D4238 /* FileUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0ECF0A1EB5D703003D4238 /* FileUpload.m */; };
 		FAFB3C971EB0AB5200CCFE21 /* libRNSpinkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FAFB3C951EB09FDC00CCFE21 /* libRNSpinkit.a */; };
 /* End PBXBuildFile section */
 
@@ -312,6 +315,9 @@
 		9EE9AE9A80D24BA39F621B90 /* imageCropPicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = imageCropPicker.xcodeproj; path = "../node_modules/react-native-image-crop-picker/ios/imageCropPicker.xcodeproj"; sourceTree = "<group>"; };
 		BBFD7DF0648645678FFDB521 /* RNPDFView.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNPDFView.xcodeproj; path = "../node_modules/react-native-pdf-view/RNPDFView.xcodeproj"; sourceTree = "<group>"; };
 		E5A2DEDC1E024AA598FCF86F /* RNSpinkit.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSpinkit.xcodeproj; path = "../node_modules/react-native-spinkit/ios/RNSpinkit.xcodeproj"; sourceTree = "<group>"; };
+		FA0ECEE71EB5D353003D4238 /* QBImagePicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QBImagePicker.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/cic_client-gzcjkywixnqigtgadyqtpmptvovq/Build/Products/Debug-iphonesimulator/QBImagePicker.framework"; sourceTree = "<group>"; };
+		FA0ECF081EB5D357003D4238 /* RSKImageCropper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RSKImageCropper.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/cic_client-gzcjkywixnqigtgadyqtpmptvovq/Build/Products/Debug-iphonesimulator/RSKImageCropper.framework"; sourceTree = "<group>"; };
+		FA0ECF0A1EB5D703003D4238 /* FileUpload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FileUpload.m; path = "../node_modules/react-native-fileupload/FileUpload.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -327,6 +333,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA0ECF091EB5D357003D4238 /* RSKImageCropper.framework in Frameworks */,
+				FA0ECEE81EB5D353003D4238 /* QBImagePicker.framework in Frameworks */,
 				FA0ECE8D1EB330F1003D4238 /* libRCTWebSocket.a in Frameworks */,
 				FA0ECE8C1EB330D2003D4238 /* libRNPDFView.a in Frameworks */,
 				FA0ECE0D1EB313E5003D4238 /* libimageCropPicker.a in Frameworks */,
@@ -517,6 +525,8 @@
 		7D53FF7D1EAF28EB0002D5A4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FA0ECF081EB5D357003D4238 /* RSKImageCropper.framework */,
+				FA0ECEE71EB5D353003D4238 /* QBImagePicker.framework */,
 				7D53FF7E1EAF28EB0002D5A4 /* MapKit.framework */,
 			);
 			name = Frameworks;
@@ -533,6 +543,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				FA0ECF0A1EB5D703003D4238 /* FileUpload.m */,
 				7DA38DF81EAE0F220088C24A /* RCTCamera.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -1116,6 +1127,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA0ECF0B1EB5D703003D4238 /* FileUpload.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
@@ -1238,9 +1250,13 @@
 					"$(inherited)/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-spinkit/ios/**",
-					"$(SRCROOT)..\node_modules\neact-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-pdf-view/RNPDFView",
+					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-vector-icons/**",
+					"$(SRCROOT)/../node_modules/react-native/React/**",
 				);
 				INFOPLIST_FILE = cic_client/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
@@ -1266,9 +1282,13 @@
 					"$(inherited)/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-spinkit/ios/**",
-					"$(SRCROOT)..\node_modules\neact-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-pdf-view/RNPDFView",
+					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-vector-icons/**",
+					"$(SRCROOT)/../node_modules/react-native/React/**",
 				);
 				INFOPLIST_FILE = cic_client/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
