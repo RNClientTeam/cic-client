@@ -2,3 +2,18 @@
 const  {width, height} = Dimensions.get('window');
 
 上边高度44  下边49  状态栏（显示网络 电量那一部分)是20
+
+头部统一用Component组件中的StatusBar：使用方法如下
+默认带有返回按钮,title属性为标题
+                        <StatusBar notBack={true} navigator={this.props.navigator}>
+                            <Image style={styles.logoStyle} source={require('../../resource/imgs/home/home_logo.png')}/>
+                            <Text style={styles.logoText}>九州方圆</Text>
+                            <View style={styles.operationViewStyle}>
+                                <TouchableOpacity onPress={this.onPressSweep.bind(this)}>
+                                    <Image style={styles.sweepStyle} source={require('../../resource/imgs/home/sweep.png')}/>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={this.onPresSigned.bind(this)}>
+                                    <Image style={styles.signedStyle} source={require('../../resource/imgs/home/signed.png')}/>
+                                </TouchableOpacity>
+                            </View>
+                        </StatusBar>

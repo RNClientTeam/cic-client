@@ -23,7 +23,7 @@ export default class ManageCount extends Component{
 
 const styles = StyleSheet.create({
     manageCountStyle:{
-        width:width*0.92/3,
+        width:width*0.92/3.0001,
         alignItems:'center',
         height:width*0.2,
         justifyContent:'center'

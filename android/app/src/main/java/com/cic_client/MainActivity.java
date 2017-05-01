@@ -1,9 +1,11 @@
 package com.cic_client;
 import android.os.Bundle;
-import com.facebook.soloader.SoLoader;
+//import com.facebook.soloader.SoLoader;
 
+//import com.cboy.rn.splashscreen.SplashScreen;
 import com.cboy.rn.splashscreen.SplashScreen;
 import com.facebook.react.ReactActivity;
+import com.facebook.soloader.SoLoader;
 
 public class MainActivity extends ReactActivity {
     @Override

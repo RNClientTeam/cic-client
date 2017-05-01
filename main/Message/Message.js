@@ -4,7 +4,8 @@ import {
     StyleSheet,
     View,
     Text,
-    Dimensions
+    Dimensions,
+    TouchableOpacity
 } from 'react-native';
 const {width} = Dimensions.get('window');
 /**
@@ -16,7 +17,7 @@ export default class Message extends Component {
     render() {
         return (
             <View style={styles.viewSty}>
-                <StatusBar/>
+                <StatusBar notBack={true}/>
                 <Calendar/>
             </View>
         );
@@ -25,6 +26,6 @@ export default class Message extends Component {
 
 const styles = StyleSheet.create({
     viewSty: {
-        flex: 1
+        flex: 1,
     }
-})
+});

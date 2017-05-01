@@ -13,10 +13,13 @@ import {
 } from 'react-native';
 const {width} = Dimensions.get('window');
 import IconBadge from 'react-native-icon-badge'
+import Backlog from '../Backlog/Backlog'
+import Remind from '../Remind/Remind'
+import Applications from '../Applications/Applications'
 export default class MenuItem extends Component {
     render() {
         return (
-            <TouchableOpacity style={styles.containerStyle}>
+            <TouchableOpacity style={styles.containerStyle} onPress={this.skipTo.bind(this)}>
                 {(this.props.badge && this.props.badge > 0) ?
                     <IconBadge
                         MainElement={
@@ -43,6 +46,25 @@ export default class MenuItem extends Component {
 
             </TouchableOpacity>
         )
+    }
+
+    skipTo(){
+        if(this.props.name === '待办'){
+            this.props.navigator.push({
+                name:'backlog',
+                component:Backlog
+            })
+        }else if(this.props.name === '提醒'){
+            this.props.navigator.push({
+                name:'remind',
+                component:Remind
+            })
+        } else if (this.props.name === '应用') {
+            this.props.navigator.push({
+                name: 'Applications',
+                component: Applications
+            })
+        }
     }
 }
 
