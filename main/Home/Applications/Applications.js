@@ -17,7 +17,6 @@ import {
 var {width, height}  = Dimensions.get('window');
 import StatusBar from '../../Component/StatusBar.js';
 import EarlierStage from './EarlierStage/EarlierStage.js';
-import EarlierStageDetail from './EarlierStage/Component/EarlierStageDetail.js';
 var commonlyApp = [
     {title:'前期进度计划执行', image: require('../../../resource/imgs/home/applications/scheduleExecution.png')},
     {title:'工程子项拆分', image: require('../../../resource/imgs/home/applications/engineeringSubdivision.png')},
@@ -119,11 +118,6 @@ export default class Applications extends Component {
             this.props.navigator.push({
                 component: EarlierStage,
                 name: 'EarlierStage'
-            });
-        } else if (item.title === '工程子项拆分') {
-            this.props.navigator.push({
-                component: EarlierStageDetail,
-                name: 'EarlierStageDetail'
             });
         }
     }
