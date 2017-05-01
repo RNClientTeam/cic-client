@@ -12,6 +12,7 @@ import {
 const {width}  = Dimensions.get('window');
 import StatusBar from '../../../Component/StatusBar'
 import EarlierStageList from './Component/EarlierStageList'
+import EarlierStageListHeader from './Component/EarlierStageListHeader'
 export default class EarlierStage extends Component{
     render(){
         return(
@@ -21,6 +22,7 @@ export default class EarlierStage extends Component{
                         <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
+                <EarlierStageListHeader/>
                 <EarlierStageList/>
             </View>
         )

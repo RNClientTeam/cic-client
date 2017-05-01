@@ -7,34 +7,37 @@ import {
     View,
     StyleSheet,
     Dimensions,
-    Text
+    Text,
+    TouchableOpacity
 } from 'react-native'
 const {width} = Dimensions.get('window');
 
 export default class EarlierStageListCell extends Component {
     render() {
         return (
-            <View style={styles.earlierStageListCell}>
+            <TouchableOpacity style={styles.earlierStageListCell}>
                 <View style={styles.aboutProject}>
                     <View style={styles.numState}>
-                        <Text>{this.props.data.number}</Text>
-                        <View>
-                            <Text>{this.props.data.state}</Text>
+                        <Text style={{color:'#216fd0',fontSize:width*0.045}}>{this.props.data.number}</Text>
+                        <View style={styles.stateView}>
+                            <Text style={styles.stateText}>{this.props.data.state}</Text>
                         </View>
                     </View>
                     <View style={styles.projectName}>
                         <Text>{this.props.data.planName}</Text>
-                        <Text>{this.props.data.contentNum}</Text>
-                        <Text> > </Text>
+                        <View style={{flexDirection: 'row',alignItems:'center'}}>
+                            <Text>{this.props.data.contentNum}</Text>
+                            <Text style={{color:'#999',fontSize:width*0.05}}> > </Text>
+                        </View>
                     </View>
                 </View>
                 <View style={styles.aboutPrincipal}>
-                    <Text>{this.props.data.principal}</Text>
-                    <Text>{this.props.data.department}</Text>
-                    <Text>{this.props.data.schedule}</Text>
-                    <Text>{this.props.data.time}</Text>
+                    <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.principal}</Text>
+                    <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.department}</Text>
+                    <Text style={[{width: width * 0.5}, styles.textStyle]}>{this.props.data.schedule}</Text>
+                    <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.time}</Text>
                 </View>
-            </View>
+            </TouchableOpacity>
         )
     }
 }
@@ -49,13 +52,45 @@ const styles = StyleSheet.create({
     },
     aboutProject: {
         backgroundColor: '#fff',
-        height: width * 0.2
+        height: width * 0.2,
+        paddingLeft: width * 0.01,
+        paddingRight: width * 0.01
     },
     aboutPrincipal: {
         backgroundColor: '#f6f9fa',
-        height: width * 0.2
+        height: width * 0.2,
+        paddingLeft: width * 0.01,
+        paddingRight: width * 0.01,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignItems: 'center'
     },
-    numState: {},
-    projectName: {}
+    numState: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        height: width * 0.1,
+        alignItems: 'center',
+    },
+    projectName: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        height: width * 0.1,
+        alignItems: 'center'
+    },
+    textStyle: {
+        height: width * 0.1,
+        lineHeight: width * 0.1,
+        color:'#4f74a3'
+    },
+    stateView: {
+        backgroundColor: '#fe9a25',
+        width:width*0.12,
+        height:width*0.05,
+        borderRadius:3,
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    stateText: {color: '#fff', fontSize: width * 0.03}
+
 
 });
