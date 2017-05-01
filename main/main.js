@@ -45,7 +45,7 @@ export default class Main extends Component {
                     {/**留言板**/}
                     {this.renderTabItem('留言板', tabImg[1], highLightTab[1], 'Message', Message)}
                     {/**组织**/}
-                    {this.renderTabItem('组织', tabImg[2], highLightTab[2], 'Organization', PdfPage)}
+                    {this.renderTabItem('组织', tabImg[2], highLightTab[2], 'Organization', Organization)}
                     {/**我的**/}
                     {this.renderTabItem('我的', tabImg[3], highLightTab[3], 'User', User)}
                 </TabNavigator>
