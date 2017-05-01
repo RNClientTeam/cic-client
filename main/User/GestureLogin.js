@@ -25,14 +25,16 @@ export default class GestureLogin extends Component {
     }
     onEnd(password) {
         if (password == this.props.password) {
-            const {navigator} = this.props;
-            if (navigator) {
-                navigator.replace({
-                    component: Main,
-                    name: 'Main',
-                    type: 'fade'
-                });
-            }
+            this.timer = setTimeout(() => {
+                const {navigator} = this.props;
+                if (navigator) {
+                    navigator.replace({
+                        component: Main,
+                        name: 'Main',
+                        type: 'fade'
+                    });
+                }
+            }, 320);
         } else {
             this.setState({
                 status: 'wrong',
@@ -47,7 +49,7 @@ export default class GestureLogin extends Component {
                 bgSource={require('../../resource/imgs/login/bgImage.png')}
                 safeSource={require('../../resource/imgs/login/safe.png')}
                 allowCross={true}
-                interval={500}
+                interval={300}
                 rightColor='white'
                 isLogin={true}
                 status={this.state.status}
@@ -55,5 +57,9 @@ export default class GestureLogin extends Component {
                 onStart={() => this.onStart()}
                 onEnd={(password) => this.onEnd(password)}/>
         );
+    }
+
+    componentWillUnmount() {
+        this.timer && clearTimeout(this.timer);
     }
 }

@@ -71,29 +71,31 @@ export default class GesturePassword extends Component {
         let color = this.props.status === 'wrong' ? this.props.wrongColor : this.props.rightColor;
 
         return (
-            <Image style={{width: Width, height:Height,backgroundColor:'white'}}
-                source={this.props.bgSource}>
-                <Image style={styles.safeImage} source={this.props.safeSource}/>
-                <View style={styles.message}>
-                    <Text style={[styles.msgText, this.props.textStyle, {color: color}]}>
-                        {this.state.message || this.props.message}
-                    </Text>
-                </View>
-                <View style={styles.board} {...this._panResponder.panHandlers}>
-                    {this.renderCircles()}
-                    {this.renderLines()}
-                    <Line ref='line' color={color} />
-                </View>
-
-                {
-                    this.props.isLogin &&
-                    <TouchableHighlight onPress={this.onPress.bind(this)} style={styles.touchSty} underlayColor='transparent'>
-                        <Text style={styles.forgetText}>
-                            忘记手势密码？
+            <View style={{flex:1, backgroundColor:'white'}}>
+                <Image style={{width: Width, height:Height}}
+                    source={this.props.bgSource}>
+                    <Image style={styles.safeImage} source={this.props.safeSource}/>
+                    <View style={styles.message}>
+                        <Text style={[styles.msgText, this.props.textStyle, {color: color}]}>
+                            {this.state.message || this.props.message}
                         </Text>
-                    </TouchableHighlight>
-                }
-            </Image>
+                    </View>
+                    <View style={styles.board} {...this._panResponder.panHandlers}>
+                        {this.renderCircles()}
+                        {this.renderLines()}
+                        <Line ref='line' color={color} />
+                    </View>
+
+                    {
+                        this.props.isLogin &&
+                        <TouchableHighlight onPress={this.onPress.bind(this)} style={styles.touchSty} underlayColor='transparent'>
+                            <Text style={styles.forgetText}>
+                                忘记手势密码？
+                            </Text>
+                        </TouchableHighlight>
+                    }
+                </Image>
+            </View>
         )
     }
 
@@ -184,7 +186,7 @@ export default class GesturePassword extends Component {
 
     onStart(e, g) {
         let x = e.nativeEvent.pageX;
-        let y = e.nativeEvent.pageY - Top;
+        let y = e.nativeEvent.pageY - Top + 30;
 
         let lastChar = this.getTouchChar({x, y});
         if ( lastChar ) {

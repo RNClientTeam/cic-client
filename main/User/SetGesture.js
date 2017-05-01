@@ -40,15 +40,18 @@ export default class GestureLogin extends Component {
             });
             Password1 = '';
         } else if (Password1 === password) {
+            Password1 = '';
             this.setState({
                 status: 'right',
                 message: '设置密码成功'
             });
-            AsyncStorage.setItem(getKey('gestureSecret'), password, (error) => {
-                if (!error) {
-                    this.props.navigator.pop();
-                }
-            });
+            this.timer = setTimeout(() => {
+                AsyncStorage.setItem(getKey('gestureSecret'), password, (error) => {
+                    if (!error) {
+                        this.props.navigator.pop();
+                    }
+                });
+            }, 320);
         }
     }
     render() {
@@ -58,7 +61,7 @@ export default class GestureLogin extends Component {
                 bgSource={require('../../resource/imgs/login/bgImage.png')}
                 safeSource={require('../../resource/imgs/login/safe.png')}
                 allowCross={true}
-                interval={500}
+                interval={300}
                 rightColor='white'
                 isLogin={false}
                 status={this.state.status}
@@ -66,5 +69,8 @@ export default class GestureLogin extends Component {
                 onStart={() => this.onStart()}
                 onEnd={(password) => this.onEnd(password)}/>
         );
+    }
+    componentWillUnmount() {
+        this.timer && clearTimeout(this.timer);
     }
 }

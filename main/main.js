@@ -77,7 +77,7 @@ export default class Main extends Component {
                         name:tabName,
                         component:tabComponent
                     }}
-                    onWillFocus={this.onWillFocus.bind(this, tabName)}
+                    onDidFocus={this.onWillFocus.bind(this, tabName)}
                     configureScene={this.configureScene}
                     renderScene={(route, navigator)=>{
                         return (
@@ -113,7 +113,7 @@ export default class Main extends Component {
 
     onWillFocus(tabName) {
         if (this.refs[tabName]) {
-            if (this.refs[tabName].getCurrentRoutes().length === 2) {
+            if (this.refs[tabName].getCurrentRoutes().length === 1) {
                 this.setState({hideBottomTab: false});
             } else {
                 this.setState({hideBottomTab: true});
