@@ -100,7 +100,7 @@ export default class EarlierStageList extends Component {
     _keyExtractor = (item, index) => index;
     _renderItem = ({item, index}) => {
         return (
-            <EarlierStageListCell data={item} id={index}/>
+            <EarlierStageListCell navigator={this.props.navigator} data={item} id={index}/>
         )
     };
 

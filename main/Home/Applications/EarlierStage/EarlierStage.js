@@ -32,7 +32,7 @@ export default class EarlierStage extends Component{
                 </StatusBar>
                 {this.state.modalOpen?<EarlierStageListModalView  closeModal={()=>this.setState({modalOpen:false})} />:null}
                 <EarlierStageListHeader/>
-                <EarlierStageList/>
+                <EarlierStageList navigator={this.props.navigator}/>
             </View>
         )
     }

@@ -10,12 +10,13 @@ import {
     Text,
     TouchableOpacity
 } from 'react-native'
+import EarlierStageDetail from "./EarlierStageDetail";
 const {width} = Dimensions.get('window');
 
 export default class EarlierStageListCell extends Component {
     render() {
         return (
-            <TouchableOpacity style={styles.earlierStageListCell}>
+            <TouchableOpacity style={styles.earlierStageListCell} onPress={this.skipPage.bind(this)}>
                 <View style={styles.aboutProject}>
                     <View style={styles.numState}>
                         <Text style={{color:'#216fd0',fontSize:width*0.045}}>{this.props.data.number}</Text>
@@ -39,6 +40,13 @@ export default class EarlierStageListCell extends Component {
                 </View>
             </TouchableOpacity>
         )
+    }
+
+    skipPage(){
+        this.props.navigator.push({
+            component: EarlierStageDetail,
+            name: 'EarlierStageDetail'
+        });
     }
 }
 
