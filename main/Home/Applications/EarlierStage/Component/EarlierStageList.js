@@ -8,106 +8,117 @@ import {
     StyleSheet,
     Dimensions,
     FlatList,
-    Text
+    Text,
+    ListView
 } from 'react-native'
 const {width} = Dimensions.get('window');
 import EarlierStageListCell from './EarlierStageListCell'
-import LoadMore from '../../../../Component/LoadMore'
-let dataArr = [
-    {
-    number: 'CX_DS16052',
-    state: '执行中',
-    planName: '人大技术学院配电增容改造技术咨询',
-    contentNum: 18,
-    principal: '杨磊',
-    department: '技术部',
-    schedule: '10%',
-    time: '2017/11/11-2017/12/12'
-},
-    {
-        number: 'CX_DS16051',
-        state: '执行中',
-        planName: '人大技术学院配电增容改造技术咨询',
-        contentNum: 18,
-        principal: '杨磊',
-        department: '技术部',
-        schedule: '10%',
-        time: '2017/11/11-2017/12/12'
-    },
-    {
-        number: 'CX_DS17051',
-        state: '执行中',
-        planName: '人大技术学院配电增容改造技术咨询',
-        contentNum: 18,
-        principal: '杨磊',
-        department: '技术部',
-        schedule: '10%',
-        time: '2017/11/11-2017/12/12'
-    },
-    {
-        number: 'CX_DS66051',
-        state: '执行中',
-        planName: '人大技术学院配电增容改造技术咨询',
-        contentNum: 18,
-        principal: '杨磊',
-        department: '技术部',
-        schedule: '10%',
-        time: '2017/11/11-2017/12/12'
-    },
-    {
-        number: 'CX_DS36051',
-        state: '执行中',
-        planName: '人大技术学院配电增容改造技术咨询',
-        contentNum: 18,
-        principal: '杨磊',
-        department: '技术部',
-        schedule: '10%',
-        time: '2017/11/11-2017/12/12'
-    }];
+import {PullList} from 'react-native-pull';
+import LoadMore from "../../../../Component/LoadMore";
+import CooperateTaskCell from "./CooperateTaskCell";
+import Reload from "../../../../Component/Reload";
 export default class EarlierStageList extends Component {
     constructor(props) {
         super(props);
+        this.dataSource = [
+            {
+                number: 'CX_DS16052',
+                state: '执行中',
+                planName: '人大技术学院配电增容改造技术咨询',
+                contentNum: 18,
+                principal: '杨磊',
+                department: '技术部',
+                schedule: '10%',
+                time: '2017/11/11-2017/12/12'
+            },
+            {
+                number: 'CX_DS16051',
+                state: '执行中',
+                planName: '人大技术学院配电增容改造技术咨询',
+                contentNum: 18,
+                principal: '杨磊',
+                department: '技术部',
+                schedule: '10%',
+                time: '2017/11/11-2017/12/12'
+            },
+            {
+                number: 'CX_DS17051',
+                state: '执行中',
+                planName: '人大技术学院配电增容改造技术咨询',
+                contentNum: 18,
+                principal: '杨磊',
+                department: '技术部',
+                schedule: '10%',
+                time: '2017/11/11-2017/12/12'
+            },
+            {
+                number: 'CX_DS66051',
+                state: '执行中',
+                planName: '人大技术学院配电增容改造技术咨询',
+                contentNum: 18,
+                principal: '杨磊',
+                department: '技术部',
+                schedule: '10%',
+                time: '2017/11/11-2017/12/12'
+            },
+            {
+                number: 'CX_DS36051',
+                state: '执行中',
+                planName: '人大技术学院配电增容改造技术咨询',
+                contentNum: 18,
+                principal: '杨磊',
+                department: '技术部',
+                schedule: '10%',
+                time: '2017/11/11-2017/12/12'
+            }
+        ];
         this.state = {
-            dataSource: dataArr,
-            loadMore:false
+            hasMoreData: true,
+            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(this.dataSource),
         }
     }
 
     render() {
         return (
-            <FlatList
-                data={this.state.dataSource}
-                renderItem={this._renderItem}
-                keyExtractor={this._keyExtractor}
-                onRefresh={this._onRefresh}
-                refreshing={false}
-                onEndReached={this._onEndReached}
-                onEndReachedThreshold={0}
-                automaticallyAdjustContentInsets={false}
-                ref="listview"
-                ListFooterComponent={this.state.loadMore?LoadMore:null}
-            />
+            <View style={styles.container}>
+                <PullList
+                    onPullRelease={this.onPullRelease.bind(this)}
+                    topIndicatorRender={this.topIndicatorRender.bind(this)}
+                    topIndicatorHeight={60}
+                    dataSource={this.state.list}
+                    renderRow={this.renderRow.bind(this)}
+                    onEndReached={this.loadMore.bind(this)}
+                    onEndReachedThreshold={60}
+                    renderFooter={this.renderFooter.bind(this)}
+                />
+            </View>
         )
     }
 
-    //refresh
-    _onRefresh = () => {
-        let template = dataArr.slice(0,4);
-        this.setState({dataSource:template})
-    };
+    onPullRelease(resolve) {
+        //do refresh
+        setTimeout(() => {
+            resolve();
+        }, 3000);
+    }
 
-
-    _keyExtractor = (item, index) => index;
-    _renderItem = ({item, index}) => {
+    renderRow(item, sectionID, rowID, highlightRow) {
         return (
-            <EarlierStageListCell navigator={this.props.navigator} data={item} id={index}/>
-        )
-    };
+            <EarlierStageListCell key={rowID} navigator={this.props.navigator} data={item}/>
+        );
+    }
 
+    renderFooter() {
+        return (this.state.hasMoreData ? <LoadMore /> : null)
+    }
 
-    //load more
-    _onEndReached = ()=> {
-        let template = [
+    topIndicatorRender(pulling, pullok, pullrelease) {
+        console.log(pulling,pullok,pullrelease)
+        return (<Reload/>);
+    }
+
+    loadMore() {
+        let a = [
             {
                 number: 'CX_DS16052',
                 state: '执行中',
@@ -158,21 +169,24 @@ export default class EarlierStageList extends Component {
                 schedule: '10%',
                 time: '2017/11/11-2017/12/12'
             }];
-        this.setState({
-            loadMore:true
-        });
-        setTimeout(()=>{
-            for(let i = 0;i<template.length;i++){
-                dataArr.push(template[i]);
-            }
-            this.setState({
-                loadMore:false,
-                dataSource:dataArr
-            });
-        },1000);
 
+        for (let i = 0; i < a.length; i++) {
+            this.dataSource.push(a[i])
+        }
+
+        setTimeout(() => {
+            this.setState({
+                list: this.state.list.cloneWithRows(this.dataSource)
+            });
+        }, 1000);
     }
+
 
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#f2f2f2'
+    }
+});
