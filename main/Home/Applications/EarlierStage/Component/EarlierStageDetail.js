@@ -12,6 +12,9 @@ import StatusBar from '../../../../Component/StatusBar.js';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import CooperateTask from "./CooperateTask";
 import ShareData from "./ShareData";
+import General from './General.js';
+import SchedulePlan from './ScheduledPlan.js';
+import TotalImplementation from './TotalImplementation.js';
 var {width, height} = Dimensions.get('window');
 
 export default class EarlierStageDetail extends Component {
@@ -40,7 +43,7 @@ export default class EarlierStageDetail extends Component {
                     <General tabLabel='概况' />
                     <SchedulePlan tabLabel='进度计划' navigator={this.props.navigator}/>
                     <CooperateTask tabLabel='配合任务'/>
-                    <TotalImplementation tabLabel='总执行情况'>4</TotalImplementation>
+                    <TotalImplementation tabLabel='总执行情况'></TotalImplementation>
                     <ShareData tabLabel='共享资料'/>
                 </ScrollableTabView>
             </View>
