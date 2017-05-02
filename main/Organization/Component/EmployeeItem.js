@@ -6,8 +6,11 @@ import {
     View,
     StyleSheet,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
+    Dimensions
 } from 'react-native'
+
+const {width, height} = Dimensions.get('window');
 
 export default class EmployeeItem extends Component {
     render() {
@@ -33,10 +36,15 @@ export default class EmployeeItem extends Component {
 const styles = StyleSheet.create({
     empItem: {
         flexDirection: 'row',
-        paddingLeft: 10,
+        alignItems: 'center',
+        height: height*0.07,
         paddingRight: 10,
         paddingTop: 5,
-        paddingBottom: 5
+        paddingBottom: 5,
+        marginLeft: 15,
+        backgroundColor:'#fdfdfe',
+        borderBottomColor:'#dcdcdc',
+        borderBottomWidth: 1
     },
     nameLabel: {
 
