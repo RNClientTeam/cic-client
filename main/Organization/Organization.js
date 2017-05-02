@@ -40,7 +40,7 @@ export default class Organization extends Component {
         // for (let i = 0; i < this.deps.length; i++) {
         //     deps.push(<DepartmentItem getChildren={this.getChildren.bind(this, this.deps[i])} dep={this.deps[i]}/>);
         // }
-        dep.push(<DepartmentItem getChildren={this.getChildren.bind(this, this.deps)} dep={this.deps}/>);
+        dep.push(<DepartmentItem key={0} getChildren={this.getChildren.bind(this, this.deps)} dep={this.deps}/>);
         this.setState({deps: dep});
     }
 
@@ -56,10 +56,10 @@ export default class Organization extends Component {
         if (dep.hasChildren && dep.children.length) {
             for (let i = 0; i < dep.children.length; i++) {
                 if (dep.children[i].isDep)
-                    deps.push(<DepartmentItem dep={dep.children[i]}
+                    deps.push(<DepartmentItem dep={dep.children[i]} key={i}
                                               getChildren={this.getChildren.bind(this, dep.children[i])}/> );
                 else
-                    emps.push(<EmployeeItem emp={dep.children[i]}/>);
+                    emps.push(<EmployeeItem emp={dep.children[i]} key={i}/>);
             }
             children = deps.concat(emps);
             this.setState({deps: children});
