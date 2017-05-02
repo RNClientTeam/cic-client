@@ -17,6 +17,8 @@ import {
 var {width, height}  = Dimensions.get('window');
 import StatusBar from '../../Component/StatusBar.js';
 import EarlierStage from './EarlierStage/EarlierStage.js';
+import Setting from './Setting';
+
 var commonlyApp = [
     {title:'前期进度计划执行', image: require('../../../resource/imgs/home/applications/scheduleExecution.png')},
     {title:'工程子项拆分', image: require('../../../resource/imgs/home/applications/engineeringSubdivision.png')},
@@ -150,7 +152,10 @@ export default class Applications extends Component {
 
     //点击头部右按钮
     toolsOnPress() {
-
+        this.props.navigator.push({
+            name: 'Setting',
+            component: Setting
+        })
     }
 
     //点击分组

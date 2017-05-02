@@ -30,7 +30,7 @@ export default class EarlierStage extends Component{
                         <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
-                {this.state.modalOpen?<EarlierStageListModalView  closeModal={()=>this.setState({modalOpen:false})} />:null}
+                {this.state.modalOpen?<EarlierStageListModalView  closeModal={()=>this.setState({modalOpen:false})} />:<View></View>}
                 <EarlierStageListHeader/>
                 <EarlierStageList navigator={this.props.navigator}/>
             </View>
