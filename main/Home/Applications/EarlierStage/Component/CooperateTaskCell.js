@@ -8,7 +8,8 @@ import {
     StyleSheet,
     Dimensions,
     Text,
-    Image
+    Image,
+    TouchableOpacity
 } from 'react-native'
 const {width}  = Dimensions.get('window');
 
@@ -33,9 +34,9 @@ export default class CooperateTaskCell extends Component{
                             <Text style={{color:'#c2cddc',fontSize:width*0.03}}>{this.props.dataSource.percentage}%</Text>
                         </View>
                     </View>
-                    <View style={styles.rightView}>
+                    <TouchableOpacity style={styles.rightView}>
                         <Image style={styles.imgSty} source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}/>
-                    </View>
+                    </TouchableOpacity>
                 </View>
             </View>
         )
@@ -47,8 +48,9 @@ const styles = StyleSheet.create({
         margin:width*0.02,
         width:width*0.96,
         backgroundColor:'#fff',
-        height:width*0.3,
-
+        height:width*0.31,
+        borderWidth:1,
+        borderColor:"#ddd"
     },
     topView:{
         flexDirection:"row",

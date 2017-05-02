@@ -36,7 +36,6 @@ export default class CooperateTask extends Component {
         return (
             <View style={styles.container}>
                 <PullList
-                    style={{}}
                     onPullRelease={this.onPullRelease.bind(this)}
                     topIndicatorRender={this.topIndicatorRender.bind(this)}
                     topIndicatorHeight={60}

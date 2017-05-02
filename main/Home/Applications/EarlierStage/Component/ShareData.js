@@ -19,7 +19,7 @@ export default class ShareData extends Component{
     constructor(props) {
         super(props);
         this.dataSource = [
-            {dataName: "共享资料一", author: '王东', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定'},
+            {dataName: "共享资料一", author: '王东', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵'},
             {dataName: "共享资料一", author: '王东', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定'},
             {dataName: "共享资料一", author: '王东', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定'},
             {dataName: "共享资料一", author: '王东', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定'},
@@ -37,7 +37,6 @@ export default class ShareData extends Component{
         return(
             <View style={styles.container}>
                 <PullList
-                    style={{}}
                     onPullRelease={this.onPullRelease.bind(this)}
                     topIndicatorRender={this.topIndicatorRender.bind(this)}
                     topIndicatorHeight={60}
@@ -75,7 +74,7 @@ export default class ShareData extends Component{
     }
     loadMore(){
         let a = [
-            {dataName: "共享资料一", author: '杨磊', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定'},
+            {dataName: "共享资料一", author: '杨磊', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定'},
             {dataName: "共享资料一", author: '婷婷', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定'},
             {dataName: "共享资料一", author: '朱斌', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定'},
             {dataName: "共享资料一", author: '张帆', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定'},
