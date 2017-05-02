@@ -15,6 +15,7 @@ import EarlierStageList from './Component/EarlierStageList'
 import EarlierStageListHeader from './Component/EarlierStageListHeader'
 import Modal from 'react-native-simple-modal';
 import EarlierStageListModalView from "./Component/EarlierStageListModalView";
+import Test from "./Component/Test";
 export default class EarlierStage extends Component{
     constructor(props){
         super(props);
@@ -23,14 +24,15 @@ export default class EarlierStage extends Component{
         }
     }
     render(){
+        // ()=>this.setState({modalOpen:!this.state.modalOpen})
         return(
             <View style={styles.earlierStage}>
                 <StatusBar navigator={this.props.navigator} title="前期进度计划执行">
-                    <TouchableOpacity onPress={()=>this.setState({modalOpen:!this.state.modalOpen})}>
+                    <TouchableOpacity onPress={()=>this.props.navigator.push({name:'test',component:Test})}>
                         <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
-                {this.state.modalOpen?<EarlierStageListModalView  closeModal={()=>this.setState({modalOpen:false})} />:null}
+                {this.state.modalOpen?<EarlierStageListModalView  closeModal={()=>this.setState({modalOpen:false})} />:<View></View>}
                 <EarlierStageListHeader/>
                 <EarlierStageList navigator={this.props.navigator}/>
             </View>
