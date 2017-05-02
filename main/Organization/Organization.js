@@ -3,11 +3,15 @@ import React, {Component} from 'react';
 import {
     StyleSheet,
     View,
-    Text
+    ScrollView,
+    Text,
+    Dimensions
 } from 'react-native';
 import StatusBar from '../Component/StatusBar'
 import DepartmentItem from './Component/DepartmentItem'
 import EmployeeItem from './Component/EmployeeItem'
+
+const {width, height} = Dimensions.get('window');
 
 export default class Organization extends Component {
 
@@ -17,12 +21,16 @@ export default class Organization extends Component {
     }
     render() {
         return(
-            <View>
+            <View style={styles.container}>
                 <StatusBar
                     title="组织"
                     backButtonFun = {this.goBack.bind(this, this.state.deps)}
                 />
-                {this.state.deps}
+                <ScrollView>
+                    <View style={styles.viewSty}>
+                        {this.state.deps}
+                    </View>
+                </ScrollView>
             </View>
         );
     }
@@ -107,8 +115,67 @@ export default class Organization extends Component {
                 isDep: true,
                 hasChildren: false,
                 children: []
+            },
+            {
+                name: '人事部',
+                isDep: true,
+                hasChildren: false,
+                children: []
+            },
+            {
+                name: '财务部',
+                isDep: true,
+                hasChildren: false,
+                children: []
+            },
+            {
+                name: '人事部',
+                isDep: true,
+                hasChildren: false,
+                children: []
+            },
+            {
+                name: '财务部',
+                isDep: true,
+                hasChildren: false,
+                children: []
+            },
+            {
+                name: '人事部',
+                isDep: true,
+                hasChildren: false,
+                children: []
+            },
+            {
+                name: '财务部',
+                isDep: true,
+                hasChildren: false,
+                children: []
+            },
+            {
+                name: '人事部',
+                isDep: true,
+                hasChildren: false,
+                children: []
+            },
+            {
+                name: '财务部',
+                isDep: true,
+                hasChildren: false,
+                children: []
+            },
+            {
+                name: '财务部',
+                isDep: true,
+                hasChildren: false,
+                children: []
+            },
+            {
+                name: '财务部',
+                isDep: true,
+                hasChildren: false,
+                children: []
             }
-
         ]
     };
 
@@ -129,9 +196,14 @@ export default class Organization extends Component {
 
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#f2f2f2'
+    },
     viewSty: {
-        flex:1,
-        alignItems:'center',
-        justifyContent:'center'
+        marginTop: 10,
+        backgroundColor:'#fdfdfe',
+        // alignItems:'center',
+        // justifyContent:'center'
     }
 });
