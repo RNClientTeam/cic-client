@@ -7,7 +7,6 @@ import {
     View,
     StyleSheet,
     Dimensions,
-    Text,
     ListView
 } from 'react-native'
 const {width} = Dimensions.get('window');
@@ -39,11 +38,9 @@ export default class CooperateTask extends Component {
                 <PullList
                     style={{}}
                     onPullRelease={this.onPullRelease.bind(this)}
-                    topIndicatorRender={this.topIndicatorRender.bind()}
+                    topIndicatorRender={this.topIndicatorRender.bind(this)}
                     topIndicatorHeight={60}
                     dataSource={this.state.list}
-                    pageSize={5}
-                    initialListSize={5}
                     renderRow={this.renderRow.bind(this)}
                     onEndReached={this.loadMore.bind(this)}
                     onEndReachedThreshold={60}
@@ -67,17 +64,11 @@ export default class CooperateTask extends Component {
     }
 
     renderFooter (){
-        return (this.state.hasMoreData ? <View style={{height: 100}}>
-            <LoadMore />
-        </View> : null)
+        return (this.state.hasMoreData ? <LoadMore /> : null)
     }
 
     topIndicatorRender(pulling, pullok, pullrelease) {
-        return (
-            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 60}}>
-                <Reload/>
-            </View>
-        );
+        return (<Reload/>);
     }
 
     loadMore(){
