@@ -7,7 +7,7 @@ import {
     TouchableOpacity
 } from 'react-native'
 
-const {width} = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 export default class DepartmentItem extends Component {
     render() {
@@ -18,8 +18,8 @@ export default class DepartmentItem extends Component {
                             <Text>{this.props.dep.name}</Text>
                         </View>
                         <View style={styles.blank}></View>
-                        <View>
-                            <Text> > </Text>
+                        <View style={styles.actionView}>
+                            <Text style={styles.action}> > </Text>
                         </View>
                 </View>
             </TouchableOpacity>
@@ -30,15 +30,25 @@ export default class DepartmentItem extends Component {
 const styles = StyleSheet.create({
     depItem: {
         flexDirection: 'row',
-        paddingLeft: 10,
+        alignItems: 'center',
         paddingRight: 10,
         paddingTop: 5,
-        paddingBottom: 5
+        paddingBottom: 5,
+        height: height*0.07,
+        marginLeft: 15,
+        borderBottomColor:'#dcdcdc',
+        borderBottomWidth: 1
+    },
+    space: {
+        width: 10
     },
     depLabel: {
 
     },
     blank: {
         flex: 1
+    },
+    action: {
+        color: '#bbbbbb'
     }
 });
