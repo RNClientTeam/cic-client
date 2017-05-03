@@ -44,10 +44,7 @@ export default class SchedulePlanCell extends Component {
     }
 
     skipPage() {
-        this.props.navigator.push({
-            name: 'PDFView',
-            component: PDFView
-        });
+        
     }
 
     editPress() {

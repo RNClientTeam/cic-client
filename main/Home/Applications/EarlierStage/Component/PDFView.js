@@ -47,10 +47,9 @@ export default class PDFView extends Component {
                         path={this.pdfPath}
                         onLoadComplete = {(pageCount)=>{
                             this.setState({loading: false});
-                            setTimeout(() => {
+                            this.timer = setTimeout(() => {
                                 this.pdfView.setNativeProps({zoom: 2.1});
                             }, 3000);
-
                         }}
                         style={styles.pdf}/>
                 }
@@ -76,6 +75,10 @@ export default class PDFView extends Component {
         }).catch(err => {
             console.log(err);
         });
+    }
+
+    componentWillUnmount() {
+        this.timer && clearTimeout(this.timer);
     }
 }
 
