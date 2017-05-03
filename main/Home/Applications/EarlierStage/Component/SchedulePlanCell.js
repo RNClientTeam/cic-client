@@ -81,11 +81,11 @@ const styles = StyleSheet.create({
     },
     projectName: {
         height: width * 0.1,
-        lineHeight: width * 0.08
+        lineHeight: Math.round(width * 0.08)
     },
     textStyle: {
         height: width * 0.1,
-        lineHeight: width * 0.1,
+        lineHeight: Math.round(width * 0.1),
         color:'#4f74a3'
     },
     stateView: {

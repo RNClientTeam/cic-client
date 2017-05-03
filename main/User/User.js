@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 
 import SetGesture from './SetGesture';
+import MD5 from 'crypto-js/md5';
 import Login from '../Login.js';
 var {width, height} = Dimensions.get('window');
 var dataSource=['修改密码','修改手势密码','提醒设置','版本更新'];
@@ -51,7 +52,7 @@ export default class User extends Component {
     onPress(index) {
         const {navigator} = this.props;
         if (index == 0) {
-
+            console.log(MD5('a'));
         } else if (index == 1) {
             navigator.push({
                 component: SetGesture,
