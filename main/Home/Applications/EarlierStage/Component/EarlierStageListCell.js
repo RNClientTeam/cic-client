@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     },
     textStyle: {
         height: width * 0.1,
-        lineHeight: width * 0.1,
+        lineHeight: 30,
         color:'#4f74a3'
     },
     stateView: {
