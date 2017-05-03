@@ -42,9 +42,9 @@ export default class EarlierStageDetail extends Component {
                     tabBarInactiveTextColor='#3d3d3d'>
                     <General tabLabel='概况' />
                     <SchedulePlan tabLabel='进度计划' navigator={this.props.navigator}/>
-                    <CooperateTask tabLabel='配合任务'/>
+                    <CooperateTask navigator={this.props.navigator} tabLabel='配合任务'/>
                     <TotalImplementation tabLabel='总执行情况'></TotalImplementation>
-                    <ShareData tabLabel='共享资料' />
+                    <ShareData navigator={this.props.navigator} tabLabel='共享资料'/>
                 </ScrollableTabView>
             </View>
         );

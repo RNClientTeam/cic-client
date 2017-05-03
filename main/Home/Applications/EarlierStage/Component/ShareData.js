@@ -61,7 +61,7 @@ export default class ShareData extends Component{
 
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
-            <ShareDataCell key={rowID} dataSource={item}/>
+            <ShareDataCell navigator={this.props.navigator} key={rowID} dataSource={item}/>
         );
     }
 

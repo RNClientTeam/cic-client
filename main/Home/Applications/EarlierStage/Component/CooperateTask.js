@@ -7,13 +7,15 @@ import {
     View,
     StyleSheet,
     Dimensions,
-    ListView
+    ListView,
+    Modal
 } from 'react-native'
 const {width} = Dimensions.get('window');
 import {PullList} from 'react-native-pull';
 import LoadMore from "../../../../Component/LoadMore";
 import CooperateTaskCell from "./CooperateTaskCell";
 import Reload from "../../../../Component/Reload";
+import MoreOperations from "./MoreOperations";
 export default class CooperateTask extends Component {
 
     constructor(props) {
@@ -29,6 +31,7 @@ export default class CooperateTask extends Component {
         this.state = {
             hasMoreData: true,
             list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(this.dataSource),
+            modalVisible: false
         }
     }
 
@@ -45,6 +48,19 @@ export default class CooperateTask extends Component {
                     onEndReachedThreshold={60}
                     renderFooter={this.renderFooter.bind(this)}
                 />
+                <Modal
+                    animationType={"slide"}
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.setState({modalVisible: !this.state.modalVisible})
+                    }}
+                    style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
+                >
+                    <MoreOperations navigator={this.props.navigator} closeModal={() => {
+                        this.setState({modalVisible: false})
+                    }}/>
+                </Modal>
             </View>
         )
     }
@@ -58,11 +74,13 @@ export default class CooperateTask extends Component {
 
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
-            <CooperateTaskCell key={rowID} dataSource={item}/>
+            <CooperateTaskCell setModalVisible={() => {
+                this.setState({modalVisible: true})
+            }} key={rowID} dataSource={item}/>
         );
     }
 
-    renderFooter (){
+    renderFooter() {
         return (this.state.hasMoreData ? <LoadMore /> : null)
     }
 
@@ -70,7 +88,7 @@ export default class CooperateTask extends Component {
         return (<Reload/>);
     }
 
-    loadMore(){
+    loadMore() {
         let a = [
             {cooperateName: "配合工作内容一", name: '123', time: "2017/01/01-2017/12/12", percentage: 80},
             {cooperateName: "配合工作内容一", name: 'Neal', time: "2017/01/01-2017/12/12", percentage: 80},
@@ -80,7 +98,7 @@ export default class CooperateTask extends Component {
             {cooperateName: "配合工作内容一", name: '哈哈', time: "2017/01/01-2017/12/12", percentage: 80}
         ];
 
-        for (let i = 0;i<a.length;i++){
+        for (let i = 0; i < a.length; i++) {
             this.dataSource.push(a[i])
         }
 

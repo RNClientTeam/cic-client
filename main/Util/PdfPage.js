@@ -48,12 +48,14 @@ export default class PDFExample extends React.Component {
             );
         }
         return (
-            <PDFView ref={(pdf)=>{this.pdfView = pdf;}}
+            <PDFView ref={(pdf) => {
+                this.pdfView = pdf;
+            }}
                      key="sop"
                      path={this.pdfPath}
-                     onLoadComplete={(pageCount)=>{
-                        console.log(`total page count: ${pageCount}`);
-                        this.zoom();
+                     onLoadComplete={(pageCount) => {
+                         console.log(`total page count: ${pageCount}`);
+                         this.zoom();
                      }}
                      style={styles.pdf}/>
         )

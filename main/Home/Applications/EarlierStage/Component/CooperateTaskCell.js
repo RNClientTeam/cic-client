@@ -34,7 +34,7 @@ export default class CooperateTaskCell extends Component{
                             <Text style={{color:'#c2cddc',fontSize:width*0.03}}>{this.props.dataSource.percentage}%</Text>
                         </View>
                     </View>
-                    <TouchableOpacity style={styles.rightView}>
+                    <TouchableOpacity style={styles.rightView} onPress={()=>{this.props.setModalVisible()}}>
                         <Image style={styles.imgSty} source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}/>
                     </TouchableOpacity>
                 </View>
