@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.75)',
         position:'absolute',
         width:width,
-        zIndex:99,
+        zIndex:999,
     },
     containerStyle:{
         backgroundColor:'#fff',

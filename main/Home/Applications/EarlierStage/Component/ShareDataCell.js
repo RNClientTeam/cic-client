@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     },
     specificationText:{
         color:'#737373',
-        lineHeight:width*0.05,
+        lineHeight:21,
         fontSize:width*0.033
     }
 });
