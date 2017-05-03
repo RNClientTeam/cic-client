@@ -44,7 +44,7 @@ export default class EarlierStageDetail extends Component {
                     <SchedulePlan tabLabel='进度计划' navigator={this.props.navigator}/>
                     <CooperateTask tabLabel='配合任务'/>
                     <TotalImplementation tabLabel='总执行情况'></TotalImplementation>
-                    <ShareData tabLabel='共享资料'/>
+                    <ShareData tabLabel='共享资料' />
                 </ScrollableTabView>
             </View>
         );

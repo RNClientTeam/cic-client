@@ -14,6 +14,8 @@ import {
 } from 'react-native'
 const {width} = Dimensions.get('window');
 
+import PDFView from './PDFView.js';
+
 export default class SchedulePlanCell extends Component {
     render() {
         return (
@@ -42,7 +44,10 @@ export default class SchedulePlanCell extends Component {
     }
 
     skipPage() {
-
+        this.props.navigator.push({
+            name: 'PDFView',
+            component: PDFView
+        });
     }
 
     editPress() {

@@ -151,7 +151,7 @@ export default class MyTask extends Component {
 
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
-            <SchedulePlanCell key={rowID} data={item}/>
+            <SchedulePlanCell key={rowID} data={item} navigator={this.props.navigator}/>
         );
     }
 

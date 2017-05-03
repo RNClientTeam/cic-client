@@ -21,6 +21,7 @@
     "react-native-pull": "^2.0.2",
     "react-native-scrollable-tab-view": "^0.6.5",
     "react-native-simple-modal": "^5.0.0",
+    "react-native-simple-toast": "0.0.5",
     "react-native-spinkit": "^1.0.2",
     "react-native-splash-screen": "^2.0.0",
     "react-native-tab-navigator": "^0.3.3"

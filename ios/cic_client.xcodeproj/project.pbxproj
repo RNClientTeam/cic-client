@@ -36,6 +36,7 @@
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		7D2EDEFC1EB5DA350037740E /* QBImagePicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D2EDEFB1EB5DA350037740E /* QBImagePicker.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		7D2EDEFE1EB5DA390037740E /* RSKImageCropper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D2EDEFD1EB5DA390037740E /* RSKImageCropper.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		7D305CE61EBA1E950088C329 /* libLRDRCTSimpleToast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D305CC71EBA1E550088C329 /* libLRDRCTSimpleToast.a */; };
 		7D53FF231EAF26C90002D5A4 /* launchscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D53FF221EAF26C90002D5A4 /* launchscreen.png */; };
 		7D53FF691EAF27E50002D5A4 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D53FF681EAF27B80002D5A4 /* libSplashScreen.a */; };
 		7D53FF7F1EAF28EB0002D5A4 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D53FF7E1EAF28EB0002D5A4 /* MapKit.framework */; };
@@ -232,6 +233,13 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RCTLinking;
 		};
+		7D305CC61EBA1E550088C329 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3DB49FBE32C245F6B92862AD /* LRDRCTSimpleToast.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 15209BEF1D250F63000D0F44;
+			remoteInfo = LRDRCTSimpleToast;
+		};
 		7D53FF671EAF27B80002D5A4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3C9DEF49F89541B3BF4564EB /* SplashScreen.xcodeproj */;
@@ -306,6 +314,7 @@
 		2D02E47B1E0B4A5D006451C7 /* cic_client-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "cic_client-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* cic_client-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "cic_client-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C9DEF49F89541B3BF4564EB /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
+		3DB49FBE32C245F6B92862AD /* LRDRCTSimpleToast.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = LRDRCTSimpleToast.xcodeproj; path = "../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast.xcodeproj"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7D2EDEFB1EB5DA350037740E /* QBImagePicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QBImagePicker.framework; path = "../../../Library/Developer/Xcode/DerivedData/cic_client-bnmbnugkycviidgslbxmxdfclirk/Build/Products/Debug-iphonesimulator/QBImagePicker.framework"; sourceTree = "<group>"; };
@@ -335,6 +344,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D305CE61EBA1E950088C329 /* libLRDRCTSimpleToast.a in Frameworks */,
 				7D2EDEFE1EB5DA390037740E /* RSKImageCropper.framework in Frameworks */,
 				7D2EDEFC1EB5DA350037740E /* QBImagePicker.framework in Frameworks */,
 				FA0ECE8D1EB330F1003D4238 /* libRCTWebSocket.a in Frameworks */,
@@ -507,6 +517,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		7D305CC21EBA1E550088C329 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7D305CC71EBA1E550088C329 /* libLRDRCTSimpleToast.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		7D53FF211EAF26C90002D5A4 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -565,6 +583,7 @@
 				0A3A1E4CB6D64A769EB4FCFF /* RNFS.xcodeproj */,
 				9EE9AE9A80D24BA39F621B90 /* imageCropPicker.xcodeproj */,
 				BBFD7DF0648645678FFDB521 /* RNPDFView.xcodeproj */,
+				3DB49FBE32C245F6B92862AD /* LRDRCTSimpleToast.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -756,6 +775,10 @@
 				{
 					ProductGroup = FA0ECDEA1EB312D9003D4238 /* Products */;
 					ProjectRef = 9EE9AE9A80D24BA39F621B90 /* imageCropPicker.xcodeproj */;
+				},
+				{
+					ProductGroup = 7D305CC21EBA1E550088C329 /* Products */;
+					ProjectRef = 3DB49FBE32C245F6B92862AD /* LRDRCTSimpleToast.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
@@ -1001,6 +1024,13 @@
 			remoteRef = 78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		7D305CC71EBA1E550088C329 /* libLRDRCTSimpleToast.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libLRDRCTSimpleToast.a;
+			remoteRef = 7D305CC61EBA1E550088C329 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		7D53FF681EAF27B80002D5A4 /* libSplashScreen.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1197,12 +1227,14 @@
 					"$(SRCROOT)..\node_modules\neact-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-pdf-view/RNPDFView",
+					"$(SRCROOT)/../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast",
 				);
 				INFOPLIST_FILE = cic_clientTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1226,12 +1258,14 @@
 					"$(SRCROOT)..\node_modules\neact-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-pdf-view/RNPDFView",
+					"$(SRCROOT)/../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast",
 				);
 				INFOPLIST_FILE = cic_clientTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1261,6 +1295,7 @@
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/**",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(SRCROOT)/../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast",
 				);
 				INFOPLIST_FILE = cic_client/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
@@ -1293,6 +1328,7 @@
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/**",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(SRCROOT)/../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast",
 				);
 				INFOPLIST_FILE = cic_client/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
@@ -1327,11 +1363,13 @@
 					"$(SRCROOT)..\node_modules\neact-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-pdf-view/RNPDFView",
+					"$(SRCROOT)/../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast",
 				);
 				INFOPLIST_FILE = "cic_client-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1365,11 +1403,13 @@
 					"$(SRCROOT)..\node_modules\neact-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-pdf-view/RNPDFView",
+					"$(SRCROOT)/../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast",
 				);
 				INFOPLIST_FILE = "cic_client-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1400,6 +1440,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.cic_client-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1424,6 +1465,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.cic_client-tvOSTests";

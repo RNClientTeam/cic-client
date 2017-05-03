@@ -47,8 +47,8 @@ export default class SchedulePlan extends Component {
                     ref={"scrollView"}
                     showsHorizontalScrollIndicator={false}
                     scrollEnabled={false}>
-                    <MyTask />
-                    <MyTask />
+                    <MyTask navigator={this.props.navigator}/>
+                    <MyTask navigator={this.props.navigator}/>
                 </ScrollView>
             </View>
         );
