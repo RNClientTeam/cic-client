@@ -11,6 +11,7 @@ import {
     Image,
     TouchableOpacity
 } from 'react-native'
+import PDFView from "./PDFView";
 const {width} = Dimensions.get('window');
 
 export default class ShareDataCell extends Component {
@@ -37,8 +38,9 @@ export default class ShareDataCell extends Component {
     }
 
     skipToPage(){
-        this.navigator.push({
-            name:'PdfView'
+        this.props.navigator.push({
+            name:'PdfView',
+            component:PDFView
         })
     }
 }

@@ -15,7 +15,7 @@ const {width}  = Dimensions.get('window');
 export default class ApplyForDelay extends Component{
     render(){
         return(
-            <View>
+            <View style={styles.containerStyle}>
                 <StatusBar navigator={this.props.navigator} title="延期变更申请"/>
             </View>
         )
@@ -23,5 +23,8 @@ export default class ApplyForDelay extends Component{
 }
 
 const styles = StyleSheet.create({
-
+    containerStyle:{
+        backgroundColor:'#f2f2f2',
+        flex:1
+    }
 });

@@ -15,7 +15,7 @@ const {width}  = Dimensions.get('window');
 export default class CheckFlowInfo extends Component{
     render(){
         return(
-            <View>
+            <View style={styles.containerStyle}>
                 <StatusBar navigator={this.props.navigator} title="流程信息查看"/>
             </View>
         )
@@ -23,6 +23,9 @@ export default class CheckFlowInfo extends Component{
 }
 
 const styles = StyleSheet.create({
-
+    containerStyle:{
+        backgroundColor:'#f2f2f2',
+        flex:1
+    }
 });
 

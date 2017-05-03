@@ -15,7 +15,7 @@ const {width}  = Dimensions.get('window');
 export default class EnsureComplete extends Component{
     render(){
         return(
-            <View>
+            <View style={styles.containerStyle}>
                 <StatusBar navigator={this.props.navigator} title="确认完成"/>
             </View>
         )
@@ -23,5 +23,8 @@ export default class EnsureComplete extends Component{
 }
 
 const styles = StyleSheet.create({
-
+    containerStyle:{
+        backgroundColor:'#f2f2f2',
+        flex:1
+    }
 });
