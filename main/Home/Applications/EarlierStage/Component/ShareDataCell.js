@@ -17,7 +17,7 @@ export default class ShareDataCell extends Component {
 
     render() {
         return (
-            <TouchableOpacity style={styles.shareDataCell}>
+            <TouchableOpacity style={styles.shareDataCell} onPress={this.skipToPage.bind(this)}>
                 <View style={styles.topView}>
                     <View style={styles.imgStyle}><Image style={styles.pdfStyle}
                                  source={require('../../../../../resource/imgs/home/earlierStage/pdf.png')}/></View>
@@ -34,6 +34,12 @@ export default class ShareDataCell extends Component {
                 </View>
             </TouchableOpacity>
         )
+    }
+
+    skipToPage(){
+        this.navigator.push({
+            name:'PdfView'
+        })
     }
 }
 
