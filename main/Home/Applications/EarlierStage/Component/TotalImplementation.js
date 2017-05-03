@@ -64,7 +64,7 @@ let tempArr = [{
 import {PullList} from 'react-native-pull';
 import LoadMore from "../../../../Component/LoadMore.js";
 import TotalImplementationCell from "./TotalImplementationCell.js";
-// import Reload from "../../../../Component/Reload.js";
+import Reload from "../../../../Component/Reload.js";
 export default class TotalImplementation extends Component {
     constructor(props) {
         super(props);
@@ -81,7 +81,7 @@ export default class TotalImplementation extends Component {
                 <PullList
                     onPullRelease={this.onPullRelease.bind(this)}
                     topIndicatorRender={this.topIndicatorRender.bind(this)}
-                    topIndicatorHeight={20}
+                    topIndicatorHeight={60}
                     dataSource={this.state.list}
                     renderRow={this.renderRow.bind(this)}
                     onEndReached={this.loadMore.bind(this)}
@@ -110,7 +110,7 @@ export default class TotalImplementation extends Component {
     }
 
     topIndicatorRender(pulling, pullok, pullrelease) {
-        return (<Text>临时刷新组件</Text>);
+        return (<Reload />);
     }
 
     loadMore(){

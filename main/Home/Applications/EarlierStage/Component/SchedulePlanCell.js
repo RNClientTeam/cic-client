@@ -33,7 +33,7 @@ export default class SchedulePlanCell extends Component {
                     <Text style={[{width: width * 0.5}, styles.textStyle]}>{this.props.data.schedule}</Text>
                     <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.time}</Text>
                     <TouchableOpacity onPress={this.editPress.bind(this)} style={styles.editTouch}>
-                        <Image source={require('../../../../../resource/imgs/home/applications/applyFor.png')}
+                        <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}
                             style={styles.editImg} resizeMode="contain"/>
                     </TouchableOpacity>
                 </View>
