@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
         marginLeft:width*0.02
     },
     modalDropDownText:{
-        fontSize:width*0.035
+        fontSize:width*0.035,
     },
     dropdownStyle:{
         width:width*0.55,

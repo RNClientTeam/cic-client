@@ -15,13 +15,14 @@ import {PullList} from 'react-native-pull';
 import LoadMore from "../../../../Component/LoadMore"
 import Reload from "../../../../Component/Reload"
 import ShareDataCell from "./ShareDataCell";
+import AddData from './AddData'
 export default class ShareData extends Component{
     constructor(props) {
         super(props);
         this.dataSource = [
             {dataName: "共享资料一", author: '王东', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵'},
-            {dataName: "共享资料一", author: '王东', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定'},
-            {dataName: "共享资料一", author: '王东', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定'},
+            {dataName: "共享资料一", author: '王东', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册'},
+            {dataName: "共享资料一", author: '王东', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定'},
             {dataName: "共享资料一", author: '王东', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定'},
             {dataName: "共享资料一", author: '王东', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定'},
             {dataName: "共享资料一", author: '王东', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定'},
@@ -48,6 +49,7 @@ export default class ShareData extends Component{
                     onEndReachedThreshold={60}
                     renderFooter={this.renderFooter.bind(this)}
                 />
+                <AddData navigator={this.props.navigator}/>
             </View>
         )
     }
