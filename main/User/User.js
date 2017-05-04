@@ -51,7 +51,7 @@ export default class User extends Component {
     onPress(index) {
         const {navigator} = this.props;
         if (index == 0) {
-
+            
         } else if (index == 1) {
             navigator.push({
                 component: SetGesture,

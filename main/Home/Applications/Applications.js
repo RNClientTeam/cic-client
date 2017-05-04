@@ -17,7 +17,6 @@ import {
 var {width, height}  = Dimensions.get('window');
 import StatusBar from '../../Component/StatusBar.js';
 import EarlierStage from './EarlierStage/EarlierStage.js';
-import EarlierStageDetail from './EarlierStage/Component/EarlierStageDetail.js';
 import Setting from './Setting';
 
 var commonlyApp = [
@@ -54,8 +53,10 @@ var officialApp = [
 var otherApp = [
     {title:'派车申请', image: require('../../../resource/imgs/home/applications/applyFor.png')}
 ];
-var imgDown = require('../../../resource/imgs/home/applications/down.png');
-var imgLeft = require('../../../resource/imgs/user/push_in.png');
+var imgSource = [
+    require('../../../resource/imgs/user/push_in.png'),
+    require('../../../resource/imgs/home/applications/down.png')
+];
 
 export default class Applications extends Component {
     constructor(props) {
@@ -66,7 +67,7 @@ export default class Applications extends Component {
             tradingApp: tradingApp,
             officialApp: officialApp,
             otherApp: otherApp,
-            imgSource: imgDown
+            showSection: [1, 1, 1, 1, 1]
         }
     }
     render() {
@@ -84,11 +85,11 @@ export default class Applications extends Component {
                     SectionSeparatorComponent={()=>this.sectionSeparator()}
                     keyExtractor={(item, index)=>this.keyExtractor(item,index)}
                     sections={[
-                        {data:[this.state.commonlyApp], key:'常用应用'},
-                        {data:[this.state.businessApp], key:'业务类应用'},
-                        {data:[this.state.tradingApp], key:'商务类应用'},
-                        {data:[this.state.officialApp], key:'办公类应用'},
-                        {data:[this.state.otherApp], key:'其他应用'}
+                        {data:[this.state.commonlyApp], key:'常用应用', sectionID:0},
+                        {data:[this.state.businessApp], key:'业务类应用', sectionID:1},
+                        {data:[this.state.tradingApp], key:'商务类应用', sectionID:2},
+                        {data:[this.state.officialApp], key:'办公类应用', sectionID:3},
+                        {data:[this.state.otherApp], key:'其他应用', sectionID:4}
                     ]}/>
             </View>
         );
@@ -122,26 +123,19 @@ export default class Applications extends Component {
                 component: EarlierStage,
                 name: 'EarlierStage'
             });
-        } else if (item.title === '工程子项拆分') {
-            this.props.navigator.push({
-                component: EarlierStageDetail,
-                name: 'EarlierStageDetail'
-            });
         }
     }
 
     //分组头
     renderSectionHeader(section) {
         return (
-            <View style={styles.sectionHeader}>
-                <Text style={styles.sectionText}>{section.key}</Text>
-                <TouchableOpacity onPress={this.sectionOnPress.bind(this,section.key)}>
-                    <View style={{width:45,height:45,alignItems:'center',justifyContent:'center'}}>
-                        <Image source={this.state.imgSource}
-                            style={{width:15,height:15}} resizeMode="contain"/>
-                    </View>
-                </TouchableOpacity>
-            </View>
+            <TouchableOpacity onPress={this.sectionOnPress.bind(this,section.key)}>
+                <View style={styles.sectionHeader}>
+                    <Text style={styles.sectionText}>{section.key}</Text>
+                    <Image source={imgSource[this.state.showSection[section.sectionID]]}
+                        style={{width:15,height:15}} resizeMode="contain"/>
+                </View>
+            </TouchableOpacity>
         )
     }
 
@@ -167,15 +161,65 @@ export default class Applications extends Component {
     //点击分组
     sectionOnPress(sectionTitle) {
         if (sectionTitle === '常用应用') {
-            this.setState({commonlyApp: this.state.commonlyApp.length !== 0 ? [] : commonlyApp});
+            if (this.state.commonlyApp.length !== 0) {
+                this.state.commonlyApp = [];
+                this.state.showSection.splice(0, 1, 0);
+            } else {
+                this.state.commonlyApp = commonlyApp;
+                this.state.showSection.splice(0, 1, 1);
+            }
+            this.setState({
+                commonlyApp: this.state.commonlyApp,
+                showSection: this.state.showSection
+            });
         } else if (sectionTitle === '业务类应用') {
-            this.setState({businessApp: this.state.businessApp.length !== 0 ? [] : businessApp});
+            if (this.state.businessApp.length !== 0) {
+                this.state.businessApp = [];
+                this.state.showSection.splice(1, 1, 0);
+            } else {
+                this.state.businessApp = businessApp;
+                this.state.showSection.splice(1, 1, 1);
+            }
+            this.setState({
+                businessApp: this.state.businessApp,
+                showSection: this.state.showSection
+            });
         } else if (sectionTitle === '商务类应用') {
-            this.setState({tradingApp: this.state.tradingApp.length !== 0 ? [] : tradingApp});
+            if (this.state.tradingApp.length !== 0) {
+                this.state.tradingApp = [];
+                this.state.showSection.splice(2, 1, 0);
+            } else {
+                this.state.tradingApp = tradingApp;
+                this.state.showSection.splice(2, 1, 1);
+            }
+            this.setState({
+                tradingApp: this.state.tradingApp,
+                showSection: this.state.showSection
+            });
         } else if (sectionTitle === '办公类应用') {
-            this.setState({officialApp: this.state.officialApp.length !== 0 ? [] : officialApp});
+            if (this.state.officialApp.length !== 0) {
+                this.state.officialApp = [];
+                this.state.showSection.splice(3, 1, 0);
+            } else {
+                this.state.officialApp = officialApp;
+                this.state.showSection.splice(3, 1, 1);
+            }
+            this.setState({
+                officialApp: this.state.officialApp,
+                showSection: this.state.showSection
+            });
         } else {
-            this.setState({otherApp: this.state.otherApp.length !== 0 ? [] : otherApp});
+            if (this.state.otherApp.length !== 0) {
+                this.state.otherApp = [];
+                this.state.showSection.splice(4, 1, 0);
+            } else {
+                this.state.otherApp = otherApp;
+                this.state.showSection.splice(4, 1, 1);
+            }
+            this.setState({
+                otherApp: this.state.otherApp,
+                showSection: this.state.showSection
+            });
         }
     }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 //import com.cboy.rn.splashscreen.SplashScreen;
 import com.cboy.rn.splashscreen.SplashScreen;
 import com.facebook.react.ReactActivity;
+import com.yoloci.fileupload.FileUploadPackage;
 import com.facebook.soloader.SoLoader;
 
 public class MainActivity extends ReactActivity {

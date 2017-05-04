@@ -1,5 +1,6 @@
 /**
- * Created by Nealyang on 2017/4/30.
+ * Created by fan on 2017/05/02.
+ * 前期进度计划详情页 - 进度计划cell
  */
 'use strict';
 import React, {Component} from 'react'
@@ -8,12 +9,14 @@ import {
     StyleSheet,
     Dimensions,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
+    Image
 } from 'react-native'
-import EarlierStageDetail from "./EarlierStageDetail";
 const {width} = Dimensions.get('window');
 
-export default class EarlierStageListCell extends Component {
+import PDFView from './PDFView.js';
+
+export default class SchedulePlanCell extends Component {
     render() {
         return (
             <TouchableOpacity style={styles.earlierStageListCell} onPress={this.skipPage.bind(this)}>
@@ -24,29 +27,28 @@ export default class EarlierStageListCell extends Component {
                             <Text style={styles.stateText}>{this.props.data.state}</Text>
                         </View>
                     </View>
-                    <View style={styles.projectName}>
-                        <Text>{this.props.data.planName}</Text>
-                        <View style={{flexDirection: 'row',alignItems:'center'}}>
-                            <Text>{this.props.data.contentNum}</Text>
-                            <Text style={{color:'#999',fontSize:width*0.05}}> > </Text>
-                        </View>
-                    </View>
+                    <Text style={styles.projectName}>{this.props.data.planName}</Text>
                 </View>
                 <View style={styles.aboutPrincipal}>
                     <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.principal}</Text>
                     <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.department}</Text>
                     <Text style={[{width: width * 0.5}, styles.textStyle]}>{this.props.data.schedule}</Text>
                     <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.time}</Text>
+                    <TouchableOpacity onPress={this.editPress.bind(this)} style={styles.editTouch}>
+                        <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}
+                            style={styles.editImg} resizeMode="contain"/>
+                    </TouchableOpacity>
                 </View>
             </TouchableOpacity>
         )
     }
 
-    skipPage(){
-        this.props.navigator.push({
-            component: EarlierStageDetail,
-            name: 'EarlierStageDetail'
-        });
+    skipPage() {
+        
+    }
+
+    editPress() {
+
     }
 }
 
@@ -80,10 +82,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     projectName: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
         height: width * 0.1,
-        alignItems: 'center'
+        lineHeight: 21
     },
     textStyle: {
         height: width * 0.1,
@@ -98,7 +98,15 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center'
     },
-    stateText: {color: '#fff', fontSize: width * 0.03}
-
+    stateText: {color: '#fff', fontSize: width * 0.03},
+    editTouch: {
+        position: 'absolute',
+        top: 22,
+        right: 18,
+    },
+    editImg: {
+        width: 22,
+        height: 25
+    }
 
 });

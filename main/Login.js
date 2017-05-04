@@ -13,10 +13,13 @@ import {
 } from 'react-native';
 
 var {width, height} = Dimensions.get('window');
+import MD5 from 'crypto-js/md5';
 import Main from './main.js';
 import MyTextInput from './Component/MyTextInput.js';
 import GestureLogin from './User/GestureLogin.js';
 import {getKey} from './Util/Util.js';
+import FetURL from './Util/service.json';
+import Toast from 'react-native-simple-toast';
 
 export default class Login extends Component {
     constructor(props) {
@@ -101,19 +104,32 @@ export default class Login extends Component {
     }
 
     onPress() {
+        let loginURL = FetURL.baseUrl+'/user/login?loginName='+this.state.username+'&password='+'C4CA4238A0B923820DCC509A6F75849B';
         //通过接口判断用户名密码是否正确
-        if (this.state.password !== '123' && this.state.username !== '123') {
-            this.setState({warningText: '用户名：123， 密码：123'});
-        } else {
-            const {navigator} = this.props;
-            if (navigator) {
-                navigator.replace({
-                    component: Main,
-                    name: 'Main',
-                    type: 'fade'
-                });
+        fetch(loginURL, {
+            headers: {
+                'Accept':'application/json;charset=UTF-8'
             }
-        }
+        })
+        .then((response) => response.json())
+        .then((responseData) => {
+            if (responseData.code === 1) {
+                //登录成功
+                const {navigator} = this.props;
+                if (navigator) {
+                    navigator.replace({
+                        component: Main,
+                        name: 'Main',
+                        type: 'fade'
+                    });
+                }
+            } else {
+                this.setState({warningText: '用户名或密码错误！'});
+            }
+        })
+        .catch((error) => {
+            Toast.show('请检查网络！');
+        });
     }
 
     componentWillUnmount() {

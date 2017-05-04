@@ -17,7 +17,7 @@ export default class EarlierStageListHeader extends Component {
     render() {
         return (
             <View style={styles.earlierStageListHeader}>
-                <TextInput style={styles.textInput} placeholder="搜索"/>
+                <TextInput style={styles.textInput} underlineColorAndroid="transparent" placeholder="搜索"/>
                 <TouchableOpacity style={styles.imgViewStyle}>
                     <Image style={styles.imgStyle} source={require('../../../../../resource/imgs/home/earlierStage/search.png')}/>
                 </TouchableOpacity>
@@ -32,16 +32,18 @@ const styles = StyleSheet.create({
         width:width,
         paddingLeft:width*0.02,
         paddingRight:width*0.02,
-        height:width*0.09,
+        height:width*0.11,
         flexDirection:'row',
         marginTop:width*0.02,
-        marginBottom:width*0.02
+        marginBottom:width*0.02,
+        zIndex:2,
     },
     textInput:{
         backgroundColor:'#fff',
         flex:11,
         borderWidth:1,
         borderColor:'#e2e2e2',
+        height:width*0.1
     },
     imgViewStyle:{
         backgroundColor:'#216fd0',
@@ -49,7 +51,8 @@ const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:'center',
         borderTopRightRadius:4,
-        borderBottomRightRadius:4
+        borderBottomRightRadius:4,
+        height:width*0.1
     },
     imgStyle:{
         resizeMode:'contain',

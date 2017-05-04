@@ -10,6 +10,11 @@ import {
 
 import StatusBar from '../../../../Component/StatusBar.js';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
+import CooperateTask from "./CooperateTask";
+import ShareData from "./ShareData";
+import General from './General.js';
+import SchedulePlan from './ScheduledPlan.js';
+import TotalImplementation from './TotalImplementation.js';
 var {width, height} = Dimensions.get('window');
 
 export default class EarlierStageDetail extends Component {
@@ -35,11 +40,11 @@ export default class EarlierStageDetail extends Component {
                     tabBarUnderlineStyle={{backgroundColor:'#51a5f0',height:2}}
                     tabBarActiveTextColor='#51a5f0'
                     tabBarInactiveTextColor='#3d3d3d'>
-                    <Text tabLabel='概况'>1</Text>
-                    <Text tabLabel='进度计划'>2</Text>
-                    <Text tabLabel='配合任务'>3</Text>
-                    <Text tabLabel='总执行情况'>4</Text>
-                    <Text tabLabel='共享资料'>5</Text>
+                    <General tabLabel='概况' />
+                    <SchedulePlan tabLabel='进度计划' navigator={this.props.navigator}/>
+                    <CooperateTask navigator={this.props.navigator} tabLabel='配合任务'/>
+                    <TotalImplementation tabLabel='总执行情况'></TotalImplementation>
+                    <ShareData navigator={this.props.navigator} tabLabel='共享资料'/>
                 </ScrollableTabView>
             </View>
         );
