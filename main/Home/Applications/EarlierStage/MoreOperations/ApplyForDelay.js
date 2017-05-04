@@ -70,11 +70,13 @@ export default class ApplyForDelay extends Component{
                             <View style={styles.inputLabel}>
                                 <Text style={styles.label}>变更情况说明</Text>
                             </View>
-                            <TextInput
-                                multiline = {true}
-                                numberOfLines = {4}
-                                style={{backgroundColor: '#eee', height: 0.28*height, borderRadius: 10}}
-                            />
+                            <View>
+                                <TextInput
+                                    multiline = {true}
+                                    numberOfLines = {4}
+                                    style={{backgroundColor: '#eee', height: 0.28*height, borderRadius: 10}}
+                                />
+                            </View>
                         </View>
                     </View>
                     <View style={styles.blank}/>
@@ -104,7 +106,7 @@ const styles = StyleSheet.create({
     editPanel: {
         backgroundColor: '#fdfdfd',
         marginTop: 15,
-        paddingBottom: width*0.02
+        paddingBottom: 0.04*width
     },
     icon: {
         width:width*0.07,

@@ -86,8 +86,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fdfdfd'
     },
     icon: {
-        width: 30,
-        height: 30
+        width:width*0.07,
+        height:width*0.07,
     },
     title: {
         flexDirection: 'row',
