@@ -21,6 +21,7 @@ export default class MyTextInput extends Component {
                     style={styles.textSty}
                     placeholder={this.props.placeholder}
                     autoCorrect={false}
+                    autoCapitalize="none"
                     underlineColorAndroid='transparent'
                     onChangeText={(text)=>this.props.onChangeText(text)}
                     value={this.props.text}

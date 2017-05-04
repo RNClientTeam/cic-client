@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 var {width, height} = Dimensions.get('window');
-import MD5 from 'crypto-js/md5';
+import CryptoJS from 'crypto-js';
 import Main from './main.js';
 import MyTextInput from './Component/MyTextInput.js';
 import GestureLogin from './User/GestureLogin.js';
@@ -104,7 +104,11 @@ export default class Login extends Component {
     }
 
     onPress() {
-        let loginURL = FetURL.baseUrl+'/user/login?loginName='+this.state.username+'&password='+'C4CA4238A0B923820DCC509A6F75849B';
+        if (this.state.username.length === 0 || this.state.password.length === 0) {
+            this.setState({warningText: '用户名或密码不能为空！'});
+            return;
+        }
+        let loginURL = FetURL.baseUrl+'/user/login?loginName='+this.state.username+'&password='+CryptoJS.MD5(this.state.password).toString().toUpperCase();
         //通过接口判断用户名密码是否正确
         fetch(loginURL, {
             headers: {
@@ -114,15 +118,18 @@ export default class Login extends Component {
         .then((response) => response.json())
         .then((responseData) => {
             if (responseData.code === 1) {
+                // var s = CryptoJS.enc.Base64.parse(responseData.data);
+                // var s2 = s.toString(CryptoJS.enc.UTF-8).toUpperCase();
+                // var c = CryptoJS.AES.decrypt(s2,responseData.secretKey);
+                // console.log(c.toString(CryptoJS.enc.UTF-8));
+
                 //登录成功
-                const {navigator} = this.props;
-                if (navigator) {
-                    navigator.replace({
-                        component: Main,
-                        name: 'Main',
-                        type: 'fade'
-                    });
-                }
+                this.setState({warningText: ''});
+                this.props.navigator.replace({
+                    component: Main,
+                    name: 'Main',
+                    type: 'fade'
+                });
             } else {
                 this.setState({warningText: '用户名或密码错误！'});
             }

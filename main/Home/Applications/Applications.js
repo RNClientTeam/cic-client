@@ -67,7 +67,8 @@ export default class Applications extends Component {
             tradingApp: tradingApp,
             officialApp: officialApp,
             otherApp: otherApp,
-            showSection: [1, 1, 1, 1, 1]
+            showSection: [1, 1, 1, 1, 1],
+            canEdit: false
         }
     }
     render() {
@@ -109,8 +110,14 @@ export default class Applications extends Component {
         return (
             <TouchableOpacity onPress={this.itemPress.bind(this, item, i)} key={i+item.title}>
                 <View style={styles.itemStyle}>
-                    <Image source={item.image} style={styles.itemImg}/>
+                    <Image source={item.image} style={styles.itemImg} />
                     <Text style={styles.itemText}>{item.title}</Text>
+
+                    {
+                        this.state.canEdit &&
+                        <Image style={styles.editImgSty}
+                            source={require('../../../resource/imgs/home/applications/addIcon.png')}/>
+                    }
                 </View>
             </TouchableOpacity>
 
@@ -118,6 +125,9 @@ export default class Applications extends Component {
     }
 
     itemPress(item, index) {
+        if (this.state.canEdit) {
+            return;
+        }
         if(item.title === '前期进度计划执行') {
             this.props.navigator.push({
                 component: EarlierStage,
@@ -152,10 +162,7 @@ export default class Applications extends Component {
 
     //点击头部右按钮
     toolsOnPress() {
-        this.props.navigator.push({
-            name: 'Setting',
-            component: Setting
-        })
+        this.setState({canEdit:!this.state.canEdit});
     }
 
     //点击分组
@@ -271,5 +278,12 @@ const styles = StyleSheet.create({
     itemImg: {
         width: 43,
         height: 43
+    },
+    editImgSty: {
+        height: width*0.05,
+        width: width*0.05,
+        position: 'absolute',
+        top: 10,
+        left: width/6+21.5-width*0.025
     }
 });
