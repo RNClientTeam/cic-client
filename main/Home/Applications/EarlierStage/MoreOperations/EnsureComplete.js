@@ -10,6 +10,9 @@ import {
     Dimensions
 } from 'react-native'
 import StatusBar from "../../../../Component/StatusBar";
+import ScrollableTabView from 'react-native-scrollable-tab-view';
+import TaskProfile from "./Component/TaskProfile";
+
 const {width}  = Dimensions.get('window');
 
 export default class EnsureComplete extends Component{
@@ -17,6 +20,14 @@ export default class EnsureComplete extends Component{
         return(
             <View style={styles.containerStyle}>
                 <StatusBar navigator={this.props.navigator} title="确认完成"/>
+                <ScrollableTabView locked={true}
+                                   tabBarUnderlineStyle={{backgroundColor:'#51a5f0',height:2}}
+                                   tabBarActiveTextColor='#51a5f0'
+                                   tabBarInactiveTextColor='#3d3d3d'>
+                    <TaskProfile tabLabel='任务概况' />
+                    <View tabLabel='执行概况' />
+                    <View tabLabel='变更概况' />
+                </ScrollableTabView>
             </View>
         )
     }
@@ -24,7 +35,7 @@ export default class EnsureComplete extends Component{
 
 const styles = StyleSheet.create({
     containerStyle:{
-        backgroundColor:'#f2f2f2',
+        backgroundColor:'#fdfdfd',
         flex:1
     }
 });

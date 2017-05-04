@@ -17,7 +17,7 @@ export default class SettingItem extends Component {
         return (
             <View style={styles.item}>
                 <View>
-                    <Text>前期进度计划执行</Text>
+                    <Text>{this.props.app.name}</Text>
                 </View>
                 <View style={styles.blank}></View>
                 <View>
@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         height: height*0.07,
-        paddingRight: width*0.05,
-        paddingLeft: width*0.05,
+        paddingRight: width*0.02,
+        paddingLeft: width*0.02,
         borderTopWidth: 1,
         borderTopColor: '#dcdcdc'
     },
