@@ -13,7 +13,7 @@ import {
 import StatusBar from '../../Component/StatusBar'
 import SettingItem from './Component/SettingItem'
 
-const {width} = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 export default class Setting extends Component {
     render() {
@@ -25,13 +25,31 @@ export default class Setting extends Component {
                     </TouchableOpacity>
                 </StatusBar>
                 <View style={styles.viewSty}>
-                    <SettingItem/>
+                    <View>
+                        <View style={styles.frequentApp}>
+                            <Text style={styles.frequentAppTitle}>常用设置</Text>
+                        </View>
+                        {this.createItems()}
+                    </View>
+
                 </View>
             </View>
         )
     }
     saveSettings() {
 
+    }
+
+    createItems() {
+        var apps = [
+            {name: '前期进度计划执行'},
+            {name: '工程子项目拆分'},
+            {name: '工程范围交接'}
+        ];
+        return apps.map (function (item, index) {
+                    return <SettingItem key={index} app={item}/>
+                }
+            )
     }
 }
 
@@ -45,5 +63,14 @@ const styles = StyleSheet.create({
     },
     actionText: {
         color: '#fff'
+    },
+    frequentApp: {
+        height: height*0.07,
+        backgroundColor: '#f2f2f2',
+        justifyContent: 'center',
+        paddingLeft: width*0.02
+    },
+    frequentAppTitle: {
+        color: '#299ce6'
     }
 });
