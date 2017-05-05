@@ -5,6 +5,8 @@ import React,{Component} from 'react'
 import {
     View,
     Text,
+    ScrollView,
+    TouchableOpacity,
     StyleSheet,
     Dimensions
 } from 'react-native'
@@ -15,35 +17,42 @@ export default class TaskProfile extends Component {
     render() {
         return (
             <View style={styles.viewSty}>
-                <View style={styles.content}>
-                    <View style={styles.row}>
-                        <Text style={styles.label}>责任人</Text>
-                        <Text>蔡营</Text>
+                <ScrollView>
+                    <View style={styles.content}>
+                        <View style={styles.row}>
+                            <Text style={styles.label}>责任人</Text>
+                            <Text>蔡营</Text>
+                        </View>
+                        <View style={styles.row}>
+                            <Text style={styles.label}>当前状态</Text>
+                            <Text>执行中</Text>
+                        </View>
+                        <View style={styles.row}>
+                            <Text style={styles.label}>计划开始时间</Text>
+                            <Text>2017-02-16</Text>
+                        </View>
+                        <View style={styles.row}>
+                            <Text style={styles.label}>计划完成时间</Text>
+                            <Text>2017-02-16</Text>
+                        </View>
+                        <View style={styles.row}>
+                            <Text style={styles.label}>实际开始时间</Text>
+                            <Text>2017-02-16</Text>
+                        </View>
+                        <View style={{height: width*0.02, backgroundColor: '#f2f2f2'}}/>
+                        <View style={styles.row}>
+                            <Text style={{color: '#5476a1'}}>主要工作内容详细说明</Text>
+                        </View>
+                        <View style={styles.textArea}>
+                            <Text>无</Text>
+                        </View>
                     </View>
-                    <View style={styles.row}>
-                        <Text style={styles.label}>当前状态</Text>
-                        <Text>执行中</Text>
+                </ScrollView>
+                <TouchableOpacity onPress={() => this.submit()}>
+                    <View style={styles.button}>
+                        <Text style={styles.buttonText}>确认完成</Text>
                     </View>
-                    <View style={styles.row}>
-                        <Text style={styles.label}>计划开始时间</Text>
-                        <Text>2017-02-16</Text>
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.label}>计划完成时间</Text>
-                        <Text>2017-02-16</Text>
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.label}>实际开始时间</Text>
-                        <Text>2017-02-16</Text>
-                    </View>
-                    <View style={{height: width*0.02, backgroundColor: '#f2f2f2'}}/>
-                    <View style={styles.row}>
-                        <Text style={{color: '#5476a1'}}>主要工作内容详细说明</Text>
-                    </View>
-                    <View style={styles.textArea}>
-                        <Text>无</Text>
-                    </View>
-                </View>
+                </TouchableOpacity>
             </View>
         )
     }
@@ -75,5 +84,19 @@ const styles = StyleSheet.create({
         height: height*0.15,
         paddingLeft: width*0.02,
         paddingRight: width*0.02,
+    },
+    button: {
+        backgroundColor: '#216fd0',
+        height: height*0.07,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: width*0.05,
+        marginLeft: width*0.05,
+        marginRight: width*0.05,
+        marginBottom: width*0.05,
+        borderRadius: 5
+    },
+    buttonText: {
+        color: 'white'
     }
 });

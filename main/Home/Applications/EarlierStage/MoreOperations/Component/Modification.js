@@ -16,6 +16,39 @@ import ModificationRow from './ModificationRow'
 const {width, height}  = Dimensions.get('window');
 
 export default class Modification extends Component {
+    constructor(props) {
+        super(props);
+        this.dataSource = [
+            {
+                applicant: '菜鸟',
+                applyDate: '2017/02/16',
+                newStartDate: '2017/02/16',
+                newEndDate: '2017/03/16',
+                startDate: '2017/02/16',
+                endDate: '2017/03-/6',
+                desc: '部门人员不足'
+            },
+            {
+                applicant: '菜鸟',
+                applyDate: '2017/02/16',
+                newStartDate: '2017/02/16',
+                newEndDate: '2017/03/16',
+                startDate: '2017/02/16',
+                endDate: '2017/03-/6',
+                desc: '部门人员不足'
+            },
+            {
+                applicant: '菜鸟',
+                applyDate: '2017/02/16',
+                newStartDate: '2017/02/16',
+                newEndDate: '2017/03/16',
+                startDate: '2017/02/16',
+                endDate: '2017/03-/6',
+                desc: '部门人员不足'
+            }
+        ];
+
+    }
     render() {
         return(
             <View style={styles.viewSty}>
@@ -24,8 +57,7 @@ export default class Modification extends Component {
                         <View style={styles.titleContent}>
                             <Text style={styles.titleText}>变更情况</Text>
                         </View>
-                        <ModificationRow/>
-                        <ModificationRow/>
+                        {this.renderRows()}
                     </View>
                 </ScrollView>
                 <TouchableOpacity onPress={() => this.submit()}>
@@ -38,6 +70,9 @@ export default class Modification extends Component {
     }
     submit() {
 
+    }
+    renderRows() {
+        return this.dataSource.map((item, index) => (<ModificationRow key={index} data={item}/>))
     }
 }
 

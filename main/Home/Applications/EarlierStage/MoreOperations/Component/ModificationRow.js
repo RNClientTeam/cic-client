@@ -16,9 +16,28 @@ export default class ModificationRow extends Component {
         return (
             <View style={styles.content}>
                 <View style={styles.titleView}>
+                    <Text style={{color: '#637388'}}>延期变更申请时间: {this.props.data.applyDate}</Text>
+                </View>
+                <View style={styles.detailView}>
+                    <View style={styles.applicant}>
+                        <Text style={styles.bold}>
+                            申请人:  {this.props.data.applicant}
+                        </Text>
+                    </View>
+                    <View>
+                        <Text style={[styles.textColor, styles.text]}>
+                            原计划时间: {this.props.data.startDate} - {this.props.data.endDate}
+                        </Text>
+                        <Text style={[styles.textColor, styles.text]}>
+                            新计划时间: {this.props.data.newStartDate} - {this.props.data.newEndDate}
+                        </Text>
+                        <Text style={[styles.textColor, styles.text]}>
+                            变更情况说明: {this.props.data.desc}
+                        </Text>
+                    </View>
 
                 </View>
-                <Text>666</Text>
+
             </View>
         )
     }
@@ -33,12 +52,31 @@ const styles = StyleSheet.create({
         marginBottom: 0.02 * width,
         paddingLeft: 0.05 * width,
         paddingRight: 0.05 * width,
-        height: 0.25 * height,
+        //height: 0.25 * height,
         borderWidth: 0.5
     },
     titleView: {
         height: 0.05 * height,
         borderBottomWidth: 1,
-        borderBottomColor: '#dcdcdc'
+        borderBottomColor: '#dcdcdc',
+        justifyContent: 'center'
+    },
+    detailView: {
+        paddingLeft: 0.04 * width,
+
+    },
+    applicant: {
+        justifyContent: 'center',
+        height: 0.07 * height
+    },
+    text: {
+        paddingBottom: 0.02 * width,
+        fontSize: 0.035 * width
+    },
+    bold: {
+        fontWeight: 'bold'
+    },
+    textColor: {
+        color: '#666'
     }
 });
