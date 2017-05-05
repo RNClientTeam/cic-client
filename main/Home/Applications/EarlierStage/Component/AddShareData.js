@@ -20,7 +20,10 @@ export default class AddShareData extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            planType: '请选择计划类型'
+            shareTypeArr:['计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4', '计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4'],
+            shareType: '请选择共享方式',
+            shareRangeArr:['计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4', '计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4'],
+            shareRange:'请选择共享范围'
         }
     }
 
@@ -40,9 +43,9 @@ export default class AddShareData extends Component {
                     <Text style={styles.keyStyle}>共享方式</Text>
                     <View style={styles.indicateView}>
                         <ModalDropdown
-                            options={['计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4', '计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4']}
+                            options={this.state.shareTypeArr}
                             animated={true}
-                            defaultValue={this.state.planType}
+                            defaultValue={this.state.shareType}
                             style={styles.modalDropDown}
                             textStyle={styles.modalDropDownText}
                             dropdownStyle={styles.dropdownStyle}
@@ -59,9 +62,9 @@ export default class AddShareData extends Component {
                     <Text style={styles.keyStyle}>共享范围</Text>
                     <View style={styles.indicateView}>
                         <ModalDropdown
-                            options={['计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4', '计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4']}
+                            options={this.state.shareRangeArr}
                             animated={true}
-                            defaultValue={this.state.planType}
+                            defaultValue={this.state.shareRange}
                             style={styles.modalDropDown}
                             textStyle={styles.modalDropDownText}
                             dropdownStyle={styles.dropdownStyle}
@@ -80,6 +83,23 @@ export default class AddShareData extends Component {
                         <Image style={styles.accessory} source={require('../../../../../resource/imgs/home/earlierStage/accessory.png')}/>
                     </TouchableOpacity>
                 </View>
+                <View style={[styles.keyValue,{borderBottomWidth:0}]}>
+                    <Text style={styles.keyStyle}>上传附件</Text>
+                </View>
+                <View style={styles.inputView}>
+                    <TextInput
+                        style={styles.textInput}
+                        multiline={true}
+                        autoFocus={true}
+                        placeholder='请填写备注信息'
+                        onChangeText={(remark) => this.setState({remark})}
+                        underlineColorAndroid="transparent"
+                        textAlignVertical="top"
+                    />
+                </View>
+                <TouchableOpacity style={styles.submitButton}>
+                   <Text style={{color:'#fff'}}>确认提交</Text>
+                </TouchableOpacity>
             </View>
         )
     }
@@ -138,5 +158,29 @@ const styles = StyleSheet.create({
         width:width*0.05,
         height:width*0.05,
         marginRight:width*0.02
+    },
+    textInput:{
+        height:width*0.3,
+        backgroundColor:'#f2f2f2',
+        width:width*0.84,
+        marginLeft:width*0.1,
+        borderRadius:10,
+        fontSize:15
+    },
+    inputView:{
+        backgroundColor:'#fff',
+        paddingBottom:20,
+        width:width
+    },
+    submitButton:{
+        alignItems:'center',
+        justifyContent:'center',
+        width:width*0.9,
+        marginLeft:width*0.05,
+        height:width*0.12,
+        backgroundColor:'#216fd0',
+        position:'absolute',
+        bottom:width*0.02,
+        borderRadius:5
     }
 });
