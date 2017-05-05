@@ -8,9 +8,11 @@ import {
     ListView,
     Image,
     TouchableHighlight,
-    Alert
+    Alert,
+    AsyncStorage
 } from 'react-native';
 
+import {getKey} from '../Util/Util.js';
 import SetGesture from './SetGesture';
 import Login from '../Login.js';
 var {width, height} = Dimensions.get('window');
@@ -32,9 +34,23 @@ export default class User extends Component {
         this.state = {
             username: '王韵杰',
             recommend: '安全勘测工程师',
-            department: '单位名称：安全监测监控部'
+            department: '安全监测监控部'
         }
     }
+
+    componentDidMount() {
+        AsyncStorage.getItem(getKey('userMessage'), (error, result) => {
+            if (result) {
+                let userMessage = JSON.parse(result);
+                this.setState({
+                    department: userMessage.companyName,
+                    username: userMessage.userID,
+                    recommend: userMessage.deptName
+                });
+            }
+        });
+    }
+
     render() {
         return(
             <ListView style={styles.viewSty}
@@ -95,7 +111,7 @@ export default class User extends Component {
                         <Image source={require('../../resource/imgs/user/recommend.png')} style={styles.recommendImg}/>
                         <Text style={styles.recommendText}>{this.state.recommend}</Text>
                     </View>
-                    <Text style={styles.department}>{this.state.department}</Text>
+                    <Text style={styles.department}>单位名称：{this.state.department}</Text>
                 </Image>
                 <View style={styles.headerTail}>
                 </View>

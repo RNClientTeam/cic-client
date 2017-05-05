@@ -1,10 +1,37 @@
+import CryptoJS from 'crypto-js';
 const allKeys = {
-    'gestureSecret': 'gestureSecret'
+    'gestureSecret'     : 'gestureSecret',
+    'nativeCommonlyApp' : 'nativeCommonlyApp',
+    'userMessage'       : 'userMessage'
 };
 
 //统一管理所有本地数据对应的键名，方便查看
 export function getKey(key) {
     return allKeys[key];
+}
+
+//MD5加密
+export function MD5Encrypt (str) {
+    return CryptoJS.MD5(str).toString().toUpperCase();
+}
+
+//AES解密
+export function AESDecrypt(base64Str, secretKey) {
+    //对base64Str进行base64解码
+    var decodeBase64 = CryptoJS.enc.Base64.parse(base64Str);
+    var decodeStr  = CryptoJS.enc.Base64.stringify(decodeBase64);
+    //对iv和key进行编码处理
+    var iv = CryptoJS.enc.Utf8.parse('cn.com.cic-c.app');
+    var key = CryptoJS.enc.Utf8.parse(secretKey);
+    var decryptObj = CryptoJS.AES.decrypt(decodeStr, key, {iv: iv});
+    var userMessage = decryptObj.toString(CryptoJS.enc.Utf8);
+    return userMessage;
+}
+
+//获取修改密码时的签名sign
+export function getSign(newPassword, oldPassword, userID, secretKey) {
+    var str = 'newPassword='+newPassword+'oldPassword='+oldPassword+'userID='+userID+secretKey;
+    return CryptoJS.SHA1(str).toString();
 }
 
 

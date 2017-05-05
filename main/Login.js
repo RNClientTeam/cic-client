@@ -13,11 +13,10 @@ import {
 } from 'react-native';
 
 var {width, height} = Dimensions.get('window');
-import CryptoJS from 'crypto-js';
 import Main from './main.js';
 import MyTextInput from './Component/MyTextInput.js';
 import GestureLogin from './User/GestureLogin.js';
-import {getKey} from './Util/Util.js';
+import {getKey, MD5Encrypt, AESDecrypt, getSign} from './Util/Util.js';
 import FetURL from './Util/service.json';
 import Toast from 'react-native-simple-toast';
 
@@ -108,7 +107,7 @@ export default class Login extends Component {
             this.setState({warningText: '用户名或密码不能为空！'});
             return;
         }
-        let loginURL = FetURL.baseUrl+'/user/login?loginName='+this.state.username+'&password='+CryptoJS.MD5(this.state.password).toString().toUpperCase();
+        let loginURL = FetURL.baseUrl+'/user/login?loginName='+this.state.username+'&password='+MD5Encrypt(this.state.password);
         //通过接口判断用户名密码是否正确
         fetch(loginURL, {
             headers: {
@@ -118,11 +117,9 @@ export default class Login extends Component {
         .then((response) => response.json())
         .then((responseData) => {
             if (responseData.code === 1) {
-                // var s = CryptoJS.enc.Base64.parse(responseData.data);
-                // var s2 = s.toString(CryptoJS.enc.UTF-8).toUpperCase();
-                // var c = CryptoJS.AES.decrypt(s2,responseData.secretKey);
-                // console.log(c.toString(CryptoJS.enc.UTF-8));
-
+                //获取用户信息
+                var userMessage = AESDecrypt(responseData.data, responseData.secretKey);
+                AsyncStorage.setItem(getKey('userMessage'), userMessage);
                 //登录成功
                 this.setState({warningText: ''});
                 this.props.navigator.replace({
