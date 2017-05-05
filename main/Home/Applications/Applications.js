@@ -17,6 +17,7 @@ import {
 var {width, height}  = Dimensions.get('window');
 import StatusBar from '../../Component/StatusBar.js';
 import EarlierStage from './EarlierStage/EarlierStage.js';
+import ProjectSubitemSplit from './ProjectSubitemSplit/ProjectSubitemSplit'
 import Setting from './Setting';
 
 var commonlyApp = [
@@ -121,6 +122,11 @@ export default class Applications extends Component {
         if(item.title === '前期进度计划执行') {
             this.props.navigator.push({
                 component: EarlierStage,
+                name: 'EarlierStage'
+            });
+        }else if(item.title === '工程子项拆分') {
+            this.props.navigator.push({
+                component: ProjectSubitemSplit,
                 name: 'EarlierStage'
             });
         }

@@ -15,6 +15,7 @@ import {
 import StatusBar from "../../../../Component/StatusBar";
 const {width} = Dimensions.get('window');
 import ModalDropdown from 'react-native-modal-dropdown';
+import RNFS from 'react-native-fs';
 export default class AddShareData extends Component {
 
     constructor(props) {
@@ -79,12 +80,12 @@ export default class AddShareData extends Component {
                 </View>
                 <View style={styles.keyValue}>
                     <Text style={styles.keyStyle}>上传附件</Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={this.choiceFile.bind(this)}>
                         <Image style={styles.accessory} source={require('../../../../../resource/imgs/home/earlierStage/accessory.png')}/>
                     </TouchableOpacity>
                 </View>
                 <View style={[styles.keyValue,{borderBottomWidth:0}]}>
-                    <Text style={styles.keyStyle}>上传附件</Text>
+                    <Text style={styles.keyStyle}>资料简要描述</Text>
                 </View>
                 <View style={styles.inputView}>
                     <TextInput
@@ -102,6 +103,30 @@ export default class AddShareData extends Component {
                 </TouchableOpacity>
             </View>
         )
+    }
+    choiceFile(){
+        RNFS.readDir(RNFS.MainBundlePath) // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
+            .then((result) => {
+                console.log('GOT RESULT', result);
+
+                // stat the first file
+                return Promise.all([RNFS.stat(result[0].path), result[0].path]);
+            })
+            .then((statResult) => {
+                if (statResult[0].isFile()) {
+                    // if we have a file, read it
+                    return RNFS.readFile(statResult[1], 'utf8');
+                }
+
+                return 'no file';
+            })
+            .then((contents) => {
+                // log the file contents
+                console.log(contents);
+            })
+            .catch((err) => {
+                console.log(err.message, err.code);
+            });
     }
 }
 

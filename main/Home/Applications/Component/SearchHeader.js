@@ -19,7 +19,7 @@ export default class EarlierStageListHeader extends Component {
             <View style={styles.earlierStageListHeader}>
                 <TextInput style={styles.textInput} underlineColorAndroid="transparent" placeholder="搜索"/>
                 <TouchableOpacity style={styles.imgViewStyle}>
-                    <Image style={styles.imgStyle} source={require('../../../../../resource/imgs/home/earlierStage/search.png')}/>
+                    <Image style={styles.imgStyle} source={require('../../../../resource/imgs/home/earlierStage/search.png')}/>
                 </TouchableOpacity>
             </View>
         )
