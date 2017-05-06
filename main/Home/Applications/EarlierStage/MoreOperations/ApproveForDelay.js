@@ -29,7 +29,7 @@ export default class ApproveForDelay extends Component{
                 <StatusBar navigator={this.props.navigator} title="延期变更审批"/>
                 <View style={styles.viewSty}>
                     <View style={styles.title}>
-                        <Image style={styles.icon} source={require('../../../../../resource/imgs/home/applications/fileIcon.png')}></Image>
+                        <Image style={styles.icon} source={require('../../../../../resource/imgs/home/applications/fileIcon.png')}/>
                         <Text style={styles.titleText}>{this.data.title}</Text>
                     </View>
                     <View style={styles.cell}>
