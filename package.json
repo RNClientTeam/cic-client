@@ -1,11 +1,4 @@
 {
-  "name": "cic_client",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
-  },
   "dependencies": {
     "crypto-js": "^3.1.9-1",
     "react": "16.0.0-alpha.6",
@@ -16,7 +9,7 @@
     "react-native-fileupload": "^1.2.0",
     "react-native-fs": "^2.1.0-rc.1",
     "react-native-icon-badge": "^1.1.1",
-    "react-native-image-crop-picker": "^0.13.0",
+    "react-native-image-picker": "^0.26.3",
     "react-native-modal-dropdown": "^0.4.2",
     "react-native-pdf-view": "git+https://github.com/cnjon/react-native-pdf-view.git",
     "react-native-pull": "^2.0.2",
@@ -36,5 +29,12 @@
   },
   "jest": {
     "preset": "react-native"
-  }
+  },
+  "name": "cic_client",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "version": "0.0.1"
 }

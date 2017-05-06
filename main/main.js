@@ -31,15 +31,13 @@ export default class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            hideBottomTab: false,
             selectedTab: 'Home'
         }
     }
     render() {
         return (
             <View style={styles.flex}>
-                <TabNavigator sceneStyle={[styles.flex, this.state.hideBottomTab && {paddingBottom:0}]}
-                    tabBarStyle={this.state.hideBottomTab && styles.tabBarHidden}>
+                <TabNavigator sceneStyle={styles.flex}>
                     {/**首页**/}
                     {this.renderTabItem('首页', tabImg[0], highLightTab[0], 'Home', Home)}
                     {/**留言板**/}
@@ -61,7 +59,7 @@ export default class Main extends Component {
      * @param tabName 路由名字
      * @param tabComponent 路由
      */
-    renderTabItem(title, iconSrc, selIconSrc, tabName, tabComponent) {
+    renderTabItem(title, iconSrc, selIconSrc, tabName, Component) {
         return (
             <TabNavigator.Item
                 selected={this.state.selectedTab === tabName}
@@ -71,54 +69,17 @@ export default class Main extends Component {
                 renderAsOriginal={true}
                 selectedTitleStyle={{color:'#216fd0'}}
                 onPress={() => {this.setState({selectedTab:tabName});}}>
-                <Navigator
-                    ref={tabName}
-                    initialRoute={{
-                        name:tabName,
-                        component:tabComponent
-                    }}
-                    onDidFocus={this.onWillFocus.bind(this, tabName)}
-                    configureScene={this.configureScene}
-                    renderScene={(route, navigator)=>{
-                        return (
-                            <route.component
-                                {...route.params}
-                                navigator={navigator}/>
-                        );
-                    }}
-                />
+                <Component navigator={this.props.navigator}/>
             </TabNavigator.Item>
         )
-    }
-    /**
-     * 配置场景动画
-     * @param route 路由
-     * @param routeStack 路由栈
-     * @returns {*} 动画
-     */
-    configureScene(route, routeStack) {
-        if (route.type === 'fade') {
-            return Navigator.SceneConfigs.FadeAndroid; // 渐变弹出
-        }
-        return Navigator.SceneConfigs.PushFromRight; // 默认右侧弹出
     }
 
     //判断是否需要重新渲染
     shouldComponentUpdate(nextProps, nextState) {
-        if(this.state.selectedTab === nextState.selectedTab && this.state.hideBottomTab === nextState.hideBottomTab) {
+        if(this.state.selectedTab === nextState.selectedTab) {
             return false;
         }
         return true;
-    }
-
-    onWillFocus(tabName) {
-        if (this.refs[tabName]) {
-            if (this.refs[tabName].getCurrentRoutes().length === 1) {
-                this.setState({hideBottomTab: false});
-            } else {
-                this.setState({hideBottomTab: true});
-            }
-        }
     }
 }
 

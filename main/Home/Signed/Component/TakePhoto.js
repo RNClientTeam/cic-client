@@ -12,22 +12,17 @@ import {
     Alert
 } from 'react-native'
 const {width, height} = Dimensions.get('window');
+var photoOptions = {
+    quality:0.75,
+    allowsEditing:true,
+    noData:false,
+    storageOptions: {
+        skipBackup: true,
+        path:'images'
+    }
+}
+import ImagePicker from 'react-native-image-picker';
 import CameraPage from '../../Component/CameraPage'
-
-/**
- * 更换头像 start
- */
-
-import ActionSheet from 'react-native-actionsheet'
-import ImagePicker from 'react-native-image-crop-picker';
-
-const CANCEL_INDEX = 0;
-const options = ['取消', '从相册中选择', '拍照'];
-const title = '更换头像';
-
-/**
- * 更换头像 end
- */
 
 export default class TakePhoto extends Component {
 
@@ -36,78 +31,26 @@ export default class TakePhoto extends Component {
         this.state = {
             image: null
         };
-        this.handlePress = this.handlePress.bind(this)
-        this.showActionSheet = this.showActionSheet.bind(this)
     }
-
-    showActionSheet() {
-        this.ActionSheet.show()
-    }
-
-    handlePress(i) {
-        if (i === 1) {
-            //从相册中选择
-            ImagePicker.openPicker({
-                width: 200,
-                height: 200,
-                cropping: true,
-                cropperCircleOverlay: true,
-                compressImageMaxWidth: 640,
-                compressImageMaxHeight: 480,
-                compressImageQuality: 0.5,
-                compressVideoPreset: 'MediumQuality',
-            }).then(image => {
-                console.log('received image', image);
-                this.setState({
-                    image: {uri: image.path, width: image.width, height: image.height, mime: image.mime}
-                });
-            }).catch(e => {
-                console.log(e);
-                Alert.alert(e.message ? e.message : e);
-            });
-
-        } else if (i === 2) {
-            //拍照
-                ImagePicker.openCamera({
-                    cropping: true,
-                    width: 500,
-                    height: 500,
-                    cropperCircleOverlay: true
-                }).then(image => {
-                    console.log('received image', image);
-                    this.setState({
-                        image: {uri: image.path, width: image.width, height: image.height}
-                    });
-                }).catch(e => alert(e));
-        }
-    }
-
 
     render() {
         return (
             <View style={styles.getPhoto}>
-                <TouchableOpacity onPress={this.showActionSheet}>
+                <TouchableOpacity onPress={this.takePhoto.bind(this)}>
                     <Image style={styles.cameraIcon}
                            source={this.state.image ? this.state.image : require('../../../../resource/imgs/home/signed/getPhoto.png')}/>
                 </TouchableOpacity>
                 <Text style={styles.photoText}>拍摄上传照片</Text>
-                <ActionSheet
-                    ref={o => this.ActionSheet = o}
-                    title={title}
-                    options={options}
-                    cancelButtonIndex={CANCEL_INDEX}
-                    onPress={this.handlePress}
-                />
             </View>
         )
     }
 
     takePhoto() {
-        //拍照
-        // this.props.navigator.push({
-        //     name:'CameraPage',
-        //     component:CameraPage
-        // })
+        ImagePicker.launchCamera(photoOptions, (response)  => {
+            if (response.uri) {
+                this.setState({image: {uri:response.uri}});
+            }
+        });
     }
 }
 

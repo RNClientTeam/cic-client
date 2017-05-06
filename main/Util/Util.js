@@ -2,7 +2,8 @@ import CryptoJS from 'crypto-js';
 const allKeys = {
     'gestureSecret'     : 'gestureSecret',
     'nativeCommonlyApp' : 'nativeCommonlyApp',
-    'userMessage'       : 'userMessage'
+    'userMessage'       : 'userMessage',
+    'usernameAndPW'     : 'usernameAndPW'
 };
 
 //统一管理所有本地数据对应的键名，方便查看

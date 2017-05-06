@@ -117,6 +117,12 @@ export default class Login extends Component {
         .then((response) => response.json())
         .then((responseData) => {
             if (responseData.code === 1) {
+                //保存用户名和密码
+                var usernameAndPW = {
+                    username: this.state.username,
+                    password: this.state.password
+                };
+                AsyncStorage.setItem(getKey('usernameAndPW'), JSON.stringify(usernameAndPW));
                 //获取用户信息
                 var userMessage = AESDecrypt(responseData.data, responseData.secretKey);
                 AsyncStorage.setItem(getKey('userMessage'), userMessage);
@@ -132,6 +138,7 @@ export default class Login extends Component {
             }
         })
         .catch((error) => {
+            this.setState({warningText: '请检查网络！'});
             Toast.show('请检查网络！');
         });
     }
