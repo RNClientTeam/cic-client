@@ -14,6 +14,7 @@ import StatusBar from "../../../Component/StatusBar";
 const {width} = Dimensions.get('window');
 import SearchHeader from '../Component/SearchHeader'
 import ProjectSubitemSplitList from './Component/ProjectSubitemSplitList'
+import ProjectSubitemSplitModal from "./Component/ProjectSubitemSplitModal";
 export default class ProjectSubitemSplit extends Component {
 
     constructor(props){
@@ -33,6 +34,7 @@ export default class ProjectSubitemSplit extends Component {
                 </StatusBar>
                 <SearchHeader/>
                 <ProjectSubitemSplitList navigator={this.props.navigator}/>
+                {this.state.isModalVisible?<ProjectSubitemSplitModal isModalVisible={this.state.isModalVisible}  closeModal={()=>this.setState({isModalVisible:false})} />:<View></View>}
             </View>
         )
     }

@@ -1,8 +1,8 @@
 /**
- * Created by Nealyang on 2017/5/5.
+ * Created by Nealyang on 2017/5/6.
  */
 'use strict';
-import React, {Component} from 'react'
+import React,{Component} from 'react'
 import {
     View,
     StyleSheet,
@@ -10,28 +10,19 @@ import {
     Text,
     TouchableOpacity
 } from 'react-native'
+import ProjectSubitemSplitDetailInfo from "./ProjectSubitemSplitDetailInfo";
+const {width}  = Dimensions.get('window');
 
-import ProjectSubitemSplitDetail from "./ProjectSubitemSplitDetail";
-const {width} = Dimensions.get('window');
-
-export default class ProjectSubitemSplitListCell extends Component {
-
-    render() {
-        return (
+export default class ProjectSubitemSplitDetailCell extends Component{
+    render(){
+        return(
             <View>
-                <TouchableOpacity style={styles.earlierStageListCell} onPress={this.skipPage.bind(this)}>
+                <TouchableOpacity style={styles.ProjectSubitemSplitDetailCell} onPress={this.skipPage.bind(this)}>
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
-                            <Text style={{color:'#216fd0',fontSize:width*0.045}}>{this.props.data.number}</Text>
+                            <Text style={{color:'#216fd0',fontSize:width*0.045}} numberOfLines={1}>{this.props.data.planName}</Text>
                             <View style={[styles.stateView,{backgroundColor:this.props.stateBg}]}>
                                 <Text style={styles.stateText}>{this.props.data.state}</Text>
-                            </View>
-                        </View>
-                        <View style={styles.projectName}>
-                            <Text>{this.props.data.planName}</Text>
-                            <View style={{flexDirection: 'row',alignItems:'center'}}>
-                                <Text>{this.props.data.contentNum}</Text>
-                                <Text style={{color:'#999',fontSize:width*0.05}}> > </Text>
                             </View>
                         </View>
                     </View>
@@ -45,27 +36,27 @@ export default class ProjectSubitemSplitListCell extends Component {
             </View>
         )
     }
-
     skipPage(){
         this.props.navigator.push({
-            component: ProjectSubitemSplitDetail,
-            name: 'ProjectSubitemSplitDetail',
-            params:{proName:this.props.data.planName,proNum:this.props.data.number}
+            component: ProjectSubitemSplitDetailInfo,
+            name: 'ProjectSubitemSplitDetailInfo',
+            params:{proName:this.props.proName,proNum:this.props.proNum}
         });
     }
 }
 
 const styles = StyleSheet.create({
-    earlierStageListCell: {
+    ProjectSubitemSplitDetailCell: {
         marginBottom: width * 0.03,
         marginLeft: width * 0.02,
         borderWidth: 1,
         borderColor: '#ddd',
         width: width * 0.96,
+        marginTop:width*0.02
     },
     aboutProject: {
         backgroundColor: '#fff',
-        height: width * 0.2,
+        height: width * 0.12,
         paddingLeft: width * 0.01,
         paddingRight: width * 0.01
     },
@@ -84,12 +75,6 @@ const styles = StyleSheet.create({
         height: width * 0.1,
         alignItems: 'center',
     },
-    projectName: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        height: width * 0.1,
-        alignItems: 'center'
-    },
     textStyle: {
         height: width * 0.1,
         lineHeight: 30,
@@ -104,6 +89,4 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     stateText: {color: '#fff', fontSize: width * 0.03}
-
-
 });
