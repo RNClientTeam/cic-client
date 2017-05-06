@@ -13,11 +13,10 @@ import {
 } from 'react-native';
 
 var {width, height} = Dimensions.get('window');
-import MD5 from 'crypto-js/md5';
 import Main from './main.js';
 import MyTextInput from './Component/MyTextInput.js';
 import GestureLogin from './User/GestureLogin.js';
-import {getKey} from './Util/Util.js';
+import {getKey, MD5Encrypt, AESDecrypt, getSign} from './Util/Util.js';
 import FetURL from './Util/service.json';
 import Toast from 'react-native-simple-toast';
 
@@ -104,7 +103,11 @@ export default class Login extends Component {
     }
 
     onPress() {
-        let loginURL = FetURL.baseUrl+'/user/login?loginName='+this.state.username+'&password='+'C4CA4238A0B923820DCC509A6F75849B';
+        if (this.state.username.length === 0 || this.state.password.length === 0) {
+            this.setState({warningText: '用户名或密码不能为空！'});
+            return;
+        }
+        let loginURL = FetURL.baseUrl+'/user/login?loginName='+this.state.username+'&password='+MD5Encrypt(this.state.password);
         //通过接口判断用户名密码是否正确
         fetch(loginURL, {
             headers: {
@@ -114,15 +117,16 @@ export default class Login extends Component {
         .then((response) => response.json())
         .then((responseData) => {
             if (responseData.code === 1) {
+                //获取用户信息
+                var userMessage = AESDecrypt(responseData.data, responseData.secretKey);
+                AsyncStorage.setItem(getKey('userMessage'), userMessage);
                 //登录成功
-                const {navigator} = this.props;
-                if (navigator) {
-                    navigator.replace({
-                        component: Main,
-                        name: 'Main',
-                        type: 'fade'
-                    });
-                }
+                this.setState({warningText: ''});
+                this.props.navigator.replace({
+                    component: Main,
+                    name: 'Main',
+                    type: 'fade'
+                });
             } else {
                 this.setState({warningText: '用户名或密码错误！'});
             }

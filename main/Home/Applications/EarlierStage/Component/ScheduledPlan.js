@@ -12,18 +12,21 @@ import {
     StyleSheet,
     Dimensions,
     TouchableOpacity,
-    ScrollView
+    ScrollView,
+    Modal
 } from 'react-native';
 
 import SchedulePlanCell from './SchedulePlanCell.js';
 import MyTask from './MyTask.js';
+import MoreOperations from "./MoreOperations.js";
 var {width, height} = Dimensions.get('window');
 
 export default class SchedulePlan extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentPage:0
+            currentPage:0,
+            modalVisible: false
         }
     }
     render() {
@@ -47,9 +50,28 @@ export default class SchedulePlan extends Component {
                     ref={"scrollView"}
                     showsHorizontalScrollIndicator={false}
                     scrollEnabled={false}>
-                    <MyTask navigator={this.props.navigator}/>
-                    <MyTask navigator={this.props.navigator}/>
+                    <MyTask navigator={this.props.navigator}
+                        setModalVisible={() => {
+                            this.setState({modalVisible: true})
+                        }}/>
+                    <MyTask navigator={this.props.navigator}
+                        setModalVisible={() => {
+                            this.setState({modalVisible: true})
+                        }}/>
                 </ScrollView>
+                <Modal
+                    animationType={"slide"}
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.setState({modalVisible: !this.state.modalVisible})
+                    }}
+                    style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
+                >
+                    <MoreOperations navigator={this.props.navigator} closeModal={() => {
+                        this.setState({modalVisible: false})
+                    }}/>
+                </Modal>
             </View>
         );
     }
