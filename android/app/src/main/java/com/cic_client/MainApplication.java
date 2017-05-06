@@ -4,8 +4,8 @@ import android.app.Application;
 
 import com.eguma.barcodescanner.BarcodeScannerPackage;
 import com.facebook.react.ReactApplication;
+import com.imagepicker.ImagePickerPackage;
 import com.keyee.pdfview.PDFView;
-import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.rnfs.RNFSPackage;
 import com.keyee.pdfview.PDFView;
 import com.react.rnspinkit.RNSpinkitPackage;
@@ -32,8 +32,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
               new MainReactPackage(),
+            new ImagePickerPackage(),
             new PDFView(),
-            new PickerPackage(),
               new RNFSPackage(),
               new PDFView(),
               new RNSpinkitPackage(),

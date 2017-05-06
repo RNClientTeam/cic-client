@@ -152,6 +152,7 @@ export default class Applications extends Component {
                     tempItem.sectionID = 0;
                     this.state.commonlyApp.push(tempItem);
                     this.setState({commonlyApp:this.state.commonlyApp});
+                    AsyncStorage.setItem(getKey('nativeCommonlyApp'), JSON.stringify(this.state.commonlyApp));
                 }
             } else {
                 //从常用应用中删除
@@ -159,6 +160,7 @@ export default class Applications extends Component {
                     if (this.state.commonlyApp[j].title === item.title) {
                         this.state.commonlyApp.splice(j, 1);
                         this.setState({commonlyApp:this.state.commonlyApp});
+                        AsyncStorage.setItem(getKey('nativeCommonlyApp'), JSON.stringify(this.state.commonlyApp));
                         break;
                     }
                 }
@@ -270,10 +272,6 @@ export default class Applications extends Component {
                 showSection: this.state.showSection
             });
         }
-    }
-
-    componentWillUnmount() {
-        AsyncStorage.setItem(getKey('nativeCommonlyApp'), JSON.stringify(this.state.commonlyApp));
     }
 }
 

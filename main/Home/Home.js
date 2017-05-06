@@ -61,7 +61,10 @@ export default class Home extends Component {
         if (navigator) {
             navigator.push({
                 component: CameraPage,
-                name: 'CameraPage'
+                name: 'CameraPage',
+                params: {
+                    title: '二维码扫描'
+                }
             });
         }
     }

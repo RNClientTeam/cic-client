@@ -6,7 +6,10 @@ import {
     Text,
     TouchableOpacity,
     StyleSheet,
-    Dimensions
+    Dimensions,
+    WebView,
+    Platform,
+    ScrollView
 } from 'react-native';
 
 var {width, height} = Dimensions.get('window');
@@ -32,26 +35,28 @@ export default class PDFView extends Component {
             <View style={styles.flex}>
                 <StatusBar title='资料下载' navigator={this.props.navigator}>
                 </StatusBar>
-                <Image source={require('../../../../../resource/imgs/home/earlierStage/pdfImg.png')}
-                    style={styles.pdfImgSty}/>
-                <Text style={styles.textSty}>施工手册.pdf</Text>
-                <Text style={styles.pdfSize}>186k</Text>
-                <TouchableOpacity onPress={this.downAndPreview.bind(this)}>
-                    <View style={styles.downloadView}>
-                        <Text style={styles.downloadText}>下载并预览</Text>
-                    </View>
-                </TouchableOpacity>
+
                 {
-                    this.state.showPDF &&
+                    this.state.showPDF ?
+                    (Platform.OS === 'ios' ?
+                    <WebView source={{uri:pdfDownloadURL}}
+                        automaticallyAdjustContentInsets={true}
+                        scalesPageToFit={true}
+                        style={styles.pdf}/> :
                     <PDF ref={(pdf)=>{this.pdfView = pdf;}}
                         path={this.pdfPath}
-                        onLoadComplete = {(pageCount)=>{
-                            this.setState({loading: false});
-                            this.timer = setTimeout(() => {
-                                this.pdfView.setNativeProps({zoom: 2.1});
-                            }, 3000);
-                        }}
-                        style={styles.pdf}/>
+                        style={styles.pdf}/>) :
+                    <View style={styles.flex}>
+                        <Image source={require('../../../../../resource/imgs/home/earlierStage/pdfImg.png')}
+                            style={styles.pdfImgSty}/>
+                        <Text style={styles.textSty}>施工手册.pdf</Text>
+                        <Text style={styles.pdfSize}>186k</Text>
+                        <TouchableOpacity onPress={this.downAndPreview.bind(this)}>
+                            <View style={styles.downloadView}>
+                                <Text style={styles.downloadText}>下载并预览</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
                 }
                 {
                     this.state.loading &&
@@ -69,11 +74,11 @@ export default class PDFView extends Component {
         };
         RNFS.downloadFile(options).promise.then(res => {
             this.setState({
-                loading: false,
-                showPDF: true
+                showPDF: true,
+                loading: false
             });
         }).catch(err => {
-            console.log(err);
+
         });
     }
 
@@ -117,10 +122,7 @@ const styles = StyleSheet.create({
         fontSize: 16
     },
     pdf: {
-        position: 'absolute',
-        top: 64,
-        bottom: 0,
-        left: 0,
-        right: 0
+        width:width,
+        height:height-64
     }
 })

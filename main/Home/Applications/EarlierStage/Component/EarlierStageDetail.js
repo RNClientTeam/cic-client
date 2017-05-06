@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import StatusBar from '../../../../Component/StatusBar.js';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+import ScrollableTabView, {DefaultTabBar, ScrollableTabBar} from 'react-native-scrollable-tab-view';
 import CooperateTask from "./CooperateTask";
 import ShareData from "./ShareData";
 import General from './General.js';
