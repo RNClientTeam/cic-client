@@ -13,10 +13,39 @@ import {
     Dimensions,
     TouchableOpacity
 } from 'react-native'
-import StatusBar from "../../../../../Component/StatusBar";
+import StatusBar from "../../../../../Component/StatusBar"
+import PathRow from "./PathRow"
+
 const {width, height}  = Dimensions.get('window');
 
 export default class FinishedPath extends Component{
+    constructor(props) {
+        super(props);
+        this.dataSource = [
+            {
+                applicantTitle: '编制人',
+                approvalTitle: '市场部门经理',
+                applicant: '蔡营',
+                date: '2017-02-16',
+                time: '09:00'
+            },
+            {
+                applicantTitle: '编制人',
+                approvalTitle: '市场部门经理',
+                applicant: '蔡营',
+                date: '2017-02-16',
+                time: '09:00'
+            },
+            {
+                applicantTitle: '编制人',
+                approvalTitle: '市场部门经理',
+                applicant: '蔡营',
+                date: '2017-02-16',
+                time: '09:00'
+            }
+        ]
+    }
+
     render() {
         return (
             <View style={styles.containerStyle}>
@@ -27,9 +56,14 @@ export default class FinishedPath extends Component{
                             <Text style={styles.titleText}>已完成步骤</Text>
                         </View>
                     </View>
+                    {this.renderRows()}
                 </ScrollView>
             </View>
         )
+    }
+
+    renderRows() {
+        return this.dataSource.map((item, index) => (<PathRow key={index} data={item}/>))
     }
 }
 
