@@ -10,8 +10,8 @@ import {
     Text,
     TouchableOpacity
 } from 'react-native'
+
 import ProjectSubitemSplitDetail from "./ProjectSubitemSplitDetail";
-// import EarlierStageDetail from "./EarlierStageDetail";
 const {width} = Dimensions.get('window');
 
 export default class ProjectSubitemSplitListCell extends Component {
