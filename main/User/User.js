@@ -11,7 +11,20 @@ import {
     Alert,
     AsyncStorage
 } from 'react-native';
-
+var photoOptions = {
+    title:'更换头像',
+    cancelButtonTitle:'取消',
+    takePhotoButtonTitle:'拍照',
+    chooseFromLibraryButtonTitle:'从本地相册选取',
+    quality:0.75,
+    allowsEditing:true,
+    noData:false,
+    storageOptions: {
+        skipBackup: true,
+        path:'images'
+    }
+}
+import ImagePicker from 'react-native-image-picker';
 import {getKey} from '../Util/Util.js';
 import SetGesture from './SetGesture';
 import Login from '../Login.js';
@@ -32,9 +45,10 @@ export default class User extends Component {
             rowHasChanged: (r1, r2) => r1 !== r2
         });
         this.state = {
-            username: '王韵杰',
-            recommend: '安全勘测工程师',
-            department: '安全监测监控部'
+            username: '',
+            recommend: '',
+            department: '',
+            image: null
         }
     }
 
@@ -67,7 +81,7 @@ export default class User extends Component {
     onPress(index) {
         const {navigator} = this.props;
         if (index == 0) {
-            
+
         } else if (index == 1) {
             navigator.push({
                 component: SetGesture,
@@ -81,13 +95,23 @@ export default class User extends Component {
             Alert.alert('温馨提示', '确定退出登录？',[
                 {text: '取消'},
                 {text: '确定', onPress() {
-                    navigator.replace({
-                        component: Login,
-                        name: 'Login'
+                    AsyncStorage.multiRemove([getKey('userMessage'), getKey('gestureSecret')], () => {
+                        navigator.replace({
+                            component: Login,
+                            name: 'Login'
+                        });
                     });
                 }}
             ]);
         }
+    }
+
+    cameraAction() {
+        ImagePicker.showImagePicker(photoOptions,(response) =>{
+            if (response.uri) {
+                this.setState({image: {uri:response.uri}});
+            }
+        });
     }
 
     renderRow(rowData, sectionId, rowId) {
@@ -105,7 +129,10 @@ export default class User extends Component {
         return (
             <View style={styles.header}>
                 <Image source={require('../../resource/imgs/user/user_bg.png')} style={styles.userBg}>
-                    <Image source={require('../../resource/imgs/user/default_icon.png')} style={styles.userIcon}/>
+                    <TouchableHighlight underlayColor='transparent' onPress={this.cameraAction.bind(this)}>
+                        <Image source={this.state.image ? this.state.image :
+                            require('../../resource/imgs/user/default_icon.png')} style={styles.userIcon}/>
+                    </TouchableHighlight>
                     <Text style={styles.userName}>{this.state.username}</Text>
                     <View style={styles.recommendView}>
                         <Image source={require('../../resource/imgs/user/recommend.png')} style={styles.recommendImg}/>
@@ -193,7 +220,8 @@ const styles = StyleSheet.create({
     },
     userIcon: {
         width: 0.0997*height,
-        height: 0.0997*height
+        height: 0.0997*height,
+        borderRadius: 0.0997*height/2
     },
     userName: {
         marginTop: 12,

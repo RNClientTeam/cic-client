@@ -6,43 +6,58 @@ import {
     Text,
     Image,
     Dimensions,
-    TouchableOpacity,
     ScrollView,
-    Alert,
+    StatusBar
 } from 'react-native';
 import Camera from 'react-native-camera';
+import QRCodeView from './QRCodeView.js';
+import CameraPageHeader from './CameraPageHeader.js';
+import CameraPageCode from './CameraPageCode.js';
+var {width, height} = Dimensions.get('window');
 export default class CameraPage extends Component{
     constructor(props) {
         super(props);
         this.camera = null;
+        this.showCamera = true;
         this.state = {
             camera: {
-                aspect: Camera.constants.Aspect.sretch,
-                captureTarget: Camera.constants.CaptureTarget.cameraRoll,
-                type: Camera.constants.Type.back,
+                aspect: Camera.constants.Aspect.fill,
                 orientation: Camera.constants.Orientation.auto,
-                flashMode: Camera.constants.FlashMode.auto,
+                flashMode: Camera.constants.FlashMode.auto
             }
         };
     }
 
     //扫描二维码
-    onBarCodeRead=(e)=>{
-        alert(e.data);
+    onBarCodeRead(objData) {
+        if (this.showCamera) {
+            this.showCamera = false;
+            this.props.navigator.replace({
+                name: 'QRCodeView',
+                component: QRCodeView,
+                params: {
+                    downloadURL: objData.data
+                }
+            });
+        }
     }
+
     render() {
         return (
             <View style={styles.container}>
+                <StatusBar barStyle="light-content" />
+                <CameraPageHeader title={this.props.title} navigator={this.props.navigator}/>
                 <Camera
                     ref={(cam) => {this.camera = cam;}}
                     style={styles.preview}
                     aspect={this.state.camera.aspect}
-                    captureTarget={this.state.camera.captureTarget}
-                    type={this.state.camera.type}
+                    captureQuality={'medium'}
                     flashMode={this.state.camera.flashMode}
                     defaultTouchToFocus
                     mirrorImage={false}
-                    onBarCodeRead={this.onBarCodeRead}/>
+                    onBarCodeRead={this.onBarCodeRead.bind(this)}>
+                    <CameraPageCode />
+                </Camera>
             </View>
         );
     }
@@ -54,7 +69,7 @@ const styles = StyleSheet.create({
     },
     preview: {
         flex: 1,
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
         alignItems: 'center',
     }
 });

@@ -18,6 +18,7 @@ import {
 var {width, height}  = Dimensions.get('window');
 import StatusBar from '../../Component/StatusBar.js';
 import EarlierStage from './EarlierStage/EarlierStage.js';
+import ProjectSubitemSplit from './ProjectSubitemSplit/ProjectSubitemSplit'
 import Setting from './Setting';
 import {getKey} from '../../Util/Util.js';
 
@@ -151,6 +152,7 @@ export default class Applications extends Component {
                     tempItem.sectionID = 0;
                     this.state.commonlyApp.push(tempItem);
                     this.setState({commonlyApp:this.state.commonlyApp});
+                    AsyncStorage.setItem(getKey('nativeCommonlyApp'), JSON.stringify(this.state.commonlyApp));
                 }
             } else {
                 //从常用应用中删除
@@ -158,6 +160,7 @@ export default class Applications extends Component {
                     if (this.state.commonlyApp[j].title === item.title) {
                         this.state.commonlyApp.splice(j, 1);
                         this.setState({commonlyApp:this.state.commonlyApp});
+                        AsyncStorage.setItem(getKey('nativeCommonlyApp'), JSON.stringify(this.state.commonlyApp));
                         break;
                     }
                 }
@@ -167,6 +170,11 @@ export default class Applications extends Component {
         if(item.title === '前期进度计划执行') {
             this.props.navigator.push({
                 component: EarlierStage,
+                name: 'EarlierStage'
+            });
+        }else if(item.title === '工程子项拆分') {
+            this.props.navigator.push({
+                component: ProjectSubitemSplit,
                 name: 'EarlierStage'
             });
         }
@@ -264,10 +272,6 @@ export default class Applications extends Component {
                 showSection: this.state.showSection
             });
         }
-    }
-
-    componentWillUnmount() {
-        AsyncStorage.setItem(getKey('nativeCommonlyApp'), JSON.stringify(this.state.commonlyApp));
     }
 }
 

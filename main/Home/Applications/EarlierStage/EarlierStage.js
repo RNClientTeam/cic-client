@@ -13,7 +13,7 @@ import {
 const {width}  = Dimensions.get('window');
 import StatusBar from '../../../Component/StatusBar'
 import EarlierStageList from './Component/EarlierStageList'
-import EarlierStageListHeader from './Component/EarlierStageListHeader'
+import SearchHeader from '../Component/SearchHeader'
 import EarlierStageListModalView from "./Component/EarlierStageListModalView";
 export default class EarlierStage extends Component{
     constructor(props){
@@ -23,11 +23,7 @@ export default class EarlierStage extends Component{
         }
     }
 
-    _showModal = () => this.setState({ isModalVisible: true })
-    _hideModal = () => this.setState({ isModalVisible: false })
-
     render(){
-        // {this.state.modalOpen?<EarlierStageListModalView  closeModal={()=>this.setState({modalOpen:false})} />:<View></View>}
         return(
             <View style={styles.earlierStage}>
                 <StatusBar navigator={this.props.navigator} title="前期进度计划执行">
@@ -35,7 +31,7 @@ export default class EarlierStage extends Component{
                         <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
-                <EarlierStageListHeader/>
+                <SearchHeader/>
                 <EarlierStageList navigator={this.props.navigator}/>
                 {this.state.isModalVisible?<EarlierStageListModalView isModalVisible={this.state.isModalVisible}  closeModal={()=>this.setState({isModalVisible:false})} />:<View></View>}
             </View>

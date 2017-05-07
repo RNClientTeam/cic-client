@@ -1,5 +1,5 @@
 /**
- * Created by Nealyang on 2017/4/30.
+ * Created by Nealyang on 2017/5/5.
  */
 'use strict';
 import React, {Component} from 'react'
@@ -10,10 +10,12 @@ import {
     Text,
     TouchableOpacity
 } from 'react-native'
-import EarlierStageDetail from "./EarlierStageDetail";
+
+import ProjectSubitemSplitDetail from "./ProjectSubitemSplitDetail";
 const {width} = Dimensions.get('window');
 
-export default class EarlierStageListCell extends Component {
+export default class ProjectSubitemSplitListCell extends Component {
+
     render() {
         return (
             <View>
@@ -21,7 +23,7 @@ export default class EarlierStageListCell extends Component {
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
                             <Text style={{color:'#216fd0',fontSize:width*0.045}}>{this.props.data.number}</Text>
-                            <View style={[styles.stateView]}>
+                            <View style={[styles.stateView,{backgroundColor:this.props.stateBg}]}>
                                 <Text style={styles.stateText}>{this.props.data.state}</Text>
                             </View>
                         </View>
@@ -46,8 +48,9 @@ export default class EarlierStageListCell extends Component {
 
     skipPage(){
         this.props.navigator.push({
-            component: EarlierStageDetail,
-            name: 'EarlierStageDetail'
+            component: ProjectSubitemSplitDetail,
+            name: 'ProjectSubitemSplitDetail',
+            params:{proName:this.props.data.planName,proNum:this.props.data.number}
         });
     }
 }
@@ -93,8 +96,8 @@ const styles = StyleSheet.create({
         color:'#4f74a3'
     },
     stateView: {
-        backgroundColor: '#fe9a25',
-        width:width*0.12,
+        backgroundColor: '#1f92e2',
+        width:width*0.17,
         height:width*0.05,
         borderRadius:3,
         justifyContent:'center',

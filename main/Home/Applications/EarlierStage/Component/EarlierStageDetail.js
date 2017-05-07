@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import StatusBar from '../../../../Component/StatusBar.js';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+import ScrollableTabView, {DefaultTabBar, ScrollableTabBar} from 'react-native-scrollable-tab-view';
 import CooperateTask from "./CooperateTask";
 import ShareData from "./ShareData";
 import General from './General.js';
@@ -36,7 +36,7 @@ export default class EarlierStageDetail extends Component {
                         <Text style={styles.percentText}>80%</Text>
                     </View>
                 </Image>
-                <ScrollableTabView locked={true}
+                <ScrollableTabView
                     tabBarUnderlineStyle={{backgroundColor:'#51a5f0',height:2}}
                     tabBarActiveTextColor='#51a5f0'
                     tabBarInactiveTextColor='#3d3d3d'>

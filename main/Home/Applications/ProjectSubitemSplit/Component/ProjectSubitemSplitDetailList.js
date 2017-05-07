@@ -1,71 +1,58 @@
 /**
- * Created by Nealyang on 2017/4/30.
+ * Created by Nealyang on 2017/5/6.
  */
 'use strict';
-import React, {Component} from 'react'
+import React,{Component} from 'react'
 import {
     View,
     StyleSheet,
     Dimensions,
-    FlatList,
-    Text,
     ListView
 } from 'react-native'
-const {width} = Dimensions.get('window');
-import EarlierStageListCell from './EarlierStageListCell'
+import ProjectSubitemSplitDetailCell from "./ProjectSubitemSplitDetailCell";
+const {width}  = Dimensions.get('window');
 import {PullList} from 'react-native-pull';
 import LoadMore from "../../../../Component/LoadMore";
-import CooperateTaskCell from "./CooperateTaskCell";
 import Reload from "../../../../Component/Reload";
-export default class EarlierStageList extends Component {
+export default class ProjectSubitemSplitDetailList extends Component{
     constructor(props) {
         super(props);
         this.dataSource = [
             {
-                number: 'CX_DS16052',
-                state: '执行中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
+                state: '拆分审核中',
+                planName: '子项工程一',
                 principal: '杨磊',
                 department: '技术部',
                 schedule: '10%',
                 time: '2017/11/11-2017/12/12'
             },
             {
-                number: 'CX_DS16051',
-                state: '执行中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
+                state: '新建',
+                planName: '子项工程一',
                 principal: '杨磊',
                 department: '技术部',
                 schedule: '10%',
                 time: '2017/11/11-2017/12/12'
             },
             {
-                number: 'CX_DS17051',
-                state: '执行中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
+                state: '已交接',
+                planName: '子项工程一',
                 principal: '杨磊',
                 department: '技术部',
                 schedule: '10%',
                 time: '2017/11/11-2017/12/12'
             },
             {
-                number: 'CX_DS66051',
-                state: '执行中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
+                state: '已拆分子项',
+                planName: '子项工程一',
                 principal: '杨磊',
                 department: '技术部',
                 schedule: '10%',
                 time: '2017/11/11-2017/12/12'
             },
             {
-                number: 'CX_DS36051',
-                state: '执行中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
+                state: '已拆分子项',
+                planName: '子项工程一',
                 principal: '杨磊',
                 department: '技术部',
                 schedule: '10%',
@@ -80,7 +67,7 @@ export default class EarlierStageList extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View style={styles.ProjectSubitemSplitDetailList}>
                 <PullList
                     onPullRelease={this.onPullRelease.bind(this)}
                     topIndicatorRender={this.topIndicatorRender.bind(this)}
@@ -103,9 +90,16 @@ export default class EarlierStageList extends Component {
     }
 
     renderRow(item, sectionID, rowID, highlightRow) {
-
+        let stateBg = '#fe9a25';
+        if(item.state === '新建'){
+            stateBg='#29b0f5';
+        }else if(item.state === '已拆分子项'){
+            stateBg='#1f92e2';
+        }else if(item.state === '已交接'){
+            stateBg='#18d0ca';
+        }
         return (
-            <EarlierStageListCell key={rowID} navigator={this.props.navigator} data={item}/>
+            <ProjectSubitemSplitDetailCell proName={this.props.proName} proNum={this.props.proNum} stateBg={stateBg} key={rowID} navigator={this.props.navigator} data={item}/>
         );
     }
 
@@ -120,50 +114,40 @@ export default class EarlierStageList extends Component {
     loadMore() {
         let a = [
             {
-                number: 'CX_DS16052',
-                state: '执行中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
+                state: '已交接',
+                planName: '子项工程一',
                 principal: '杨磊',
                 department: '技术部',
                 schedule: '10%',
                 time: '2017/11/11-2017/12/12'
             },
             {
-                number: 'CX_DS16051',
-                state: '执行中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
+                state: '已交接',
+                planName: '子项工程一',
                 principal: '杨磊',
                 department: '技术部',
                 schedule: '10%',
                 time: '2017/11/11-2017/12/12'
             },
             {
-                number: 'CX_DS17051',
-                state: '执行中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
+                state: '已拆分子项',
+                planName: '子项工程一',
                 principal: '杨磊',
                 department: '技术部',
                 schedule: '10%',
                 time: '2017/11/11-2017/12/12'
             },
             {
-                number: 'CX_DS66051',
-                state: '执行中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
+                state: '拆分审核中',
+                planName: '子项工程一',
                 principal: '杨磊',
                 department: '技术部',
                 schedule: '10%',
                 time: '2017/11/11-2017/12/12'
             },
             {
-                number: 'CX_DS36051',
-                state: '执行中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
+                state: '新建',
+                planName: '子项工程一',
                 principal: '杨磊',
                 department: '技术部',
                 schedule: '10%',
@@ -180,12 +164,10 @@ export default class EarlierStageList extends Component {
             });
         }, 1000);
     }
-
-
 }
 
 const styles = StyleSheet.create({
-    container: {
+    ProjectSubitemSplitDetailList:{
         flex: 1,
         backgroundColor: '#f2f2f2'
     }
