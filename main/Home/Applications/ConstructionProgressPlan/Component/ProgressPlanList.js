@@ -187,7 +187,7 @@ export default class ProgressPlanList extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'white',
+        backgroundColor: '#f2f2f2',
         paddingTop: 0.02 * width
     }
 });

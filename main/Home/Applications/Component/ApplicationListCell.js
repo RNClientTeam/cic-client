@@ -13,6 +13,7 @@ import {
 import EarlierStageDetail from "../EarlierStage/Component/EarlierStageDetail";
 import ProgressPlanDetail from "../ConstructionProgressPlan/Component/ProgressPlanDetail"
 import ProjectSubitemSplitDetail from "../ProjectSubitemSplit/Component/ProjectSubitemSplitDetail"
+import ProjectRangeHandoverDetail from "../ProjectRangeHandover/Component/ProjectRangeHandoverDetail";
 
 const {width} = Dimensions.get('window');
 
@@ -23,21 +24,21 @@ export default class EarlierStageListCell extends Component {
                 <TouchableOpacity style={styles.earlierStageListCell} onPress={this.skipPage.bind(this)}>
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
-                            <Text style={{color:'#216fd0',fontSize:width*0.045}}>{this.props.data.number}</Text>
+                            <Text style={{color: '#216fd0', fontSize: width * 0.045}}>{this.props.data.number}</Text>
                             {this.props.stateBg ?
-                                <View  style={[styles.stateView, {backgroundColor:this.props.stateBg}]}>
+                                <View style={[styles.stateView, {backgroundColor: this.props.stateBg}]}>
                                     <Text style={styles.stateText}>{this.props.data.state}</Text>
                                 </View> :
-                                <View  style={[styles.stateView]}>
+                                <View style={[styles.stateView]}>
                                     <Text style={styles.stateText}>{this.props.data.state}</Text>
                                 </View>
                             }
                         </View>
                         <View style={styles.projectName}>
                             <Text>{this.props.data.planName}</Text>
-                            <View style={{flexDirection: 'row',alignItems:'center'}}>
+                            <View style={{flexDirection: 'row', alignItems: 'center'}}>
                                 <Text>{this.props.data.contentNum}</Text>
-                                <Text style={{color:'#999',fontSize:width*0.05}}> > </Text>
+                                <Text style={{color: '#999', fontSize: width * 0.05}}> > </Text>
                             </View>
                         </View>
                     </View>
@@ -52,8 +53,8 @@ export default class EarlierStageListCell extends Component {
         )
     }
 
-    skipPage(){
-        switch(this.props.target) {
+    skipPage() {
+        switch (this.props.target) {
             case 'EarlierStageDetail':
                 this.props.navigator.push({
                     component: EarlierStageDetail,
@@ -70,7 +71,19 @@ export default class EarlierStageListCell extends Component {
                 this.props.navigator.push({
                     component: ProjectSubitemSplitDetail,
                     name: 'ProjectSubitemSplitDetail',
-                    params:{proName:this.props.data.planName,proNum:this.props.data.number}
+                    params: {proName: this.props.data.planName, proNum: this.props.data.number}
+                });
+                break;
+            case 'ProjectRangeHandoverDetail':
+                this.props.navigator.push({
+                    component: ProjectRangeHandoverDetail,
+                    name: 'ProjectRangeHandoverDetail',
+                    params: {
+                        proName: this.props.data.planName,
+                        proNum: this.props.data.number,
+                        proState:this.props.data.state,
+                        stateBg:this.props.stateBg
+                    }
                 });
                 break;
         }
@@ -115,15 +128,15 @@ const styles = StyleSheet.create({
     textStyle: {
         height: width * 0.1,
         lineHeight: 30,
-        color:'#4f74a3'
+        color: '#4f74a3'
     },
     stateView: {
         backgroundColor: '#fe9a25',
-        width:width*0.17,
-        height:width*0.05,
-        borderRadius:3,
-        justifyContent:'center',
-        alignItems:'center'
+        width: width * 0.17,
+        height: width * 0.05,
+        borderRadius: 3,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     stateText: {color: '#fff', fontSize: width * 0.03}
 

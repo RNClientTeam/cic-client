@@ -12,7 +12,7 @@ import {
 import KeyValue from "../../../../Component/KeyValue";
 const {width} = Dimensions.get('window');
 
-export default class ProjectSubitemSplitInfo extends Component {
+export default class ProjectRangeHandoverInfo extends Component {
 
     constructor(props){
         super(props);
@@ -36,20 +36,23 @@ export default class ProjectSubitemSplitInfo extends Component {
                         【电气业务】{this.props.proNum} {this.props.proName}
                     </Text>
                 </View>
-                {this.renderKV()}
+                <KeyValue  propsKey='所属部门' propsValue='市场营销一部'/>
+                <KeyValue  propsKey='项目经理' propsValue='哈哈哈'/>
+                <View style={styles.stateView}>
+                    <View style={styles.textContainer}>
+                        <Text style={{color:'#5476a1'}}>交接状态</Text>
+                    </View>
+                    <View style={styles.textContainer}>
+                        <View style={{backgroundColor:this.props.stateBg,height:width*0.05,width:this.props.proState.length*15,justifyContent:'center',borderRadius:6}}>
+                            <Text style={{color:'#fff',fontSize:width*0.034,textAlign:'center'}}>{this.props.proState}</Text>
+                        </View>
+                    </View>
+                </View>
+                <KeyValue  propsKey='拆分时间' propsValue='2017-02-16'/>
             </View>
         )
     }
 
-    renderKV = ()=>{
-        let tpl = [];
-        for(let i = 0;i<this.state.dataSource.length;i++){
-            tpl.push(
-                <KeyValue key={i} propsKey={this.state.dataSource[i].key} propsValue={this.state.dataSource[i].value}/>
-            )
-        }
-        return tpl;
-    }
 }
 
 const styles = StyleSheet.create({
@@ -65,5 +68,17 @@ const styles = StyleSheet.create({
     headerText: {
         fontWeight: '500',
         marginLeft:width*0.02
+    },
+    stateView:{
+        flexDirection:'row',
+        backgroundColor:'#fff',
+        height:width*0.12,
+        borderBottomWidth:1,
+        borderBottomColor:'#ddd'
+    },
+    textContainer:{
+        flex:1,
+        paddingLeft:width*0.02,
+        justifyContent:'center'
     }
 });

@@ -11,11 +11,13 @@ import {
 } from 'react-native'
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import StatusBar from "../../../../Component/StatusBar";
-import ProjectSubitemSplitInfo from "./ProjectSubitemSplitInfo";
-import ProjectSubitemSplitDetailList from "./ProjectSubitemSplitDetailList";
+import ProjectRangeHandoverInfo from "./ProjectRangeHandoverInfo";
+import ProjectRangeHandoverDetailList from "./ProjectRangeHandoverDetailList";
+// import ProjectSubitemSplitInfo from "./ProjectSubitemSplitInfo";
+// import ProjectSubitemSplitDetailList from "./ProjectSubitemSplitDetailList";
 const {width}  = Dimensions.get('window');
 
-export default class ProjectSubitemSplitDetail extends Component{
+export default class ProjectRangeHandoverDetail extends Component{
     render(){
         return(
             <View style={styles.projectSubitemSplitDetail}>
@@ -25,8 +27,8 @@ export default class ProjectSubitemSplitDetail extends Component{
                     tabBarUnderlineStyle={{backgroundColor:'#51a5f0',height:2}}
                     tabBarActiveTextColor='#51a5f0'
                     tabBarInactiveTextColor='#3d3d3d'>
-                    <ProjectSubitemSplitInfo proName={this.props.proName} proNum={this.props.proNum}  tabLabel='详情'/>
-                    <ProjectSubitemSplitDetailList navigator={this.props.navigator} proName={this.props.proName} proNum={this.props.proNum} tabLabel='工程子项'/>
+                    <ProjectRangeHandoverInfo proName={this.props.proName} proNum={this.props.proNum} proState={this.props.proState} stateBg={this.props.stateBg} tabLabel='详情'/>
+                    <ProjectRangeHandoverDetailList navigator={this.props.navigator} proName={this.props.proName} proNum={this.props.proNum} tabLabel='工程子项'/>
                 </ScrollableTabView>
             </View>
         )

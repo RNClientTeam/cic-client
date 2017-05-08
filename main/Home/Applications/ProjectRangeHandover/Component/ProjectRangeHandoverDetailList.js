@@ -14,7 +14,7 @@ const {width}  = Dimensions.get('window');
 import {PullList} from 'react-native-pull';
 import LoadMore from "../../../../Component/LoadMore";
 import Reload from "../../../../Component/Reload";
-export default class ProjectSubitemSplitDetailList extends Component{
+export default class ProjectRangeHandoverDetailList extends Component{
     constructor(props) {
         super(props);
         this.dataSource = [
@@ -99,7 +99,7 @@ export default class ProjectSubitemSplitDetailList extends Component{
             stateBg='#18d0ca';
         }
         return (
-            <ApplicationSubitemCell target="ProjectSubitemSplitDetailInfo" proName={this.props.proName} proNum={this.props.proNum} stateBg={stateBg} key={rowID} navigator={this.props.navigator} data={item}/>
+            <ApplicationSubitemCell target="ProjectRangeHandoverDetailInfo" proName={this.props.proName} proNum={this.props.proNum} stateBg={stateBg} key={rowID} navigator={this.props.navigator} data={item}/>
         );
     }
 
