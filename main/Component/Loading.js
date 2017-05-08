@@ -29,6 +29,6 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         width:width,
         height:height,
-        backgroundColor:'rgba(0,0,0,.2)'
+        backgroundColor:'rgba(0,0,0,.5)'
     }
 });

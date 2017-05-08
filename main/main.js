@@ -8,8 +8,6 @@ import {
     Dimensions,
     Image
 } from 'react-native';
-import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
-import PdfPage from  './Util/PdfPage';
 import TabNavigator from 'react-native-tab-navigator';
 import Home from './Home/Home.js';
 import Message from './Message/Message.js';

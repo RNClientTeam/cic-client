@@ -22,7 +22,7 @@ import CameraPage from './Component/CameraPage';
 export default class Home extends Component {
     render() {
         return (
-            <View>
+            <View style={{paddingBottom:50}}>
                 <StatusBar notBack={true} navigator={this.props.navigator}>
                     <Image style={styles.logoStyle} source={require('../../resource/imgs/home/home_logo.png')}/>
                     <Text style={styles.logoText}>九州方圆</Text>
@@ -42,7 +42,7 @@ export default class Home extends Component {
                         {/*公司经营状况*/}
                         <ManageState/>
                         {/*最新消息*/}
-                        <Notification/>
+                        <Notification navigator={this.props.navigator}/>
                     </View>
                 </ScrollView>
             </View>
