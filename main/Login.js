@@ -18,6 +18,7 @@ import GestureLogin from './User/GestureLogin.js';
 import {getKey, MD5Encrypt, AESDecrypt, getSign} from './Util/Util.js';
 import FetURL from './Util/service.json';
 import Toast from 'react-native-simple-toast';
+import Loading from "./Component/Loading";
 
 export default class Login extends Component {
     constructor(props) {
@@ -25,7 +26,8 @@ export default class Login extends Component {
         this.state = {
             username: '',
             password: '',
-            warningText: ''
+            warningText: '',
+            isLoading:false
         }
     }
 
@@ -108,6 +110,7 @@ export default class Login extends Component {
                         </Text>
                     </View>
                 </TouchableHighlight>
+                {this.state.isLoading?<Loading/>:null}
             </ScrollView>
         );
     }
@@ -117,6 +120,9 @@ export default class Login extends Component {
             this.setState({warningText: '用户名或密码不能为空！'});
             return;
         }
+        this.setState({
+            isLoading:true
+        });
         let loginURL = FetURL.baseUrl+'/user/login?loginName='+this.state.username+'&password='+MD5Encrypt(this.state.password);
         //通过接口判断用户名密码是否正确
         fetch(loginURL, {
@@ -141,7 +147,7 @@ export default class Login extends Component {
                 var userMessage = AESDecrypt(responseData.data, responseData.secretKey);
                 storage.save({
                     key: getKey('userMessage'),
-                    data: userMessage
+                    data: JSON.parse(userMessage)
                 });
                 storage.save({
                     key: getKey('secretKey'),
@@ -154,12 +160,18 @@ export default class Login extends Component {
                     name: 'Main',
                     type: 'fade'
                 });
+                this.setState({
+                    isLoading:false
+                });
             } else {
                 this.setState({warningText: '用户名或密码错误！'});
             }
         })
         .catch((error) => {
             this.setState({warningText: '请检查网络！'});
+            this.setState({
+                isLoading:false
+            });
             Toast.show('请检查网络！');
         });
     }

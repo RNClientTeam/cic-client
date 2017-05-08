@@ -18,7 +18,7 @@ import Signed from './Signed/Signed'
 import DownLoadFc from  './../Util/DownLoadFc';
 import CameraPage from './Component/CameraPage';
 import keys from '../Util/storageKeys.json'
-
+import {getSign} from '../Util/Util'
 
 export default class Home extends Component {
     render() {
@@ -111,11 +111,14 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
-        // alert(storage.load({
-        //     key:keys.secretKey
-        // })).then((data)=>{
-        //     console.log(data)
-        // })
+        storage.load({
+            key:keys.userMessage
+        }).then((data)=>{
+            let userID = data.userID;
+            let sign = getSign({userID:userID});
+            console.log(userID,sign)
+        })
+
     }
 }
 
