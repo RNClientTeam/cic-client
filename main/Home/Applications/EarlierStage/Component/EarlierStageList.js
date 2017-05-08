@@ -12,7 +12,7 @@ import {
     ListView
 } from 'react-native'
 const {width} = Dimensions.get('window');
-import EarlierStageListCell from './EarlierStageListCell'
+import EarlierStageListCell from '../../Component/ApplicationListCell'
 import {PullList} from 'react-native-pull';
 import LoadMore from "../../../../Component/LoadMore";
 import CooperateTaskCell from "./CooperateTaskCell";
@@ -105,7 +105,7 @@ export default class EarlierStageList extends Component {
     renderRow(item, sectionID, rowID, highlightRow) {
 
         return (
-            <EarlierStageListCell key={rowID} navigator={this.props.navigator} data={item}/>
+            <EarlierStageListCell key={rowID} navigator={this.props.navigator} data={item} target="EarlierStageDetail"/>
         );
     }
 

@@ -13,7 +13,7 @@ import {
     ListView
 } from 'react-native'
 const {width} = Dimensions.get('window');
-import ProjectSubitemSplitListCell from './ProjectSubitemSplitCell'
+import ProjectSubitemSplitListCell from '../../Component/ApplicationListCell'
 import {PullList} from 'react-native-pull';
 import LoadMore from "../../../../Component/LoadMore";
 import Reload from "../../../../Component/Reload";
@@ -113,7 +113,8 @@ export default class ProjectSubitemSplitSearchHeader extends Component {
             stateBg='#18d0ca';
         }
         return (
-            <ProjectSubitemSplitListCell stateBg={stateBg} key={rowID} navigator={this.props.navigator} data={item}/>
+            <ProjectSubitemSplitListCell stateBg={stateBg} key={rowID} navigator={this.props.navigator}
+                                         data={item} target="ProjectSubitemSplitDetail"/>
         );
     }
 

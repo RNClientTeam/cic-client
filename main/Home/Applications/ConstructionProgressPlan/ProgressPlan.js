@@ -27,7 +27,7 @@ export default class ProgressPlan extends Component {
                     </TouchableOpacity>
                 </StatusBar>
                 <SearchHeader/>
-                <ProgressPlanList/>
+                <ProgressPlanList navigator={this.props.navigator}/>
             </View>
         )
     }
