@@ -76,7 +76,7 @@ export default class Login extends Component {
                     leftImageSource={require('../resource/imgs/login/ic_user.png')}
                     style={styles.myInput}
                     text={this.state.username}
-                    onChangeText={(text)=>this.setState({username:text})}/>
+                    onChangeText={(text)=>this.setState({username:text,warningText:''})}/>
                 {/**密码**/}
                 <MyTextInput
                     placeholder="请输入密码"
@@ -84,7 +84,7 @@ export default class Login extends Component {
                     style={styles.myInput}
                     secureTextEntry={true}
                     text={this.state.password}
-                    onChangeText={(text)=>this.setState({password:text})}/>
+                    onChangeText={(text)=>this.setState({password:text,warningText:''})}/>
 
                 {/**忘记密码**/}
                 <TouchableHighlight underlayColor='transparent' onPress={()=>{}} style={{alignSelf:'flex-start',marginLeft:20}}>

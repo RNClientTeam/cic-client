@@ -28,11 +28,18 @@ export default class GestureLogin extends Component {
     }
     onEnd(password) {
         if (Password1 === '') {
-            Password1 = password;
-            this.setState({
-                status: 'normal',
-                message: '请再次输入密码'
-            });
+            if (password.length < 4) {
+                this.setState({
+                    status: 'normal',
+                    message: '密码过于简单，请重新设置'
+                });
+            } else {
+                Password1 = password;
+                this.setState({
+                    status: 'normal',
+                    message: '请再次输入密码'
+                });
+            }
         } else if (Password1 !== password){
             this.setState({
                 status: 'wrong',
@@ -60,7 +67,7 @@ export default class GestureLogin extends Component {
                 ref='pg'
                 bgSource={require('../../resource/imgs/login/bgImage.png')}
                 safeSource={require('../../resource/imgs/login/safe.png')}
-                allowCross={true}
+                allowCross={false}
                 interval={300}
                 rightColor='white'
                 isLogin={false}

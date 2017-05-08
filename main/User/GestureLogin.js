@@ -48,7 +48,7 @@ export default class GestureLogin extends Component {
                 ref='pg'
                 bgSource={require('../../resource/imgs/login/bgImage.png')}
                 safeSource={require('../../resource/imgs/login/safe.png')}
-                allowCross={true}
+                allowCross={false}
                 interval={300}
                 rightColor='white'
                 isLogin={true}

@@ -29,10 +29,14 @@ export function AESDecrypt(base64Str, secretKey) {
     return userMessage;
 }
 
-//获取修改密码时的签名sign
-export function getSign(newPassword, oldPassword, userID, secretKey) {
-    var str = 'newPassword='+newPassword+'oldPassword='+oldPassword+'userID='+userID+secretKey;
-    return CryptoJS.SHA1(str).toString();
+//获取签名sign
+export function getSign(message, secretKey) {
+    var sortKeys = Object.keys(message).sort();
+    var str = '';
+    for (var key in sortKeys) {
+        str = str + sortKeys[key] + '=' + message[sortKeys[key]];
+    }
+    return CryptoJS.SHA1(str+secretKey).toString();
 }
 
 
