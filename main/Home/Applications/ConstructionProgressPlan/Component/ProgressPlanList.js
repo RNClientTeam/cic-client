@@ -1,23 +1,26 @@
 /**
- * Created by Nealyang on 2017/4/30.
+ * Created by zhubin on 17/5/8.
  */
-'use strict';
 import React, {Component} from 'react'
 import {
     View,
-    StyleSheet,
-    Dimensions,
-    FlatList,
+    Image,
     Text,
-    ListView
-} from 'react-native'
-const {width} = Dimensions.get('window');
-import EarlierStageListCell from '../../Component/ApplicationListCell'
-import {PullList} from 'react-native-pull';
-import LoadMore from "../../../../Component/LoadMore";
-import CooperateTaskCell from "./CooperateTaskCell";
-import Reload from "../../../../Component/Reload";
-export default class EarlierStageList extends Component {
+    TouchableOpacity,
+    SectionList,
+    ListView,
+    StyleSheet,
+    Dimensions
+} from 'react-native';
+
+import ApplicationListCell from '../../Component/ApplicationListCell'
+import {PullList} from 'react-native-pull'
+import LoadMore from "../../../../Component/LoadMore"
+import Reload from "../../../../Component/Reload"
+
+const {width, height} = Dimensions.get('window');
+
+export default class ProgressPlanList extends Component {
     constructor(props) {
         super(props);
         this.dataSource = [
@@ -79,22 +82,21 @@ export default class EarlierStageList extends Component {
     }
 
     render() {
-        return (
+        return(
             <View style={styles.container}>
                 <PullList
                     onPullRelease={this.onPullRelease.bind(this)}
-                    topIndicatorRender={this.topIndicatorRender.bind(this)}
+                    topIndicatorRender={() => this.topIndicatorRender()}
                     topIndicatorHeight={60}
                     dataSource={this.state.list}
                     renderRow={this.renderRow.bind(this)}
-                    onEndReached={this.loadMore.bind(this)}
+                    onEndReached={() => this.loadMore()}
                     onEndReachedThreshold={60}
-                    renderFooter={this.renderFooter.bind(this)}
+                    renderFooter={() => this.renderFooter()}
                 />
             </View>
         )
     }
-
     onPullRelease(resolve) {
         //do refresh
         setTimeout(() => {
@@ -105,7 +107,7 @@ export default class EarlierStageList extends Component {
     renderRow(item, sectionID, rowID, highlightRow) {
 
         return (
-            <EarlierStageListCell key={rowID} navigator={this.props.navigator} data={item} target="EarlierStageDetail"/>
+            <ApplicationListCell key={rowID} navigator={this.props.navigator} data={item} target="ProgressPlanDetail"/>
         );
     }
 
@@ -180,13 +182,12 @@ export default class EarlierStageList extends Component {
             });
         }, 1000);
     }
-
-
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f2f2f2'
+        backgroundColor: 'white',
+        paddingTop: 0.02 * width
     }
 });

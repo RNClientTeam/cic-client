@@ -10,7 +10,10 @@ import {
     Text,
     TouchableOpacity
 } from 'react-native'
-import EarlierStageDetail from "./EarlierStageDetail";
+import EarlierStageDetail from "../EarlierStage/Component/EarlierStageDetail";
+import ProgressPlanDetail from "../ConstructionProgressPlan/Component/ProgressPlanDetail"
+import ProjectSubitemSplitDetail from "../ProjectSubitemSplit/Component/ProjectSubitemSplitDetail"
+
 const {width} = Dimensions.get('window');
 
 export default class EarlierStageListCell extends Component {
@@ -21,9 +24,14 @@ export default class EarlierStageListCell extends Component {
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
                             <Text style={{color:'#216fd0',fontSize:width*0.045}}>{this.props.data.number}</Text>
-                            <View style={[styles.stateView]}>
-                                <Text style={styles.stateText}>{this.props.data.state}</Text>
-                            </View>
+                            {this.props.stateBg ?
+                                <View  style={[styles.stateView, {backgroundColor:this.props.stateBg}]}>
+                                    <Text style={styles.stateText}>{this.props.data.state}</Text>
+                                </View> :
+                                <View  style={[styles.stateView]}>
+                                    <Text style={styles.stateText}>{this.props.data.state}</Text>
+                                </View>
+                            }
                         </View>
                         <View style={styles.projectName}>
                             <Text>{this.props.data.planName}</Text>
@@ -45,10 +53,27 @@ export default class EarlierStageListCell extends Component {
     }
 
     skipPage(){
-        this.props.navigator.push({
-            component: EarlierStageDetail,
-            name: 'EarlierStageDetail'
-        });
+        switch(this.props.target) {
+            case 'EarlierStageDetail':
+                this.props.navigator.push({
+                    component: EarlierStageDetail,
+                    name: 'EarlierStageDetail'
+                });
+                break;
+            case 'ProgressPlanDetail':
+                this.props.navigator.push({
+                    component: ProgressPlanDetail,
+                    name: 'ProgressPlanDetail'
+                });
+                break;
+            case 'ProjectSubitemSplitDetail':
+                this.props.navigator.push({
+                    component: ProjectSubitemSplitDetail,
+                    name: 'ProjectSubitemSplitDetail',
+                    params:{proName:this.props.data.planName,proNum:this.props.data.number}
+                });
+                break;
+        }
     }
 }
 
@@ -94,7 +119,7 @@ const styles = StyleSheet.create({
     },
     stateView: {
         backgroundColor: '#fe9a25',
-        width:width*0.12,
+        width:width*0.17,
         height:width*0.05,
         borderRadius:3,
         justifyContent:'center',
