@@ -3,7 +3,8 @@ const allKeys = {
     'gestureSecret'     : 'gestureSecret',
     'nativeCommonlyApp' : 'nativeCommonlyApp',
     'userMessage'       : 'userMessage',
-    'usernameAndPW'     : 'usernameAndPW'
+    'usernameAndPW'     : 'usernameAndPW',
+    'secretKey'         : 'secretKey'
 };
 
 //统一管理所有本地数据对应的键名，方便查看

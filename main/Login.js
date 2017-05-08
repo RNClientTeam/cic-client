@@ -7,7 +7,6 @@ import {
     TouchableHighlight,
     Dimensions,
     ScrollView,
-    AsyncStorage,
     Image,
     Keyboard
 } from 'react-native';
@@ -29,22 +28,33 @@ export default class Login extends Component {
             warningText: ''
         }
     }
-    componentWillMount() {
-        AsyncStorage.getItem(getKey('gestureSecret'), (error, result) => {
-            //获取到有手势密码,切换路由到手势解锁登录
-            if (result) {
+
+    componentDidMount() {
+        storage.load({
+            key: getKey('gestureSecret')
+        }).then((res)=>{
+            if (res) {
                 this.props.navigator.replace({
                     name: 'GestureLogin',
                     component: GestureLogin,
                     type: 'fade',
                     params: {
-                        password: result
+                        password: res
                     }
                 });
             }
+        }).catch(err => {
+            switch (err.name) {
+                case 'NotFoundError':
+                    // TODO;
+
+                    break;
+                case 'ExpiredError':
+                    // TODO
+
+                    break;
+            }
         });
-    }
-    componentDidMount() {
         this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', this._keyboardWillShow.bind(this));
         this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', this._keyboardWillHide.bind(this));
     }
@@ -122,10 +132,21 @@ export default class Login extends Component {
                     username: this.state.username,
                     password: this.state.password
                 };
-                AsyncStorage.setItem(getKey('usernameAndPW'), JSON.stringify(usernameAndPW));
+                storage.save({
+                    key: getKey('usernameAndPW'),
+                    data: usernameAndPW
+                });
+
                 //获取用户信息
                 var userMessage = AESDecrypt(responseData.data, responseData.secretKey);
-                AsyncStorage.setItem(getKey('userMessage'), userMessage);
+                storage.save({
+                    key: getKey('userMessage'),
+                    data: userMessage
+                });
+                storage.save({
+                    key: getKey('secretKey'),
+                    data: responseData.secretKey
+                });
                 //登录成功
                 this.setState({warningText: ''});
                 this.props.navigator.replace({

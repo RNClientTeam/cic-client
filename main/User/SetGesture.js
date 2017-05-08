@@ -3,8 +3,7 @@ import React, {Component} from 'react';
 import {
     View,
     Image,
-    TextInput,
-    AsyncStorage
+    TextInput
 } from 'react-native';
 
 import GesturePassword from '../lib/gesturePassword/index.js';
@@ -53,11 +52,11 @@ export default class GestureLogin extends Component {
                 message: '设置密码成功'
             });
             this.timer = setTimeout(() => {
-                AsyncStorage.setItem(getKey('gestureSecret'), password, (error) => {
-                    if (!error) {
-                        this.props.navigator.pop();
-                    }
+                storage.save({
+                    key: getKey('gestureSecret'),
+                    data: password
                 });
+                this.props.navigator.pop();
             }, 320);
         }
     }

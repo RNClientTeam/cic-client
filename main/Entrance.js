@@ -13,7 +13,7 @@ import Storage from 'react-native-storage';
 import Login from './Login.js';
 
 export default class Entrance extends Component {
-    componentDidMount() {
+    componentWillMount() {
         Splash.hide();
         let storage = new Storage({
             // 最大容量，默认值1000条数据循环存储
