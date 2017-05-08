@@ -17,6 +17,7 @@ import Notification from './Component/Notification'
 import Signed from './Signed/Signed'
 import DownLoadFc from  './../Util/DownLoadFc';
 import CameraPage from './Component/CameraPage';
+import keys from '../Util/storageKeys.json'
 
 
 export default class Home extends Component {
@@ -107,6 +108,14 @@ export default class Home extends Component {
             component: Signed,
             name: 'Signed'
         })
+    }
+
+    componentDidMount() {
+        // alert(storage.load({
+        //     key:keys.secretKey
+        // })).then((data)=>{
+        //     console.log(data)
+        // })
     }
 }
 
