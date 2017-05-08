@@ -21,6 +21,7 @@ import EarlierStage from './EarlierStage/EarlierStage.js';
 import ProjectSubitemSplit from './ProjectSubitemSplit/ProjectSubitemSplit'
 import Setting from './Setting';
 import {getKey} from '../../Util/Util.js';
+import ProjectRangeHandover from "./ProjectRangeHandover/ProjectRangeHandover";
 
 var commonlyApp = [
     {title:'前期进度计划执行', image: require('../../../resource/imgs/home/applications/scheduleExecution.png'), sectionID:0},
@@ -176,6 +177,11 @@ export default class Applications extends Component {
             this.props.navigator.push({
                 component: ProjectSubitemSplit,
                 name: 'EarlierStage'
+            });
+        }else if(item.title === '工程范围交接') {
+            this.props.navigator.push({
+                component: ProjectRangeHandover,
+                name: 'ProjectRangeHandover'
             });
         }
     }
