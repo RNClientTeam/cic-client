@@ -55,11 +55,10 @@ export default class User extends Component {
         storage.load({
             key: getKey('userMessage')
         }).then((result)=>{
-            let userMessage = JSON.parse(result);
             this.setState({
-                department: userMessage.companyName,
-                username: userMessage.userID,
-                recommend: userMessage.deptName
+                department: result.companyName,
+                username: result.userID,
+                recommend: result.deptName
             });
         }).catch(err => {
             switch (err.name) {
@@ -91,7 +90,7 @@ export default class User extends Component {
     onPress(index) {
         const {navigator} = this.props;
         if (index == 0) {
-            
+
         } else if (index == 1) {
             navigator.push({
                 component: SetGesture,
