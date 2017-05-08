@@ -13,7 +13,7 @@ import Storage from 'react-native-storage';
 import Login from './Login.js';
 
 export default class Entrance extends Component {
-    componentDidMount() {
+    componentWillMount() {
         Splash.hide();
     }
 

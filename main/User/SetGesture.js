@@ -3,8 +3,7 @@ import React, {Component} from 'react';
 import {
     View,
     Image,
-    TextInput,
-    AsyncStorage
+    TextInput
 } from 'react-native';
 
 import GesturePassword from '../lib/gesturePassword/index.js';
@@ -28,11 +27,18 @@ export default class GestureLogin extends Component {
     }
     onEnd(password) {
         if (Password1 === '') {
-            Password1 = password;
-            this.setState({
-                status: 'normal',
-                message: '请再次输入密码'
-            });
+            if (password.length < 4) {
+                this.setState({
+                    status: 'normal',
+                    message: '密码过于简单，请重新设置'
+                });
+            } else {
+                Password1 = password;
+                this.setState({
+                    status: 'normal',
+                    message: '请再次输入密码'
+                });
+            }
         } else if (Password1 !== password){
             this.setState({
                 status: 'wrong',
@@ -46,11 +52,11 @@ export default class GestureLogin extends Component {
                 message: '设置密码成功'
             });
             this.timer = setTimeout(() => {
-                AsyncStorage.setItem(getKey('gestureSecret'), password, (error) => {
-                    if (!error) {
-                        this.props.navigator.pop();
-                    }
+                storage.save({
+                    key: getKey('gestureSecret'),
+                    data: password
                 });
+                this.props.navigator.pop();
             }, 320);
         }
     }
@@ -60,7 +66,7 @@ export default class GestureLogin extends Component {
                 ref='pg'
                 bgSource={require('../../resource/imgs/login/bgImage.png')}
                 safeSource={require('../../resource/imgs/login/safe.png')}
-                allowCross={true}
+                allowCross={false}
                 interval={300}
                 rightColor='white'
                 isLogin={false}

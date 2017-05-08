@@ -8,8 +8,7 @@ import {
     ListView,
     Image,
     TouchableHighlight,
-    Alert,
-    AsyncStorage
+    Alert
 } from 'react-native';
 var photoOptions = {
     title:'更换头像',
@@ -53,14 +52,25 @@ export default class User extends Component {
     }
 
     componentDidMount() {
-        AsyncStorage.getItem(getKey('userMessage'), (error, result) => {
-            if (result) {
-                let userMessage = JSON.parse(result);
-                this.setState({
-                    department: userMessage.companyName,
-                    username: userMessage.userID,
-                    recommend: userMessage.deptName
-                });
+        storage.load({
+            key: getKey('userMessage')
+        }).then((result)=>{
+            let userMessage = JSON.parse(result);
+            this.setState({
+                department: userMessage.companyName,
+                username: userMessage.userID,
+                recommend: userMessage.deptName
+            });
+        }).catch(err => {
+            switch (err.name) {
+                case 'NotFoundError':
+                    // TODO;
+
+                    break;
+                case 'ExpiredError':
+                    // TODO
+
+                    break;
             }
         });
     }
@@ -81,7 +91,7 @@ export default class User extends Component {
     onPress(index) {
         const {navigator} = this.props;
         if (index == 0) {
-
+            
         } else if (index == 1) {
             navigator.push({
                 component: SetGesture,
@@ -95,11 +105,15 @@ export default class User extends Component {
             Alert.alert('温馨提示', '确定退出登录？',[
                 {text: '取消'},
                 {text: '确定', onPress() {
-                    AsyncStorage.multiRemove([getKey('userMessage'), getKey('gestureSecret')], () => {
-                        navigator.replace({
-                            component: Login,
-                            name: 'Login'
-                        });
+                    storage.remove({
+                        key: getKey('secretKey')
+                    });
+                    storage.remove({
+                        key: getKey('gestureSecret')
+                    });
+                    navigator.replace({
+                        component: Login,
+                        name: 'Login'
                     });
                 }}
             ]);
