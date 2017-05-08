@@ -19,6 +19,7 @@ var {width, height}  = Dimensions.get('window');
 import StatusBar from '../../Component/StatusBar.js';
 import EarlierStage from './EarlierStage/EarlierStage.js';
 import ProjectSubitemSplit from './ProjectSubitemSplit/ProjectSubitemSplit'
+import ConstructionProgressPlan from './ConstructionProgressPlan/ProgressPlan'
 import Setting from './Setting';
 import {getKey} from '../../Util/Util.js';
 
@@ -176,6 +177,11 @@ export default class Applications extends Component {
             this.props.navigator.push({
                 component: ProjectSubitemSplit,
                 name: 'EarlierStage'
+            });
+        } else if (item.title === '施工进度计划编制') {
+            this.props.navigator.push({
+                component: ConstructionProgressPlan,
+                name: 'ConstructionProgressPlan'
             });
         }
     }
