@@ -14,10 +14,18 @@ import {
 import StatusBar from '../../../Component/StatusBar'
 import SearchHeader from '../Component/SearchHeader'
 import ProgressPlanList from './Component/ProgressPlanList'
+import ProgressPlanListModalView from './Component/ProgressPlanListModalView'
 
 const {width, height} = Dimensions.get('window');
 
 export default class ProgressPlan extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            isModalVisible:false
+        }
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -28,6 +36,7 @@ export default class ProgressPlan extends Component {
                 </StatusBar>
                 <SearchHeader/>
                 <ProgressPlanList navigator={this.props.navigator}/>
+                {this.state.isModalVisible?<ProgressPlanListModalView isModalVisible={this.state.isModalVisible}  closeModal={()=>this.setState({isModalVisible:false})} />:<View/>}
             </View>
         )
     }
