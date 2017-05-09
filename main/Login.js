@@ -11,7 +11,7 @@ import {
     Keyboard
 } from 'react-native';
 
-var {width, height} = Dimensions.get('window');
+let {width, height} = Dimensions.get('window');
 import Main from './main.js';
 import MyTextInput from './Component/MyTextInput.js';
 import GestureLogin from './User/GestureLogin.js';
