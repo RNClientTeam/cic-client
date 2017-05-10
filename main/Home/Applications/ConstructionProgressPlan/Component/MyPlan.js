@@ -10,13 +10,15 @@ import {
     Text,
     ScrollView,
     Image,
-    ListView
+    ListView,
+    Modal
 } from 'react-native'
 
 import {PullList} from 'react-native-pull';
 import LoadMore from "../../../../Component/LoadMore.js"
 import Reload from "../../../../Component/Reload.js"
 import MyPlanCell from "./MyPlanCell"
+import MoreActionsModal from "./MoreActionsModal"
 
 const {width, height} = Dimensions.get('window');
 let dataArr = [
@@ -59,6 +61,7 @@ export default class MyPlan extends Component {
         this.dataSource = dataArr;
         this.state = {
             hasMoreData: true,
+            modalVisible: false,
             list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(this.dataSource),
         }
     }
@@ -76,6 +79,18 @@ export default class MyPlan extends Component {
                     onEndReachedThreshold={60}
                     renderFooter={this.renderFooter.bind(this)}
                 />
+                <Modal
+                    animationType={"slide"}
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.setState({modalVisible: !this.state.modalVisible})
+                    }}
+                    style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
+                >
+                    <MoreActionsModal navigator={this.props.navigator}
+                                      closeModal={() => {this.setState({modalVisible: false})}}/>
+                </Modal>
             </View>
         )
     }
@@ -90,7 +105,7 @@ export default class MyPlan extends Component {
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
             <MyPlanCell key={rowID} data={item} navigator={this.props.navigator}
-                              setModalVisible={() => this.props.setModalVisible()}/>
+                              setModalVisible={() => {this.setState({modalVisible: true})}}/>
         );
     }
 

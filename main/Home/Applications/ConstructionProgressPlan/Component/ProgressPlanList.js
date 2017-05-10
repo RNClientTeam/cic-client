@@ -9,6 +9,7 @@ import {
     TouchableOpacity,
     SectionList,
     ListView,
+    Modal,
     StyleSheet,
     Dimensions
 } from 'react-native';
@@ -17,6 +18,7 @@ import ApplicationListCell from '../../Component/ApplicationListCell'
 import {PullList} from 'react-native-pull'
 import LoadMore from "../../../../Component/LoadMore"
 import Reload from "../../../../Component/Reload"
+
 
 const {width, height} = Dimensions.get('window');
 
@@ -105,7 +107,6 @@ export default class ProgressPlanList extends Component {
     }
 
     renderRow(item, sectionID, rowID, highlightRow) {
-
         return (
             <ApplicationListCell key={rowID} navigator={this.props.navigator} data={item} target="ProgressPlanDetail"/>
         );
