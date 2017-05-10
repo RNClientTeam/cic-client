@@ -38,27 +38,44 @@ export default class Notification extends Component{
 
     _renderRow(rowData,rowID){
         return(
-            <TouchableOpacity style={styles.cellStyle} onPress={this._skipPage.bind(this,rowData.url)}>
+            <TouchableOpacity style={styles.cellStyle} onPress={this._skipPage.bind(this)}>
                 <Text style={styles.textContentStyle}>
-                    {rowData.text}
+                    {rowData.data}
                 </Text>
             </TouchableOpacity>
         )
     }
 
-    _skipPage(url){
+    _skipPage(){
         this.props.navigator.push({
             name:'webView',
             component:UrlWebView,
             params:{
-                url:url
+                url:'http://www.github.com'
             }
         })
     }
 
     componentDidMount() {
+        let ds = [
+            {
+                data:'员工提交项目管理计划审批周期为7天，超时未处提交项目管理计划审批周期为7天，超时未处提交项目管理计划审批周期为7天，超时未处理计划需要重新提交审批，请各位同事需知'
+            },
+            {
+                data:'员工提交项目管理计划审批周期为7天，超时未处理计划需要重新提交审批，请各位同事需知'
+            },
+            {
+                data:'员工提交项目管理计划审批周期为7天，超时未处理计划需要重新提交审批，请各位同事需知'
+            },
+            {
+                data:'员工提交项目管理计划审批周期为7天，超时未处理计划需要重新提交审批，请各位同事需知'
+            },
+            {
+                data:'员工提交项目管理计划审批周期为7天，超时未处理计划需要重新提交审批，请各位同事需知'
+            }
+        ];
         this.setState({
-            dataSource:this.state.dataSource.cloneWithRows(this.props.dataSource)
+            dataSource:this.state.dataSource.cloneWithRows(ds)
         })
     }
 }

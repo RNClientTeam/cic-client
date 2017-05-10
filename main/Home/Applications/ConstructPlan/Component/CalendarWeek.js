@@ -10,8 +10,9 @@ import {
     Text
 } from 'react-native'
 const {width}  = Dimensions.get('window');
-const week = ['日','一','二','三','四','五','六'];
+const week = ['周日','周一','周二','周三','周四','周五','周六'];
 export default class CalendarCell extends Component{
+
     render(){
         return(
             <View style={styles.calendarWeekContainer}>
@@ -34,14 +35,19 @@ export default class CalendarCell extends Component{
 const styles = StyleSheet.create({
     calendarWeekContainer:{
         width:width,
-        flexDirection:'row'
+        flexDirection:'row',
+        backgroundColor:'#fafafa',
+        borderBottomColor:'#ddd',
+        borderTopColor:'#ddd',
+        borderTopWidth:1,
+        borderBottomWidth:1,
     },
     weekDay:{
         width:width/7.01,
-        backgroundColor:'#6782a9',
+        backgroundColor:'#fafafa',
         textAlign:'center',
         height:30,
         lineHeight:30,
-        color:'#fff'
+        color:'#b7b7b7'
     }
 });

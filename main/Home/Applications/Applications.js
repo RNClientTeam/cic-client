@@ -23,6 +23,7 @@ import ApartmentPlane from './ApartmentPlane/ApartmentPlane.js';
 import Setting from './Setting';
 import {getKey} from '../../Util/Util.js';
 import ProjectRangeHandover from "./ProjectRangeHandover/ProjectRangeHandover";
+import ConstructPlan from "./ConstructPlan/ConstructPlan";
 
 var commonlyApp = [
     {title:'前期进度计划执行', image: require('../../../resource/imgs/home/applications/scheduleExecution.png'), sectionID:0},
@@ -197,6 +198,11 @@ export default class Applications extends Component {
             this.props.navigator.push({
                 component: ConstructionProgressPlan,
                 name: 'ConstructionProgressPlan'
+            });
+        } else if (item.title === '施工日计划') {
+            this.props.navigator.push({
+                component: ConstructPlan,
+                name: 'ConstructPlan'
             });
         } else if (item.title === '部门计划编制') {
             this.props.navigator.push({

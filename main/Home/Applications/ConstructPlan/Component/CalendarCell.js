@@ -36,11 +36,11 @@ const styles = StyleSheet.create({
     calendarCellContainer: {
         width: width / 7.01,
         height: width * 0.1,
-        backgroundColor: '#6782a9',
+        backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center'
     },
     singleDay: {
-        color: '#fff'
+        color: '#77787a'
     }
 });

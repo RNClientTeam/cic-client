@@ -5,7 +5,9 @@ import React,{Component} from 'react'
 import {
     View,
     StyleSheet,
-    Dimensions
+    Dimensions,
+    Image,
+    TouchableOpacity
 } from 'react-native'
 const {width}  = Dimensions.get('window');
 import CalendarCell from './CalendarCell'
@@ -29,6 +31,9 @@ export default class Calendar extends Component{
                 <View style={styles.calendarContainerStyle}>
                     {this.renderCalendarCell()}
                 </View>
+                <TouchableOpacity style={styles.pullDown} activeOpacity={0.9}>
+                    <Image style={styles.pullDownImg} source={require('../../../../../resource/imgs/home/constuctPlan/pullDown.png')}/>
+                </TouchableOpacity>
             </View>
         )
     }
@@ -61,11 +66,23 @@ export default class Calendar extends Component{
 
 const styles = StyleSheet.create({
     containerStyle:{
-        width:width
+        width:width,
+        backgroundColor:'#fff'
     },
     calendarContainerStyle:{
         width:width,
         flexDirection:'row',
         flexWrap:'wrap'
+    },
+    pullDown:{
+        backgroundColor:'#f2f2f2',
+        width:width,
+        alignItems:'center',
+        justifyContent:'flex-start'
+    },
+    pullDownImg:{
+        // resizeMode:'contain',
+        width:width*0.1,
+        height:width*0.032
     }
 });
