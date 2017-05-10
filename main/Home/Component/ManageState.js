@@ -34,10 +34,6 @@ export default class ManageState extends Component {
         );
     }
 
-    componentDidMount() {
-        alert(this.props.bsData)
-    }
-
     renderManageCounts() {
         let difCounts = [];
         for (let i = 0; i < this.props.bsData.length-1; i++) {
