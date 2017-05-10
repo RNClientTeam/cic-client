@@ -12,13 +12,16 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native'
+
+import MyPlanDetail from './MyPlanDetail'
+
 const {width} = Dimensions.get('window');
 
 
 export default class MyPlanCell extends Component {
     render() {
         return (
-            <TouchableOpacity style={styles.earlierStageListCell} onPress={this.skipPage.bind(this)}>
+            <TouchableOpacity style={styles.earlierStageListCell} onPress={() => this.skipPage()}>
                 <View style={styles.aboutProject}>
                     <Text style={{color:'#216fd0',fontSize:width*0.045}}>{this.props.data.period}</Text>
                     <View style={styles.blank}/>
@@ -40,7 +43,10 @@ export default class MyPlanCell extends Component {
     }
 
     skipPage() {
-
+        this.props.navigator.push({
+            component: MyPlanDetail,
+            name: 'MyPlanDetail'
+        });
     }
 }
 
