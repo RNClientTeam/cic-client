@@ -1,5 +1,5 @@
 /**
- * Created by zhubin on 17/5/8.
+ * Created by zhubin on 17/5/10.
  */
 import React, {Component} from 'react'
 import {
@@ -13,10 +13,10 @@ import {
 
 import StatusBar from '../../../Component/StatusBar'
 import SearchHeader from '../Component/SearchHeader'
-import ProgressPlanList from './Component/ProgressPlanList'
-import ProgressPlanListModalView from './Component/ProgressPlanListModalView'
+import ProgressExecuteModal from './Component/ProgressExecuteModal'
+import ProgressExecuteList from './Component/ProgressExecuteList'
 
-const {width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 export default class ProgressPlan extends Component {
     constructor(props){
@@ -29,14 +29,14 @@ export default class ProgressPlan extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <StatusBar navigator={this.props.navigator} title="施工进度计划编制">
+                <StatusBar navigator={this.props.navigator} title="施工进度计划执行">
                     <TouchableOpacity onPress={()=>{this.setState({isModalVisible:!this.state.isModalVisible})}}>
                         <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
                 <SearchHeader/>
-                <ProgressPlanList navigator={this.props.navigator}/>
-                {this.state.isModalVisible?<ProgressPlanListModalView isModalVisible={this.state.isModalVisible}  closeModal={()=>this.setState({isModalVisible:false})} />:<View/>}
+                <ProgressExecuteList navigator={this.props.navigator}/>
+                {this.state.isModalVisible?<ProgressExecuteModal isModalVisible={this.state.isModalVisible}  closeModal={()=>this.setState({isModalVisible:false})} />:<View/>}
             </View>
         )
     }

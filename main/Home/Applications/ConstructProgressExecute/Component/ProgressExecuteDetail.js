@@ -1,5 +1,5 @@
 /**
- * Created by zhubin on 17/5/8.
+ * Created by zhubin on 17/5/10.
  */
 import React, {Component} from 'react'
 import {
@@ -11,19 +11,17 @@ import {
     Text
 } from 'react-native'
 
-import StatusBar from '../../../../Component/StatusBar'
 import ScrollableTabView, {DefaultTabBar, ScrollableTabBar} from 'react-native-scrollable-tab-view'
-import ProjectChildProfile from '../Component/ProjectChildProfile'
-import ConstructPlan from '../Component/ConstructPlan'
-import ShareFile from '../Component/ShareFile'
+import StatusBar from '../../../../Component/StatusBar'
+import ProjectChildProfile from './ProjectChildProfile'
 
 const {width, height} = Dimensions.get('window');
 
-export default class ProgressPlanDetail extends Component {
+export default class ProgressExecuteDetail extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <StatusBar navigator={this.props.navigator} title="施工进度计划编制"/>
+                <StatusBar navigator={this.props.navigator} title="施工进度计划执行"/>
                 <Image style={styles.bgImage}
                        source={require('../../../../../resource/imgs/home/earlierStage/backgroundImg.png')}>
                     <Text style={styles.number}>CX_DS14036-13238</Text>
@@ -42,8 +40,9 @@ export default class ProgressPlanDetail extends Component {
                     tabBarActiveTextColor='#51a5f0'
                     tabBarInactiveTextColor='#3d3d3d'>
                     <ProjectChildProfile tabLabel="工程子项概况" navigator={this.props.navigator} />
-                    <ConstructPlan tabLabel="施工计划" navigator={this.props.navigator} />
-                    <ShareFile tabLabel="共享资料" navigator={this.props.navigator} />
+                    <View tabLabel="施工计划" navigator={this.props.navigator} />
+                    <View tabLabel="总执行情况" navigator={this.props.navigator} />
+                    <View tabLabel="共享资料" navigator={this.props.navigator} />
                 </ScrollableTabView>
             </View>
         )
@@ -99,4 +98,3 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffb432'
     }
 });
-

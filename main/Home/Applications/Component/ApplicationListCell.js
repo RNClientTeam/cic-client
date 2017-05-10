@@ -13,7 +13,8 @@ import {
 import EarlierStageDetail from "../EarlierStage/Component/EarlierStageDetail";
 import ProgressPlanDetail from "../ConstructionProgressPlan/Component/ProgressPlanDetail"
 import ProjectSubitemSplitDetail from "../ProjectSubitemSplit/Component/ProjectSubitemSplitDetail"
-import ProjectRangeHandoverDetail from "../ProjectRangeHandover/Component/ProjectRangeHandoverDetail";
+import ProjectRangeHandoverDetail from "../ProjectRangeHandover/Component/ProjectRangeHandoverDetail"
+import ProgressExecuteDetail from "../ConstructProgressExecute/Component/ProgressExecuteDetail"
 
 const {width} = Dimensions.get('window');
 
@@ -84,6 +85,12 @@ export default class EarlierStageListCell extends Component {
                         proState:this.props.data.state,
                         stateBg:this.props.stateBg
                     }
+                });
+                break;
+            case 'ProgressExecuteDetail':
+                this.props.navigator.push({
+                    component: ProgressExecuteDetail,
+                    name: 'ProgressExecuteDetail'
                 });
                 break;
         }

@@ -13,8 +13,8 @@ import {
     StyleSheet,
     Dimensions
 } from 'react-native';
+import {getKey} from '../../Util/Util.js'
 
-var {width, height}  = Dimensions.get('window');
 import StatusBar from '../../Component/StatusBar.js';
 import EarlierStage from './EarlierStage/EarlierStage.js';
 import ProjectSubitemSplit from './ProjectSubitemSplit/ProjectSubitemSplit'
@@ -24,6 +24,15 @@ import Setting from './Setting';
 import {getKey} from '../../Util/Util.js';
 import ProjectRangeHandover from "./ProjectRangeHandover/ProjectRangeHandover";
 import ConstructPlan from "./ConstructPlan/ConstructPlan";
+import ProjectRangeHandover from "./ProjectRangeHandover/ProjectRangeHandover"
+import ConstructPlan from "./ConstructPlan/ConstructPlan"
+import ProgressExecute from './ConstructProgressExecute/ProgressExecute'
+
+const {width, height}  = Dimensions.get('window');
+
+
+
+
 
 var commonlyApp = [
     {title:'前期进度计划执行', image: require('../../../resource/imgs/home/applications/scheduleExecution.png'), sectionID:0},
@@ -199,6 +208,11 @@ export default class Applications extends Component {
                 component: ConstructionProgressPlan,
                 name: 'ConstructionProgressPlan'
             });
+        } else if (item.title === '施工进度计划执行') {
+            this.props.navigator.push({
+                component: ProgressExecute,
+                name: 'ProgressExecute'
+            })
         } else if (item.title === '施工日计划') {
             this.props.navigator.push({
                 component: ConstructPlan,

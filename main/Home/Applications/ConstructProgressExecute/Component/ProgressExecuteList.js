@@ -1,5 +1,5 @@
 /**
- * Created by zhubin on 17/5/8.
+ * Created by zhubin on 17/5/10.
  */
 import React, {Component} from 'react'
 import {
@@ -14,15 +14,14 @@ import {
     Dimensions
 } from 'react-native';
 
-import ApplicationListCell from '../../Component/ApplicationListCell'
 import {PullList} from 'react-native-pull'
+import ApplicationListCell from '../../Component/ApplicationListCell'
 import LoadMore from "../../../../Component/LoadMore"
 import Reload from "../../../../Component/Reload"
 
-
 const {width, height} = Dimensions.get('window');
 
-export default class ProgressPlanList extends Component {
+export default class ProgressExecuteList extends Component {
     constructor(props) {
         super(props);
         this.dataSource = [
@@ -108,7 +107,8 @@ export default class ProgressPlanList extends Component {
 
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
-            <ApplicationListCell key={rowID} navigator={this.props.navigator} data={item} target="ProgressPlanDetail"/>
+            <ApplicationListCell key={rowID} navigator={this.props.navigator} data={item}
+                                 target="ProgressExecuteDetail"/>
         );
     }
 
