@@ -19,6 +19,7 @@ import StatusBar from '../../Component/StatusBar.js';
 import EarlierStage from './EarlierStage/EarlierStage.js';
 import ProjectSubitemSplit from './ProjectSubitemSplit/ProjectSubitemSplit'
 import ConstructionProgressPlan from './ConstructionProgressPlan/ProgressPlan'
+import ApartmentPlane from './ApartmentPlane/ApartmentPlane.js';
 import Setting from './Setting';
 import {getKey} from '../../Util/Util.js';
 import ProjectRangeHandover from "./ProjectRangeHandover/ProjectRangeHandover";
@@ -196,6 +197,11 @@ export default class Applications extends Component {
             this.props.navigator.push({
                 component: ConstructionProgressPlan,
                 name: 'ConstructionProgressPlan'
+            });
+        } else if (item.title === '部门计划编制') {
+            this.props.navigator.push({
+                component: ApartmentPlane,
+                name: 'ApartmentPlane'
             });
         }
     }

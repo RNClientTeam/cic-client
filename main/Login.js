@@ -120,9 +120,7 @@ export default class Login extends Component {
             this.setState({warningText: '用户名或密码不能为空！'});
             return;
         }
-        this.setState({
-            isLoading:true
-        });
+        this.setState({isLoading:true});
         let loginURL = FetURL.baseUrl+'/user/login?loginName='+this.state.username+'&password='+MD5Encrypt(this.state.password);
         //通过接口判断用户名密码是否正确
         fetch(loginURL, {

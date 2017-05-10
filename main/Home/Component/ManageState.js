@@ -27,7 +27,7 @@ export default class ManageState extends Component {
                 </View>
                 <View style={styles.bottomStyle}>
                     <Text style={styles.financeStyle}>
-                        {this.props.bsData[this.props.bsData.length-1].text} <Text style={styles.finianceCountStyle}>{this.props.bsData[this.props.bsData.length-1].value}</Text>
+                        a
                     </Text>
                 </View>
             </View>

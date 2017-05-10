@@ -125,6 +125,9 @@ export default class Home extends Component {
                         })
                 })
             })
+            .catch((error) => {
+                this.setState({isLoading: false});
+            });
         })
 
     }
