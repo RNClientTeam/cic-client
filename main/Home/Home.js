@@ -18,12 +18,29 @@ import Signed from './Signed/Signed'
 import DownLoadFc from  './../Util/DownLoadFc';
 import CameraPage from './Component/CameraPage';
 import keys from '../Util/storageKeys.json'
-import {getSign} from '../Util/Util'
+import {getSign,AESDecrypt} from '../Util/Util'
+import FetchUrl from '../Util/service.json'
+import Loading from "../Component/Loading";
 
 export default class Home extends Component {
+
+    constructor(props){
+        super(props);
+        this.state={
+            isLoading:true,
+            bsData:[],
+            msgList:[],
+            badges:{
+                todo:0,
+                remind:0
+            }
+        }
+    }
+
     render() {
         return (
-            <View style={{paddingBottom:50}}>
+            <View style={{paddingBottom: 50}}>
+                {this.state.isLoading?<Loading/>:null}
                 <StatusBar notBack={true} navigator={this.props.navigator}>
                     <Image style={styles.logoStyle} source={require('../../resource/imgs/home/home_logo.png')}/>
                     <Text style={styles.logoText}>九州方圆</Text>
@@ -39,50 +56,17 @@ export default class Home extends Component {
                 <ScrollView>
                     <View style={styles.viewSty}>
                         {/*菜单栏*/}
-                        <MenuItems navigator={this.props.navigator}/>
+                        <MenuItems badges={this.state.badges} navigator={this.props.navigator}/>
                         {/*公司经营状况*/}
-                        <ManageState/>
+                        <ManageState bsData={this.state.bsData}/>
                         {/*最新消息*/}
-                        <Notification navigator={this.props.navigator}/>
+                        <Notification dataSource={this.state.msgList} navigator={this.props.navigator}/>
                     </View>
                 </ScrollView>
             </View>
         );
     }
 
-    test() {
-//存数据
-        //  storage.save({
-        //      key:'neal',
-        //      data:{
-        //          name:'杨磊',
-        //          userId:'Neal',
-        //          token: 'some token'
-        //      }
-        //  });
-//删除数据
-        // storage.remove({
-        //     key: 'lastPage'
-        // });
-//取数据
-        // storage.load({
-        //     key:'neadl'
-        // }).then((res)=>{
-        //     alert(JSON.stringify(res))
-        // }).catch(err => {
-        //     console.warn(err.message);
-        //     switch (err.name) {
-//key没有找到值         case 'NotFoundError':
-        //             // TODO;
-        //             alert(1)
-        //             break;
-        //         case 'ExpiredError':
-        //             // TODO
-        //             alert(2)
-        //             break;
-        //     }
-        // })
-    }
 
     /**
      * 扫一扫
@@ -112,11 +96,35 @@ export default class Home extends Component {
 
     componentDidMount() {
         storage.load({
-            key:keys.userMessage
-        }).then((data)=>{
+            key: keys.userMessage
+        }).then((data) => {
             let userID = data.userID;
-            let sign = getSign({userID:userID});
-            console.log(userID,sign)
+            let sign = getSign({userID: userID});
+            fetch(FetchUrl.baseUrl+'/todo/index?userID='+userID+'&sign='+sign, {
+                method: 'POST',
+                body: JSON.stringify({
+                    userID: userID,
+                    sign: sign
+                })
+            })
+                .then(response => response.json())
+                .then(responseData => {
+                    storage.load({
+                        key:keys.secretKey
+                    }).then(secretKey=>{
+                        let resultData = JSON.parse(AESDecrypt(responseData.data,secretKey));
+                        console.log(resultData)
+                        this.setState({
+                            bsData:resultData.bsData,
+                            msgList:resultData.msgList,
+                            badges:{
+                                todo:resultData.todo,
+                                remind:resultData.remind
+                            },
+                            isLoading:false
+                        })
+                })
+            })
         })
 
     }

@@ -11,7 +11,7 @@ import {
     Keyboard
 } from 'react-native';
 
-var {width, height} = Dimensions.get('window');
+let {width, height} = Dimensions.get('window');
 import Main from './main.js';
 import MyTextInput from './Component/MyTextInput.js';
 import GestureLogin from './User/GestureLogin.js';
@@ -158,10 +158,15 @@ export default class Login extends Component {
                     key: getKey('secretKey'),
                     data: responseData.secretKey
                 });
+                //登录成功
+                this.setState({warningText: ''});
                 this.props.navigator.replace({
                     component: Main,
                     name: 'Main',
                     type: 'fade'
+                });
+                this.setState({
+                    isLoading:false
                 });
             } else {
                 this.setState({warningText: '用户名或密码错误！'});
