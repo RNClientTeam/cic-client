@@ -168,6 +168,7 @@ export default class Login extends Component {
             }
         })
         .catch((error) => {
+            console.log(error)
             this.setState({warningText: '请检查网络！'});
             this.setState({
                 isLoading:false

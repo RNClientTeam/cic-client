@@ -20,22 +20,27 @@ import CameraPage from './Component/CameraPage';
 import keys from '../Util/storageKeys.json'
 import {getSign,AESDecrypt} from '../Util/Util'
 import FetchUrl from '../Util/service.json'
+import Loading from "../Component/Loading";
 
 export default class Home extends Component {
 
     constructor(props){
         super(props);
         this.state={
-            todo:0,
+            isLoading:true,
             bsData:[],
             msgList:[],
-            remind:0
+            badges:{
+                todo:0,
+                remind:0
+            }
         }
     }
 
     render() {
         return (
             <View style={{paddingBottom: 50}}>
+                {this.state.isLoading?<Loading/>:null}
                 <StatusBar notBack={true} navigator={this.props.navigator}>
                     <Image style={styles.logoStyle} source={require('../../resource/imgs/home/home_logo.png')}/>
                     <Text style={styles.logoText}>九州方圆</Text>
@@ -51,9 +56,9 @@ export default class Home extends Component {
                 <ScrollView>
                     <View style={styles.viewSty}>
                         {/*菜单栏*/}
-                        <MenuItems navigator={this.props.navigator}/>
+                        <MenuItems badges={this.state.badges} navigator={this.props.navigator}/>
                         {/*公司经营状况*/}
-                        <ManageState/>
+                        <ManageState bsData={this.state.bsData}/>
                         {/*最新消息*/}
                         <Notification navigator={this.props.navigator}/>
                     </View>
@@ -62,39 +67,6 @@ export default class Home extends Component {
         );
     }
 
-    test() {
-//存数据
-        //  storage.save({
-        //      key:'neal',
-        //      data:{
-        //          name:'杨磊',
-        //          userId:'Neal',
-        //          token: 'some token'
-        //      }
-        //  });
-//删除数据
-        // storage.remove({
-        //     key: 'lastPage'
-        // });
-//取数据
-        // storage.load({
-        //     key:'neadl'
-        // }).then((res)=>{
-        //     alert(JSON.stringify(res))
-        // }).catch(err => {
-        //     console.warn(err.message);
-        //     switch (err.name) {
-//key没有找到值         case 'NotFoundError':
-        //             // TODO;
-        //             alert(1)
-        //             break;
-        //         case 'ExpiredError':
-        //             // TODO
-        //             alert(2)
-        //             break;
-        //     }
-        // })
-    }
 
     /**
      * 扫一扫
@@ -137,16 +109,19 @@ export default class Home extends Component {
             })
                 .then(response => response.json())
                 .then(responseData => {
-                    console.log(responseData)
                     storage.load({
                         key:keys.secretKey
                     }).then(secretKey=>{
-                        let resultData = JSON.parse(AESDecrypt(responseData.data,secretKey))
+                        let resultData = JSON.parse(AESDecrypt(responseData.data,secretKey));
+                        console.log(resultData)
                         this.setState({
-                            todo:resultData.todo,
                             bsData:resultData.bsData,
-                            remind:resultData.remind,
-                            msgList:resultData.msgList
+                            msgList:resultData.msgList,
+                            badges:{
+                                todo:resultData.todo,
+                                remind:resultData.remind
+                            },
+                            isLoading:false
                         })
                 })
             })
