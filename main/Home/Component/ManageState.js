@@ -11,16 +11,13 @@ import {
 const {width} = Dimensions.get('window');
 import HomeHeader from './HomeHeader'
 import ManageCount from './ManageCount'
-const manageCounts = [
-    {name: '营业额', count: '1000万元'},
-    {name: '已定额', count: '2000万元'},
-    {name: '回款率', count: '65%'},
-    {name: '预期营收', count: '2300万元'},
-    {name: '投标额', count: '20亿'},
-    {name: '中标额', count: '15亿'},
-
-];
 export default class ManageState extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            lastValue:this.props.bsData[this.props.bsData.length-1],
+        }
+    }
     render() {
         return (
             <View style={styles.manageStateContainer}>
@@ -29,9 +26,9 @@ export default class ManageState extends Component {
                     {this.renderManageCounts()}
                 </View>
                 <View style={styles.bottomStyle}>
-                    <Text style={styles.financeStyle}>
-                        财务账 <Text style={styles.finianceCountStyle}>200亿</Text>
-                    </Text>
+                    {/*<Text style={styles.financeStyle}>*/}
+                        {/*{this.props.bsData[this.props.bsData.length-1].text} <Text style={styles.finianceCountStyle}>{this.props.bsData[this.props.bsData.length-1].value}</Text>*/}
+                    {/*</Text>*/}
                 </View>
             </View>
         );
@@ -39,9 +36,9 @@ export default class ManageState extends Component {
 
     renderManageCounts() {
         let difCounts = [];
-        for (let i = 0; i < manageCounts.length; i++) {
+        for (let i = 0; i < this.props.bsData.length-1; i++) {
             difCounts.push(
-                <ManageCount key={i} name={manageCounts[i].name} count={manageCounts[i].count}/>
+                <ManageCount key={i} name={this.props.bsData[i].text} count={this.props.bsData[i].value}/>
             )
         }
         return difCounts;

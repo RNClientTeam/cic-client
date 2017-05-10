@@ -11,7 +11,7 @@ import {
     Keyboard
 } from 'react-native';
 
-var {width, height} = Dimensions.get('window');
+let {width, height} = Dimensions.get('window');
 import Main from './main.js';
 import MyTextInput from './Component/MyTextInput.js';
 import GestureLogin from './User/GestureLogin.js';
@@ -168,6 +168,7 @@ export default class Login extends Component {
             }
         })
         .catch((error) => {
+            console.log(error)
             this.setState({warningText: '请检查网络！'});
             this.setState({
                 isLoading:false

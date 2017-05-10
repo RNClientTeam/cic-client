@@ -21,9 +21,14 @@ import EarlierStage from './EarlierStage/EarlierStage.js';
 import ProjectSubitemSplit from './ProjectSubitemSplit/ProjectSubitemSplit'
 import ConstructionProgressPlan from './ConstructionProgressPlan/ProgressPlan'
 import ProjectRangeHandover from "./ProjectRangeHandover/ProjectRangeHandover"
+import ConstructPlan from "./ConstructPlan/ConstructPlan"
 import ProgressExecute from './ConstructProgressExecute/ProgressExecute'
 
 const {width, height}  = Dimensions.get('window');
+
+
+
+
 
 var commonlyApp = [
     {title:'前期进度计划执行', image: require('../../../resource/imgs/home/applications/scheduleExecution.png'), sectionID:0},
@@ -195,6 +200,11 @@ export default class Applications extends Component {
                 component: ProgressExecute,
                 name: 'ProgressExecute'
             })
+        }else if (item.title === '施工日计划') {
+            this.props.navigator.push({
+                component: ConstructPlan,
+                name: 'ConstructPlan'
+            });
         }
     }
 

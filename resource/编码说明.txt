@@ -17,3 +17,36 @@ const  {width, height} = Dimensions.get('window');
                                 </TouchableOpacity>
                             </View>
                         </StatusBar>
+
+
+//存数据
+        //  storage.save({
+        //      key:'neal',
+        //      data:{
+        //          name:'杨磊',
+        //          userId:'Neal',
+        //          token: 'some token'
+        //      }
+        //  });
+//删除数据
+        // storage.remove({
+        //     key: 'lastPage'
+        // });
+//取数据
+        // storage.load({
+        //     key:'neadl'
+        // }).then((res)=>{
+        //     alert(JSON.stringify(res))
+        // }).catch(err => {
+        //     console.warn(err.message);
+        //     switch (err.name) {
+//key没有找到值         case 'NotFoundError':
+        //             // TODO;
+        //             alert(1)
+        //             break;
+        //         case 'ExpiredError':
+        //             // TODO
+        //             alert(2)
+        //             break;
+        //     }
+        // })
