@@ -133,6 +133,11 @@ export default class Login extends Component {
         .then((response) => response.json())
         .then((responseData) => {
             if (responseData.code === 1) {
+                //登录成功
+                this.setState({
+                    warningText: '',
+                    isLoading:false
+                });
                 //保存用户名和密码
                 var usernameAndPW = {
                     username: this.state.username,
@@ -153,23 +158,18 @@ export default class Login extends Component {
                     key: getKey('secretKey'),
                     data: responseData.secretKey
                 });
-                //登录成功
-                this.setState({warningText: ''});
                 this.props.navigator.replace({
                     component: Main,
                     name: 'Main',
                     type: 'fade'
-                });
-                this.setState({
-                    isLoading:false
                 });
             } else {
                 this.setState({warningText: '用户名或密码错误！'});
             }
         })
         .catch((error) => {
-            this.setState({warningText: '请检查网络！'});
             this.setState({
+                warningText: '请检查网络！',
                 isLoading:false
             });
             Toast.show('请检查网络！');

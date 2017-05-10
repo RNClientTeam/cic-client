@@ -11,8 +11,7 @@ import {
     TouchableOpacity,
     SectionList,
     StyleSheet,
-    Dimensions,
-    AsyncStorage
+    Dimensions
 } from 'react-native';
 
 var {width, height}  = Dimensions.get('window');
@@ -77,11 +76,14 @@ export default class Applications extends Component {
         }
     }
     componentDidMount() {
-        AsyncStorage.getItem(getKey('nativeCommonlyApp'), (error, result) => {
-            //本地有commonlyApp
-            if (result) {
-                this.setState({commonlyApp:JSON.parse(result)});
+        storage.load({
+            key: getKey('nativeCommonlyApp')
+        }).then((res)=>{
+            if (res) {
+                this.setState({commonlyApp:res});
             }
+        }).catch(err => {
+
         });
     }
     render() {
@@ -154,7 +156,10 @@ export default class Applications extends Component {
                     tempItem.sectionID = 0;
                     this.state.commonlyApp.push(tempItem);
                     this.setState({commonlyApp:this.state.commonlyApp});
-                    AsyncStorage.setItem(getKey('nativeCommonlyApp'), JSON.stringify(this.state.commonlyApp));
+                    storage.save({
+                        key: getKey('nativeCommonlyApp'),
+                        data: this.state.commonlyApp
+                    });
                 }
             } else {
                 //从常用应用中删除
@@ -162,7 +167,10 @@ export default class Applications extends Component {
                     if (this.state.commonlyApp[j].title === item.title) {
                         this.state.commonlyApp.splice(j, 1);
                         this.setState({commonlyApp:this.state.commonlyApp});
-                        AsyncStorage.setItem(getKey('nativeCommonlyApp'), JSON.stringify(this.state.commonlyApp));
+                        storage.save({
+                            key: getKey('nativeCommonlyApp'),
+                            data: this.state.commonlyApp
+                        });
                         break;
                     }
                 }
