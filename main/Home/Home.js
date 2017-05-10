@@ -18,12 +18,24 @@ import Signed from './Signed/Signed'
 import DownLoadFc from  './../Util/DownLoadFc';
 import CameraPage from './Component/CameraPage';
 import keys from '../Util/storageKeys.json'
-import {getSign} from '../Util/Util'
+import {getSign,AESDecrypt} from '../Util/Util'
+import FetchUrl from '../Util/service.json'
 
 export default class Home extends Component {
+
+    constructor(props){
+        super(props);
+        this.state={
+            todo:0,
+            bsData:[],
+            msgList:[],
+            remind:0
+        }
+    }
+
     render() {
         return (
-            <View style={{paddingBottom:50}}>
+            <View style={{paddingBottom: 50}}>
                 <StatusBar notBack={true} navigator={this.props.navigator}>
                     <Image style={styles.logoStyle} source={require('../../resource/imgs/home/home_logo.png')}/>
                     <Text style={styles.logoText}>九州方圆</Text>
@@ -112,11 +124,32 @@ export default class Home extends Component {
 
     componentDidMount() {
         storage.load({
-            key:keys.userMessage
-        }).then((data)=>{
+            key: keys.userMessage
+        }).then((data) => {
             let userID = data.userID;
-            let sign = getSign({userID:userID});
-            console.log(userID,sign)
+            let sign = getSign({userID: userID});
+            fetch(FetchUrl.baseUrl+'/todo/index?userID='+userID+'&sign='+sign, {
+                method: 'POST',
+                body: JSON.stringify({
+                    userID: userID,
+                    sign: sign
+                })
+            })
+                .then(response => response.json())
+                .then(responseData => {
+                    console.log(responseData)
+                    storage.load({
+                        key:keys.secretKey
+                    }).then(secretKey=>{
+                        let resultData = JSON.parse(AESDecrypt(responseData.data,secretKey))
+                        this.setState({
+                            todo:resultData.todo,
+                            bsData:resultData.bsData,
+                            remind:resultData.remind,
+                            msgList:resultData.msgList
+                        })
+                })
+            })
         })
 
     }
