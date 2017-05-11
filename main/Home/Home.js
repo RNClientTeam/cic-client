@@ -113,7 +113,6 @@ export default class Home extends Component {
                         key:keys.secretKey
                     }).then(secretKey=>{
                         let resultData = JSON.parse(AESDecrypt(responseData.data,secretKey));
-                        console.log(resultData)
                         this.setState({
                             bsData:resultData.bsData,
                             msgList:resultData.msgList,
