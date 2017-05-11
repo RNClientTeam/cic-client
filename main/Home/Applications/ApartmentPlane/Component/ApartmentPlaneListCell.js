@@ -13,7 +13,7 @@ import {
     Image
 } from 'react-native'
 const {width} = Dimensions.get('window');
-
+import HistoricalCompletion from './HistoricalCompletion.js';
 export default class ApartmentPlaneListCell extends Component {
     render() {
         return (
@@ -44,7 +44,10 @@ export default class ApartmentPlaneListCell extends Component {
     }
 
     skipPage() {
-
+        this.props.navigator.push({
+            component: HistoricalCompletion,
+            name: 'HistoricalCompletion'
+        });
     }
 }
 

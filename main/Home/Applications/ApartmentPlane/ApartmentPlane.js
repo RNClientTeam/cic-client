@@ -16,6 +16,7 @@ import StatusBar from '../../../Component/StatusBar.js';
 import ApartmentPlaneList from './Component/ApartmentPlaneList.js';
 import SearchHeader from '../Component/SearchHeader.js';
 import MoreOperation from './Component/MoreOperation.js';
+import AddApartmentPlane from './Component/AddApartmentPlane.js';
 import EarlierStageListModalView from "../EarlierStage/Component/EarlierStageListModalView.js";
 export default class ApartmentPlane extends Component{
     constructor(props){
@@ -26,6 +27,13 @@ export default class ApartmentPlane extends Component{
         }
     }
 
+    addBtn() {
+        this.props.navigator.push({
+            component: AddApartmentPlane,
+            name: 'AddApartmentPlane'
+        });
+    }
+
     render(){
         return(
             <View style={styles.earlierStage}>
@@ -33,7 +41,7 @@ export default class ApartmentPlane extends Component{
                     <TouchableOpacity onPress={()=>{this.setState({isModalVisible:!this.state.isModalVisible})}}>
                         <Image style={[styles.filtrate, {marginLeft:-width*0.045-10}]} source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={()=>{this.setState({isModalVisible:!this.state.isModalVisible})}}>
+                    <TouchableOpacity onPress={()=>{this.addBtn()}}>
                         <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
                     </TouchableOpacity>
                 </StatusBar>

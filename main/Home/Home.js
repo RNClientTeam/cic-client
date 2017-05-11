@@ -113,7 +113,6 @@ export default class Home extends Component {
                         key:keys.secretKey
                     }).then(secretKey=>{
                         let resultData = JSON.parse(AESDecrypt(responseData.data,secretKey));
-                        console.log(resultData)
                         this.setState({
                             bsData:resultData.bsData,
                             msgList:resultData.msgList,
@@ -123,10 +122,6 @@ export default class Home extends Component {
                             },
                             isLoading:false
                         })
-                })
-            }).catch(error=>{
-                this.setState({
-                    isLoading:false
                 })
             })
             .catch((error) => {

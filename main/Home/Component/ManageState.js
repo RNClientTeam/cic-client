@@ -18,6 +18,9 @@ export default class ManageState extends Component {
             lastValue:this.props.bsData[this.props.bsData.length-1],
         }
     }
+    componentWillReceiveProps(props) {
+        console.log(props.bsData);
+    }
     render() {
         return (
             <View style={styles.manageStateContainer}>
@@ -26,9 +29,9 @@ export default class ManageState extends Component {
                     {this.renderManageCounts()}
                 </View>
                 <View style={styles.bottomStyle}>
-                    {/*<Text style={styles.financeStyle}>*/}
-                        {/*{this.props.bsData[this.props.bsData.length-1].text} <Text style={styles.finianceCountStyle}>{this.props.bsData[this.props.bsData.length-1].value}</Text>*/}
-                    {/*</Text>*/}
+                    {/**<Text style={styles.financeStyle}>
+                    {this.props.bsData[this.props.bsData.length-1].text} <Text style={styles.finianceCountStyle}>{this.props.bsData[this.props.bsData.length-1].value}</Text>
+                </Text>**/}
                 </View>
             </View>
         );

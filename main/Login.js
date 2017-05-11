@@ -157,14 +157,10 @@ export default class Login extends Component {
                     data: responseData.secretKey
                 });
                 //登录成功
-                this.setState({warningText: ''});
                 this.props.navigator.replace({
                     component: Main,
                     name: 'Main',
                     type: 'fade'
-                });
-                this.setState({
-                    isLoading:false
                 });
             } else {
                 this.setState({warningText: '用户名或密码错误！'});
