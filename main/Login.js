@@ -163,9 +163,6 @@ export default class Login extends Component {
                     name: 'Main',
                     type: 'fade'
                 });
-                this.setState({
-                    isLoading:false
-                });
             } else {
                 this.setState({warningText: '用户名或密码错误！'});
             }

@@ -60,7 +60,7 @@ export default class Home extends Component {
                         {/*公司经营状况*/}
                         <ManageState bsData={this.state.bsData}/>
                         {/*最新消息*/}
-                        <Notification dataSource={this.state.msgList} navigator={this.props.navigator}/>
+                        <Notification dataSource={this.state.msgList.data} navigator={this.props.navigator}/>
                     </View>
                 </ScrollView>
             </View>
