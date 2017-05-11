@@ -1,5 +1,5 @@
 /**
- * Created by zhubin on 17/5/10.
+ * Created by zhubin on 17/5/12.
  */
 'use strict';
 import React, {Component} from 'react'
@@ -12,8 +12,6 @@ import {
     Image
 } from 'react-native'
 
-import MyPlanDetail from './MyPlanDetail'
-
 const {width} = Dimensions.get('window');
 
 export default class MoreActionsModal extends Component {
@@ -24,54 +22,30 @@ export default class MoreActionsModal extends Component {
         return (
             <TouchableOpacity style={styles.modalView} onPress={()=>{this.props.closeModal()}}>
                 <View style={styles.container}>
-                    <TouchableOpacity onPress={() => {this.create()}}>
-                        <View style={styles.actionRow}>
-                            <Image style={styles.img}
-                                   source={require('../../../../../resource/imgs/home/applications/createItem.png')}/>
-                            <Text>新建</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => {this.update()}}>
+                    <TouchableOpacity onPress={() => {this.goConfirm()}}>
                         <View style={styles.actionRow}>
                             <Image style={styles.img}
                                    source={require('../../../../../resource/imgs/home/applications/modification.png')}/>
-                            <Text>修改</Text>
+                            <Text>填报完成情况</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => {this.confirm()}}>
                         <View style={styles.actionRow}>
                             <Image style={styles.img}
                                    source={require('../../../../../resource/imgs/home/applications/approvalIcon.png')}/>
-                            <Text>提交审核</Text>
+                            <Text>确认完成</Text>
                         </View>
                     </TouchableOpacity>
-                    <View style={styles.buttonView}>
-                        <TouchableOpacity style={[styles.button,{backgroundColor:'#fb5560'}]}>
-                            <Text style={{color:'#fff'}}>删除</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={[styles.button, {backgroundColor:'#3999fd'}]}>
-                            <Text style={{color:'#fff'}}>生效</Text>
-                        </TouchableOpacity>
-                    </View>
                 </View>
             </TouchableOpacity>
         )
     }
 
-    create() {
-        this.props.closeModal();
-        this.props.navigator.push({
-            component: MyPlanDetail,
-            name: 'MyPlanDetail'
-        });
-    }
+    goConfirm() {
 
-    update() {
-        this.props.closeModal();
-        this.props.navigator.push({
-            component: MyPlanDetail,
-            name: 'MyPlanDetail'
-        });
+    }
+    confirm() {
+
     }
 }
 

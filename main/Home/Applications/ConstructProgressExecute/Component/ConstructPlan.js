@@ -11,6 +11,7 @@ import {
     Text,
     ScrollView
 } from 'react-native'
+import MyPlan from './MyPlan'
 
 const {width, height} = Dimensions.get('window');
 
@@ -32,13 +33,26 @@ export default class ConstructPlan extends Component {
                             <Text style={{fontSize:12,color:this.state.currentPage===0?'white':'#4fa6ef'}}>我的任务</Text>
                         </View>
                     </TouchableOpacity>
-
                     <TouchableOpacity onPress={this.changePage.bind(this, 1)}>
                         <View style={[styles.rightView,{backgroundColor:this.state.currentPage===1?'#4fa6ef':'white'}]}>
                             <Text style={{fontSize:12,color:this.state.currentPage===1?'white':'#4fa6ef'}}>全部任务</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
+                <ScrollView
+                    horizontal={true}
+                    ref={"scrollView"}
+                    showsHorizontalScrollIndicator={false}
+                    scrollEnabled={false}>
+                    <MyPlan navigator={this.props.navigator}
+                            setModalVisible={() => {
+                            this.setState({modalVisible: true})
+                        }}/>
+                    <MyPlan navigator={this.props.navigator}
+                            setModalVisible={() => {
+                            this.setState({modalVisible: true})
+                        }}/>
+                </ScrollView>
             </View>
         )
     }

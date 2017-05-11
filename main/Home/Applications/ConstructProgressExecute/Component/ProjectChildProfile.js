@@ -79,12 +79,6 @@ export default class ProjectChildProfile extends Component {
                 </View>
             </View>
             </ScrollView>
-            <View style={styles.divide}/>
-            <TouchableOpacity onPress={this.submit.bind(this)}>
-                <View style={styles.button}>
-                    <Text style={styles.buttonText}>提交</Text>
-                </View>
-            </TouchableOpacity>
             </View>
         )
     }

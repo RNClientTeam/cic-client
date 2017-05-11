@@ -14,6 +14,8 @@ import {
 import ScrollableTabView, {DefaultTabBar, ScrollableTabBar} from 'react-native-scrollable-tab-view'
 import StatusBar from '../../../../Component/StatusBar'
 import ProjectChildProfile from './ProjectChildProfile'
+import ConstructPlan from './ConstructPlan'
+import ExecuteProfile from './ExecuteProfile'
 
 const {width, height} = Dimensions.get('window');
 
@@ -40,8 +42,8 @@ export default class ProgressExecuteDetail extends Component {
                     tabBarActiveTextColor='#51a5f0'
                     tabBarInactiveTextColor='#3d3d3d'>
                     <ProjectChildProfile tabLabel="工程子项概况" navigator={this.props.navigator} />
-                    <View tabLabel="施工计划" navigator={this.props.navigator} />
-                    <View tabLabel="总执行情况" navigator={this.props.navigator} />
+                    <ConstructPlan tabLabel="施工计划" navigator={this.props.navigator} />
+                    <ExecuteProfile tabLabel="总执行情况" navigator={this.props.navigator} />
                     <View tabLabel="共享资料" navigator={this.props.navigator} />
                 </ScrollableTabView>
             </View>

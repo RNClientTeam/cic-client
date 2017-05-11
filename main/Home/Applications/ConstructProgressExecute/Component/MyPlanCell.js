@@ -13,7 +13,6 @@ import {
     Image
 } from 'react-native'
 
-import MyPlanDetail from './MyPlanDetail'
 
 const {width} = Dimensions.get('window');
 
@@ -41,13 +40,6 @@ export default class MyPlanCell extends Component {
             </View>
         )
     }
-
-    // skipPage() {
-    //     this.props.navigator.push({
-    //         component: MyPlanDetail,
-    //         name: 'MyPlanDetail'
-    //     });
-    // }
 }
 
 const styles = StyleSheet.create({
