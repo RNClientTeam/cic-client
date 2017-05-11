@@ -11,24 +11,19 @@ import {
     TouchableOpacity,
     SectionList,
     StyleSheet,
-    Dimensions,
-    AsyncStorage
+    Dimensions
 } from 'react-native';
-import {getKey} from '../../Util/Util.js'
-
 import StatusBar from '../../Component/StatusBar.js';
 import EarlierStage from './EarlierStage/EarlierStage.js';
 import ProjectSubitemSplit from './ProjectSubitemSplit/ProjectSubitemSplit'
 import ConstructionProgressPlan from './ConstructionProgressPlan/ProgressPlan'
+import ApartmentPlane from './ApartmentPlane/ApartmentPlane.js';
+import Setting from './Setting';
+import {getKey} from '../../Util/Util.js';
 import ProjectRangeHandover from "./ProjectRangeHandover/ProjectRangeHandover"
 import ConstructPlan from "./ConstructPlan/ConstructPlan"
 import ProgressExecute from './ConstructProgressExecute/ProgressExecute'
-
 const {width, height}  = Dimensions.get('window');
-
-
-
-
 
 var commonlyApp = [
     {title:'前期进度计划执行', image: require('../../../resource/imgs/home/applications/scheduleExecution.png'), sectionID:0},
@@ -83,11 +78,14 @@ export default class Applications extends Component {
         }
     }
     componentDidMount() {
-        AsyncStorage.getItem(getKey('nativeCommonlyApp'), (error, result) => {
-            //本地有commonlyApp
-            if (result) {
-                this.setState({commonlyApp:JSON.parse(result)});
+        storage.load({
+            key: getKey('nativeCommonlyApp')
+        }).then((res)=>{
+            if (res) {
+                this.setState({commonlyApp:res});
             }
+        }).catch(err => {
+
         });
     }
     render() {
@@ -160,7 +158,10 @@ export default class Applications extends Component {
                     tempItem.sectionID = 0;
                     this.state.commonlyApp.push(tempItem);
                     this.setState({commonlyApp:this.state.commonlyApp});
-                    AsyncStorage.setItem(getKey('nativeCommonlyApp'), JSON.stringify(this.state.commonlyApp));
+                    storage.save({
+                        key: getKey('nativeCommonlyApp'),
+                        data: this.state.commonlyApp
+                    });
                 }
             } else {
                 //从常用应用中删除
@@ -168,7 +169,10 @@ export default class Applications extends Component {
                     if (this.state.commonlyApp[j].title === item.title) {
                         this.state.commonlyApp.splice(j, 1);
                         this.setState({commonlyApp:this.state.commonlyApp});
-                        AsyncStorage.setItem(getKey('nativeCommonlyApp'), JSON.stringify(this.state.commonlyApp));
+                        storage.save({
+                            key: getKey('nativeCommonlyApp'),
+                            data: this.state.commonlyApp
+                        });
                         break;
                     }
                 }
@@ -200,10 +204,15 @@ export default class Applications extends Component {
                 component: ProgressExecute,
                 name: 'ProgressExecute'
             })
-        }else if (item.title === '施工日计划') {
+        } else if (item.title === '施工日计划') {
             this.props.navigator.push({
                 component: ConstructPlan,
                 name: 'ConstructPlan'
+            });
+        } else if (item.title === '部门计划编制') {
+            this.props.navigator.push({
+                component: ApartmentPlane,
+                name: 'ApartmentPlane'
             });
         }
     }

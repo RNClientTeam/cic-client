@@ -120,9 +120,7 @@ export default class Login extends Component {
             this.setState({warningText: '用户名或密码不能为空！'});
             return;
         }
-        this.setState({
-            isLoading:true
-        });
+        this.setState({isLoading:true});
         let loginURL = FetURL.baseUrl+'/user/login?loginName='+this.state.username+'&password='+MD5Encrypt(this.state.password);
         //通过接口判断用户名密码是否正确
         fetch(loginURL, {
@@ -133,6 +131,11 @@ export default class Login extends Component {
         .then((response) => response.json())
         .then((responseData) => {
             if (responseData.code === 1) {
+                //登录成功
+                this.setState({
+                    warningText: '',
+                    isLoading:false
+                });
                 //保存用户名和密码
                 var usernameAndPW = {
                     username: this.state.username,
@@ -168,9 +171,8 @@ export default class Login extends Component {
             }
         })
         .catch((error) => {
-            console.log(error)
-            this.setState({warningText: '请检查网络！'});
             this.setState({
+                warningText: '请检查网络！',
                 isLoading:false
             });
             Toast.show('请检查网络！');

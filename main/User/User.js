@@ -23,6 +23,7 @@ var photoOptions = {
         path:'images'
     }
 }
+import storageKeys from '../Util/storageKeys.json';
 import ImagePicker from 'react-native-image-picker';
 import {getKey} from '../Util/Util.js';
 import SetGesture from './SetGesture';
@@ -55,23 +56,13 @@ export default class User extends Component {
         storage.load({
             key: getKey('userMessage')
         }).then((result)=>{
-            let userMessage = JSON.parse(result);
             this.setState({
-                department: userMessage.companyName,
-                username: userMessage.userID,
-                recommend: userMessage.deptName
+                department: result.companyName,
+                username: result.userID,
+                recommend: result.deptName
             });
         }).catch(err => {
-            switch (err.name) {
-                case 'NotFoundError':
-                    // TODO;
 
-                    break;
-                case 'ExpiredError':
-                    // TODO
-
-                    break;
-            }
         });
     }
 
@@ -91,7 +82,7 @@ export default class User extends Component {
     onPress(index) {
         const {navigator} = this.props;
         if (index == 0) {
-            
+
         } else if (index == 1) {
             navigator.push({
                 component: SetGesture,
@@ -105,12 +96,12 @@ export default class User extends Component {
             Alert.alert('温馨提示', '确定退出登录？',[
                 {text: '取消'},
                 {text: '确定', onPress() {
-                    storage.remove({
-                        key: getKey('secretKey')
-                    });
-                    storage.remove({
-                        key: getKey('gestureSecret')
-                    });
+                    //删除所有本地数据
+                    for (var key in storageKeys) {
+                        storage.remove({
+                            key: storageKeys[key]
+                        });
+                    }
                     navigator.replace({
                         component: Login,
                         name: 'Login'
