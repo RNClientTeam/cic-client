@@ -11,12 +11,11 @@ import {
     Text,
     ListView
 } from 'react-native'
-
-import ShareFileCell from './ShareFileCell'
 import {PullList} from 'react-native-pull';
 import LoadMore from "../../../../Component/LoadMore"
 import Reload from "../../../../Component/Reload"
-import AddData from '../../EarlierStage/Component/AddData'
+import ShareFileCell from './ShareFileCell'
+import AddData from './AddData'
 
 const {width, height} = Dimensions.get('window');
 

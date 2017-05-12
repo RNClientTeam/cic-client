@@ -11,12 +11,11 @@ import {
     StyleSheet,
     Dimensions
 } from 'react-native'
-
 import StatusBar from '../../../../Component/StatusBar'
 
 const {width} = Dimensions.get('window');
 
-export default class AddExecuteProfile extends Component {
+export default class TotalExecuteProfile extends Component {
     render() {
         return (
             <View style={styles.container}>

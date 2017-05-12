@@ -11,6 +11,8 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native'
+import CompletionForm from './CompletionForm'
+import CompletionConfirm from './CompletionConfirm'
 
 const {width} = Dimensions.get('window');
 
@@ -22,7 +24,7 @@ export default class MoreActionsModal extends Component {
         return (
             <TouchableOpacity style={styles.modalView} onPress={()=>{this.props.closeModal()}}>
                 <View style={styles.container}>
-                    <TouchableOpacity onPress={() => {this.goConfirm()}}>
+                    <TouchableOpacity onPress={() => {this.complete()}}>
                         <View style={styles.actionRow}>
                             <Image style={styles.img}
                                    source={require('../../../../../resource/imgs/home/applications/modification.png')}/>
@@ -41,11 +43,19 @@ export default class MoreActionsModal extends Component {
         )
     }
 
-    goConfirm() {
-
+    complete() {
+        this.props.closeModal();
+        this.props.navigator.push({
+            name: 'CompletionForm',
+            component: CompletionForm
+        })
     }
     confirm() {
-
+        this.props.closeModal();
+        this.props.navigator.push({
+            name: 'CompletionConfirm',
+            component: CompletionConfirm
+        })
     }
 }
 
@@ -83,8 +93,8 @@ const styles = StyleSheet.create({
         borderRadius:5
     },
     img: {
-        width:width*0.1,
-        height:width*0.1,
+        width:width * 0.08,
+        height:width * 0.08,
         marginLeft:width*0.04,
         marginRight:width*0.04
     }

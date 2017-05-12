@@ -17,7 +17,7 @@ import {PullList} from 'react-native-pull'
 import LoadMore from "../../../../Component/LoadMore.js"
 import Reload from "../../../../Component/Reload.js"
 import ExecuteProfileCell from './ExecuteProfileCell'
-import AddExecuteProfile from './AddExecuteProfile'
+import TotalExecuteProfile from './TotalExecuteProfile'
 
 const {width} = Dimensions.get('window');
 let dataArr = [{
@@ -106,7 +106,7 @@ export default class ExecuteProfile extends Component {
 
     addProfile() {
         this.props.navigator.push({
-            component: AddExecuteProfile,
+            component: TotalExecuteProfile,
             name: 'AddExecuteProfile'
         });
     }

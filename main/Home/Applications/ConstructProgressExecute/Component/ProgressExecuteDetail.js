@@ -16,6 +16,7 @@ import StatusBar from '../../../../Component/StatusBar'
 import ProjectChildProfile from './ProjectChildProfile'
 import ConstructPlan from './ConstructPlan'
 import ExecuteProfile from './ExecuteProfile'
+import ShareFile from './ShareFile'
 
 const {width, height} = Dimensions.get('window');
 
@@ -44,7 +45,7 @@ export default class ProgressExecuteDetail extends Component {
                     <ProjectChildProfile tabLabel="工程子项概况" navigator={this.props.navigator} />
                     <ConstructPlan tabLabel="施工计划" navigator={this.props.navigator} />
                     <ExecuteProfile tabLabel="总执行情况" navigator={this.props.navigator} />
-                    <View tabLabel="共享资料" navigator={this.props.navigator} />
+                    <ShareFile tabLabel="共享资料" navigator={this.props.navigator} />
                 </ScrollableTabView>
             </View>
         )
