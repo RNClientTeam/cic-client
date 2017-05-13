@@ -48,7 +48,7 @@ export default class ManageState extends Component {
 
     componentWillReceiveProps(props) {
         this.setState({
-            lastValue:props.bsData[props.bsData.length-1]
+            lastValue:props.bsData[props.bsData.length-1]?props.bsData[props.bsData.length-1]:null
         })
     }
 }
