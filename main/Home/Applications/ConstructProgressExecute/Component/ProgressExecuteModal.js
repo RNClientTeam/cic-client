@@ -9,7 +9,8 @@ import {
     Dimensions,
     Text,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    TouchableWithoutFeedback
 } from 'react-native'
 
 import ModalDropdown from 'react-native-modal-dropdown'
@@ -69,6 +70,9 @@ export default class ProgressExecuteListModal extends Component {
                         <Text style={{color:'#fff'}}>确定</Text>
                     </TouchableOpacity>
                 </View>
+                <TouchableWithoutFeedback onPress={this.props.closeModal}>
+                    <View style={{flex: 1}}/>
+                </TouchableWithoutFeedback>
             </View>
         )
     }
