@@ -40,7 +40,10 @@ export function getSign(message, secretKey) {
     return CryptoJS.SHA1(str+secretKey).toString();
 }
 
-
+//时间戳
+export function getTimestamp() {
+    return Date.parse(new Date())
+}
 
 //获取当期时间
 export function getCurrentTime() {

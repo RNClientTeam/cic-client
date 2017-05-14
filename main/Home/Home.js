@@ -15,7 +15,6 @@ import MenuItems from './Component/MenuItems'
 import ManageState from './Component/ManageState'
 import Notification from './Component/Notification'
 import Signed from './Signed/Signed'
-import DownLoadFc from  './../Util/DownLoadFc';
 import CameraPage from './Component/CameraPage';
 import keys from '../Util/storageKeys.json'
 import {getSign,AESDecrypt} from '../Util/Util'
@@ -60,7 +59,7 @@ export default class Home extends Component {
                         {/*公司经营状况*/}
                         <ManageState bsData={this.state.bsData}/>
                         {/*最新消息*/}
-                        <Notification dataSource={this.state.msgList} navigator={this.props.navigator}/>
+                        <Notification dataSource={this.state.msgList.data} navigator={this.props.navigator}/>
                     </View>
                 </ScrollView>
             </View>
@@ -100,6 +99,9 @@ export default class Home extends Component {
         }).then((data) => {
             let userID = data.userID;
             let sign = getSign({userID: userID});
+            global.GLOBAL_USERID = userID;
+            global.GLOBAL_USERSIGN = sign;
+            console.log(userID,sign)
             fetch(FetchUrl.baseUrl+'/todo/index?userID='+userID+'&sign='+sign, {
                 method: 'POST',
                 body: JSON.stringify({
