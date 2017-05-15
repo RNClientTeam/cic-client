@@ -13,13 +13,19 @@ import {
 const {width} = Dimensions.get('window');
 
 export default class CalendarCell extends Component {
-    render() {
 
+
+    render() {
         return (
             this.props.date > 0 ?
-                <TouchableOpacity onPress={this.checkThisDay.bind(this, this.props.date)}>
-                    <View style={styles.calendarCellContainer}>
-                        <Text style={styles.singleDay}>{this.props.date + ''}</Text>
+                <TouchableOpacity onPress={() =>this.props.checkThisDay()} style={styles.calendarCellContainer}>
+                    <View
+                        style={[styles.cellStyle, this.props.beenSelected ? {backgroundColor: '#fe9a25'} : {backgroundColor: '#fff'}]}>
+                        <Text
+                            style={this.props.beenSelected ? {color: '#fff'} : {color: '#77787a'}}>{this.props.date + ''}</Text>
+                        <View
+                            style={[styles.pointerView, ((!this.props.hasPlan && this.props.beenSelected)||(this.props.hasPlan && !this.props.beenSelected))?{backgroundColor:'#fe9a25'}:{backgroundColor:'#fff'}]}>
+                        </View>
                     </View>
                 </TouchableOpacity>
                 :
@@ -27,9 +33,6 @@ export default class CalendarCell extends Component {
         )
     }
 
-    checkThisDay(date) {
-        alert(date)
-    }
 }
 
 const styles = StyleSheet.create({
@@ -40,7 +43,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    singleDay: {
-        color: '#77787a'
+    cellStyle: {
+        width: width / 12.5,
+        height: width / 12.5,
+        borderRadius: width / 25,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    pointerView: {
+        width: 4,
+        height: 4,
+        borderRadius: 2,
     }
 });

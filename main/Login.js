@@ -35,27 +35,16 @@ export default class Login extends Component {
         storage.load({
             key: getKey('gestureSecret')
         }).then((res)=>{
-            if (res) {
-                this.props.navigator.replace({
-                    name: 'GestureLogin',
-                    component: GestureLogin,
-                    type: 'fade',
-                    params: {
-                        password: res
-                    }
-                });
-            }
+            this.props.navigator.replace({
+                name: 'GestureLogin',
+                component: GestureLogin,
+                type: 'fade',
+                params: {
+                    password: res
+                }
+            });
         }).catch(err => {
-            switch (err.name) {
-                case 'NotFoundError':
-                    // TODO;
 
-                    break;
-                case 'ExpiredError':
-                    // TODO
-
-                    break;
-            }
         });
         this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', this._keyboardWillShow.bind(this));
         this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', this._keyboardWillHide.bind(this));
@@ -120,6 +109,7 @@ export default class Login extends Component {
             this.setState({warningText: '用户名或密码不能为空！'});
             return;
         }
+        console.log(this.state.username,MD5Encrypt(this.state.password))
         this.setState({isLoading:true});
         let loginURL = FetURL.baseUrl+'/user/login?loginName='+this.state.username+'&password='+MD5Encrypt(this.state.password);
         //通过接口判断用户名密码是否正确
@@ -130,6 +120,7 @@ export default class Login extends Component {
         })
         .then((response) => response.json())
         .then((responseData) => {
+
             if (responseData.code === 1) {
                 //登录成功
                 this.setState({
@@ -157,20 +148,17 @@ export default class Login extends Component {
                     data: responseData.secretKey
                 });
                 //登录成功
-                this.setState({warningText: ''});
                 this.props.navigator.replace({
                     component: Main,
                     name: 'Main',
                     type: 'fade'
-                });
-                this.setState({
-                    isLoading:false
                 });
             } else {
                 this.setState({warningText: '用户名或密码错误！'});
             }
         })
         .catch((error) => {
+            console.error(error)
             this.setState({
                 warningText: '请检查网络！',
                 isLoading:false

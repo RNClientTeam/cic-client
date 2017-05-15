@@ -15,7 +15,7 @@ export default class ManageState extends Component {
     constructor(props){
         super(props);
         this.state={
-            lastValue:this.props.bsData[this.props.bsData.length-1],
+            lastValue:{},
         }
     }
     render() {
@@ -26,9 +26,10 @@ export default class ManageState extends Component {
                     {this.renderManageCounts()}
                 </View>
                 <View style={styles.bottomStyle}>
-                    {/*<Text style={styles.financeStyle}>*/}
-                        {/*{this.props.bsData[this.props.bsData.length-1].text} <Text style={styles.finianceCountStyle}>{this.props.bsData[this.props.bsData.length-1].value}</Text>*/}
-                    {/*</Text>*/}
+                    <Text style={styles.financeStyle}>
+                        {this.state.lastValue.text?this.state.lastValue.text:''}
+                        <Text style={styles.finianceCountStyle}>{this.state.lastValue.value?this.state.lastValue.value:''}</Text>
+                    </Text>
                 </View>
             </View>
         );
@@ -42,6 +43,13 @@ export default class ManageState extends Component {
             )
         }
         return difCounts;
+    }
+
+
+    componentWillReceiveProps(props) {
+        this.setState({
+            lastValue:props.bsData[props.bsData.length-1]?props.bsData[props.bsData.length-1]:null
+        })
     }
 }
 

@@ -12,14 +12,16 @@ import {
 const {width}  = Dimensions.get('window');
 import CalendarCell from './CalendarCell'
 import CalendarWeek from './CalendarWeek'
+const arr = [2,5,23,14,12,30,27];
 export default class Calendar extends Component{
 
     constructor(props){
         super(props);
         this.state = {
-            year:new Date().getFullYear(),//当前年份
-            month:new Date().getMonth(),//当前月份
-            today:new Date().getDate(),//今天日期
+            selectDate:new Date().getDate(),
+            renderCalendarArrAll:[],
+            all:true,
+            renderCalendarArrWeek:[]
         }
     }
 
@@ -29,9 +31,9 @@ export default class Calendar extends Component{
             <View style={styles.containerStyle}>
                 <CalendarWeek/>
                 <View style={styles.calendarContainerStyle}>
-                    {this.renderCalendarCell()}
+                    {this.state.all?this.renderCalendarCell(this.state.renderCalendarArrAll):this.renderCalendarCell(this.state.renderCalendarArrWeek)}
                 </View>
-                <TouchableOpacity style={styles.pullDown} activeOpacity={0.9}>
+                <TouchableOpacity style={styles.pullDown} activeOpacity={0.7} onPress={()=>this.setState({all:!this.state.all})}>
                     <Image style={styles.pullDownImg} source={require('../../../../../resource/imgs/home/constuctPlan/pullDown.png')}/>
                 </TouchableOpacity>
             </View>
@@ -43,25 +45,75 @@ export default class Calendar extends Component{
         return year % 4 == 0 ? (year % 100 != 0 ? 1 : (year % 400 == 0 ? 1 : 0)) : 0;
     }
 
-    renderCalendarCell(){
-        let currentMonWeek =new Date(this.state.year, this.state.month, 1).getDay();//当前月份是周几
-        let days_per_month = new Array(31, 28 + this.isLeap(this.state.year), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31); //创建月份数组
-        let renderCalendarArr = [];
+    renderCalendarCell(renderCalendarArr){
         let renderCalendarCell = [];
-        //1、确定当期现实的月份第一天是星期几
-        for(let i =0 ;i<currentMonWeek;i++){
-            renderCalendarArr.push(0)
-        }
-        for(let i = 0;i<days_per_month[this.state.month];i++){
-            renderCalendarArr.push(i+1)
-        }
         for(let i = 0;i<renderCalendarArr.length;i++){
             renderCalendarCell.push(
-                <CalendarCell date={renderCalendarArr[i]} key={i}/>
+                <CalendarCell checkThisDay={this.choiceData.bind(this,renderCalendarArr[i])} hasPlan={arr.includes(renderCalendarArr[i])} beenSelected={this.state.selectDate === renderCalendarArr[i]} date={renderCalendarArr[i]} key={i}/>
             )
         }
         return renderCalendarCell;
     }
+
+    choiceData(data){
+        this.setState({
+            selectDate:data
+        },()=>{
+            this.getSelectedWeek();
+        });
+
+    }
+
+    componentWillReceiveProps(props){
+        this.getSelectedWeek();
+        this.renderAll(parseInt(props.year),parseInt(props.month))
+    }
+
+    componentDidMount() {
+        this.getSelectedWeek();
+        this.renderAll(this.props.year,this.props.month)
+    }
+
+    renderAll(year,month){
+        let currentMonWeek =new Date(year, month, 1).getDay();//当前月份是周几
+        let days_per_month = new Array(31, 28 + this.isLeap(year), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31); //创建月份数组
+        let templateArr = [];
+        for(let i =0 ;i<currentMonWeek;i++){
+            templateArr.push(0)
+        }
+        for(let i = 0;i<days_per_month[month];i++){
+            templateArr.push(i+1)
+        }
+        this.setState({
+            renderCalendarArrAll:templateArr
+        })
+    }
+
+    getSelectedWeek(){
+        for(let i = 0;i<6;i++){
+            let lastWeekDay = 7*i+7-new Date(this.props.year, this.props.month, 1).getDay();
+            let days_per_month = new Array(31, 28 + this.isLeap(this.props.year), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+            if(lastWeekDay>days_per_month[this.props.month]+7){
+                break;
+            }else{
+                if(lastWeekDay>this.state.selectDate){
+                    let tempArr = [];
+                    for(let s = 6;s>-1;s--){
+                        if(lastWeekDay-s>days_per_month[this.props.month]) continue;
+                        tempArr.push(lastWeekDay-s)
+                    }
+                    this.setState({
+                        renderCalendarArrWeek:tempArr
+                    });
+                    return;
+                }
+
+
+            }
+
+        }
+    }
+
 }
 
 const styles = StyleSheet.create({
@@ -78,7 +130,8 @@ const styles = StyleSheet.create({
         backgroundColor:'#f2f2f2',
         width:width,
         alignItems:'center',
-        justifyContent:'flex-start'
+        justifyContent:'flex-start',
+        height:width*0.05
     },
     pullDownImg:{
         // resizeMode:'contain',
