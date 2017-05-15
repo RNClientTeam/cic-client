@@ -13,6 +13,7 @@ import {
 } from 'react-native'
 
 const {width} = Dimensions.get('window');
+import CompletionForm from './CompletionForm.js';
 
 export default class MoreOperationsCell extends Component {
     render() {
@@ -26,7 +27,13 @@ export default class MoreOperationsCell extends Component {
     }
 
     skipPage(){
-        this.props.closeModal()
+        if (this.props.dataSource.name === '填报进展') {
+            this.props.navigator.push({
+                component: CompletionForm,
+                name: 'CompletionForm'
+            });
+        }
+        this.props.closeModal();
     }
 }
 

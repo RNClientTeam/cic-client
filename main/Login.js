@@ -35,27 +35,16 @@ export default class Login extends Component {
         storage.load({
             key: getKey('gestureSecret')
         }).then((res)=>{
-            if (res) {
-                this.props.navigator.replace({
-                    name: 'GestureLogin',
-                    component: GestureLogin,
-                    type: 'fade',
-                    params: {
-                        password: res
-                    }
-                });
-            }
+            this.props.navigator.replace({
+                name: 'GestureLogin',
+                component: GestureLogin,
+                type: 'fade',
+                params: {
+                    password: res
+                }
+            });
         }).catch(err => {
-            switch (err.name) {
-                case 'NotFoundError':
-                    // TODO;
 
-                    break;
-                case 'ExpiredError':
-                    // TODO
-
-                    break;
-            }
         });
         this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', this._keyboardWillShow.bind(this));
         this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', this._keyboardWillHide.bind(this));
@@ -159,7 +148,6 @@ export default class Login extends Component {
                     data: responseData.secretKey
                 });
                 //登录成功
-                this.setState({warningText: ''});
                 this.props.navigator.replace({
                     component: Main,
                     name: 'Main',
