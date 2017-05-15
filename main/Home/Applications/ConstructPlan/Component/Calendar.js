@@ -18,9 +18,6 @@ export default class Calendar extends Component{
     constructor(props){
         super(props);
         this.state = {
-            year:new Date().getFullYear(),//当前年份
-            month:new Date().getMonth(),//当前月份
-            today:new Date().getDate(),//今天日期
             selectDate:new Date().getDate(),
             renderCalendarArrAll:[],
             all:true,
@@ -36,7 +33,7 @@ export default class Calendar extends Component{
                 <View style={styles.calendarContainerStyle}>
                     {this.state.all?this.renderCalendarCell(this.state.renderCalendarArrAll):this.renderCalendarCell(this.state.renderCalendarArrWeek)}
                 </View>
-                <TouchableOpacity style={styles.pullDown} activeOpacity={0.9} onPress={()=>this.setState({all:!this.state.all})}>
+                <TouchableOpacity style={styles.pullDown} activeOpacity={0.7} onPress={()=>this.setState({all:!this.state.all})}>
                     <Image style={styles.pullDownImg} source={require('../../../../../resource/imgs/home/constuctPlan/pullDown.png')}/>
                 </TouchableOpacity>
             </View>
@@ -67,29 +64,42 @@ export default class Calendar extends Component{
 
     }
 
-    componentWillMount(){
+    componentWillReceiveProps(props){
         this.getSelectedWeek();
-        let currentMonWeek =new Date(this.state.year, this.state.month, 1).getDay();//当前月份是周几
-        let days_per_month = new Array(31, 28 + this.isLeap(this.state.year), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31); //创建月份数组
+        this.renderAll(parseInt(props.year),parseInt(props.month))
+    }
+
+    componentDidMount() {
+        this.getSelectedWeek();
+        this.renderAll(this.props.year,this.props.month)
+    }
+
+    renderAll(year,month){
+        let currentMonWeek =new Date(year, month, 1).getDay();//当前月份是周几
+        let days_per_month = new Array(31, 28 + this.isLeap(year), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31); //创建月份数组
+        let templateArr = [];
         for(let i =0 ;i<currentMonWeek;i++){
-            this.state.renderCalendarArrAll.push(0)
+            templateArr.push(0)
         }
-        for(let i = 0;i<days_per_month[this.state.month];i++){
-            this.state.renderCalendarArrAll.push(i+1)
+        for(let i = 0;i<days_per_month[month];i++){
+            templateArr.push(i+1)
         }
+        this.setState({
+            renderCalendarArrAll:templateArr
+        })
     }
 
     getSelectedWeek(){
         for(let i = 0;i<6;i++){
-            let lastWeekDay = 7*i+7-new Date(this.state.year, this.state.month, 1).getDay();
-            let days_per_month = new Array(31, 28 + this.isLeap(this.state.year), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
-            if(lastWeekDay>days_per_month[this.state.month]+7){
+            let lastWeekDay = 7*i+7-new Date(this.props.year, this.props.month, 1).getDay();
+            let days_per_month = new Array(31, 28 + this.isLeap(this.props.year), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+            if(lastWeekDay>days_per_month[this.props.month]+7){
                 break;
             }else{
                 if(lastWeekDay>this.state.selectDate){
                     let tempArr = [];
                     for(let s = 6;s>-1;s--){
-                        if(lastWeekDay-s>days_per_month[this.state.month]) continue;
+                        if(lastWeekDay-s>days_per_month[this.props.month]) continue;
                         tempArr.push(lastWeekDay-s)
                     }
                     this.setState({
@@ -103,6 +113,7 @@ export default class Calendar extends Component{
 
         }
     }
+
 }
 
 const styles = StyleSheet.create({

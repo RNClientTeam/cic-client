@@ -49,7 +49,7 @@ export default class ConstructPlanChoiceDate extends Component{
                         }
                         // ... You can check the source to find the other keys.
                     }}
-                    onDateChange={(date) => {this.setState({date: date})}}
+                    onDateChange={(date) => {this.props.changeDate(date),this.setState({date:date})}}
                 />
             </View>
         )

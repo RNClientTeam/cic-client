@@ -24,7 +24,7 @@ export default class ConstructPlanHeader extends Component {
             <View style={styles.container}>
                 <View style={styles.choiceView}><Text>lala</Text></View>
                 <View style={styles.indicateView}>
-                    <ConstructPlanChoiceDate/>
+                    <ConstructPlanChoiceDate changeDate={this.props.changeDate.bind(this)}/>
                     <Image style={styles.indicateImage}
                            source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
                 </View>
