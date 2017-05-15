@@ -35,26 +35,13 @@ export default class GestureLogin extends Component {
             }).then((res)=>{
                 let loginURL = FetURL.baseUrl+'/user/login?loginName='+res.username+'&password='+MD5Encrypt(res.password);
                 //通过接口判断用户名密码是否正确
-                fetch(loginURL, {
-                    headers: {
-                        'Accept':'application/json;charset=UTF-8'
-                    }
-                })
+                fetch(loginURL)
                 .then((response) => response.json())
                 .then((responseData) => {
+                    alert(responseData.code);
                     if (responseData.code === 1) {
                         //登录成功
                         this.setState({isLoading:false});
-                        //保存用户名和密码
-                        var usernameAndPW = {
-                            username: this.state.username,
-                            password: this.state.password
-                        };
-                        storage.save({
-                            key: getKey('usernameAndPW'),
-                            data: usernameAndPW
-                        });
-
                         //获取用户信息
                         var userMessage = AESDecrypt(responseData.data, responseData.secretKey);
                         storage.save({
@@ -77,19 +64,24 @@ export default class GestureLogin extends Component {
                             }
                         }, 300);
                     } else {
-                        this.setState({warningText: '用户名或密码错误！'});
+                        this.setState({
+                            status: 'wrong',
+                            message: '密码有误，请重试',
+                            isLoading: false
+                        });
                     }
                 })
                 .catch((error) => {
                     this.setState({isLoading:false});
                 });
             }).catch(err => {
-
+                this.setState({isLoading:false});
             });
         } else {
             this.setState({
                 status: 'wrong',
-                message: '密码有误，请重试'
+                message: '密码有误，请重试',
+                isLoading: false
             });
         }
     }
