@@ -53,6 +53,7 @@ export default class TodoView extends Component {
                     src={optionCells[i].src}
                     name={optionCells[i].name}
                     key={i}
+                    navigator={this.props.navigator}
                 />
             )
         }

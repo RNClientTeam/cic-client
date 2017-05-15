@@ -33,7 +33,7 @@ export default class Backlog extends Component {
                     ref='todoScroll'
                     showsHorizontalScrollIndicator={false}
                     scrollEnabled={false}>
-                    <TodoView/>
+                    <TodoView navigator={this.props.navigator}/>
                     <SendView/>
                     <ApproveView/>
                     <CopyToView/>

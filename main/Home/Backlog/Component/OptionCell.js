@@ -12,10 +12,12 @@ import {
 } from 'react-native'
 const {width} = Dimensions.get('window');
 import IconBadge from 'react-native-icon-badge'
+import ArticleApproval from '../../Applications/ArticleApproval/ArticleApproval'
+
 export default class OptionCell extends Component {
     render() {
         return (
-            <TouchableOpacity style={styles.containerStyle}>
+            <TouchableOpacity style={styles.containerStyle} onPress={() => this.skipPage()}>
                 {(this.props.badge && this.props.badge > 0)?
                     <IconBadge
                         MainElement={
@@ -46,6 +48,16 @@ export default class OptionCell extends Component {
 
             </TouchableOpacity>
         )
+    }
+
+    skipPage() {
+        switch (this.props.name) {
+            case '公文管理':
+                this.props.navigator.push({
+                    name: 'ArticleApproval',
+                    component: ArticleApproval
+                })
+        }
     }
 }
 
