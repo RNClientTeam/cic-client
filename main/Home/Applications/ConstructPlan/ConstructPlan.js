@@ -20,13 +20,14 @@ export default class ConstructPlan extends Component{
         this.state={
             year:new Date().getFullYear(),//当前年份
             month:new Date().getMonth(),//当前月份
+            selectRange:"mine"
         }
     }
     render(){
         return(
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="施工日计划"/>
-                <ConstructPlanHeader changeDate={this.changeYearAndMonth.bind(this)}/>
+                <ConstructPlanHeader changeRange={this.changeRange.bind(this)} range={this.state.selectRange} changeDate={this.changeYearAndMonth.bind(this)}/>
                 <Calendar year={this.state.year} month={this.state.month}/>
             </View>
         )
@@ -36,6 +37,12 @@ export default class ConstructPlan extends Component{
         this.setState({
             year:data.substr(0,4),
             month:parseInt(data.substr(-2,data.length-1))-1
+        })
+    }
+
+    changeRange(txt){
+        this.setState({
+            selectRange:txt
         })
     }
 }

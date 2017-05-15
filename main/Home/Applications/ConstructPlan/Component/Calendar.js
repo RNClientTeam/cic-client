@@ -104,7 +104,7 @@ export default class Calendar extends Component{
                     }
                     this.setState({
                         renderCalendarArrWeek:tempArr
-                    })
+                    });
                     return;
                 }
 

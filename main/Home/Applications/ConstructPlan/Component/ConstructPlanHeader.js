@@ -1,9 +1,6 @@
 /**
  * Created by Nealyang on 2017/5/10.
  */
-/**
- * Created by Nealyang on 2017/5/10.
- */
 
 'use strict';
 import React, {Component} from 'react'
@@ -22,7 +19,16 @@ export default class ConstructPlanHeader extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <View style={styles.choiceView}><Text>lala</Text></View>
+                <View style={styles.choiceView}>
+                    <View style={styles.tagView}>
+                        <TouchableOpacity onPress={()=>this.props.changeRange('mine')} style={[styles.oneTagView,{borderRightColor:'#216fd0',borderRightWidth:1},this.props.range==='mine'?{backgroundColor:'#216fd0'}:{backgroundColor:'#fff'}]}>
+                            <Text style={[styles.tagText,this.props.range==='mine'?{color:'#fff'}:{color:'#216fd0'}]}>我的</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={()=>this.props.changeRange('all')} style={[styles.oneTagView,this.props.range==='all'?{backgroundColor:'#216fd0'}:{backgroundColor:'#fff'}]}>
+                            <Text style={[styles.tagText,this.props.range==='all'?{color:'#fff'}:{color:'#216fd0'}]}>全部</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
                 <View style={styles.indicateView}>
                     <ConstructPlanChoiceDate changeDate={this.props.changeDate.bind(this)}/>
                     <Image style={styles.indicateImage}
@@ -39,21 +45,39 @@ export default class ConstructPlanHeader extends Component {
 }
 
 const styles = StyleSheet.create({
-    choiceView:{
-        backgroundColor:'red',
+    choiceView: {
+        flex: 1,
+        justifyContent:'center',
+    },
+    tagView: {
+        backgroundColor: '#fff',
+        borderWidth: 1,
+        borderColor: '#216fd0',
+        width: width * 0.2,
+        flexDirection: 'row',
+        marginLeft:width*0.02,
+        height:width*0.06,
+        borderRadius:4
+    },
+    oneTagView:{
+        alignItems:'center',
+        justifyContent:'center',
         flex:1
+    },
+    tagText:{
+      fontSize:width*0.03
     },
     container: {
         height: width * 0.12,
         backgroundColor: '#fff',
         flexDirection: "row",
-        justifyContent:'space-between'
+        justifyContent: 'space-between'
     },
     indicateView: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent:'center',
-        flex:1
+        justifyContent: 'center',
+        flex: 1
     },
     indicateImage: {
         width: width * 0.02,
@@ -64,18 +88,18 @@ const styles = StyleSheet.create({
         backgroundColor: '#fab05f',
         height: width * 0.08,
         width: width * 0.12,
-        borderRadius:7,
-        justifyContent:'center',
-        alignItems:'center',
-        marginTop:width*0.02,
-        marginRight:width*0.02
+        borderRadius: 7,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: width * 0.02,
+        marginRight: width * 0.02
     },
-    today:{
-        color:'#fff'
+    today: {
+        color: '#fff'
     },
-    rightView:{
-        flex:1,
-        justifyContent:'flex-end',
-        flexDirection:'row'
+    rightView: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        flexDirection: 'row'
     }
 });
