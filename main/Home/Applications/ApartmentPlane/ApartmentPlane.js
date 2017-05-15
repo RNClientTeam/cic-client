@@ -37,7 +37,7 @@ export default class ApartmentPlane extends Component{
     render(){
         return(
             <View style={styles.earlierStage}>
-                <StatusBar navigator={this.props.navigator} title="部门计划编制">
+                <StatusBar navigator={this.props.navigator} title="部门计划">
                     <TouchableOpacity onPress={()=>{this.setState({isModalVisible:!this.state.isModalVisible})}}>
                         <Image style={[styles.filtrate, {marginLeft:-width*0.045-10}]} source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>

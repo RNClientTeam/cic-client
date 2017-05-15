@@ -12,6 +12,7 @@ import {
 
 const {width, height} = Dimensions.get('window');
 import StatusBar from '../../../../Component/StatusBar.js';
+import ChoosePlaneStyle from './ChoosePlaneStyle.js';
 const heightArr = [0.0735, 0.0735, 0.087, 0.079, 0.0705, 0.0705, 0.0705, 0.075]
 
 export default class AddApartmentPlane extends Component {
@@ -50,8 +51,21 @@ export default class AddApartmentPlane extends Component {
         if (rowID == 0 || rowID == 2 || rowID == 3 || rowID ==7) {
             return;
         } else if (rowID == 1) {
-            alert(rowID);
+            this.props.navigator.push({
+                component: ChoosePlaneStyle,
+                name: 'ChoosePlaneStyle',
+                params: {
+                    addPlane: this.addPlane.bind(this)
+                }
+            })
         }
+    }
+
+    addPlane(planeStyle, proStyle, proName) {
+        this.state.dataSource[1].value = planeStyle;
+        this.state.dataSource[2].value = proStyle;
+        this.state.dataSource[3].value = proName;
+        this.setState({dataSource: this.state.dataSource});
     }
 
     renderRow(rowData, sectionID, rowID) {

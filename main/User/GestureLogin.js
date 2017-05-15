@@ -38,7 +38,6 @@ export default class GestureLogin extends Component {
                 fetch(loginURL)
                 .then((response) => response.json())
                 .then((responseData) => {
-                    alert(responseData.code);
                     if (responseData.code === 1) {
                         //登录成功
                         this.setState({isLoading:false});

@@ -21,7 +21,7 @@ export default class ApartmentPlaneListCell extends Component {
                 <TouchableOpacity style={styles.earlierStageListCell} onPress={this.skipPage.bind(this)}>
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
-                            <Text style={{color:'#216fd0',fontSize:width*0.045}}>{this.props.data.number}</Text>
+                            <Text style={{color:'#216fd0',fontSize:width*0.045}} numberOfLines={1}>{this.props.data.number}</Text>
                             <View style={styles.stateView}>
                                 <Text style={styles.stateText}>{this.props.data.state}</Text>
                             </View>
