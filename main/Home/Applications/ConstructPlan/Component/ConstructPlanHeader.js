@@ -22,31 +22,38 @@ export default class ConstructPlanHeader extends Component {
     render() {
         return (
             <View style={styles.container}>
+                <View style={styles.choiceView}><Text>lala</Text></View>
                 <View style={styles.indicateView}>
                     <ConstructPlanChoiceDate/>
                     <Image style={styles.indicateImage}
                            source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
                 </View>
-                <TouchableOpacity style={styles.todayView}>
-                    <Text style={styles.today}>今天</Text>
-                </TouchableOpacity>
-
+                <View style={styles.rightView}>
+                    <TouchableOpacity style={styles.todayView}>
+                        <Text style={styles.today}>今天</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
+    choiceView:{
+        backgroundColor:'red',
+        flex:1
+    },
     container: {
         height: width * 0.12,
         backgroundColor: '#fff',
-        flexDirection: "row"
+        flexDirection: "row",
+        justifyContent:'space-between'
     },
     indicateView: {
         flexDirection: 'row',
         alignItems: 'center',
-        width: width,
-        justifyContent:'center'
+        justifyContent:'center',
+        flex:1
     },
     indicateImage: {
         width: width * 0.02,
@@ -57,14 +64,18 @@ const styles = StyleSheet.create({
         backgroundColor: '#fab05f',
         height: width * 0.08,
         width: width * 0.12,
-        position: 'absolute',
-        right: width * 0.02,
         borderRadius:7,
         justifyContent:'center',
         alignItems:'center',
-        marginTop:width*0.02
+        marginTop:width*0.02,
+        marginRight:width*0.02
     },
     today:{
         color:'#fff'
+    },
+    rightView:{
+        flex:1,
+        justifyContent:'flex-end',
+        flexDirection:'row'
     }
 });

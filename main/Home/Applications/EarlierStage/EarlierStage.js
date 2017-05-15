@@ -16,6 +16,7 @@ import EarlierStageList from './Component/EarlierStageList'
 import SearchHeader from '../Component/SearchHeader'
 import EarlierStageListModalView from "./Component/EarlierStageListModalView";
 import keys from '../../../Util/storageKeys.json'
+import Toast from 'react-native-simple-toast';
 import {AESDecrypt,getTimestamp} from '../../../Util/Util'
 import FetchUrl from '../../../Util/service.json'
 import Loading from "../../../Component/Loading";
@@ -28,10 +29,6 @@ export default class EarlierStage extends Component{
             eDate:'',//结束时间
             jhlx:'500',//计划类型
             pageNum:1,//页码
-            pageSize:10,//行数
-            callID:'',//时间戳
-            sign:GLOBAL_USERSIGN,
-            userID:GLOBAL_USERID,
             isLoading:true
         }
     }
@@ -61,13 +58,16 @@ export default class EarlierStage extends Component{
         this.setState({
             jhlx:'500',//计划类型
             pageNum:1,//页码
-            pageSize:10,//行数
-            callID:getTimestamp(),
-            sign:GLOBAL_USERSIGN,
-            userID:GLOBAL_USERID,
         });
-        let url =`${FetchUrl.baseUrl}/psmQqJdjh/list?userID=${this.state.userID}`
-        console.log(this.state)
+        let url =`${FetchUrl.baseUrl}/psmQqJdjh/list?userID=${GLOBAL_USERID}&sDate=${this.state.sDate}&eDate=${this.state.eDate}&jhlx=${this.state.jhlx}&pageNum=${this.state.pageNum}&pageSize=10&callID=${getTimestamp()}&sign=${GLOBAL_USERSIGN}`;
+        console.log(url);
+        fetch(url).then(response=>response.json())
+            .then(responseJson=>{
+                console.log(responseJson)
+            }).catch(err=>{
+                console.error(err);
+                Toast.show('网络连接错误')
+        });
     }
 }
 

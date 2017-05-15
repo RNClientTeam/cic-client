@@ -120,6 +120,7 @@ export default class Login extends Component {
             this.setState({warningText: '用户名或密码不能为空！'});
             return;
         }
+        console.log(this.state.username,MD5Encrypt(this.state.password))
         this.setState({isLoading:true});
         let loginURL = FetURL.baseUrl+'/user/login?loginName='+this.state.username+'&password='+MD5Encrypt(this.state.password);
         //通过接口判断用户名密码是否正确
@@ -130,6 +131,7 @@ export default class Login extends Component {
         })
         .then((response) => response.json())
         .then((responseData) => {
+
             if (responseData.code === 1) {
                 //登录成功
                 this.setState({
@@ -168,6 +170,7 @@ export default class Login extends Component {
             }
         })
         .catch((error) => {
+            console.error(error)
             this.setState({
                 warningText: '请检查网络！',
                 isLoading:false
