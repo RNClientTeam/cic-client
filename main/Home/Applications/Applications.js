@@ -18,6 +18,7 @@ import EarlierStage from './EarlierStage/EarlierStage.js';
 import ProjectSubitemSplit from './ProjectSubitemSplit/ProjectSubitemSplit'
 import ConstructionProgressPlan from './ConstructionProgressPlan/ProgressPlan'
 import ApartmentPlane from './ApartmentPlane/ApartmentPlane.js';
+import SafetyInspectionPlan from './SafetyInspectionPlan/SafetyInspectionPlan.js';
 import Setting from './Setting';
 import {getKey} from '../../Util/Util.js';
 import ProjectRangeHandover from "./ProjectRangeHandover/ProjectRangeHandover"
@@ -214,6 +215,11 @@ export default class Applications extends Component {
                 component: ApartmentPlane,
                 name: 'ApartmentPlane'
             });
+        } else if (item.title === '安全检查计划') {
+            this.props.navigator.push({
+                component: SafetyInspectionPlan,
+                name: 'SafetyInspectionPlan'
+            })
         }
     }
 
