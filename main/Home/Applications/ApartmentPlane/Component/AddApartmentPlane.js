@@ -78,7 +78,8 @@ export default class AddApartmentPlane extends Component {
                         <TextInput placeholder={rowData.value}
                             underlineColorAndroid="transparent"
                             placeholderTextColor='#999'
-                            style={{width:50, fontSize:15}}
+                            textAlign="right"
+                            style={{width:width*0.5, fontSize:15}}
                             autoCapitalize="none"
                             autoCorrect={false}/> :
                         <Text style={styles.valueText}>{rowData.value}</Text>
