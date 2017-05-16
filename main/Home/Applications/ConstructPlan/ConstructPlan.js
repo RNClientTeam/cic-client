@@ -7,11 +7,14 @@ import React,{Component} from 'react'
 import {
     View,
     StyleSheet,
-    Dimensions
+    Dimensions,
+    TouchableOpacity,
+    Image
 } from 'react-native'
 import StatusBar from "../../../Component/StatusBar";
 import ConstructPlanHeader from "./Component/ConstructPlanHeader";
 import Calendar from "./Component/Calendar";
+import DayProjectListContainer from "./Component/DayProjectListContainer";
 const {width}  = Dimensions.get('window');
 
 export default class ConstructPlan extends Component{
@@ -26,9 +29,17 @@ export default class ConstructPlan extends Component{
     render(){
         return(
             <View style={styles.container}>
-                <StatusBar navigator={this.props.navigator} title="施工日计划"/>
+                <StatusBar navigator={this.props.navigator} title="施工日计划">
+                    <TouchableOpacity onPress={()=>{this.setState({isModalVisible:!this.state.isModalVisible})}}>
+                        <Image style={[styles.filtrate, {marginLeft:-width*0.045-10}]} source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={()=>{this.addBtn()}}>
+                        <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/constuctPlan/projectList.png')}/>
+                    </TouchableOpacity>
+                </StatusBar>
                 <ConstructPlanHeader changeRange={this.changeRange.bind(this)} range={this.state.selectRange} changeDate={this.changeYearAndMonth.bind(this)}/>
                 <Calendar year={this.state.year} month={this.state.month}/>
+                <DayProjectListContainer/>
             </View>
         )
     }
@@ -51,5 +62,9 @@ const styles = StyleSheet.create({
     container:{
         flex:1,
         backgroundColor:'#f2f2f2'
+    },
+    filtrate:{
+        width:width*0.045,
+        height:width*0.045
     }
 });

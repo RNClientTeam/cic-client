@@ -44,14 +44,14 @@ export default class EarlierStage extends Component{
                 <SearchHeader/>
                 <EarlierStageList navigator={this.props.navigator}/>
                 {this.state.isModalVisible?<EarlierStageListModalView isModalVisible={this.state.isModalVisible}  closeModal={()=>this.setState({isModalVisible:false})} />:<View></View>}
-                {this.state.isLoading?<Loading/>:null}
+                {/*{this.state.isLoading?<Loading/>:null}*/}
             </View>
         )
     }
 
     componentDidMount() {
         // this.getDataFromNet().bind(this)
-        this.getDataFromNet();
+        // this.getDataFromNet();
     }
 
     getDataFromNet(){

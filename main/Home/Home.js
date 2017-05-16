@@ -39,7 +39,6 @@ export default class Home extends Component {
     render() {
         return (
             <View style={{paddingBottom: 50}}>
-                {this.state.isLoading?<Loading/>:null}
                 <StatusBar notBack={true} navigator={this.props.navigator}>
                     <Image style={styles.logoStyle} source={require('../../resource/imgs/home/home_logo.png')}/>
                     <Text style={styles.logoText}>九州方圆</Text>
@@ -62,6 +61,7 @@ export default class Home extends Component {
                         <Notification dataSource={this.state.msgList.data} navigator={this.props.navigator}/>
                     </View>
                 </ScrollView>
+                {this.state.isLoading?<Loading/>:null}
             </View>
         );
     }
