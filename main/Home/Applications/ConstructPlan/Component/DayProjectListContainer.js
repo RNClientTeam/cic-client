@@ -8,13 +8,23 @@ import {
     StyleSheet,
     Dimensions,
     Text,
-    ScrollView
+    ScrollView,
+    Modal
 } from 'react-native'
 import ProjectTagName from "./ProjectTagName";
 import IndexProjectListCell from "./IndexProjectListCell";
+import ModalView from "./ModalView";
 const {width}  = Dimensions.get('window');
 
 export default class DayProjectListContainer extends Component{
+
+    constructor(props){
+        super(props);
+        this.state={
+            modalVisible:true
+        }
+    }
+
     render(){
         return(
             <View style={{flex:1}}>
@@ -29,6 +39,17 @@ export default class DayProjectListContainer extends Component{
                     <IndexProjectListCell/>
                     <IndexProjectListCell/>
                 </ScrollView>
+                <Modal
+                    animationType={"slide"}
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.setState({modalVisible: !this.state.modalVisible})
+                    }}
+                    style={{backgroundColor: 'rgba(0, 0, 0,0.75)'}}
+                >
+                    <ModalView/>
+                </Modal>
             </View>
         )
     }
