@@ -60,7 +60,7 @@ export default class Home extends Component {
                         <Notification dataSource={this.state.msgList.data} navigator={this.props.navigator}/>
                     </View>
                 </ScrollView>
-                {this.state.isLoading?<Loading/>:null}
+                {this.state.isLoading ? <Loading/> : null}
             </View>
         );
     }
@@ -97,10 +97,16 @@ export default class Home extends Component {
         axios.defaults.baseURL = FetchUrl.baseUrl;
         //添加一个请求拦截器，添加sign
         axios.interceptors.request.use(function (config) {
-            if (config.data) {
+            if (config.method === 'post') {
                 config.data.sign = getSign(config.data);
-                config.url = config.url + `?userID=${config.data.userID}&sign=${config.data.sign}`
-            } else if (config.params) {
+                config.transformRequest = [function (data) {
+                    let ret = '';
+                    for (let it in data) {
+                        ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+                    }
+                    return ret
+                }];
+            } else if (config.method === 'get') {
                 alert('Home.js拦截器需要修改')
             }
             return config;
@@ -131,11 +137,11 @@ export default class Home extends Component {
                         todo: resultData.todo,
                         remind: resultData.remind
                     },
-                    isLoading:false
+                    isLoading: false
                 })
-            }).catch(err=>{
+            }).catch(err => {
                 this.setSate({
-                    isLoading:false
+                    isLoading: false
                 })
             })
         })
