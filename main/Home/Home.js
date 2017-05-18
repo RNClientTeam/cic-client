@@ -107,7 +107,7 @@ export default class Home extends Component {
                     return ret
                 }];
             } else if (config.method === 'get') {
-                alert('Home.js拦截器需要修改')
+                alert('Home.js拦截器get请求需要修改')
             }
             return config;
         }, function (err) {
