@@ -51,6 +51,7 @@ export default class GestureLogin extends Component {
                             key: getKey('secretKey'),
                             data: responseData.secretKey
                         });
+                        global.SECRETKEY = responseData.secretKey;
                         //登录成功
                         this.timer = setTimeout(() => {
                             const {navigator} = this.props;

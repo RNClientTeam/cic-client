@@ -44,6 +44,27 @@ export default class ArticleList extends Component {
                 department: '九恒-配网工程部',
                 date: '2017-05-11',
                 priority: '普通'
+            },
+            {
+                title: '会议管理实施办法',
+                type: '集团公文-一般公文-通告',
+                department: '九恒-配网工程部',
+                date: '2017-05-11',
+                priority: '普通'
+            },
+            {
+                title: '会议管理实施办法',
+                type: '集团公文-一般公文-通告',
+                department: '九恒-配网工程部',
+                date: '2017-05-11',
+                priority: '普通'
+            },
+            {
+                title: '会议管理实施办法',
+                type: '集团公文-一般公文-通告',
+                department: '九恒-配网工程部',
+                date: '2017-05-11',
+                priority: '普通'
             }
         ];
         this.state = {
