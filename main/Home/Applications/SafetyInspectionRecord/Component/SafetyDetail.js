@@ -13,7 +13,6 @@ import {
 
 const {width, height} = Dimensions.get('window');
 import StatusBar from '../../../../Component/StatusBar.js';
-import EditSafetyCheck from './EditSafetyCheck.js';
 
 export default class SafetyInspectionDetail extends Component {
     constructor(props) {
@@ -60,10 +59,7 @@ export default class SafetyInspectionDetail extends Component {
     }
 
     onPress() {
-        this.props.navigator.push({
-            component: EditSafetyCheck,
-            name: 'EditSafetyCheck'
-        })
+
     }
 
     renderFooter() {

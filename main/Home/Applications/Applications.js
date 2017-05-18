@@ -19,6 +19,7 @@ import ProjectSubitemSplit from './ProjectSubitemSplit/ProjectSubitemSplit'
 import ConstructionProgressPlan from './ConstructionProgressPlan/ProgressPlan'
 import ApartmentPlane from './ApartmentPlane/ApartmentPlane.js';
 import SafetyInspectionPlan from './SafetyInspectionPlan/SafetyInspectionPlan.js';
+import SafetyInspectionRecord from './SafetyInspectionRecord/SafetyInspectionRecord.js';
 import Setting from './Setting';
 import {getKey} from '../../Util/Util.js';
 import ProjectRangeHandover from "./ProjectRangeHandover/ProjectRangeHandover"
@@ -219,6 +220,11 @@ export default class Applications extends Component {
             this.props.navigator.push({
                 component: SafetyInspectionPlan,
                 name: 'SafetyInspectionPlan'
+            })
+        } else if (item.title === '安全检查记录') {
+            this.props.navigator.push({
+                component: SafetyInspectionRecord,
+                name: 'SafetyInspectionRecord'
             })
         }
     }
