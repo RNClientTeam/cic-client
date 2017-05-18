@@ -8,6 +8,7 @@ import {
     Dimensions,
     TouchableOpacity,
     ScrollView,
+    DeviceEventEmitter
 } from 'react-native';
 const {width} = Dimensions.get('window');
 import StatusBar from '../Component/StatusBar'
@@ -93,10 +94,14 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
+        this.subscription = DeviceEventEmitter.addListener('xxxName',function (data) {
+            alert(data)
+        });
         global.axios = axios;
         axios.defaults.baseURL = FetchUrl.baseUrl;
         //添加一个请求拦截器，添加sign
         axios.interceptors.request.use(function (config) {
+            DeviceEventEmitter.emit('xxxName','loading');
             if (config.method === 'post') {
                 config.data.sign = getSign(config.data);
                 config.transformRequest = [function (data) {
@@ -145,6 +150,10 @@ export default class Home extends Component {
                 })
             })
         })
+    }
+
+    componentWillUnMount() {
+        this.subscription.remove();
     }
 }
 
