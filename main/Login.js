@@ -147,6 +147,7 @@ export default class Login extends Component {
                     key: getKey('secretKey'),
                     data: responseData.secretKey
                 });
+                global.SECRETKEY = responseData.secretKey;
                 //登录成功
                 this.props.navigator.replace({
                     component: Main,

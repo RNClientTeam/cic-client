@@ -7,7 +7,7 @@ import {
     Image,
     Dimensions,
     TouchableOpacity,
-    ScrollView
+    ScrollView,
 } from 'react-native';
 const {width} = Dimensions.get('window');
 import StatusBar from '../Component/StatusBar'
@@ -17,21 +17,20 @@ import Notification from './Component/Notification'
 import Signed from './Signed/Signed'
 import CameraPage from './Component/CameraPage';
 import keys from '../Util/storageKeys.json'
-import {getSign,AESDecrypt} from '../Util/Util'
+import {getSign, AESDecrypt} from '../Util/Util'
 import FetchUrl from '../Util/service.json'
 import Loading from "../Component/Loading";
-
+import axios from 'axios'
 export default class Home extends Component {
-
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={
-            isLoading:true,
-            bsData:[],
-            msgList:[],
-            badges:{
-                todo:0,
-                remind:0
+        this.state = {
+            isLoading: false,
+            bsData: [],
+            msgList: [],
+            badges: {
+                todo: 0,
+                remind: 0
             }
         }
     }
@@ -94,43 +93,52 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
+        global.axios = axios;
+        axios.defaults.baseURL = FetchUrl.baseUrl;
+        //添加一个请求拦截器，添加sign
+        axios.interceptors.request.use(function (config) {
+            if (config.data) {
+                config.data.sign = getSign(config.data);
+                config.url = config.url + `?userID=${config.data.userID}&sign=${config.data.sign}`
+            } else if (config.params) {
+                alert('Home.js拦截器需要修改')
+            }
+            return config;
+        }, function (err) {
+            return Promise.reject(err);
+        });
+
+        //添加一个响应拦截器,解码
+        axios.interceptors.response.use(function (res) {
+            return JSON.parse(AESDecrypt(res.data.data, SECRETKEY))
+        }, function (err) {
+            return Promise.reject(err);
+        });
+
         storage.load({
             key: keys.userMessage
         }).then((data) => {
-            let userID = data.userID;
-            let sign = getSign({userID: userID});
-            global.GLOBAL_USERID = userID;
-            global.GLOBAL_USERSIGN = sign;
-            console.log(userID,sign)
-            fetch(FetchUrl.baseUrl+'/todo/index?userID='+userID+'&sign='+sign, {
-                method: 'POST',
-                body: JSON.stringify({
-                    userID: userID,
-                    sign: sign
+            global.GLOBAL_USERID = data.userID;
+            axios.post('/todo/index',
+                {
+                    userID: data.userID
+                }
+            ).then(resultData => {
+                this.setState({
+                    bsData: resultData.bsData,
+                    msgList: resultData.msgList,
+                    badges: {
+                        todo: resultData.todo,
+                        remind: resultData.remind
+                    },
+                    isLoading:false
+                })
+            }).catch(err=>{
+                this.setSate({
+                    isLoading:false
                 })
             })
-                .then(response => response.json())
-                .then(responseData => {
-                    storage.load({
-                        key:keys.secretKey
-                    }).then(secretKey=>{
-                        let resultData = JSON.parse(AESDecrypt(responseData.data,secretKey));
-                        this.setState({
-                            bsData:resultData.bsData,
-                            msgList:resultData.msgList,
-                            badges:{
-                                todo:resultData.todo,
-                                remind:resultData.remind
-                            },
-                            isLoading:false
-                        })
-                })
-            })
-            .catch((error) => {
-                this.setState({isLoading: false});
-            });
         })
-
     }
 }
 
