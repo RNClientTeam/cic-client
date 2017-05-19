@@ -31,13 +31,17 @@ export function AESDecrypt(base64Str, secretKey) {
 }
 
 //获取签名sign
-export function getSign(message, secretKey) {
+export function getSign(message, secret) {
     var sortKeys = Object.keys(message).sort();
     var str = '';
     for (var key in sortKeys) {
         str = str + sortKeys[key] + '=' + message[sortKeys[key]];
     }
-    return CryptoJS.SHA1(str+secretKey).toString();
+    if(!secret){
+        secret = SECRETKEY;
+    }
+    console.log(message,"======",secret)
+    return CryptoJS.SHA1(str+secret).toString();
 }
 
 //时间戳

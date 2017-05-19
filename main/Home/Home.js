@@ -8,7 +8,6 @@ import {
     Dimensions,
     TouchableOpacity,
     ScrollView,
-    DeviceEventEmitter
 } from 'react-native';
 const {width} = Dimensions.get('window');
 import StatusBar from '../Component/StatusBar'
@@ -26,7 +25,7 @@ export default class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoading: false,
+            isLoading: true,
             bsData: [],
             msgList: [],
             badges: {
@@ -94,16 +93,15 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
-        this.subscription = DeviceEventEmitter.addListener('xxxName',function (data) {
-            alert(data)
-        });
         global.axios = axios;
         axios.defaults.baseURL = FetchUrl.baseUrl;
+        axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
         //添加一个请求拦截器，添加sign
         axios.interceptors.request.use(function (config) {
-            DeviceEventEmitter.emit('xxxName','loading');
             if (config.method === 'post') {
-                config.data.sign = getSign(config.data);
+                let target = {};
+                Object.assign(target,config.data);
+                config.data.sign = getSign(target,SECRETKEY);
                 config.transformRequest = [function (data) {
                     let ret = '';
                     for (let it in data) {
@@ -112,7 +110,9 @@ export default class Home extends Component {
                     return ret
                 }];
             } else if (config.method === 'get') {
-                alert('Home.js拦截器get请求需要修改')
+                let target = {};
+                Object.assign(target,config.params);
+                config.params.sign = getSign(target,SECRETKEY);
             }
             return config;
         }, function (err) {
@@ -152,9 +152,6 @@ export default class Home extends Component {
         })
     }
 
-    componentWillUnMount() {
-        this.subscription.remove();
-    }
 }
 
 const styles = StyleSheet.create({
