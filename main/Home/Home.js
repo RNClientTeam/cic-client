@@ -95,11 +95,13 @@ export default class Home extends Component {
     componentDidMount() {
         global.axios = axios;
         axios.defaults.baseURL = FetchUrl.baseUrl;
+        axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
         //添加一个请求拦截器，添加sign
         axios.interceptors.request.use(function (config) {
-            console.log(config)
             if (config.method === 'post') {
-                config.data.sign = getSign(config.data);
+                let target = {};
+                Object.assign(target,config.data);
+                config.data.sign = getSign(target,SECRETKEY);
                 config.transformRequest = [function (data) {
                     let ret = '';
                     for (let it in data) {
@@ -108,7 +110,9 @@ export default class Home extends Component {
                     return ret
                 }];
             } else if (config.method === 'get') {
-                config.params.sign = getSign(config.params);
+                let target = {};
+                Object.assign(target,config.params);
+                config.params.sign = getSign(target,SECRETKEY);
             }
             return config;
         }, function (err) {
