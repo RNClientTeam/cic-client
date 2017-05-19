@@ -21,7 +21,7 @@ import ApartmentPlane from './ApartmentPlane/ApartmentPlane.js';
 import SafetyInspectionPlan from './SafetyInspectionPlan/SafetyInspectionPlan.js';
 import SafetyInspectionRecord from './SafetyInspectionRecord/SafetyInspectionRecord.js';
 import Setting from './Setting';
-import {getKey} from '../../Util/Util.js';
+import {getKey,getSign} from '../../Util/Util.js';
 import ProjectRangeHandover from "./ProjectRangeHandover/ProjectRangeHandover"
 import ConstructPlan from "./ConstructPlan/ConstructPlan"
 import ProgressExecute from './ConstructProgressExecute/ProgressExecute'
@@ -89,6 +89,18 @@ export default class Applications extends Component {
         }).catch(err => {
 
         });
+
+        axios.get('/org/list',{
+            params:{
+                userID:GLOBAL_USERID,
+                root:'ROOT',
+                deep:2,
+                includeUser:1,
+                callID:11
+            }
+        }).then(data=>{
+            console.log(data)
+        })
     }
     render() {
         return (
