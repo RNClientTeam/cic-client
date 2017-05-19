@@ -97,6 +97,7 @@ export default class Home extends Component {
         axios.defaults.baseURL = FetchUrl.baseUrl;
         //添加一个请求拦截器，添加sign
         axios.interceptors.request.use(function (config) {
+            console.log(config)
             if (config.method === 'post') {
                 config.data.sign = getSign(config.data);
                 config.transformRequest = [function (data) {
@@ -107,7 +108,7 @@ export default class Home extends Component {
                     return ret
                 }];
             } else if (config.method === 'get') {
-                alert('Home.js拦截器get请求需要修改')
+                config.params.sign = getSign(config.params);
             }
             return config;
         }, function (err) {
@@ -118,7 +119,6 @@ export default class Home extends Component {
         axios.interceptors.response.use(function (res) {
             return JSON.parse(AESDecrypt(res.data.data, SECRETKEY))
         }, function (err) {
-            DeviceEventEmitter.emit('xxxName',false);
             return Promise.reject(err);
         });
 
