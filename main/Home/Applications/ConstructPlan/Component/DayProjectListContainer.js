@@ -21,7 +21,7 @@ export default class DayProjectListContainer extends Component{
     constructor(props){
         super(props);
         this.state={
-            modalVisible:true
+            modalVisible:false
         }
     }
 
@@ -30,7 +30,7 @@ export default class DayProjectListContainer extends Component{
             <View style={{flex:1}}>
                 <ScrollView >
                     <ProjectTagName name="工程子项拆分项目1"/>
-                    <IndexProjectListCell/>
+                    <IndexProjectListCell showModal={()=>this.setState({modalVisible: true})}/>
                     <IndexProjectListCell/>
                     <IndexProjectListCell/>
                     <IndexProjectListCell/>
@@ -48,7 +48,7 @@ export default class DayProjectListContainer extends Component{
                     }}
                     style={{backgroundColor: 'rgba(0, 0, 0,0.75)'}}
                 >
-                    <ModalView/>
+                    <ModalView hiddenModal={()=>{this.setState({modalVisible: false})}}/>
                 </Modal>
             </View>
         )

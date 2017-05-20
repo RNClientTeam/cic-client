@@ -14,11 +14,21 @@ import ModalCell from "./ModalCell";
 const {width, height} = Dimensions.get('window');
 
 export default class ModalView extends Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            modals:[
+                {src:require('../../../../../resource/imgs/home/constuctPlan/editComplete.png'),name:'填报进展'},
+                {src:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'确认完成'}
+            ]
+        }
+    }
+
     render() {
         return (
-            <View style={styles.modalView}>
-
-                <ModalCell/>
+            <TouchableOpacity style={styles.modalView} onPress={()=>this.props.hiddenModal()}>
+                {this.renderModalCell()}
                 <View style={styles.buttonView}>
                     <TouchableOpacity style={[styles.button,{backgroundColor:'#fb5560'}]}>
                         <Text style={{color:'#fff'}}>停工</Text>
@@ -27,8 +37,18 @@ export default class ModalView extends Component {
                         <Text style={{color:'#fff'}}>复工</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+            </TouchableOpacity>
         )
+    }
+
+    renderModalCell(){
+        let tempCell = [];
+        for(let i = 0;i<this.state.modals.length;i++){
+            tempCell.push(
+                <ModalCell key={i} src={this.state.modals[i].src} name={this.state.modals[i].name}/>
+            )
+        }
+        return tempCell;
     }
 }
 
