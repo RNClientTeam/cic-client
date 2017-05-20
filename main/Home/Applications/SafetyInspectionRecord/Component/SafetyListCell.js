@@ -13,6 +13,8 @@ import {
 } from 'react-native'
 const {width} = Dimensions.get('window');
 import SafetyDetail from './SafetyDetail.js';
+import ExamineAndApprove from './ExamineAndApprove.js';
+import RectifyTask from './RectifyTask.js';
 export default class SafetyInspectionListCell extends Component {
     render() {
         return (
@@ -42,10 +44,26 @@ export default class SafetyInspectionListCell extends Component {
     }
 
     skipPage() {
-        this.props.navigator.push({
-            component: SafetyDetail,
-            name: 'SafetyDetail'
-        })
+        if (this.props.rowID == 0) {
+            this.props.navigator.push({
+                component: SafetyDetail,
+                name: 'SafetyDetail'
+            });
+        } else if (this.props.rowID == 1) {
+            //审批页面
+            this.props.navigator.push({
+                component: ExamineAndApprove,
+                name: 'ExamineAndApprove'
+            });
+        } else if (this.props.rowID == 2) {
+            //下达整改任务
+            this.props.navigator.push({
+                component: RectifyTask,
+                name: 'RectifyTask'
+            });
+        } else if (this.props.rowID == 3) {
+
+        }
     }
 }
 
