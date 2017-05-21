@@ -28,7 +28,7 @@ export default class KeyValueRight extends Component{
                     value={this.state.textValue}
                     placeholder='请填写'
                     underlineColorAndroid="transparent"
-                    editable={this.props.defaultValue === ''}
+                    editable={!this.props.readOnly}
                     onChangeText={(value)=>this.setState({textValue:value})}
                 />
             </View>
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     },
     inputStyle:{
         height:width*0.12,
-        color:'#216fd0',
+        color:'#666',
         width:width*0.5,
         textAlign:'right',
         fontSize:14

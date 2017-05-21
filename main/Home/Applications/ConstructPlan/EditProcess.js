@@ -24,13 +24,13 @@ export default class EditProcess extends Component{
                 <StatusBar navigator={this.props.navigator} title="填报项目进展"/>
                 <ScrollView>
                     <EditProcessHeader/>
-                    <KeyValueRight propKey="负责人"  defaultValue=""/>
-                    <KeyValueRight propKey="当前状态"  defaultValue=""/>
+                    <KeyValueRight propKey="负责人" readOnly={false} defaultValue=""/>
+                    <KeyValueRight propKey="当前状态" readOnly={false} defaultValue=""/>
                     <KeyTime propKey="任务开始时间"/>
                     <KeyTime propKey="任务结束时间"/>
-                    <KeyValueRight propKey="工作地点"  defaultValue=""/>
-                    <KeyValueRight propKey="参与人员"  defaultValue=""/>
-                    <KeyPercentage propKey="完成比例"/>
+                    <KeyValueRight propKey="工作地点" readOnly={false} defaultValue=""/>
+                    <KeyValueRight propKey="参与人员" readOnly={false} defaultValue=""/>
+                    <KeyPercentage propKey="完成比例" readOnly={false}/>
                     <Remark propKey="完成情况" remark=""/>
                 </ScrollView>
             </View>

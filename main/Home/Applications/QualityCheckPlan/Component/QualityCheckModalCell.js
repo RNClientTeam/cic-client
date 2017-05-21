@@ -11,6 +11,7 @@ import {
     Text,
     TouchableOpacity
 } from 'react-native'
+import AddOrEditQualityCehck from "../AddOrEditQualityCehck";
 const {width} = Dimensions.get('window');
 
 export default class QualityCheckModalCell extends Component {
@@ -25,7 +26,25 @@ export default class QualityCheckModalCell extends Component {
     }
 
     skipPage(){
+        if(this.props.dataSource.name === '检查计划新建'){
+            this.props.navigator.push({
+                name:"AddOrEditQualityCehck",
+                component:AddOrEditQualityCehck,
+                params:{
+                    flag:'add'
+                }
+            })
 
+        }else if(this.props.dataSource.name === '检查计划编辑'){
+            this.props.navigator.push({
+                name:"AddOrEditQualityCehck",
+                component:AddOrEditQualityCehck,
+                params:{
+                    flag:'edit'
+                }
+            })
+        }
+        this.props.closeModal()
     }
 
 }

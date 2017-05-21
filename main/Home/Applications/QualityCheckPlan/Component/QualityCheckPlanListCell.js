@@ -11,7 +11,7 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native'
-import QualityCheckPlanDetail from "./QualityCheckPlanDetail";
+import QualityCheckPlanDetail from "../QualityCheckPlanDetail";
 const {width} = Dimensions.get('window');
 
 export default class QualityCheckPlanListCell extends Component {

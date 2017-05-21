@@ -19,8 +19,8 @@ export default class QualityCheckModal extends Component{
         super(props);
         this.state={
             data:[
-                {img:require('../../../../../resource/imgs/home/earlierStage/applyForDelay.png'),name:'新建检查计划'},
-                {img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),name:'编辑检查计划'}
+                {img:require('../../../../../resource/imgs/home/earlierStage/applyForDelay.png'),name:'检查计划新建'},
+                {img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),name:'检查计划编辑'}
             ]
         }
     }
@@ -68,7 +68,6 @@ const styles = StyleSheet.create({
         backgroundColor:'#fff'
     },
     button:{
-        // width:width*0.29,
         backgroundColor:'red',
         height:width*0.1,
         alignItems:'center',

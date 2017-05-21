@@ -12,9 +12,9 @@ import {
     Image,
     TouchableOpacity
 } from 'react-native'
-import StatusBar from "../../../../Component/StatusBar";
-import ListHeaderCell from "../../Component/ListHeaderCell";
-import KeyValueLeft from "../../../../Component/KeyValueLeft";
+import StatusBar from "../../../Component/StatusBar";
+import ListHeaderCell from "../Component/ListHeaderCell";
+import KeyValueLeft from "../../../Component/KeyValueLeft";
 const {width} = Dimensions.get('window');
 
 export default class QualityCheckPlanDetail extends Component {
@@ -35,7 +35,7 @@ export default class QualityCheckPlanDetail extends Component {
                     <KeyValueLeft propKey="创建时间" propValue="2017-05-11"/>
                 </ScrollView>
                 <TouchableOpacity style={styles.editRecord}>
-                    <Image style={styles.imgSty} source={require('../../../../../resource/imgs/home/QualityCheckPlan/editRecord.png')}/>
+                    <Image style={styles.imgSty} source={require('../../../../resource/imgs/home/QualityCheckPlan/editRecord.png')}/>
                     <Text style={{color:'#216fd0'}}>填报检查记录</Text>
                 </TouchableOpacity>
             </View>
