@@ -7,10 +7,10 @@ import {
 } from 'react-native'
 const {width}  = Dimensions.get('window');
 
-export default class HomeHeader extends Component{
+export default class AddQualityCehck extends Component{
     render(){
         return(
-            <View>
+            <View style={styles.container}>
 
             </View>
         )
@@ -18,5 +18,8 @@ export default class HomeHeader extends Component{
 }
 
 const styles = StyleSheet.create({
-
+    container:{
+        flex:1,
+        backgroundColor:'#f2f2f2'
+    }
 });

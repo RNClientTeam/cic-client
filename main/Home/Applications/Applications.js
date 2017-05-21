@@ -25,6 +25,8 @@ import {getKey} from '../../Util/Util.js';
 import ProjectRangeHandover from "./ProjectRangeHandover/ProjectRangeHandover"
 import ConstructPlan from "./ConstructPlan/ConstructPlan"
 import ProgressExecute from './ConstructProgressExecute/ProgressExecute'
+import QualityCheckPlan from "./QualityCheckPlan/QualityCheckPlan";
+import QualityCheckRecord from "./QualityCheckRecord/QualityCheckRecord";
 const {width, height}  = Dimensions.get('window');
 
 var commonlyApp = [
@@ -84,6 +86,7 @@ export default class Applications extends Component {
             key: getKey('nativeCommonlyApp')
         }).then((res)=>{
             if (res) {
+                commonlyApp = res;
                 this.setState({commonlyApp:res});
             }
         }).catch(err => {
@@ -158,8 +161,8 @@ export default class Applications extends Component {
                     //实现对象深拷贝
                     var tempItem = JSON.parse(JSON.stringify(item));
                     tempItem.sectionID = 0;
-                    this.state.commonlyApp.push(tempItem);
-                    this.setState({commonlyApp:this.state.commonlyApp});
+                    commonlyApp.push(tempItem);
+                    this.setState({commonlyApp:commonlyApp});
                     storage.save({
                         key: getKey('nativeCommonlyApp'),
                         data: this.state.commonlyApp
@@ -226,7 +229,18 @@ export default class Applications extends Component {
                 component: SafetyInspectionRecord,
                 name: 'SafetyInspectionRecord'
             })
+        }else if (item.title === '质量检查计划') {
+            this.props.navigator.push({
+                component: QualityCheckPlan,
+                name: 'QualityCheckPlan'
+            })
+        }else if (item.title === '质量检查记录') {
+            this.props.navigator.push({
+                component: QualityCheckRecord,
+                name: 'QualityCheckRecord'
+            })
         }
+
     }
 
     //分组头
@@ -255,6 +269,14 @@ export default class Applications extends Component {
 
     //点击头部右按钮
     toolsOnPress() {
+        if (!this.state.canEdit) {
+            this.state.showSection.splice(0,1,1);
+            this.state.commonlyApp = commonlyApp;
+            this.setState({
+                commonlyApp: this.state.commonlyApp,
+                showSection: this.state.showSection
+            });
+        }
         this.setState({canEdit:!this.state.canEdit});
     }
 

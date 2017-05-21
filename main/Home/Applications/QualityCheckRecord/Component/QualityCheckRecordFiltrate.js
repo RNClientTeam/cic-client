@@ -1,5 +1,5 @@
 /**
- * Created by Nealyang on 2017/5/1.
+ * Created by Nealyang on 2017/5/21.
  */
 'use strict';
 import React, {Component} from 'react'
@@ -11,48 +11,43 @@ import {
     Image,
     TouchableOpacity
 } from 'react-native'
-import {getCurrentDate} from '../../../../Util/Util'
-import ChoiceDate from "../../../../Component/ChoiceDate";
 const {width, height} = Dimensions.get('window');
 const Platform = require('Platform');
 import ModalDropdown from 'react-native-modal-dropdown';
-export default class EarlierStageListModalView extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            startDate: getCurrentDate(),
-            endDate: getCurrentDate(),
-            planType: '请选择计划类型'
-        }
-    }
+
+export default class QualityCheckRecordFiltrate extends Component {
+
+
 
     render() {
         return (
-            <View style={[styles.earlierStageListModalView, Platform.OS === 'android' ? {top: 44} : {top: 64}]}>
-                <View style={styles.containerStyle}>
-                    <Text style={styles.nameStyle}>开始时间</Text>
-                    <View style={styles.indicateView}>
-                        <ChoiceDate/>
-                        <Image style={styles.indicateImage}
-                               source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
-                    </View>
-
-                </View>
-                <View style={styles.containerStyle}>
-                    <Text style={styles.nameStyle}>结束时间</Text>
-                    <View style={styles.indicateView}>
-                        <ChoiceDate/>
-                        <Image style={styles.indicateImage}
-                               source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
-                    </View>
-                </View>
-                <View style={styles.containerStyle}>
-                    <Text style={styles.nameStyle}>计划类型</Text>
+            <View style={[styles.containerStyle, Platform.OS === 'android' ? {top: 44} : {top: 64}]}>
+                <View style={styles.cellStyle}>
+                    <Text style={{color:'#216fd0'}}>当前状态</Text>
                     <View style={styles.indicateView}>
                         <ModalDropdown
                             options={['计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4', '计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4']}
                             animated={true}
-                            defaultValue={this.state.planType}
+                            defaultValue='计划类型 1'
+                            style={styles.modalDropDown}
+                            textStyle={styles.modalDropDownText}
+                            dropdownStyle={styles.dropdownStyle}
+                            onSelect={(a) => {
+                                console.log(a)
+                            }}
+                            showsVerticalScrollIndicator={false}
+                        />
+                        <Image style={styles.indicateImage}
+                               source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
+                    </View>
+                </View>
+                <View style={styles.cellStyle}>
+                    <Text style={{color:'#216fd0'}}>任务性质</Text>
+                    <View style={styles.indicateView}>
+                        <ModalDropdown
+                            options={['计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4', '计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4']}
+                            animated={true}
+                            defaultValue='计划类型 1'
                             style={styles.modalDropDown}
                             textStyle={styles.modalDropDownText}
                             dropdownStyle={styles.dropdownStyle}
@@ -67,11 +62,11 @@ export default class EarlierStageListModalView extends Component {
                 </View>
                 <View style={styles.buttonView}>
                     <TouchableOpacity style={[styles.clickButton, {backgroundColor: '#dbdada'}]}
-                                      onPress={() => this.props.closeModal()}>
+                                      onPress={() => this.props.closeFiltrate()}>
                         <Text>重置</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.clickButton, {backgroundColor: '#216fd0'}]}
-                                      onPress={() => this.props.closeModal()}>
+                                      onPress={() => this.props.closeFiltrate()}>
                         <Text style={{color: '#fff'}}>确定</Text>
                     </TouchableOpacity>
                 </View>
@@ -81,36 +76,27 @@ export default class EarlierStageListModalView extends Component {
 }
 
 const styles = StyleSheet.create({
-    earlierStageListModalView: {
+    containerStyle: {
         height: height - 64,
         backgroundColor: 'rgba(0, 0, 0, 0.75)',
         position: 'absolute',
         width: width,
         zIndex: 3,
     },
-    containerStyle: {
+    cellStyle: {
+        height: width * 0.12,
+        borderBottomColor: '#ddd',
+        borderBottomWidth: 1,
         backgroundColor: '#fff',
-        height: width * 0.1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
         paddingLeft: width * 0.02,
         paddingRight: width * 0.02,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ddd'
-    },
-    nameStyle: {
-        color: '#216fd0',
-        fontSize: width * 0.035
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection:'row'
     },
     indicateView: {
         flexDirection: 'row',
         alignItems: 'center'
-    },
-    indicateImage: {
-        width: width * 0.02,
-        height: width * 0.02,
-        marginLeft: width * 0.02
     },
     modalDropDownText: {
         fontSize: width * 0.035,
@@ -119,6 +105,11 @@ const styles = StyleSheet.create({
         width: width * 0.55,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    indicateImage: {
+        width: width * 0.02,
+        height: width * 0.02,
+        marginLeft: width * 0.02
     },
     buttonView: {
         height: width * 0.3,

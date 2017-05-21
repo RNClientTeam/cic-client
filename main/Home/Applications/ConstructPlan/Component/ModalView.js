@@ -30,10 +30,10 @@ export default class ModalView extends Component {
             <TouchableOpacity style={styles.modalView} onPress={()=>this.props.hiddenModal()}>
                 {this.renderModalCell()}
                 <View style={styles.buttonView}>
-                    <TouchableOpacity style={[styles.button,{backgroundColor:'#fb5560'}]}>
+                    <TouchableOpacity style={[styles.button,{backgroundColor:'#fb5560'}]} onPress={()=>this.props.hiddenModal()}>
                         <Text style={{color:'#fff'}}>停工</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.button, {backgroundColor:'#3999fd'}]}>
+                    <TouchableOpacity style={[styles.button, {backgroundColor:'#3999fd'}]} onPress={()=>this.props.hiddenModal()}>
                         <Text style={{color:'#fff'}}>复工</Text>
                     </TouchableOpacity>
                 </View>
@@ -45,7 +45,7 @@ export default class ModalView extends Component {
         let tempCell = [];
         for(let i = 0;i<this.state.modals.length;i++){
             tempCell.push(
-                <ModalCell key={i} src={this.state.modals[i].src} name={this.state.modals[i].name}/>
+                <ModalCell hiddenModal={()=>this.props.hiddenModal()} navigator={this.props.navigator} key={i} src={this.state.modals[i].src} name={this.state.modals[i].name}/>
             )
         }
         return tempCell;
