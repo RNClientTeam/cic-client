@@ -90,16 +90,6 @@ export default class Applications extends Component {
         }).catch(err => {
 
         });
-
-        axios.get('/psmGcfw/xmDetail',{
-            params:{
-                userID:'ZNDQ1969',
-                cfxxid:'8a8180b85bacee8d015bad56dfc10306',
-                callID:'111111'
-            }
-        }).then(data=>{
-            console.log('Neal',data);
-        })
     }
     render() {
         return (

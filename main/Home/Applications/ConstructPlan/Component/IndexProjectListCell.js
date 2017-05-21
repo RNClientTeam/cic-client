@@ -28,7 +28,7 @@ export default class IndexProjectListCell extends Component{
                     <Text style={styles.bottomText}>驾驶轮</Text>
                     <Text style={styles.bottomText}>进度10%</Text>
                     <Text style={styles.bottomText}>2017-09-11-2017-01-11</Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={()=>this.props.showModal()}>
                         <Image style={styles.editImg} source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}/>
                     </TouchableOpacity>
                 </View>

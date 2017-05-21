@@ -18,8 +18,8 @@ export default class ModalCell extends Component{
         return(
             <TouchableOpacity style={styles.moreOperationsCell} >
                 <Image style={styles.imgStyle}
-                       source={require('../../../../../resource/imgs/home/constuctPlan/editComplete.png')}/>
-                <Text style={{color:'#6b6b6b',fontSize:width*0.037}}>填报进展</Text>
+                       source={this.props.src}/>
+                <Text style={{color:'#6b6b6b',fontSize:width*0.037}}>{this.props.name}</Text>
             </TouchableOpacity>
         )
     }
