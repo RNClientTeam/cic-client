@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 const {width} = Dimensions.get('window');
 
-export default class KeyValue extends Component {
+export default class KeyValueLeft extends Component {
     render() {
         return (
             <View style={styles.keyValue}>

@@ -28,7 +28,7 @@ export default class EarlierStageListHeader extends Component {
 
 const styles = StyleSheet.create({
     earlierStageListHeader:{
-        backgroundColor:'#f2f2f2',
+        backgroundColor:'transparent',
         width:width,
         paddingLeft:width*0.02,
         paddingRight:width*0.02,

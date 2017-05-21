@@ -9,7 +9,7 @@ import {
     Dimensions,
     Text
 } from 'react-native'
-import KeyValue from "../../../../Component/KeyValue";
+import KeyValue from "../../../../Component/KeyValueLeft";
 import StatusBar from "../../../../Component/StatusBar";
 const {width} = Dimensions.get('window');
 

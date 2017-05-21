@@ -15,6 +15,8 @@ import StatusBar from "../../../Component/StatusBar";
 import ConstructPlanHeader from "./Component/ConstructPlanHeader";
 import Calendar from "./Component/Calendar";
 import DayProjectListContainer from "./Component/DayProjectListContainer";
+import ProjectListView from "./ProjectListView";
+import NewProject from "./NewProject";
 const {width}  = Dimensions.get('window');
 
 export default class ConstructPlan extends Component{
@@ -30,10 +32,10 @@ export default class ConstructPlan extends Component{
         return(
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="施工日计划">
-                    <TouchableOpacity onPress={()=>{this.setState({isModalVisible:!this.state.isModalVisible})}}>
+                    <TouchableOpacity onPress={()=>this.props.navigator.push({name:'NewProject',component:NewProject})}>
                         <Image style={[styles.filtrate, {marginLeft:-width*0.045-10}]} source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={()=>{this.addBtn()}}>
+                    <TouchableOpacity onPress={()=>{this.skipPage()}}>
                         <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/constuctPlan/projectList.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
@@ -48,6 +50,12 @@ export default class ConstructPlan extends Component{
         this.setState({
             year:data.substr(0,4),
             month:parseInt(data.substr(-2,data.length-1))-1
+        })
+    }
+    skipPage(){
+        this.props.navigator.push({
+            name:'ProjectListView',
+            component:ProjectListView
         })
     }
 
