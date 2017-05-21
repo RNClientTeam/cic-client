@@ -95,7 +95,7 @@ export default class QualityCheckPlanList extends Component {
             bgC = '#fe9a25'
         }
         return (
-            <QualityCheckPlanListCell bgC={bgC} key={rowID} navigator={this.props.navigator} data={item}/>
+            <QualityCheckPlanListCell  showModal={()=>this.props.showModal()} bgC={bgC} key={rowID} navigator={this.props.navigator} data={item}/>
         );
     }
 

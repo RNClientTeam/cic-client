@@ -18,6 +18,7 @@ import KeySelect from "../../../Component/KeySelect";
 import KeyValueN from "../../../Component/KeyValueN";
 import KeyPercentage from "../../../Component/KeyPercentage";
 import BottomSaveButton from "../../../Component/BottomSaveButton";
+import ListHeaderCell from "../Component/ListHeaderCell";
 const {width}  = Dimensions.get('window');
 
 export default class NewProject extends Component{
@@ -26,7 +27,7 @@ export default class NewProject extends Component{
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="新建施工日计划"/>
                 <ScrollView>
-                    <NewProjectHeaderCell/>
+                    <ListHeaderCell name="临时任务"/>
                     <KeySelect propKey="任务负责人"/>
                     <KeyTime propKey="任务开始时间"/>
                     <KeyTime propKey="任务结束时间"/>

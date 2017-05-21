@@ -11,12 +11,13 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native'
+import QualityCheckPlanDetail from "./QualityCheckPlanDetail";
 const {width} = Dimensions.get('window');
 
 export default class QualityCheckPlanListCell extends Component {
     render() {
         return (
-            <TouchableOpacity style={styles.container}>
+            <TouchableOpacity style={styles.container} onPress={this.skipToDetail.bind(this)}>
                 <View style={styles.topView}>
                     <View style={styles.topTopView}>
                         <Text style={styles.projectNameStyle}>{this.props.data.projectName}</Text>
@@ -36,15 +37,23 @@ export default class QualityCheckPlanListCell extends Component {
                         </View>
                         <Text style={styles.bottomTextStyle}>{this.props.data.time}</Text>
                     </View>
-                    <TouchableOpacity style={styles.bottomRightView} onPress={() => {
-                        this.props.setModalVisible()
-                    }}>
+                    <TouchableOpacity style={styles.bottomRightView} onPress={()=>this.props.showModal()}>
                         <Image style={styles.imgSty}
                                source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}/>
                     </TouchableOpacity>
                 </View>
             </TouchableOpacity>
         )
+    }
+
+    skipToDetail(){
+        this.props.navigator.push({
+            component:QualityCheckPlanDetail,
+            name:'QualityCheckPlanDetail',
+            params: {
+                proName: this.props.data.projectName,
+            }
+        })
     }
 }
 

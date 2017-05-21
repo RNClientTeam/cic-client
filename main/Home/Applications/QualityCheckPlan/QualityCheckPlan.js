@@ -9,13 +9,15 @@ import {
     StyleSheet,
     Dimensions,
     TouchableOpacity,
-    Image
+    Image,
+    Modal
 } from 'react-native'
 import StatusBar from "../../../Component/StatusBar";
 import Calendar from "../Component/Calendar";
 import QualityCheckPlanHeader from "./Component/QualityCheckPlanHeader";
 import QualityCheckPlanList from "./Component/QualityCheckPlanList";
 import QualityCheckFiltrate from "./Component/QualityCheckFiltrate";
+import QualityCheckModal from "./Component/QualityCheckModal";
 const {width}  = Dimensions.get('window');
 
 export default class QualityCheckPlan extends Component{
@@ -25,7 +27,8 @@ export default class QualityCheckPlan extends Component{
             year:new Date().getFullYear(),//当前年份
             month:new Date().getMonth(),//当前月份
             selectRange:"mine",
-            filtrate:false
+            filtrate:false,
+            modalVisible:false
         }
     }
     render(){
@@ -38,7 +41,21 @@ export default class QualityCheckPlan extends Component{
                 </StatusBar>
                 <QualityCheckPlanHeader changeRange={this.changeRange.bind(this)} range={this.state.selectRange} changeDate={this.changeYearAndMonth.bind(this)}/>
                 <Calendar year={this.state.year} month={this.state.month}/>
-                <QualityCheckPlanList/>
+                <QualityCheckPlanList navigator={this.props.navigator} showModal={()=>this.setState({modalVisible:true})}/>
+
+                <Modal
+                    animationType={"slide"}
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.setState({modalVisible: !this.state.modalVisible})
+                    }}
+                    style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
+                >
+                    <QualityCheckModal navigator={this.props.navigator} closeModal={() => {
+                        this.setState({modalVisible: false})
+                    }}/>
+                </Modal>
                 {this.state.filtrate?<QualityCheckFiltrate closeFiltrate={()=>this.setState({filtrate:false})}/>:null}
             </View>
         )
@@ -49,12 +66,6 @@ export default class QualityCheckPlan extends Component{
             year:data.substr(0,4),
             month:parseInt(data.substr(-2,data.length-1))-1
         })
-    }
-    skipPage(){
-        // this.props.navigator.push({
-        //     name:'ProjectListView',
-        //     component:ProjectListView
-        // })
     }
 
 
