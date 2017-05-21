@@ -41,7 +41,7 @@ export default class ConstructPlan extends Component{
                 </StatusBar>
                 <ConstructPlanHeader changeRange={this.changeRange.bind(this)} range={this.state.selectRange} changeDate={this.changeYearAndMonth.bind(this)}/>
                 <Calendar year={this.state.year} month={this.state.month}/>
-                <DayProjectListContainer/>
+                <DayProjectListContainer navigator={this.props.navigator}/>
             </View>
         )
     }
