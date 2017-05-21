@@ -84,6 +84,7 @@ export default class Applications extends Component {
             key: getKey('nativeCommonlyApp')
         }).then((res)=>{
             if (res) {
+                commonlyApp = res;
                 this.setState({commonlyApp:res});
             }
         }).catch(err => {
@@ -168,8 +169,8 @@ export default class Applications extends Component {
                     //实现对象深拷贝
                     var tempItem = JSON.parse(JSON.stringify(item));
                     tempItem.sectionID = 0;
-                    this.state.commonlyApp.push(tempItem);
-                    this.setState({commonlyApp:this.state.commonlyApp});
+                    commonlyApp.push(tempItem);
+                    this.setState({commonlyApp:commonlyApp});
                     storage.save({
                         key: getKey('nativeCommonlyApp'),
                         data: this.state.commonlyApp
@@ -265,6 +266,14 @@ export default class Applications extends Component {
 
     //点击头部右按钮
     toolsOnPress() {
+        if (!this.state.canEdit) {
+            this.state.showSection.splice(0,1,1);
+            this.state.commonlyApp = commonlyApp;
+            this.setState({
+                commonlyApp: this.state.commonlyApp,
+                showSection: this.state.showSection
+            });
+        }
         this.setState({canEdit:!this.state.canEdit});
     }
 
