@@ -34,7 +34,7 @@ export default class Calendar extends Component{
                     {this.state.all?this.renderCalendarCell(this.state.renderCalendarArrAll):this.renderCalendarCell(this.state.renderCalendarArrWeek)}
                 </View>
                 <TouchableOpacity style={styles.pullDown} activeOpacity={0.7} onPress={()=>this.setState({all:!this.state.all})}>
-                    <Image style={styles.pullDownImg} source={require('../../../../../resource/imgs/home/constuctPlan/pullDown.png')}/>
+                    <Image style={styles.pullDownImg} source={require('../../../../resource/imgs/home/constuctPlan/pullDown.png')}/>
                 </TouchableOpacity>
             </View>
         )

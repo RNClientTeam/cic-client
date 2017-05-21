@@ -25,6 +25,7 @@ import {getKey} from '../../Util/Util.js';
 import ProjectRangeHandover from "./ProjectRangeHandover/ProjectRangeHandover"
 import ConstructPlan from "./ConstructPlan/ConstructPlan"
 import ProgressExecute from './ConstructProgressExecute/ProgressExecute'
+import QualityCheckPlan from "./QualityCheckPlan/QualityCheckPlan";
 const {width, height}  = Dimensions.get('window');
 
 var commonlyApp = [
@@ -225,6 +226,11 @@ export default class Applications extends Component {
             this.props.navigator.push({
                 component: SafetyInspectionRecord,
                 name: 'SafetyInspectionRecord'
+            })
+        }else if (item.title === '质量检查计划') {
+            this.props.navigator.push({
+                component: QualityCheckPlan,
+                name: 'QualityCheckPlan'
             })
         }
     }
