@@ -26,6 +26,7 @@ import ProjectRangeHandover from "./ProjectRangeHandover/ProjectRangeHandover"
 import ConstructPlan from "./ConstructPlan/ConstructPlan"
 import ProgressExecute from './ConstructProgressExecute/ProgressExecute'
 import QualityCheckPlan from "./QualityCheckPlan/QualityCheckPlan";
+import QualityCheckRecord from "./QualityCheckRecord/QualityCheckRecord";
 const {width, height}  = Dimensions.get('window');
 
 var commonlyApp = [
@@ -232,7 +233,13 @@ export default class Applications extends Component {
                 component: QualityCheckPlan,
                 name: 'QualityCheckPlan'
             })
+        }else if (item.title === '质量检查记录') {
+            this.props.navigator.push({
+                component: QualityCheckRecord,
+                name: 'QualityCheckRecord'
+            })
         }
+
     }
 
     //分组头
