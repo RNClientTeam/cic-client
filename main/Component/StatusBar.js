@@ -25,7 +25,7 @@ export default class StatusBar extends Component {
                 </View>
                 <View style={styles.navigationStyle}>
                     {this.props.notBack ?
-                        <View/>
+                        <View style={styles.backIcon}/>
                         : Platform.OS === 'android' ?
                             <TouchableOpacity onPress={this.goBack.bind(this)}>
                                 <Image style={styles.backIcon}
