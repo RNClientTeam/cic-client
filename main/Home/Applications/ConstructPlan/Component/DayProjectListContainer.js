@@ -48,7 +48,7 @@ export default class DayProjectListContainer extends Component{
                     }}
                     style={{backgroundColor: 'rgba(0, 0, 0,0.75)'}}
                 >
-                    <ModalView hiddenModal={()=>{this.setState({modalVisible: false})}}/>
+                    <ModalView navigator={this.props.navigator} hiddenModal={()=>{this.setState({modalVisible: false})}}/>
                 </Modal>
             </View>
         )

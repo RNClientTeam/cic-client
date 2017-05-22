@@ -11,7 +11,7 @@ const {width} = Dimensions.get('window');
 /**
  *测试日历
  */
-import Calendar from '../Home/Applications/ConstructPlan/Component/Calendar'
+import Calendar from '../Home/Applications/Component/Calendar'
 import StatusBar from '../Component/StatusBar'
 export default class Message extends Component {
     render() {

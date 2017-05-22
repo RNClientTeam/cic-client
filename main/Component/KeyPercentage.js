@@ -22,6 +22,7 @@ export default class KeyPercentage extends Component{
                         style={styles.textInput}
                         underlineColorAndroid="transparent"
                         keyboardType="number-pad"
+                        editable={!this.props.readOnly}
                     />
                     <Text style={styles.keyStyle}>%</Text>
                 </View>

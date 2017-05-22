@@ -7,6 +7,7 @@ import {
     StyleSheet,
     Text,
     TouchableOpacity,
+    Image,
     Dimensions
 } from 'react-native'
 
@@ -17,12 +18,12 @@ export default class EmployeeItem extends Component {
         return (
             <TouchableOpacity onPress={this.handleOnClick.bind(this)}>
                 <View style={styles.empItem}>
-                    <View style={styles.nameLabel}>
+                    <View>
                         <Text>{this.props.emp.name}</Text>
                     </View>
-                    <View style={styles.blank}></View>
+                    <View style={styles.blank}/>
                     <View>
-                        <Text> ... </Text>
+                        <Image style={styles.commentIcon} source={require('../../../resource/imgs/orgnization/comment.png')}/>
                     </View>
                 </View>
             </TouchableOpacity>
@@ -46,10 +47,12 @@ const styles = StyleSheet.create({
         borderBottomColor:'#dcdcdc',
         borderBottomWidth: 1
     },
-    nameLabel: {
-
-    },
     blank: {
         flex: 1
+    },
+    commentIcon: {
+        width: width * 0.05,
+        height: width * 0.05,
+        marginRight: 5,
     }
 });

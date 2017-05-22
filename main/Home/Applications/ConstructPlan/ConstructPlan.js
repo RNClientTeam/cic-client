@@ -13,7 +13,7 @@ import {
 } from 'react-native'
 import StatusBar from "../../../Component/StatusBar";
 import ConstructPlanHeader from "./Component/ConstructPlanHeader";
-import Calendar from "./Component/Calendar";
+import Calendar from "../Component/Calendar";
 import DayProjectListContainer from "./Component/DayProjectListContainer";
 import ProjectListView from "./ProjectListView";
 import NewProject from "./NewProject";
@@ -41,7 +41,7 @@ export default class ConstructPlan extends Component{
                 </StatusBar>
                 <ConstructPlanHeader changeRange={this.changeRange.bind(this)} range={this.state.selectRange} changeDate={this.changeYearAndMonth.bind(this)}/>
                 <Calendar year={this.state.year} month={this.state.month}/>
-                <DayProjectListContainer/>
+                <DayProjectListContainer navigator={this.props.navigator}/>
             </View>
         )
     }
