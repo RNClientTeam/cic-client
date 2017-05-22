@@ -41,15 +41,11 @@ export default class GestureLogin extends Component {
                     if (responseData.code === 1) {
                         //登录成功
                         this.setState({isLoading:false});
-                        //获取用户信息
+                        //获取并保存用户信息
                         var userMessage = AESDecrypt(responseData.data, responseData.secretKey);
                         storage.save({
                             key: getKey('userMessage'),
                             data: JSON.parse(userMessage)
-                        });
-                        storage.save({
-                            key: getKey('secretKey'),
-                            data: responseData.secretKey
                         });
                         global.SECRETKEY = responseData.secretKey;
                         //登录成功
@@ -62,7 +58,7 @@ export default class GestureLogin extends Component {
                                     type: 'fade'
                                 });
                             }
-                        }, 300);
+                        }, 310);
                     } else {
                         this.setState({
                             status: 'wrong',

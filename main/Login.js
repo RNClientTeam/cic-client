@@ -120,7 +120,6 @@ export default class Login extends Component {
         })
         .then((response) => response.json())
         .then((responseData) => {
-
             if (responseData.code === 1) {
                 //登录成功
                 this.setState({
@@ -137,15 +136,11 @@ export default class Login extends Component {
                     data: usernameAndPW
                 });
 
-                //获取用户信息
+                //获取并保存用户信息
                 var userMessage = AESDecrypt(responseData.data, responseData.secretKey);
                 storage.save({
                     key: getKey('userMessage'),
                     data: JSON.parse(userMessage)
-                });
-                storage.save({
-                    key: getKey('secretKey'),
-                    data: responseData.secretKey
                 });
                 global.SECRETKEY = responseData.secretKey;
                 //登录成功
