@@ -51,14 +51,14 @@ export default class EarlierStage extends Component{
 
     componentDidMount() {
         // this.getDataFromNet().bind(this)
-        // this.getDataFromNet();
+        this.getDataFromNet();
     }
 
     getDataFromNet(){
-        this.setState({
-            jhlx:'500',//计划类型
-            pageNum:1,//页码
-        });
+        // this.setState({
+        //     jhlx:'500',//计划类型
+        //     pageNum:1,//页码
+        // });
         let url =`${FetchUrl.baseUrl}/psmQqJdjh/list?userID=${GLOBAL_USERID}&sDate=${this.state.sDate}&eDate=${this.state.eDate}&jhlx=${this.state.jhlx}&pageNum=${this.state.pageNum}&pageSize=10&callID=${getTimestamp()}&sign=${GLOBAL_USERSIGN}`;
         console.log(url);
         fetch(url).then(response=>response.json())
