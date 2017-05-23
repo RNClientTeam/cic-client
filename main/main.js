@@ -12,6 +12,7 @@ import TabNavigator from 'react-native-tab-navigator';
 import Home from './Home/Home.js';
 import Message from './Message/Message.js';
 import User from './User/User.js';
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 import Organization from './Organization/Organization.js';
 var {width,height} = Dimensions.get('window');
 var tabImg =
@@ -66,7 +67,12 @@ export default class Main extends Component {
                 renderSelectedIcon={() => <Image source={selIconSrc} style={styles.imgSty} resizeMode="contain"/>}
                 renderAsOriginal={true}
                 selectedTitleStyle={{color:'#216fd0'}}
-                onPress={() => {this.setState({selectedTab:tabName});}}>
+                onPress={() => {
+                    this.setState({selectedTab:tabName});
+                    if (tabName === 'Organization') {
+                        RCTDeviceEventEmitter.emit('organization');
+                    }
+                }}>
                 <Component navigator={this.props.navigator}/>
             </TabNavigator.Item>
         )
