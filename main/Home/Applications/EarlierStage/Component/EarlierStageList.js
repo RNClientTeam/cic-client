@@ -20,61 +20,10 @@ import Reload from "../../../../Component/Reload";
 export default class EarlierStageList extends Component {
     constructor(props) {
         super(props);
-        this.dataSource = [
-            {
-                number: 'CX_DS16052',
-                state: '执行中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                number: 'CX_DS16051',
-                state: '执行中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                number: 'CX_DS17051',
-                state: '执行中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                number: 'CX_DS66051',
-                state: '执行中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                number: 'CX_DS36051',
-                state: '执行中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            }
-        ];
+        this.dataSource = [];
         this.state = {
             hasMoreData: true,
-            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(this.dataSource),
+            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})),
         }
     }
 
@@ -85,11 +34,12 @@ export default class EarlierStageList extends Component {
                     onPullRelease={this.onPullRelease.bind(this)}
                     topIndicatorRender={this.topIndicatorRender.bind(this)}
                     topIndicatorHeight={60}
-                    dataSource={this.state.list}
+                    dataSource={this.state.list.cloneWithRows(this.props.dataSource)}
                     renderRow={this.renderRow.bind(this)}
                     onEndReached={this.loadMore.bind(this)}
-                    onEndReachedThreshold={60}
+                    onEndReachedThreshold={10}
                     renderFooter={this.renderFooter.bind(this)}
+                    enableEmptySections={true}
                 />
             </View>
         )
@@ -97,15 +47,20 @@ export default class EarlierStageList extends Component {
 
     onPullRelease(resolve) {
         //do refresh
-        setTimeout(() => {
-            resolve();
-        }, 3000);
+        this.props.refresh(()=>{resolve()})
     }
 
     renderRow(item, sectionID, rowID, highlightRow) {
-
+        let stateBg = '#fe9a25';
+        if(item.ztmc === '已生效'){
+            stateBg='#29b0f5';
+        }else if(item.ztmc === '新计划'){
+            stateBg='#1f92e2';
+        }else if(item.ztmc === ''){
+            stateBg='#18d0ca';
+        }
         return (
-            <EarlierStageListCell key={rowID} navigator={this.props.navigator} data={item} target="EarlierStageDetail"/>
+            <EarlierStageListCell stateBg={stateBg} key={rowID} navigator={this.props.navigator} data={item} target="EarlierStageDetail"/>
         );
     }
 
@@ -118,70 +73,16 @@ export default class EarlierStageList extends Component {
     }
 
     loadMore() {
-        let a = [
-            {
-                number: 'CX_DS16052',
-                state: '执行中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                number: 'CX_DS16051',
-                state: '执行中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                number: 'CX_DS17051',
-                state: '执行中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                number: 'CX_DS66051',
-                state: '执行中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                number: 'CX_DS36051',
-                state: '执行中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            }];
-
-        for (let i = 0; i < a.length; i++) {
-            this.dataSource.push(a[i])
-        }
-
-        setTimeout(() => {
+        if(this.props.dataSource.length>0){
             this.setState({
-                list: this.state.list.cloneWithRows(this.dataSource)
-            });
-        }, 1000);
+                hasMoreData:this.props.loadMore()
+            })
+        }
     }
 
-
+    componentDidMount() {
+        console.log(this.props.dataSource)
+    }
 }
 
 const styles = StyleSheet.create({

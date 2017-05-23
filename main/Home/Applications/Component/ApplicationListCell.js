@@ -25,29 +25,29 @@ export default class EarlierStageListCell extends Component {
                 <TouchableOpacity style={styles.earlierStageListCell} onPress={this.skipPage.bind(this)}>
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
-                            <Text style={{color: '#216fd0', fontSize: width * 0.045}}>{this.props.data.number}</Text>
+                            <Text style={{color: '#216fd0', fontSize: width * 0.045}}>{this.props.data.xmbh}</Text>
                             {this.props.stateBg ?
                                 <View style={[styles.stateView, {backgroundColor: this.props.stateBg}]}>
-                                    <Text style={styles.stateText}>{this.props.data.state}</Text>
+                                    <Text style={styles.stateText}>{this.props.data.ztmc}</Text>
                                 </View> :
                                 <View style={[styles.stateView]}>
-                                    <Text style={styles.stateText}>{this.props.data.state}</Text>
+                                    <Text style={styles.stateText}>{this.props.data.ztmc}</Text>
                                 </View>
                             }
                         </View>
                         <View style={styles.projectName}>
-                            <Text>{this.props.data.planName}</Text>
+                            <Text style={{width:width*0.85,lineHeight:width*0.05}}>{this.props.data.xmmc}</Text>
                             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                                <Text>{this.props.data.contentNum}</Text>
+                                <Text>{this.props.data.count}</Text>
                                 <Text style={{color: '#999', fontSize: width * 0.05}}> > </Text>
                             </View>
                         </View>
                     </View>
                     <View style={styles.aboutPrincipal}>
-                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.principal}</Text>
-                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.department}</Text>
-                        <Text style={[{width: width * 0.5}, styles.textStyle]}>{this.props.data.schedule}</Text>
-                        <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.time}</Text>
+                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.xmjl}</Text>
+                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.tbdw}</Text>
+                        <Text style={[{width: width * 0.5,paddingLeft:width*0.04}, styles.textStyle]}>{this.props.data.wcbl}%</Text>
+                        <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.sDate}-{this.props.data.eDate}</Text>
                     </View>
                 </TouchableOpacity>
             </View>
@@ -59,7 +59,10 @@ export default class EarlierStageListCell extends Component {
             case 'EarlierStageDetail':
                 this.props.navigator.push({
                     component: EarlierStageDetail,
-                    name: 'EarlierStageDetail'
+                    name: 'EarlierStageDetail',
+                    params:{
+                        xmbh:this.props.data.xmbh
+                    }
                 });
                 break;
             case 'ProgressPlanDetail':
@@ -107,7 +110,7 @@ const styles = StyleSheet.create({
     },
     aboutProject: {
         backgroundColor: '#fff',
-        height: width * 0.2,
+        minHeight: width * 0.2,
         paddingLeft: width * 0.01,
         paddingRight: width * 0.01
     },
@@ -129,13 +132,15 @@ const styles = StyleSheet.create({
     projectName: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        height: width * 0.1,
-        alignItems: 'center'
+        minHeight: width * 0.1,
+        alignItems: 'center',
+        paddingTop:width*0.01,
+        paddingBottom:width*0.01
     },
     textStyle: {
         height: width * 0.1,
         lineHeight: 30,
-        color: '#4f74a3'
+        color: '#4f74a3',
     },
     stateView: {
         backgroundColor: '#fe9a25',
