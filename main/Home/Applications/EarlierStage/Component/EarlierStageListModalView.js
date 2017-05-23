@@ -22,7 +22,7 @@ export default class EarlierStageListModalView extends Component {
         this.state = {
             startDate: getCurrentDate(),
             endDate: getCurrentDate(),
-            planType: '请选择计划类型'
+            planType: '全部'
         }
     }
 
@@ -50,7 +50,7 @@ export default class EarlierStageListModalView extends Component {
                     <Text style={styles.nameStyle}>计划类型</Text>
                     <View style={styles.indicateView}>
                         <ModalDropdown
-                            options={['计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4', '计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4']}
+                            options={['全部', '我参与的', '我审核的', '我的计划', '我的待办']}
                             animated={true}
                             defaultValue={this.state.planType}
                             style={styles.modalDropDown}

@@ -113,6 +113,7 @@ export default class Home extends Component {
                 let target = {};
                 Object.assign(target,config.params);
                 config.params.sign = getSign(target,SECRETKEY);
+                console.log(config.params)
             }
             return config;
         }, function (err) {

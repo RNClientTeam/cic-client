@@ -30,6 +30,21 @@ export function AESDecrypt(base64Str, secretKey) {
     return userMessage;
 }
 
+//判断是否为闰年,是则返回1，否则返回0
+function isLeap(year) {
+    return year % 4 == 0 ? (year % 100 != 0 ? 1 : (year % 400 == 0 ? 1 : 0)) : 0;
+}
+
+//获取当前月份第一天，以及最后一天
+export function getCurrentMonS() {
+    return `${new Date().getFullYear()}-${(new Date().getMonth()+1).toString().length===1?'0'+(new Date().getMonth()+1):(new Date().getMonth()+1)}-01`
+}
+
+export function getCurrentMonE() {
+    let days_per_month = new Array(31, 28 + isLeap(new Date().getFullYear()), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
+    return `${new Date().getFullYear()}-${(new Date().getMonth()+1).toString().length===1?'0'+(new Date().getMonth()+1):(new Date().getMonth()+1)}-${days_per_month[new Date().getMonth()]}`
+}
+
 //获取签名sign
 export function getSign(message, secret) {
     var sortKeys = Object.keys(message).sort();
@@ -40,7 +55,6 @@ export function getSign(message, secret) {
     if(!secret){
         secret = SECRETKEY;
     }
-    console.log(message,"======",secret)
     return CryptoJS.SHA1(str+secret).toString();
 }
 

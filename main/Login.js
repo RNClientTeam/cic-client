@@ -120,7 +120,6 @@ export default class Login extends Component {
         })
         .then((response) => response.json())
         .then((responseData) => {
-
             if (responseData.code === 1) {
                 //登录成功
                 this.setState({
