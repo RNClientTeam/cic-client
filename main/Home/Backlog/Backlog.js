@@ -15,6 +15,7 @@ import TodoView from './Component/TodoView'
 import SendView from './Component/SendView'
 import ApproveView from './Component/ApproveView'
 import CopyToView from './Component/CopyToView'
+import {getTimestamp} from '../../Util/Util'
 export default class Backlog extends Component {
     constructor(props) {
         super(props);
@@ -48,6 +49,15 @@ export default class Backlog extends Component {
             index: index
         });
         this.refs.todoScroll.scrollTo({x: width * index, y: 0, animated: true})
+    }
+
+    componentDidMount() {
+        axios.post('/todo/list4bs',{
+            userID:GLOBAL_USERID,
+            callID:getTimestamp()
+        }).then(data=>{
+            console.log(data)
+        })
     }
 }
 

@@ -20,18 +20,18 @@ export default class SchedulePlanCell extends Component {
             <TouchableOpacity style={styles.earlierStageListCell} onPress={this.skipPage.bind(this)}>
                 <View style={styles.aboutProject}>
                     <View style={styles.numState}>
-                        <Text style={{color:'#216fd0',fontSize:width*0.045}}>{this.props.data.number}</Text>
+                        <Text style={{color:'#216fd0',fontSize:width*0.045}}>{this.props.xmbh}</Text>
                         <View style={styles.stateView}>
-                            <Text style={styles.stateText}>{this.props.data.state}</Text>
+                            <Text style={styles.stateText}>{this.props.data.ztmc}</Text>
                         </View>
                     </View>
-                    <Text style={styles.projectName}>{this.props.data.planName}</Text>
+                    <Text style={styles.projectName}>{this.props.data.rwmc}</Text>
                 </View>
                 <View style={styles.aboutPrincipal}>
-                    <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.principal}</Text>
-                    <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.department}</Text>
-                    <Text style={[{width: width * 0.5}, styles.textStyle]}>{this.props.data.schedule}</Text>
-                    <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.time}</Text>
+                    <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zrr}</Text>
+                    <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zrbm}</Text>
+                    <Text style={[{width: width * 0.5}, styles.textStyle]}>{this.props.data.wcbl}%</Text>
+                    <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.sDate}-{this.props.data.eDate}</Text>
                     <TouchableOpacity onPress={()=>{this.props.setModalVisible()}} style={styles.editTouch}>
                         <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}
                             style={styles.editImg} resizeMode="contain"/>
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     },
     stateView: {
         backgroundColor: '#fe9a25',
-        width:width*0.12,
+        width:width*0.15,
         height:width*0.05,
         borderRadius:3,
         justifyContent:'center',

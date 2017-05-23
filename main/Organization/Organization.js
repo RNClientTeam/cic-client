@@ -8,6 +8,7 @@ import {
     Dimensions,
     DeviceEventEmitter
 } from 'react-native';
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'
 import StatusBar from '../Component/StatusBar'
 import DepartmentItem from './Component/DepartmentItem'
 import EmployeeItem from './Component/EmployeeItem'
@@ -25,12 +26,11 @@ export default class Organization extends Component {
         }
     }
 
-    // componentDidUpdate() {
-    //     console.log('didUpdate');
-    //     this.scrollTop();
-    // }
-
     componentDidMount() {
+        //监听切换到组织tab
+        this.listener = RCTDeviceEventEmitter.addListener('organization', () => {
+            this.renderDeps();
+        });
         this.getDeps();
         this.listener = DeviceEventEmitter.addListener('enterOrganization',
             (event) => {

@@ -79,8 +79,6 @@ export default class EarlierStage extends Component {
             lx = 100;
         }
 
-        console.log(sDate,eDate,lx)
-        console.log(this.state.sDate,this.state.eDate,this.state.jhlx)
         this.setState({
             jhlx: lx,
             sDate: sDate,
@@ -118,6 +116,7 @@ export default class EarlierStage extends Component {
             });
             callback()
         }).catch(err => {
+            console.log(err);
             this.setState({
                 isLoading: false
             });

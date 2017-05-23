@@ -19,29 +19,46 @@ import {
 import SchedulePlanCell from './SchedulePlanCell.js';
 import MyTask from './MyTask.js';
 import MoreOperations from "./MoreOperations.js";
-var {width, height} = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
+import {getTimestamp} from '../../../../Util/Util'
+import AllTask from "./AllTask";
 
 export default class SchedulePlan extends Component {
     constructor(props) {
         super(props);
+        this.myTaskArr = [];
+        this.allTaskArr = [];
         this.state = {
-            currentPage:0,
-            modalVisible: false
+            currentPage: 0,
+            modalVisible: false,
+            myTask: [],
+            allTask: [],
+            myTaskPageNum:1,
+            allTaskPageNum:1
         }
     }
+
     render() {
         return (
             <View style={styles.flex}>
                 <View style={styles.segmentView}>
                     <TouchableOpacity onPress={this.changePage.bind(this, 0)}>
-                        <View style={[styles.leftView,{backgroundColor:this.state.currentPage===0?'#4fa6ef':'white'}]}>
-                            <Text style={{fontSize:12,color:this.state.currentPage===0?'white':'#4fa6ef'}}>我的任务</Text>
+                        <View
+                            style={[styles.leftView, {backgroundColor: this.state.currentPage === 0 ? '#4fa6ef' : 'white'}]}>
+                            <Text style={{
+                                fontSize: 12,
+                                color: this.state.currentPage === 0 ? 'white' : '#4fa6ef'
+                            }}>我的任务</Text>
                         </View>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={this.changePage.bind(this, 1)}>
-                        <View style={[styles.rightView,{backgroundColor:this.state.currentPage===1?'#4fa6ef':'white'}]}>
-                            <Text style={{fontSize:12,color:this.state.currentPage===1?'white':'#4fa6ef'}}>全部任务</Text>
+                        <View
+                            style={[styles.rightView, {backgroundColor: this.state.currentPage === 1 ? '#4fa6ef' : 'white'}]}>
+                            <Text style={{
+                                fontSize: 12,
+                                color: this.state.currentPage === 1 ? 'white' : '#4fa6ef'
+                            }}>全部任务</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -51,13 +68,17 @@ export default class SchedulePlan extends Component {
                     showsHorizontalScrollIndicator={false}
                     scrollEnabled={false}>
                     <MyTask navigator={this.props.navigator}
-                        setModalVisible={() => {
-                            this.setState({modalVisible: true})
-                        }}/>
-                    <MyTask navigator={this.props.navigator}
-                        setModalVisible={() => {
-                            this.setState({modalVisible: true})
-                        }}/>
+                            xmbh={this.props.xmbh}
+                            refresh={(callback)=>this.getMyTask(callback)}
+                            dataSource={this.state.myTask}
+                            getMoreData={()=>{this.getMoreMy()}}
+                            setModalVisible={() => {
+                                this.setState({modalVisible: true})
+                            }}/>
+                    <AllTask navigator={this.props.navigator}
+                             setModalVisible={() => {
+                                 this.setState({modalVisible: true})
+                             }}/>
                 </ScrollView>
                 <Modal
                     animationType={"slide"}
@@ -78,16 +99,101 @@ export default class SchedulePlan extends Component {
 
     changePage(page) {
         if (this.state.currentPage !== page) {
-            this.setState({currentPage:page});
-            this.refs.scrollView.scrollTo({x:page*width,y:0,animated:true});
+            this.setState({currentPage: page});
+            this.refs.scrollView.scrollTo({x: page * width, y: 0, animated: true});
         }
+    }
+
+    componentDidMount() {
+        this.getMyTask();
+    }
+
+    getMyTask(callback=()=>{}){
+        axios.get('/psmQqjdjh/list4zrw', {
+            params: {
+                userID: GLOBAL_USERID,
+                jhxxId: this.props.jhxxId,
+                pageNum: 1,
+                pageSize: 10,
+                callID: getTimestamp()
+            }
+        }).then(data => {
+            let resultData  = data.data;
+            this.state.myTask = [];
+            for(let i = 0;i<resultData.length;i++){
+                this.state.myTask.push(resultData[i]);
+            }
+            this.setState({
+                myTask:this.state.myTask
+            });
+            callback();
+            // if(resultData.length>0){
+            //     return true;
+            // }else{
+            //     return false
+            // }
+        })
+    }
+
+    getAllTask(){
+        axios.get('/psmQqjdjh/list4zrw', {
+            params: {
+                userID: GLOBAL_USERID,
+                jhxxId: this.props.jhxxId,
+                pageNum: this.state.allTaskPageNum,
+                pageSize: 10,
+                callID: getTimestamp()
+            }
+        }).then(data => {
+            let resultData  = data.data;
+            for(let i = 0;i<resultData.length;i++){
+                this.state.myTask.push(resultData[i]);
+            }
+            this.setState({
+                myTask:this.state.myTask
+            })
+        });
+        if(resultData.length>0){
+            return true;
+        }else{
+            return false
+        }
+    }
+
+    getMoreMy(){
+        this.setState({
+            myTaskPageNum:this.state.myTaskPageNum+1
+        },()=>{
+            axios.get('/psmQqjdjh/list4zrw', {
+                params: {
+                    userID: GLOBAL_USERID,
+                    jhxxId: this.props.jhxxId,
+                    pageNum: this.state.myTaskPageNum,
+                    pageSize: 10,
+                    callID: getTimestamp()
+                }
+            }).then(data => {
+                let resultData  = data.data;
+                for(let i = 0;i<resultData.length;i++){
+                    this.state.myTask.push(resultData[i]);
+                }
+                this.setState({
+                    myTask:this.state.myTask
+                });
+                if(resultData.length>0){
+                    return true;
+                }else{
+                    return false
+                }
+            })
+        })
     }
 }
 
 const styles = StyleSheet.create({
     flex: {
-        flex:1,
-        backgroundColor:'#f2f2f2'
+        flex: 1,
+        backgroundColor: '#f2f2f2'
     },
     segmentView: {
         width: width,
@@ -97,19 +203,19 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     leftView: {
-        borderTopLeftRadius:3,
-        borderBottomLeftRadius:3,
+        borderTopLeftRadius: 3,
+        borderBottomLeftRadius: 3,
         height: 0.036 * height,
         width: 88,
-        alignItems:'center',
-        justifyContent:'center'
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     rightView: {
-        borderTopRightRadius:3,
-        borderBottomRightRadius:3,
+        borderTopRightRadius: 3,
+        borderBottomRightRadius: 3,
         height: 0.036 * height,
         width: 88,
-        alignItems:'center',
-        justifyContent:'center'
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });

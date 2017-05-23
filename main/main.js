@@ -13,6 +13,7 @@ import TabNavigator from 'react-native-tab-navigator';
 import Home from './Home/Home.js';
 import Message from './Message/Message.js';
 import User from './User/User.js';
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 import Organization from './Organization/Organization.js';
 var {width,height} = Dimensions.get('window');
 var tabImg =

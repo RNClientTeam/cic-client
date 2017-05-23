@@ -83,15 +83,15 @@ export default class General extends Component {
     }
 
     componentDidMount() {
-        axios.get('/psmQqjdjh/xmgk',{
-            params:{
-                userID:GLOBAL_USERID,
-                xmbh:this.props.xmbh,
-                callID:getTimestamp()
-            }
-        }).then(data=>{
-            console.log(data)
-        })
+        // axios.get('/psmQqjdjh/xmgk',{
+        //     params:{
+        //         userID:GLOBAL_USERID,
+        //         xmbh:this.props.xmbh,
+        //         callID:getTimestamp()
+        //     }
+        // }).then(data=>{
+        //     console.log(data)
+        // })
     }
 }
 
