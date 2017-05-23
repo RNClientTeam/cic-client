@@ -5,7 +5,8 @@ import {
     View,
     ScrollView,
     Text,
-    Dimensions
+    Dimensions,
+    DeviceEventEmitter
 } from 'react-native';
 import StatusBar from '../Component/StatusBar'
 import DepartmentItem from './Component/DepartmentItem'
@@ -24,12 +25,27 @@ export default class Organization extends Component {
         }
     }
 
-    componentWillUpdate() {
-        console.log('update');
-    }
+    // componentDidUpdate() {
+    //     console.log('didUpdate');
+    //     this.scrollTop();
+    // }
 
     componentDidMount() {
         this.getDeps();
+        this.listener = DeviceEventEmitter.addListener('enterOrganization',
+            (event) => {
+                if (event.level === 0) {
+                    this.renderDeps();
+                }
+            });
+    }
+
+    //移除通知监听
+    componentWillUnmount() {
+        if (this.listener) {
+            this.listener.remove();
+            this.listener = null;
+        }
     }
 
     render() {
@@ -55,7 +71,10 @@ export default class Organization extends Component {
         return(
             <View style={styles.container}>
                 {statusBar}
-                <ScrollView>
+                <ScrollView
+                    style={{height: height}}
+                    ref={(scrollView) => { this._scrollView = scrollView}}>
+
                     <View style={styles.viewSty}>
                         {this.state.deps}
                     </View>
@@ -129,6 +148,10 @@ export default class Organization extends Component {
             this.renderDeps();
         }
     }
+
+    // scrollTop() {
+    //     this._scrollView.scrollTo({y: 0, animated: true});
+    // }
 
 
     // deps ={

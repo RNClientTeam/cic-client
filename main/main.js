@@ -6,7 +6,8 @@ import {
     Text,
     Navigator,
     Dimensions,
-    Image
+    Image,
+    DeviceEventEmitter
 } from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
 import Home from './Home/Home.js';
@@ -66,7 +67,7 @@ export default class Main extends Component {
                 renderSelectedIcon={() => <Image source={selIconSrc} style={styles.imgSty} resizeMode="contain"/>}
                 renderAsOriginal={true}
                 selectedTitleStyle={{color:'#216fd0'}}
-                onPress={() => {this.setState({selectedTab:tabName});}}>
+                onPress={() => this.changeTab(tabName)}>
                 <Component navigator={this.props.navigator}/>
             </TabNavigator.Item>
         )
@@ -78,6 +79,14 @@ export default class Main extends Component {
             return false;
         }
         return true;
+    }
+
+    changeTab(tabName) {
+        this.setState({selectedTab:tabName});
+        //抛出进入组织tab的事件
+        if (tabName === 'Organization') {
+            DeviceEventEmitter.emit('enterOrganization', {level: 0});
+        }
     }
 }
 
