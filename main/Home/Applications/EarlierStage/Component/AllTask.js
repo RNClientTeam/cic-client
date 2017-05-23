@@ -115,13 +115,13 @@ import {PullList} from 'react-native-pull';
 import LoadMore from "../../../../Component/LoadMore.js";
 import SchedulePlanCell from "./SchedulePlanCell.js";
 import Reload from "../../../../Component/Reload.js";
-export default class MyTask extends Component {
+export default class AllTask extends Component {
     constructor(props) {
         super(props);
         this.dataSource = dataArr;
         this.state = {
             hasMoreData: true,
-            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})),
+            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(this.dataSource),
         }
     }
 
@@ -132,12 +132,11 @@ export default class MyTask extends Component {
                     onPullRelease={this.onPullRelease.bind(this)}
                     topIndicatorRender={this.topIndicatorRender.bind(this)}
                     topIndicatorHeight={60}
-                    dataSource={this.state.list.cloneWithRows(this.props.dataSource)}
+                    dataSource={this.state.list}
                     renderRow={this.renderRow.bind(this)}
                     onEndReached={this.loadMore.bind(this)}
                     onEndReachedThreshold={60}
                     renderFooter={this.renderFooter.bind(this)}
-                    enableEmptySections={true}
                 />
             </View>
         )
@@ -145,12 +144,14 @@ export default class MyTask extends Component {
 
     onPullRelease(resolve) {
         //do refresh
-        this.props.refresh(()=>{resolve()})
+        setTimeout(() => {
+            resolve();
+        }, 3000);
     }
 
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
-            <SchedulePlanCell xmbh={this.props.xmbh} key={rowID} data={item} navigator={this.props.navigator}
+            <SchedulePlanCell key={rowID} data={item} navigator={this.props.navigator}
                 setModalVisible={() => this.props.setModalVisible()}/>
         );
     }
@@ -164,20 +165,15 @@ export default class MyTask extends Component {
     }
 
     loadMore(){
-        if(this.props.dataSource.length>0){
-            this.setState({
-                hasMoreData:this.props.getMoreData()
-            })
+        for (let i = 0;i<tempArr.length;i++){
+            this.dataSource.push(tempArr[i])
         }
-        // for (let i = 0;i<tempArr.length;i++){
-        //     this.dataSource.push(tempArr[i])
-        // }
-        //
-        // setTimeout(() => {
-        //     this.setState({
-        //         list: this.state.list.cloneWithRows(this.dataSource)
-        //     });
-        // }, 1000);
+
+        setTimeout(() => {
+            this.setState({
+                list: this.state.list.cloneWithRows(this.dataSource)
+            });
+        }, 1000);
     }
 }
 

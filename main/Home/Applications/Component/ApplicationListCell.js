@@ -61,7 +61,8 @@ export default class EarlierStageListCell extends Component {
                     component: EarlierStageDetail,
                     name: 'EarlierStageDetail',
                     params:{
-                        xmbh:this.props.data.xmbh
+                        xmbh:this.props.data.xmbh,
+                        jhxxId:this.props.data.jhxxId
                     }
                 });
                 break;

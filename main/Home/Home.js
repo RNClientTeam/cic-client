@@ -109,6 +109,7 @@ export default class Home extends Component {
                     }
                     return ret
                 }];
+                console.log(config.data)
             } else if (config.method === 'get') {
                 let target = {};
                 Object.assign(target,config.params);
@@ -146,7 +147,7 @@ export default class Home extends Component {
                     isLoading: false
                 })
             }).catch(err => {
-                this.setSate({
+                this.setState({
                     isLoading: false
                 })
             })

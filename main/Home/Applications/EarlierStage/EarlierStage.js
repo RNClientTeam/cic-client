@@ -79,8 +79,6 @@ export default class EarlierStage extends Component {
             lx = 100;
         }
 
-        console.log(sDate,eDate,lx)
-        console.log(this.state.sDate,this.state.eDate,this.state.jhlx)
         this.setState({
             jhlx: lx,
             sDate: sDate,
