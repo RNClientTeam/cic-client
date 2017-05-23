@@ -11,7 +11,7 @@ import {
     Image,
     TouchableOpacity
 } from 'react-native'
-import {getCurrentDate} from '../../../../Util/Util'
+import {getCurrentMonS,getCurrentMonE} from '../../../../Util/Util'
 import ChoiceDate from "../../../../Component/ChoiceDate";
 const {width, height} = Dimensions.get('window');
 const Platform = require('Platform');
@@ -20,9 +20,10 @@ export default class EarlierStageListModalView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            startDate: getCurrentDate(),
-            endDate: getCurrentDate(),
-            planType: '全部'
+            startDate: getCurrentMonS(),
+            endDate: getCurrentMonE(),
+            options:['全部', '我参与的', '我审核的', '我的计划', '我的待办'],
+            jhlx:'全部'
         }
     }
 
@@ -32,7 +33,7 @@ export default class EarlierStageListModalView extends Component {
                 <View style={styles.containerStyle}>
                     <Text style={styles.nameStyle}>开始时间</Text>
                     <View style={styles.indicateView}>
-                        <ChoiceDate/>
+                        <ChoiceDate showDate={this.state.startDate} changeDate={(date)=>{this.setState({startDate:date})}}/>
                         <Image style={styles.indicateImage}
                                source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
                     </View>
@@ -41,7 +42,7 @@ export default class EarlierStageListModalView extends Component {
                 <View style={styles.containerStyle}>
                     <Text style={styles.nameStyle}>结束时间</Text>
                     <View style={styles.indicateView}>
-                        <ChoiceDate/>
+                        <ChoiceDate showDate={this.state.endDate} changeDate={(date)=>{this.setState({endDate:date})}}/>
                         <Image style={styles.indicateImage}
                                source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
                     </View>
@@ -50,14 +51,16 @@ export default class EarlierStageListModalView extends Component {
                     <Text style={styles.nameStyle}>计划类型</Text>
                     <View style={styles.indicateView}>
                         <ModalDropdown
-                            options={['全部', '我参与的', '我审核的', '我的计划', '我的待办']}
+                            options={this.state.options}
                             animated={true}
-                            defaultValue={this.state.planType}
+                            defaultValue={this.state.options[0]}
                             style={styles.modalDropDown}
                             textStyle={styles.modalDropDownText}
                             dropdownStyle={styles.dropdownStyle}
                             onSelect={(a) => {
-                                console.log(a)
+                                this.setState({
+                                    jhlx:this.state.options[a]
+                                })
                             }}
                             showsVerticalScrollIndicator={false}
                         />
@@ -71,7 +74,7 @@ export default class EarlierStageListModalView extends Component {
                         <Text>重置</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.clickButton, {backgroundColor: '#216fd0'}]}
-                                      onPress={() => this.props.closeModal()}>
+                                      onPress={() => {this.props.closeModal();this.props.changeFilter(this.state.startDate,this.state.endDate,this.state.jhlx)}}>
                         <Text style={{color: '#fff'}}>确定</Text>
                     </TouchableOpacity>
                 </View>

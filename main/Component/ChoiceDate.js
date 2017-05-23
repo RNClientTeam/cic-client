@@ -16,7 +16,7 @@ export default class ChoiceDate extends Component{
     constructor(props){
         super(props);
         this.state={
-            date:getCurrentDate()
+            date:this.props.showDate
         }
     }
 
@@ -49,7 +49,7 @@ export default class ChoiceDate extends Component{
                         }
                         // ... You can check the source to find the other keys.
                     }}
-                    onDateChange={(date) => {this.setState({date: date})}}
+                    onDateChange={(date) => {this.setState({date: date});this.props.changeDate(date)}}
                 />
             </View>
         )

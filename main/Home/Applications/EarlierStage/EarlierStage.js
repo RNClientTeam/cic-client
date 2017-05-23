@@ -15,24 +15,23 @@ import StatusBar from '../../../Component/StatusBar'
 import EarlierStageList from './Component/EarlierStageList'
 import SearchHeader from '../Component/SearchHeader'
 import EarlierStageListModalView from "./Component/EarlierStageListModalView";
-import keys from '../../../Util/storageKeys.json'
 import Toast from 'react-native-simple-toast';
-import {getCurrentMonS,getCurrentMonE, getTimestamp} from '../../../Util/Util'
+import {getCurrentMonS, getCurrentMonE, getTimestamp} from '../../../Util/Util'
 import FetchUrl from '../../../Util/service.json'
 import Loading from "../../../Component/Loading";
 export default class EarlierStage extends Component {
     constructor(props) {
         super(props);
         this.dataArr = [],
-        this.state = {
-            isModalVisible: false,
-            sDate: getCurrentMonS(),//开始时间
-            eDate: getCurrentMonE(),//结束时间
-            jhlx: '500',//计划类型
-            pageNum: 1,//页码
-            isLoading: false,
-            dataSource:[]
-        }
+            this.state = {
+                isModalVisible: false,
+                sDate: getCurrentMonS(),//开始时间
+                eDate: getCurrentMonE(),//结束时间
+                jhlx: '500',//计划类型
+                pageNum: 1,//页码
+                isLoading: false,
+                dataSource: []
+            }
     }
 
     render() {
@@ -47,26 +46,56 @@ export default class EarlierStage extends Component {
                     </TouchableOpacity>
                 </StatusBar>
                 <SearchHeader/>
-                <EarlierStageList loadMore={()=>this.loadMore()} refresh={(callback)=>this.getDataFromNet(callback)} dataSource={this.state.dataSource} navigator={this.props.navigator}/>
-                {this.state.isModalVisible ? <EarlierStageListModalView isModalVisible={this.state.isModalVisible}
-                                                                        closeModal={() => this.setState({isModalVisible: false})}/> :
+                <EarlierStageList loadMore={() => this.loadMore()} refresh={(callback) => this.getDataFromNet(callback)}
+                                  dataSource={this.state.dataSource} navigator={this.props.navigator}/>
+                {this.state.isModalVisible ?
+                    <EarlierStageListModalView
+                        changeFilter={(sDate,eDate,lx)=>{this.filter(sDate,eDate,lx)}}
+                        isModalVisible={this.state.isModalVisible}
+                        closeModal={() => this.setState({isModalVisible: false})}/> :
                     <View></View>}
-                {this.state.isLoading?<Loading/>:null}
+                {this.state.isLoading ? <Loading/> : null}
             </View>
         )
     }
 
     componentDidMount() {
         this.setState({
-            isLoading:true
+            isLoading: true
         });
         this.getDataFromNet();
     }
 
-    //首次加载
-    getDataFromNet(callback,sDate=this.state.sDate,eDate=this.state.eDate) {
+    filter(sDate, eDate, lx) {
+        if (lx === '全部') {
+            lx = 500;
+        } else if (lx === '我参与的') {
+            lx = 400;
+        } else if (lx === '我审核的') {
+            lx = 300;
+        } else if (lx === '我的计划') {
+            lx = 200;
+        } else if (lx === '我的待办') {
+            lx = 100;
+        }
+
+        console.log(sDate,eDate,lx)
+        console.log(this.state.sDate,this.state.eDate,this.state.jhlx)
         this.setState({
-            pageNum:1
+            jhlx: lx,
+            sDate: sDate,
+            eDate: eDate
+        }, () => {
+            this.getDataFromNet();
+            console.log(this.state.sDate,this.state.eDate,this.state.jhlx)
+        })
+    }
+
+    //首次加载
+    getDataFromNet(callback = () => {
+    }, sDate = this.state.sDate, eDate = this.state.eDate) {
+        this.setState({
+            pageNum: 1
         });
         axios.get('/psmQqjdjh/list', {
             params: {
@@ -80,25 +109,27 @@ export default class EarlierStage extends Component {
             }
         }).then(data => {
             this.dataArr = [];
-            for(let i = 0;i<data.data.length;i++){
+            for (let i = 0; i < data.data.length; i++) {
                 this.dataArr.push(data.data[i])
             }
             this.setState({
-                isLoading:false,
-                dataSource:this.dataArr
+                isLoading: false,
+                dataSource: this.dataArr
             });
             callback()
-        }).catch(err=>{
+        }).catch(err => {
             this.setState({
-                isLoading:false
-            })
+                isLoading: false
+            });
+            Toast.show('服务端连接错误！')
         })
     }
 
-    loadMore(){
+    loadMore() {
+        let hasMoreData = false;
         this.setState({
-            pageNum:this.state.pageNum+1
-        },()=>{
+            pageNum: this.state.pageNum + 1
+        }, () => {
             axios.get('/psmQqjdjh/list', {
                 params: {
                     userID: GLOBAL_USERID,
@@ -109,14 +140,23 @@ export default class EarlierStage extends Component {
                     pageSize: 10,
                     callID: getTimestamp()
                 }
-            }).then(data=>{
+            }).then(data => {
                 let resultData = data.data;
-                for(let i  = 0;i<resultData.length;i++){
+                if (resultData.length > 0) {
+                    hasMoreData = true
+                } else {
+                    hasMoreData = false
+                }
+                for (let i = 0; i < resultData.length; i++) {
                     this.dataArr.push(resultData[i])
                 }
                 this.setState({
-                    dataSource:this.dataArr
+                    dataSource: this.dataArr
+                }, () => {
+                    return hasMoreData
                 })
+            }).catch(err => {
+                Toast.show('服务端连接错误！')
             })
         })
     }

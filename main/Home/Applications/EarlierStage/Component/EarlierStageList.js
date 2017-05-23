@@ -37,7 +37,7 @@ export default class EarlierStageList extends Component {
                     dataSource={this.state.list.cloneWithRows(this.props.dataSource)}
                     renderRow={this.renderRow.bind(this)}
                     onEndReached={this.loadMore.bind(this)}
-                    onEndReachedThreshold={60}
+                    onEndReachedThreshold={10}
                     renderFooter={this.renderFooter.bind(this)}
                     enableEmptySections={true}
                 />
@@ -47,9 +47,6 @@ export default class EarlierStageList extends Component {
 
     onPullRelease(resolve) {
         //do refresh
-        // setTimeout(() => {
-        //     resolve();
-        // }, 3000);
         this.props.refresh(()=>{resolve()})
     }
 
@@ -76,16 +73,11 @@ export default class EarlierStageList extends Component {
     }
 
     loadMore() {
-        this.props.loadMore();
-        for (let i = 0; i < this.props.length; i++) {
-            this.dataSource.push(a[i])
-        }
-        console.log(this.dataSource)
-        setTimeout(() => {
+        if(this.props.dataSource.length>0){
             this.setState({
-                list: this.state.list.cloneWithRows(this.dataSource)
-            });
-        }, 1000);
+                hasMoreData:this.props.loadMore()
+            })
+        }
     }
 
     componentDidMount() {
