@@ -136,23 +136,24 @@ export default class Login extends Component {
                     data: usernameAndPW
                 });
 
-                //获取用户信息
+                //获取并保存用户信息
                 var userMessage = AESDecrypt(responseData.data, responseData.secretKey);
                 storage.save({
                     key: getKey('userMessage'),
                     data: JSON.parse(userMessage)
                 });
-                storage.save({
-                    key: getKey('secretKey'),
-                    data: responseData.secretKey
-                });
                 global.SECRETKEY = responseData.secretKey;
                 //登录成功
-                this.props.navigator.replace({
-                    component: Main,
-                    name: 'Main',
-                    type: 'fade'
-                });
+                this.timer = setTimeout(() => {
+                    const {navigator} = this.props;
+                    if (navigator) {
+                        navigator.replace({
+                            component: Main,
+                            name: 'Main',
+                            type: 'fade'
+                        });
+                    }
+                }, 310);
             } else {
                 this.setState({warningText: '用户名或密码错误！'});
             }
@@ -170,6 +171,7 @@ export default class Login extends Component {
     componentWillUnmount() {
         this.keyboardWillShowListener.remove();
         this.keyboardWillHideListener.remove();
+        this.timer && clearTimeout(this.timer);
     }
 }
 

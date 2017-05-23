@@ -116,6 +116,7 @@ export default class EarlierStage extends Component {
             });
             callback()
         }).catch(err => {
+            console.log(err);
             this.setState({
                 isLoading: false
             });
