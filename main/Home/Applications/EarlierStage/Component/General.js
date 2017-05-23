@@ -13,6 +13,7 @@ import {
     Dimensions
 } from 'react-native';
 
+import {getTimestamp} from '../../../../Util/Util'
 var {width, height} = Dimensions.get('window');
 
 export default class General extends Component {
@@ -79,6 +80,18 @@ export default class General extends Component {
                 </View>
             </View>
         )
+    }
+
+    componentDidMount() {
+        axios.get('/psmQqjdjh/xmgk',{
+            params:{
+                userID:GLOBAL_USERID,
+                xmbh:this.props.xmbh,
+                callID:getTimestamp()
+            }
+        }).then(data=>{
+            console.log(data)
+        })
     }
 }
 

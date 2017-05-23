@@ -63,6 +63,7 @@ export function getTimestamp() {
     return Date.parse(new Date())
 }
 
+
 //获取当期时间
 export function getCurrentTime() {
     let now = new Date();
