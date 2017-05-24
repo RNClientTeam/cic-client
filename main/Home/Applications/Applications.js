@@ -27,6 +27,8 @@ import ConstructPlan from "./ConstructPlan/ConstructPlan"
 import ProgressExecute from './ConstructProgressExecute/ProgressExecute'
 import QualityCheckPlan from "./QualityCheckPlan/QualityCheckPlan";
 import QualityCheckRecord from "./QualityCheckRecord/QualityCheckRecord";
+import DepartmentExecute from "./DeparmentExecute/DepartmentExecute"
+
 const {width, height}  = Dimensions.get('window');
 
 var commonlyApp = [
@@ -238,6 +240,11 @@ export default class Applications extends Component {
             this.props.navigator.push({
                 component: QualityCheckRecord,
                 name: 'QualityCheckRecord'
+            })
+        } else if (item.title === '部门计划执行') {
+            this.props.navigator.push({
+                component: DepartmentExecute,
+                name: 'DepartmentExecute'
             })
         }
 
