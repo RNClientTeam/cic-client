@@ -54,7 +54,10 @@ export default class MoreOperationsCell extends Component {
         }else if(this.props.dataSource.name === '填报完成情况'){
             this.props.navigator.push({
                 name:'fillPerformance',
-                component:FillPerformance
+                component:FillPerformance,
+                params:{
+                    rwid:this.props.rwid
+                }
             });
         }else if(this.props.dataSource.name === '确认完成'){
             this.props.navigator.push({

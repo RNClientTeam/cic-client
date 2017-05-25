@@ -16,8 +16,19 @@ import {
 } from 'react-native'
 import StatusBar from "../../../../Component/StatusBar";
 const {width, height}  = Dimensions.get('window');
-
+import {getTimestamp} from '../../../../Util/Util'
+import ModalDropdown from 'react-native-modal-dropdown';
 export default class FillPerformance extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            sDate:'',
+            eDate:'',
+            data:[],
+            options:[],
+            choiceData:''
+        }
+    }
     render(){
         return(
             <View style={styles.containerStyle}>
@@ -31,7 +42,20 @@ export default class FillPerformance extends Component{
                         <View style={styles.cell}>
                             <Text style={styles.label}>完成情况信息*</Text>
                             <View style={styles.blank}/>
-                            <Text>获得甲方委托</Text>
+                            <ModalDropdown
+                                options={this.state.options}
+                                animated={true}
+                                defaultValue={this.state.options[0]}
+                                style={styles.modalDropDown}
+                                textStyle={styles.modalDropDownText}
+                                dropdownStyle={styles.dropdownStyle}
+                                onSelect={(a) => {
+                                    this.setState({
+                                        choiceData:this.state.data[a].id
+                                    })
+                                }}
+                                showsVerticalScrollIndicator={false}
+                            />
                         </View>
                         <View style={styles.cell}>
                             <Text style={styles.label}>当前进度比例*</Text>
@@ -77,6 +101,31 @@ export default class FillPerformance extends Component{
     }
     submit() {
         //alert('ccccc');
+    }
+
+    componentDidMount() {
+        axios.get('/psmQqjdjh/wcqkxx',{
+            params:{
+                userID:GLOBAL_USERID,
+                rwid:this.props.rwid,
+                callID:getTimestamp()
+            }
+        }).then(data=>{
+            console.log(data)
+            for(let i = 0;i<data.data.length;i++){
+                this.state.data.push(data[i]);
+                this.state.options.push(data.name);
+            }
+            this.setState({
+                eDate:data.sjjssj,
+                sDate:data.sjkssj,
+                data:this.state.data,
+                options:this.state.options
+            },()=>{
+                console.log(this.state.data)
+                console.log(this.state.options)
+            })
+        })
     }
 }
 
@@ -142,6 +191,14 @@ const styles = StyleSheet.create({
     },
     inputLabel: {
         height: height*0.07,
+        justifyContent: 'center',
+    },
+    modalDropDownText: {
+        fontSize: width * 0.035,
+    },
+    dropdownStyle: {
+        width: width * 0.55,
+        alignItems: 'center',
         justifyContent: 'center',
     },
 });

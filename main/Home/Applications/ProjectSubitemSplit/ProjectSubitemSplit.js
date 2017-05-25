@@ -15,12 +15,19 @@ const {width} = Dimensions.get('window');
 import SearchHeader from '../Component/SearchHeader'
 import ProjectSubitemSplitList from './Component/ProjectSubitemSplitList'
 import ProjectSubitemSplitModal from "./Component/ProjectSubitemSplitModal";
+import {getTimestamp,getCurrentMonS,getCurrentMonE} from '../../../Util/Util'
 export default class ProjectSubitemSplit extends Component {
 
     constructor(props){
         super(props);
         this.state={
-            isModalVisible:false
+            isModalVisible:false,
+            sDate:getCurrentMonS(),
+            eDate:getCurrentMonE(),
+            pageNum:1,
+            cfzt:1,//0
+            jhlx:1,//2,
+            dataSource:[]
         }
     }
 
@@ -34,9 +41,54 @@ export default class ProjectSubitemSplit extends Component {
                 </StatusBar>
                 <SearchHeader/>
                 <ProjectSubitemSplitList navigator={this.props.navigator}/>
-                {this.state.isModalVisible?<ProjectSubitemSplitModal isModalVisible={this.state.isModalVisible}  closeModal={()=>this.setState({isModalVisible:false})} />:<View></View>}
+                {this.state.isModalVisible?
+                    <ProjectSubitemSplitModal
+                        changeSDate={(date)=>this.changeSDate(date)}
+                        changeEDate={(date)=>this.changeEDate(date)}
+                        isModalVisible={this.state.isModalVisible}
+                        changeJhlx={(jhlx)=>this.setState({jhlx:jhlx})}
+                        changeCfzt={(cfzt)=>{this.setState({cfzt:cfzt})}}
+                        getDataFromNet={()=>this.getDataFromNet()}
+                        closeModal={()=>this.setState({isModalVisible:false})} />:
+                    <View></View>}
             </View>
         )
+    }
+
+    componentDidMount() {
+        this.getDataFromNet();
+    }
+
+    changeSDate(date){
+        this.setState({
+            sDate:date
+        })
+    }
+
+    changeEDate(date){
+        this.setState({
+            eDate:date
+        })
+    }
+
+    getDataFromNet(){
+        axios.get('/psmGczx/xmlist',{
+            params:{
+                userID:GLOBAL_USERID,
+                sDate:this.state.sDate,
+                eDate:this.state.eDate,
+                callID:getTimestamp(),
+                cfzt:this.state.cfzt,
+                jhlx:this.state.jhlx,
+                pageNum:this.state.pageNum,
+                pageSize:10
+            }
+        }).then(data=>{
+            console.log(data)
+            if(data){
+
+            }
+        })
     }
 }
 

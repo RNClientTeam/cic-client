@@ -34,7 +34,8 @@ export default class SchedulePlan extends Component {
             myTask: [],
             allTask: [],
             myTaskPageNum:1,
-            allTaskPageNum:1
+            allTaskPageNum:1,
+            rwid:null
         }
     }
 
@@ -72,8 +73,8 @@ export default class SchedulePlan extends Component {
                             refresh={(callback)=>this.getMyTask(callback)}
                             dataSource={this.state.myTask}
                             getMoreData={()=>{this.getMoreMy()}}
-                            setModalVisible={() => {
-                                this.setState({modalVisible: true})
+                            setModalVisible={(rwid) => {
+                                this.setState({modalVisible: true,rwid:rwid})
                             }}/>
                     <AllTask navigator={this.props.navigator}
                              setModalVisible={() => {
@@ -89,7 +90,7 @@ export default class SchedulePlan extends Component {
                     }}
                     style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
                 >
-                    <MoreOperations navigator={this.props.navigator} closeModal={() => {
+                    <MoreOperations rwid={this.state.rwid} navigator={this.props.navigator} closeModal={() => {
                         this.setState({modalVisible: false})
                     }}/>
                 </Modal>

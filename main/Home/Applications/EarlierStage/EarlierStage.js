@@ -60,6 +60,7 @@ export default class EarlierStage extends Component {
     }
 
     componentDidMount() {
+        console.log(SECRETKEY)
         this.setState({
             isLoading: true
         });
@@ -103,7 +104,7 @@ export default class EarlierStage extends Component {
                 jhlx: this.state.jhlx,
                 pageNum: 1,
                 pageSize: 10,
-                callID: getTimestamp()
+                callID: getTimestamp(),
             }
         }).then(data => {
             this.dataArr = [];

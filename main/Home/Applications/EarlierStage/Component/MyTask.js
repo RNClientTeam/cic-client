@@ -151,7 +151,7 @@ export default class MyTask extends Component {
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
             <SchedulePlanCell xmbh={this.props.xmbh} key={rowID} data={item} navigator={this.props.navigator}
-                setModalVisible={() => this.props.setModalVisible()}/>
+                setModalVisible={(rwid) => {this.props.setModalVisible(rwid);}}/>
         );
     }
 
@@ -169,15 +169,6 @@ export default class MyTask extends Component {
                 hasMoreData:this.props.getMoreData()
             })
         }
-        // for (let i = 0;i<tempArr.length;i++){
-        //     this.dataSource.push(tempArr[i])
-        // }
-        //
-        // setTimeout(() => {
-        //     this.setState({
-        //         list: this.state.list.cloneWithRows(this.dataSource)
-        //     });
-        // }, 1000);
     }
 }
 

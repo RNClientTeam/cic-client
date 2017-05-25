@@ -46,14 +46,16 @@ export function getCurrentMonE() {
 
 //获取签名sign
 export function getSign(message, secret) {
-    var sortKeys = Object.keys(message).sort();
-    var str = '';
-    for (var key in sortKeys) {
+    let sortKeys = Object.keys(message).sort();
+    let str = '';
+    for (let key in sortKeys) {
         str = str + sortKeys[key] + '=' + message[sortKeys[key]];
     }
+    console.log(str,'-----')
     if(!secret){
         secret = SECRETKEY;
     }
+    console.log(str+secret,'-----')
     return CryptoJS.SHA1(str+secret).toString();
 }
 
