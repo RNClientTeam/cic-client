@@ -25,15 +25,15 @@ export default class EarlierStageDetail extends Component {
                 </StatusBar>
                 <Image style={styles.bgImage}
                     source={require('../../../../../resource/imgs/home/earlierStage/backgroundImg.png')}>
-                    <Text style={styles.number}>CX_DS14036</Text>
-                    <Text style={styles.engineerName}>中国之窗（南区）临电工程</Text>
-                    <Text style={styles.dateSty}>日期：2017/01/15-2017/02/30</Text>
+                    <Text style={styles.number}>{this.props.xmbh}</Text>
+                    <Text style={styles.engineerName} numberOfLines={1}>{this.props.xmmc}</Text>
+                    <Text style={styles.dateSty}>日期：{this.props.sDate.replace(/-/g,'/')}-{this.props.eDate.replace(/-/g,'/')}</Text>
                     <View style={styles.progressView}>
                         <View style={styles.backView}>
-                            <View style={styles.forgroundView}>
+                            <View style={[styles.forgroundView,{width: 0.72 * this.props.wcbl/100 * width}]}>
                             </View>
                         </View>
-                        <Text style={styles.percentText}>80%</Text>
+                        <Text style={styles.percentText}>{this.props.wcbl}%</Text>
                     </View>
                 </Image>
                 <ScrollableTabView
@@ -95,7 +95,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent'
     },
     forgroundView: {
-        width: 0.72 * 0.8 * width,
         height: 12,
         backgroundColor: '#ffb432'
     }

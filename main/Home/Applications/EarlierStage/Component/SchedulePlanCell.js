@@ -32,7 +32,7 @@ export default class SchedulePlanCell extends Component {
                     <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zrbm}</Text>
                     <Text style={[{width: width * 0.5}, styles.textStyle]}>{this.props.data.wcbl}%</Text>
                     <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.sDate}-{this.props.data.eDate}</Text>
-                    <TouchableOpacity onPress={()=>{this.props.setModalVisible()}} style={styles.editTouch}>
+                    <TouchableOpacity onPress={this.skipPage.bind(this,this.props.data.rwid)} style={styles.editTouch}>
                         <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}
                             style={styles.editImg} resizeMode="contain"/>
                     </TouchableOpacity>
@@ -41,8 +41,8 @@ export default class SchedulePlanCell extends Component {
         )
     }
 
-    skipPage() {
-
+    skipPage(rwid) {
+        this.props.setModalVisible(rwid)
     }
 }
 

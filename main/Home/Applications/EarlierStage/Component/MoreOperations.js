@@ -50,7 +50,7 @@ export default class MoreOperations extends Component {
         let cs = [];
         for(let i = 0;i<this.state.data.length;i++){
             cs.push(
-                <MoreOperationsCell closeModal={()=>{this.props.closeModal()}} navigator={this.props.navigator} key={i} dataSource={this.state.data[i]}/>
+                <MoreOperationsCell rwid={this.props.rwid} closeModal={()=>{this.props.closeModal()}} navigator={this.props.navigator} key={i} dataSource={this.state.data[i]}/>
             )
         }
         return cs;
