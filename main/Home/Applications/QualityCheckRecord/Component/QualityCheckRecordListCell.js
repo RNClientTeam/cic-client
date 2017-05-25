@@ -11,7 +11,8 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native'
-import QualityCheckRecordDetail from "../QualityCheckRecordDetail";
+import QualityCheckRecordDetail from "./QualityCheckRecordDetail"
+
 const {width} = Dimensions.get('window');
 
 export default class QualityCheckRecordListCell extends Component {
@@ -50,9 +51,9 @@ export default class QualityCheckRecordListCell extends Component {
         this.props.navigator.push({
             component:QualityCheckRecordDetail,
             name:'QualityCheckRecordDetail',
-            params: {
-                proName: this.props.data.projectName,
-            }
+            // params: {
+            //     proName: this.props.data.projectName,
+            // }
         })
     }
 }
