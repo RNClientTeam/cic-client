@@ -26,7 +26,8 @@ export default class ProjectSubitemSplit extends Component {
             eDate:getCurrentMonE(),
             pageNum:1,
             cfzt:1,//0
-            jhlx:1//2
+            jhlx:1,//2,
+            dataSource:[]
         }
     }
 
@@ -46,7 +47,7 @@ export default class ProjectSubitemSplit extends Component {
                         changeEDate={(date)=>this.changeEDate(date)}
                         isModalVisible={this.state.isModalVisible}
                         changeJhlx={(jhlx)=>this.setState({jhlx:jhlx})}
-                        changeCfzt={(cfzt)=>this.setState({cfzt:cfzt})}
+                        changeCfzt={(cfzt)=>{this.setState({cfzt:cfzt})}}
                         getDataFromNet={()=>this.getDataFromNet()}
                         closeModal={()=>this.setState({isModalVisible:false})} />:
                     <View></View>}
@@ -84,6 +85,9 @@ export default class ProjectSubitemSplit extends Component {
             }
         }).then(data=>{
             console.log(data)
+            if(data){
+
+            }
         })
     }
 }
