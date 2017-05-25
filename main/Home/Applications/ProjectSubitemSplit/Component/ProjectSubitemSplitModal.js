@@ -12,7 +12,7 @@ import {
     TouchableOpacity,
     Switch
 } from 'react-native'
-import {getCurrentDate} from '../../../../Util/Util'
+import {getCurrentMonE,getCurrentMonS} from '../../../../Util/Util'
 import ChoiceDate from "../../../../Component/ChoiceDate";
 const {width, height} = Dimensions.get('window');
 const Platform = require('Platform');
@@ -22,10 +22,10 @@ export default class ProjectSubitemSplitModal extends Component{
     constructor(props){
         super(props);
         this.state={
-            startDate:getCurrentDate(),
-            endDate:getCurrentDate(),
-            planType:'请选择计划类型',
-            isSplit:false
+            startDate:getCurrentMonE(),
+            endDate:getCurrentMonS(),
+            isSplit:true,
+            options:['我的','所有'],
         }
     }
 
@@ -37,16 +37,15 @@ export default class ProjectSubitemSplitModal extends Component{
                     <View style={styles.indicateView}>
                         <Switch
                         value={this.state.isSplit}
-                        onValueChange={(value)=>this.setState({isSplit:value})}
+                        onValueChange={(value)=>{value?this.props.changeCfzt(1):this.props.changeCfzt(0);this.setState({isSplit:value})}}
                         disabled={false}
                         />
                     </View>
-
                 </View>
                 <View style={styles.containerStyle}>
                     <Text style={styles.nameStyle}>开始时间</Text>
                     <View style={styles.indicateView}>
-                        <ChoiceDate/>
+                        <ChoiceDate showDate={this.state.startDate} changeDate={(date)=>this.props.changeSDate(date)}/>
                         <Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
                     </View>
 
@@ -54,7 +53,7 @@ export default class ProjectSubitemSplitModal extends Component{
                 <View style={styles.containerStyle}>
                     <Text style={styles.nameStyle}>结束时间</Text>
                     <View style={styles.indicateView}>
-                        <ChoiceDate/>
+                        <ChoiceDate showDate={this.state.endDate} changeDate={(date)=>this.props.changeEDate(date)}/>
                         <Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
                     </View>
                 </View>
@@ -62,13 +61,13 @@ export default class ProjectSubitemSplitModal extends Component{
                     <Text style={styles.nameStyle}>计划类型</Text>
                     <View style={styles.indicateView}>
                         <ModalDropdown
-                            options={['计划类型 1', '计划类型 2','计划类型 3','计划类型 4','计划类型 1', '计划类型 2','计划类型 3','计划类型 4']}
+                            options={this.state.options}
                             animated={true}
-                            defaultValue={this.state.planType}
+                            defaultValue={this.state.options[0]}
                             style={styles.modalDropDown}
                             textStyle={styles.modalDropDownText}
                             dropdownStyle={styles.dropdownStyle}
-                            onSelect={(a)=>{console.log(a)}}
+                            onSelect={(a)=>{let i = [1,2];this.props.changeJhlx(i[a])}}
                             showsVerticalScrollIndicator={false}
                         />
                         <Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
@@ -78,12 +77,16 @@ export default class ProjectSubitemSplitModal extends Component{
                     <TouchableOpacity style={[styles.clickButton,{backgroundColor:'#dbdada'}]} onPress={()=>this.props.closeModal()}>
                         <Text>重置</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.clickButton,{backgroundColor:'#216fd0'}]} onPress={()=>this.props.closeModal()}>
+                    <TouchableOpacity style={[styles.clickButton,{backgroundColor:'#216fd0'}]} onPress={()=>{this.props.closeModal();this.props.getDataFromNet()}}>
                         <Text style={{color:'#fff'}}>确定</Text>
                     </TouchableOpacity>
                 </View>
             </View>
         )
+    }
+
+    componentDidMount() {
+        // console.log(getCurrentMonS(),getCurrentMonE())
     }
 }
 
