@@ -19,6 +19,7 @@ export default class QualityCheckModal extends Component{
         super(props);
         this.state={
             data:[
+                {img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),name:'提交安全审核'},
                 {img:require('../../../../../resource/imgs/home/earlierStage/applyForDelay.png'),name:'检查计划新建'},
                 {img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),name:'检查计划编辑'}
             ]

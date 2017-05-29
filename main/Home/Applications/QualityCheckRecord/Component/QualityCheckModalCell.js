@@ -11,6 +11,7 @@ import {
     Text,
     TouchableOpacity
 } from 'react-native'
+import  SecurityApproval from "./SecurityApproval"
 // import AddOrEditQualityCehck from "../AddOrEditQualityCehck";
 const {width} = Dimensions.get('window');
 
@@ -44,6 +45,12 @@ export default class QualityCheckModalCell extends Component {
         //         }
         //     })
         // }
+        if (this.props.dataSource.name === '提交安全审核') {
+            this.props.navigator.push({
+                name: 'SecurityApproval',
+                component: SecurityApproval
+            })
+        }
         this.props.closeModal()
     }
 
