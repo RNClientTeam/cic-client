@@ -23,15 +23,8 @@ export default class General extends Component {
             rowHasChanged: (r1, r2) => r1 !== r2
         });
         this.state = {
-            dataSource: [
-                {key:'关联设计项目', value:'电缆铺设计划'},
-                {key:'所属部门', value:'市场营销一部'},
-                {key:'项目经理', value:'习大大'},
-                {key:'意向送电时间', value:'2017-01-16'},
-                {key:'最晚送电时间', value:'2017-02-15'},
-                {key:'计划开始时间', value:'2017-01-15'},
-                {key:'参与人员', value:'张帆，李四，王五，陈六，赵七，杨磊，杨石'}
-            ]
+            dataSource: [],
+            zygznr:''
         }
     }
     render() {
@@ -43,6 +36,7 @@ export default class General extends Component {
                     return <View  style={styles.separator}></View>
                 }}
                 renderHeader={this.renderHeader.bind(this)}
+                enableEmptySections={true}
                 renderFooter={this.renderFooter.bind(this)}/>
         );
     }
@@ -51,7 +45,7 @@ export default class General extends Component {
         return (
             <View style={styles.rowStyle}>
                 <Text style={[styles.textStyl,{width:width*0.32}]} numberOfLines={1}>{rowData.key}</Text>
-                <Text style={[styles.textStyl, rowData.key==='参与人员'&&styles.peopleName]}
+                <Text style={[styles.textStyl, rowData.key==='参与人员'&&styles.peopleName,{width:width*0.62,lineHeight:width*0.05}]}
                     numberOfLines={0}>
                     {rowData.value}
                 </Text>
@@ -75,7 +69,7 @@ export default class General extends Component {
                 </View>
                 <View style={styles.footerInfo}>
                     <Text style={[styles.textStyl,{lineHeight: 25}]}>
-                        临时供电工程施工：根据施工图纸，完成施工内容，包括并不限架设线路、电缆线路、电压器、低压版等设备
+                        {this.state.zygznr}
                     </Text>
                 </View>
             </View>
@@ -83,15 +77,26 @@ export default class General extends Component {
     }
 
     componentDidMount() {
-        // axios.get('/psmQqjdjh/xmgk',{
-        //     params:{
-        //         userID:GLOBAL_USERID,
-        //         xmbh:this.props.xmbh,
-        //         callID:getTimestamp()
-        //     }
-        // }).then(data=>{
-        //     console.log(data)
-        // })
+        axios.get('/psmQqjdjh/xmgk',{
+            params:{
+                userID:GLOBAL_USERID,
+                xmbh:this.props.xmbh,
+                callID:getTimestamp()
+            }
+        }).then(data=>{
+            this.setState({
+                dataSource: [
+                    {key:'关联设计项目', value:data.xmmc},
+                    {key:'所属部门', value:data.tbdw},
+                    {key:'项目经理', value:data.xmjl},
+                    {key:'意向送电时间', value:data.yxsdsj},
+                    {key:'最晚送电时间', value:data.zwsdsj},
+                    {key:'计划开始时间', value:data.sDate},
+                    {key:'参与人员', value:data.cyry}
+                ],
+                zygznr:data.zygznr
+            })
+        })
     }
 }
 
@@ -109,7 +114,8 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         paddingRight: 12,
         paddingVertical: 16,
-        backgroundColor: 'white'
+        backgroundColor: '#fff',
+        width:width,
     },
     separator: {
         width: width,
@@ -130,7 +136,7 @@ const styles = StyleSheet.create({
     },
     textStyl: {
         fontSize: 14,
-        color:'#3d3d3d'
+        color:'#3d3d3d',
     },
     peopleName: {
         flex: 1,
