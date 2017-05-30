@@ -12,7 +12,8 @@ import {
     TouchableOpacity
 } from 'react-native'
 import  SecurityApproval from "./SecurityApproval"
-// import AddOrEditQualityCehck from "../AddOrEditQualityCehck";
+import QualityCheckRecordModification from "./QualityCheckRecordModification"
+
 const {width} = Dimensions.get('window');
 
 export default class QualityCheckModalCell extends Component {
@@ -49,6 +50,11 @@ export default class QualityCheckModalCell extends Component {
             this.props.navigator.push({
                 name: 'SecurityApproval',
                 component: SecurityApproval
+            })
+        } else if (this.props.dataSource.name === '记录整改') {
+            this.props.navigator.push({
+                name: 'QualityCheckRecordModification',
+                component: QualityCheckRecordModification
             })
         }
         this.props.closeModal()

@@ -1,7 +1,6 @@
 /**
- * Created by zhubin on 17/5/29.
+ * Created by zhubin on 17/5/30.
  */
-'use strict';
 import React, {Component} from 'react'
 import {
     View,
@@ -12,16 +11,14 @@ import {
     Image,
     TouchableOpacity
 } from 'react-native'
-import StatusBar from "../../../../Component/StatusBar"
 import KeyValueLeft from "../../../../Component/KeyValueLeft"
 
 const {width} = Dimensions.get('window');
 
-export default class SecurityApproval extends Component {
+export default class ModificationCheckRecord extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <StatusBar navigator={this.props.navigator} title="项目安全检查记录审核"/>
                 <ScrollView>
                     <KeyValueLeft propKey="检查任务" propValue="质量检查任务1"/>
                     <KeyValueLeft propKey="项目编号" propValue="CX-DS140188-1032"/>
@@ -31,7 +28,6 @@ export default class SecurityApproval extends Component {
                     <KeyValueLeft propKey="检查时间" propValue="2017/05/30"/>
                     <KeyValueLeft propKey="检查人" propValue="朱彬"/>
                     <KeyValueLeft propKey="问题类别" propValue="施工安装问题"/>
-                    <KeyValueLeft propKey="检查结果" propValue="施工安装存在问题"/>
                     <View style={styles.divide}/>
                     <View style={styles.row}>
                         <Text style={styles.labelColor}>附件</Text>
@@ -46,12 +42,15 @@ export default class SecurityApproval extends Component {
                             </View>
                         </View>
                     </View>
-                </ScrollView>
-                <TouchableOpacity onPress={() => this.submit()}>
-                    <View style={styles.button}>
-                        <Text style={styles.buttonText}>确认提交</Text>
+                    <View style={styles.divide}/>
+                    <View style={styles.row}>
+                        <Text style={styles.labelColor}>检查结果</Text>
                     </View>
-                </TouchableOpacity>
+                    <View style={[styles.row, {paddingTop: 0.02 * width, paddingBottom: 0.02 * width}]}>
+                        <Text>施工安装存在问题</Text>
+                    </View>
+                    <View style={styles.divide}/>
+                </ScrollView>
             </View>
         )
     }
@@ -59,27 +58,12 @@ export default class SecurityApproval extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#f2f2f2'
-    },
-    button: {
-        backgroundColor: '#216fd0',
-        height: 0.12 * width,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginLeft: width*0.05,
-        marginRight: width*0.05,
-        marginBottom: width*0.05,
-        marginTop: width*0.05,
-        borderRadius: 5
-    },
-    buttonText: {
-        color: 'white'
+        marginTop: 0.02 * width
     },
     row: {
         paddingLeft: width*0.02,
         paddingRight: width*0.02,
-        height: 0.12 * width,
+        minHeight: 0.12 * width,
         borderBottomWidth: 1,
         borderBottomColor: '#dcdcdc',
         flexDirection: 'row',
