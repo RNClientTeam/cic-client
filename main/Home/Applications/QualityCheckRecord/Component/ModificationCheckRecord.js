@@ -20,6 +20,7 @@ export default class ModificationCheckRecord extends Component {
         return (
             <View style={styles.container}>
                 <ScrollView>
+                    <View style={styles.divide}/>
                     <KeyValueLeft propKey="检查任务" propValue="质量检查任务1"/>
                     <KeyValueLeft propKey="项目编号" propValue="CX-DS140188-1032"/>
                     <KeyValueLeft propKey="项目名称" propValue="十三陵基地配电增容"/>
@@ -58,7 +59,7 @@ export default class ModificationCheckRecord extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 0.02 * width
+
     },
     row: {
         paddingLeft: width*0.02,

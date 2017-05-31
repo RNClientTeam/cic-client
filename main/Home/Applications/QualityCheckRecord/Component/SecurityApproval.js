@@ -49,7 +49,7 @@ export default class SecurityApproval extends Component {
                 </ScrollView>
                 <TouchableOpacity onPress={() => this.submit()}>
                     <View style={styles.button}>
-                        <Text style={styles.buttonText}>确认提交</Text>
+                        <Text style={styles.buttonText}>提交审核</Text>
                     </View>
                 </TouchableOpacity>
             </View>
