@@ -13,6 +13,7 @@ import {
 } from 'react-native'
 import  SecurityApproval from "./SecurityApproval"
 import QualityCheckRecordModification from "./QualityCheckRecordModification"
+import RecordApproval from "./RecordApproval"
 
 const {width} = Dimensions.get('window');
 
@@ -28,24 +29,6 @@ export default class QualityCheckModalCell extends Component {
     }
 
     skipPage(){
-        // if(this.props.dataSource.name === '检查计划新建'){
-        //     this.props.navigator.push({
-        //         name:"AddOrEditQualityCehck",
-        //         component:AddOrEditQualityCehck,
-        //         params:{
-        //             flag:'add'
-        //         }
-        //     })
-        //
-        // }else if(this.props.dataSource.name === '检查计划编辑'){
-        //     this.props.navigator.push({
-        //         name:"AddOrEditQualityCehck",
-        //         component:AddOrEditQualityCehck,
-        //         params:{
-        //             flag:'edit'
-        //         }
-        //     })
-        // }
         if (this.props.dataSource.name === '提交安全审核') {
             this.props.navigator.push({
                 name: 'SecurityApproval',
@@ -55,6 +38,11 @@ export default class QualityCheckModalCell extends Component {
             this.props.navigator.push({
                 name: 'QualityCheckRecordModification',
                 component: QualityCheckRecordModification
+            })
+        } else if (this.props.dataSource.name === '审批') {
+            this.props.navigator.push({
+                name: 'RecordApproval',
+                component: RecordApproval
             })
         }
         this.props.closeModal()
