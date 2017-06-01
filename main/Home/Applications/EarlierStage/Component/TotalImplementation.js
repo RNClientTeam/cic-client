@@ -11,6 +11,7 @@ import {
     Text
 } from 'react-native'
 const {width} = Dimensions.get('window');
+import {getTimestamp} from '../../../../Util/Util.js';
 let dataArr = [{
         infomation: '执行情况说明执行情况说明执行情况说明执行情况说明执行情况',
         schedule: '70%',
@@ -65,6 +66,7 @@ import {PullList} from 'react-native-pull';
 import LoadMore from "../../../../Component/LoadMore.js";
 import TotalImplementationCell from "./TotalImplementationCell.js";
 import Reload from "../../../../Component/Reload.js";
+import Toast from 'react-native-simple-toast';
 export default class TotalImplementation extends Component {
     constructor(props) {
         super(props);
@@ -73,6 +75,28 @@ export default class TotalImplementation extends Component {
             hasMoreData: true,
             list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(this.dataSource),
         }
+    }
+
+    componentDidMount() {
+        this.getDataFromNet();
+    }
+
+    getDataFromNet() {
+        this.setState({
+            isLoading: true,
+            pageNum: 1,
+        });
+        axios.get('/psmQqjdjh/list4zxqk', {
+            params: {
+                userID: GLOBAL_USERID,
+                jhxxId: this.props.jhxxId,
+                callID: getTimestamp()
+            }
+        }).then((responseData) => {
+
+        }).catch((error) => {
+            Toast.show('服务端连接错误！')
+        });
     }
 
     render() {

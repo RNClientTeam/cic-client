@@ -38,15 +38,15 @@ export default class Main extends Component {
         return (
             <View style={styles.flex}>
                 <TabNavigator sceneStyle={styles.flex}>
-                    {/**首页**/}
-                    {this.renderTabItem('首页', tabImg[0], highLightTab[0], 'Home', Home)}
-                    {/**留言板**/}
-                    {this.renderTabItem('留言板', tabImg[1], highLightTab[1], 'Message', Message)}
-                    {/**组织**/}
-                    {this.renderTabItem('组织', tabImg[2], highLightTab[2], 'Organization', Organization)}
-                    {/**我的**/}
-                    {this.renderTabItem('我的', tabImg[3], highLightTab[3], 'User', User)}
-                </TabNavigator>
+                {/**首页**/}
+                {this.renderTabItem('首页', tabImg[0], highLightTab[0], 'Home', Home)}
+                {/**留言板**/}
+                {this.renderTabItem('留言板', tabImg[1], highLightTab[1], 'Message', Message)}
+                {/**组织**/}
+                {this.renderTabItem('组织', tabImg[2], highLightTab[2], 'Organization', Organization)}
+                {/**我的**/}
+                {this.renderTabItem('我的', tabImg[3], highLightTab[3], 'User', User)}
+            </TabNavigator>
             </View>
         );
     }

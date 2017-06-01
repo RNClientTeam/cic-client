@@ -16,6 +16,8 @@ import LoadMore from "../../../../Component/LoadMore"
 import Reload from "../../../../Component/Reload"
 import ShareDataCell from "./ShareDataCell";
 import AddData from './AddData'
+import {getTimestamp} from '../../../../Util/Util.js';
+import Toast from 'react-native-simple-toast';
 export default class ShareData extends Component{
     constructor(props) {
         super(props);
@@ -32,6 +34,28 @@ export default class ShareData extends Component{
             hasMoreData: true,
             list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(this.dataSource),
         }
+    }
+
+    componentDidMount() {
+        this.getDataFromNet();
+    }
+
+    getDataFromNet() {
+        this.setState({
+            isLoading: true,
+            pageNum: 1,
+        });
+        axios.get('/psmGxzl/list', {
+            params: {
+                userID: GLOBAL_USERID,
+                bsid: this.props.xmbh,
+                callID: getTimestamp()
+            }
+        }).then((responseData) => {
+
+        }).catch((error) => {
+            Toast.show('服务端连接错误！')
+        });
     }
 
     render(){

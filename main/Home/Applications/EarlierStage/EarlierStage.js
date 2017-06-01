@@ -105,6 +105,7 @@ export default class EarlierStage extends Component {
                 pageNum: 1,
                 pageSize: 10,
                 callID: getTimestamp(),
+                keywords: 'a'
             }
         }).then(data => {
             this.dataArr = [];
