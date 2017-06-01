@@ -16,12 +16,20 @@ import ScrollableTabView, {DefaultTabBar, ScrollableTabBar} from 'react-native-s
 import StatusBar from "../../../../Component/StatusBar"
 import ModificationCheckRecord from './ModificationCheckRecord'
 import ModificationTask from './ModificationTask'
+import AddModification from './AddModification'
+
+const {width} = Dimensions.get('window');
 
 export default class QualityCheckRecordModification extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <StatusBar navigator={this.props.navigator} title="项目安全检查记录审核"/>
+                <StatusBar navigator={this.props.navigator} title="项目安全检查记录审核">
+                    <TouchableOpacity
+                        onPress={() => this.addModification()}>
+                        <Image style={[styles.icon]} source={require('../../../../../resource/imgs/home/earlierStage/add.png')}/>
+                    </TouchableOpacity>
+                </StatusBar>
                 <ScrollableTabView
                     tabBarUnderlineStyle={{backgroundColor:'#51a5f0',height:2}}
                     tabBarActiveTextColor='#51a5f0'
@@ -33,11 +41,21 @@ export default class QualityCheckRecordModification extends Component {
             </View>
         )
     }
+    addModification() {
+        this.props.navigator.push({
+            name: 'AddModification',
+            component: AddModification
+        })
+    }
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#f2f2f2'
+    },
+    icon: {
+        width:width*0.045,
+        height:width*0.045
     }
 });

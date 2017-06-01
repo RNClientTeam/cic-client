@@ -84,7 +84,6 @@ export default class QualityCheckRecordDetail extends Component {
                         </View>
                     </TouchableOpacity>
                 </View>
-
             </View>
         )
     }
