@@ -69,12 +69,12 @@ export default class FillPerformance extends Component{
                         <View style={styles.cell}>
                             <Text style={styles.label}>实际开始时间</Text>
                             <View style={styles.blank}/>
-                            <Text>2017-02-26</Text>
+                            <Text>{this.state.sjkssj}</Text>
                         </View>
                         <View style={styles.cell}>
                             <Text style={styles.label}>实际完成时间</Text>
                             <View style={styles.blank}/>
-                            <Text>2017-02-26</Text>
+                            <Text>{this.state.sjjssj}</Text>
                         </View>
                         <View style={styles.inputCell}>
                             <View style={styles.inputLabel}>
@@ -113,8 +113,8 @@ export default class FillPerformance extends Component{
         }).then(data=>{
             console.log(data)
             for(let i = 0;i<data.data.length;i++){
-                this.state.data.push(data[i]);
-                this.state.options.push(data.name);
+                this.state.data.push(data.data[i]);
+                this.state.options.push(data.data[i].name);
             }
             this.setState({
                 eDate:data.sjjssj,

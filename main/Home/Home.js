@@ -17,7 +17,7 @@ import Notification from './Component/Notification'
 import Signed from './Signed/Signed'
 import CameraPage from './Component/CameraPage';
 import keys from '../Util/storageKeys.json'
-import {getSign, AESDecrypt} from '../Util/Util'
+import {getSign, AESDecrypt,getTimestamp} from '../Util/Util'
 import FetchUrl from '../Util/service.json'
 import Loading from "../Component/Loading";
 import axios from 'axios'
@@ -132,9 +132,10 @@ export default class Home extends Component {
             key: keys.userMessage
         }).then((data) => {
             global.GLOBAL_USERID = data.userID;
-            axios.post('/todo/index',
+            axios.post('/user/index',
                 {
-                    userID: data.userID
+                    userID: data.userID,
+                    callID:getTimestamp()
                 }
             ).then(resultData => {
                 this.setState({
