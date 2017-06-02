@@ -11,9 +11,10 @@ import {
     Text,
     TouchableOpacity
 } from 'react-native'
-import  SecurityApproval from "./SecurityApproval"
+import SecurityApproval from "./SecurityApproval"
 import QualityCheckRecordModification from "./QualityCheckRecordModification"
 import RecordApproval from "./RecordApproval"
+import QualityDoubleCheckRecord from "./QualityDoubleCheckRecord"
 
 const {width} = Dimensions.get('window');
 
@@ -43,6 +44,11 @@ export default class QualityCheckModalCell extends Component {
             this.props.navigator.push({
                 name: 'RecordApproval',
                 component: RecordApproval
+            })
+        } else if (this.props.dataSource.name === '复查') {
+            this.props.navigator.push({
+                name: 'QualityDoubleCheckRecord',
+                component: QualityDoubleCheckRecord
             })
         }
         this.props.closeModal()

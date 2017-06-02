@@ -1,5 +1,5 @@
 /**
- * Created by zhubin on 17/5/30.
+ * Created by zhubin on 17/6/2.
  */
 'use strict';
 import React, {Component} from 'react'
@@ -13,17 +13,17 @@ import {
 } from 'react-native'
 import ScrollableTabView, {DefaultTabBar, ScrollableTabBar} from 'react-native-scrollable-tab-view'
 import StatusBar from "../../../../Component/StatusBar"
-import ModificationCheckRecord from './ModificationCheckRecord'
-import ModificationTask from './ModificationTask'
-import AddModification from './AddModification'
+import DoubleCheckDetail from "./DoubleCheckDetail"
+import DoubleCheckModification from './DoubleCheckModification'
+import DoubleCheckRecord from './DoubleCheckRecord'
 
 const {width} = Dimensions.get('window');
 
-export default class QualityCheckRecordModification extends Component {
+export default class QualityDoubleCheckRecord extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <StatusBar navigator={this.props.navigator} title="项目安全检查记录审核">
+                <StatusBar navigator={this.props.navigator} title="质量检查记录复查">
                     <TouchableOpacity
                         onPress={() => this.addModification()}>
                         <Image style={[styles.icon]} source={require('../../../../../resource/imgs/home/earlierStage/add.png')}/>
@@ -34,18 +34,14 @@ export default class QualityCheckRecordModification extends Component {
                     tabBarActiveTextColor='#51a5f0'
                     tabBarInactiveTextColor='#3d3d3d'
                     tabBarBackgroundColor="white">
-                    <ModificationCheckRecord tabLabel="检查记录" navigator={this.props.navigator}/>
-                    <ModificationTask tabLabel="整改任务" navigator={this.props.navigator}/>
+                    <DoubleCheckDetail tabLabel="检查记录" navigator={this.props.navigator}/>
+                    <DoubleCheckModification tabLabel="整改任务" navigator={this.props.navigator}/>
+                    <DoubleCheckRecord tabLabel="复查" navigator={this.props.navigator}/>
                 </ScrollableTabView>
             </View>
         )
     }
-    addModification() {
-        this.props.navigator.push({
-            name: 'AddModification',
-            component: AddModification
-        })
-    }
+    addModification() {}
 }
 
 const styles = StyleSheet.create({

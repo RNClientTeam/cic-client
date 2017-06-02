@@ -9,14 +9,12 @@ import {
     Dimensions,
     ListView
 } from 'react-native'
-import LoadMore from "../../../../Component/LoadMore";
-import Reload from "../../../../Component/Reload";
-import QualityCheckRecordListCell from "./QualityCheckRecordListCell";
-const {width} = Dimensions.get('window');
+import LoadMore from "../../../../Component/LoadMore"
+import Reload from "../../../../Component/Reload"
 import {PullList} from 'react-native-pull';
+import QualityCheckRecordListCell from "./QualityCheckRecordListCell"
 
 export default class QualityCheckRecordList extends Component {
-
     constructor(props) {
         super(props);
         this.dataSource = [

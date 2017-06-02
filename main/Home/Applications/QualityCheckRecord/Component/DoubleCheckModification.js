@@ -1,5 +1,5 @@
 /**
- * Created by zhubin on 17/5/30.
+ * Created by zhubin on 17/6/2.
  */
 import React, {Component} from 'react'
 import {
@@ -7,14 +7,13 @@ import {
     StyleSheet,
     Dimensions,
     Text,
-    ScrollView,
-    Image,
     ListView,
+    Image,
     TouchableOpacity
 } from 'react-native'
-import {PullList} from 'react-native-pull';
 import LoadMore from "../../../../Component/LoadMore"
 import Reload from "../../../../Component/Reload"
+import {PullList} from 'react-native-pull';
 import ModificationTaskCell from './ModificationTaskCell'
 
 const {width} = Dimensions.get('window');
@@ -92,7 +91,7 @@ let dataArr = [
 ];
 let tempArr = dataArr;
 
-export default class ModificationTask extends Component {
+export default class DoubleCheckModification extends Component {
     constructor(props) {
         super(props);
         this.dataSource = dataArr;
@@ -155,5 +154,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         marginTop: 0.02 * width
+    },
+    divide: {
+        height: 0.02 * width
     }
 });

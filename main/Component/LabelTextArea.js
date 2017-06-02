@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
         color: '#5476a1'
     },
     textArea: {
-        marginTop: 0.02 * width,
         backgroundColor: 'white'
     },
     textContent: {
