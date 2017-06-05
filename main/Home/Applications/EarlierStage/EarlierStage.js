@@ -105,7 +105,7 @@ export default class EarlierStage extends Component {
                 pageNum: 1,
                 pageSize: 10,
                 callID: getTimestamp(),
-                keywords: 'a'
+                keywords:'一'
             }
         }).then(data => {
             this.dataArr = [];
@@ -139,7 +139,8 @@ export default class EarlierStage extends Component {
                     jhlx: this.state.jhlx,
                     pageNum: this.state.pageNum,
                     pageSize: 10,
-                    callID: getTimestamp()
+                    callID: getTimestamp(),
+                    keywords:'一'
                 }
             }).then(data => {
                 let resultData = data.data;

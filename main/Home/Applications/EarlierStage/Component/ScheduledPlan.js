@@ -116,9 +116,11 @@ export default class SchedulePlan extends Component {
                 jhxxId: this.props.jhxxId,
                 pageNum: 1,
                 pageSize: 10,
-                callID: getTimestamp()
+                callID: getTimestamp(),
+                rwlx:200
             }
         }).then(data => {
+            console.log(data)
             let resultData  = data.data;
             this.state.myTask = [];
             for(let i = 0;i<resultData.length;i++){
@@ -143,7 +145,8 @@ export default class SchedulePlan extends Component {
                 jhxxId: this.props.jhxxId,
                 pageNum: this.state.allTaskPageNum,
                 pageSize: 10,
-                callID: getTimestamp()
+                callID: getTimestamp(),
+                rwlx:200
             }
         }).then(data => {
             let resultData  = data.data;
@@ -171,7 +174,8 @@ export default class SchedulePlan extends Component {
                     jhxxId: this.props.jhxxId,
                     pageNum: this.state.myTaskPageNum,
                     pageSize: 10,
-                    callID: getTimestamp()
+                    callID: getTimestamp(),
+                    rwlx:200
                 }
             }).then(data => {
                 let resultData  = data.data;
