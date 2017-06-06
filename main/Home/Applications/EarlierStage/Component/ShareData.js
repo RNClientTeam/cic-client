@@ -52,8 +52,10 @@ export default class ShareData extends Component{
                 callID: getTimestamp()
             }
         }).then((responseData) => {
-
+            console.log(responseData);
         }).catch((error) => {
+            console.log('共享资料');
+            console.log(error);
             Toast.show('服务端连接错误！')
         });
     }
