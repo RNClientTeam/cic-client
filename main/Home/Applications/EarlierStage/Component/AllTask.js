@@ -121,7 +121,7 @@ export default class AllTask extends Component {
         this.dataSource = dataArr;
         this.state = {
             hasMoreData: true,
-            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(this.dataSource),
+            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}))
         }
     }
 
@@ -132,11 +132,12 @@ export default class AllTask extends Component {
                     onPullRelease={this.onPullRelease.bind(this)}
                     topIndicatorRender={this.topIndicatorRender.bind(this)}
                     topIndicatorHeight={60}
-                    dataSource={this.state.list}
+                    dataSource={this.state.list.cloneWithRows(this.props.dataSource)}
                     renderRow={this.renderRow.bind(this)}
                     onEndReached={this.loadMore.bind(this)}
                     onEndReachedThreshold={60}
                     renderFooter={this.renderFooter.bind(this)}
+                    enableEmptySections={true}
                 />
             </View>
         )
@@ -144,9 +145,7 @@ export default class AllTask extends Component {
 
     onPullRelease(resolve) {
         //do refresh
-        setTimeout(() => {
-            resolve();
-        }, 3000);
+        this.props.refresh(()=>{resolve()})
     }
 
     renderRow(item, sectionID, rowID, highlightRow) {
@@ -165,15 +164,11 @@ export default class AllTask extends Component {
     }
 
     loadMore(){
-        for (let i = 0;i<tempArr.length;i++){
-            this.dataSource.push(tempArr[i])
-        }
-
-        setTimeout(() => {
+        if(this.props.dataSource.length>0){
             this.setState({
-                list: this.state.list.cloneWithRows(this.dataSource)
-            });
-        }, 1000);
+                hasMoreData:this.props.getMoreData()
+            })
+        }
     }
 }
 

@@ -77,6 +77,9 @@ export default class SchedulePlan extends Component {
                                 this.setState({modalVisible: true,rwid:rwid})
                             }}/>
                     <AllTask navigator={this.props.navigator}
+                             refresh={(callback)=>this.getAllTask(callback)}
+                             dataSource={this.state.allTask}
+                             getMoreData={()=>{this.getMoreAll()}}
                              setModalVisible={() => {
                                  this.setState({modalVisible: true})
                              }}/>
@@ -107,6 +110,7 @@ export default class SchedulePlan extends Component {
 
     componentDidMount() {
         this.getMyTask();
+        this.getAllTask();
     }
 
     getMyTask(callback=()=>{}){
@@ -117,10 +121,9 @@ export default class SchedulePlan extends Component {
                 pageNum: 1,
                 pageSize: 10,
                 callID: getTimestamp(),
-                rwlx:200
+                rwlx:100
             }
         }).then(data => {
-            console.log(data)
             let resultData  = data.data;
             this.state.myTask = [];
             for(let i = 0;i<resultData.length;i++){
@@ -138,7 +141,7 @@ export default class SchedulePlan extends Component {
         })
     }
 
-    getAllTask(){
+    getAllTask(callback=()=>{}){
         axios.get('/psmQqjdjh/list4zrw', {
             params: {
                 userID: GLOBAL_USERID,
@@ -151,17 +154,13 @@ export default class SchedulePlan extends Component {
         }).then(data => {
             let resultData  = data.data;
             for(let i = 0;i<resultData.length;i++){
-                this.state.myTask.push(resultData[i]);
+                this.state.allTask.push(resultData[i]);
             }
             this.setState({
-                myTask:this.state.myTask
-            })
+                allTask:this.state.allTask
+            });
+            callback();
         });
-        if(resultData.length>0){
-            return true;
-        }else{
-            return false
-        }
     }
 
     getMoreMy(){
@@ -175,7 +174,7 @@ export default class SchedulePlan extends Component {
                     pageNum: this.state.myTaskPageNum,
                     pageSize: 10,
                     callID: getTimestamp(),
-                    rwlx:200
+                    rwlx:100
                 }
             }).then(data => {
                 let resultData  = data.data;
@@ -184,6 +183,36 @@ export default class SchedulePlan extends Component {
                 }
                 this.setState({
                     myTask:this.state.myTask
+                });
+                if(resultData.length>0){
+                    return true;
+                }else{
+                    return false
+                }
+            })
+        })
+    }
+
+    getMoreAll(){
+        this.setState({
+            myTaskPageNum:this.state.allTaskPageNum+1
+        },()=>{
+            axios.get('/psmQqjdjh/list4zrw', {
+                params: {
+                    userID: GLOBAL_USERID,
+                    jhxxId: this.props.jhxxId,
+                    pageNum: this.state.allTaskPageNum,
+                    pageSize: 10,
+                    callID: getTimestamp(),
+                    rwlx:200
+                }
+            }).then(data => {
+                let resultData  = data.data;
+                for(let i = 0;i<resultData.length;i++){
+                    this.state.allTask.push(resultData[i]);
+                }
+                this.setState({
+                    allTask:this.state.allTask
                 });
                 if(resultData.length>0){
                     return true;
