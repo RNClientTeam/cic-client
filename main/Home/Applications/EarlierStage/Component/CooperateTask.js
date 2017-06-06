@@ -16,8 +16,9 @@ import LoadMore from "../../../../Component/LoadMore";
 import CooperateTaskCell from "./CooperateTaskCell";
 import Reload from "../../../../Component/Reload";
 import MoreOperations from "./MoreOperations";
+import Toast from 'react-native-simple-toast';
+import {getTimestamp} from '../../../../Util/Util.js';
 export default class CooperateTask extends Component {
-
     constructor(props) {
         super(props);
         this.dataSource = [
@@ -31,8 +32,34 @@ export default class CooperateTask extends Component {
         this.state = {
             hasMoreData: true,
             list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(this.dataSource),
-            modalVisible: false
+            modalVisible: false,
+            isLoading: false,
+            pageNum: 1
         }
+    }
+
+    componentDidMount() {
+        this.getDataFromNet();
+    }
+
+    getDataFromNet() {
+        this.setState({
+            isLoading: true,
+            pageNum: 1,
+        });
+        axios.get('/psmQqjdjh/list4Phrw', {
+            params: {
+                userID: GLOBAL_USERID,
+                jhxxId: this.props.jhxxId,
+                pageNum: 1,
+                pageSize: 10,
+                callID: getTimestamp()
+            }
+        }).then((responseData) => {
+            console.log(responseData);
+        }).catch((error) => {
+            Toast.show('服务端连接错误！')
+        });
     }
 
     render() {

@@ -60,7 +60,6 @@ export default class EarlierStage extends Component {
     }
 
     componentDidMount() {
-        console.log(SECRETKEY)
         this.setState({
             isLoading: true
         });
@@ -105,6 +104,7 @@ export default class EarlierStage extends Component {
                 pageNum: 1,
                 pageSize: 10,
                 callID: getTimestamp(),
+                keywords:'一'
             }
         }).then(data => {
             this.dataArr = [];
@@ -138,14 +138,16 @@ export default class EarlierStage extends Component {
                     jhlx: this.state.jhlx,
                     pageNum: this.state.pageNum,
                     pageSize: 10,
-                    callID: getTimestamp()
+                    callID: getTimestamp(),
+                    keywords:'一'
                 }
             }).then(data => {
                 let resultData = data.data;
                 if (resultData.length > 0) {
                     hasMoreData = true
                 } else {
-                    hasMoreData = false
+                    hasMoreData = false;
+                    Toast.show('没有更多数据了！')
                 }
                 for (let i = 0; i < resultData.length; i++) {
                     this.dataArr.push(resultData[i])
