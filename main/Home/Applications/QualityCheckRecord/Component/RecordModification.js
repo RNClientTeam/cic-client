@@ -19,11 +19,11 @@ import AddModification from './AddModification'
 
 const {width} = Dimensions.get('window');
 
-export default class QualityCheckRecordModification extends Component {
+export default class RecordModification extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <StatusBar navigator={this.props.navigator} title="下达整改任务">
+                <StatusBar navigator={this.props.navigator} title="质量检查记录整改">
                     <TouchableOpacity
                         onPress={() => this.addModification()}>
                         <Image style={[styles.icon]} source={require('../../../../../resource/imgs/home/earlierStage/add.png')}/>

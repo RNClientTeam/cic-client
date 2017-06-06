@@ -23,6 +23,7 @@ export default class QualityCheckModal extends Component{
                 {img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),name:'审批'},
                 {img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),name:'记录整改'},
                 {img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),name:'复查'},
+                {img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),name:'质量检查记录整改'},
                 {img:require('../../../../../resource/imgs/home/earlierStage/applyForDelay.png'),name:'检查计划新建'},
                 {img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),name:'检查计划编辑'},
             ]

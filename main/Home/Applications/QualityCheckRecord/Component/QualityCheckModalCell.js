@@ -15,6 +15,7 @@ import SecurityApproval from "./SecurityApproval"
 import QualityCheckRecordModification from "./QualityCheckRecordModification"
 import RecordApproval from "./RecordApproval"
 import QualityDoubleCheckRecord from "./QualityDoubleCheckRecord"
+import RecordModification from "./RecordModification"
 
 const {width} = Dimensions.get('window');
 
@@ -49,6 +50,11 @@ export default class QualityCheckModalCell extends Component {
             this.props.navigator.push({
                 name: 'QualityDoubleCheckRecord',
                 component: QualityDoubleCheckRecord
+            })
+        } else if (this.props.dataSource.name === '质量检查记录整改') {
+            this.props.navigator.push({
+                name: 'RecordModification',
+                component: RecordModification
             })
         }
         this.props.closeModal()
