@@ -65,7 +65,7 @@ export default class EarlierStageList extends Component {
     }
 
     renderFooter() {
-        return (this.state.hasMoreData ? <LoadMore /> : null)
+        return (this.state.hasMoreData&&this.props.dataSource.length ? <LoadMore /> : null)
     }
 
     topIndicatorRender(pulling, pullok, pullrelease) {

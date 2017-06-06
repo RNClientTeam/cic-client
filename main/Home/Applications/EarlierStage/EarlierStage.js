@@ -60,7 +60,6 @@ export default class EarlierStage extends Component {
     }
 
     componentDidMount() {
-        console.log(SECRETKEY)
         this.setState({
             isLoading: true
         });
