@@ -56,7 +56,7 @@ export default class CooperateTask extends Component {
                 callID: getTimestamp()
             }
         }).then((responseData) => {
-            
+            console.log(responseData);
         }).catch((error) => {
             Toast.show('服务端连接错误！')
         });

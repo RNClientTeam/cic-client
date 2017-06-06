@@ -51,11 +51,11 @@ export function getSign(message, secret) {
     for (let key in sortKeys) {
         str = str + sortKeys[key] + '=' + message[sortKeys[key]];
     }
-    console.log(str,'-----')
     if(!secret){
         secret = SECRETKEY;
     }
-    console.log(str+secret,'-----')
+    console.log('参数：'+str,'-----'+'secretKey：'+secret);
+    console.log('签名'+CryptoJS.SHA1(str+secret).toString());
     return CryptoJS.SHA1(str+secret).toString();
 }
 
