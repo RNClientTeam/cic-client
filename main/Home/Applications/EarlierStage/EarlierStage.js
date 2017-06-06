@@ -60,7 +60,6 @@ export default class EarlierStage extends Component {
     }
 
     componentDidMount() {
-        console.log(SECRETKEY)
         this.setState({
             isLoading: true
         });
@@ -147,7 +146,8 @@ export default class EarlierStage extends Component {
                 if (resultData.length > 0) {
                     hasMoreData = true
                 } else {
-                    hasMoreData = false
+                    hasMoreData = false;
+                    Toast.show('没有更多数据了！')
                 }
                 for (let i = 0; i < resultData.length; i++) {
                     this.dataArr.push(resultData[i])
