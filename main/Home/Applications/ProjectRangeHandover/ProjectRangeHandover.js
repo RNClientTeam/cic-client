@@ -17,7 +17,6 @@ import SearchHeader from '../Component/SearchHeader'
 import ProjectRangeHandoverList from './Component/ProjectRangeHandoverList'
 import ProjectRangeHandoverModal from "./Component/ProjectRangeHandoverModal";
 export default class ProjectRangeHandover extends Component{
-
     constructor(props){
         super(props);
         this.state={
