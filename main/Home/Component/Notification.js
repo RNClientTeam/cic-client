@@ -50,7 +50,7 @@ export default class Notification extends Component{
     }
 
     _skipPage(url){
-        if(url !== ''){
+        if(url !== ''&&url){
             if(url.indexOf('http')=== -1){
                 this.props.navigator.push({
                     name:'webView',
