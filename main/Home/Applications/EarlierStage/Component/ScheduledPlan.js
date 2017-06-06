@@ -80,9 +80,7 @@ export default class SchedulePlan extends Component {
                              refresh={(callback)=>this.getAllTask(callback)}
                              dataSource={this.state.allTask}
                              getMoreData={()=>{this.getMoreAll()}}
-                             setModalVisible={() => {
-                                 this.setState({modalVisible: true})
-                             }}/>
+                             setModalVisible={(rwid)=>{this.setModalVisible(rwid)}}/>
                 </ScrollView>
                 <Modal
                     animationType={"slide"}
@@ -133,13 +131,22 @@ export default class SchedulePlan extends Component {
                 myTask:this.state.myTask
             });
             callback();
-            // if(resultData.length>0){
-            //     return true;
-            // }else{
-            //     return false
-            // }
         })
     }
+
+    setModalVisible(rwid){
+        axios.get('/psmQqJdjh/operationAuthority',{
+            params:{
+                userID:GLOBAL_USERID,
+                blongTo:1,
+                objId:rwid,
+                callID:getTimestamp()
+            }
+        }).then(data=>{
+            this.setState({modalVisible: true})
+        })
+    }
+
 
     getAllTask(callback=()=>{}){
         axios.get('/psmQqjdjh/list4zrw', {

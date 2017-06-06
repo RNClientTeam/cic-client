@@ -156,7 +156,7 @@ export default class MyTask extends Component {
     }
 
     renderFooter (){
-        return (this.state.hasMoreData ? <LoadMore /> : null)
+        return (this.state.hasMoreData&&this.props.dataSource.length>0 ? <LoadMore /> : null)
     }
 
     topIndicatorRender(pulling, pullok, pullrelease) {

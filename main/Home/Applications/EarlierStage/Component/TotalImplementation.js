@@ -93,8 +93,10 @@ export default class TotalImplementation extends Component {
                 callID: getTimestamp()
             }
         }).then((responseData) => {
-
+            console.log(responseData);
         }).catch((error) => {
+            console.log('总执行情况');
+            console.log(error);
             Toast.show('服务端连接错误！')
         });
     }

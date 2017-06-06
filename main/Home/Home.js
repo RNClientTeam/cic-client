@@ -109,12 +109,10 @@ export default class Home extends Component {
                     }
                     return ret
                 }];
-                console.log(config.data)
             } else if (config.method === 'get') {
                 let target = {};
                 Object.assign(target,config.params);
                 config.params.sign = getSign(target,SECRETKEY);
-                console.log(config.params)
             }
             return config;
         }, function (err) {
