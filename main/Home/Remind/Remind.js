@@ -15,6 +15,7 @@ import RemindHeader from './Component/RemindHeader'
 import TodoView from './Component/TodoView'
 import OverView from './Component/OverView'
 import Loading from "../../Component/Loading";
+import toast from 'react-native-simple-toast'
 export default class Remind extends Component {
 
     constructor(props) {
@@ -64,16 +65,31 @@ export default class Remind extends Component {
 
     componentDidMount() {
         this.showLoading();
-        axios.get('/msg/list4bs', {
-            params: {
-                userID: GLOBAL_USERID,
-                callID: getTimestamp()
+        // axios.get('/msg/list4bs', {
+        //     params: {
+        //         userID: GLOBAL_USERID,
+        //         callID: getTimestamp()
+        //     }
+        // }).then(data => {
+        //         this.hideLoading();
+        //         console.log(data)
+        //     }).catch(err => {
+        //     console.error(err);
+        //     this.hideLoading();
+        // })
+        axios.get('/msg/list4bs',{
+            params:{
+                userID:GLOBAL_USERID,
+                callID:getTimestamp()
             }
-        }).then(data => {
-                this.hideLoading();
-                console.log(data)
-            }).catch(err => {
+        }).then(data=>{
+            this.hideLoading();
+            if(data.code===0||  (data.code&&data.code!==1)){
+                toast.show(data.message);
+            }
+        }).catch(err=>{
             console.error(err);
+            toast.show('服务端错误!');
             this.hideLoading();
         })
     }
