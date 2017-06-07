@@ -16,11 +16,14 @@ import SendView from './Component/SendView'
 import ApproveView from './Component/ApproveView'
 import CopyToView from './Component/CopyToView'
 import {getTimestamp} from '../../Util/Util'
+import toast from 'react-native-simple-toast'
+import Loading from "../../Component/Loading";
 export default class Backlog extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            index: 0
+            index: 0,
+            isLoading:false
         }
     }
 
@@ -39,8 +42,21 @@ export default class Backlog extends Component {
                     <ApproveView/>
                     <CopyToView/>
                 </ScrollView>
+                {this.state.isLoading?<Loading/>:null}
             </View>
         )
+    }
+
+    showLoading(){
+        this.setState({
+            isLoading:true
+        })
+    }
+
+    hideLoading(){
+        this.setState({
+            isLoading:false
+        })
     }
 
 
@@ -52,11 +68,19 @@ export default class Backlog extends Component {
     }
 
     componentDidMount() {
-        axios.post('/todo/list4bs',{
-            userID:GLOBAL_USERID,
-            callID:getTimestamp()
+        this.showLoading();
+        axios.get('/todo/list4bs',{
+            params:{
+                userID:GLOBAL_USERID,
+                callID:getTimestamp()
+            }
         }).then(data=>{
+            this.hideLoading();
             console.log(data)
+        }).catch((err)=>{
+            console.error(err);
+            this.hideLoading();
+            toast.show('服务端错误！');
         })
     }
 }

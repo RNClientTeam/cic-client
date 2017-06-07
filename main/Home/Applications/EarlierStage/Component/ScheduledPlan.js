@@ -22,6 +22,7 @@ import MoreOperations from "./MoreOperations.js";
 const {width, height} = Dimensions.get('window');
 import {getTimestamp} from '../../../../Util/Util'
 import AllTask from "./AllTask";
+import Loading from "../../../../Component/Loading";
 
 export default class SchedulePlan extends Component {
     constructor(props) {
@@ -35,7 +36,8 @@ export default class SchedulePlan extends Component {
             allTask: [],
             myTaskPageNum:1,
             allTaskPageNum:1,
-            rwid:null
+            rwid:null,
+            auth:{}
         }
     }
 
@@ -91,10 +93,11 @@ export default class SchedulePlan extends Component {
                     }}
                     style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
                 >
-                    <MoreOperations rwid={this.state.rwid} navigator={this.props.navigator} closeModal={() => {
+                    <MoreOperations auth={this.state.auth} rwid={this.state.rwid} navigator={this.props.navigator} closeModal={() => {
                         this.setState({modalVisible: false})
                     }}/>
                 </Modal>
+
             </View>
         );
     }
@@ -135,15 +138,15 @@ export default class SchedulePlan extends Component {
     }
 
     setModalVisible(rwid){
-        axios.get('/psmQqJdjh/operationAuthority',{
+        axios.get('/psmQqjdjh/operationAuthority',{
             params:{
                 userID:GLOBAL_USERID,
-                blongTo:1,
+                belongTo:1,
                 objId:rwid,
                 callID:getTimestamp()
             }
         }).then(data=>{
-            this.setState({modalVisible: true})
+            this.setState({modalVisible: true,auth:data})
         })
     }
 

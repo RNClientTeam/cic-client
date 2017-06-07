@@ -17,14 +17,7 @@ export default class MoreOperations extends Component {
     constructor(props){
         super(props);
         this.state={
-            data:[
-                {img:require('../../../../../resource/imgs/home/earlierStage/applyForDelay.png'),name:'延期变更申请'},
-                {img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),name:'延期变更审批'},
-                {img:require('../../../../../resource/imgs/home/earlierStage/checkFlowInfo.png'),name:'流程信息查看'},
-                {img:require('../../../../../resource/imgs/home/earlierStage/peopleChange.png'),name:'人员变更'},
-                {img:require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),name:'填报完成情况'},
-                {img:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'确认完成'},
-            ]
+            data:[]
         }
     }
 
@@ -34,16 +27,55 @@ export default class MoreOperations extends Component {
                 <View style={styles.containerView}>
                     {this.renderCell()}
                 </View>
-                <View style={styles.buttonView}>
-                    <TouchableOpacity style={[styles.button,{backgroundColor:'#fb5560'}]}>
-                        <Text style={{color:'#fff'}}>暂停</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[styles.button, {backgroundColor:'#3999fd'}]}>
-                        <Text style={{color:'#fff'}}>恢复</Text>
-                    </TouchableOpacity>
-                </View>
+                {
+                    this.props.auth&&this.props.auth.ztOrqd && this.props.auth.ztOrqd === 'true'?
+                        <View style={styles.buttonView}>
+                            <TouchableOpacity style={[styles.button,{backgroundColor:'#fb5560'}]}>
+                                <Text style={{color:'#fff'}}>暂停</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={[styles.button, {backgroundColor:'#3999fd'}]}>
+                                <Text style={{color:'#fff'}}>恢复</Text>
+                            </TouchableOpacity>
+                        </View>:
+                        null
+                }
+
             </TouchableOpacity>
         )
+    }
+
+    componentDidMount() {
+        let dataArr = [];
+        if(this.props.auth.rybg && his.props.auth.rybg==='true'){
+            dataArr.push({img:require('../../../../../resource/imgs/home/earlierStage/peopleChange.png'),name:'人员变更'})
+        }
+        if(this.props.auth.yqbg && this.props.auth.yqbg === 'true'){
+            dataArr.push(
+                {img:require('../../../../../resource/imgs/home/earlierStage/applyForDelay.png'),name:'延期变更申请'}
+            );
+            dataArr.push(
+                {img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),name:'延期变更审批'}
+            );
+        }
+        if(this.props.auth.tbwcqk && this.props.auth.tbwcqk === 'true'){
+            dataArr.push(
+                {img:require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),name:'填报完成情况'}
+            );
+        }
+        if(this.props.auth.qrwcqk && this.props.auth.qrwcqk === 'true'){
+            dataArr.push(
+                {img:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'确认完成'}
+            );
+        }
+        if(this.props.auth.tbzzxqk && this.props.auth.tbzzxqk === 'true'){
+            dataArr.push(
+                {img:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'填报总执行情况'}
+            );
+        }
+        console.log(this.props.auth);
+        this.setState({
+            data:dataArr
+        })
     }
 
     renderCell = ()=>{
