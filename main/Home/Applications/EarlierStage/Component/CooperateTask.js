@@ -21,20 +21,14 @@ import {getTimestamp} from '../../../../Util/Util.js';
 export default class CooperateTask extends Component {
     constructor(props) {
         super(props);
-        this.dataSource = [
-            {cooperateName: "配合工作内容一", name: '王东', time: "2017/01/01-2017/12/12", percentage: 100},
-            {cooperateName: "配合工作内容一", name: '王东', time: "2017/01/01-2017/12/12", percentage: 80},
-            {cooperateName: "配合工作内容一", name: '王东', time: "2017/01/01-2017/12/12", percentage: 40},
-            {cooperateName: "配合工作内容一", name: '王东', time: "2017/01/01-2017/12/12", percentage: 30},
-            {cooperateName: "配合工作内容一", name: '王东', time: "2017/01/01-2017/12/12", percentage: 10},
-            {cooperateName: "配合工作内容一", name: '王东', time: "2017/01/01-2017/12/12", percentage: 90}
-        ];
+        this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             hasMoreData: true,
-            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(this.dataSource),
+            list: [],
             modalVisible: false,
             isLoading: false,
-            pageNum: 1
+            pageNum: 1,
+            auth:null
         }
     }
 
@@ -56,7 +50,7 @@ export default class CooperateTask extends Component {
                 callID: getTimestamp()
             }
         }).then((responseData) => {
-            console.log(responseData);
+            this.setState({list: responseData.data});
         }).catch((error) => {
             Toast.show('服务端连接错误！')
         });
@@ -69,7 +63,8 @@ export default class CooperateTask extends Component {
                     onPullRelease={this.onPullRelease.bind(this)}
                     topIndicatorRender={this.topIndicatorRender.bind(this)}
                     topIndicatorHeight={60}
-                    dataSource={this.state.list}
+                    enableEmptySections={true}
+                    dataSource={this.ds.cloneWithRows(this.state.list)}
                     renderRow={this.renderRow.bind(this)}
                     onEndReached={this.loadMore.bind(this)}
                     onEndReachedThreshold={60}
@@ -86,7 +81,7 @@ export default class CooperateTask extends Component {
                 >
                     <MoreOperations navigator={this.props.navigator} closeModal={() => {
                         this.setState({modalVisible: false})
-                    }}/>
+                    }} auth={this.state.auth}/>
                 </Modal>
             </View>
         )
@@ -101,10 +96,25 @@ export default class CooperateTask extends Component {
 
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
-            <CooperateTaskCell setModalVisible={() => {
-                this.setState({modalVisible: true})
-            }} key={rowID} dataSource={item}/>
+            <CooperateTaskCell key={rowID} dataSource={item}
+                setModalVisible={this.setModalVisible.bind(this, item.phrwId)}/>
         );
+    }
+
+    setModalVisible(phrwId) {
+        axios.get('/psmQqjdjh/operationAuthority',{
+            params:{
+                userID:GLOBAL_USERID,
+                belongTo:3,
+                objId:phrwId,
+                callID:getTimestamp()
+            }
+        }).then(data=>{
+            this.setState({
+                modalVisible: true,
+                auth:data
+            });
+        });
     }
 
     renderFooter() {
@@ -126,12 +136,12 @@ export default class CooperateTask extends Component {
         ];
 
         for (let i = 0; i < a.length; i++) {
-            this.dataSource.push(a[i])
+            this.state.list.push(a[i])
         }
 
         setTimeout(() => {
             this.setState({
-                list: this.state.list.cloneWithRows(this.dataSource)
+                list: this.state.list
             });
         }, 1000);
     }

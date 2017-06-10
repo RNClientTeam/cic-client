@@ -36,7 +36,7 @@ export default class EarlierStageListCell extends Component {
                             }
                         </View>
                         <View style={styles.projectName}>
-                            <Text style={{width:width*0.85,lineHeight:width*0.05}}>{this.props.data.xmmc}</Text>
+                            <Text style={{width:width*0.85,lineHeight:parseInt(width*0.05)}}>{this.props.data.xmmc}</Text>
                             <View style={{flexDirection: 'row', alignItems: 'center'}}>
                                 <Text>{this.props.data.count}</Text>
                                 <Text style={{color: '#999', fontSize: width * 0.05}}> > </Text>

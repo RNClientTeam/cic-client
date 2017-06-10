@@ -18,20 +18,20 @@ export default class CooperateTaskCell extends Component{
         return(
             <View style={styles.cooperateTaskCell}>
                 <View style={styles.topView}>
-                    <Text style={{color:'#729bdc',fontSize:width*0.04}}>{this.props.dataSource.cooperateName}</Text>
-                    <Text>{this.props.dataSource.name}</Text>
+                    <Text style={{color:'#729bdc',fontSize:width*0.04}}>{this.props.dataSource.zrbmmc}</Text>
+                    <Text>{this.props.dataSource.zrrmc}</Text>
                 </View>
                 <View style={styles.bottomView}>
                     <View style={styles.leftView}>
                         <View style={styles.leftTopView}>
                             <Text style={styles.leftTopText}>实际要求完成时间</Text>
-                            <Text style={[styles.leftTopText,{marginLeft:width*0.04}]}>{this.props.dataSource.time}</Text>
+                            <Text style={[styles.leftTopText,{marginLeft:width*0.04}]}>{this.props.dataSource.yqwcsj}</Text>
                         </View>
                         <View style={styles.percentageView}>
                             <View style={styles.processView}>
-                                <View style={[styles.processingView,{width:width*0.6*this.props.dataSource.percentage/100,},this.props.dataSource.percentage===100?{backgroundColor:'#25cf71',}:{backgroundColor:'#ffb432'}]}></View>
+                                <View style={[styles.processingView,{width:width*0.6*this.props.dataSource.zt/100,},this.props.dataSource.zt===100?{backgroundColor:'#25cf71',}:{backgroundColor:'#ffb432'}]}></View>
                             </View>
-                            <Text style={{color:'#c2cddc',fontSize:width*0.03}}>{this.props.dataSource.percentage}%</Text>
+                            <Text style={{color:'#c2cddc',fontSize:width*0.03}}>{this.props.dataSource.zt}%</Text>
                         </View>
                     </View>
                     <TouchableOpacity style={styles.rightView} onPress={()=>{this.props.setModalVisible()}}>

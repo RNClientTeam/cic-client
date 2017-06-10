@@ -45,7 +45,7 @@ export default class General extends Component {
         return (
             <View style={styles.rowStyle}>
                 <Text style={[styles.textStyl,{width:width*0.32}]} numberOfLines={1}>{rowData.key}</Text>
-                <Text style={[styles.textStyl, rowData.key==='参与人员'&&styles.peopleName,{width:width*0.62,lineHeight:width*0.05}]}
+                <Text style={[styles.textStyl, rowData.key==='参与人员'&&styles.peopleName,{width:width*0.62,lineHeight:parseInt(width*0.05)}]}
                     numberOfLines={0}>
                     {rowData.value}
                 </Text>

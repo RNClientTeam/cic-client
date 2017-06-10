@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     },
     stateStyle: {color: '#fff', fontSize: width * 0.035},
     topTaskStyle: {
-        lineHeight: width * 0.055,
+        lineHeight: parseInt(width * 0.055),
         fontSize: width * 0.04
     },
     bottomLeftView: {
