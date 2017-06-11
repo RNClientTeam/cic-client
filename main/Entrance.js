@@ -5,7 +5,10 @@ import {
     Navigator,
     Text,
     Image,
-    AsyncStorage
+    AsyncStorage,
+    BackAndroid,
+    Platform,
+    ToastAndroid
 } from 'react-native';
 
 import Splash from 'react-native-splash-screen';
@@ -28,7 +31,8 @@ export default class Entrance extends Component {
                         return Navigator.SceneConfigs.FadeAndroid;
                     }
                     return Navigator.SceneConfigs.PushFromRight;
-                }}/>
+                }}
+                ref="navigator"/>
         );
     }
 
@@ -48,7 +52,34 @@ export default class Entrance extends Component {
             enableCache: true,
 
         });
-
         global.storage = storage;
+
+        if (Platform.OS === 'android') {
+            BackAndroid.addEventListener('hardwareBackPress', this.onBackAndroid.bind(this));
+        }
     }
+
+    componentWillUnmount() {
+        if (Platform.OS === 'android') {
+            BackAndroid.removeEventListener('hardwareBackPress', this.onBackAndroid);
+        }
+    }
+
+    onBackAndroid() {
+        const  navigator  = this.refs.navigator;
+        let routers = navigator.getCurrentRoutes();
+        if (routers.length > 1) {
+            navigator.pop();
+            return true;//接管默认行为
+        } else {
+            if (this.lastBackPressed && this.lastBackPressed + 2000 >= Date.now()) {
+               //最近2秒内按过back键，可以退出应用。
+               return false;
+            } else {
+               this.lastBackPressed = Date.now();
+               ToastAndroid.show('再按一次退出应用', ToastAndroid.SHORT);
+               return true;//默认行为
+            }
+        }
+    };
 }

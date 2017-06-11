@@ -58,7 +58,7 @@ export default class User extends Component {
         }).then((result)=>{
             this.setState({
                 department: result.companyName,
-                username: result.userID,
+                username: result.userName,
                 recommend: result.deptName
             });
         }).catch(err => {

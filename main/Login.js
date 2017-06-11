@@ -109,7 +109,6 @@ export default class Login extends Component {
             this.setState({warningText: '用户名或密码不能为空！'});
             return;
         }
-        console.log(this.state.username,MD5Encrypt(this.state.password))
         this.setState({isLoading:true});
         let loginURL = FetURL.baseUrl+'/user/login?loginName='+this.state.username+'&password='+MD5Encrypt(this.state.password);
         //通过接口判断用户名密码是否正确
@@ -155,7 +154,10 @@ export default class Login extends Component {
                     }
                 }, 310);
             } else {
-                this.setState({warningText: '用户名或密码错误！'});
+                this.setState({
+                    warningText: '用户名或密码错误！',
+                    isLoading: false
+                });
             }
         })
         .catch((error) => {

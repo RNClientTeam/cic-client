@@ -46,6 +46,9 @@ export function getCurrentMonE() {
 
 //获取签名sign
 export function getSign(message, secret) {
+    if (message.sign) {
+        delete message.sign;
+    }
     let sortKeys = Object.keys(message).sort();
     let str = '';
     for (let key in sortKeys) {
