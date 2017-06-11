@@ -12,56 +12,44 @@ import {
 } from 'react-native'
 const {width} = Dimensions.get('window');
 import {getTimestamp} from '../../../../Util/Util.js';
-let dataArr = [{
-        infomation: '执行情况说明执行情况说明执行情况说明执行情况说明执行情况',
-        schedule: '70%',
-        time: '2017/11/11'
+let testData = [
+    {
+        "wcqk": "asda",
+        "id": "000000040015c342b519a",
+        "tbsj": "2017-05-23",
+        "wcbl": "100"
     },
     {
-        infomation: '执行情况说明执行情况说明执行情况说明执行情况说明执行情况',
-        schedule: '70%',
-        time: '2017/11/11'
+        "wcqk": "asda",
+        "id": "000000030015c342b519a",
+        "tbsj": "2017-05-23",
+        "wcbl": "50"
     },
     {
-        infomation: '执行情况说明执行情况说明执行情况说明执行情况说明执行情况',
-        schedule: '70%',
-        time: '2017/11/11'
+        "wcqk": "asda",
+        "id": "000000020015c342b519a",
+        "tbsj": "2017-05-23",
+        "wcbl": "10"
     },
     {
-        infomation: '执行情况说明执行情况说明执行情况说明执行情况说明执行情况',
-        schedule: '70%',
-        time: '2017/11/11'
+        "wcqk": "asda",
+        "id": "000000040015c342b519a",
+        "tbsj": "2017-05-23",
+        "wcbl": "100"
     },
     {
-        infomation: '执行情况说明执行情况说明执行情况说明执行情况说明执行情况',
-        schedule: '70%',
-        time: '2017/11/11'
-    }];
-let tempArr = [{
-            infomation: '执行情况说明执行情况说明执行情况说明执行情况说明执行情况',
-            schedule: '70%',
-            time: '2017/11/11'
-        },
-        {
-            infomation: '执行情况说明执行情况说明执行情况说明执行情况说明执行情况',
-            schedule: '70%',
-            time: '2017/11/11'
-        },
-        {
-            infomation: '执行情况说明执行情况说明执行情况说明执行情况说明执行情况',
-            schedule: '70%',
-            time: '2017/11/11'
-        },
-        {
-            infomation: '执行情况说明执行情况说明执行情况说明执行情况说明执行情况',
-            schedule: '70%',
-            time: '2017/11/11'
-        },
-        {
-            infomation: '执行情况说明执行情况说明执行情况说明执行情况说明执行情况',
-            schedule: '70%',
-            time: '2017/11/11'
-        }];
+        "wcqk": "asda",
+        "id": "000000030015c342b519a",
+        "tbsj": "2017-05-23",
+        "wcbl": "50"
+    },
+    {
+        "wcqk": "asda",
+        "id": "000000020015c342b519a",
+        "tbsj": "2017-05-23",
+        "wcbl": "10"
+    }
+];
 import {PullList} from 'react-native-pull';
 import LoadMore from "../../../../Component/LoadMore.js";
 import TotalImplementationCell from "./TotalImplementationCell.js";
@@ -70,10 +58,10 @@ import Toast from 'react-native-simple-toast';
 export default class TotalImplementation extends Component {
     constructor(props) {
         super(props);
-        this.dataSource = dataArr;
+        this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});;
         this.state = {
             hasMoreData: true,
-            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(this.dataSource),
+            list: testData,
         }
     }
 
@@ -108,10 +96,11 @@ export default class TotalImplementation extends Component {
                     onPullRelease={this.onPullRelease.bind(this)}
                     topIndicatorRender={this.topIndicatorRender.bind(this)}
                     topIndicatorHeight={60}
-                    dataSource={this.state.list}
+                    dataSource={this.ds.cloneWithRows(this.state.list)}
                     renderRow={this.renderRow.bind(this)}
                     onEndReached={this.loadMore.bind(this)}
                     onEndReachedThreshold={60}
+                    enableEmptySections={true}
                     renderFooter={this.renderFooter.bind(this)}
                 />
             </View>
@@ -140,13 +129,13 @@ export default class TotalImplementation extends Component {
     }
 
     loadMore(){
-        for (let i = 0;i<tempArr.length;i++){
-            this.dataSource.push(tempArr[i])
+        for (let i = 0;i<testData.length;i++){
+            this.state.list.push(testData[i])
         }
 
         setTimeout(() => {
             this.setState({
-                list: this.state.list.cloneWithRows(this.dataSource)
+                list: this.state.list
             });
         }, 1000);
     }

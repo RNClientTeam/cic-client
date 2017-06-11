@@ -61,7 +61,7 @@ export default class Entrance extends Component {
 
     componentWillUnmount() {
         if (Platform.OS === 'android') {
-            BackAndroid.removeEventListener('hardwareBackPress', this.onBackAndroid);
+            BackAndroid.removeEventListener('hardwareBackPress', this.onBackAndroid.bind(this));
         }
     }
 

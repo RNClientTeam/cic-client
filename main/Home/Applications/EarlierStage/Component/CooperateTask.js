@@ -18,13 +18,111 @@ import Reload from "../../../../Component/Reload";
 import MoreOperations from "./MoreOperations";
 import Toast from 'react-native-simple-toast';
 import {getTimestamp} from '../../../../Util/Util.js';
+let testData = [
+    {
+        "wcqk": "",
+        "yqwcsj": "2016-12-15",
+        "sjwcsj": "",
+        "rwmc": "12121212",
+        "zrrmc": "黄雪琴",
+        "RN": 1,
+        "isTodo": 0,
+        "wcbl": "",
+        "zrbm": "00000004c00138c242a0d9",
+        "zrr": "ZNDQ1933",
+        "zt": 80,
+        "ztmc": "已生效",
+        "phrwId": "eff7c214db5cee179766e1b3039a9c9",
+        "zrbmmc": "运营管理中心"
+    },
+    {
+        "wcqk": "",
+        "yqwcsj": "2016-12-14",
+        "sjwcsj": "",
+        "rwmc": "wewewew",
+        "zrrmc": "李华凯",
+        "RN": 2,
+        "isTodo": 0,
+        "wcbl": "",
+        "zrbm": "D0020021",
+        "zrr": "ZNDQ2108",
+        "zt": 60,
+        "ztmc": "已生效",
+        "phrwId": "44a4ef9d0ae3e334946d9fa7a1f5a6e",
+        "zrbmmc": "客户支持中心(2)"
+    },
+    {
+        "wcqk": "",
+        "yqwcsj": "2016-12-15",
+        "sjwcsj": "",
+        "rwmc": "12121212",
+        "zrrmc": "黄雪琴",
+        "RN": 1,
+        "isTodo": 0,
+        "wcbl": "",
+        "zrbm": "00000004c00138c242a0d9",
+        "zrr": "ZNDQ1933",
+        "zt": 90,
+        "ztmc": "已生效",
+        "phrwId": "eff7c214db5cee179766e1b3039a9c9",
+        "zrbmmc": "运营管理中心"
+    },
+    {
+        "wcqk": "",
+        "yqwcsj": "2016-12-14",
+        "sjwcsj": "",
+        "rwmc": "wewewew",
+        "zrrmc": "李华凯",
+        "RN": 2,
+        "isTodo": 0,
+        "wcbl": "",
+        "zrbm": "D0020021",
+        "zrr": "ZNDQ2108",
+        "zt": 100,
+        "ztmc": "已生效",
+        "phrwId": "44a4ef9d0ae3e334946d9fa7a1f5a6e",
+        "zrbmmc": "客户支持中心(2)"
+    },
+    {
+        "wcqk": "",
+        "yqwcsj": "2016-12-15",
+        "sjwcsj": "",
+        "rwmc": "12121212",
+        "zrrmc": "黄雪琴",
+        "RN": 1,
+        "isTodo": 0,
+        "wcbl": "",
+        "zrbm": "00000004c00138c242a0d9",
+        "zrr": "ZNDQ1933",
+        "zt": 100,
+        "ztmc": "已生效",
+        "phrwId": "eff7c214db5cee179766e1b3039a9c9",
+        "zrbmmc": "运营管理中心"
+    },
+    {
+        "wcqk": "",
+        "yqwcsj": "2016-12-14",
+        "sjwcsj": "",
+        "rwmc": "wewewew",
+        "zrrmc": "李华凯",
+        "RN": 2,
+        "isTodo": 0,
+        "wcbl": "",
+        "zrbm": "D0020021",
+        "zrr": "ZNDQ2108",
+        "zt": 100,
+        "ztmc": "已生效",
+        "phrwId": "44a4ef9d0ae3e334946d9fa7a1f5a6e",
+        "zrbmmc": "客户支持中心(2)"
+    }
+];
 export default class CooperateTask extends Component {
     constructor(props) {
         super(props);
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            hasMoreData: true,
-            list: [],
+            hasMoreData: false,
+            list: testData,
             modalVisible: false,
             isLoading: false,
             pageNum: 1,
@@ -50,8 +148,13 @@ export default class CooperateTask extends Component {
                 callID: getTimestamp()
             }
         }).then((responseData) => {
-            this.setState({list: responseData.data});
+            this.setState({
+                list: testData,
+                isLoading: false,
+                hasMoreData: true
+            });
         }).catch((error) => {
+            this.setState({isLoading: false});
             Toast.show('服务端连接错误！')
         });
     }
@@ -126,22 +229,15 @@ export default class CooperateTask extends Component {
     }
 
     loadMore() {
-        let a = [
-            {cooperateName: "配合工作内容一", name: '123', time: "2017/01/01-2017/12/12", percentage: 80},
-            {cooperateName: "配合工作内容一", name: 'Neal', time: "2017/01/01-2017/12/12", percentage: 80},
-            {cooperateName: "配合工作内容一", name: 'fan', time: "2017/01/01-2017/12/12", percentage: 80},
-            {cooperateName: "配合工作内容一", name: 'bin', time: "2017/01/01-2017/12/12", percentage: 80},
-            {cooperateName: "配合工作内容一", name: 'Ting', time: "2017/01/01-2017/12/12", percentage: 80},
-            {cooperateName: "配合工作内容一", name: '哈哈', time: "2017/01/01-2017/12/12", percentage: 80}
-        ];
-
-        for (let i = 0; i < a.length; i++) {
-            this.state.list.push(a[i])
+        alert('a');
+        this.setState({hasMoreData:true});
+        for (let i = 0; i < testData.length; i++) {
+            this.state.list.push(testData[i])
         }
-
         setTimeout(() => {
             this.setState({
-                list: this.state.list
+                list: this.state.list,
+                hasMoreData: false
             });
         }, 1000);
     }

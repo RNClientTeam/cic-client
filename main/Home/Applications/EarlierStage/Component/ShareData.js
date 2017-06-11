@@ -18,21 +18,43 @@ import ShareDataCell from "./ShareDataCell";
 import AddData from './AddData'
 import {getTimestamp} from '../../../../Util/Util.js';
 import Toast from 'react-native-simple-toast';
+let testData = [
+    {
+        "tbsj": 1466127293000,
+        "fjid": "5975*********************ff386",
+        "ms": "施工前请无比阅读并严格遵守手册中的规定",
+        "fjmc": "难点问题",
+        "tbr": "孙xx"
+    },
+    {
+        "tbsj": 1466134028000,
+        "fjid": "5975*********************ff386",
+        "ms": "施工前请无比阅读并严格遵守手册中的规定",
+        "fjmc": "难点问题",
+        "tbr": "孙xx"
+    },
+    {
+        "tbsj": 1466127293000,
+        "fjid": "5975*********************ff386",
+        "ms": "施工前请无比阅读并严格遵守手册中的规定",
+        "fjmc": "难点问题",
+        "tbr": "孙xx"
+    },
+    {
+        "tbsj": 1466134028000,
+        "fjid": "5975*********************ff386",
+        "ms": "施工前请无比阅读并严格遵守手册中的规定",
+        "fjmc": "难点问题",
+        "tbr": "孙xx"
+    }
+]
 export default class ShareData extends Component{
     constructor(props) {
         super(props);
-        this.dataSource = [
-            {dataName: "共享资料一", author: '王东', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵'},
-            {dataName: "共享资料一", author: '王东', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册'},
-            {dataName: "共享资料一", author: '王东', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定'},
-            {dataName: "共享资料一", author: '王东', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定'},
-            {dataName: "共享资料一", author: '王东', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定'},
-            {dataName: "共享资料一", author: '王东', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定'},
-            {dataName: "共享资料一", author: '王东', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定'},
-        ];
+        this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             hasMoreData: true,
-            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(this.dataSource),
+            list: testData,
         }
     }
 
@@ -67,7 +89,7 @@ export default class ShareData extends Component{
                     onPullRelease={this.onPullRelease.bind(this)}
                     topIndicatorRender={this.topIndicatorRender.bind(this)}
                     topIndicatorHeight={60}
-                    dataSource={this.state.list}
+                    dataSource={this.ds.cloneWithRows(this.state.list)}
                     pageSize={5}
                     initialListSize={5}
                     renderRow={this.renderRow.bind(this)}
@@ -94,30 +116,19 @@ export default class ShareData extends Component{
     }
 
     renderFooter (){
-        return (this.state.hasMoreData ? <LoadMore />: null)
+        return (this.state.hasMoreData && this.state.list.length !== 0? <LoadMore />: null)
     }
 
     topIndicatorRender(pulling, pullok, pullrelease) {
         return (<Reload/>);
     }
     loadMore(){
-        let a = [
-            {dataName: "共享资料一", author: '杨磊', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定'},
-            {dataName: "共享资料一", author: '婷婷', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定'},
-            {dataName: "共享资料一", author: '朱斌', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定'},
-            {dataName: "共享资料一", author: '张帆', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定'},
-            {dataName: "共享资料一", author: '哈哈', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定'},
-            {dataName: "共享资料一", author: '肚肚', shareTime: "2017/01/01", specification: '施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定施工前请务必阅读并严格遵守手册中的规定'},
-
-        ];
-
-        for (let i = 0;i<a.length;i++){
-            this.dataSource.push(a[i])
+        for (let i = 0;i<testData.length;i++){
+            this.state.list.push(testData[i])
         }
-
         setTimeout(() => {
             this.setState({
-                list: this.state.list.cloneWithRows(this.dataSource)
+                list: this.state.list
             });
         }, 1000);
     }
