@@ -19,39 +19,70 @@ import ProgressExecuteDetail from "../ConstructProgressExecute/Component/Progres
 const {width} = Dimensions.get('window');
 
 export default class EarlierStageListCell extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            xmbh:'',//项目编号
+            xmmc:'',//项目名称
+            state:'',//项目状态
+            fzr:'',//负责人
+            bm:'',//部门
+            bfb:'',//百分比
+            sjd:'',//时间段
+            count:''
+        }
+    }
     render() {
         return (
             <View>
                 <TouchableOpacity style={styles.earlierStageListCell} onPress={this.skipPage.bind(this)}>
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
-                            <Text style={{color: '#216fd0', fontSize: width * 0.045}}>{this.props.data.xmbh}</Text>
+                            <Text style={{color: '#216fd0', fontSize: width * 0.045}}>{this.state.xmbh}</Text>
                             {this.props.stateBg ?
                                 <View style={[styles.stateView, {backgroundColor: this.props.stateBg}]}>
-                                    <Text style={styles.stateText}>{this.props.data.ztmc}</Text>
+                                    <Text style={styles.stateText}>{this.state.state}</Text>
                                 </View> :
                                 <View style={[styles.stateView]}>
-                                    <Text style={styles.stateText}>{this.props.data.ztmc}</Text>
+                                    <Text style={styles.stateText}>{this.state.state}</Text>
                                 </View>
                             }
                         </View>
                         <View style={styles.projectName}>
-                            <Text style={{width:width*0.85,lineHeight:parseInt(width*0.05)}}>{this.props.data.xmmc}</Text>
+                            <Text style={{width:width*0.85,lineHeight:parseInt(width*0.05)}}>{this.state.xmmc}</Text>
                             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                                <Text>{this.props.data.count}</Text>
+                                <Text>{this.state.count}</Text>
                                 <Text style={{color: '#999', fontSize: width * 0.05}}> > </Text>
                             </View>
                         </View>
                     </View>
                     <View style={styles.aboutPrincipal}>
-                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.xmjl}</Text>
-                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.tbdw}</Text>
-                        <Text style={[{width: width * 0.5,paddingLeft:width*0.04}, styles.textStyle]}>{this.props.data.wcbl}%</Text>
-                        <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.sDate}-{this.props.data.eDate}</Text>
+                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.state.fzr}</Text>
+                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.state.bm}</Text>
+                        <Text style={[{width: width * 0.5,paddingLeft:width*0.04}, styles.textStyle]}>{this.state.bfb}%</Text>
+                        <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.state.sjd}</Text>
                     </View>
                 </TouchableOpacity>
             </View>
         )
+    }
+
+    componentWillReceiveProps(props) {
+        console.log(props);
+        switch (props.target){
+            case 'EarlierStageDetail':
+                this.setState({
+                    xmbh:props.data.xmbh,//项目编号
+                    xmmc:props.data.xmmc,//项目名称
+                    state:props.data.ztmc,//项目状态
+                    fzr:props.data.xmjl,//负责人
+                    bm:props.data.tbdw,//部门
+                    bfb:props.data.wcbl,//百分比
+                    sjd:props.data.sDate+'-'+this.props.data.eDate,//时间段
+                    count:props.data.count
+                });
+                break;
+        }
     }
 
     skipPage() {

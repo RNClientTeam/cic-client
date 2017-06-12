@@ -107,6 +107,7 @@ export default class EarlierStage extends Component {
                 keywords:'-'
             }
         }).then(data => {
+            console.log(data);
             if(data.code === 1){
                 this.dataArr = [];
                 for (let i = 0; i < data.data.data.length; i++) {
