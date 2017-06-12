@@ -86,7 +86,6 @@ export default class EarlierStage extends Component {
             eDate: eDate
         }, () => {
             this.getDataFromNet();
-            console.log(this.state.sDate,this.state.eDate,this.state.jhlx)
         })
     }
 
