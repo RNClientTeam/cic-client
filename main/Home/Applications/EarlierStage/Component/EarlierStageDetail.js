@@ -26,7 +26,7 @@ export default class EarlierStageDetail extends Component {
                 <Image style={styles.bgImage}
                     source={require('../../../../../resource/imgs/home/earlierStage/backgroundImg.png')}>
                     <Text style={styles.number}>{this.props.xmbh}</Text>
-                    <Text style={styles.engineerName} numberOfLines={1}>{this.props.xmmc}</Text>
+                    <Text style={styles.engineerName} >{this.props.xmmc}</Text>
                     <Text style={styles.dateSty}>日期：{this.props.sDate.replace(/-/g,'/')}-{this.props.eDate.replace(/-/g,'/')}</Text>
                     <View style={styles.progressView}>
                         <View style={styles.backView}>
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
         color: 'white',
         backgroundColor: 'transparent',
         fontSize: 15,
-        marginBottom: 0.03 * height
+        marginBottom: 0.03 * height,
     },
     dateSty: {
         color: 'white',

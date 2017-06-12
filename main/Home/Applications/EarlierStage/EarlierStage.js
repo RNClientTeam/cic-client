@@ -17,8 +17,8 @@ import SearchHeader from '../Component/SearchHeader'
 import EarlierStageListModalView from "./Component/EarlierStageListModalView";
 import Toast from 'react-native-simple-toast';
 import {getCurrentMonS, getCurrentMonE, getTimestamp} from '../../../Util/Util'
-import FetchUrl from '../../../Util/service.json'
 import Loading from "../../../Component/Loading";
+import toast from 'react-native-simple-toast'
 export default class EarlierStage extends Component {
     constructor(props) {
         super(props);
@@ -30,7 +30,8 @@ export default class EarlierStage extends Component {
                 jhlx: '500',//计划类型
                 pageNum: 1,//页码
                 isLoading: false,
-                dataSource: []
+                dataSource: [],
+                keywords:''
             }
     }
 
@@ -104,17 +105,22 @@ export default class EarlierStage extends Component {
                 pageNum: 1,
                 pageSize: 10,
                 callID: getTimestamp(),
-                keywords:'一'
+                keywords:'-'
             }
         }).then(data => {
-            this.dataArr = [];
-            for (let i = 0; i < data.data.length; i++) {
-                this.dataArr.push(data.data[i])
+            if(data.code === 1){
+                this.dataArr = [];
+                for (let i = 0; i < data.data.data.length; i++) {
+                    this.dataArr.push(data.data.data[i])
+                }
+                this.setState({
+                    isLoading: false,
+                    dataSource: this.dataArr
+                });
+            }else{
+                toast.show(data.message)
             }
-            this.setState({
-                isLoading: false,
-                dataSource: this.dataArr
-            });
+
             callback()
         }).catch(err => {
             console.log(err);
@@ -139,24 +145,29 @@ export default class EarlierStage extends Component {
                     pageNum: this.state.pageNum,
                     pageSize: 10,
                     callID: getTimestamp(),
-                    keywords:'一'
+                    keywords:'-'
                 }
             }).then(data => {
-                let resultData = data.data;
-                if (resultData.length > 0) {
-                    hasMoreData = true
-                } else {
-                    hasMoreData = false;
-                    Toast.show('没有更多数据了！')
+                if(data.code ===1){
+                    let resultData = data.data.data;
+                    if (resultData.length > 0) {
+                        hasMoreData = true
+                    } else {
+                        hasMoreData = false;
+                        Toast.show('没有更多数据了！')
+                    }
+                    for (let i = 0; i < resultData.length; i++) {
+                        this.dataArr.push(resultData[i])
+                    }
+                    this.setState({
+                        dataSource: this.dataArr
+                    }, () => {
+                        return hasMoreData
+                    })
+                }else{
+                    toast.show(data.message);
                 }
-                for (let i = 0; i < resultData.length; i++) {
-                    this.dataArr.push(resultData[i])
-                }
-                this.setState({
-                    dataSource: this.dataArr
-                }, () => {
-                    return hasMoreData
-                })
+
             }).catch(err => {
                 Toast.show('服务端连接错误！')
             })

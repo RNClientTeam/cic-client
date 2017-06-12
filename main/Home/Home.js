@@ -99,6 +99,7 @@ export default class Home extends Component {
         axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
         //添加一个请求拦截器，添加sign
         axios.interceptors.request.use(function (config) {
+            console.log(config);
             if(config.url === 'http://was.jzfyjt.com:9092/service/user/index'){
                 return config;
             }else{
