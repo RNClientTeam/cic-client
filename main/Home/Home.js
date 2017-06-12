@@ -98,29 +98,34 @@ export default class Home extends Component {
         axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
         //添加一个请求拦截器，添加sign
         axios.interceptors.request.use(function (config) {
-            if (config.method === 'post') {
-                let target = {};
-                Object.assign(target,config.data);
-                config.data.sign = getSign(target,SECRETKEY);
-                config.transformRequest = [function (data) {
-                    let ret = '';
-                    for (let it in data) {
-                        ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-                    }
-                    return ret
-                }];
-            } else if (config.method === 'get') {
-                let target = {};
-                Object.assign(target,config.params);
-                config.params.sign = getSign(target,SECRETKEY);
+            if(config.url === 'http://was.jzfyjt.com:9092/service/user/index'){
+                return config;
+            }else{
+                if (config.method === 'post') {
+                    let target = {};
+                    Object.assign(target,config.data);
+                    config.data.sign = getSign(target,SECRETKEY);
+                    config.transformRequest = [function (data) {
+                        let ret = '';
+                        for (let it in data) {
+                            ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+                        }
+                        return ret
+                    }];
+                } else if (config.method === 'get') {
+                    let target = {};
+                    Object.assign(target,config.params);
+                    config.params.sign = getSign(target,SECRETKEY);
+                }
+                return config;
             }
-            return config;
         }, function (err) {
             return Promise.reject(err);
         });
 
         //添加一个响应拦截器,解码
         axios.interceptors.response.use(function (res) {
+            console.log(res);
             if(res.data.data && res.data.data.length>0){
                 return JSON.parse(AESDecrypt(res.data.data, SECRETKEY))
             }else{
@@ -134,11 +139,17 @@ export default class Home extends Component {
             key: keys.userMessage
         }).then((data) => {
             global.GLOBAL_USERID = data.userID;
+            let template = {
+                userID: data.userID,
+                callID:getTimestamp(),
+            };
+            template.sign = getSign(template,SECRETKEY);
+            let responseData = '';
+            for(let it in template){
+                responseData+=encodeURIComponent(it)+'='+encodeURIComponent(template[it])+'&'
+            }
             axios.post('/user/index',
-                {
-                    userID: data.userID,
-                    callID:getTimestamp()
-                }
+                responseData
             ).then(resultData => {
                 this.setState({
                     bsData: resultData.bsData,
