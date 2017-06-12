@@ -13,7 +13,7 @@ import {
     ListView
 } from 'react-native'
 const {width} = Dimensions.get('window');
-import ProjectSubitemSplitListCell from '../../Component/ApplicationListCell'
+import ProjectSubitemSplitListCell from './ProjectSubitemSplitCell'
 import {PullList} from 'react-native-pull';
 import LoadMore from "../../../../Component/LoadMore";
 import Reload from "../../../../Component/Reload";

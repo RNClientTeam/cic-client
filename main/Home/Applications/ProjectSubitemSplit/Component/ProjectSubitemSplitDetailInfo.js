@@ -7,7 +7,8 @@ import {
     View,
     StyleSheet,
     Dimensions,
-    Text
+    Text,
+    ScrollView
 } from 'react-native'
 import KeyValue from "../../../../Component/KeyValueLeft";
 import StatusBar from "../../../../Component/StatusBar";
@@ -19,12 +20,16 @@ export default class ProjectSubitemSplitDetailInfo extends Component {
         super(props);
         this.state = {
             dataSource:[
-                {key:"所属部门",value:"市场营销一部"},
-                {key:"项目经理",value:"王二"},
-                {key:"合同工期开始时间",value:"2017-02-16"},
-                {key:"合同工期结束时间",value:"2017-09-12"},
-                {key:"合同计划开始时间",value:"2017-09-12"},
-                {key:"合同计划结束时间",value:"2017-09-12"},
+                {key:"工程子项",value:"市场营销一部"},
+                {key:"是否锁定",value:"否"},
+                {key:"实施经理",value:"贾世坤"},
+                {key:"工程类别",value:"配电"},
+                {key:"工程子项承包范围",value:"承接范围详情"},
+                {key:"图纸编号及名称",value:"无"},
+                {key:"责任人",value:"李健坤"},
+                {key:"施工部门",value:"市场项目部"},
+                {key:"进场施工时间",value:"2017-09-12"},
+                {key:"竣工送电时间",value:"2017-09-12"},
             ]
         }
     }
@@ -33,12 +38,38 @@ export default class ProjectSubitemSplitDetailInfo extends Component {
         return (
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="工程子项详情"/>
-                <View style={styles.headerView}>
-                    <Text style={styles.headerText} numberOfLines={1}>
-                        {this.props.proNum}   {this.props.proName}
-                    </Text>
-                </View>
-                {this.renderKV()}
+                <ScrollView>
+                    <View style={styles.headerView}>
+                        <Text style={styles.headerText} numberOfLines={1}>
+                            {this.props.proNum}   {this.props.proName}
+                        </Text>
+                    </View>
+                    {this.renderKV()}
+                    <View style={styles.divide}></View>
+                    <View>
+                        <View style={styles.headerView}>
+                            <Text style={styles.headerText} numberOfLines={1}>
+                                送电时间
+                            </Text>
+                        </View>
+                        <KeyValue propKey='意向送电/竣工时间' propValue='2017-02-16'/>
+                        <KeyValue propKey='最晚送电/竣工时间' propValue='2017-02-16'/>
+                        <KeyValue propKey='确认送电/竣工时间' propValue='2017-02-16'/>
+                    </View>
+                    <View style={styles.divide}></View>
+                    <View>
+                        <View style={styles.headerView}>
+                            <Text style={styles.headerText} numberOfLines={1}>
+                                其他说明
+                            </Text>
+                        </View>
+                        <View style={styles.row}>
+                            <Text numberOfLines={1}>
+                                其他情况说明
+                            </Text>
+                        </View>
+                    </View>
+                </ScrollView>
             </View>
         )
     }
@@ -47,7 +78,7 @@ export default class ProjectSubitemSplitDetailInfo extends Component {
         let tpl = [];
         for(let i = 0;i<this.state.dataSource.length;i++){
             tpl.push(
-                <KeyValue key={i} propsKey={this.state.dataSource[i].key} propsValue={this.state.dataSource[i].value}/>
+                <KeyValue key={i} propKey={this.state.dataSource[i].key} propValue={this.state.dataSource[i].value}/>
             )
         }
         return tpl;
@@ -61,7 +92,6 @@ const styles = StyleSheet.create({
     },
     headerView: {
         backgroundColor: '#fff',
-        marginTop: width * 0.02,
         height: width * 0.12,
         borderColor: '#ddd',
         borderBottomWidth: 1,
@@ -71,5 +101,17 @@ const styles = StyleSheet.create({
     headerText: {
         fontWeight: '500',
         marginLeft:width*0.02
+    },
+    row: {
+        backgroundColor: '#fff',
+        height: width * 0.12,
+        paddingLeft: 0.02 * width,
+        borderColor: '#ddd',
+        borderBottomWidth: 1,
+        borderTopWidth: 1,
+        justifyContent:'center'
+    },
+    divide: {
+        height: 0.02 * width
     }
 });

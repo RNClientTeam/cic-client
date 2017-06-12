@@ -50,7 +50,7 @@ export default class ProjectSubitemSplit extends Component {
                         changeCfzt={(cfzt)=>{this.setState({cfzt:cfzt})}}
                         getDataFromNet={()=>this.getDataFromNet()}
                         closeModal={()=>this.setState({isModalVisible:false})} />:
-                    <View></View>}
+                    <View/>}
             </View>
         )
     }

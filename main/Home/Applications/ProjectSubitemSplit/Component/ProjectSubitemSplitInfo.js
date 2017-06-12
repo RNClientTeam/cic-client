@@ -45,7 +45,7 @@ export default class ProjectSubitemSplitInfo extends Component {
         let tpl = [];
         for(let i = 0;i<this.state.dataSource.length;i++){
             tpl.push(
-                <KeyValue key={i} propsKey={this.state.dataSource[i].key} propsValue={this.state.dataSource[i].value}/>
+                <KeyValue key={i} propKey={this.state.dataSource[i].key} propValue={this.state.dataSource[i].value}/>
             )
         }
         return tpl;

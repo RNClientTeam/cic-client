@@ -39,6 +39,7 @@ export default class ProjectSubitemSplitModal extends Component{
                         value={this.state.isSplit}
                         onValueChange={(value)=>{value?this.props.changeCfzt(1):this.props.changeCfzt(0);this.setState({isSplit:value})}}
                         disabled={false}
+                        onTintColor={"#216fd0"}
                         />
                     </View>
                 </View>
