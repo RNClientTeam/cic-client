@@ -126,7 +126,8 @@ export default class Home extends Component {
         //添加一个响应拦截器,解码
         axios.interceptors.response.use(function (res) {
             if(res.data.data && res.data.data.length>0){
-                return JSON.parse(AESDecrypt(res.data, SECRETKEY))
+                res.data.data = JSON.parse(AESDecrypt(res.data.data,SECRETKEY));
+                return res.data;
             }else{
                 return res.data
             }
@@ -150,6 +151,7 @@ export default class Home extends Component {
             axios.post('/user/index',
                 responseData
             ).then(resultData => {
+                resultData = resultData.data;
                 this.setState({
                     bsData: resultData.bsData,
                     msgList: resultData.msgList,
