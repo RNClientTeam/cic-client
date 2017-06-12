@@ -156,13 +156,12 @@ export default class Home extends Component {
                     isLoading: false
                 });
                 if(resultData.code === 1){
-                    resultData = resultData.data;
                     this.setState({
-                        bsData: resultData.bsData,
-                        msgList: resultData.msgList,
+                        bsData: resultData.data.bsData,
+                        msgList: resultData.data.msgList,
                         badges: {
-                            todo: resultData.todo,
-                            remind: resultData.remind
+                            todo: resultData.data.todo||0,
+                            remind: resultData.data.remind||0
                         },
                     })
                 }else{
