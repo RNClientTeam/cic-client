@@ -125,9 +125,8 @@ export default class Home extends Component {
 
         //添加一个响应拦截器,解码
         axios.interceptors.response.use(function (res) {
-            console.log(res);
             if(res.data.data && res.data.data.length>0){
-                return JSON.parse(AESDecrypt(res.data.data, SECRETKEY))
+                return JSON.parse(AESDecrypt(res.data, SECRETKEY))
             }else{
                 return res.data
             }
