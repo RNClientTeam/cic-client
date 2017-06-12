@@ -54,7 +54,8 @@ export default class ShareData extends Component{
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             hasMoreData: true,
-            list: testData,
+            list: [],
+            isLoading: false
         }
     }
 
@@ -74,10 +75,12 @@ export default class ShareData extends Component{
                 callID: getTimestamp()
             }
         }).then((responseData) => {
-            console.log(responseData);
+            this.setState({
+                isLoading: false,
+                list: testData
+            })
         }).catch((error) => {
-            console.log('共享资料');
-            console.log(error);
+            this.setState({isLoading:false});
             Toast.show('服务端连接错误！')
         });
     }
@@ -95,6 +98,7 @@ export default class ShareData extends Component{
                     renderRow={this.renderRow.bind(this)}
                     onEndReached={this.loadMore.bind(this)}
                     onEndReachedThreshold={60}
+                    enableEmptySections={true}
                     renderFooter={this.renderFooter.bind(this)}
                 />
                 <AddData navigator={this.props.navigator}/>
@@ -123,12 +127,9 @@ export default class ShareData extends Component{
         return (<Reload/>);
     }
     loadMore(){
-        for (let i = 0;i<testData.length;i++){
-            this.state.list.push(testData[i])
-        }
         setTimeout(() => {
             this.setState({
-                list: this.state.list
+                list: this.state.list.concat(testData)
             });
         }, 1000);
     }

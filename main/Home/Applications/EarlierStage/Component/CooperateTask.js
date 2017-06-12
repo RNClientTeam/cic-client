@@ -121,8 +121,8 @@ export default class CooperateTask extends Component {
         super(props);
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            hasMoreData: false,
-            list: testData,
+            hasMoreData: true,
+            list: [],
             modalVisible: false,
             isLoading: false,
             pageNum: 1,
@@ -150,8 +150,7 @@ export default class CooperateTask extends Component {
         }).then((responseData) => {
             this.setState({
                 list: testData,
-                isLoading: false,
-                hasMoreData: true
+                isLoading: false
             });
         }).catch((error) => {
             this.setState({isLoading: false});
@@ -221,7 +220,7 @@ export default class CooperateTask extends Component {
     }
 
     renderFooter() {
-        return (this.state.hasMoreData ? <LoadMore /> : null)
+        return (this.state.hasMoreData && this.state.list.length !== 0 ? <LoadMore /> : null)
     }
 
     topIndicatorRender(pulling, pullok, pullrelease) {
@@ -229,15 +228,9 @@ export default class CooperateTask extends Component {
     }
 
     loadMore() {
-        alert('a');
-        this.setState({hasMoreData:true});
-        for (let i = 0; i < testData.length; i++) {
-            this.state.list.push(testData[i])
-        }
         setTimeout(() => {
             this.setState({
-                list: this.state.list,
-                hasMoreData: false
+                list: this.state.list.concat(testData)
             });
         }, 1000);
     }

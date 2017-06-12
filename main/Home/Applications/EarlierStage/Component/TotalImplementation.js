@@ -61,7 +61,8 @@ export default class TotalImplementation extends Component {
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});;
         this.state = {
             hasMoreData: true,
-            list: testData,
+            list: [],
+            isLoading: false
         }
     }
 
@@ -81,10 +82,12 @@ export default class TotalImplementation extends Component {
                 callID: getTimestamp()
             }
         }).then((responseData) => {
-            console.log(responseData);
+            this.setState({
+                isLoading: false,
+                list: testData
+            });
         }).catch((error) => {
-            console.log('总执行情况');
-            console.log(error);
+            this.setState({isLoading:false});
             Toast.show('服务端连接错误！')
         });
     }
@@ -121,7 +124,7 @@ export default class TotalImplementation extends Component {
     }
 
     renderFooter (){
-        return (this.state.hasMoreData ? <LoadMore /> : null)
+        return (this.state.hasMoreData && this.state.list.length !== 0 ? <LoadMore /> : null)
     }
 
     topIndicatorRender(pulling, pullok, pullrelease) {
@@ -129,13 +132,9 @@ export default class TotalImplementation extends Component {
     }
 
     loadMore(){
-        for (let i = 0;i<testData.length;i++){
-            this.state.list.push(testData[i])
-        }
-
         setTimeout(() => {
             this.setState({
-                list: this.state.list
+                list: this.state.list.concat(testData)
             });
         }, 1000);
     }
