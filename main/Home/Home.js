@@ -21,6 +21,7 @@ import {getSign, AESDecrypt,getTimestamp} from '../Util/Util'
 import FetchUrl from '../Util/service.json'
 import Loading from "../Component/Loading";
 import axios from 'axios'
+import toast from 'react-native-simple-toast'
 export default class Home extends Component {
     constructor(props) {
         super(props);
@@ -151,16 +152,23 @@ export default class Home extends Component {
             axios.post('/user/index',
                 responseData
             ).then(resultData => {
-                resultData = resultData.data;
                 this.setState({
-                    bsData: resultData.bsData,
-                    msgList: resultData.msgList,
-                    badges: {
-                        todo: resultData.todo,
-                        remind: resultData.remind
-                    },
                     isLoading: false
-                })
+                });
+                if(resultData.code === 1){
+                    resultData = resultData.data;
+                    this.setState({
+                        bsData: resultData.bsData,
+                        msgList: resultData.msgList,
+                        badges: {
+                            todo: resultData.todo,
+                            remind: resultData.remind
+                        },
+                    })
+                }else{
+                    toast.show(resultData.message);
+                }
+
             }).catch(err => {
                 this.setState({
                     isLoading: false
