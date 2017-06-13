@@ -23,6 +23,7 @@ const {width, height} = Dimensions.get('window');
 import {getTimestamp} from '../../../../Util/Util'
 import AllTask from "./AllTask";
 import Loading from "../../../../Component/Loading";
+import toast from 'react-native-simple-toast'
 
 export default class SchedulePlan extends Component {
     constructor(props) {
@@ -34,10 +35,10 @@ export default class SchedulePlan extends Component {
             modalVisible: false,
             myTask: [],
             allTask: [],
-            myTaskPageNum:1,
-            allTaskPageNum:1,
-            rwid:null,
-            auth:{}
+            myTaskPageNum: 1,
+            allTaskPageNum: 1,
+            rwid: null,
+            auth: {}
         }
     }
 
@@ -72,17 +73,23 @@ export default class SchedulePlan extends Component {
                     scrollEnabled={false}>
                     <MyTask navigator={this.props.navigator}
                             xmbh={this.props.xmbh}
-                            refresh={(callback)=>this.getMyTask(callback)}
+                            refresh={(callback) => this.getMyTask(callback)}
                             dataSource={this.state.myTask}
-                            getMoreData={()=>{this.getMoreMy()}}
+                            getMoreData={() => {
+                                this.getMoreMy()
+                            }}
                             setModalVisible={(rwid) => {
-                                this.setState({modalVisible: true,rwid:rwid})
+                                this.setModalVisible(rwid)
                             }}/>
                     <AllTask navigator={this.props.navigator}
-                             refresh={(callback)=>this.getAllTask(callback)}
+                             refresh={(callback) => this.getAllTask(callback)}
                              dataSource={this.state.allTask}
-                             getMoreData={()=>{this.getMoreAll()}}
-                             setModalVisible={(rwid)=>{this.setModalVisible(rwid)}}/>
+                             getMoreData={() => {
+                                 this.getMoreAll()
+                             }}
+                             setModalVisible={(rwid) => {
+                                 this.setModalVisible(rwid)
+                             }}/>
                 </ScrollView>
                 <Modal
                     animationType={"slide"}
@@ -93,9 +100,10 @@ export default class SchedulePlan extends Component {
                     }}
                     style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
                 >
-                    <MoreOperations auth={this.state.auth} rwid={this.state.rwid} navigator={this.props.navigator} closeModal={() => {
-                        this.setState({modalVisible: false})
-                    }}/>
+                    <MoreOperations jhxxId={this.props.jhxxId}  auth={this.state.auth} rwid={this.state.rwid} navigator={this.props.navigator}
+                                    closeModal={() => {
+                                        this.setState({modalVisible: false})
+                                    }}/>
                 </Modal>
 
             </View>
@@ -114,7 +122,8 @@ export default class SchedulePlan extends Component {
         this.getAllTask();
     }
 
-    getMyTask(callback=()=>{}){
+    getMyTask(callback = () => {
+    }) {
         axios.get('/psmQqjdjh/list4zrw', {
             params: {
                 userID: GLOBAL_USERID,
@@ -122,36 +131,57 @@ export default class SchedulePlan extends Component {
                 pageNum: 1,
                 pageSize: 10,
                 callID: getTimestamp(),
-                rwlx:100
+                rwlx: 100
             }
         }).then(data => {
-            let resultData  = data.data.data;
+            let resultData = data.data.data;
             this.state.myTask = [];
-            for(let i = 0;i<resultData.length;i++){
+            for (let i = 0; i < resultData.length; i++) {
                 this.state.myTask.push(resultData[i]);
             }
             this.setState({
-                myTask:this.state.myTask
+                myTask: this.state.myTask
             });
             callback();
         })
     }
 
-    setModalVisible(rwid){
-        axios.get('/psmQqjdjh/operationAuthority',{
-            params:{
-                userID:GLOBAL_USERID,
-                belongTo:1,
-                objId:rwid,
-                callID:getTimestamp()
+    setModalVisible(rwid) {
+        axios.get('/psmQqjdjh/operationAuthority', {
+            params: {
+                userID: GLOBAL_USERID,
+                belongTo: 1,
+                objId: rwid,
+                callID: getTimestamp()
             }
-        }).then(data=>{
-            this.setState({modalVisible: true,auth:data})
+        }).then(data => {
+            // TODO
+            data = {
+                "code": 1,
+                "data": {
+                    "rybg": true,//人员变更
+                    "yqbg": true,//延期变更
+                    "tbwcqk": true,//填报完成情况
+                    "qrwcqk": true,//确认完成情况
+                    "ztOrqd": true,//暂停或启动任务权限
+                    "tbzzxqk":true//填报总执行情况
+                },
+                "message": "成功"
+            };
+            if (data.code === 1) {
+                this.setState({modalVisible: true, auth: data.data,rwid:rwid})
+            } else {
+                toast.show(data.message);
+            }
+
+        }).catch(err=>{
+            toast.show('服务端错误');
         })
     }
 
 
-    getAllTask(callback=()=>{}){
+    getAllTask(callback = () => {
+    }) {
         axios.get('/psmQqjdjh/list4zrw', {
             params: {
                 userID: GLOBAL_USERID,
@@ -159,24 +189,24 @@ export default class SchedulePlan extends Component {
                 pageNum: this.state.allTaskPageNum,
                 pageSize: 10,
                 callID: getTimestamp(),
-                rwlx:200
+                rwlx: 200
             }
         }).then(data => {
-            let resultData  = data.data;
-            for(let i = 0;i<resultData.length;i++){
+            let resultData = data.data;
+            for (let i = 0; i < resultData.length; i++) {
                 this.state.allTask.push(resultData[i]);
             }
             this.setState({
-                allTask:this.state.allTask
+                allTask: this.state.allTask
             });
             callback();
         });
     }
 
-    getMoreMy(){
+    getMoreMy() {
         this.setState({
-            myTaskPageNum:this.state.myTaskPageNum+1
-        },()=>{
+            myTaskPageNum: this.state.myTaskPageNum + 1
+        }, () => {
             axios.get('/psmQqjdjh/list4zrw', {
                 params: {
                     userID: GLOBAL_USERID,
@@ -184,29 +214,29 @@ export default class SchedulePlan extends Component {
                     pageNum: this.state.myTaskPageNum,
                     pageSize: 10,
                     callID: getTimestamp(),
-                    rwlx:100
+                    rwlx: 100
                 }
             }).then(data => {
-                let resultData  = data.data;
-                for(let i = 0;i<resultData.length;i++){
+                let resultData = data.data;
+                for (let i = 0; i < resultData.length; i++) {
                     this.state.myTask.push(resultData[i]);
                 }
                 this.setState({
-                    myTask:this.state.myTask
+                    myTask: this.state.myTask
                 });
-                if(resultData.length>0){
+                if (resultData.length > 0) {
                     return true;
-                }else{
+                } else {
                     return false
                 }
             })
         })
     }
 
-    getMoreAll(){
+    getMoreAll() {
         this.setState({
-            myTaskPageNum:this.state.allTaskPageNum+1
-        },()=>{
+            myTaskPageNum: this.state.allTaskPageNum + 1
+        }, () => {
             axios.get('/psmQqjdjh/list4zrw', {
                 params: {
                     userID: GLOBAL_USERID,
@@ -214,19 +244,19 @@ export default class SchedulePlan extends Component {
                     pageNum: this.state.allTaskPageNum,
                     pageSize: 10,
                     callID: getTimestamp(),
-                    rwlx:200
+                    rwlx: 200
                 }
             }).then(data => {
-                let resultData  = data.data;
-                for(let i = 0;i<resultData.length;i++){
+                let resultData = data.data;
+                for (let i = 0; i < resultData.length; i++) {
                     this.state.allTask.push(resultData[i]);
                 }
                 this.setState({
-                    allTask:this.state.allTask
+                    allTask: this.state.allTask
                 });
-                if(resultData.length>0){
+                if (resultData.length > 0) {
                     return true;
-                }else{
+                } else {
                     return false
                 }
             })
