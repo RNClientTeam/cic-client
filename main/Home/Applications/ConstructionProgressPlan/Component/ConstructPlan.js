@@ -12,6 +12,7 @@ import {
     ScrollView
 } from 'react-native'
 import MyPlan from './MyPlan'
+import MyPlanDetail from './MyPlanDetail'
 
 const {width, height} = Dimensions.get('window');
 
@@ -54,8 +55,24 @@ export default class ConstructPlan extends Component {
                             this.setState({modalVisible: true})
                         }}/>
                 </ScrollView>
+                <TouchableOpacity onPress={this.create.bind(this)}>
+                    <View style={styles.button}>
+                        <Image
+                            source={require('../../../../../resource/imgs/home/earlierStage/addData.png')}
+                            style={{height: 0.05 * width, width: 0.05 * width, marginRight: 0.02 * width}}
+                        />
+                        <Text style={styles.buttonText}>新建计划</Text>
+                    </View>
+                </TouchableOpacity>
             </View>
         )
+    }
+
+    create() {
+        this.props.navigator.push({
+            component: MyPlanDetail,
+            name: 'MyPlanDetail'
+        });
     }
 
     changePage(page) {
@@ -92,5 +109,17 @@ const styles = StyleSheet.create({
         width: 88,
         alignItems:'center',
         justifyContent:'center'
+    },
+    button: {
+        height: 0.12 * width,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        borderTopColor: '#dcdcdc',
+        borderTopWidth: 1,
+        flexDirection: 'row'
+    },
+    buttonText: {
+        color: '#216fd0'
     }
 });

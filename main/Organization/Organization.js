@@ -110,9 +110,9 @@ export default class Organization extends Component {
         axios.get('/org/list', {
             params: props
         }).then(response => {
-            console.log('result', response);
+            //console.log('result', response);
             this.setState({isLoading: false});
-            this.deps = response.item;
+            this.deps = response.data.item;
             this.depsConstructor(this.deps);
             this.renderDeps();
         });

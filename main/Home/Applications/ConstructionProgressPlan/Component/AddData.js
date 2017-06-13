@@ -32,10 +32,11 @@ export default class HomeHeader extends Component{
 const styles = StyleSheet.create({
     shareDataAdd:{
         width:width,
-        height:width*0.1,
+        height:width * 0.12,
         alignItems:'center',
         justifyContent:'center',
-        flexDirection:'row'
+        flexDirection:'row',
+        backgroundColor: 'white'
     },
     imgStyle:{
         width:width*0.07,

@@ -33,7 +33,7 @@ export default class ProgressPlanList extends Component {
                 contentNum: 18,
                 principal: '杨磊',
                 department: '技术部',
-                schedule: '10%',
+                schedule: '10',
                 time: '2017/11/11-2017/12/12'
             },
             {
@@ -43,7 +43,7 @@ export default class ProgressPlanList extends Component {
                 contentNum: 18,
                 principal: '杨磊',
                 department: '技术部',
-                schedule: '10%',
+                schedule: '10',
                 time: '2017/11/11-2017/12/12'
             },
             {
@@ -53,7 +53,7 @@ export default class ProgressPlanList extends Component {
                 contentNum: 18,
                 principal: '杨磊',
                 department: '技术部',
-                schedule: '10%',
+                schedule: '10',
                 time: '2017/11/11-2017/12/12'
             },
             {
@@ -63,7 +63,7 @@ export default class ProgressPlanList extends Component {
                 contentNum: 18,
                 principal: '杨磊',
                 department: '技术部',
-                schedule: '10%',
+                schedule: '10',
                 time: '2017/11/11-2017/12/12'
             },
             {
@@ -73,13 +73,15 @@ export default class ProgressPlanList extends Component {
                 contentNum: 18,
                 principal: '杨磊',
                 department: '技术部',
-                schedule: '10%',
+                schedule: '10',
                 time: '2017/11/11-2017/12/12'
             }
         ];
+        let target = this.convert(this.dataSource);
         this.state = {
             hasMoreData: true,
-            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(this.dataSource),
+            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}))
+                .cloneWithRows(target),
         }
     }
 
@@ -118,6 +120,22 @@ export default class ProgressPlanList extends Component {
 
     topIndicatorRender(pulling, pullok, pullrelease) {
         return (<Reload/>);
+    }
+
+    convert(source) {
+        if (!source)
+            return [];
+        return source.map((item) => {
+            let target = {};
+            target.xmbh = item.number;
+            target.state = item.state;
+            target.xmmc = item.planName;
+            target.fzr = item.principal;
+            target.bm = item.department;
+            target.bfb = item.schedule;
+            target.sjd = item.time;
+            return target
+        })
     }
 
     loadMore() {
@@ -177,9 +195,11 @@ export default class ProgressPlanList extends Component {
             this.dataSource.push(a[i])
         }
 
+        let target = this.convert(this.dataSource);
+
         setTimeout(() => {
             this.setState({
-                list: this.state.list.cloneWithRows(this.dataSource)
+                list: this.state.list.cloneWithRows(target)
             });
         }, 1000);
     }
