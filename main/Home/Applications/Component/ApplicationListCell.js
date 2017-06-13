@@ -19,6 +19,19 @@ import ProgressExecuteDetail from "../ConstructProgressExecute/Component/Progres
 const {width} = Dimensions.get('window');
 
 export default class EarlierStageListCell extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            xmbh:'',//项目编号
+            xmmc:'',//项目名称
+            state:'',//项目状态
+            fzr:'',//负责人
+            bm:'',//部门
+            bfb:'',//百分比
+            sjd:'',//时间段
+            count:''
+        }
+    }
     render() {
         return (
             <View>
@@ -28,10 +41,10 @@ export default class EarlierStageListCell extends Component {
                             <Text style={{color: '#216fd0', fontSize: width * 0.045}}>{this.props.data.xmbh}</Text>
                             {this.props.stateBg ?
                                 <View style={[styles.stateView, {backgroundColor: this.props.stateBg}]}>
-                                    <Text style={styles.stateText}>{this.props.data.ztmc}</Text>
+                                    <Text style={styles.stateText}>{this.props.data.state}</Text>
                                 </View> :
                                 <View style={[styles.stateView]}>
-                                    <Text style={styles.stateText}>{this.props.data.ztmc}</Text>
+                                    <Text style={styles.stateText}>{this.props.data.state}</Text>
                                 </View>
                             }
                         </View>
@@ -44,10 +57,10 @@ export default class EarlierStageListCell extends Component {
                         </View>
                     </View>
                     <View style={styles.aboutPrincipal}>
-                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.xmjl}</Text>
-                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.tbdw}</Text>
-                        <Text style={[{width: width * 0.5,paddingLeft:width*0.04}, styles.textStyle]}>{this.props.data.wcbl}%</Text>
-                        <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.sDate}-{this.props.data.eDate}</Text>
+                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.fzr}</Text>
+                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.bm}</Text>
+                        <Text style={[{width: width * 0.5,paddingLeft:width*0.04}, styles.textStyle]}>{this.props.data.bfb}%</Text>
+                        <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.sjd}</Text>
                     </View>
                 </TouchableOpacity>
             </View>
@@ -63,10 +76,9 @@ export default class EarlierStageListCell extends Component {
                     params:{
                         xmbh:this.props.data.xmbh,
                         jhxxId:this.props.data.jhxxId,
-                        wcbl:this.props.data.wcbl,
+                        wcbl:this.props.data.bfb,
                         xmmc:this.props.data.xmmc,
-                        sDate:this.props.data.sDate,
-                        eDate:this.props.data.eDate
+                        sjd:this.props.sjd
                     }
                 });
                 break;

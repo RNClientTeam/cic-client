@@ -84,6 +84,7 @@ export default class General extends Component {
                 callID:getTimestamp()
             }
         }).then(data=>{
+            data = data.data;
             this.setState({
                 dataSource: [
                     {key:'关联设计项目', value:data.xmmc},

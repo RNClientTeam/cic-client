@@ -17,21 +17,22 @@ import SearchHeader from '../Component/SearchHeader'
 import EarlierStageListModalView from "./Component/EarlierStageListModalView";
 import Toast from 'react-native-simple-toast';
 import {getCurrentMonS, getCurrentMonE, getTimestamp} from '../../../Util/Util'
-import FetchUrl from '../../../Util/service.json'
 import Loading from "../../../Component/Loading";
+import toast from 'react-native-simple-toast'
 export default class EarlierStage extends Component {
     constructor(props) {
         super(props);
-        this.dataArr = [],
-            this.state = {
-                isModalVisible: false,
-                sDate: getCurrentMonS(),//开始时间
-                eDate: getCurrentMonE(),//结束时间
-                jhlx: '500',//计划类型
-                pageNum: 1,//页码
-                isLoading: false,
-                dataSource: []
-            }
+        this.dataArr = [];
+        this.state = {
+            isModalVisible: false,
+            sDate: getCurrentMonS(),//开始时间
+            eDate: getCurrentMonE(),//结束时间
+            jhlx: '全部',//计划类型
+            pageNum: 1,//页码
+            isLoading: false,
+            dataSource: [],
+            keywords: ''
+        }
     }
 
     render() {
@@ -45,13 +46,18 @@ export default class EarlierStage extends Component {
                                source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
-                <SearchHeader/>
+                <SearchHeader getData={()=>this.getDataFromNet()} getKeyWord={(keywords)=>this.setState({keywords:keywords})}/>
                 <EarlierStageList loadMore={() => this.loadMore()} refresh={(callback) => this.getDataFromNet(callback)}
                                   dataSource={this.state.dataSource} navigator={this.props.navigator}/>
                 {this.state.isModalVisible ?
                     <EarlierStageListModalView
-                        changeFilter={(sDate,eDate,lx)=>{this.filter(sDate,eDate,lx)}}
+                        changeFilter={(sDate, eDate, lx) => {
+                            this.filter(sDate, eDate, lx)
+                        }}
                         isModalVisible={this.state.isModalVisible}
+                        jhlx={this.state.jhlx}
+                        eDate={this.state.eDate}
+                        sDate={this.state.sDate}
                         closeModal={() => this.setState({isModalVisible: false})}/> :
                     <View></View>}
                 {this.state.isLoading ? <Loading/> : null}
@@ -67,25 +73,12 @@ export default class EarlierStage extends Component {
     }
 
     filter(sDate, eDate, lx) {
-        if (lx === '全部') {
-            lx = 500;
-        } else if (lx === '我参与的') {
-            lx = 400;
-        } else if (lx === '我审核的') {
-            lx = 300;
-        } else if (lx === '我的计划') {
-            lx = 200;
-        } else if (lx === '我的待办') {
-            lx = 100;
-        }
-
         this.setState({
             jhlx: lx,
             sDate: sDate,
             eDate: eDate
         }, () => {
             this.getDataFromNet();
-            console.log(this.state.sDate,this.state.eDate,this.state.jhlx)
         })
     }
 
@@ -95,26 +88,43 @@ export default class EarlierStage extends Component {
         this.setState({
             pageNum: 1
         });
+        let lx = '';
+        if (this.state.jhlx === '全部') {
+            lx = 500;
+        } else if (this.state.jhlx === '我参与的') {
+            lx = 400;
+        } else if (this.state.jhlx === '我审核的') {
+            lx = 300;
+        } else if (this.state.jhlx === '我的计划') {
+            lx = 200;
+        } else if (this.state.jhlx === '我的待办') {
+            lx = 100;
+        }
         axios.get('/psmQqjdjh/list', {
             params: {
                 userID: GLOBAL_USERID,
                 sDate: sDate,
                 eDate: eDate,
-                jhlx: this.state.jhlx,
+                jhlx: lx,
                 pageNum: 1,
                 pageSize: 10,
                 callID: getTimestamp(),
-                keywords:'一'
+                keywords: this.state.keywords
             }
         }).then(data => {
-            this.dataArr = [];
-            for (let i = 0; i < data.data.length; i++) {
-                this.dataArr.push(data.data[i])
+            if (data.code === 1) {
+                this.dataArr = [];
+                for (let i = 0; i < data.data.data.length; i++) {
+                    this.dataArr.push(data.data.data[i])
+                }
+                this.setState({
+                    isLoading: false,
+                    dataSource: this.dataArr
+                });
+            } else {
+                toast.show(data.message)
             }
-            this.setState({
-                isLoading: false,
-                dataSource: this.dataArr
-            });
+
             callback()
         }).catch(err => {
             console.log(err);
@@ -139,24 +149,29 @@ export default class EarlierStage extends Component {
                     pageNum: this.state.pageNum,
                     pageSize: 10,
                     callID: getTimestamp(),
-                    keywords:'一'
+                    keywords: this.state.keywords
                 }
             }).then(data => {
-                let resultData = data.data;
-                if (resultData.length > 0) {
-                    hasMoreData = true
+                if (data.code === 1) {
+                    let resultData = data.data.data;
+                    if (resultData.length > 0) {
+                        hasMoreData = true
+                    } else {
+                        hasMoreData = false;
+                        Toast.show('没有更多数据了！')
+                    }
+                    for (let i = 0; i < resultData.length; i++) {
+                        this.dataArr.push(resultData[i])
+                    }
+                    this.setState({
+                        dataSource: this.dataArr
+                    }, () => {
+                        return hasMoreData
+                    })
                 } else {
-                    hasMoreData = false;
-                    Toast.show('没有更多数据了！')
+                    toast.show(data.message);
                 }
-                for (let i = 0; i < resultData.length; i++) {
-                    this.dataArr.push(resultData[i])
-                }
-                this.setState({
-                    dataSource: this.dataArr
-                }, () => {
-                    return hasMoreData
-                })
+
             }).catch(err => {
                 Toast.show('服务端连接错误！')
             })

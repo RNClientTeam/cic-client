@@ -59,8 +59,19 @@ export default class EarlierStageList extends Component {
         }else if(item.ztmc === ''){
             stateBg='#18d0ca';
         }
+        let temp = {
+            xmbh:item.xmbh,//项目编号
+            xmmc:item.xmmc,//项目名称
+            state:item.ztmc,//项目状态
+            fzr:item.xmjl,//负责人
+            bm:item.tbdw,//部门
+            bfb:item.wcbl,//百分比
+            sjd:item.sDate+'-'+item.eDate,//时间段
+            count:item.count,
+            jhxxId:item.jhxxId
+        };
         return (
-            <EarlierStageListCell stateBg={stateBg} key={rowID} navigator={this.props.navigator} data={item} target="EarlierStageDetail"/>
+            <EarlierStageListCell stateBg={stateBg} key={rowID} navigator={this.props.navigator} data={temp} target="EarlierStageDetail"/>
         );
     }
 
@@ -80,9 +91,6 @@ export default class EarlierStageList extends Component {
         }
     }
 
-    componentDidMount() {
-        console.log(this.props.dataSource)
-    }
 }
 
 const styles = StyleSheet.create({

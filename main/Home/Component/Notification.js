@@ -75,9 +75,12 @@ export default class Notification extends Component{
     }
 
     componentWillReceiveProps(props) {
-        this.setState({
-            dataSource:this.state.dataSource.cloneWithRows(props.dataSource)
-        })
+        if(props.dataSource){
+            this.setState({
+                dataSource:this.state.dataSource.cloneWithRows(props.dataSource)
+            })
+        }
+
     }
 }
 
