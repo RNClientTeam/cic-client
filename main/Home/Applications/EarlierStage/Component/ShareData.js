@@ -18,56 +18,22 @@ import ShareDataCell from "./ShareDataCell";
 import AddData from './AddData'
 import {getTimestamp} from '../../../../Util/Util.js';
 import Toast from 'react-native-simple-toast';
-let testData = [
-    {
-        "tbsj": 1466127293000,
-        "fjid": "5975*********************ff386",
-        "ms": "施工前请无比阅读并严格遵守手册中的规定",
-        "fjmc": "难点问题",
-        "tbr": "孙xx"
-    },
-    {
-        "tbsj": 1466134028000,
-        "fjid": "5975*********************ff386",
-        "ms": "施工前请无比阅读并严格遵守手册中的规定",
-        "fjmc": "难点问题",
-        "tbr": "孙xx"
-    },
-    {
-        "tbsj": 1466127293000,
-        "fjid": "5975*********************ff386",
-        "ms": "施工前请无比阅读并严格遵守手册中的规定",
-        "fjmc": "难点问题",
-        "tbr": "孙xx"
-    },
-    {
-        "tbsj": 1466134028000,
-        "fjid": "5975*********************ff386",
-        "ms": "施工前请无比阅读并严格遵守手册中的规定",
-        "fjmc": "难点问题",
-        "tbr": "孙xx"
-    }
-]
 export default class ShareData extends Component{
     constructor(props) {
         super(props);
+        this.pageNum = 1;
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             hasMoreData: true,
-            list: [],
-            isLoading: false
+            list: []
         }
     }
 
     componentDidMount() {
-        this.getDataFromNet();
+        this.getDataFromNet(1);
     }
 
-    getDataFromNet() {
-        this.setState({
-            isLoading: true,
-            pageNum: 1,
-        });
+    getDataFromNet(pageNum, resolve) {
         axios.get('/psmGxzl/list', {
             params: {
                 userID: GLOBAL_USERID,
@@ -76,11 +42,12 @@ export default class ShareData extends Component{
             }
         }).then((responseData) => {
             this.setState({
-                isLoading: false,
-                list: testData
-            })
+                list: this.state.list.concat(responseData.data),
+                hasMoreData: responseData.data.length === 0 ? false : true
+            }, () => {
+                resolve && resolve();
+            });
         }).catch((error) => {
-            this.setState({isLoading:false});
             Toast.show('服务端连接错误！')
         });
     }
@@ -107,10 +74,9 @@ export default class ShareData extends Component{
     }
 
     onPullRelease(resolve) {
-        //do refresh
-        setTimeout(() => {
-            resolve();
-        }, 3000);
+        this.state.list = [];
+        this.pageNum = 1;
+        this.getDataFromNet(1, resolve);
     }
 
     renderRow(item, sectionID, rowID, highlightRow) {
@@ -127,11 +93,7 @@ export default class ShareData extends Component{
         return (<Reload/>);
     }
     loadMore(){
-        setTimeout(() => {
-            this.setState({
-                list: this.state.list.concat(testData)
-            });
-        }, 1000);
+        this.state.hasMoreData && this.getDataFromNet(++this.pageNum);
     }
 }
 

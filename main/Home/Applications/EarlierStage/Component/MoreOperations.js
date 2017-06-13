@@ -28,7 +28,7 @@ export default class MoreOperations extends Component {
                     {this.renderCell()}
                 </View>
                 {
-                    this.props.auth&&this.props.auth.ztOrqd && this.props.auth.ztOrqd === 'true'?
+                    this.props.auth&&this.props.auth.ztOrqd ?
                         <View style={styles.buttonView}>
                             <TouchableOpacity style={[styles.button,{backgroundColor:'#fb5560'}]}>
                                 <Text style={{color:'#fff'}}>暂停</Text>

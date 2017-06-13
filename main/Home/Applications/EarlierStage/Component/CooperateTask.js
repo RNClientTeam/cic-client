@@ -18,142 +18,40 @@ import Reload from "../../../../Component/Reload";
 import MoreOperations from "./MoreOperations";
 import Toast from 'react-native-simple-toast';
 import {getTimestamp} from '../../../../Util/Util.js';
-let testData = [
-    {
-        "wcqk": "",
-        "yqwcsj": "2016-12-15",
-        "sjwcsj": "",
-        "rwmc": "12121212",
-        "zrrmc": "黄雪琴",
-        "RN": 1,
-        "isTodo": 0,
-        "wcbl": "",
-        "zrbm": "00000004c00138c242a0d9",
-        "zrr": "ZNDQ1933",
-        "zt": 80,
-        "ztmc": "已生效",
-        "phrwId": "eff7c214db5cee179766e1b3039a9c9",
-        "zrbmmc": "运营管理中心"
-    },
-    {
-        "wcqk": "",
-        "yqwcsj": "2016-12-14",
-        "sjwcsj": "",
-        "rwmc": "wewewew",
-        "zrrmc": "李华凯",
-        "RN": 2,
-        "isTodo": 0,
-        "wcbl": "",
-        "zrbm": "D0020021",
-        "zrr": "ZNDQ2108",
-        "zt": 60,
-        "ztmc": "已生效",
-        "phrwId": "44a4ef9d0ae3e334946d9fa7a1f5a6e",
-        "zrbmmc": "客户支持中心(2)"
-    },
-    {
-        "wcqk": "",
-        "yqwcsj": "2016-12-15",
-        "sjwcsj": "",
-        "rwmc": "12121212",
-        "zrrmc": "黄雪琴",
-        "RN": 1,
-        "isTodo": 0,
-        "wcbl": "",
-        "zrbm": "00000004c00138c242a0d9",
-        "zrr": "ZNDQ1933",
-        "zt": 90,
-        "ztmc": "已生效",
-        "phrwId": "eff7c214db5cee179766e1b3039a9c9",
-        "zrbmmc": "运营管理中心"
-    },
-    {
-        "wcqk": "",
-        "yqwcsj": "2016-12-14",
-        "sjwcsj": "",
-        "rwmc": "wewewew",
-        "zrrmc": "李华凯",
-        "RN": 2,
-        "isTodo": 0,
-        "wcbl": "",
-        "zrbm": "D0020021",
-        "zrr": "ZNDQ2108",
-        "zt": 100,
-        "ztmc": "已生效",
-        "phrwId": "44a4ef9d0ae3e334946d9fa7a1f5a6e",
-        "zrbmmc": "客户支持中心(2)"
-    },
-    {
-        "wcqk": "",
-        "yqwcsj": "2016-12-15",
-        "sjwcsj": "",
-        "rwmc": "12121212",
-        "zrrmc": "黄雪琴",
-        "RN": 1,
-        "isTodo": 0,
-        "wcbl": "",
-        "zrbm": "00000004c00138c242a0d9",
-        "zrr": "ZNDQ1933",
-        "zt": 100,
-        "ztmc": "已生效",
-        "phrwId": "eff7c214db5cee179766e1b3039a9c9",
-        "zrbmmc": "运营管理中心"
-    },
-    {
-        "wcqk": "",
-        "yqwcsj": "2016-12-14",
-        "sjwcsj": "",
-        "rwmc": "wewewew",
-        "zrrmc": "李华凯",
-        "RN": 2,
-        "isTodo": 0,
-        "wcbl": "",
-        "zrbm": "D0020021",
-        "zrr": "ZNDQ2108",
-        "zt": 100,
-        "ztmc": "已生效",
-        "phrwId": "44a4ef9d0ae3e334946d9fa7a1f5a6e",
-        "zrbmmc": "客户支持中心(2)"
-    }
-];
 export default class CooperateTask extends Component {
     constructor(props) {
         super(props);
+        this.pageNum = 1;
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            hasMoreData: true,
             list: [],
             modalVisible: false,
-            isLoading: false,
-            pageNum: 1,
+            hasMoreData: true,
             auth:null
         }
     }
 
     componentDidMount() {
-        this.getDataFromNet();
+        this.getDataFromNet(1);
     }
 
-    getDataFromNet() {
-        this.setState({
-            isLoading: true,
-            pageNum: 1,
-        });
+    getDataFromNet(pageNum, resolve) {
         axios.get('/psmQqjdjh/list4Phrw', {
             params: {
                 userID: GLOBAL_USERID,
                 jhxxId: this.props.jhxxId,
-                pageNum: 1,
+                pageNum: pageNum,
                 pageSize: 10,
                 callID: getTimestamp()
             }
         }).then((responseData) => {
             this.setState({
-                list: testData,
-                isLoading: false
+                list: this.state.list.concat(responseData.data.data),
+                hasMoreData: responseData.data.data.length === 0 ? false : true
+            }, () => {
+                resolve && resolve();
             });
         }).catch((error) => {
-            this.setState({isLoading: false});
             Toast.show('服务端连接错误！')
         });
     }
@@ -190,10 +88,9 @@ export default class CooperateTask extends Component {
     }
 
     onPullRelease(resolve) {
-        //do refresh
-        setTimeout(() => {
-            resolve();
-        }, 3000);
+        this.state.list = [];
+        this.pageNum = 1;
+        this.getDataFromNet(1, resolve);
     }
 
     renderRow(item, sectionID, rowID, highlightRow) {
@@ -219,7 +116,7 @@ export default class CooperateTask extends Component {
                     "yqbg": true,
                     "tbwcqk": true,
                     "qrwcqk": true,
-                    "ztOrqd": true 
+                    "ztOrqd": true
                 }
             });
         });
@@ -234,11 +131,7 @@ export default class CooperateTask extends Component {
     }
 
     loadMore() {
-        setTimeout(() => {
-            this.setState({
-                list: this.state.list.concat(testData)
-            });
-        }, 1000);
+        this.state.hasMoreData && this.getDataFromNet(++this.pageNum);
     }
 }
 

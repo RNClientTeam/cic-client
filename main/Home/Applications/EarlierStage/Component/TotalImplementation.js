@@ -12,44 +12,6 @@ import {
 } from 'react-native'
 const {width} = Dimensions.get('window');
 import {getTimestamp} from '../../../../Util/Util.js';
-let testData = [
-    {
-        "wcqk": "asda",
-        "id": "000000040015c342b519a",
-        "tbsj": "2017-05-23",
-        "wcbl": "100"
-    },
-    {
-        "wcqk": "asda",
-        "id": "000000030015c342b519a",
-        "tbsj": "2017-05-23",
-        "wcbl": "50"
-    },
-    {
-        "wcqk": "asda",
-        "id": "000000020015c342b519a",
-        "tbsj": "2017-05-23",
-        "wcbl": "10"
-    },
-    {
-        "wcqk": "asda",
-        "id": "000000040015c342b519a",
-        "tbsj": "2017-05-23",
-        "wcbl": "100"
-    },
-    {
-        "wcqk": "asda",
-        "id": "000000030015c342b519a",
-        "tbsj": "2017-05-23",
-        "wcbl": "50"
-    },
-    {
-        "wcqk": "asda",
-        "id": "000000020015c342b519a",
-        "tbsj": "2017-05-23",
-        "wcbl": "10"
-    }
-];
 import {PullList} from 'react-native-pull';
 import LoadMore from "../../../../Component/LoadMore.js";
 import TotalImplementationCell from "./TotalImplementationCell.js";
@@ -58,23 +20,19 @@ import Toast from 'react-native-simple-toast';
 export default class TotalImplementation extends Component {
     constructor(props) {
         super(props);
+        this.pageNum = 1;
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});;
         this.state = {
-            hasMoreData: true,
             list: [],
-            isLoading: false
+            hasMoreData: true
         }
     }
 
     componentDidMount() {
-        this.getDataFromNet();
+        this.getDataFromNet(1);
     }
 
-    getDataFromNet() {
-        this.setState({
-            isLoading: true,
-            pageNum: 1,
-        });
+    getDataFromNet(pageNum, resolve) {
         axios.get('/psmQqjdjh/list4zxqk', {
             params: {
                 userID: GLOBAL_USERID,
@@ -83,11 +41,12 @@ export default class TotalImplementation extends Component {
             }
         }).then((responseData) => {
             this.setState({
-                isLoading: false,
-                list: testData
+                list: this.state.list.concat(responseData.data),
+                hasMoreData: responseData.data.length === 0 ? false : true
+            }, () => {
+                resolve && resolve();
             });
         }).catch((error) => {
-            this.setState({isLoading:false});
             Toast.show('服务端连接错误！')
         });
     }
@@ -111,10 +70,9 @@ export default class TotalImplementation extends Component {
     }
 
     onPullRelease(resolve) {
-        //do refresh
-        setTimeout(() => {
-            resolve();
-        }, 3000);
+        this.state.list = [];
+        this.pageNum = 1;
+        this.getDataFromNet(1, resolve)
     }
 
     renderRow(item, sectionID, rowID, highlightRow) {
@@ -132,11 +90,7 @@ export default class TotalImplementation extends Component {
     }
 
     loadMore(){
-        setTimeout(() => {
-            this.setState({
-                list: this.state.list.concat(testData)
-            });
-        }, 1000);
+        this.state.hasMoreData && this.getDataFromNet(++this.pageNum);
     }
 }
 
