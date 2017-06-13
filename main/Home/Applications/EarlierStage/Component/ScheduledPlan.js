@@ -155,6 +155,19 @@ export default class SchedulePlan extends Component {
                 callID: getTimestamp()
             }
         }).then(data => {
+            // TODO
+            data = {
+                "code": 1,
+                "data": {
+                    "rybg": true,//人员变更
+                    "yqbg": true,//延期变更
+                    "tbwcqk": true,//填报完成情况
+                    "qrwcqk": true,//确认完成情况
+                    "ztOrqd": true,//暂停或启动任务权限
+                    "tbzzxqk":true//填报总执行情况
+                },
+                "message": "成功"
+            };
             if (data.code === 1) {
                 this.setState({modalVisible: true, auth: data.data,rwid:rwid})
             } else {

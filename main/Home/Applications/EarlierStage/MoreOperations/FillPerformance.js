@@ -18,6 +18,8 @@ import StatusBar from "../../../../Component/StatusBar";
 const {width, height} = Dimensions.get('window');
 import {getTimestamp} from '../../../../Util/Util'
 import ModalDropdown from 'react-native-modal-dropdown';
+import toast from 'react-native-simple-toast'
+import Loading from "../../../../Component/Loading";
 export default class FillPerformance extends Component {
     constructor(props) {
         super(props);
@@ -28,7 +30,8 @@ export default class FillPerformance extends Component {
             options: [],
             choiceData: '',
             wcbl:0,
-            wcqk:''
+            wcqk:'',
+            loading:false
         }
     }
 
@@ -105,12 +108,46 @@ export default class FillPerformance extends Component {
                         <Text style={styles.buttonText}>提交</Text>
                     </View>
                 </TouchableOpacity>
+                {this.state.loading?<Loading/>:null}
             </View>
         )
     }
 
+    showLoading(){
+        this.setState({
+            loading:true
+        })
+    }
+    hideLoading(){
+        this.setState({
+            loading:false
+        })
+    }
+
     submit() {
-        console.log(this.state)
+        this.showLoading();
+        axios.post('/psmQqjdjh/save4Phrwwcqk',{
+            userID:GLOBAL_USERID,
+            jhxxId:this.props.jhxxId,
+            rwid:this.props.rwid,
+            wcxx:this.state.choiceData,
+            wcqk:this.state.wcqk,
+            wcbl:this.state.wcbl,
+            sjkssj:this.state.sDate,
+            sjjssj:this.state.eDate,
+            callID:true
+        }).then(responseData=>{
+            this.hideLoading();
+            if(responseData.code === 1){
+                toast.show('提交成功');
+                setTimeout(function () {
+                    this.props.navigator.pop();
+                },1000)
+            }
+        }).catch((err)=>{
+            toast.show('服务端错误');
+            this.hideLoading();
+        })
     }
 
     componentDidMount() {
