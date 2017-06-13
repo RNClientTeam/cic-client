@@ -68,7 +68,6 @@ export default class EarlierStageListCell extends Component {
     }
 
     componentWillReceiveProps(props) {
-        console.log(props);
         switch (props.target){
             case 'EarlierStageDetail':
                 this.setState({

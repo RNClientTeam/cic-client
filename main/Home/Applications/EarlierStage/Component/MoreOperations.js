@@ -46,10 +46,10 @@ export default class MoreOperations extends Component {
 
     componentDidMount() {
         let dataArr = [];
-        if(this.props.auth.rybg && his.props.auth.rybg==='true'){
+        if(this.props.auth.rybg){
             dataArr.push({img:require('../../../../../resource/imgs/home/earlierStage/peopleChange.png'),name:'人员变更'})
         }
-        if(this.props.auth.yqbg && this.props.auth.yqbg === 'true'){
+        if(this.props.auth.yqbg){
             dataArr.push(
                 {img:require('../../../../../resource/imgs/home/earlierStage/applyForDelay.png'),name:'延期变更申请'}
             );
@@ -57,17 +57,17 @@ export default class MoreOperations extends Component {
                 {img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),name:'延期变更审批'}
             );
         }
-        if(this.props.auth.tbwcqk && this.props.auth.tbwcqk === 'true'){
+        if(this.props.auth.tbwcqk){
             dataArr.push(
                 {img:require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),name:'填报完成情况'}
             );
         }
-        if(this.props.auth.qrwcqk && this.props.auth.qrwcqk === 'true'){
+        if(this.props.auth.qrwcqk){
             dataArr.push(
                 {img:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'确认完成'}
             );
         }
-        if(this.props.auth.tbzzxqk && this.props.auth.tbzzxqk === 'true'){
+        if(this.props.auth.tbzzxqk){
             dataArr.push(
                 {img:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'填报总执行情况'}
             );

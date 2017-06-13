@@ -57,8 +57,7 @@ export function getSign(message, secret) {
     if(!secret){
         secret = SECRETKEY;
     }
-    console.log('参数：'+str,'-----'+'secretKey：'+secret);
-    console.log('签名'+CryptoJS.SHA1(str+secret).toString());
+    console.log('参数：'+str+' , secretKey：'+secret+' , 签名：'+CryptoJS.SHA1(str+secret).toString());
     return CryptoJS.SHA1(str+secret).toString();
 }
 

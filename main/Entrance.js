@@ -65,11 +65,14 @@ export default class Entrance extends Component {
         }
     }
 
+    componentDidMount() {
+        global.aaaanavigator = this.refs.navigator;
+    }
+
     onBackAndroid() {
-        const  navigator  = this.refs.navigator;
-        let routers = navigator.getCurrentRoutes();
+        let routers = aaaanavigator.getCurrentRoutes();
         if (routers.length > 1) {
-            navigator.pop();
+            aaaanavigator.pop();
             return true;//接管默认行为
         } else {
             if (this.lastBackPressed && this.lastBackPressed + 2000 >= Date.now()) {

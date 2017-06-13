@@ -214,7 +214,13 @@ export default class CooperateTask extends Component {
         }).then(data=>{
             this.setState({
                 modalVisible: true,
-                auth:data
+                auth:{
+                    "rybg": true,
+                    "yqbg": true,
+                    "tbwcqk": true,
+                    "qrwcqk": true,
+                    "ztOrqd": true 
+                }
             });
         });
     }
