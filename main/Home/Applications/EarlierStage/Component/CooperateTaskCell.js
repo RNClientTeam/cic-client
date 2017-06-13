@@ -29,9 +29,9 @@ export default class CooperateTaskCell extends Component{
                         </View>
                         <View style={styles.percentageView}>
                             <View style={styles.processView}>
-                                <View style={[styles.processingView,{width:width*0.6*this.props.dataSource.zt/100,},this.props.dataSource.zt===100?{backgroundColor:'#25cf71',}:{backgroundColor:'#ffb432'}]}></View>
+                                <View style={[styles.processingView,{width:width*0.6*this.props.dataSource.wcbl/100,},this.props.dataSource.wcbl==100?{backgroundColor:'#25cf71',}:{backgroundColor:'#ffb432'}]}></View>
                             </View>
-                            <Text style={{color:'#c2cddc',fontSize:width*0.03}}>{this.props.dataSource.zt}%</Text>
+                            <Text style={{color:'#c2cddc',fontSize:width*0.03}}>{this.props.dataSource.wcbl}%</Text>
                         </View>
                     </View>
                     <TouchableOpacity style={styles.rightView} onPress={()=>{this.props.setModalVisible()}}>
