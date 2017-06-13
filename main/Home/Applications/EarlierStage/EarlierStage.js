@@ -22,17 +22,17 @@ import toast from 'react-native-simple-toast'
 export default class EarlierStage extends Component {
     constructor(props) {
         super(props);
-        this.dataArr = [],
-            this.state = {
-                isModalVisible: false,
-                sDate: getCurrentMonS(),//开始时间
-                eDate: getCurrentMonE(),//结束时间
-                jhlx: '500',//计划类型
-                pageNum: 1,//页码
-                isLoading: false,
-                dataSource: [],
-                keywords:''
-            }
+        this.dataArr = [];
+        this.state = {
+            isModalVisible: false,
+            sDate: getCurrentMonS(),//开始时间
+            eDate: getCurrentMonE(),//结束时间
+            jhlx: '全部',//计划类型
+            pageNum: 1,//页码
+            isLoading: false,
+            dataSource: [],
+            keywords: ''
+        }
     }
 
     render() {
@@ -46,13 +46,18 @@ export default class EarlierStage extends Component {
                                source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
-                <SearchHeader/>
+                <SearchHeader getData={()=>this.getDataFromNet()} getKeyWord={(keywords)=>this.setState({keywords:keywords})}/>
                 <EarlierStageList loadMore={() => this.loadMore()} refresh={(callback) => this.getDataFromNet(callback)}
                                   dataSource={this.state.dataSource} navigator={this.props.navigator}/>
                 {this.state.isModalVisible ?
                     <EarlierStageListModalView
-                        changeFilter={(sDate,eDate,lx)=>{this.filter(sDate,eDate,lx)}}
+                        changeFilter={(sDate, eDate, lx) => {
+                            this.filter(sDate, eDate, lx)
+                        }}
                         isModalVisible={this.state.isModalVisible}
+                        jhlx={this.state.jhlx}
+                        eDate={this.state.eDate}
+                        sDate={this.state.sDate}
                         closeModal={() => this.setState({isModalVisible: false})}/> :
                     <View></View>}
                 {this.state.isLoading ? <Loading/> : null}
@@ -68,18 +73,6 @@ export default class EarlierStage extends Component {
     }
 
     filter(sDate, eDate, lx) {
-        if (lx === '全部') {
-            lx = 500;
-        } else if (lx === '我参与的') {
-            lx = 400;
-        } else if (lx === '我审核的') {
-            lx = 300;
-        } else if (lx === '我的计划') {
-            lx = 200;
-        } else if (lx === '我的待办') {
-            lx = 100;
-        }
-
         this.setState({
             jhlx: lx,
             sDate: sDate,
@@ -95,20 +88,31 @@ export default class EarlierStage extends Component {
         this.setState({
             pageNum: 1
         });
+        let lx = '';
+        if (this.state.jhlx === '全部') {
+            lx = 500;
+        } else if (this.state.jhlx === '我参与的') {
+            lx = 400;
+        } else if (this.state.jhlx === '我审核的') {
+            lx = 300;
+        } else if (this.state.jhlx === '我的计划') {
+            lx = 200;
+        } else if (this.state.jhlx === '我的待办') {
+            lx = 100;
+        }
         axios.get('/psmQqjdjh/list', {
             params: {
                 userID: GLOBAL_USERID,
                 sDate: sDate,
                 eDate: eDate,
-                jhlx: this.state.jhlx,
+                jhlx: lx,
                 pageNum: 1,
                 pageSize: 10,
                 callID: getTimestamp(),
-                keywords:'-'
+                keywords: this.state.keywords
             }
         }).then(data => {
-            console.log(data);
-            if(data.code === 1){
+            if (data.code === 1) {
                 this.dataArr = [];
                 for (let i = 0; i < data.data.data.length; i++) {
                     this.dataArr.push(data.data.data[i])
@@ -117,7 +121,7 @@ export default class EarlierStage extends Component {
                     isLoading: false,
                     dataSource: this.dataArr
                 });
-            }else{
+            } else {
                 toast.show(data.message)
             }
 
@@ -145,10 +149,10 @@ export default class EarlierStage extends Component {
                     pageNum: this.state.pageNum,
                     pageSize: 10,
                     callID: getTimestamp(),
-                    keywords:'-'
+                    keywords: this.state.keywords
                 }
             }).then(data => {
-                if(data.code ===1){
+                if (data.code === 1) {
                     let resultData = data.data.data;
                     if (resultData.length > 0) {
                         hasMoreData = true
@@ -164,7 +168,7 @@ export default class EarlierStage extends Component {
                     }, () => {
                         return hasMoreData
                     })
-                }else{
+                } else {
                     toast.show(data.message);
                 }
 

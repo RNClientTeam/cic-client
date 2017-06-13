@@ -20,10 +20,10 @@ export default class EarlierStageListModalView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            startDate: getCurrentMonS(),
-            endDate: getCurrentMonE(),
+            startDate: this.props.sDate,
+            endDate: this.props.eDate,
             options:['全部', '我参与的', '我审核的', '我的计划', '我的待办'],
-            jhlx:'全部'
+            jhlx:this.props.jhlx
         }
     }
 
@@ -53,7 +53,7 @@ export default class EarlierStageListModalView extends Component {
                         <ModalDropdown
                             options={this.state.options}
                             animated={true}
-                            defaultValue={this.state.options[0]}
+                            defaultValue={this.state.jhlx}
                             style={styles.modalDropDown}
                             textStyle={styles.modalDropDownText}
                             dropdownStyle={styles.dropdownStyle}

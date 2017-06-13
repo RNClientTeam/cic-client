@@ -27,7 +27,7 @@ export default class EarlierStageDetail extends Component {
                     source={require('../../../../../resource/imgs/home/earlierStage/backgroundImg.png')}>
                     <Text style={styles.number}>{this.props.xmbh}</Text>
                     <Text style={styles.engineerName} >{this.props.xmmc}</Text>
-                    <Text style={styles.dateSty}>日期：{this.props.sDate.replace(/-/g,'/')}-{this.props.eDate.replace(/-/g,'/')}</Text>
+                    <Text style={styles.dateSty}>日期：{this.props.sjd}</Text>
                     <View style={styles.progressView}>
                         <View style={styles.backView}>
                             <View style={[styles.forgroundView,{width: 0.72 * this.props.wcbl/100 * width}]}>

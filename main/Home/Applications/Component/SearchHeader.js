@@ -17,8 +17,8 @@ export default class EarlierStageListHeader extends Component {
     render() {
         return (
             <View style={styles.earlierStageListHeader}>
-                <TextInput style={styles.textInput} underlineColorAndroid="transparent" placeholder="搜索"/>
-                <TouchableOpacity style={styles.imgViewStyle}>
+                <TextInput onChangeText={(text)=>this.props.getKeyWord(text)} style={styles.textInput} underlineColorAndroid="transparent" placeholder="搜索"/>
+                <TouchableOpacity style={styles.imgViewStyle} onPress={()=>this.props.getData()}>
                     <Image style={styles.imgStyle} source={require('../../../../resource/imgs/home/earlierStage/search.png')}/>
                 </TouchableOpacity>
             </View>
