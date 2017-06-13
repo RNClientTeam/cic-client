@@ -56,7 +56,8 @@ export default class MoreOperationsCell extends Component {
                 name:'fillPerformance',
                 component:FillPerformance,
                 params:{
-                    rwid:this.props.rwid
+                    rwid:this.props.rwid,
+                    jhxxId:this.props.jhxxId
                 }
             });
         }else if(this.props.dataSource.name === '确认完成'){
