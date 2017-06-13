@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         fontSize: width * 0.03
     },
     onSelected: {
-        width: width / 4,
+        width: width / 3,
         height: width * 0.03,
         flexDirection: 'column-reverse',
         alignItems: 'center',

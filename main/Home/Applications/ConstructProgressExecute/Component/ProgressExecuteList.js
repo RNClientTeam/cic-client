@@ -19,7 +19,7 @@ import ApplicationListCell from '../../Component/ApplicationListCell'
 import LoadMore from "../../../../Component/LoadMore"
 import Reload from "../../../../Component/Reload"
 
-const {width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 export default class ProgressExecuteList extends Component {
     constructor(props) {
@@ -32,7 +32,7 @@ export default class ProgressExecuteList extends Component {
                 contentNum: 18,
                 principal: '杨磊',
                 department: '技术部',
-                schedule: '10%',
+                schedule: '10',
                 time: '2017/11/11-2017/12/12'
             },
             {
@@ -42,7 +42,7 @@ export default class ProgressExecuteList extends Component {
                 contentNum: 18,
                 principal: '杨磊',
                 department: '技术部',
-                schedule: '10%',
+                schedule: '10',
                 time: '2017/11/11-2017/12/12'
             },
             {
@@ -52,7 +52,7 @@ export default class ProgressExecuteList extends Component {
                 contentNum: 18,
                 principal: '杨磊',
                 department: '技术部',
-                schedule: '10%',
+                schedule: '10',
                 time: '2017/11/11-2017/12/12'
             },
             {
@@ -62,7 +62,7 @@ export default class ProgressExecuteList extends Component {
                 contentNum: 18,
                 principal: '杨磊',
                 department: '技术部',
-                schedule: '10%',
+                schedule: '10',
                 time: '2017/11/11-2017/12/12'
             },
             {
@@ -76,9 +76,10 @@ export default class ProgressExecuteList extends Component {
                 time: '2017/11/11-2017/12/12'
             }
         ];
+        let target = this.parser(this.dataSource);
         this.state = {
             hasMoreData: true,
-            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(this.dataSource),
+            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(target),
         }
     }
 
@@ -120,6 +121,24 @@ export default class ProgressExecuteList extends Component {
         return (<Reload/>);
     }
 
+    //TODO
+    parser(source) {
+        if (!source)
+            return [];
+        return source.map((item) => {
+            let target = {};
+            target.xmbh = item.number;
+            target.state = item.state;
+            target.xmmc = item.planName;
+            target.fzr = item.principal;
+            target.bm = item.department;
+            target.bfb = item.schedule;
+            target.sjd = item.time;
+            target.count = item.contentNum;
+            return target
+        })
+    }
+
     loadMore() {
         let a = [
             {
@@ -129,7 +148,7 @@ export default class ProgressExecuteList extends Component {
                 contentNum: 18,
                 principal: '杨磊',
                 department: '技术部',
-                schedule: '10%',
+                schedule: '10',
                 time: '2017/11/11-2017/12/12'
             },
             {
@@ -139,7 +158,7 @@ export default class ProgressExecuteList extends Component {
                 contentNum: 18,
                 principal: '杨磊',
                 department: '技术部',
-                schedule: '10%',
+                schedule: '10',
                 time: '2017/11/11-2017/12/12'
             },
             {
@@ -149,7 +168,7 @@ export default class ProgressExecuteList extends Component {
                 contentNum: 18,
                 principal: '杨磊',
                 department: '技术部',
-                schedule: '10%',
+                schedule: '10',
                 time: '2017/11/11-2017/12/12'
             },
             {
@@ -159,7 +178,7 @@ export default class ProgressExecuteList extends Component {
                 contentNum: 18,
                 principal: '杨磊',
                 department: '技术部',
-                schedule: '10%',
+                schedule: '10',
                 time: '2017/11/11-2017/12/12'
             },
             {
@@ -169,7 +188,7 @@ export default class ProgressExecuteList extends Component {
                 contentNum: 18,
                 principal: '杨磊',
                 department: '技术部',
-                schedule: '10%',
+                schedule: '10',
                 time: '2017/11/11-2017/12/12'
             }];
 
@@ -177,9 +196,11 @@ export default class ProgressExecuteList extends Component {
             this.dataSource.push(a[i])
         }
 
+        let target = this.parser(this.dataSource);
+
         setTimeout(() => {
             this.setState({
-                list: this.state.list.cloneWithRows(this.dataSource)
+                list: this.state.list.cloneWithRows(target)
             });
         }, 1000);
     }
