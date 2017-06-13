@@ -108,7 +108,7 @@ export default class EarlierStage extends Component {
                 jhlx: lx,
                 pageNum: 1,
                 pageSize: 10,
-                callID: getTimestamp(),
+                callID: true,
                 keywords: this.state.keywords
             }
         }).then(data => {

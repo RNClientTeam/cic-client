@@ -105,6 +105,9 @@ export default class Home extends Component {
                 if (config.method === 'post') {
                     let target = {};
                     Object.assign(target,config.data);
+                    if(config.data.callID){
+                        config.data.callID = getTimestamp();
+                    }
                     config.data.sign = getSign(target,SECRETKEY);
                     config.transformRequest = [function (data) {
                         let ret = '';

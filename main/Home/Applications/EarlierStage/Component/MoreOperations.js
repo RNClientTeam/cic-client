@@ -28,7 +28,7 @@ export default class MoreOperations extends Component {
                     {this.renderCell()}
                 </View>
                 {
-                    this.props.auth&&this.props.auth.ztOrqd ?
+                    this.props.auth&&this.props.auth.ztOrqd && this.props.auth.ztOrqd === 'true'?
                         <View style={styles.buttonView}>
                             <TouchableOpacity style={[styles.button,{backgroundColor:'#fb5560'}]}>
                                 <Text style={{color:'#fff'}}>暂停</Text>
@@ -62,7 +62,7 @@ export default class MoreOperations extends Component {
                 {img:require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),name:'填报完成情况'}
             );
         }
-        if(this.props.auth.qrwcqk){
+        if(this.props.auth.qrwcqk ){
             dataArr.push(
                 {img:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'确认完成'}
             );
@@ -72,7 +72,6 @@ export default class MoreOperations extends Component {
                 {img:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'填报总执行情况'}
             );
         }
-        console.log(this.props.auth);
         this.setState({
             data:dataArr
         })
@@ -82,7 +81,7 @@ export default class MoreOperations extends Component {
         let cs = [];
         for(let i = 0;i<this.state.data.length;i++){
             cs.push(
-                <MoreOperationsCell rwid={this.props.rwid} closeModal={()=>{this.props.closeModal()}} navigator={this.props.navigator} key={i} dataSource={this.state.data[i]}/>
+                <MoreOperationsCell jhxxId={this.props.jhxxId} rwid={this.props.rwid} closeModal={()=>{this.props.closeModal()}} navigator={this.props.navigator} key={i} dataSource={this.state.data[i]}/>
             )
         }
         return cs;
