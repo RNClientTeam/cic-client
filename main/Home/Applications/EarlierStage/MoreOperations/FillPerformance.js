@@ -29,9 +29,10 @@ export default class FillPerformance extends Component {
             data: [],
             options: [],
             choiceData: '',
-            wcbl:0,
-            wcqk:'',
-            loading:false
+            wcbl: 0,
+            wcqk: '',
+            loading: false,
+            defaultValue:''
         }
     }
 
@@ -57,9 +58,7 @@ export default class FillPerformance extends Component {
                                 textStyle={styles.modalDropDownText}
                                 dropdownStyle={styles.dropdownStyle}
                                 onSelect={(a) => {
-                                    this.setState({
-                                        choiceData: this.state.data[a].id
-                                    })
+                                    this.selectWcqk(a)
                                 }}
                                 showsVerticalScrollIndicator={false}
                             />
@@ -69,11 +68,16 @@ export default class FillPerformance extends Component {
                             <View style={styles.blank}/>
                             <View style={{marginRight: 0.02 * width}}>
                                 <TextInput keyboardType="numeric"
-                                           onChangeText={(text)=>this.setState({wcbl:text})}
+                                           onChangeText={(text) => this.setState({wcbl: text})}
                                            style={{
-                                    height: 0.05 * height, width: 0.25 * width, borderWidth: 1,
-                                    borderColor: "#216fd0", borderRadius: 5, color: "#216fd0", textAlign: "center"
-                                }}/>
+                                               height: 0.05 * height,
+                                               width: 0.25 * width,
+                                               borderWidth: 1,
+                                               borderColor: "#216fd0",
+                                               borderRadius: 5,
+                                               color: "#216fd0",
+                                               textAlign: "center"
+                                           }}/>
                             </View>
                             <Text style={{color: "#216fd0"}}>%</Text>
                         </View>
@@ -95,7 +99,8 @@ export default class FillPerformance extends Component {
                                 <TextInput
                                     multiline={true}
                                     numberOfLines={4}
-                                    onChangeText={(text)=>this.setState({wcqk:text})}
+                                    defaultValue={this.state.defaultValue}
+                                    onChangeText={(text) => this.setState({wcqk: text})}
                                     style={{backgroundColor: '#eee', height: 0.28 * height, borderRadius: 10}}
                                 />
                             </View>
@@ -108,43 +113,64 @@ export default class FillPerformance extends Component {
                         <Text style={styles.buttonText}>提交</Text>
                     </View>
                 </TouchableOpacity>
-                {this.state.loading?<Loading/>:null}
+                {this.state.loading ? <Loading/> : null}
             </View>
         )
     }
 
-    showLoading(){
+    showLoading() {
         this.setState({
-            loading:true
+            loading: true
         })
     }
-    hideLoading(){
+
+    hideLoading() {
         this.setState({
-            loading:false
+            loading: false
         })
+    }
+
+    selectWcqk(a) {
+        this.setState({
+            choiceData: this.state.data[a].name
+        },function () {
+            if (this.state.data[a].parentId !== -1) {
+                for (let i = 0; i < this.state.data.length; i++) {
+                    console.log(this.state.data[i].id);
+                    if (this.state.data[i].id === this.state.data[a].parentId) {
+                        this.setState({
+                            defaultValue:this.state.data[i].name,
+                            wcqk:this.state.data[i].name
+                        })
+                    }
+                }
+            }
+
+        });
+
     }
 
     submit() {
         this.showLoading();
-        axios.post('/psmQqjdjh/save4Phrwwcqk',{
-            userID:GLOBAL_USERID,
-            jhxxId:this.props.jhxxId,
-            rwid:this.props.rwid,
-            wcxx:this.state.choiceData,
-            wcqk:this.state.wcqk,
-            wcbl:this.state.wcbl,
-            sjkssj:this.state.sDate,
-            sjjssj:this.state.eDate,
-            callID:true
-        }).then(responseData=>{
+        axios.post('/psmQqjdjh/save4Phrwwcqk', {
+            userID: GLOBAL_USERID,
+            jhxxId: this.props.jhxxId,
+            rwid: this.props.rwid,
+            wcxx: this.state.choiceData,
+            wcqk: this.state.wcqk,
+            wcbl: this.state.wcbl,
+            sjkssj: this.state.sDate,
+            sjjssj: this.state.eDate,
+            callID: true
+        }).then(responseData => {
             this.hideLoading();
-            if(responseData.code === 1){
+            if (responseData.code === 1) {
                 toast.show('提交成功');
                 setTimeout(function () {
                     this.props.navigator.pop();
-                },1000)
+                }, 1000)
             }
-        }).catch((err)=>{
+        }).catch((err) => {
             toast.show('服务端错误');
             this.hideLoading();
         })
@@ -183,7 +209,7 @@ export default class FillPerformance extends Component {
                         {
                             "name": "合作单位名称：【填写】",
                             "id": "Z0000004",
-                            "parentId": " Z0000003"
+                            "parentId": "Z0000003"
                         }
                     ],
                 },
@@ -200,7 +226,7 @@ export default class FillPerformance extends Component {
                     sDate: data.sjkssj,
                     data: this.state.data,
                     options: this.state.options,
-                    choiceData:this.state.data[0].id
+                    choiceData: this.state.data[0].id
                 })
             }
 
