@@ -35,12 +35,11 @@ export default class MoreOperationsCell extends Component {
         if(this.props.dataSource.name === '延期变更申请'){
             this.props.navigator.push({
                 name:'applyForDelay',
-                component:ApplyForDelay
-            });
-        }else if(this.props.dataSource.name === '延期变更审批'){
-            this.props.navigator.push({
-                name:'approveForDelay',
-                component:ApproveForDelay
+                component:ApplyForDelay,
+                params: {
+                    rwid: this.props.rwid,
+                    jhxxId:this.props.jhxxId
+                }
             });
         }else if(this.props.dataSource.name === '流程信息查看'){
             this.props.navigator.push({
@@ -78,6 +77,10 @@ export default class MoreOperationsCell extends Component {
                     jhxxId:this.props.jhxxId
                 }
             });
+        } else if (this.props.dataSource.name === '暂停') {
+
+        } else if (this.props.dataSource.name === '恢复') {
+
         }
 
         this.props.closeModal()
