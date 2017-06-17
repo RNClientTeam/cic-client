@@ -28,7 +28,8 @@ export default class CooperateTask extends Component {
             modalVisible: false,
             hasMoreData: true,
             auth:null,
-            rwid:''
+            rwid:'',
+            zrrmc: ''
         }
     }
 
@@ -82,7 +83,7 @@ export default class CooperateTask extends Component {
                 >
                     <MoreOperations navigator={this.props.navigator} closeModal={() => {
                         this.setState({modalVisible: false})
-                    }} auth={this.state.auth} rwid={this.state.rwid} jhxxId={this.props.jhxxId}/>
+                    }} auth={this.state.auth} zrrmc={this.state.zrrmc} rwid={this.state.rwid} jhxxId={this.props.jhxxId} tag="配合任务"/>
                 </Modal>
             </View>
         )
@@ -97,11 +98,11 @@ export default class CooperateTask extends Component {
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
             <CooperateTaskCell key={rowID} dataSource={item}
-                setModalVisible={this.setModalVisible.bind(this, item.phrwId)}/>
+                setModalVisible={this.setModalVisible.bind(this, item.phrwId, item.zrrmc)}/>
         );
     }
 
-    setModalVisible(phrwId) {
+    setModalVisible(phrwId, zrrmc) {
         axios.get('/psmQqjdjh/operationAuthority',{
             params:{
                 userID:GLOBAL_USERID,
@@ -112,8 +113,12 @@ export default class CooperateTask extends Component {
         }).then(data=>{
             this.setState({
                 modalVisible: true,
-                auth:data.data,
-                rwid: phrwId
+                auth:{
+                    qrwcqk:true,
+                    tbwcqk:true
+                },
+                rwid: phrwId,
+                zrrmc: zrrmc
             });
         });
     }
