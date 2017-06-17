@@ -20,6 +20,7 @@ import {getTimestamp} from '../../../../Util/Util'
 import ModalDropdown from 'react-native-modal-dropdown';
 import toast from 'react-native-simple-toast'
 import Loading from "../../../../Component/Loading";
+import ChoiceDate from "../../../../Component/ChoiceDate";
 export default class FillPerformance extends Component {
     constructor(props) {
         super(props);
@@ -84,12 +85,13 @@ export default class FillPerformance extends Component {
                         <View style={styles.cell}>
                             <Text style={styles.label}>实际开始时间</Text>
                             <View style={styles.blank}/>
-                            <Text>{this.state.sDate}</Text>
+                            <ChoiceDate showDate={this.state.sDate} changeDate={(date)=>this.setState({sDate:date})}/>
                         </View>
                         <View style={styles.cell}>
                             <Text style={styles.label}>实际完成时间</Text>
                             <View style={styles.blank}/>
-                            <Text>{this.state.sDate}</Text>
+                            {/*<Text>{this.state.sDate}</Text>*/}
+                            <ChoiceDate showDate={this.state.eDate} changeDate={(date)=>this.setState({eDate:date})}/>
                         </View>
                         <View style={styles.inputCell}>
                             <View style={styles.inputLabel}>
@@ -170,6 +172,8 @@ export default class FillPerformance extends Component {
                 setTimeout(function () {
                     that.props.navigator.pop();
                 }, 1000)
+            }else{
+                toast.show(responseData.message);
             }
         }).catch((err) => {
             toast.show('服务端错误');
@@ -186,36 +190,36 @@ export default class FillPerformance extends Component {
             }
         }).then(data => {
             // TODO
-            data = {
-                "code": 1,
-                "data": {
-                    "sjjssj": "2016-10-10",
-                    "sjkssj": "2017-10-01",
-                    "data": [
-                        {
-                            "name": "电气项目是否承接审批表已完成报批",
-                            "id": "Z0000001",
-                            "parentId": "-1"
-                        },
-                        {
-                            "name": "无合作单位",
-                            "id": "Z0000002",
-                            "parentId": "-1"
-                        },
-                        {
-                            "name": "有合作单位，项目合作思路备案表已完成报批",
-                            "id": "Z0000003",
-                            "parentId": "-1"
-                        },
-                        {
-                            "name": "合作单位名称：【填写】",
-                            "id": "Z0000004",
-                            "parentId": "Z0000003"
-                        }
-                    ],
-                },
-                "message": "成功"
-            };
+            // data = {
+            //     "code": 1,
+            //     "data": {
+            //         "sjjssj": "2016-10-10",
+            //         "sjkssj": "2017-10-01",
+            //         "data": [
+            //             {
+            //                 "name": "电气项目是否承接审批表已完成报批",
+            //                 "id": "Z0000001",
+            //                 "parentId": "-1"
+            //             },
+            //             {
+            //                 "name": "无合作单位",
+            //                 "id": "Z0000002",
+            //                 "parentId": "-1"
+            //             },
+            //             {
+            //                 "name": "有合作单位，项目合作思路备案表已完成报批",
+            //                 "id": "Z0000003",
+            //                 "parentId": "-1"
+            //             },
+            //             {
+            //                 "name": "合作单位名称：【填写】",
+            //                 "id": "Z0000004",
+            //                 "parentId": "Z0000003"
+            //             }
+            //         ],
+            //     },
+            //     "message": "成功"
+            // };
             if (data.code === 1) {
                 data = data.data;
                 for (let i = 0; i < data.data.length; i++) {

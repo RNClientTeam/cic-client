@@ -38,7 +38,9 @@ export default class SchedulePlan extends Component {
             myTaskPageNum: 1,
             allTaskPageNum: 1,
             rwid: null,
-            auth: {}
+            auth: {},
+            rySDate: '',
+            ryEdate: ''
         }
     }
 
@@ -78,8 +80,8 @@ export default class SchedulePlan extends Component {
                             getMoreData={() => {
                                 this.getMoreMy()
                             }}
-                            setModalVisible={(rwid) => {
-                                this.setModalVisible(rwid)
+                            setModalVisible={(rwid, sDate, eDate) => {
+                                this.setModalVisible(rwid,sDate,eDate)
                             }}/>
                     <AllTask navigator={this.props.navigator}
                              refresh={(callback) => this.getAllTask(callback)}
@@ -87,8 +89,8 @@ export default class SchedulePlan extends Component {
                              getMoreData={() => {
                                  this.getMoreAll()
                              }}
-                             setModalVisible={(rwid) => {
-                                 this.setModalVisible(rwid)
+                             setModalVisible={(rwid, sDate, eDate) => {
+                                 this.setModalVisible(rwid,sDate,eDate)
                              }}/>
                 </ScrollView>
                 <Modal
@@ -100,7 +102,8 @@ export default class SchedulePlan extends Component {
                     }}
                     style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
                 >
-                    <MoreOperations jhxxId={this.props.jhxxId}  auth={this.state.auth} rwid={this.state.rwid} navigator={this.props.navigator}
+                    <MoreOperations sDate={this.state.rySDate} eDate={this.state.ryEdate} jhxxId={this.props.jhxxId} auth={this.state.auth} rwid={this.state.rwid}
+                                    navigator={this.props.navigator}
                                     closeModal={() => {
                                         this.setState({modalVisible: false})
                                     }}/>
@@ -135,19 +138,24 @@ export default class SchedulePlan extends Component {
             }
         }).then(data => {
             let resultData = data.data.data;
+            console.log(resultData);
             this.state.myTask = [];
             for (let i = 0; i < resultData.length; i++) {
                 this.state.myTask.push(resultData[i]);
             }
             this.setState({
                 myTask: this.state.myTask,
-                myTaskPageNum:1
+                myTaskPageNum: 1
             });
             callback();
         })
     }
 
-    setModalVisible(rwid) {
+    setModalVisible(rwid, sDate, eDate) {
+        this.setState({
+            rySDate: sDate,
+            ryEdate: eDate
+        });
         axios.get('/psmQqjdjh/operationAuthority', {
             params: {
                 userID: GLOBAL_USERID,
@@ -157,25 +165,26 @@ export default class SchedulePlan extends Component {
             }
         }).then(data => {
             // TODO
-            data = {
-                "code": 1,
-                "data": {
-                    "rybg": true,//人员变更
-                    "yqbg": true,//延期变更
-                    "tbwcqk": true,//填报完成情况
-                    "qrwcqk": true,//确认完成情况
-                    "ztOrqd": true,//暂停或启动任务权限
-                    "tbzzxqk":true//填报总执行情况
-                },
-                "message": "成功"
-            };
+            // data = {
+            //     "code": 1,
+            //     "data": {
+            //         "rybg": true,//人员变更
+            //         "yqbg": true,//延期变更
+            //         "tbwcqk": true,//填报完成情况
+            //         "qrwcqk": true,//确认完成情况
+            //         "ztOrqd": true,//暂停或启动任务权限
+            //         "tbzzxqk": true//填报总执行情况
+            //     },
+            //     "message": "成功"
+            // };
+            console.log(data);
             if (data.code === 1) {
-                this.setState({modalVisible: true, auth: data.data,rwid:rwid})
+                this.setState({modalVisible: true, auth: data.data, rwid: rwid})
             } else {
                 toast.show(data.message);
             }
 
-        }).catch(err=>{
+        }).catch(err => {
             toast.show('服务端错误');
         })
     }
@@ -199,7 +208,7 @@ export default class SchedulePlan extends Component {
             }
             this.setState({
                 allTask: this.state.allTask,
-                allTaskPageNum:1
+                allTaskPageNum: 1
             });
             callback();
         });

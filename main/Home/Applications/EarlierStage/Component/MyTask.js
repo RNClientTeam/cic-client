@@ -151,7 +151,7 @@ export default class MyTask extends Component {
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
             <SchedulePlanCell xmbh={this.props.xmbh} key={rowID} data={item} navigator={this.props.navigator}
-                setModalVisible={(rwid) => {this.props.setModalVisible(rwid);}}/>
+                setModalVisible={(rwid,sDate,eDate) => {this.props.setModalVisible(rwid,sDate,eDate);}}/>
         );
     }
 

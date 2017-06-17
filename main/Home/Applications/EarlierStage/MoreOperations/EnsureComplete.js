@@ -56,64 +56,64 @@ export default class EnsureComplete extends Component{
             }
         }).then(data=>{
             // TODO
-            data = {
-                "code": 1,
-                "data": {
-                    "rwgk": {
-                        "rwnr": "完成设计业务特批",
-                        "eDate": "2017-03-07",
-                        "zrr": "黄顺鹏",
-                        "zt": "已生效",
-                        "sjkssj": "",
-                        "sDate": "2017-03-16"
-                    },
-                    "zxqk": [
-                        {
-                            "tbsj": "2016-08-09",
-                            "wcbl": 20,
-                            "wcqk": "哈哈哈哈"
-                        },
-                        {
-                            "tbsj": "2016-08-09",
-                            "wcbl": 35,
-                            "wcqk": "已完成20%"
-                        }
-                    ],
-                    "yqbgqk": [
-                        {
-                            "id": "8a8180b85968894201596c4e182b02a1",
-                            "sqsj": "2017-01-06",
-                            "yjhjssj": "2017-01-06",
-                            "bgsm": "1111",
-                            "sqr": "张彦成",
-                            "xjhkssj": "2017-01-05",
-                            "yjhkssj": "2017-01-03",
-                            "xjhjssj": "2017-01-13"
-                        },
-                        {
-                            "id": "8a8180b85968894201596c4e182b02a1",
-                            "sqsj": "2017-01-06",
-                            "yjhjssj": "2017-01-06",
-                            "bgsm": "1111",
-                            "sqr": "张彦成",
-                            "xjhkssj": "2017-01-05",
-                            "yjhkssj": "2017-01-03",
-                            "xjhjssj": "2017-01-13"
-                        }
-                    ],
-                    "rybgqk": [
-                        {
-                            "id": "8a8180b85aa6579b015aa7f647b20674",
-                            "yzrr": "石建喜",
-                            "sqsj": "2017-03-07",
-                            "bgsm": "1111",
-                            "sqr": "石建喜",
-                            "xzrr": "黄顺鹏"
-                        }
-                    ]
-                },
-                "message": "成功"
-            };
+            // data = {
+            //     "code": 1,
+            //     "data": {
+            //         "rwgk": {
+            //             "rwnr": "完成设计业务特批",
+            //             "eDate": "2017-03-07",
+            //             "zrr": "黄顺鹏",
+            //             "zt": "已生效",
+            //             "sjkssj": "",
+            //             "sDate": "2017-03-16"
+            //         },
+            //         "zxqk": [
+            //             {
+            //                 "tbsj": "2016-08-09",
+            //                 "wcbl": 20,
+            //                 "wcqk": "哈哈哈哈"
+            //             },
+            //             {
+            //                 "tbsj": "2016-08-09",
+            //                 "wcbl": 35,
+            //                 "wcqk": "已完成20%"
+            //             }
+            //         ],
+            //         "yqbgqk": [
+            //             {
+            //                 "id": "8a8180b85968894201596c4e182b02a1",
+            //                 "sqsj": "2017-01-06",
+            //                 "yjhjssj": "2017-01-06",
+            //                 "bgsm": "1111",
+            //                 "sqr": "张彦成",
+            //                 "xjhkssj": "2017-01-05",
+            //                 "yjhkssj": "2017-01-03",
+            //                 "xjhjssj": "2017-01-13"
+            //             },
+            //             {
+            //                 "id": "8a8180b85968894201596c4e182b02a1",
+            //                 "sqsj": "2017-01-06",
+            //                 "yjhjssj": "2017-01-06",
+            //                 "bgsm": "1111",
+            //                 "sqr": "张彦成",
+            //                 "xjhkssj": "2017-01-05",
+            //                 "yjhkssj": "2017-01-03",
+            //                 "xjhjssj": "2017-01-13"
+            //             }
+            //         ],
+            //         "rybgqk": [
+            //             {
+            //                 "id": "8a8180b85aa6579b015aa7f647b20674",
+            //                 "yzrr": "石建喜",
+            //                 "sqsj": "2017-03-07",
+            //                 "bgsm": "1111",
+            //                 "sqr": "石建喜",
+            //                 "xzrr": "黄顺鹏"
+            //             }
+            //         ]
+            //     },
+            //     "message": "成功"
+            // };
             if(data.code === 1){
                 this.setState({
                     rwgk:data.data.rwgk,
@@ -136,10 +136,10 @@ export default class EnsureComplete extends Component{
             callID:true
         }).then(data=>{
             // TODO
-            data = {
-                "code": 1,
-                "message": "成功"
-            };
+            // data = {
+            //     "code": 1,
+            //     "message": "成功"
+            // };
             if(data.code === 1){
                 toast.show('提交成功!');
                 const that = this;
