@@ -52,7 +52,9 @@ export default class MoreOperationsCell extends Component {
                 component:Turnover,
                 params: {
                     rwid: this.props.rwid,
-                    jhxxId:this.props.jhxxId
+                    jhxxId:this.props.jhxxId,
+                    sDate:this.props.sDate,
+                    eDate:this.props.eDate
                 }
             });
         }else if(this.props.dataSource.name === '填报完成情况'){
