@@ -14,6 +14,7 @@ const {width}  = Dimensions.get('window');
 import HomeHeader from './HomeHeader'
 import UrlWebView from "../../Component/UrlWebView";
 import Toast from 'react-native-simple-toast';
+import {PullList} from 'react-native-pull';
 export default class Notification extends Component{
 
     constructor(props) {
