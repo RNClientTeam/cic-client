@@ -58,6 +58,7 @@ export default class FillPerformance extends Component {
                                 style={styles.modalDropDown}
                                 textStyle={styles.modalDropDownText}
                                 dropdownStyle={styles.dropdownStyle}
+                                enableEmptySections={true}
                                 onSelect={(a) => {
                                     this.selectWcqk(a)
                                 }}
@@ -154,7 +155,7 @@ export default class FillPerformance extends Component {
 
     submit() {
         this.showLoading();
-        axios.post('/psmQqjdjh/save4Phrwwcqk', {
+        axios.post('/psmQqjdjh/save4Zrwwcqk', {
             userID: GLOBAL_USERID,
             jhxxId: this.props.jhxxId,
             rwid: this.props.rwid,
@@ -186,40 +187,11 @@ export default class FillPerformance extends Component {
             params: {
                 userID: GLOBAL_USERID,
                 rwid: this.props.rwid,
-                callID: getTimestamp()
+                callID: true
             }
         }).then(data => {
             // TODO
-            // data = {
-            //     "code": 1,
-            //     "data": {
-            //         "sjjssj": "2016-10-10",
-            //         "sjkssj": "2017-10-01",
-            //         "data": [
-            //             {
-            //                 "name": "电气项目是否承接审批表已完成报批",
-            //                 "id": "Z0000001",
-            //                 "parentId": "-1"
-            //             },
-            //             {
-            //                 "name": "无合作单位",
-            //                 "id": "Z0000002",
-            //                 "parentId": "-1"
-            //             },
-            //             {
-            //                 "name": "有合作单位，项目合作思路备案表已完成报批",
-            //                 "id": "Z0000003",
-            //                 "parentId": "-1"
-            //             },
-            //             {
-            //                 "name": "合作单位名称：【填写】",
-            //                 "id": "Z0000004",
-            //                 "parentId": "Z0000003"
-            //             }
-            //         ],
-            //     },
-            //     "message": "成功"
-            // };
+            console.log(data);
             if (data.code === 1) {
                 data = data.data;
                 for (let i = 0; i < data.data.length; i++) {
@@ -231,14 +203,11 @@ export default class FillPerformance extends Component {
                     sDate: data.sjkssj,
                     data: this.state.data,
                     options: this.state.options,
-                    choiceData: this.state.data[0].id
+                    choiceData: this.state.data[0]&&this.state.data[0].name
                 })
             }
 
-        }).catch(err=>{
-            if(err)
-                toast.show('服务端连接错误!');
-        })
+        });
     }
 }
 

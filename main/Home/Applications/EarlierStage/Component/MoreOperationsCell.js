@@ -58,14 +58,17 @@ export default class MoreOperationsCell extends Component {
                 }
             });
         }else if(this.props.dataSource.name === '填报完成情况'){
-            this.props.navigator.push({
-                name:'fillPerformance',
-                component:FillPerformance,
-                params:{
-                    rwid:this.props.rwid,
-                    jhxxId:this.props.jhxxId
-                }
-            });
+            if(this.props.tag==='进度计划'){
+                this.props.navigator.push({
+                    name:'fillPerformance',
+                    component:FillPerformance,
+                    params:{
+                        rwid:this.props.rwid,
+                        jhxxId:this.props.jhxxId,
+                        tag:this.props.tag
+                    }
+                });
+            }
         }else if(this.props.dataSource.name === '确认完成'){
             this.props.navigator.push({
                 name:'ensureComplete',
