@@ -58,45 +58,45 @@ export default class ApproveView extends Component{
             if(data.code ===1){
                 for(let i in data.data){
                     if(i === 'P0301'){
-                        optionCells.push({name:'前期进度计划执行',src:require('../../../../resource/imgs/home/backlog/frontPlan.png'),badge:data[i]})
+                        optionCells.push({name:'前期进度计划执行',src:require('../../../../resource/imgs/home/backlog/frontPlan.png'),badge:data.data[i]})
                     }else if(i==='P0302'){
-                        optionCells.push({name:'工程子项拆分',src:require('../../../../resource/imgs/home/backlog/projectSplit.png'),badge:data[i]})
+                        optionCells.push({name:'工程子项拆分',src:require('../../../../resource/imgs/home/backlog/projectSplit.png'),badge:data.data[i]})
                     }else if(i==='P0303'){
-                        optionCells.push({name:'工程范围交接',src:require('../../../../resource/imgs/home/backlog/projectSplit.png'),badge:data[i]})
+                        optionCells.push({name:'工程范围交接',src:require('../../../../resource/imgs/home/backlog/projectSplit.png'),badge:data.data[i]})
                     }else if(i==='P0304'){
-                        optionCells.push({name:'实施进度计划',src:require('../../../../resource/imgs/home/backlog/toDoPlan.png'),badge:data[i]})
+                        optionCells.push({name:'实施进度计划',src:require('../../../../resource/imgs/home/backlog/toDoPlan.png'),badge:data.data[i]})
                     }else if(i==='P0305'){
-                        optionCells.push({name:'施工进度计划编制',src:require('../../../../resource/imgs/home/backlog/toDoPlanEdit.png'),badge:data[i]})
+                        optionCells.push({name:'施工进度计划编制',src:require('../../../../resource/imgs/home/backlog/toDoPlanEdit.png'),badge:data.data[i]})
                     }else if(i==='P0306'){
-                        optionCells.push({name:'施工进度计划执行',src:require('../../../../resource/imgs/home/backlog/todoTodo.png'),badge:data[i]})
+                        optionCells.push({name:'施工进度计划执行',src:require('../../../../resource/imgs/home/backlog/todoTodo.png'),badge:data.data[i]})
                     }else if(i==='P0307'){
-                        optionCells.push({name:'施工日计划',src:require('../../../../resource/imgs/home/backlog/constructDayPlan.png'),badge:data[i]})
+                        optionCells.push({name:'施工日计划',src:require('../../../../resource/imgs/home/backlog/constructDayPlan.png'),badge:data.data[i]})
                     }else if(i==='P0308'){
-                        optionCells.push({name:'部门计划编制',src:require('../../../../resource/imgs/home/backlog/departmentPlan.png'),badge:data[i]})
+                        optionCells.push({name:'部门计划编制',src:require('../../../../resource/imgs/home/backlog/departmentPlan.png'),badge:data.data[i]})
                     }else if(i==='P0309'){
-                        optionCells.push({name:'部门计划执行',src:require('../../../../resource/imgs/home/backlog/departmentPlanTodo.png'),badge:data[i]})
+                        optionCells.push({name:'部门计划执行',src:require('../../../../resource/imgs/home/backlog/departmentPlanTodo.png'),badge:data.data[i]})
                     }else if(i==='P0310'){
-                        optionCells.push({name:'质量检查计划',src:require('../../../../resource/imgs/home/backlog/qualityInspectionPlan.png'),badge:data[i]})
+                        optionCells.push({name:'质量检查计划',src:require('../../../../resource/imgs/home/backlog/qualityInspectionPlan.png'),badge:data.data[i]})
                     }else if(i==='P0311'){
-                        optionCells.push({name:'质量检查记录',src:require('../../../../resource/imgs/home/backlog/qualityInspectionRecord.png'),badge:data[i]})
+                        optionCells.push({name:'质量检查记录',src:require('../../../../resource/imgs/home/backlog/qualityInspectionRecord.png'),badge:data.data[i]})
                     }else if(i==='P0312'){
-                        optionCells.push({name:'安全检查计划',src:require('../../../../resource/imgs/home/backlog/safetyInspectPlan.png'),badge:data[i]})
+                        optionCells.push({name:'安全检查计划',src:require('../../../../resource/imgs/home/backlog/safetyInspectPlan.png'),badge:data.data[i]})
                     }else if(i==='P0313'){
-                        optionCells.push({name:'安全检查记录',src:require('../../../../resource/imgs/home/backlog/safetyInspectRecord.png'),badge:data[i]})
+                        optionCells.push({name:'安全检查记录',src:require('../../../../resource/imgs/home/backlog/safetyInspectRecord.png'),badge:data.data[i]})
                     }else if(i==='P04'){
-                        optionCells.push({name:'公文管理',src:require('../../../../resource/imgs/home/backlog/documentManage.png'),badge:data[i]})
+                        optionCells.push({name:'公文管理',src:require('../../../../resource/imgs/home/backlog/documentManage.png'),badge:data.data[i]})
                     }else if(i==='P05'){
-                        optionCells.push({name:'工作计划',src:require('../../../../resource/imgs/home/backlog/workPlan.png'),badge:data[i]})
+                        optionCells.push({name:'工作计划',src:require('../../../../resource/imgs/home/backlog/workPlan.png'),badge:data.data[i]})
                     }else if(i==='P06'){
-                        optionCells.push({name:'考勤管理',src:require('../../../../resource/imgs/home/backlog/checkInManage.png'),badge:data[i]})
+                        optionCells.push({name:'考勤管理',src:require('../../../../resource/imgs/home/backlog/checkInManage.png'),badge:data.data[i]})
                     }else if(i==='P07'){
-                        optionCells.push({name:'办公用品',src:require('../../../../resource/imgs/home/backlog/office.png'),badge:data[i]})
+                        optionCells.push({name:'办公用品',src:require('../../../../resource/imgs/home/backlog/office.png'),badge:data.data[i]})
                     }else if(i==='P08'){
-                        optionCells.push({name:'资源计划',src:require('../../../../resource/imgs/home/backlog/resourcePlan.png'),badge:data[i]})
+                        optionCells.push({name:'资源计划',src:require('../../../../resource/imgs/home/backlog/resourcePlan.png'),badge:data.data[i]})
                     }else if(i==='P09'){
-                        optionCells.push({name:'项目收款',src:require('../../../../resource/imgs/home/backlog/getMoney.png'),badge:data[i]})
+                        optionCells.push({name:'项目收款',src:require('../../../../resource/imgs/home/backlog/getMoney.png'),badge:data.data[i]})
                     } else if(i==='P10'){
-                        optionCells.push({name:'项目核算',src:require('../../../../resource/imgs/home/backlog/projectCheck.png'),badge:data[i]})
+                        optionCells.push({name:'项目核算',src:require('../../../../resource/imgs/home/backlog/projectCheck.png'),badge:data.data[i]})
                     }
                 }
                 this.setState({

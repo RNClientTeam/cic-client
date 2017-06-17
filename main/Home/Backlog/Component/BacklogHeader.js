@@ -9,12 +9,17 @@ import {
 } from 'react-native'
 const {width} = Dimensions.get('window');
 import BacklogHeaderCell from './BacklogHeaderCell'
-const headerCell = [
-    {name:'待办事项',srcOn:require('../../../../resource/imgs/home/backlog/toDoOn.png'),srcOff:require('../../../../resource/imgs/home/backlog/toDoNo.png'),badge:10},
-    {name:'审批中',srcOn:require('../../../../resource/imgs/home/backlog/sendOn.png'),srcOff:require('../../../../resource/imgs/home/backlog/sendNo.png'),badge:34},
-    {name:'已审批',srcOn:require('../../../../resource/imgs/home/backlog/approveOn.png'),srcOff:require('../../../../resource/imgs/home/backlog/approveNo.png'),badge:120},
-];
 export default class BacklogHeader extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            headerCell:[
+                {name:'待办事项',srcOn:require('../../../../resource/imgs/home/backlog/toDoOn.png'),srcOff:require('../../../../resource/imgs/home/backlog/toDoNo.png'),badge:this.props.badge},
+                {name:'审批中',srcOn:require('../../../../resource/imgs/home/backlog/sendOn.png'),srcOff:require('../../../../resource/imgs/home/backlog/sendNo.png'),badge:0},
+                {name:'已审批',srcOn:require('../../../../resource/imgs/home/backlog/approveOn.png'),srcOff:require('../../../../resource/imgs/home/backlog/approveNo.png'),badge:0}
+            ]
+        }
+    }
     render() {
         return (
             <View style={styles.backlogHeader}>
@@ -25,13 +30,13 @@ export default class BacklogHeader extends Component {
 
     renderHeaderCell(){
         let cells = [];
-        for(let i  = 0;i<headerCell.length;i++){
+        for(let i  = 0;i<this.state.headerCell.length;i++){
             cells.push(
                 <BacklogHeaderCell
                     key={i}
-                    name={headerCell[i].name}
-                    badge={headerCell[i].badge}
-                    src={this.props.currentIndex===i?headerCell[i].srcOn:headerCell[i].srcOff}
+                    name={this.state.headerCell[i].name}
+                    badge={this.state.headerCell[i].badge}
+                    src={this.props.currentIndex===i?this.state.headerCell[i].srcOn:this.state.headerCell[i].srcOff}
                     onSelect={this.props.currentIndex===i}
                     selectTag={this.props.selectTag.bind(this,i)}
                 />

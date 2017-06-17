@@ -10,8 +10,8 @@ import {
 const {width} = Dimensions.get('window');
 import BacklogHeaderCell from './RemindHeaderCell'
 const headerCell = [
-    {name:'待处理工作',srcOn:require('../../../../resource/imgs/home/remind/todoOn.png'),srcOff:require('../../../../resource/imgs/home/remind/todoNot.png'),badge:10},
-    {name:'已完成的',srcOn:require('../../../../resource/imgs/home/remind/overOn.png'),srcOff:require('../../../../resource/imgs/home/remind/overNot.png'),badge:34},
+    {name:'待处理工作',srcOn:require('../../../../resource/imgs/home/remind/todoOn.png'),srcOff:require('../../../../resource/imgs/home/remind/todoNot.png')},
+    {name:'已完成的',srcOn:require('../../../../resource/imgs/home/remind/overOn.png'),srcOff:require('../../../../resource/imgs/home/remind/overNot.png')},
 ];
 export default class RemindHeader extends Component {
     render() {

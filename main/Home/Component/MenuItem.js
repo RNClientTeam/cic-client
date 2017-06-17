@@ -52,7 +52,10 @@ export default class MenuItem extends Component {
         if(this.props.name === '待办'){
             this.props.navigator.push({
                 name:'backlog',
-                component:Backlog
+                component:Backlog,
+                params:{
+                    badge:this.props.badge
+                }
             })
         }else if(this.props.name === '提醒'){
             this.props.navigator.push({
