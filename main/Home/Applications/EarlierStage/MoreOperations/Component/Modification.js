@@ -12,43 +12,11 @@ import {
 } from 'react-native'
 
 import ModificationRow from './ModificationRow'
+import RybgQk from "./RybgQk";
 
 const {width, height}  = Dimensions.get('window');
 
 export default class Modification extends Component {
-    constructor(props) {
-        super(props);
-        this.dataSource = [
-            {
-                applicant: '菜鸟',
-                applyDate: '2017/02/16',
-                newStartDate: '2017/02/16',
-                newEndDate: '2017/03/16',
-                startDate: '2017/02/16',
-                endDate: '2017/03-/6',
-                desc: '部门人员不足'
-            },
-            {
-                applicant: '菜鸟',
-                applyDate: '2017/02/16',
-                newStartDate: '2017/02/16',
-                newEndDate: '2017/03/16',
-                startDate: '2017/02/16',
-                endDate: '2017/03-/6',
-                desc: '部门人员不足'
-            },
-            {
-                applicant: '菜鸟',
-                applyDate: '2017/02/16',
-                newStartDate: '2017/02/16',
-                newEndDate: '2017/03/16',
-                startDate: '2017/02/16',
-                endDate: '2017/03-/6',
-                desc: '部门人员不足'
-            }
-        ];
-
-    }
     render() {
         return(
             <View style={styles.viewSty}>
@@ -60,7 +28,7 @@ export default class Modification extends Component {
                         {this.renderRows()}
                     </View>
                 </ScrollView>
-                <TouchableOpacity onPress={() => this.submit()}>
+                <TouchableOpacity onPress={() => this.props.submit()}>
                     <View style={styles.button}>
                         <Text style={styles.buttonText}>确认完成</Text>
                     </View>
@@ -68,11 +36,14 @@ export default class Modification extends Component {
             </View>
         )
     }
-    submit() {
 
-    }
     renderRows() {
-        return this.dataSource.map((item, index) => (<ModificationRow key={index} data={item}/>))
+        if(this.props.tag==='延期'){
+            return this.props.data.map((item, index) => (<ModificationRow key={index} data={item}/>))
+        }else{
+            return this.props.data.map((item, index) => (<RybgQk key={index} data={item}/>))
+        }
+
     }
 }
 

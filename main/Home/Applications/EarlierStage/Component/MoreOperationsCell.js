@@ -63,7 +63,10 @@ export default class MoreOperationsCell extends Component {
         }else if(this.props.dataSource.name === '确认完成'){
             this.props.navigator.push({
                 name:'ensureComplete',
-                component:EnsureComplete
+                component:EnsureComplete,
+                params:{
+                    rwid:this.props.rwid
+                }
             });
         }
 

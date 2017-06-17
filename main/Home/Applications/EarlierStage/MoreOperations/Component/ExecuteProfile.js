@@ -41,7 +41,7 @@ export default class ExecuteProfile extends Component {
                         {this.renderRow()}
                 </View>
                 </ScrollView>
-                <TouchableOpacity onPress={() => this.submit()}>
+                <TouchableOpacity onPress={() => this.props.submit()}>
                     <View style={styles.button}>
                         <Text style={styles.buttonText}>确认完成</Text>
                     </View>
@@ -50,11 +50,8 @@ export default class ExecuteProfile extends Component {
         )
     }
     renderRow() {
-        let rows = this.dataSource.map((item, index) => (<ExecuteRow key={index} data={item}/>));
+        let rows = this.props.data.map((item, index) => (<ExecuteRow key={index} data={item}/>));
         return rows
-    }
-    submit() {
-
     }
 }
 
