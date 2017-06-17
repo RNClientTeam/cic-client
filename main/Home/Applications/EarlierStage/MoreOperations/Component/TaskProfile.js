@@ -21,34 +21,34 @@ export default class TaskProfile extends Component {
                     <View style={styles.content}>
                         <View style={styles.row}>
                             <Text style={styles.label}>责任人</Text>
-                            <Text>蔡营</Text>
+                            <Text>{this.props.data.zrr}</Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={styles.label}>当前状态</Text>
-                            <Text>执行中</Text>
+                            <Text>{this.props.data.zt}</Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={styles.label}>计划开始时间</Text>
-                            <Text>2017-02-16</Text>
+                            <Text>{this.props.data.sDate}</Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={styles.label}>计划完成时间</Text>
-                            <Text>2017-02-16</Text>
+                            <Text>{this.props.data.eDate}</Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={styles.label}>实际开始时间</Text>
-                            <Text>2017-02-16</Text>
+                            <Text>{this.props.data.sjkssj}</Text>
                         </View>
                         <View style={{height: width*0.02, backgroundColor: '#f2f2f2'}}/>
                         <View style={styles.row}>
                             <Text style={{color: '#5476a1'}}>主要工作内容详细说明</Text>
                         </View>
                         <View style={styles.textArea}>
-                            <Text>无</Text>
+                            <Text>{this.props.data.rwnr}</Text>
                         </View>
                     </View>
                 </ScrollView>
-                <TouchableOpacity onPress={() => this.submit()}>
+                <TouchableOpacity onPress={() => this.props.submit()}>
                     <View style={styles.button}>
                         <Text style={styles.buttonText}>确认完成</Text>
                     </View>

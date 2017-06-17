@@ -17,25 +17,29 @@ export default class ExecuteRow extends Component {
             <View style={styles.content}>
                 <View style={styles.main}>
                     <View>
-                        <Text style={styles.status}>{this.props.data.status}</Text>
+                        <Text style={styles.status}>完成</Text>
                     </View>
 
                     <View style={styles.progressBar}>
-                        <View style={[styles.progress, {width: this.props.data.progress * 0.6 * width}]}>
-                            <Text style={styles.progressText}>{100 * this.props.data.progress + '%'}</Text>
+                        <View style={[styles.progress, {width: this.props.data.wcbl * 0.6 * width/100}]}>
+                            <Text style={styles.progressText}>{this.props.data.wcbl + '%'}</Text>
                         </View>
                     </View>
                     <View style={styles.blank}/>
                     <View>
-                        <Text>{this.props.data.date}</Text>
+                        <Text>{this.props.data.tbsj}</Text>
                     </View>
 
                 </View>
                 <View style={styles.sub}>
-                    <Text style={styles.subText}>{this.props.data.desc}</Text>
+                    <Text style={styles.subText}>{this.props.data.wcqk}</Text>
                 </View>
             </View>
         )
+    }
+
+    componentDidMount() {
+        console.log(this.props.data)
     }
 }
 

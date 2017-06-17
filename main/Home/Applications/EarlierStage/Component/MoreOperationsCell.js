@@ -17,6 +17,7 @@ import CheckFlowInfo from "../MoreOperations/CheckFlowInfo";
 import Turnover from "../MoreOperations/Turnover";
 import FillPerformance from "../MoreOperations/FillPerformance";
 import EnsureComplete from "../MoreOperations/EnsureComplete";
+import ZongzhixinQK from "../MoreOperations/ZongzhixinQK";
 const {width} = Dimensions.get('window');
 
 export default class MoreOperationsCell extends Component {
@@ -62,7 +63,19 @@ export default class MoreOperationsCell extends Component {
         }else if(this.props.dataSource.name === '确认完成'){
             this.props.navigator.push({
                 name:'ensureComplete',
-                component:EnsureComplete
+                component:EnsureComplete,
+                params:{
+                    rwid:this.props.rwid
+                }
+            });
+        }else if(this.props.dataSource.name === '填报总执行情况'){
+            this.props.navigator.push({
+                name:'ZongzhixinQK',
+                component:ZongzhixinQK,
+                params:{
+                    rwid:this.props.rwid,
+                    jhxxId:this.props.jhxxId
+                }
             });
         } else if (this.props.dataSource.name === '暂停') {
 

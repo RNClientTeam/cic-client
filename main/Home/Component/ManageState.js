@@ -38,9 +38,9 @@ export default class ManageState extends Component {
 
     renderManageCounts() {
         let difCounts = [];
-        for (let i = 0; i < this.props.bsData?this.props.bsData.length-1:0; i++) {
+        for (let i = 0; i < this.props.bsData.length-1; i++) {
             difCounts.push(
-                <ManageCount key={i} name={this.props.bsData[i]&&this.props.bsData[i].text} count={this.props.bsData[i].value}/>
+                <ManageCount key={i} name={this.props.bsData[i].text} count={this.props.bsData[i].value}/>
             )
         }
         return difCounts;

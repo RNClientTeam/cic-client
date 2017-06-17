@@ -11,7 +11,7 @@ import {
 
 const {width, height} = Dimensions.get('window');
 
-export default class ModificationRow extends Component {
+export default class RybgQk extends Component {
     render() {
         return (
             <View style={styles.content}>
@@ -26,10 +26,13 @@ export default class ModificationRow extends Component {
                     </View>
                     <View>
                         <Text style={[styles.textColor, styles.text]}>
-                            原计划时间: {this.props.data.yjhkssj} - {this.props.data.yjhjssj}
+                            申请时间: {this.props.data.sqsj}
                         </Text>
                         <Text style={[styles.textColor, styles.text]}>
-                            新计划时间: {this.props.data.xjhkssj} - {this.props.data.xjhjssj}
+                            原负责人: {this.props.data.yzrr}
+                        </Text>
+                        <Text style={[styles.textColor, styles.text]}>
+                            新负责人: {this.props.data.xzrr}
                         </Text>
                         <Text style={[styles.textColor, styles.text]}>
                             变更情况说明: {this.props.data.bgsm}
