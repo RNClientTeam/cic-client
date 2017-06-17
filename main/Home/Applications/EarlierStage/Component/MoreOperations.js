@@ -27,19 +27,6 @@ export default class MoreOperations extends Component {
                 <View style={styles.containerView}>
                     {this.renderCell()}
                 </View>
-                {
-                    this.props.auth&&this.props.auth.ztOrqd && this.props.auth.ztOrqd === 'true'?
-                        <View style={styles.buttonView}>
-                            <TouchableOpacity style={[styles.button,{backgroundColor:'#fb5560'}]}>
-                                <Text style={{color:'#fff'}}>暂停</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={[styles.button, {backgroundColor:'#3999fd'}]}>
-                                <Text style={{color:'#fff'}}>恢复</Text>
-                            </TouchableOpacity>
-                        </View>:
-                        null
-                }
-
             </TouchableOpacity>
         )
     }
@@ -52,9 +39,6 @@ export default class MoreOperations extends Component {
         if(this.props.auth.yqbg){
             dataArr.push(
                 {img:require('../../../../../resource/imgs/home/earlierStage/applyForDelay.png'),name:'延期变更申请'}
-            );
-            dataArr.push(
-                {img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),name:'延期变更审批'}
             );
         }
         if(this.props.auth.tbwcqk){
@@ -72,9 +56,15 @@ export default class MoreOperations extends Component {
                 {img:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'填报总执行情况'}
             );
         }
-        this.setState({
-            data:dataArr
-        })
+        dataArr.push({
+            img: require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),
+            name: '暂停'
+        });
+        dataArr.push({
+            img: require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),
+            name: '恢复'
+        });
+        this.setState({data:dataArr});
     }
 
     renderCell = ()=>{
@@ -104,13 +94,5 @@ const styles = StyleSheet.create({
         height:width*0.2,
         alignItems:'center',
         backgroundColor:'#fff'
-    },
-    button:{
-        width:width*0.29,
-        backgroundColor:'red',
-        height:width*0.1,
-        alignItems:'center',
-        justifyContent:'center',
-        borderRadius:5
     }
 });

@@ -25,7 +25,7 @@ export default class ChoiceDate extends Component{
             <View>
                 <DatePicker
                     style={{width: 200}}
-                    date={this.state.date}
+                    date={this.state.date || this.props.showDate}
                     mode="date"
                     placeholder="select date"
                     format="YYYY-MM-DD"

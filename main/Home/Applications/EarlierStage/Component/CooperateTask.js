@@ -27,7 +27,8 @@ export default class CooperateTask extends Component {
             list: [],
             modalVisible: false,
             hasMoreData: true,
-            auth:null
+            auth:null,
+            rwid:''
         }
     }
 
@@ -81,7 +82,7 @@ export default class CooperateTask extends Component {
                 >
                     <MoreOperations navigator={this.props.navigator} closeModal={() => {
                         this.setState({modalVisible: false})
-                    }} auth={this.state.auth}/>
+                    }} auth={this.state.auth} rwid={this.state.rwid} jhxxId={this.props.jhxxId}/>
                 </Modal>
             </View>
         )
@@ -117,7 +118,8 @@ export default class CooperateTask extends Component {
                     "tbwcqk": true,
                     "qrwcqk": true,
                     "ztOrqd": true
-                }
+                },
+                rwid: phrwId
             });
         });
     }

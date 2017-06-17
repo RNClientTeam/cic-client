@@ -15,9 +15,60 @@ import {
     TouchableOpacity
 } from 'react-native'
 import StatusBar from "../../../../Component/StatusBar";
+import {getTimestamp} from '../../../../Util/Util.js';
 const {width, height}  = Dimensions.get('window');
+import Toast from 'react-native-simple-toast';
+import Loading from "../../../../Component/Loading.js";
+import ChoiceDate from "../../../../Component/ChoiceDate.js";
+import ModalDropdown from 'react-native-modal-dropdown';
 
 export default class ApplyForDelay extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoading: false,
+            proName: '',
+            startTime: '',
+            endTime: '',
+            planName: '',
+            changeStartTime: '',
+            changeEndTime: '',
+            changeReason: '',
+            yqbgId:'',
+            reasonList: []
+        }
+    }
+    componentDidMount() {
+        this.fetchData();
+        this.exchangeReason();
+    }
+
+    fetchData() {
+        axios.get('psmQqjdjh/yqbg', {
+            params: {
+                userID: GLOBAL_USERID,
+                rwid: this.props.rwid,
+                rwlx: 2,
+                callID: getTimestamp()
+            }
+        }).then((responseData) => {
+            if (responseData.code === 1) {
+                this.setState({
+                    proName: responseData.data.xmmc,
+                    startTime: responseData.data.yjhkssj,
+                    endTime: responseData.data.yjhjssj,
+                    planName: responseData.data.rwmc,
+                    changeStartTime: responseData.data.xjhkssj,
+                    changeEndTime: responseData.data.xjhjssj,
+                    changeReason: responseData.data.bgyy,
+                    yqbgId: responseData.data.yqbgId
+                });
+            }
+        }).catch((error) => {
+
+        });
+    }
+
     render(){
         return(
             <View style={styles.containerStyle}>
@@ -27,22 +78,22 @@ export default class ApplyForDelay extends Component{
                         <View style={styles.cell}>
                             <Text style={styles.label}>项目名称</Text>
                             <View style={styles.blank}/>
-                            <Text>动物园园区电缆更换</Text>
+                            <Text>{this.state.proName}</Text>
                         </View>
                         <View style={styles.cell}>
                             <Text style={styles.label}>需变更任务</Text>
                             <View style={styles.blank}/>
-                            <Text>获得甲方委托</Text>
+                            <Text>{this.state.planName}</Text>
                         </View>
                         <View style={styles.cell}>
                             <Text style={styles.label}>计划开始时间</Text>
                             <View style={styles.blank}/>
-                            <Text>2017-01-15</Text>
+                            <Text>{this.state.startTime}</Text>
                         </View>
                         <View style={styles.cell}>
                             <Text style={styles.label}>计划结束时间</Text>
                             <View style={styles.blank}/>
-                            <Text>2017-02-26</Text>
+                            <Text>{this.state.endTime}</Text>
                         </View>
                     </View>
                     <View style={styles.editPanel}>
@@ -51,21 +102,34 @@ export default class ApplyForDelay extends Component{
                                    source={require('../../../../../resource/imgs/home/earlierStage/applyForDelay.png')}/>
                             <Text style={styles.editText}>延期变更</Text>
                         </View>
+
                         <View style={styles.cell}>
                             <Text style={styles.label}>变更原因</Text>
                             <View style={styles.blank}/>
-                            <Text>请选择></Text>
+                            <ModalDropdown
+                                options={this.state.reasonList}
+                                animated={true}
+                                defaultValue={this.state.changeReason}
+                                style={{flex:1, alignItems:'flex-end'}}
+                                onSelect={(a) => {
+                                    this.setState({changeReason:this.state.reasonList[a]});
+                                }}
+                                showsVerticalScrollIndicator={false}
+                            />
                         </View>
+
                         <View style={styles.cell}>
                             <Text style={styles.label}>变更开始时间</Text>
                             <View style={styles.blank}/>
-                            <Text>请选择></Text>
+                            <ChoiceDate showDate={this.state.changeStartTime} changeDate={(date)=>{this.setState({changeStartTime:date});}}/>
                         </View>
+
                         <View style={styles.cell}>
                             <Text style={styles.label}>变更结束时间</Text>
                             <View style={styles.blank}/>
-                            <Text>请选择></Text>
+                            <ChoiceDate showDate={this.state.changeEndTime} changeDate={(date)=>{this.setState({changeEndTime:date})}}/>
                         </View>
+
                         <View style={styles.inputCell}>
                             <View style={styles.inputLabel}>
                                 <Text style={styles.label}>变更情况说明</Text>
@@ -74,6 +138,7 @@ export default class ApplyForDelay extends Component{
                                 <TextInput
                                     multiline = {true}
                                     numberOfLines = {4}
+                                    onChangeText={(text) => {this.changeIntroduction = text;}}
                                     style={{backgroundColor: '#eee', height: 0.28*height, borderRadius: 10}}
                                 />
                             </View>
@@ -86,12 +151,56 @@ export default class ApplyForDelay extends Component{
                         </View>
                     </TouchableOpacity>
                 </ScrollView>
+                {this.state.loading?<Loading/>:null}
             </View>
         )
     }
 
+    //修改变更原因
+    exchangeReason() {
+        axios.get('dictionary/list', {
+            params: {
+                userID: GLOBAL_USERID,
+                root: 'JDJH_RWLX',
+                callID: true
+            }
+        }).then((responseData) => {
+            if (responseData.code === 1) {
+                this.state.reasonList = [];
+                responseData.data.forEach((elem, index) => {
+                    this.state.reasonList.push(elem.name);
+                });
+                this.setState({reasonList: this.state.reasonList});
+            }
+        }).catch((error) => {
+
+        });
+    }
+
     submit() {
-        //alert('cccc')
+        axios.post('psmQqjdjh/saveYqbg', {
+            userID: GLOBAL_USERID,
+            jhxxId: this.props.jhxxId,
+            rwid: this.props.rwid,
+            yqbgId: this.state.yqbgId,
+            yjhkssj: this.state.startTime || '2017-06-31',
+            yjhjssj: this.state.endTime,
+            xjhkssj: this.state.exchangeStartTime,
+            xjhjssj: this.state.exchangeEndTime,
+            bgyy: this.state.changeReason,
+            bgsm: this.changeIntroduction,
+            callID: getTimestamp()
+        }).then((responseData) => {
+            if (responseData.code === 1) {
+                Toast('申请提交成功');
+                const self = this;
+                let timer = setTimeout(() => {
+                    self.props.navigator.pop();
+                }, 1000);
+            }
+        }).catch((error) => {
+            Toast('服务端错误');
+        });
     }
 }
 
@@ -176,8 +285,5 @@ const styles = StyleSheet.create({
     inputLabel: {
         height: height*0.07,
         justifyContent: 'center',
-    },
-    textArea: {
-
     }
 });
