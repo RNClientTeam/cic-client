@@ -37,10 +37,9 @@ export default class Backlog extends Component {
                     ref='todoScroll'
                     showsHorizontalScrollIndicator={false}
                     scrollEnabled={false}>
-                    <TodoView navigator={this.props.navigator}/>
-                    <SendView/>
-                    <ApproveView/>
-                    <CopyToView/>
+                    <TodoView showLoading={()=>this.showLoading()} hideLoading={()=>this.hideLoading()} navigator={this.props.navigator}/>
+                    <SendView showLoading={()=>this.showLoading()} hideLoading={()=>this.hideLoading()}/>
+                    <ApproveView showLoading={()=>this.showLoading()} hideLoading={()=>this.hideLoading()}/>
                 </ScrollView>
                 {this.state.isLoading?<Loading/>:null}
             </View>
@@ -67,22 +66,6 @@ export default class Backlog extends Component {
         this.refs.todoScroll.scrollTo({x: width * index, y: 0, animated: true})
     }
 
-    componentDidMount() {
-        this.showLoading();
-        axios.get('/todo/list4bs',{
-            params:{
-                userID:GLOBAL_USERID,
-                callID:getTimestamp()
-            }
-        }).then(data=>{
-            this.hideLoading();
-            console.log(data)
-        }).catch((err)=>{
-            console.error(err);
-            this.hideLoading();
-            toast.show('服务端错误！');
-        })
-    }
 }
 
 const styles = StyleSheet.create({

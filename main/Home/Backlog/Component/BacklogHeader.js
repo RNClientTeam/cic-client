@@ -13,7 +13,6 @@ const headerCell = [
     {name:'待办事项',srcOn:require('../../../../resource/imgs/home/backlog/toDoOn.png'),srcOff:require('../../../../resource/imgs/home/backlog/toDoNo.png'),badge:10},
     {name:'审批中',srcOn:require('../../../../resource/imgs/home/backlog/sendOn.png'),srcOff:require('../../../../resource/imgs/home/backlog/sendNo.png'),badge:34},
     {name:'已审批',srcOn:require('../../../../resource/imgs/home/backlog/approveOn.png'),srcOff:require('../../../../resource/imgs/home/backlog/approveNo.png'),badge:120},
-    // {name:'抄送我的',srcOn:require('../../../../resource/imgs/home/backlog/copyToOn.png'),srcOff:require('../../../../resource/imgs/home/backlog/copyToNo.png'),badge:19}
 ];
 export default class BacklogHeader extends Component {
     render() {

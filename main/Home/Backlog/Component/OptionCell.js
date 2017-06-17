@@ -13,6 +13,7 @@ import {
 const {width} = Dimensions.get('window');
 import IconBadge from 'react-native-icon-badge'
 import ArticleApproval from '../../Applications/ArticleApproval/ArticleApproval'
+import EarlierStage from "../../Applications/EarlierStage/EarlierStage";
 
 export default class OptionCell extends Component {
     render() {
@@ -56,7 +57,17 @@ export default class OptionCell extends Component {
                 this.props.navigator.push({
                     name: 'ArticleApproval',
                     component: ArticleApproval
-                })
+                });
+                break;
+            case '前期进度计划执行':
+                this.props.navigator.push({
+                    name:'EarlierStage',
+                    component:EarlierStage,
+                    params:{
+                        tag:'todo'
+                    }
+                });
+                break;
         }
     }
 }
