@@ -82,12 +82,24 @@ export default class MoreOperationsCell extends Component {
                 }
             });
         } else if (this.props.dataSource.name === '暂停') {
-
+            this.changeStatus('90');
         } else if (this.props.dataSource.name === '恢复') {
-
+            this.changeStatus('100');
         }
-
         this.props.closeModal()
+    }
+
+    changeStatus(status) {
+        axios.post('/psmQqjdjh/updateRwztToStartOrStop', {
+            userID: GLOBAL_USERID,
+            rwid: this.props.rwid,
+            rwzt: status,
+            callID: true
+        }).then((responseData) => {
+            console.log(responseData);
+        }).catch((error) => {
+
+        });
     }
 }
 

@@ -61,6 +61,7 @@ export default class Turnover extends Component{
                 callID: true
             }
         }).then((responseData) => {
+            console.log(responseData);
             if (responseData.code === 1) {
                 this.state.xzrrList = [];
                 responseData.data.item.item.forEach((elem, index) => {
