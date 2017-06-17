@@ -17,7 +17,7 @@ import Notification from './Component/Notification'
 import Signed from './Signed/Signed'
 import CameraPage from './Component/CameraPage';
 import keys from '../Util/storageKeys.json'
-import {getSign, AESDecrypt,getTimestamp} from '../Util/Util'
+import {getSign, AESDecrypt, getTimestamp} from '../Util/Util'
 import FetchUrl from '../Util/service.json'
 import Loading from "../Component/Loading";
 import axios from 'axios'
@@ -99,16 +99,14 @@ export default class Home extends Component {
         axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
         //添加一个请求拦截器，添加sign
         axios.interceptors.request.use(function (config) {
-            if(config.url === 'http://was.jzfyjt.com:9092/service/user/index'){
+            if (config.url === 'http://was.jzfyjt.com:9092/service/user/index') {
                 return config;
-            }else{
+            } else {
                 if (config.method === 'post') {
-                    if(config.data.callID){
-                        config.data.callID = getTimestamp();
-                    }
+                    config.data.callID = getTimestamp();
                     let target = {};
-                    Object.assign(target,config.data);
-                    config.data.sign = getSign(target,SECRETKEY);
+                    Object.assign(target, config.data);
+                    config.data.sign = getSign(target, SECRETKEY);
                     config.transformRequest = [function (data) {
                         let ret = '';
                         for (let it in data) {
@@ -117,12 +115,10 @@ export default class Home extends Component {
                         return ret
                     }];
                 } else if (config.method === 'get') {
-                    if(config.data.callID){
-                        config.data.callID = getTimestamp();
-                    }
+                    config.params.callID = getTimestamp();
                     let target = {};
-                    Object.assign(target,config.params);
-                    config.params.sign = getSign(target,SECRETKEY);
+                    Object.assign(target, config.params);
+                    config.params.sign = getSign(target, SECRETKEY);
                 }
                 return config;
             }
@@ -132,10 +128,10 @@ export default class Home extends Component {
 
         //添加一个响应拦截器,解码
         axios.interceptors.response.use(function (res) {
-            if(res.data.data && res.data.data.length>0){
-                res.data.data = JSON.parse(AESDecrypt(res.data.data,SECRETKEY));
+            if (res.data.data && res.data.data.length > 0) {
+                res.data.data = JSON.parse(AESDecrypt(res.data.data, SECRETKEY));
                 return res.data;
-            }else{
+            } else {
                 return res.data
             }
         }, function (err) {
@@ -148,12 +144,12 @@ export default class Home extends Component {
             global.GLOBAL_USERID = data.userID;
             let template = {
                 userID: data.userID,
-                callID:getTimestamp(),
+                callID: getTimestamp(),
             };
-            template.sign = getSign(template,SECRETKEY);
+            template.sign = getSign(template, SECRETKEY);
             let responseData = '';
-            for(let it in template){
-                responseData+=encodeURIComponent(it)+'='+encodeURIComponent(template[it])+'&'
+            for (let it in template) {
+                responseData += encodeURIComponent(it) + '=' + encodeURIComponent(template[it]) + '&'
             }
             axios.post('/user/index',
                 responseData
@@ -161,16 +157,16 @@ export default class Home extends Component {
                 this.setState({
                     isLoading: false
                 });
-                if(resultData.code === 1){
+                if (resultData.code === 1) {
                     this.setState({
                         bsData: resultData.data.bsData,
                         msgList: resultData.data.msgList,
                         badges: {
-                            todo: resultData.data.todo||0,
-                            remind: resultData.data.remind||0
+                            todo: resultData.data.todo || 0,
+                            remind: resultData.data.remind || 0
                         },
                     })
-                }else{
+                } else {
                     toast.show(resultData.message);
                 }
 
