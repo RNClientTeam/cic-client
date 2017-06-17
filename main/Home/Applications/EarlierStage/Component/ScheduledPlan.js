@@ -102,7 +102,7 @@ export default class SchedulePlan extends Component {
                     }}
                     style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
                 >
-                    <MoreOperations sDate={this.state.rySDate} eDate={this.state.ryEdate} jhxxId={this.props.jhxxId} auth={this.state.auth} rwid={this.state.rwid}
+                    <MoreOperations tag="进度计划" sDate={this.state.rySDate} eDate={this.state.ryEdate} jhxxId={this.props.jhxxId} auth={this.state.auth} rwid={this.state.rwid}
                                     navigator={this.props.navigator}
                                     closeModal={() => {
                                         this.setState({modalVisible: false})
@@ -165,19 +165,6 @@ export default class SchedulePlan extends Component {
             }
         }).then(data => {
             // TODO
-            // data = {
-            //     "code": 1,
-            //     "data": {
-            //         "rybg": true,//人员变更
-            //         "yqbg": true,//延期变更
-            //         "tbwcqk": true,//填报完成情况
-            //         "qrwcqk": true,//确认完成情况
-            //         "ztOrqd": true,//暂停或启动任务权限
-            //         "tbzzxqk": true//填报总执行情况
-            //     },
-            //     "message": "成功"
-            // };
-            console.log(data);
             if (data.code === 1) {
                 this.setState({modalVisible: true, auth: data.data, rwid: rwid})
             } else {
