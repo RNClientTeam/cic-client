@@ -231,6 +231,9 @@ export default class FillPerformance extends Component {
                 })
             }
 
+        }).catch(err=>{
+            if(err)
+                toast.show('服务端连接错误!');
         })
     }
 }

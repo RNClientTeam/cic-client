@@ -117,62 +117,6 @@ export default class ZongzhixinQK extends Component {
         })
     }
 
-    componentDidMount() {
-        axios.get('/psmQqjdjh/wcqkxx', {
-            params: {
-                userID: GLOBAL_USERID,
-                rwid: this.props.rwid,
-                callID: getTimestamp()
-            }
-        }).then(data => {
-            // TODO
-            data = {
-                "code": 1,
-                "data": {
-                    "sjjssj": "2016-10-10",
-                    "sjkssj": "2017-10-01",
-                    "data": [
-                        {
-                            "name": "电气项目是否承接审批表已完成报批",
-                            "id": "Z0000001",
-                            "parentId": "-1"
-                        },
-                        {
-                            "name": "无合作单位",
-                            "id": "Z0000002",
-                            "parentId": "-1"
-                        },
-                        {
-                            "name": "有合作单位，项目合作思路备案表已完成报批",
-                            "id": "Z0000003",
-                            "parentId": "-1"
-                        },
-                        {
-                            "name": "合作单位名称：【填写】",
-                            "id": "Z0000004",
-                            "parentId": "Z0000003"
-                        }
-                    ],
-                },
-                "message": "成功"
-            };
-            if (data.code === 1) {
-                data = data.data;
-                for (let i = 0; i < data.data.length; i++) {
-                    this.state.data.push(data.data[i]);
-                    this.state.options.push(data.data[i].name);
-                }
-                this.setState({
-                    eDate: data.sjjssj,
-                    sDate: data.sjkssj,
-                    data: this.state.data,
-                    options: this.state.options,
-                    choiceData: this.state.data[0].id
-                })
-            }
-
-        })
-    }
 }
 
 const styles = StyleSheet.create({
