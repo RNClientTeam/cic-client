@@ -103,11 +103,11 @@ export default class Home extends Component {
                 return config;
             }else{
                 if (config.method === 'post') {
-                    let target = {};
-                    Object.assign(target,config.data);
                     if(config.data.callID){
                         config.data.callID = getTimestamp();
                     }
+                    let target = {};
+                    Object.assign(target,config.data);
                     config.data.sign = getSign(target,SECRETKEY);
                     config.transformRequest = [function (data) {
                         let ret = '';
@@ -117,6 +117,9 @@ export default class Home extends Component {
                         return ret
                     }];
                 } else if (config.method === 'get') {
+                    if(config.data.callID){
+                        config.data.callID = getTimestamp();
+                    }
                     let target = {};
                     Object.assign(target,config.params);
                     config.params.sign = getSign(target,SECRETKEY);

@@ -20,6 +20,7 @@ import {getTimestamp} from '../../../../Util/Util'
 import ModalDropdown from 'react-native-modal-dropdown';
 import toast from 'react-native-simple-toast'
 import Loading from "../../../../Component/Loading";
+import ChoiceDate from "../../../../Component/ChoiceDate";
 export default class FillPerformance extends Component {
     constructor(props) {
         super(props);
@@ -84,12 +85,13 @@ export default class FillPerformance extends Component {
                         <View style={styles.cell}>
                             <Text style={styles.label}>实际开始时间</Text>
                             <View style={styles.blank}/>
-                            <Text>{this.state.sDate}</Text>
+                            <ChoiceDate showDate={this.state.sDate} changeDate={(date)=>this.setState({sDate:date})}/>
                         </View>
                         <View style={styles.cell}>
                             <Text style={styles.label}>实际完成时间</Text>
                             <View style={styles.blank}/>
-                            <Text>{this.state.sDate}</Text>
+                            {/*<Text>{this.state.sDate}</Text>*/}
+                            <ChoiceDate showDate={this.state.eDate} changeDate={(date)=>this.setState({eDate:date})}/>
                         </View>
                         <View style={styles.inputCell}>
                             <View style={styles.inputLabel}>
@@ -170,6 +172,8 @@ export default class FillPerformance extends Component {
                 setTimeout(function () {
                     that.props.navigator.pop();
                 }, 1000)
+            }else{
+                toast.show(responseData.message);
             }
         }).catch((err) => {
             toast.show('服务端错误');

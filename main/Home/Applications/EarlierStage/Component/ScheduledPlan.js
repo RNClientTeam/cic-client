@@ -177,6 +177,7 @@ export default class SchedulePlan extends Component {
             //     },
             //     "message": "成功"
             // };
+            console.log(data);
             if (data.code === 1) {
                 this.setState({modalVisible: true, auth: data.data, rwid: rwid})
             } else {
