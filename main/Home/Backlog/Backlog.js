@@ -14,9 +14,6 @@ import BacklogHeader from './Component/BacklogHeader'
 import TodoView from './Component/TodoView'
 import SendView from './Component/SendView'
 import ApproveView from './Component/ApproveView'
-import CopyToView from './Component/CopyToView'
-import {getTimestamp} from '../../Util/Util'
-import toast from 'react-native-simple-toast'
 import Loading from "../../Component/Loading";
 export default class Backlog extends Component {
     constructor(props) {
@@ -31,16 +28,15 @@ export default class Backlog extends Component {
         return (
             <View style={styles.backlog}>
                 <StatusBar navigator={this.props.navigator} title="待办"/>
-                <BacklogHeader selectTag={(i) => this.selectTag(i)} currentIndex={this.state.index}/>
+                <BacklogHeader badge={this.props.badge} selectTag={(i) => this.selectTag(i)} currentIndex={this.state.index}/>
                 <ScrollView
                     horizontal={true}
                     ref='todoScroll'
                     showsHorizontalScrollIndicator={false}
                     scrollEnabled={false}>
-                    <TodoView navigator={this.props.navigator}/>
-                    <SendView/>
-                    <ApproveView/>
-                    <CopyToView/>
+                    <TodoView showLoading={()=>this.showLoading()} hideLoading={()=>this.hideLoading()} navigator={this.props.navigator}/>
+                    <SendView showLoading={()=>this.showLoading()} hideLoading={()=>this.hideLoading()} navigator={this.props.navigator}/>
+                    <ApproveView showLoading={()=>this.showLoading()} hideLoading={()=>this.hideLoading()} navigator={this.props.navigator}/>
                 </ScrollView>
                 {this.state.isLoading?<Loading/>:null}
             </View>
@@ -67,22 +63,6 @@ export default class Backlog extends Component {
         this.refs.todoScroll.scrollTo({x: width * index, y: 0, animated: true})
     }
 
-    componentDidMount() {
-        this.showLoading();
-        axios.get('/todo/list4bs',{
-            params:{
-                userID:GLOBAL_USERID,
-                callID:getTimestamp()
-            }
-        }).then(data=>{
-            this.hideLoading();
-            console.log(data)
-        }).catch((err)=>{
-            console.error(err);
-            this.hideLoading();
-            toast.show('服务端错误！');
-        })
-    }
 }
 
 const styles = StyleSheet.create({

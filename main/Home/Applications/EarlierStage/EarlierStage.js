@@ -27,7 +27,7 @@ export default class EarlierStage extends Component {
             isModalVisible: false,
             sDate: getCurrentMonS(),//开始时间
             eDate: getCurrentMonE(),//结束时间
-            jhlx: '全部',//计划类型
+            jhlx: this.props.tag==='todo'?'我的待办':'全部',//计划类型
             pageNum: 1,//页码
             isLoading: false,
             dataSource: [],

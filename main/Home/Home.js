@@ -155,7 +155,6 @@ export default class Home extends Component {
             axios.post('/user/index',
                 responseData
             ).then(resultData => {
-                console.log(resultData)
                 this.setState({
                     isLoading: false
                 });

@@ -19,7 +19,7 @@ export default class BacklogHeaderCell extends Component {
                 <View style={styles.backlogHeaderCell}>
                     <Image style={styles.backlogHeaderImg}
                            source={this.props.src}/>
-                    <Text style={this.props.onSelect?styles.backlogHeaderText:[styles.backlogHeaderText,{color:'#ddd'}]}>{this.props.name}({this.props.badge})</Text>
+                    <Text style={this.props.onSelect?styles.backlogHeaderText:[styles.backlogHeaderText,{color:'#ddd'}]}>{this.props.name}{this.props.badge>0?(this.props.badge):null}</Text>
                 </View>
                 <View style={styles.onSelected}>
                     {this.props.onSelect?<Image style={styles.selectedFlag}

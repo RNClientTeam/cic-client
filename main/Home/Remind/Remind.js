@@ -36,8 +36,8 @@ export default class Remind extends Component {
                     ref='remindScroll'
                     showsHorizontalScrollIndicator={false}
                     scrollEnabled={false}>
-                    <TodoView/>
-                    <OverView/>
+                    <TodoView showLoading={()=>this.showLoading()} hideLoading={()=>this.hideLoading()} navigator={this.props.navigator}/>
+                    <OverView showLoading={()=>this.showLoading()} hideLoading={()=>this.hideLoading()} navigator={this.props.navigator}/>
                 </ScrollView>
                 {this.state.isLoading ? <Loading/> : null}
             </View>
@@ -63,36 +63,6 @@ export default class Remind extends Component {
         this.refs.remindScroll.scrollTo({x: width * index, y: 0, animated: true})
     }
 
-    componentDidMount() {
-        this.showLoading();
-        // axios.get('/msg/list4bs', {
-        //     params: {
-        //         userID: GLOBAL_USERID,
-        //         callID: getTimestamp()
-        //     }
-        // }).then(data => {
-        //         this.hideLoading();
-        //         console.log(data)
-        //     }).catch(err => {
-        //     console.error(err);
-        //     this.hideLoading();
-        // })
-        axios.get('/msg/list4bs',{
-            params:{
-                userID:GLOBAL_USERID,
-                callID:getTimestamp()
-            }
-        }).then(data=>{
-            this.hideLoading();
-            if(data.code===0||  (data.code&&data.code!==1)){
-                toast.show(data.message);
-            }
-        }).catch(err=>{
-            console.error(err);
-            toast.show('服务端错误!');
-            this.hideLoading();
-        })
-    }
 }
 
 const styles = StyleSheet.create({
