@@ -111,7 +111,6 @@ export default class Login extends Component {
         }
         this.setState({isLoading:true});
         let loginURL = FetURL.baseUrl+'/user/login?loginName='+this.state.username+'&password='+MD5Encrypt(this.state.password);
-        console.log(loginURL);
         //通过接口判断用户名密码是否正确
         fetch(loginURL, {
             headers: {
@@ -143,6 +142,7 @@ export default class Login extends Component {
                     data: JSON.parse(userMessage)
                 });
                 global.SECRETKEY = responseData.secretKey;
+                global.DEPARTMENTID = JSON.parse(userMessage).deptID;
                 //登录成功
                 this.timer = setTimeout(() => {
                     const {navigator} = this.props;

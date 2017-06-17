@@ -40,6 +40,8 @@ export default class ApplyForDelay extends Component{
     }
     componentDidMount() {
         this.fetchData();
+
+        //获取变更原因列表
         this.exchangeReason();
     }
 
@@ -109,7 +111,7 @@ export default class ApplyForDelay extends Component{
                             <ModalDropdown
                                 options={this.state.reasonList}
                                 animated={true}
-                                defaultValue={this.state.changeReason}
+                                defaultValue={'请选择>'}
                                 style={{flex:1, alignItems:'flex-end'}}
                                 onSelect={(a) => {
                                     this.setState({changeReason:this.state.reasonList[a]});

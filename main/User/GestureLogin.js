@@ -49,6 +49,7 @@ export default class GestureLogin extends Component {
                             data: JSON.parse(userMessage)
                         });
                         global.SECRETKEY = responseData.secretKey;
+                        global.DEPARTMENTID = JSON.parse(userMessage).deptID ;
                         //登录成功
                         this.timer = setTimeout(() => {
                             const {navigator} = this.props;

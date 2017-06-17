@@ -49,7 +49,11 @@ export default class MoreOperationsCell extends Component {
         }else if(this.props.dataSource.name === '人员变更'){
             this.props.navigator.push({
                 name:'turnover',
-                component:Turnover
+                component:Turnover,
+                params: {
+                    rwid: this.props.rwid,
+                    jhxxId:this.props.jhxxId
+                }
             });
         }else if(this.props.dataSource.name === '填报完成情况'){
             this.props.navigator.push({
