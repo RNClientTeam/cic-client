@@ -38,7 +38,7 @@ export default class EnsureComplete extends Component{
                                    tabBarUnderlineStyle={{backgroundColor:'#51a5f0',height:2}}
                                    tabBarActiveTextColor='#51a5f0'
                                    tabBarInactiveTextColor='#3d3d3d'>
-                    <TaskProfile submit={()=>this.affirmComplete()} data={this.state.rwgk} tabLabel='任务概况' />
+                    <TaskProfile submit={this.affirmComplete.bind(this)} data={this.state.rwgk} tabLabel='任务概况' />
                     <ExecuteProfile submit={()=>this.affirmComplete()} data={this.state.zxqk} tabLabel='执行概况' />
                     <Modification submit={()=>this.affirmComplete()} tag="延期" data={this.state.yqbgqk} tabLabel='延期变更' />
                     <Modification submit={()=>this.affirmComplete()} tag="人员" data={this.state.rybgqk} tabLabel='人员变更' />
@@ -142,8 +142,9 @@ export default class EnsureComplete extends Component{
             };
             if(data.code === 1){
                 toast.show('提交成功!');
+                const that = this;
                 setTimeout(function () {
-                    this.props.navigator.pop();
+                    that.props.navigator.pop();
                 },1000)
             }else{
                 toast.show(data.message)
