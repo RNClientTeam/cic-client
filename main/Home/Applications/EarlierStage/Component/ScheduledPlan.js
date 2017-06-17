@@ -140,7 +140,8 @@ export default class SchedulePlan extends Component {
                 this.state.myTask.push(resultData[i]);
             }
             this.setState({
-                myTask: this.state.myTask
+                myTask: this.state.myTask,
+                myTaskPageNum:1
             });
             callback();
         })
@@ -186,7 +187,7 @@ export default class SchedulePlan extends Component {
             params: {
                 userID: GLOBAL_USERID,
                 jhxxId: this.props.jhxxId,
-                pageNum: this.state.allTaskPageNum,
+                pageNum: 1,
                 pageSize: 10,
                 callID: getTimestamp(),
                 rwlx: 200
@@ -197,7 +198,8 @@ export default class SchedulePlan extends Component {
                 this.state.allTask.push(resultData[i]);
             }
             this.setState({
-                allTask: this.state.allTask
+                allTask: this.state.allTask,
+                allTaskPageNum:1
             });
             callback();
         });

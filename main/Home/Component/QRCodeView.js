@@ -21,7 +21,7 @@ export default class PDFView extends Component {
     constructor(props) {
         super(props);
         this.pdfView = null;
-        this.pdfPath = RNFS.DocumentDirectoryPath + '/test.pdf'
+        this.pdfPath = RNFS.DocumentDirectoryPath + '/test.pdf';
         this.state = {
             showPDF: false,
             loading: true,
