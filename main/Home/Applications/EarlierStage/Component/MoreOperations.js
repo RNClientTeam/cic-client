@@ -41,7 +41,7 @@ export default class MoreOperations extends Component {
                 {img:require('../../../../../resource/imgs/home/earlierStage/applyForDelay.png'),name:'延期变更申请'}
             );
         }
-        if(!this.props.auth.tbwcqk){
+        if(this.props.auth.tbwcqk){
             dataArr.push(
                 {img:require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),name:'填报完成情况'}
             );

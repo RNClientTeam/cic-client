@@ -60,10 +60,8 @@ export default class TotalImplementation extends Component {
                     topIndicatorHeight={60}
                     dataSource={this.ds.cloneWithRows(this.state.list)}
                     renderRow={this.renderRow.bind(this)}
-                    onEndReached={this.loadMore.bind(this)}
                     onEndReachedThreshold={60}
                     enableEmptySections={true}
-                    renderFooter={this.renderFooter.bind(this)}
                 />
             </View>
         )
@@ -81,16 +79,8 @@ export default class TotalImplementation extends Component {
         );
     }
 
-    renderFooter (){
-        return (this.state.hasMoreData && this.state.list.length !== 0 ? <LoadMore /> : null)
-    }
-
     topIndicatorRender(pulling, pullok, pullrelease) {
         return (<Reload />);
-    }
-
-    loadMore(){
-        this.state.hasMoreData && this.getDataFromNet(++this.pageNum);
     }
 }
 

@@ -40,7 +40,8 @@ export default class MoreOperationsCell extends Component {
                 component:ApplyForDelay,
                 params: {
                     rwid: this.props.rwid,
-                    jhxxId:this.props.jhxxId
+                    jhxxId:this.props.jhxxId,
+                    tag: this.props.tag ? this.props.tag : ''
                 }
             });
         }else if(this.props.dataSource.name === '流程信息查看'){

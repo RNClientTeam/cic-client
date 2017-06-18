@@ -103,7 +103,7 @@ export default class FillPerforOfCooper extends Component{
                             <Text style={styles.label}>实际完成时间</Text>
                             <View style={styles.blank}/>
                             {
-                                this.state.progress === 100 &&
+                                this.state.progress === "100" &&
                                 <ChoiceDate showDate={this.state.sjwcsh} changeDate={(date)=>{this.setState({sjwcsh:date});}}/>
                             }
                         </View>

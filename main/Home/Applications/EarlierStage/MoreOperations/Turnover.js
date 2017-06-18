@@ -21,6 +21,7 @@ import Toast from 'react-native-simple-toast';
 import Loading from "../../../../Component/Loading.js";
 import ChoiceDate from "../../../../Component/ChoiceDate.js";
 import ModalDropdown from 'react-native-modal-dropdown';
+import Organization from '../../../../Organization/Organization.js';
 
 export default class Turnover extends Component{
     constructor(props) {
@@ -36,10 +37,9 @@ export default class Turnover extends Component{
             changeReason: '',
             rybgId:'',
             reasonList: [],
-            xzrrList: [],
             selected: true,
             yzrr: '',
-            xzrr: '',
+            xzrr: '请选择>',
             yzrbm: '',
             xzrbm: '',
             yzrrmc: ''
@@ -48,31 +48,6 @@ export default class Turnover extends Component{
     componentDidMount() {
         this.fetchData();
         this.exchangeReason();
-        this.getList();
-    }
-
-    //新责任人列表
-    getList() {
-        axios.get('org/list', {
-            params: {
-                userID: GLOBAL_USERID,
-                root: DEPARTMENTID,
-                deep: 0,
-                includeUser: 0,
-                callID: true
-            }
-        }).then((responseData) => {
-            console.log(responseData);
-            if (responseData.code === 1) {
-                this.state.xzrrList = [];
-                responseData.data.item.item.forEach((elem, index) => {
-                    this.state.xzrrList.push(elem.name);
-                });
-                this.setState({xzrrList: this.state.xzrrList});
-            }
-        }).catch((error) => {
-
-        });
     }
 
     fetchData() {
@@ -83,7 +58,6 @@ export default class Turnover extends Component{
                 callID: true
             }
         }).then((responseData) => {
-            console.log(responseData);
             if (responseData.code === 1) {
                 this.setState({
                     proName: responseData.data.xmmc,
@@ -95,10 +69,8 @@ export default class Turnover extends Component{
                     changeReason: responseData.data.bgyy,
                     rybgId: responseData.data.rybgId,
                     yzrr: responseData.data.yzrr,
-                    xzrr: responseData.data.xzrr,
                     selected: responseData.data.sfzzfwn==1?true:false,
                     yzrbm: responseData.data.yzrbm,
-                    xzrbm: responseData.data.xzrbm,
                     yzrrmc: responseData.data.yzrrmc
                 });
             }
@@ -163,16 +135,8 @@ export default class Turnover extends Component{
 
                         <View style={styles.cell}>
                             <Text style={styles.label}>新责任人</Text>
-                            <ModalDropdown
-                                options={this.state.xzrrList}
-                                animated={true}
-                                defaultValue={'请选择>'}
-                                style={{flex:1, alignItems:'flex-end'}}
-                                onSelect={(a) => {
-                                    this.setState({xzrr:this.state.xzrrList[a]});
-                                }}
-                                showsVerticalScrollIndicator={false}
-                            />
+                            <View style={styles.blank}/>
+                            <Text style={{padding:5, paddingRight:0}} onPress={this.getNewPerson.bind(this)}>{this.state.xzrr}</Text>
                         </View>
 
                         <View style={styles.cell}>
@@ -224,6 +188,23 @@ export default class Turnover extends Component{
         )
     }
 
+    getNewPerson() {
+        this.props.navigator.push({
+            name: 'Organization',
+            component: Organization,
+            params: {
+                getInfo: this.getInfo.bind(this)
+            }
+        })
+    }
+
+    getInfo(bmid, name) {
+        this.setState({
+            xzrbm: bmid,
+            xzrr: name
+        });
+    }
+
     trueOrFalse(selected) {
         this.setState({selected:selected});
     }
@@ -233,7 +214,7 @@ export default class Turnover extends Component{
         axios.get('dictionary/list', {
             params: {
                 userID: GLOBAL_USERID,
-                root: 'JDJH_RWLX',
+                root: 'JDJH_BGYY',
                 callID: true
             }
         }).then((responseData) => {
@@ -250,7 +231,7 @@ export default class Turnover extends Component{
     }
 
     submit() {
-        axios.post('psmQqjdjh/saveYqbg', {
+        axios.post('psmQqjdjh/saveRybg', {
             userID: GLOBAL_USERID,
             jhxxId: this.props.jhxxId,
             rwid: this.props.rwid,
@@ -270,6 +251,8 @@ export default class Turnover extends Component{
                 let timer = setTimeout(() => {
                     self.props.navigator.pop();
                 }, 1000);
+            } else {
+                Toast.show(responseData.message);
             }
         }).catch((error) => {
             Toast.show('服务端错误');

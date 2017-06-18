@@ -50,7 +50,7 @@ export default class ApplyForDelay extends Component{
             params: {
                 userID: GLOBAL_USERID,
                 rwid: this.props.rwid,
-                rwlx: 2,
+                rwlx: this.props.tag && this.props.tag === '配合任务' ? 2 : 1,
                 callID: getTimestamp()
             }
         }).then((responseData) => {
@@ -163,7 +163,7 @@ export default class ApplyForDelay extends Component{
         axios.get('dictionary/list', {
             params: {
                 userID: GLOBAL_USERID,
-                root: 'JDJH_RWLX',
+                root: 'JDJH_BGYY',
                 callID: true
             }
         }).then((responseData) => {
