@@ -238,6 +238,7 @@ export default class SchedulePlan extends Component {
                 params: {
                     userID: GLOBAL_USERID,
                     jhxxId: this.props.jhxxId,
+
                     pageNum: this.state.allTaskPageNum,
                     pageSize: 10,
                     callID: getTimestamp(),
