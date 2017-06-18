@@ -69,7 +69,7 @@ export default class AllTask extends Component {
                 hasMoreData:this.props.getMoreData()
             },function () {
                 if(!this.state.hasMoreData){
-                    Toast.show('没有更多数据了');
+                    // Toast.show('没有更多数据了');
                 }
             })
 
