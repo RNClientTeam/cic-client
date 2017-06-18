@@ -57,7 +57,8 @@ export default class MoreOperationsCell extends Component {
                     rwid: this.props.rwid,
                     jhxxId:this.props.jhxxId,
                     sDate:this.props.sDate,
-                    eDate:this.props.eDate
+                    eDate:this.props.eDate,
+                    tag: this.props.tag ? this.props.tag : ''
                 }
             });
         }else if(this.props.dataSource.name === '填报完成情况'){

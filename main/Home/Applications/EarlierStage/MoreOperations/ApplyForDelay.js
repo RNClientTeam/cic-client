@@ -21,6 +21,7 @@ import Toast from 'react-native-simple-toast';
 import Loading from "../../../../Component/Loading.js";
 import ChoiceDate from "../../../../Component/ChoiceDate.js";
 import ModalDropdown from 'react-native-modal-dropdown';
+import CheckFlowInfo from './CheckFlowInfo.js';
 
 export default class ApplyForDelay extends Component{
     constructor(props) {
@@ -187,8 +188,8 @@ export default class ApplyForDelay extends Component{
             yqbgId: this.state.yqbgId,
             yjhkssj: this.state.startTime || '2017-06-31',
             yjhjssj: this.state.endTime,
-            xjhkssj: this.state.exchangeStartTime,
-            xjhjssj: this.state.exchangeEndTime,
+            xjhkssj: this.state.changeStartTime,
+            xjhjssj: this.state.changeEndTime,
             bgyy: this.state.changeReason,
             bgsm: this.changeIntroduction,
             callID: getTimestamp()
@@ -197,7 +198,14 @@ export default class ApplyForDelay extends Component{
                 Toast.show('申请提交成功');
                 const self = this;
                 let timer = setTimeout(() => {
-                    self.props.navigator.pop();
+                    self.props.navigator.push({
+                        name: 'CheckFlowInfo',
+                        component: CheckFlowInfo,
+                        params: {
+                            resID: responseData.data,
+                            tag: this.props.tag ? this.props.tag : ''
+                        }
+                    });
                 }, 1000);
             }
         }).catch((error) => {

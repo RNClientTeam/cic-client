@@ -20,7 +20,6 @@ const {width, height}  = Dimensions.get('window');
 import Toast from 'react-native-simple-toast';
 import Loading from "../../../../Component/Loading.js";
 import ChoiceDate from "../../../../Component/ChoiceDate.js";
-import ModalDropdown from 'react-native-modal-dropdown';
 
 export default class FillPerforOfCooper extends Component{
     constructor(props) {
