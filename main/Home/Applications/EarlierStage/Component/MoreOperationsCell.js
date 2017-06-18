@@ -18,6 +18,8 @@ import Turnover from "../MoreOperations/Turnover";
 import FillPerformance from "../MoreOperations/FillPerformance";
 import EnsureComplete from "../MoreOperations/EnsureComplete";
 import ZongzhixinQK from "../MoreOperations/ZongzhixinQK";
+import FillPerforOfCooper from "./FillPerforOfCooper.js";
+import EnsureCompleteOfCooper from "../MoreOperations/EnsureCompleteOfCooper.js";
 const {width} = Dimensions.get('window');
 
 export default class MoreOperationsCell extends Component {
@@ -58,25 +60,46 @@ export default class MoreOperationsCell extends Component {
                 }
             });
         }else if(this.props.dataSource.name === '填报完成情况'){
-            if(this.props.tag==='进度计划'){
+            if (this.props.tag === '配合任务') {
+                this.props.navigator.push({
+                    name: 'FillPerforOfCooper',
+                    component: FillPerforOfCooper,
+                    params: {
+                        rwid: this.props.rwid,
+                        jhxxId: this.props.jhxxId,
+                        zrrmc: this.props.zrrmc
+                    }
+                });
+            } else {
                 this.props.navigator.push({
                     name:'fillPerformance',
                     component:FillPerformance,
                     params:{
                         rwid:this.props.rwid,
-                        jhxxId:this.props.jhxxId,
-                        tag:this.props.tag
+                        jhxxId:this.props.jhxxId
                     }
                 });
             }
         }else if(this.props.dataSource.name === '确认完成'){
-            this.props.navigator.push({
-                name:'ensureComplete',
-                component:EnsureComplete,
-                params:{
-                    rwid:this.props.rwid
-                }
-            });
+            if (this.props.tag === '配合任务') {
+                this.props.navigator.push({
+                    name: 'EnsureCompleteOfCooper',
+                    component: EnsureCompleteOfCooper,
+                    params: {
+                        rwid: this.props.rwid,
+                        jhxxId: this.props.jhxxId,
+                        zrrmc: this.props.zrrmc
+                    }
+                });
+            } else {
+                this.props.navigator.push({
+                    name:'ensureComplete',
+                    component:EnsureComplete,
+                    params:{
+                        rwid:this.props.rwid
+                    }
+                });
+            }
         }else if(this.props.dataSource.name === '填报总执行情况'){
             this.props.navigator.push({
                 name:'ZongzhixinQK',
@@ -87,12 +110,24 @@ export default class MoreOperationsCell extends Component {
                 }
             });
         } else if (this.props.dataSource.name === '暂停') {
-
+            this.changeStatus('90');
         } else if (this.props.dataSource.name === '恢复') {
-
+            this.changeStatus('100');
         }
-
         this.props.closeModal()
+    }
+
+    changeStatus(status) {
+        axios.post('/psmQqjdjh/updateRwztToStartOrStop', {
+            userID: GLOBAL_USERID,
+            rwid: this.props.rwid,
+            rwzt: status,
+            callID: true
+        }).then((responseData) => {
+            console.log(responseData);
+        }).catch((error) => {
+
+        });
     }
 }
 
