@@ -18,7 +18,6 @@ import EarlierStageListModalView from "./Component/EarlierStageListModalView";
 import Toast from 'react-native-simple-toast';
 import {getCurrentMonS, getCurrentMonE, getTimestamp} from '../../../Util/Util'
 import Loading from "../../../Component/Loading";
-import toast from 'react-native-simple-toast'
 export default class EarlierStage extends Component {
     constructor(props) {
         super(props);
@@ -113,6 +112,7 @@ export default class EarlierStage extends Component {
             }
         }).then(data => {
             if (data.code === 1) {
+                console.log(data.data.data[0]);
                 this.dataArr = [];
                 for (let i = 0; i < data.data.data.length; i++) {
                     this.dataArr.push(data.data.data[i])
@@ -122,7 +122,7 @@ export default class EarlierStage extends Component {
                     dataSource: this.dataArr
                 });
             } else {
-                toast.show(data.message)
+                Toast.show(data.message)
             }
 
             callback()
@@ -169,11 +169,11 @@ export default class EarlierStage extends Component {
                         return hasMoreData
                     })
                 } else {
-                    toast.show(data.message);
+                    Toast.show(data.message);
                 }
 
             }).catch(err => {
-                Toast.show('服务端连接错误！')
+                // Toast.show('服务端连接错误！')
             })
         })
     }

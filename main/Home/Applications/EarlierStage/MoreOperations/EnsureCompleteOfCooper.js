@@ -8,7 +8,6 @@ import {
     View,
     Text,
     Image,
-    TextInput,
     ScrollView,
     StyleSheet,
     Dimensions,
@@ -137,14 +136,15 @@ export default class EnsureCompleteOfCooper extends Component{
             callID: true
         }).then((responseData) => {
             if (responseData.code === 1) {
+                Toast.show('确认完成成功');
                 const self = this;
                 let timer = setTimeout(() => {
                     self.props.navigator.pop();
                     clearTimeout(timer);
-                }, 1500);
+                }, 500);
             }
         }).catch((error) => {
-            Toast('服务端错误');
+            Toast.show('服务端错误');
         });
     }
 }

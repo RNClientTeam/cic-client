@@ -106,20 +106,21 @@ export default class CooperateTask extends Component {
         axios.get('/psmQqjdjh/operationAuthority',{
             params:{
                 userID:GLOBAL_USERID,
-                belongTo:3,
+                belongTo:2,
                 objId:phrwId,
                 callID:getTimestamp()
             }
         }).then(data=>{
-            this.setState({
-                modalVisible: true,
-                auth:{
-                    qrwcqk:true,
-                    tbwcqk:true
-                },
-                rwid: phrwId,
-                zrrmc: zrrmc
-            });
+            if (data.code === 1) {
+                this.setState({
+                    modalVisible: true,
+                    auth:data.data,
+                    rwid: phrwId,
+                    zrrmc: zrrmc
+                });
+            }
+        }).catch((error) => {
+            Toast.show('服务端出错');
         });
     }
 

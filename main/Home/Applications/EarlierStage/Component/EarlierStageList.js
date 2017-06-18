@@ -17,6 +17,7 @@ import {PullList} from 'react-native-pull';
 import LoadMore from "../../../../Component/LoadMore";
 import CooperateTaskCell from "./CooperateTaskCell";
 import Reload from "../../../../Component/Reload";
+import Toast from 'react-native-simple-toast'
 export default class EarlierStageList extends Component {
     constructor(props) {
         super(props);
@@ -87,6 +88,10 @@ export default class EarlierStageList extends Component {
         if(this.props.dataSource.length>0){
             this.setState({
                 hasMoreData:this.props.loadMore()
+            },function () {
+                if(!this.state.hasMoreData){
+                    Toast.show('没有更多数据') ;
+                }
             })
         }
     }

@@ -25,13 +25,16 @@ import ModalDropdown from 'react-native-modal-dropdown';
 export default class FillPerforOfCooper extends Component{
     constructor(props) {
         super(props);
-        this.progress = '';
         this.state = {
             isLoading: false,
             yqwcsj: '',
             zrwjhkssj: '',
             zrwjhjssj: '',
-            sjwcsj: ''
+            sjwcsj: '',
+            zrwztmc: '',
+            gzjd: '',
+            rwnr: '',
+            progress: ''
         }
     }
     componentDidMount() {
@@ -51,11 +54,14 @@ export default class FillPerforOfCooper extends Component{
                     yqwcsj: res.yqwcsj,
                     zrwjhkssj: res.zrwjhkssj,
                     zrwjhjssj: res.zrwjhjssj,
-                    sjwcsj: res.sjwcsj
+                    sjwcsj: res.sjwcsj,
+                    zrwztmc: res.zrwztmc,
+                    gzjd: res.gzjd,
+                    rwnr: res.rwnr
                 });
             }
         }).catch((error) => {
-            console.log(error);
+
         });
     }
 
@@ -68,10 +74,10 @@ export default class FillPerforOfCooper extends Component{
                         <View style={[styles.cell, {borderBottomWidth:0}]}>
                             <Text>工作节点</Text>
                             <View style={styles.blank}/>
-                            <Text>已生效</Text>
+                            <Text>{this.state.zrwztmc}</Text>
                         </View>
                         <View style={styles.cell}>
-                            <Text style={styles.label}>工作节点描述</Text>
+                            <Text style={styles.label}>{this.state.gzjd}</Text>
                         </View>
                         <View style={styles.cell}>
                             <Text style={styles.label}>计划完成时间</Text>
@@ -86,7 +92,7 @@ export default class FillPerforOfCooper extends Component{
                             <Text>{this.props.zrrmc}</Text>
                         </View>
                         <View style={styles.cell}>
-                            <Text style={styles.label}>配合任务描述</Text>
+                            <Text style={styles.label}>{this.state.rwnr}</Text>
                         </View>
                         <View style={styles.cell}>
                             <Text style={styles.label}>要求完成时间</Text>
@@ -96,14 +102,17 @@ export default class FillPerforOfCooper extends Component{
                         <View style={styles.cell}>
                             <Text style={styles.label}>实际完成时间</Text>
                             <View style={styles.blank}/>
-                            <ChoiceDate showDate={this.state.sjwcsh} changeDate={(date)=>{this.setState({sjwcsh:date});}}/>
+                            {
+                                this.state.progress === 100 &&
+                                <ChoiceDate showDate={this.state.sjwcsh} changeDate={(date)=>{this.setState({sjwcsh:date});}}/>
+                            }
                         </View>
 
                         <View style={styles.cell}>
                             <Text style={styles.label}>完成进度</Text>
                             <View style={styles.blank}/>
-                            <TextInput style={styles.textinput}
-                                onChangeText={(text) => {this.progress=text;}}/>
+                            <TextInput style={styles.textinput} underlineColorAndroid="transparent"
+                                onChangeText={(text) => {this.setState({progress:text})}}/>
                             <Text>%</Text>
                         </View>
 
@@ -115,6 +124,7 @@ export default class FillPerforOfCooper extends Component{
                                 <TextInput
                                     multiline = {true}
                                     numberOfLines = {4}
+                                    underlineColorAndroid="transparent"
                                     onChangeText={(text) => {this.changeIntroduction = text;}}
                                     style={{backgroundColor: '#eee', height: 0.28*height, borderRadius: 10}}
                                 />
@@ -139,19 +149,19 @@ export default class FillPerforOfCooper extends Component{
             phrwId: this.props.rwid,
             jhxxId: this.props.jhxxId,
             wcqk: this.changeIntroduction,
-            wcbl: this.progress,
+            wcbl: this.state.progress,
             sjwcsj: this.state.sjwcsj,
             callID: true
         }).then((responseData) => {
             if (responseData.code === 1) {
-                Toast('保存成功！');
+                Toast.show('保存成功！');
                 const self = this;
                 let timer = setTimeout(() => {
                     self.props.navigator.pop();
                 }, 1500);
             }
         }).catch((error) => {
-            Toast('服务端错误');
+            Toast.show('服务端错误');
         });
     }
 }

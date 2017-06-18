@@ -41,6 +41,7 @@ export default class ZongzhixinQK extends Component {
                             <View style={styles.blank}/>
                             <View style={{marginRight: 0.02 * width}}>
                                 <TextInput keyboardType="numeric"
+                                           underlineColorAndroid="transparent"
                                            onChangeText={(text) => this.setState({wcbl: text})}
                                            style={{
                                                height: 0.05 * height,

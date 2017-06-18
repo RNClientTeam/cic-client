@@ -18,7 +18,7 @@ export default class CooperateTaskCell extends Component{
         return(
             <View style={styles.cooperateTaskCell}>
                 <View style={styles.topView}>
-                    <Text style={{color:'#729bdc',fontSize:width*0.04}}>{this.props.dataSource.zrbmmc}</Text>
+                    <Text style={{color:'#729bdc',fontSize:width*0.04, width:width*0.85}}>{this.props.dataSource.rwmc}</Text>
                     <Text>{this.props.dataSource.zrrmc}</Text>
                 </View>
                 <View style={styles.bottomView}>

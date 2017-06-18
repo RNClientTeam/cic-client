@@ -41,7 +41,7 @@ export default class MoreOperations extends Component {
                 {img:require('../../../../../resource/imgs/home/earlierStage/applyForDelay.png'),name:'延期变更申请'}
             );
         }
-        if(this.props.auth.tbwcqk){
+        if(!this.props.auth.tbwcqk){
             dataArr.push(
                 {img:require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),name:'填报完成情况'}
             );
@@ -56,15 +56,7 @@ export default class MoreOperations extends Component {
                 {img:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'填报总执行情况'}
             );
         }
-        dataArr.push({
-            img: require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),
-            name: '暂停'
-        });
-        dataArr.push({
-            img: require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),
-            name: '恢复'
-        });
-        this.setState({data:dataArr});
+        if (this.props.auth.ztOrqd) {            dataArr.push({                img: require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),                name: '暂停'            });            dataArr.push({                img: require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),                name: '恢复'            });        }        this.setState({data:dataArr});
     }
 
     renderCell = ()=>{

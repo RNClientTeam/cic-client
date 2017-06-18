@@ -41,7 +41,8 @@ export default class Turnover extends Component{
             yzrr: '',
             xzrr: '',
             yzrbm: '',
-            xzrbm: ''
+            xzrbm: '',
+            yzrrmc: ''
         }
     }
     componentDidMount() {
@@ -97,7 +98,8 @@ export default class Turnover extends Component{
                     xzrr: responseData.data.xzrr,
                     selected: responseData.data.sfzzfwn==1?true:false,
                     yzrbm: responseData.data.yzrbm,
-                    xzrbm: responseData.data.xzrbm
+                    xzrbm: responseData.data.xzrbm,
+                    yzrrmc: responseData.data.yzrrmc
                 });
             }
         }).catch((error) => {
@@ -156,7 +158,7 @@ export default class Turnover extends Component{
                         <View style={styles.cell}>
                             <Text style={styles.label}>原责任人</Text>
                             <View style={styles.blank}/>
-                            <Text>{this.state.yzrr}</Text>
+                            <Text>{this.state.yzrrmc}</Text>
                         </View>
 
                         <View style={styles.cell}>
@@ -203,6 +205,7 @@ export default class Turnover extends Component{
                                 <TextInput
                                     multiline = {true}
                                     numberOfLines = {4}
+                                    underlineColorAndroid="transparent"
                                     onChangeText={(text) => {this.changeIntroduction = text;}}
                                     style={{backgroundColor: '#eee', height: 0.28*height, borderRadius: 10}}
                                 />
@@ -262,14 +265,14 @@ export default class Turnover extends Component{
             callID: getTimestamp()
         }).then((responseData) => {
             if (responseData.code === 1) {
-                Toast('申请提交成功');
+                Toast.show('申请提交成功');
                 const self = this;
                 let timer = setTimeout(() => {
                     self.props.navigator.pop();
                 }, 1000);
             }
         }).catch((error) => {
-            Toast('服务端错误');
+            Toast.show('服务端错误');
         });
     }
 }
