@@ -247,19 +247,15 @@ export default class Turnover extends Component{
             callID: getTimestamp()
         }).then((responseData) => {
             if (responseData.code === 1) {
-                Toast.show('申请提交成功');
-                const self = this;
-                let timer = setTimeout(() => {
-                    self.props.navigator.push({
-                        name: 'CheckFlowInfo',
-                        component: CheckFlowInfo,
-                        params: {
-                            resID: responseData.data,
-                            tag: this.props.tag,
-                            from: 'turnover'
-                        }
-                    });
-                }, 1000);
+                this.props.navigator.push({
+                    name: 'CheckFlowInfo',
+                    component: CheckFlowInfo,
+                    params: {
+                        resID: responseData.data,
+                        tag: this.props.tag,
+                        from: 'turnover'
+                    }
+                });
             } else {
                 Toast.show(responseData.message);
             }
