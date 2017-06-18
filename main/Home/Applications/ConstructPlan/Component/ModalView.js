@@ -20,7 +20,9 @@ export default class ModalView extends Component {
         this.state = {
             modals:[
                 {src:require('../../../../../resource/imgs/home/constuctPlan/editComplete.png'),name:'填报进展'},
-                {src:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'确认完成'}
+                {src:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'确认完成'},
+                {src:require('../../../../../resource/imgs/home/applications/effectiveAction.png'),name:'复工'},
+                {src:require('../../../../../resource/imgs/home/applications/stopAction.png'),name:'停工'},
             ]
         }
     }
@@ -29,14 +31,16 @@ export default class ModalView extends Component {
         return (
             <TouchableOpacity style={styles.modalView} onPress={()=>this.props.hiddenModal()}>
                 {this.renderModalCell()}
-                <View style={styles.buttonView}>
-                    <TouchableOpacity style={[styles.button,{backgroundColor:'#fb5560'}]} onPress={()=>this.props.hiddenModal()}>
-                        <Text style={{color:'#fff'}}>停工</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[styles.button, {backgroundColor:'#3999fd'}]} onPress={()=>this.props.hiddenModal()}>
-                        <Text style={{color:'#fff'}}>复工</Text>
-                    </TouchableOpacity>
-                </View>
+                {/*
+                 <View style={styles.buttonView}>
+                 <TouchableOpacity style={[styles.button,{backgroundColor:'#fb5560'}]} onPress={()=>this.props.hiddenModal()}>
+                 <Text style={{color:'#fff'}}>停工</Text>
+                 </TouchableOpacity>
+                 <TouchableOpacity style={[styles.button, {backgroundColor:'#3999fd'}]} onPress={()=>this.props.hiddenModal()}>
+                 <Text style={{color:'#fff'}}>复工</Text>
+                 </TouchableOpacity>
+                 </View>
+                */}
             </TouchableOpacity>
         )
     }
