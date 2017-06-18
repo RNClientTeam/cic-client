@@ -195,18 +195,14 @@ export default class ApplyForDelay extends Component{
             callID: getTimestamp()
         }).then((responseData) => {
             if (responseData.code === 1) {
-                Toast.show('申请提交成功');
-                const self = this;
-                let timer = setTimeout(() => {
-                    self.props.navigator.push({
-                        name: 'CheckFlowInfo',
-                        component: CheckFlowInfo,
-                        params: {
-                            resID: responseData.data,
-                            tag: this.props.tag ? this.props.tag : ''
-                        }
-                    });
-                }, 1000);
+                this.props.navigator.push({
+                    name: 'CheckFlowInfo',
+                    component: CheckFlowInfo,
+                    params: {
+                        resID: responseData.data,
+                        tag: this.props.tag ? this.props.tag : ''
+                    }
+                });
             }
         }).catch((error) => {
             Toast.show('服务端错误');
