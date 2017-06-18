@@ -11,114 +11,14 @@ import {
     Text
 } from 'react-native'
 const {width} = Dimensions.get('window');
-let dataArr = [{
-        number: 'CX_DS16052',
-        state: '执行中',
-        planName: '人大技术学院配电增容改造技术咨询',
-        contentNum: 18,
-        principal: '杨磊',
-        department: '技术部',
-        schedule: '10%',
-        time: '2017/11/11-2017/12/12'
-    },
-    {
-        number: 'CX_DS16051',
-        state: '执行中',
-        planName: '人大技术学院配电增容改造技术咨询',
-        contentNum: 18,
-        principal: '杨磊',
-        department: '技术部',
-        schedule: '10%',
-        time: '2017/11/11-2017/12/12'
-    },
-    {
-        number: 'CX_DS17051',
-        state: '执行中',
-        planName: '人大技术学院配电增容改造技术咨询',
-        contentNum: 18,
-        principal: '杨磊',
-        department: '技术部',
-        schedule: '10%',
-        time: '2017/11/11-2017/12/12'
-    },
-    {
-        number: 'CX_DS66051',
-        state: '执行中',
-        planName: '人大技术学院配电增容改造技术咨询',
-        contentNum: 18,
-        principal: '杨磊',
-        department: '技术部',
-        schedule: '10%',
-        time: '2017/11/11-2017/12/12'
-    },
-    {
-        number: 'CX_DS36051',
-        state: '执行中',
-        planName: '人大技术学院配电增容改造技术咨询',
-        contentNum: 18,
-        principal: '杨磊',
-        department: '技术部',
-        schedule: '10%',
-        time: '2017/11/11-2017/12/12'
-    }];
-let tempArr = [{
-            number: 'CX_DS16052',
-            state: '执行中',
-            planName: '人大技术学院配电增容改造技术咨询',
-            contentNum: 18,
-            principal: '杨磊',
-            department: '技术部',
-            schedule: '10%',
-            time: '2017/11/11-2017/12/12'
-        },
-        {
-            number: 'CX_DS16051',
-            state: '执行中',
-            planName: '人大技术学院配电增容改造技术咨询',
-            contentNum: 18,
-            principal: '杨磊',
-            department: '技术部',
-            schedule: '10%',
-            time: '2017/11/11-2017/12/12'
-        },
-        {
-            number: 'CX_DS17051',
-            state: '执行中',
-            planName: '人大技术学院配电增容改造技术咨询',
-            contentNum: 18,
-            principal: '杨磊',
-            department: '技术部',
-            schedule: '10%',
-            time: '2017/11/11-2017/12/12'
-        },
-        {
-            number: 'CX_DS66051',
-            state: '执行中',
-            planName: '人大技术学院配电增容改造技术咨询',
-            contentNum: 18,
-            principal: '杨磊',
-            department: '技术部',
-            schedule: '10%',
-            time: '2017/11/11-2017/12/12'
-        },
-        {
-            number: 'CX_DS36051',
-            state: '执行中',
-            planName: '人大技术学院配电增容改造技术咨询',
-            contentNum: 18,
-            principal: '杨磊',
-            department: '技术部',
-            schedule: '10%',
-            time: '2017/11/11-2017/12/12'
-        }];
 import {PullList} from 'react-native-pull';
 import LoadMore from "../../../../Component/LoadMore.js";
 import SchedulePlanCell from "./SchedulePlanCell.js";
 import Reload from "../../../../Component/Reload.js";
+import Toast from 'react-native-simple-toast'
 export default class MyTask extends Component {
     constructor(props) {
         super(props);
-        this.dataSource = dataArr;
         this.state = {
             hasMoreData: true,
             list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})),
@@ -167,6 +67,10 @@ export default class MyTask extends Component {
         if(this.props.dataSource.length>0){
             this.setState({
                 hasMoreData:this.props.getMoreData()
+            },function () {
+                if(!this.state.hasMoreData){
+                    Toast.show('没有更多数据了')
+                }
             })
         }
     }

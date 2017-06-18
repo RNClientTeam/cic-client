@@ -63,7 +63,7 @@ export default class MoreOperations extends Component {
         let cs = [];
         for(let i = 0;i<this.state.data.length;i++){
             cs.push(
-                <MoreOperationsCell zrrmc={this.props.zrrmc} tag={this.props.tag} sDate={this.props.sDate} eDate={this.props.eDate} jhxxId={this.props.jhxxId} rwid={this.props.rwid} closeModal={()=>{this.props.closeModal()}} navigator={this.props.navigator} key={i} dataSource={this.state.data[i]}/>
+                <MoreOperationsCell reloadInfo={()=>this.props.reloadInfo()} zrrmc={this.props.zrrmc} tag={this.props.tag} sDate={this.props.sDate} eDate={this.props.eDate} jhxxId={this.props.jhxxId} rwid={this.props.rwid} closeModal={()=>{this.props.closeModal()}} navigator={this.props.navigator} key={i} dataSource={this.state.data[i]}/>
             )
         }
         return cs;

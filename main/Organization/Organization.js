@@ -70,7 +70,7 @@ export default class Organization extends Component {
         }
         return(
             <View style={styles.container}>
-                {statusBar}
+                {this.props.getInfo?<StatusBar navigator={this.props.navigator} title="请选择人员"/>:statusBar}
                 <ScrollView
                     style={{height: height}}
                     ref={(scrollView) => { this._scrollView = scrollView}}>
@@ -86,9 +86,6 @@ export default class Organization extends Component {
 
     renderDeps() {
         let dep = [];
-        // for (let i = 0; i < this.deps.length; i++) {
-        //     deps.push(<DepartmentItem getChildren={this.getChildren.bind(this, this.deps[i])} dep={this.deps[i]}/>);
-        // }
         dep.push(<DepartmentItem key={0} getChildren={this.getChildren.bind(this, this.deps)} dep={this.deps}/>);
         this.setState({deps: dep});
     }
@@ -110,7 +107,6 @@ export default class Organization extends Component {
         axios.get('/org/list', {
             params: props
         }).then(response => {
-            //console.log('result', response);
             this.setState({isLoading: false});
             this.deps = response.data.item;
             this.depsConstructor(this.deps);
@@ -121,19 +117,13 @@ export default class Organization extends Component {
     getChildren(dep) {
         let children = [], deps = [], emps = [];
 
-        // if (dep.parent) {
-        //     alert(dep.parent.name);
-        // } else {
-        //     alert('null');
-        // }
-
         if (dep.item && dep.item.length) {
             for (let i = 0; i < dep.item.length; i++) {
                 if (dep.item[i].isuser === '0')
                     deps.push(<DepartmentItem dep={dep.item[i]} key={i}
                                               getChildren={this.getChildren.bind(this, dep.item[i])}/> );
                 else
-                    emps.push(<EmployeeItem emp={dep.item[i]} key={i}/>);
+                    emps.push(<EmployeeItem getInfo={this.props.getInfo} navigator={this.props.navigator} emp={dep.item[i]} key={i}/>);
             }
             children = deps.concat(emps);
             this.setState({deps: children});
@@ -149,114 +139,6 @@ export default class Organization extends Component {
         }
     }
 
-    // scrollTop() {
-    //     this._scrollView.scrollTo({y: 0, animated: true});
-    // }
-
-
-    // deps ={
-    //     name: 'root',
-    //     isDep: true,
-    //     hasChildren: true,
-    //     children:     [
-    //         {
-    //             name: '科技部',
-    //             isDep: true,
-    //             hasChildren: true,
-    //             children: [
-    //                 {
-    //                     name: '开发部',
-    //                     isDep: true,
-    //                     hasChildren: true,
-    //                     children: [
-    //                         {name: 'neal.zhu', isDep: false},
-    //                         {name: 'neal.yang', isDep: false}
-    //                     ]
-    //                 },
-    //                 {
-    //                     name: 'bin.zhu',
-    //                     isDep: false
-    //                 },
-    //                 {
-    //                     name: '产品部',
-    //                     isDep: true
-    //                 },
-    //             ]
-    //         },
-    //         {
-    //             name: '人事部',
-    //             isDep: true,
-    //             hasChildren: false,
-    //             children: []
-    //         },
-    //         {
-    //             name: '财务部',
-    //             isDep: true,
-    //             hasChildren: false,
-    //             children: []
-    //         },
-    //         {
-    //             name: '人事部',
-    //             isDep: true,
-    //             hasChildren: false,
-    //             children: []
-    //         },
-    //         {
-    //             name: '财务部',
-    //             isDep: true,
-    //             hasChildren: false,
-    //             children: []
-    //         },
-    //         {
-    //             name: '人事部',
-    //             isDep: true,
-    //             hasChildren: false,
-    //             children: []
-    //         },
-    //         {
-    //             name: '财务部',
-    //             isDep: true,
-    //             hasChildren: false,
-    //             children: []
-    //         },
-    //         {
-    //             name: '人事部',
-    //             isDep: true,
-    //             hasChildren: false,
-    //             children: []
-    //         },
-    //         {
-    //             name: '财务部',
-    //             isDep: true,
-    //             hasChildren: false,
-    //             children: []
-    //         },
-    //         {
-    //             name: '人事部',
-    //             isDep: true,
-    //             hasChildren: false,
-    //             children: []
-    //         },
-    //         {
-    //             name: '财务部',
-    //             isDep: true,
-    //             hasChildren: false,
-    //             children: []
-    //         },
-    //         {
-    //             name: '财务部',
-    //             isDep: true,
-    //             hasChildren: false,
-    //             children: []
-    //         },
-    //         {
-    //             name: '财务部',
-    //             isDep: true,
-    //             hasChildren: false,
-    //             children: []
-    //         }
-    //     ]
-    // };
 
     /**
      * 递归给每个item添加父类
@@ -281,7 +163,5 @@ const styles = StyleSheet.create({
     viewSty: {
         marginTop: 10,
         backgroundColor:'#fdfdfe',
-        // alignItems:'center',
-        // justifyContent:'center'
     }
 });

@@ -14,6 +14,7 @@ const {width} = Dimensions.get('window');
 import IconBadge from 'react-native-icon-badge'
 import ArticleApproval from '../../Applications/ArticleApproval/ArticleApproval'
 import EarlierStage from "../../Applications/EarlierStage/EarlierStage";
+import Organization from "../../../Organization/Organization";
 
 export default class OptionCell extends Component {
     render() {
@@ -51,6 +52,10 @@ export default class OptionCell extends Component {
         )
     }
 
+    getInfo(pmid,name){
+        console.log(pmid,name)
+    }
+
     skipPage() {
         switch (this.props.name) {
             case '公文管理':
@@ -65,6 +70,16 @@ export default class OptionCell extends Component {
                     component:EarlierStage,
                     params:{
                         tag:'todo'
+                    }
+                });
+                // TODO
+            case '部门计划执行':
+                this.props.navigator.push({
+                    name:'Organization',
+                    component:Organization,
+                    params:{
+                        tag:'choicePerson',
+                        getInfo:this.getInfo
                     }
                 });
                 break;

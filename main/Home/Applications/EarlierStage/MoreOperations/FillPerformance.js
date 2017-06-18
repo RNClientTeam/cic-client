@@ -33,7 +33,8 @@ export default class FillPerformance extends Component {
             wcbl: 0,
             wcqk: '',
             loading: false,
-            defaultValue:''
+            defaultValue: '',
+            showsjwcsj: false
         }
     }
 
@@ -48,7 +49,7 @@ export default class FillPerformance extends Component {
                                    source={require('../../../../../resource/imgs/home/applications/fileIcon.png')}/>
                             <Text style={styles.titleText}>电气工程信息表审批</Text>
                         </View>
-                        <View style={styles.cell}>
+                        {this.state.options.length > 0 ? <View style={styles.cell}>
                             <Text style={styles.label}>完成情况信息*</Text>
                             <View style={styles.blank}/>
                             <ModalDropdown
@@ -64,13 +65,15 @@ export default class FillPerformance extends Component {
                                 }}
                                 showsVerticalScrollIndicator={false}
                             />
-                        </View>
+                        </View> : null}
                         <View style={styles.cell}>
                             <Text style={styles.label}>当前进度比例*</Text>
                             <View style={styles.blank}/>
                             <View style={{marginRight: 0.02 * width}}>
                                 <TextInput keyboardType="numeric"
-                                           onChangeText={(text) => this.setState({wcbl: text})}
+                                           onChangeText={(text) => this.fillWcbl(text)}
+                                           value={this.state.wcbl+''}
+                                           underlineColorAndroid="transparent"
                                            style={{
                                                height: 0.05 * height,
                                                width: 0.25 * width,
@@ -78,7 +81,8 @@ export default class FillPerformance extends Component {
                                                borderColor: "#216fd0",
                                                borderRadius: 5,
                                                color: "#216fd0",
-                                               textAlign: "center"
+                                               textAlign: "center",
+                                               padding:0
                                            }}/>
                             </View>
                             <Text style={{color: "#216fd0"}}>%</Text>
@@ -86,14 +90,18 @@ export default class FillPerformance extends Component {
                         <View style={styles.cell}>
                             <Text style={styles.label}>实际开始时间</Text>
                             <View style={styles.blank}/>
-                            <ChoiceDate showDate={this.state.sDate} changeDate={(date)=>this.setState({sDate:date})}/>
+                            <ChoiceDate showDate={this.state.sDate}
+                                        changeDate={(date) => this.setState({sDate: date})}/>
                         </View>
-                        <View style={styles.cell}>
-                            <Text style={styles.label}>实际完成时间</Text>
-                            <View style={styles.blank}/>
-                            {/*<Text>{this.state.sDate}</Text>*/}
-                            <ChoiceDate showDate={this.state.eDate} changeDate={(date)=>this.setState({eDate:date})}/>
-                        </View>
+                        {
+                            this.state.showsjwcsj ? <View style={styles.cell}>
+                                <Text style={styles.label}>实际完成时间</Text>
+                                <View style={styles.blank}/>
+                                {/*<Text>{this.state.sDate}</Text>*/}
+                                <ChoiceDate showDate={this.state.eDate}
+                                            changeDate={(date) => this.setState({eDate: date})}/>
+                            </View> : null
+                        }
                         <View style={styles.inputCell}>
                             <View style={styles.inputLabel}>
                                 <Text style={styles.label}>当前完成情况*</Text>
@@ -101,6 +109,8 @@ export default class FillPerformance extends Component {
                             <View>
                                 <TextInput
                                     multiline={true}
+                                    underlineColorAndroid="transparent"
+                                    textAlignVertical="top"
                                     numberOfLines={4}
                                     defaultValue={this.state.defaultValue}
                                     onChangeText={(text) => this.setState({wcqk: text})}
@@ -121,6 +131,19 @@ export default class FillPerformance extends Component {
         )
     }
 
+    fillWcbl(text) {
+        this.setState({wcbl: text});
+        if(parseFloat(text)===100){
+            this.setState({
+                showsjwcsj:true
+            })
+        }else{
+            this.setState({
+                showsjwcsj:false
+            })
+        }
+    }
+
     showLoading() {
         this.setState({
             loading: true
@@ -136,14 +159,14 @@ export default class FillPerformance extends Component {
     selectWcqk(a) {
         this.setState({
             choiceData: this.state.data[a].name
-        },function () {
+        }, function () {
             if (this.state.data[a].parentId !== -1) {
                 for (let i = 0; i < this.state.data.length; i++) {
                     console.log(this.state.data[i].id);
                     if (this.state.data[i].id === this.state.data[a].parentId) {
                         this.setState({
-                            defaultValue:this.state.data[i].name,
-                            wcqk:this.state.data[i].name
+                            defaultValue: this.state.data[i].name,
+                            wcqk: this.state.data[i].name
                         })
                     }
                 }
@@ -154,32 +177,38 @@ export default class FillPerformance extends Component {
     }
 
     submit() {
-        this.showLoading();
-        axios.post('/psmQqjdjh/save4Zrwwcqk', {
-            userID: GLOBAL_USERID,
-            jhxxId: this.props.jhxxId,
-            rwid: this.props.rwid,
-            wcxx: this.state.choiceData,
-            wcqk: this.state.wcqk,
-            wcbl: this.state.wcbl,
-            sjkssj: this.state.sDate,
-            sjjssj: this.state.eDate,
-            callID: true
-        }).then(responseData => {
-            this.hideLoading();
-            if (responseData.code === 1) {
-                toast.show('提交成功');
-                const that = this;
-                setTimeout(function () {
-                    that.props.navigator.pop();
-                }, 1000)
-            }else{
-                toast.show(responseData.message);
-            }
-        }).catch((err) => {
-            toast.show('服务端错误');
-            this.hideLoading();
-        })
+        if (parseFloat(this.state.wcbl) > 100) {
+            toast.show('完成比例必须在0~100之间');
+        } else if (parseFloat(this.state.wcbl) < 0) {
+            toast.show('完成比例必须在0~100之间');
+        } else {
+            this.showLoading();
+            axios.post('/psmQqjdjh/save4Zrwwcqk', {
+                userID: GLOBAL_USERID,
+                jhxxId: this.props.jhxxId,
+                rwid: this.props.rwid,
+                wcxx: this.state.choiceData,
+                wcqk: this.state.wcqk,
+                wcbl: this.state.wcbl,
+                sjkssj: this.state.sDate,
+                sjjssj: this.state.eDate,
+                callID: true
+            }).then(responseData => {
+                this.hideLoading();
+                if (responseData.code === 1) {
+                    toast.show('提交成功');
+                    const that = this;
+                    setTimeout(function () {
+                        that.props.navigator.pop();
+                    }, 1000)
+                } else {
+                    toast.show(responseData.message);
+                }
+            }).catch((err) => {
+                toast.show('服务端错误');
+                this.hideLoading();
+            })
+        }
     }
 
     componentDidMount() {
@@ -203,11 +232,15 @@ export default class FillPerformance extends Component {
                     sDate: data.sjkssj,
                     data: this.state.data,
                     options: this.state.options,
-                    choiceData: this.state.data[0]&&this.state.data[0].name
+                    choiceData: this.state.data[0] && this.state.data[0].name
                 })
             }
 
         });
+    }
+
+    componentWillUnmount() {
+        this.props.reloadInfo();
     }
 }
 
