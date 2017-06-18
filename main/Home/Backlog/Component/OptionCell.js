@@ -72,17 +72,6 @@ export default class OptionCell extends Component {
                         tag:'todo'
                     }
                 });
-                // TODO
-            case '部门计划执行':
-                this.props.navigator.push({
-                    name:'Organization',
-                    component:Organization,
-                    params:{
-                        tag:'choicePerson',
-                        getInfo:this.getInfo
-                    }
-                });
-                break;
         }
     }
 }
