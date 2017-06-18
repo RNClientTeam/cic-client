@@ -232,7 +232,7 @@ export default class SchedulePlan extends Component {
 
     getMoreAll() {
         this.setState({
-            myTaskPageNum: this.state.allTaskPageNum + 1
+            allTaskPageNum: this.state.allTaskPageNum + 1
         }, () => {
             axios.get('/psmQqjdjh/list4zrw', {
                 params: {
