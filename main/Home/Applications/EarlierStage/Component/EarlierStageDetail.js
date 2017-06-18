@@ -40,7 +40,7 @@ export default class EarlierStageDetail extends Component {
                     tabBarUnderlineStyle={{backgroundColor:'#51a5f0',height:2}}
                     tabBarActiveTextColor='#51a5f0'
                     tabBarInactiveTextColor='#3d3d3d'>
-                    <General xmbh={this.props.xmbh} tabLabel='概况' />
+                    <General xmbh={this.props.xmbh} tabLabel='概况'/>
                     <SchedulePlan xmbh={this.props.xmbh} jhxxId={this.props.jhxxId} tabLabel='进度计划' navigator={this.props.navigator}/>
                     <CooperateTask navigator={this.props.navigator} tabLabel='配合任务' jhxxId={this.props.jhxxId}/>
                     <TotalImplementation navigator={this.props.navigator} tabLabel='总执行情况' jhxxId={this.props.jhxxId}></TotalImplementation>

@@ -112,7 +112,6 @@ export default class EarlierStage extends Component {
             }
         }).then(data => {
             if (data.code === 1) {
-                console.log(data.data.data[0]);
                 this.dataArr = [];
                 for (let i = 0; i < data.data.data.length; i++) {
                     this.dataArr.push(data.data.data[i])
@@ -140,12 +139,24 @@ export default class EarlierStage extends Component {
         this.setState({
             pageNum: this.state.pageNum + 1
         }, () => {
+            let lx = '';
+            if (this.state.jhlx === '全部') {
+                lx = 500;
+            } else if (this.state.jhlx === '我参与的') {
+                lx = 400;
+            } else if (this.state.jhlx === '我审核的') {
+                lx = 300;
+            } else if (this.state.jhlx === '我的计划') {
+                lx = 200;
+            } else if (this.state.jhlx === '我的待办') {
+                lx = 100;
+            }
             axios.get('/psmQqjdjh/list', {
                 params: {
                     userID: GLOBAL_USERID,
                     sDate: this.state.sDate,
                     eDate: this.state.eDate,
-                    jhlx: this.state.jhlx,
+                    jhlx: lx,
                     pageNum: this.state.pageNum,
                     pageSize: 10,
                     callID: getTimestamp(),
