@@ -87,6 +87,7 @@ export default class TotalImplementation extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f2f2f2'
+        backgroundColor: '#f2f2f2',
+        paddingTop:width*0.02
     }
 });

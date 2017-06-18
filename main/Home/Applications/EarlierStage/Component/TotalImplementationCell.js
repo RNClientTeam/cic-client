@@ -17,21 +17,23 @@ const {width} = Dimensions.get('window');
 export default class TotalImplementationCell extends Component {
     render() {
         return (
-            <TouchableOpacity style={styles.earlierStageListCell} onPress={this.skipPage.bind(this)}>
-                <View style={styles.aboutProject}>
-                    <Text style={styles.Time}>{this.props.data.tbsj}</Text>
-                    <View style={styles.progressView}>
-                        <Text style={{color:'#216fd0',fontSize:13,marginRight:10}}>完成进度</Text>
-                        <View style={styles.stateView}>
-                            <View style={[styles.compView, {width:width*0.55*this.props.data.wcbl/100}, this.props.data.wcbl==100&&{backgroundColor:'#25cf71'}]}></View>
+            <View>
+                <TouchableOpacity style={styles.earlierStageListCell} onPress={this.skipPage.bind(this)}>
+                    <View style={styles.aboutProject}>
+                        <Text style={styles.Time}>{this.props.data.tbsj}</Text>
+                        <View style={styles.progressView}>
+                            <Text style={{color:'#216fd0',fontSize:13,marginRight:10}}>完成进度</Text>
+                            <View style={styles.stateView}>
+                                <View style={[styles.compView, {width:width*0.55*this.props.data.wcbl/100}, this.props.data.wcbl==100&&{backgroundColor:'#25cf71'}]}></View>
+                            </View>
+                            <Text style={{fontSize:13}}>{this.props.data.wcbl}%</Text>
                         </View>
-                        <Text style={{fontSize:13}}>{this.props.data.wcbl}%</Text>
                     </View>
-                </View>
-                <View style={styles.aboutPrincipal}>
-                    <Text style={styles.infoStyl}>{this.props.data.wcqk}</Text>
-                </View>
-            </TouchableOpacity>
+                    <View style={styles.aboutPrincipal}>
+                        <Text style={styles.infoStyl}>{this.props.data.wcqk}</Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
         )
     }
 
