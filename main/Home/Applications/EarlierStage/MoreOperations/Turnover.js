@@ -22,6 +22,7 @@ import Loading from "../../../../Component/Loading.js";
 import ChoiceDate from "../../../../Component/ChoiceDate.js";
 import ModalDropdown from 'react-native-modal-dropdown';
 import Organization from '../../../../Organization/Organization.js';
+import CheckFlowInfo from './CheckFlowInfo.js';
 
 export default class Turnover extends Component{
     constructor(props) {
@@ -249,7 +250,15 @@ export default class Turnover extends Component{
                 Toast.show('申请提交成功');
                 const self = this;
                 let timer = setTimeout(() => {
-                    self.props.navigator.pop();
+                    self.props.navigator.push({
+                        name: 'CheckFlowInfo',
+                        component: CheckFlowInfo,
+                        params: {
+                            resID: responseData.data,
+                            tag: this.props.tag,
+                            from: 'turnover'
+                        }
+                    });
                 }, 1000);
             } else {
                 Toast.show(responseData.message);

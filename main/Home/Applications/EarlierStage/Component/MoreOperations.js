@@ -56,14 +56,25 @@ export default class MoreOperations extends Component {
                 {img:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'填报总执行情况'}
             );
         }
-        if (this.props.auth.ztOrqd) {            dataArr.push({                img: require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),                name: '暂停'            });            dataArr.push({                img: require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),                name: '恢复'            });        }        this.setState({data:dataArr});
+        if (this.props.auth.start) {            dataArr.push({                img: require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),                name: '恢复'            });        }        if (this.props.auth.stop) {            dataArr.push({                img: require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),                name: '暂停'            });        }        this.setState({data:dataArr});
     }
 
     renderCell = ()=>{
         let cs = [];
         for(let i = 0;i<this.state.data.length;i++){
             cs.push(
-                <MoreOperationsCell reloadInfo={()=>this.props.reloadInfo()} zrrmc={this.props.zrrmc} tag={this.props.tag} sDate={this.props.sDate} eDate={this.props.eDate} jhxxId={this.props.jhxxId} rwid={this.props.rwid} closeModal={()=>{this.props.closeModal()}} navigator={this.props.navigator} key={i} dataSource={this.state.data[i]}/>
+                <MoreOperationsCell
+                    reloadInfo={()=>this.props.reloadInfo()}
+                    zrrmc={this.props.zrrmc}
+                    tag={this.props.tag}
+                    sDate={this.props.sDate}
+                    eDate={this.props.eDate}
+                    jhxxId={this.props.jhxxId}
+                    rwid={this.props.rwid}
+                    closeModal={()=>{this.props.closeModal()}}
+                    navigator={this.props.navigator}
+                    key={i}
+                    dataSource={this.state.data[i]}/>
             )
         }
         return cs;

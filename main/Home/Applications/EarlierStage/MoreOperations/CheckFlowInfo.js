@@ -15,11 +15,61 @@ import {
     Dimensions
 } from 'react-native'
 import StatusBar from "../../../../Component/StatusBar"
-import FinishedPath from "./Component/FinishedPath"
+import FinishedPath from "./Component/FinishedPath";
+import ModalDropdown from 'react-native-modal-dropdown';
 
 const {width, height}  = Dimensions.get('window');
 
 export default class CheckFlowInfo extends Component{
+    constructor(props) {
+        super(props);
+        this.wfName = '';
+        this.optionInfo = '';
+        this.state = {
+            optionListName: [],
+            optionListID: [],
+            actionID: '',
+            entry_id: '',
+            stepID: ''
+        }
+    }
+
+    componentDidMount() {
+        this.fetchData();
+    }
+
+    fetchData() {
+        if (this.props.from && this.props.from === 'turnover') {
+            this.wfName = 'jdjhzxrybg'
+        } else if (this.props.tag === '配合任务') {
+            this.wfName = 'jdjhphrwyqbg';
+        } else {
+            this.wfName = 'jdjhzxsjbg';
+        }
+        axios.post('/workFlow/preSubmit', {
+            userID: GLOBAL_USERID,
+            resID: this.props.resID,
+            wfName: this.wfName,
+            callID: true
+        }).then((responseData) => {
+            if (responseData.code === 1) {
+                let res = responseData.data;
+                res.options.forEach((elem, index) => {
+                    this.state.optionListName.push(elem.name);
+                    this.state.optionListID.push(elem.id);
+                });
+                this.setState({
+                    optionListName: this.state.optionListName,
+                    optionListID: this.state.optionListID,
+                    entry_id: res.entry_id,
+                    stepID: res.stepID
+                });
+            }
+        }).catch((error) => {
+
+        });
+    }
+
     render(){
         return(
             <View style={styles.containerStyle}>
@@ -34,7 +84,16 @@ export default class CheckFlowInfo extends Component{
                         <View style={styles.flowInfoRow}>
                             <Text style={[styles.labelColor]}>当前操作</Text>
                             <View style={styles.blank}/>
-                            <Text style={[styles.selectorColor]}>请选择></Text>
+                            <ModalDropdown
+                                options={this.state.optionListName}
+                                animated={true}
+                                defaultValue={'请选择>'}
+                                style={{flex:1, alignItems:'flex-end'}}
+                                onSelect={(a) => {
+                                    this.setState({actionID:this.state.optionListID[a]});
+                                }}
+                                showsVerticalScrollIndicator={false}
+                            />
                         </View>
                         <View style={styles.inputCell}>
                             <View style={styles.inputLabel}>
@@ -44,6 +103,7 @@ export default class CheckFlowInfo extends Component{
                                 <TextInput
                                     multiline = {true}
                                     numberOfLines = {4}
+                                    onChangeText={(text) => {this.optionInfo = text;}}
                                     style={{backgroundColor: '#eee', height: 0.2*height, borderRadius: 10}}
                                 />
                             </View>
@@ -62,13 +122,40 @@ export default class CheckFlowInfo extends Component{
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
-                <TouchableOpacity onPress={() => this.submit()}>
+                <TouchableOpacity onPress={this.submit.bind(this)}>
                     <View style={styles.button}>
                         <Text style={styles.buttonText}>确认完成</Text>
                     </View>
                 </TouchableOpacity>
             </View>
         )
+    }
+
+    submit() {
+        axios.post('/workFlow/submit', {
+            userID: GLOBAL_USERID,
+            resID: this.props.resID,
+            wfName: this.wfName,
+            entityID: this.state.entry_id,
+            stepID: this.state.stepID,
+            actionID: this.state.actionID,
+            option: this.optionInfo,
+            callID: true
+        }).then((responseData) => {
+            if (responseData.code === 1) {
+                let route;
+                let currentRoutes = this.props.navigator.getCurrentRoutes();
+                currentRoutes.forEach((elem, index) => {
+                    if (elem.name === "EarlierStageDetail") {
+                        route = elem;
+                        return;
+                    }
+                });
+                this.props.navigator.popToRoute(route);
+            }
+        }).catch((error) => {
+
+        });
     }
 
     goFinishPage() {
@@ -158,4 +245,3 @@ const styles = StyleSheet.create({
         color: '#216fd0'
     }
 });
-
