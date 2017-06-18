@@ -102,7 +102,7 @@ export default class SchedulePlan extends Component {
                     }}
                     style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
                 >
-                    <MoreOperations tag="进度计划" sDate={this.state.rySDate} eDate={this.state.ryEdate} jhxxId={this.props.jhxxId} auth={this.state.auth} rwid={this.state.rwid}
+                    <MoreOperations reloadInfo={()=>{this.getAllTask();this.getMyTask()}} tag="进度计划" sDate={this.state.rySDate} eDate={this.state.ryEdate} jhxxId={this.props.jhxxId} auth={this.state.auth} rwid={this.state.rwid}
                                     navigator={this.props.navigator}
                                     closeModal={() => {
                                         this.setState({modalVisible: false})
@@ -188,17 +188,13 @@ export default class SchedulePlan extends Component {
                 rwlx: 200
             }
         }).then(data => {
-            console.log(data)
             let resultData = data.data.data;
             for (let i = 0; i < resultData.length; i++) {
-                console.log(resultData[i])
                 this.state.allTask.push(resultData[i]);
             }
             this.setState({
                 allTask: this.state.allTask,
                 allTaskPageNum: 1
-            },function () {
-                console.log(this.state.allTask)
             });
             callback();
         });

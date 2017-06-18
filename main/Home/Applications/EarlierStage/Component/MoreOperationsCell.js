@@ -67,7 +67,7 @@ export default class MoreOperationsCell extends Component {
                     params: {
                         rwid: this.props.rwid,
                         jhxxId: this.props.jhxxId,
-                        zrrmc: this.props.zrrmc
+                        zrrmc: this.props.zrrmc,
                     }
                 });
             } else {
@@ -76,7 +76,8 @@ export default class MoreOperationsCell extends Component {
                     component:FillPerformance,
                     params:{
                         rwid:this.props.rwid,
-                        jhxxId:this.props.jhxxId
+                        jhxxId:this.props.jhxxId,
+                        reloadInfo:this.props.reloadInfo
                     }
                 });
             }

@@ -72,7 +72,7 @@ export default class FillPerformance extends Component {
                             <View style={{marginRight: 0.02 * width}}>
                                 <TextInput keyboardType="numeric"
                                            onChangeText={(text) => this.fillWcbl(text)}
-                                           value={this.state.wcbl}
+                                           value={this.state.wcbl+''}
                                            style={{
                                                height: 0.05 * height,
                                                width: 0.25 * width,
@@ -233,6 +233,10 @@ export default class FillPerformance extends Component {
             }
 
         });
+    }
+
+    componentWillUnmount() {
+        this.props.reloadInfo();
     }
 }
 
