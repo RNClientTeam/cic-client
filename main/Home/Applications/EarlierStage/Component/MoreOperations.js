@@ -56,7 +56,19 @@ export default class MoreOperations extends Component {
                 {img:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'填报总执行情况'}
             );
         }
-        if (this.props.auth.start) {            dataArr.push({                img: require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),                name: '恢复'            });        }        if (this.props.auth.stop) {            dataArr.push({                img: require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),                name: '暂停'            });        }        this.setState({data:dataArr});
+        if (this.props.auth.start) {
+            dataArr.push({
+                img: require('../../../../../resource/imgs/home/applications/effectiveAction.png'),
+                name: '恢复'
+            });
+        }
+        if (this.props.auth.stop) {
+            dataArr.push({
+                img: require('../../../../../resource/imgs/home/applications/stopAction.png'),
+                name: '暂停'
+            });
+        }
+        this.setState({data:dataArr});
     }
 
     renderCell = ()=>{

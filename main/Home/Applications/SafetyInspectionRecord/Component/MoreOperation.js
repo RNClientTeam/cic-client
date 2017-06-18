@@ -23,15 +23,27 @@ export default class MoreOperation extends Component {
                                source={require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png')}/>
                         <Text style={{color:'#6b6b6b',fontSize:width*0.037}}>填报结果</Text>
                     </TouchableOpacity>
-                </View>
-                <View style={styles.buttonView}>
-                    <TouchableOpacity style={[styles.button,{backgroundColor:'#fb5560'}]}>
-                        <Text style={{color:'#fff'}}>删除</Text>
+                    <TouchableOpacity style={styles.moreOperationsCell} onPress={this.skipPage.bind(this)}>
+                        <Image style={styles.imgStyle}
+                               source={require('../../../../../resource/imgs/home/applications/effectiveAction.png')}/>
+                        <Text style={{color:'#6b6b6b',fontSize:width*0.037}}>生效</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.button, {backgroundColor:'#3999fd'}]}>
-                        <Text style={{color:'#fff'}}>修改</Text>
+                    <TouchableOpacity style={styles.moreOperationsCell} onPress={this.skipPage.bind(this)}>
+                        <Image style={styles.imgStyle}
+                               source={require('../../../../../resource/imgs/home/applications/stopAction.png')}/>
+                        <Text style={{color:'#6b6b6b',fontSize:width*0.037}}>删除</Text>
                     </TouchableOpacity>
                 </View>
+                {/*
+                 <View style={styles.buttonView}>
+                 <TouchableOpacity style={[styles.button,{backgroundColor:'#fb5560'}]}>
+                 <Text style={{color:'#fff'}}>删除</Text>
+                 </TouchableOpacity>
+                 <TouchableOpacity style={[styles.button, {backgroundColor:'#3999fd'}]}>
+                 <Text style={{color:'#fff'}}>修改</Text>
+                 </TouchableOpacity>
+                 </View>
+                 */}
             </TouchableOpacity>
         )
     }
