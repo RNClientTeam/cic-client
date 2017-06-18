@@ -20,6 +20,8 @@ export default class MoreOperation extends Component {
                 {img:require('../../../../../resource/imgs/home/earlierStage/upload.png'),name:'提交审批'},
                 {img:require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),name:'填报进展'},
                 {img:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'确认完成'},
+                {img:require('../../../../../resource/imgs/home/applications/effectiveAction.png'),name:'生效'},
+                {img:require('../../../../../resource/imgs/home/applications/stopAction.png'),name:'删除'},
             ]
         }
     }
@@ -30,14 +32,16 @@ export default class MoreOperation extends Component {
                 <View style={styles.containerView}>
                     {this.renderCell()}
                 </View>
-                <View style={styles.buttonView}>
-                    <TouchableOpacity style={[styles.button,{backgroundColor:'#fb5560'}]}>
-                        <Text style={{color:'#fff'}}>删除</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[styles.button, {backgroundColor:'#3999fd'}]}>
-                        <Text style={{color:'#fff'}}>生效</Text>
-                    </TouchableOpacity>
-                </View>
+                {/*
+                 <View style={styles.buttonView}>
+                 <TouchableOpacity style={[styles.button,{backgroundColor:'#fb5560'}]}>
+                 <Text style={{color:'#fff'}}>删除</Text>
+                 </TouchableOpacity>
+                 <TouchableOpacity style={[styles.button, {backgroundColor:'#3999fd'}]}>
+                 <Text style={{color:'#fff'}}>生效</Text>
+                 </TouchableOpacity>
+                 </View>
+                */}
             </TouchableOpacity>
         )
     }

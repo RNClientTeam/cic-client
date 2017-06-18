@@ -81,6 +81,7 @@ export default class CompletionConfirm extends Component {
                             <Text>描述文字</Text>
                         </View>
                     </View>
+                    <View style={styles.bottomDivide}/>
                 </ScrollView>
                 <TouchableOpacity onPress={() => this.submit()}>
                     <View style={styles.button}>
@@ -129,17 +130,20 @@ const styles = StyleSheet.create({
         backgroundColor: '#f2f2f2'
     },
     button: {
+        position: 'absolute',
         backgroundColor: '#216fd0',
         height: 0.12 * width,
+        width: 0.9 * width,
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft: width*0.05,
-        marginRight: width*0.05,
-        marginBottom: width*0.05,
-        marginTop: width*0.05,
+        left: 0.05 * width,
+        bottom: 0.05 * width,
         borderRadius: 5
     },
     buttonText: {
         color: 'white'
+    },
+    bottomDivide: {
+        height: 0.22 * width
     }
 });

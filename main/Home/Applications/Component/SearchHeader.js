@@ -43,7 +43,8 @@ const styles = StyleSheet.create({
         flex:11,
         borderWidth:1,
         borderColor:'#e2e2e2',
-        height:width*0.1
+        height:width*0.1,
+        paddingLeft: 0.02 * width
     },
     imgViewStyle:{
         backgroundColor:'#216fd0',

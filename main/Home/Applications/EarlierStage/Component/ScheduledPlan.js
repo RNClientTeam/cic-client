@@ -245,7 +245,6 @@ export default class SchedulePlan extends Component {
                 }
             }).then(data => {
                 let resultData = data.data.data;
-                console.log(resultData);
                 for (let i = 0; i < resultData.length; i++) {
                     this.state.allTask.push(resultData[i]);
                 }

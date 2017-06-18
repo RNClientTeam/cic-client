@@ -45,14 +45,28 @@ export default class MoreActionsModal extends Component {
                             <Text>提交审核</Text>
                         </View>
                     </TouchableOpacity>
-                    <View style={styles.buttonView}>
-                        <TouchableOpacity style={[styles.button,{backgroundColor:'#fb5560'}]}>
-                            <Text style={{color:'#fff'}}>删除</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={[styles.button, {backgroundColor:'#3999fd'}]}>
-                            <Text style={{color:'#fff'}}>生效</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <TouchableOpacity>
+                        <View style={styles.actionRow}>
+                            <Image style={styles.img}
+                                   source={require('../../../../../resource/imgs/home/applications/effectiveAction.png')}/>
+                            <Text>生效</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <View style={styles.actionRow}>
+                            <Image style={styles.img}
+                                   source={require('../../../../../resource/imgs/home/applications/stopAction.png')}/>
+                            <Text>删除</Text>
+                        </View>
+                    </TouchableOpacity>
+                    {/*<View style={styles.buttonView}>*/}
+                        {/*<TouchableOpacity style={[styles.button,{backgroundColor:'#fb5560'}]}>*/}
+                            {/*<Text style={{color:'#fff'}}>删除</Text>*/}
+                        {/*</TouchableOpacity>*/}
+                        {/*<TouchableOpacity style={[styles.button, {backgroundColor:'#3999fd'}]}>*/}
+                            {/*<Text style={{color:'#fff'}}>生效</Text>*/}
+                        {/*</TouchableOpacity>*/}
+                    {/*</View>*/}
                 </View>
             </TouchableOpacity>
         )
