@@ -112,7 +112,6 @@ export default class EarlierStage extends Component {
             }
         }).then(data => {
             if (data.code === 1) {
-                console.log(data.data.data[0]);
                 this.dataArr = [];
                 for (let i = 0; i < data.data.data.length; i++) {
                     this.dataArr.push(data.data.data[i])
@@ -127,7 +126,6 @@ export default class EarlierStage extends Component {
 
             callback()
         }).catch(err => {
-            console.log(err);
             this.setState({
                 isLoading: false
             });
