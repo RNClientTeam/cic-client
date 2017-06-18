@@ -12,7 +12,7 @@ import {
     StyleSheet,
     Dimensions
 } from 'react-native';
-
+import toast from 'react-native-simple-toast'
 import {getTimestamp} from '../../../../Util/Util'
 var {width, height} = Dimensions.get('window');
 
@@ -84,19 +84,25 @@ export default class General extends Component {
                 callID:getTimestamp()
             }
         }).then(data=>{
-            data = data.data;
-            this.setState({
-                dataSource: [
-                    {key:'关联设计项目', value:data.xmmc},
-                    {key:'所属部门', value:data.tbdw},
-                    {key:'项目经理', value:data.xmjl},
-                    {key:'意向送电时间', value:data.yxsdsj},
-                    {key:'最晚送电时间', value:data.zwsdsj},
-                    {key:'计划开始时间', value:data.sDate},
-                    {key:'参与人员', value:data.cyry}
-                ],
-                zygznr:data.zygznr
-            })
+            if(data.code === 1){
+                data = data.data;
+                this.setState({
+                    dataSource: [
+                        {key:'关联设计项目', value:data.sjxmmc},
+                        {key:'所属部门', value:data.tbdw},
+                        {key:'项目经理', value:data.xmjl},
+                        {key:'意向送电时间', value:data.yxsdsj},
+                        {key:'最晚送电时间', value:data.zwsdsj},
+                        {key:'计划开始时间', value:data.sDate},
+                        {key:'参与人员', value:data.cyry}
+                    ],
+                    zygznr:data.zygznr
+                })
+            }else{
+                toast.show(data.message)
+            }
+        }).catch(err=>{
+            console.error(err);
         })
     }
 }

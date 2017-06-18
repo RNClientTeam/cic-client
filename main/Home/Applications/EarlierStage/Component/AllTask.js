@@ -15,6 +15,7 @@ import {PullList} from 'react-native-pull';
 import LoadMore from "../../../../Component/LoadMore.js";
 import SchedulePlanCell from "./SchedulePlanCell.js";
 import Reload from "../../../../Component/Reload.js";
+import Toast from 'react-native-simple-toast'
 export default class AllTask extends Component {
     constructor(props) {
         super(props);
@@ -66,7 +67,12 @@ export default class AllTask extends Component {
         if(this.props.dataSource.length>0){
             this.setState({
                 hasMoreData:this.props.getMoreData()
+            },function () {
+                if(!this.state.hasMoreData){
+                    Toast.show('没有更多数据了');
+                }
             })
+
         }
     }
 }
