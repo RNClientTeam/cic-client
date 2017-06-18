@@ -73,6 +73,7 @@ export default class FillPerformance extends Component {
                                 <TextInput keyboardType="numeric"
                                            onChangeText={(text) => this.fillWcbl(text)}
                                            value={this.state.wcbl+''}
+                                           underlineColorAndroid="transparent"
                                            style={{
                                                height: 0.05 * height,
                                                width: 0.25 * width,
@@ -80,7 +81,8 @@ export default class FillPerformance extends Component {
                                                borderColor: "#216fd0",
                                                borderRadius: 5,
                                                color: "#216fd0",
-                                               textAlign: "center"
+                                               textAlign: "center",
+                                               padding:0
                                            }}/>
                             </View>
                             <Text style={{color: "#216fd0"}}>%</Text>

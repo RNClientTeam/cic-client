@@ -19,7 +19,6 @@ import Toast from 'react-native-simple-toast'
 export default class MyTask extends Component {
     constructor(props) {
         super(props);
-        this.dataSource = dataArr;
         this.state = {
             hasMoreData: true,
             list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})),
