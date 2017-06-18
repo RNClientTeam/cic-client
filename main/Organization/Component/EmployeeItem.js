@@ -30,7 +30,10 @@ export default class EmployeeItem extends Component {
         )
     }
     handleOnClick() {
-
+        if(this.props.getInfo){
+            this.props.getInfo(this.props.emp.pbmid,this.props.emp.name);
+            this.props.navigator.pop()
+        }
     }
 }
 

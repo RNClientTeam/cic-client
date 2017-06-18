@@ -109,6 +109,8 @@ export default class FillPerformance extends Component {
                             <View>
                                 <TextInput
                                     multiline={true}
+                                    underlineColorAndroid="transparent"
+                                    textAlignVertical="top"
                                     numberOfLines={4}
                                     defaultValue={this.state.defaultValue}
                                     onChangeText={(text) => this.setState({wcqk: text})}
