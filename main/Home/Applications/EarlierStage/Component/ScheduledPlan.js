@@ -138,7 +138,6 @@ export default class SchedulePlan extends Component {
             }
         }).then(data => {
             let resultData = data.data.data;
-            console.log(resultData);
             this.state.myTask = [];
             for (let i = 0; i < resultData.length; i++) {
                 this.state.myTask.push(resultData[i]);
@@ -189,13 +188,17 @@ export default class SchedulePlan extends Component {
                 rwlx: 200
             }
         }).then(data => {
-            let resultData = data.data;
+            console.log(data)
+            let resultData = data.data.data;
             for (let i = 0; i < resultData.length; i++) {
+                console.log(resultData[i])
                 this.state.allTask.push(resultData[i]);
             }
             this.setState({
                 allTask: this.state.allTask,
                 allTaskPageNum: 1
+            },function () {
+                console.log(this.state.allTask)
             });
             callback();
         });
