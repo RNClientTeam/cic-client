@@ -226,6 +226,7 @@ export default class SchedulePlan extends Component {
                     rwlx: 100
                 }
             }).then(data => {
+
                 let resultData = data.data;
                 for (let i = 0; i < resultData.length; i++) {
                     this.state.myTask.push(resultData[i]);
@@ -257,7 +258,6 @@ export default class SchedulePlan extends Component {
                 }
             }).then(data => {
                 let resultData = data.data.data;
-                console.log(resultData);
                 for (let i = 0; i < resultData.length; i++) {
                     this.state.allTask.push(resultData[i]);
                 }

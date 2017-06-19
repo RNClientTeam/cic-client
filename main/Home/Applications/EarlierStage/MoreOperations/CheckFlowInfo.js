@@ -139,7 +139,7 @@ export default class CheckFlowInfo extends Component{
             entityID: this.state.entry_id,
             stepID: this.state.stepID,
             actionID: this.state.actionID,
-            option: this.optionInfo,
+            opinion: this.optionInfo,
             callID: true
         }).then((responseData) => {
             if (responseData.code === 1) {
