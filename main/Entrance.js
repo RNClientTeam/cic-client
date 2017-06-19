@@ -65,21 +65,19 @@ export default class Entrance extends Component {
         }
     }
 
-    componentDidMount() {
-        global.aaaanavigator = this.refs.navigator;
-    }
 
     onBackAndroid() {
-        let routers = aaaanavigator.getCurrentRoutes();
+        let routers = this.refs.navigator.getCurrentRoutes();
         if (routers.length > 1) {
-            aaaanavigator.pop();
+            this.refs.navigator.pop();
             return true;//接管默认行为
         } else {
-            if (this.lastBackPressed && this.lastBackPressed + 2000 >= Date.now()) {
+            let now = new Date().getTime();
+            if (this.lastBackPressed && ((this.lastBackPressed + 2000) >= now)) {
                //最近2秒内按过back键，可以退出应用。
                return false;
             } else {
-               this.lastBackPressed = Date.now();
+               this.lastBackPressed = now;
                ToastAndroid.show('再按一次退出应用', ToastAndroid.SHORT);
                return true;//默认行为
             }
