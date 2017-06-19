@@ -165,7 +165,17 @@ export default class SchedulePlan extends Component {
         }).then(data => {
             // TODO
             if (data.code === 1) {
-                this.setState({modalVisible: true, auth: data.data, rwid: rwid})
+                let showToast = true;
+                for(var key in data.data) {
+                    if (data.data[key]) {
+                        showToast = false;
+                        this.setState({modalVisible: true, auth: data.data, rwid: rwid});
+                        return;
+                    }
+                }
+                if (showToast) {
+                    toast.show('您没有相关权限');
+                }
             } else {
                 toast.show(data.message);
             }

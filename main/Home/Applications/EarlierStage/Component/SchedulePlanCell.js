@@ -30,7 +30,7 @@ export default class SchedulePlanCell extends Component {
                 <View style={styles.aboutPrincipal}>
                     <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zrr}</Text>
                     <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zrbm}</Text>
-                    <Text style={[{width: width * 0.5}, styles.textStyle]}>{this.props.data.wcbl}%</Text>
+                    <Text style={[{width: width * 0.5}, styles.textStyle]}>{this.props.data.wcbl||'0'}%</Text>
                     <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.sDate}-{this.props.data.eDate}</Text>
                     <TouchableOpacity onPress={this.skipPage.bind(this,this.props.data.rwid,this.props.data.sDate,this.props.data.eDate)} style={styles.editTouch}>
                         <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}

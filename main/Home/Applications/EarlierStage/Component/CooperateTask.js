@@ -112,12 +112,22 @@ export default class CooperateTask extends Component {
             }
         }).then(data=>{
             if (data.code === 1) {
-                this.setState({
-                    modalVisible: true,
-                    auth:data.data,
-                    rwid: phrwId,
-                    zrrmc: zrrmc
-                });
+                let showToast = true;
+                for(var key in data.data) {
+                    if (data.data[key]) {
+                        showToast = false;
+                        this.setState({
+                            modalVisible: true,
+                            auth:data.data,
+                            rwid: phrwId,
+                            zrrmc: zrrmc
+                        });
+                        return;
+                    }
+                }
+                if (showToast) {
+                    Toast.show('您没有相关权限');
+                }
             }
         }).catch((error) => {
             Toast.show('服务端出错');

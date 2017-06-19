@@ -102,10 +102,10 @@ export default class User extends Component {
                             key: storageKeys[key]
                         });
                     }
-                    navigator.replace({
+                    navigator.immediatelyResetRouteStack([{
                         component: Login,
                         name: 'Login'
-                    });
+                    }]);
                 }}
             ]);
         }

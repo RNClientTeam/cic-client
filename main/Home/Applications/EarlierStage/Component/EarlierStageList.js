@@ -67,7 +67,7 @@ export default class EarlierStageList extends Component {
             fzr:item.xmjl,//负责人
             bm:item.tbdw,//部门
             bfb:item.wcbl,//百分比
-            sjd:item.sDate+'-'+item.eDate,//时间段
+            sjd:item.sDate+'／'+item.eDate,//时间段
             count:item.count,
             jhxxId:item.jhxxId
         };

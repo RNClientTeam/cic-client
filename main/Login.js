@@ -27,7 +27,8 @@ export default class Login extends Component {
             username: '',
             password: '',
             warningText: '',
-            isLoading:false
+            isLoading:false,
+            selected: true
         }
     }
 
@@ -43,6 +44,27 @@ export default class Login extends Component {
                     password: res
                 }
             });
+        }).catch(err => {
+
+        });
+
+        storage.load({
+            key: 'rememberPassword'
+        }).then((res)=>{
+            if (res) {
+                storage.load({
+                    key: getKey('usernameAndPW')
+                }).then((result) => {
+                    this.setState({
+                        username: result.username,
+                        password: result.password
+                    });
+                }).catch(err => {
+
+                });
+            } else {
+                this.setState({selected: res});
+            }
         }).catch(err => {
 
         });
@@ -76,6 +98,7 @@ export default class Login extends Component {
                     placeholder="请输入用户名"
                     leftImageSource={require('../resource/imgs/login/ic_user.png')}
                     style={styles.myInput}
+                    defaultValue={this.state.username}
                     text={this.state.username}
                     onChangeText={(text)=>this.setState({username:text,warningText:''})}/>
                 {/**密码**/}
@@ -83,13 +106,19 @@ export default class Login extends Component {
                     placeholder="请输入密码"
                     leftImageSource={require('../resource/imgs/login/ic_lock.png')}
                     style={styles.myInput}
+                    defaultValue={this.state.password}
                     secureTextEntry={true}
                     text={this.state.password}
                     onChangeText={(text)=>this.setState({password:text,warningText:''})}/>
 
                 {/**忘记密码**/}
-                <TouchableHighlight underlayColor='transparent' onPress={()=>{}} style={{alignSelf:'flex-start',marginLeft:20}}>
-                    <Text style={styles.forgetPassword}>忘记密码？</Text>
+                <TouchableHighlight underlayColor='transparent' onPress={this.rememberPassword.bind(this)} style={{alignSelf:'flex-start',marginLeft:20}}>
+                    <View style={styles.selectedView}>
+                        <View style={styles.outerView}>
+                            <View style={[styles.innerView, {backgroundColor:this.state.selected?'#1969b8':'#fff'}]}></View>
+                        </View>
+                        <Text style={styles.forgetPassword}>记住密码</Text>
+                    </View>
                 </TouchableHighlight>
                 {/**登录**/}
                 <TouchableHighlight onPress={this.onPress.bind(this)} underlayColor='transparent' style={styles.loginTouch}>
@@ -102,6 +131,10 @@ export default class Login extends Component {
                 {this.state.isLoading?<Loading/>:null}
             </ScrollView>
         );
+    }
+
+    rememberPassword() {
+        this.setState({selected:!this.state.selected});
     }
 
     onPress() {
@@ -124,6 +157,11 @@ export default class Login extends Component {
                 this.setState({
                     warningText: '',
                     isLoading:false
+                });
+                //是否保存密码
+                storage.save({
+                    key: 'rememberPassword',
+                    data: this.state.selected
                 });
                 //保存用户名和密码
                 var usernameAndPW = {
@@ -219,5 +257,24 @@ const styles = StyleSheet.create({
     },
     loginTouch: {
         marginTop: height*0.14
+    },
+    selectedView: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    outerView: {
+        width: 14,
+        height: 14,
+        borderRadius: 7,
+        borderWidth: 1,
+        borderColor: '#1969b8',
+        marginRight: 5,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    innerView: {
+        width: 8,
+        height: 8,
+        borderRadius: 4
     }
 });
