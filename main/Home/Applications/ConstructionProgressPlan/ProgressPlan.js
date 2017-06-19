@@ -50,8 +50,15 @@ export default class ProgressPlan extends Component {
                                   dataSource={this.state.dataSource}
                                   loadMore={() => this.loadMore}
                                   />
-                {this.state.isModalVisible ? <ProgressPlanListModalView isModalVisible={this.state.isModalVisible}
-                                                                        closeModal={() => this.setState({isModalVisible: false})}/> :
+                {this.state.isModalVisible ?
+                    <ProgressPlanListModalView isModalVisible={this.state.isModalVisible}
+                                               ksrp={this.state.ksrq}
+                                               jsrp={this.state.jsrq}
+                                               jhlx={this.state.jhlx}
+                                               changeFilter={(sDate, eDate, lx) => {
+                                                   this.filter(sDate, eDate, lx)
+                                               }}
+                                               closeModal={() => this.setState({isModalVisible: false})}/> :
                     <View/>}
             </View>
         )
@@ -59,6 +66,16 @@ export default class ProgressPlan extends Component {
 
     componentDidMount() {
         this.getDataFromNet(1)
+    }
+
+    filter(sDate, eDate, lx) {
+        this.setState({
+            jhlx: lx,
+            ksrq: sDate,
+            jsrq: eDate
+        }, () => {
+            this.getDataFromNet();
+        })
     }
 
     getDataFromNet(pageNum) {
@@ -80,6 +97,7 @@ export default class ProgressPlan extends Component {
                 jhlx = 100;
                 break;
         }
+
         axios.get('/psmSgjdjh/list', {
             params: {
                 userID: GLOBAL_USERID,
@@ -140,7 +158,7 @@ export default class ProgressPlan extends Component {
                 this.setState({
                     dataSource:this.state.dataSource
                 })
-            }else{
+            }else {
                 toast.show(responseData.message)
             }
         })

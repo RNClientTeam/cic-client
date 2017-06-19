@@ -25,58 +25,7 @@ const {width, height} = Dimensions.get('window');
 export default class ProgressPlanList extends Component {
     constructor(props) {
         super(props);
-        this.dataSource = [
-            {
-                number: 'CX_DS16052',
-                state: '执行中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                number: 'CX_DS16051',
-                state: '执行中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                number: 'CX_DS17051',
-                state: '执行中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                number: 'CX_DS66051',
-                state: '执行中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                number: 'CX_DS36051',
-                state: '执行中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10',
-                time: '2017/11/11-2017/12/12'
-            }
-        ];
+        this.dataSource = this.convert(this.props.dataSource);
         this.state = {
             hasMoreData: true,
             list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})),
@@ -90,7 +39,7 @@ export default class ProgressPlanList extends Component {
                     onPullRelease={this.onPullRelease.bind(this)}
                     topIndicatorRender={() => this.topIndicatorRender()}
                     topIndicatorHeight={60}
-                    dataSource={this.state.list.cloneWithRows(this.convert(this.props.dataSource))}
+                    dataSource={this.state.list.cloneWithRows(this.dataSource)}
                     renderRow={this.renderRow.bind(this)}
                     onEndReached={() => this.loadMore.bind(this)}
                     onEndReachedThreshold={60}
@@ -127,11 +76,12 @@ export default class ProgressPlanList extends Component {
             let target = {};
             target.xmbh = item.xmbh;
             target.state = item.state;
-            target.xmmc = item.planName;
-            target.fzr = item.principal;
-            target.bm = item.department;
+            target.xmmc = item.xmmc + (item.zxmc ? '-' : '') + item.zxmc;
+            target.fzr = item.zrr;
+            target.bm = item.zrbm;
             target.bfb = item.schedule;
-            target.sjd = item.time;
+            target.sjd = item.jhkssj + (item.jhjssj ? '~' + item.jhjssj : '');
+            target.count = item.count;
             return target
         })
     }
