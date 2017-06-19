@@ -29,7 +29,7 @@ export default class MenuItem extends Component {
                             </View>
                         }
                         BadgeElement={
-                            <Text style={[{color: '#FFFFFF'},this.props.badge.length>2?{fontSize: width * 0.025}:{fontSize: width * 0.03}]}>{this.props.badge}</Text>
+                            <Text style={[{color: '#FFFFFF'},this.props.badge.toString().length>2?{fontSize: width * 0.025}:{fontSize: width * 0.03}]}>{this.props.badge}</Text>
                         }
 
                         IconBadgeStyle={

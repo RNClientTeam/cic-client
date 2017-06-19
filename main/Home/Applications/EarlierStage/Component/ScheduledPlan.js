@@ -163,7 +163,6 @@ export default class SchedulePlan extends Component {
                 callID: getTimestamp()
             }
         }).then(data => {
-            // TODO
             if (data.code === 1) {
                 let showToast = true;
                 for(var key in data.data) {

@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.eguma.barcodescanner.BarcodeScannerPackage;
 import com.facebook.react.ReactApplication;
+import com.github.yamill.orientation.OrientationPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.keyee.pdfview.PDFView;
 import com.rnfs.RNFSPackage;
@@ -32,6 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
               new MainReactPackage(),
+            new OrientationPackage(),
             new ImagePickerPackage(),
             new PDFView(),
               new RNFSPackage(),

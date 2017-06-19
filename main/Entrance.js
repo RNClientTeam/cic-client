@@ -75,15 +75,14 @@ export default class Entrance extends Component {
             aaaanavigator.pop();
             return true;//接管默认行为
         } else {
-            // if (this.lastBackPressed && this.lastBackPressed + 2000 >= Date.now()) {
-            //    //最近2秒内按过back键，可以退出应用。
-            //    return false;
-            // } else {
-            //    this.lastBackPressed = Date.now();
-            //    ToastAndroid.show('再按一次退出应用', ToastAndroid.SHORT);
-            //    return true;//默认行为
-            // }
-            return true;
+            if (this.lastBackPressed && this.lastBackPressed + 2000 >= Date.now()) {
+               //最近2秒内按过back键，可以退出应用。
+               return false;
+            } else {
+               this.lastBackPressed = Date.now();
+               ToastAndroid.show('再按一次退出应用', ToastAndroid.SHORT);
+               return true;//默认行为
+            }
         }
     };
 }
