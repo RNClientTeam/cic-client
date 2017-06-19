@@ -136,6 +136,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-orientation')
     compile project(':react-native-image-picker')
     compile project(':react-native-fileupload')
     compile project(':react-native-pdf-view')

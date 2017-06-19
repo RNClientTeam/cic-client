@@ -163,9 +163,21 @@ export default class SchedulePlan extends Component {
                 callID: getTimestamp()
             }
         }).then(data => {
-            // TODO
             if (data.code === 1) {
-                this.setState({modalVisible: true, auth: data.data, rwid: rwid})
+                let hasTrue = false;
+                console.log(data.data);
+                for(let item in data.data){
+                    if(data.data[item]==='true'){
+                        hasTrue = true;
+                        break;
+                    }
+                }
+                if(hasTrue){
+                    this.setState({modalVisible: true, auth: data.data, rwid: rwid})
+                }else{
+                    toast.show('您没有任何操作权限');
+                }
+
             } else {
                 toast.show(data.message);
             }

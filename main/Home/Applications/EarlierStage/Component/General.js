@@ -86,6 +86,7 @@ export default class General extends Component {
         }).then(data=>{
             if(data.code === 1){
                 data = data.data;
+                console.log(data);
                 this.setState({
                     dataSource: [
                         {key:'关联设计项目', value:data.sjxmmc},
@@ -94,6 +95,7 @@ export default class General extends Component {
                         {key:'意向送电时间', value:data.yxsdsj},
                         {key:'最晚送电时间', value:data.zwsdsj},
                         {key:'计划开始时间', value:data.sDate},
+                        {key:'计划结束时间', value:data.eDate},
                         {key:'参与人员', value:data.cyry}
                     ],
                     zygznr:data.zygznr

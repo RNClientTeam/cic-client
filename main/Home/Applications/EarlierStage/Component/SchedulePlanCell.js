@@ -21,7 +21,7 @@ export default class SchedulePlanCell extends Component {
                 <View style={styles.aboutProject}>
                     <View style={styles.numState}>
                         <Text style={{color:'#216fd0',fontSize:width*0.045}}>{this.props.xmbh}</Text>
-                        <View style={styles.stateView}>
+                        <View style={[styles.stateView,{width:this.props.data.ztmc.length*width*0.04}]}>
                             <Text style={styles.stateText}>{this.props.data.ztmc}</Text>
                         </View>
                     </View>
@@ -87,7 +87,6 @@ const styles = StyleSheet.create({
     },
     stateView: {
         backgroundColor: '#fe9a25',
-        width:width*0.15,
         height:width*0.05,
         borderRadius:3,
         justifyContent:'center',
