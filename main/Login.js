@@ -260,7 +260,9 @@ const styles = StyleSheet.create({
     },
     selectedView: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        width:width - 40,
+        justifyContent: 'flex-end'
     },
     outerView: {
         width: 14,
