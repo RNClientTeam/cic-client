@@ -12,7 +12,6 @@
     "react-native-icon-badge": "^1.1.1",
     "react-native-image-picker": "^0.26.3",
     "react-native-modal-dropdown": "^0.4.2",
-    "react-native-orientation": "git+https://github.com/yamill/react-native-orientation.git",
     "react-native-pdf-view": "git+https://github.com/cnjon/react-native-pdf-view.git",
     "react-native-pull": "^2.0.2",
     "react-native-scrollable-tab-view": "^0.6.5",

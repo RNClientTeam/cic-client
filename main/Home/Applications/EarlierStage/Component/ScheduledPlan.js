@@ -162,7 +162,7 @@ export default class SchedulePlan extends Component {
                 objId: rwid,
                 callID: getTimestamp()
             }
-        }).then(data => {
+        }).then((data) => {
             if (data.code === 1) {
                 let showToast = true;
                 for(var key in data.data) {
