@@ -24,9 +24,11 @@ export default class ProgressPlanListModalView extends Component {
     constructor(props){
         super(props);
         this.state={
-            // startDate:getCurrentDate(),
-            // endDate:getCurrentDate(),
-            planType:'请选择类型'
+            startDate: this.props.ksrp,
+            endDate: this.props.jsrp,
+            planType:'请选择类型',
+            options:['全部', '我参与的', '我审核的', '我的计划', '我的待办'],
+            jhlx:this.props.jhlx
         }
     }
     render() {
@@ -35,7 +37,7 @@ export default class ProgressPlanListModalView extends Component {
                 <View style={styles.containerStyle}>
                     <Text style={styles.nameStyle}>开始时间</Text>
                     <View style={styles.indicateView}>
-                        <ChoiceDate/>
+                        <ChoiceDate showDate={this.state.startDate} changeDate={(date)=> this.setState({startDate: date})}/>
                         <Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
                     </View>
 
@@ -43,7 +45,7 @@ export default class ProgressPlanListModalView extends Component {
                 <View style={styles.containerStyle}>
                     <Text style={styles.nameStyle}>结束时间</Text>
                     <View style={styles.indicateView}>
-                        <ChoiceDate/>
+                        <ChoiceDate showDate={this.state.endDate} changeDate={(date)=> this.setState({endDate: date})}/>
                         <Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
                     </View>
                 </View>
@@ -51,13 +53,17 @@ export default class ProgressPlanListModalView extends Component {
                     <Text style={styles.nameStyle}>计划类型</Text>
                     <View style={styles.indicateView}>
                         <ModalDropdown
-                            options={['计划类型 1', '计划类型 2','计划类型 3','计划类型 4','计划类型 1', '计划类型 2','计划类型 3','计划类型 4']}
+                            options={this.state.options}
                             animated={true}
                             defaultValue={this.state.planType}
                             style={styles.modalDropDown}
                             textStyle={styles.modalDropDownText}
                             dropdownStyle={styles.dropdownStyle}
-                            onSelect={(a)=>{console.log(a)}}
+                            onSelect={
+                                (index)=>{this.setState({
+                                    jhlx: this.state.options[index]
+                                })}
+                            }
                             showsVerticalScrollIndicator={false}
                         />
                         <Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
