@@ -25,7 +25,6 @@ const {width, height} = Dimensions.get('window');
 export default class ProgressPlanList extends Component {
     constructor(props) {
         super(props);
-        this.dataSource = this.convert(this.props.dataSource);
         this.state = {
             hasMoreData: true,
             list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})),
@@ -39,9 +38,9 @@ export default class ProgressPlanList extends Component {
                     onPullRelease={this.onPullRelease.bind(this)}
                     topIndicatorRender={() => this.topIndicatorRender()}
                     topIndicatorHeight={60}
-                    dataSource={this.state.list.cloneWithRows(this.dataSource)}
+                    dataSource={this.state.list.cloneWithRows(this.convert(this.props.dataSource))}
                     renderRow={this.renderRow.bind(this)}
-                    onEndReached={() => this.loadMore.bind(this)}
+                    onEndReached={this.loadMore.bind(this)}
                     onEndReachedThreshold={60}
                     renderFooter={() => this.renderFooter()}
                 />
@@ -50,9 +49,7 @@ export default class ProgressPlanList extends Component {
     }
     onPullRelease(resolve) {
         //do refresh
-        setTimeout(() => {
-            resolve();
-        }, 3000);
+        this.props.refresh(()=>{resolve()})
     }
 
     renderRow(item, sectionID, rowID, highlightRow) {
@@ -79,9 +76,10 @@ export default class ProgressPlanList extends Component {
             target.xmmc = item.xmmc + (item.zxmc ? '-' : '') + item.zxmc;
             target.fzr = item.zrr;
             target.bm = item.zrbm;
-            target.bfb = item.schedule;
+            target.bfb = item.jdbl ? item.jdbl : 0;
             target.sjd = item.jhkssj + (item.jhjssj ? '~' + item.jhjssj : '');
             target.count = item.count;
+            target.gczxId = item.gczxId;
             return target
         })
     }
@@ -89,10 +87,10 @@ export default class ProgressPlanList extends Component {
     loadMore() {
         if(this.props.dataSource.length>0){
             this.setState({
-                hasMoreData:this.props.loadMore()
+                hasMoreData: this.props.loadMore()
             },function () {
                 if(!this.state.hasMoreData){
-                    Toast.show('没有更多数据') ;
+                    //Toast.show('没有更多数据') ;
                 }
             })
         }
