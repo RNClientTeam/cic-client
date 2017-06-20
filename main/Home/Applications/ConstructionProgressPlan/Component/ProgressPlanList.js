@@ -92,7 +92,7 @@ export default class ProgressPlanList extends Component {
                     topIndicatorHeight={60}
                     dataSource={this.state.list.cloneWithRows(this.convert(this.props.dataSource))}
                     renderRow={this.renderRow.bind(this)}
-                    onEndReached={() => this.loadMore()}
+                    onEndReached={() => this.loadMore.bind(this)}
                     onEndReachedThreshold={60}
                     renderFooter={() => this.renderFooter()}
                 />
@@ -137,7 +137,15 @@ export default class ProgressPlanList extends Component {
     }
 
     loadMore() {
-
+        if(this.props.dataSource.length>0){
+            this.setState({
+                hasMoreData:this.props.loadMore()
+            },function () {
+                if(!this.state.hasMoreData){
+                    Toast.show('没有更多数据') ;
+                }
+            })
+        }
         // for (let i = 0; i < a.length; i++) {
         //     this.dataSource.push(a[i])
         // }

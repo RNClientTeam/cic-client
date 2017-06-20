@@ -26,15 +26,15 @@ export default class ProgressPlanDetail extends Component {
                 <StatusBar navigator={this.props.navigator} title="施工进度计划编制"/>
                 <Image style={styles.bgImage}
                        source={require('../../../../../resource/imgs/home/earlierStage/backgroundImg.png')}>
-                    <Text style={styles.number}>CX_DS14036-13238</Text>
-                    <Text style={styles.engineerName}>人大技术学院配电增容改造技术咨询</Text>
-                    <Text style={styles.dateSty}>日期：2017/01/15-2017/02/30</Text>
+                    <Text style={styles.number}>{this.props.xmbh}</Text>
+                    <Text style={styles.engineerName}>{this.props.xmmc}</Text>
+                    <Text style={styles.dateSty}>日期：{this.props.sjd}</Text>
                     <View style={styles.progressView}>
                         <View style={styles.backView}>
                             <View style={styles.foregroundView}>
                             </View>
                         </View>
-                        <Text style={styles.percentText}>80%</Text>
+                        <Text style={styles.percentText}>{this.props.bfb}%</Text>
                     </View>
                 </Image>
                 <ScrollableTabView

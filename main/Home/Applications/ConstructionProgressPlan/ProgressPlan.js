@@ -45,8 +45,11 @@ export default class ProgressPlan extends Component {
                                source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
-                <SearchHeader/>
-                <ProgressPlanList dataSource={this.state.dataSource} navigator={this.props.navigator}/>
+                <SearchHeader getData={()=>this.getDataFromNet(1)} getKeyWord={(keywords) => this.setState({keywords:keywords})}/>
+                <ProgressPlanList navigator={this.props.navigator}
+                                  dataSource={this.state.dataSource}
+                                  loadMore={() => this.loadMore}
+                                  />
                 {this.state.isModalVisible ? <ProgressPlanListModalView isModalVisible={this.state.isModalVisible}
                                                                         closeModal={() => this.setState({isModalVisible: false})}/> :
                     <View/>}
@@ -55,10 +58,10 @@ export default class ProgressPlan extends Component {
     }
 
     componentDidMount() {
-        this.getDataFromNet()
+        this.getDataFromNet(1)
     }
 
-    getDataFromNet() {
+    getDataFromNet(pageNum) {
         let jhlx = 500;
         switch (this.state.jhlx) {
             case '全部':
@@ -83,7 +86,7 @@ export default class ProgressPlan extends Component {
                 ksrq: this.state.ksrq,
                 jsrq: this.state.jsrq,
                 jhlx: jhlx,
-                pageNum: 1,
+                pageNum: pageNum,
                 pageSize: 10,
                 keywords: this.state.keywords,
                 callID: true
@@ -143,6 +146,13 @@ export default class ProgressPlan extends Component {
         })
     }
 
+    loadMore() {
+        this.setState({
+            pageNum: ++this.state.pageNum
+        }, () => {
+            this.getDataFromNet(this.state.pageNum);
+        })
+    }
 }
 
 const styles = StyleSheet.create({
