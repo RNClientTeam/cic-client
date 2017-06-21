@@ -81,7 +81,7 @@ export default class CooperateTask extends Component {
                     }}
                     style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
                 >
-                    <MoreOperations navigator={this.props.navigator} closeModal={() => {
+                    <MoreOperations reloadInfo={()=>this.this.onPullRelease()} navigator={this.props.navigator} closeModal={() => {
                         this.setState({modalVisible: false})
                     }} auth={this.state.auth} zrrmc={this.state.zrrmc} rwid={this.state.rwid} jhxxId={this.props.jhxxId} tag="配合任务"/>
                 </Modal>
@@ -89,7 +89,7 @@ export default class CooperateTask extends Component {
         )
     }
 
-    onPullRelease(resolve) {
+    onPullRelease(resolve=()=>{}) {
         this.state.list = [];
         this.pageNum = 1;
         this.getDataFromNet(1, resolve);
@@ -112,12 +112,24 @@ export default class CooperateTask extends Component {
             }
         }).then(data=>{
             if (data.code === 1) {
-                this.setState({
-                    modalVisible: true,
-                    auth:data.data,
-                    rwid: phrwId,
-                    zrrmc: zrrmc
-                });
+                let showToast = true;
+                for(var key in data.data) {
+                    if (data.data[key]) {
+                        showToast = false;
+                        this.setState({
+                            modalVisible: true,
+                            auth:data.data,
+                            rwid: phrwId,
+                            zrrmc: zrrmc
+                        });
+                        return;
+                    }
+                }
+                if (showToast) {
+                    Toast.show('您没有相关权限');
+                }
+            } else {
+                Toast.show(data.message);
             }
         }).catch((error) => {
             Toast.show('服务端出错');

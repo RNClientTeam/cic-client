@@ -142,6 +142,8 @@ export default class EnsureCompleteOfCooper extends Component{
                     self.props.navigator.pop();
                     clearTimeout(timer);
                 }, 500);
+            } else {
+                Toast.show(responseData.message);
             }
         }).catch((error) => {
             Toast.show('服务端错误');

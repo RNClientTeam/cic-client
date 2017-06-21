@@ -83,7 +83,9 @@ export default class AddZzxqk extends Component {
                 }else{
                     Toast.show(data.message)
                 }
-            })
+            }).catch((error) => {
+                Toast.show('服务端错误');
+            });
         }
     }
 }

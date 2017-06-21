@@ -38,6 +38,7 @@ export default class ProgressPlanList extends Component {
                     onPullRelease={this.onPullRelease.bind(this)}
                     topIndicatorRender={() => this.topIndicatorRender()}
                     topIndicatorHeight={60}
+                    enableEmptySections={true}
                     dataSource={this.state.list.cloneWithRows(this.convert(this.props.dataSource))}
                     renderRow={this.renderRow.bind(this)}
                     onEndReached={this.loadMore.bind(this)}

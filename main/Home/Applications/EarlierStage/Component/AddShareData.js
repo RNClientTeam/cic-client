@@ -21,10 +21,11 @@ export default class AddShareData extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            shareTypeArr:['计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4', '计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4'],
+            shareTypeArr:['全员查询', '本人查询', '指定部门', '指定人员'],
             shareType: '请选择共享方式',
             shareRangeArr:['计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4', '计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4'],
-            shareRange:'请选择共享范围'
+            shareRange:'请选择共享范围',
+            shareClass:['空','会议系列','商务系类','其他']
         }
     }
 
@@ -34,11 +35,22 @@ export default class AddShareData extends Component {
                 <StatusBar navigator={this.props.navigator} title="添加共享资料"/>
                 <View style={styles.keyValue}>
                     <Text style={styles.keyStyle}>资料分类</Text>
-                    <TextInput style={styles.inputStyle}
-                               textAlign="right"
-                               placeholder="填写资料分类"
-                               underlineColorAndroid="transparent"
-                    />
+                    <View style={styles.indicateView}>
+                        <ModalDropdown
+                            options={this.state.shareClass}
+                            animated={true}
+                            defaultValue={this.state.shareType}
+                            style={styles.modalDropDown}
+                            textStyle={styles.modalDropDownText}
+                            dropdownStyle={styles.dropdownStyle}
+                            onSelect={(a) => {
+                                console.log(a)
+                            }}
+                            showsVerticalScrollIndicator={false}
+                        />
+                        <Image style={styles.indicateImage}
+                               source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
+                    </View>
                 </View>
                 <View style={styles.keyValue}>
                     <Text style={styles.keyStyle}>共享方式</Text>

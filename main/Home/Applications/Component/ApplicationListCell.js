@@ -59,7 +59,7 @@ export default class EarlierStageListCell extends Component {
                     <View style={styles.aboutPrincipal}>
                         <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.fzr}</Text>
                         <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.bm}</Text>
-                        <Text style={[{width: width * 0.5,paddingLeft:width*0.04}, styles.textStyle]}>{this.props.data.bfb}%</Text>
+                        <Text style={[{width: width * 0.5,paddingLeft:width*0.04}, styles.textStyle]}>{this.props.data.bfb||'0'}%</Text>
                         <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.sjd}</Text>
                     </View>
                 </TouchableOpacity>
@@ -78,7 +78,7 @@ export default class EarlierStageListCell extends Component {
                         jhxxId:this.props.data.jhxxId,
                         wcbl:this.props.data.bfb,
                         xmmc:this.props.data.xmmc,
-                        sjd:this.props.sjd
+                        sjd:this.props.data.sjd
                     }
                 });
                 break;

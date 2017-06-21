@@ -162,10 +162,19 @@ export default class SchedulePlan extends Component {
                 objId: rwid,
                 callID: getTimestamp()
             }
-        }).then(data => {
-            // TODO
+        }).then((data) => {
             if (data.code === 1) {
-                this.setState({modalVisible: true, auth: data.data, rwid: rwid})
+                let showToast = true;
+                for(let key in data.data) {
+                    if (data.data[key]) {
+                        showToast = false;
+                        this.setState({modalVisible: true, auth: data.data, rwid: rwid});
+                        return;
+                    }
+                }
+                if (showToast) {
+                    toast.show('您没有相关权限');
+                }
             } else {
                 toast.show(data.message);
             }

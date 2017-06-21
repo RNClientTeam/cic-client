@@ -27,6 +27,7 @@ import CheckFlowInfo from './CheckFlowInfo.js';
 export default class Turnover extends Component{
     constructor(props) {
         super(props);
+        this.changeIntroduction = '';
         this.state = {
             isLoading: false,
             proName: '',
@@ -122,6 +123,7 @@ export default class Turnover extends Component{
                                 defaultValue={'请选择>'}
                                 style={{flex:1, alignItems:'flex-end'}}
                                 onSelect={(a) => {
+
                                     this.setState({changeReason:this.state.reasonList[a]});
                                 }}
                                 showsVerticalScrollIndicator={false}
@@ -232,6 +234,18 @@ export default class Turnover extends Component{
     }
 
     submit() {
+        if (this.state.changeReason.length === 0) {
+            Toast.show('请选择变更原因');
+            return;
+        }
+        if (this.state.xzrr === '请选择>') {
+            Toast.show('请选择新责任人');
+            return;
+        }
+        if (this.changeIntroduction.length === 0) {
+            Toast.show('请填写变更情况说明');
+            return;
+        }
         axios.post('psmQqjdjh/saveRybg', {
             userID: GLOBAL_USERID,
             jhxxId: this.props.jhxxId,
@@ -247,21 +261,30 @@ export default class Turnover extends Component{
             callID: getTimestamp()
         }).then((responseData) => {
             if (responseData.code === 1) {
-                this.props.navigator.push({
-                    name: 'CheckFlowInfo',
-                    component: CheckFlowInfo,
-                    params: {
-                        resID: responseData.data,
-                        tag: this.props.tag,
-                        from: 'turnover'
-                    }
-                });
+                Toast.show('提交申请成功');
+                const self = this;
+                let timer = setTimeout(() => {
+                    self.props.navigator.push({
+                        name: 'CheckFlowInfo',
+                        component: CheckFlowInfo,
+                        params: {
+                            resID: responseData.data,
+                            tag: self.props.tag,
+                            from: 'turnover'
+                        }
+                    });
+                    clearTimeout(timer);
+                }, 1500);
             } else {
                 Toast.show(responseData.message);
             }
         }).catch((error) => {
             Toast.show('服务端错误');
         });
+    }
+
+    componentWillUnmount() {
+        this.props.reloadInfo()
     }
 }
 

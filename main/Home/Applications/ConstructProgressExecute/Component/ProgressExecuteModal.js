@@ -20,21 +20,23 @@ const {width, height} = Dimensions.get('window');
 const Platform = require('Platform');
 
 export default class ProgressExecuteListModal extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={
-            // startDate:getCurrentDate(),
-            // endDate:getCurrentDate(),
-            planType:'请选择类型'
+        this.state = {
+            sDate: this.props.sDate,
+            eDate: this.props.eDate,
+            jhlx:this.props.jhlx,
+            options: ['全部','我参与的','我审核的','我的计划','我的待办']
         }
     }
+
     render() {
         return (
             <View style={[styles.earlierStageListModalView,Platform.OS === 'android' ?{top:44}:{top:64}]}>
                 <View style={styles.containerStyle}>
                     <Text style={styles.nameStyle}>开始时间</Text>
                     <View style={styles.indicateView}>
-                        <ChoiceDate/>
+                        <ChoiceDate showDate={this.state.sDate} changeDate={(date)=>{this.setState({sDate:date})}}/>
                         <Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
                     </View>
 
@@ -42,7 +44,7 @@ export default class ProgressExecuteListModal extends Component {
                 <View style={styles.containerStyle}>
                     <Text style={styles.nameStyle}>结束时间</Text>
                     <View style={styles.indicateView}>
-                        <ChoiceDate/>
+                        <ChoiceDate showDate={this.state.eDate} changeDate={(date)=>{this.setState({eDate:date})}}/>
                         <Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
                     </View>
                 </View>
@@ -50,13 +52,13 @@ export default class ProgressExecuteListModal extends Component {
                     <Text style={styles.nameStyle}>计划类型</Text>
                     <View style={styles.indicateView}>
                         <ModalDropdown
-                            options={['计划类型 1', '计划类型 2','计划类型 3','计划类型 4','计划类型 1', '计划类型 2','计划类型 3','计划类型 4']}
+                            options={this.state.options}
                             animated={true}
-                            defaultValue={this.state.planType}
+                            defaultValue={'请选择类型'}
                             style={styles.modalDropDown}
                             textStyle={styles.modalDropDownText}
                             dropdownStyle={styles.dropdownStyle}
-                            onSelect={(a)=>{console.log(a)}}
+                            onSelect={(a)=>{this.setState({jhlx:this.state.options[a]});}}
                             showsVerticalScrollIndicator={false}
                         />
                         <Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
@@ -66,7 +68,10 @@ export default class ProgressExecuteListModal extends Component {
                     <TouchableOpacity style={[styles.clickButton,{backgroundColor:'#dbdada'}]} onPress={()=>this.props.closeModal()}>
                         <Text>重置</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.clickButton,{backgroundColor:'#216fd0'}]} onPress={()=>this.props.closeModal()}>
+                    <TouchableOpacity style={[styles.clickButton,{backgroundColor:'#216fd0'}]} onPress={()=>{
+                        this.props.closeModal();
+                        this.props.changeFilter(this.state.sDate, this.state.eDate, this.state.jhlx);
+                    }}>
                         <Text style={{color:'#fff'}}>确定</Text>
                     </TouchableOpacity>
                 </View>

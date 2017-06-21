@@ -17,6 +17,7 @@ import {
 import StatusBar from "../../../../Component/StatusBar"
 import FinishedPath from "./Component/FinishedPath";
 import ModalDropdown from 'react-native-modal-dropdown';
+import Toast from 'react-native-simple-toast';
 
 const {width, height}  = Dimensions.get('window');
 
@@ -143,6 +144,7 @@ export default class CheckFlowInfo extends Component{
             callID: true
         }).then((responseData) => {
             if (responseData.code === 1) {
+                Toast.show('提交成功');
                 let route;
                 let currentRoutes = this.props.navigator.getCurrentRoutes();
                 currentRoutes.forEach((elem, index) => {
@@ -151,10 +153,16 @@ export default class CheckFlowInfo extends Component{
                         return;
                     }
                 });
-                this.props.navigator.popToRoute(route);
+                const self = this;
+                let timer = setTimeout(() => {
+                    self.props.navigator.popToRoute(route);
+                    clearTimeout(timer);
+                });
+            } else {
+                Toast.show(responseData.message);
             }
         }).catch((error) => {
-
+            Toast.show('服务端错误');
         });
     }
 

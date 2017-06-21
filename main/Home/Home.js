@@ -25,6 +25,8 @@ import toast from 'react-native-simple-toast'
 export default class Home extends Component {
     constructor(props) {
         super(props);
+        this.resInterceptor = null;
+        this.reqInterceptor = null;
         this.state = {
             isLoading: true,
             bsData: [],
@@ -98,7 +100,7 @@ export default class Home extends Component {
         axios.defaults.baseURL = FetchUrl.baseUrl;
         axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
         //添加一个请求拦截器，添加sign
-        axios.interceptors.request.use(function (config) {
+        this.reqInterceptor = axios.interceptors.request.use(function (config) {
             if (config.url === 'http://was.jzfyjt.com:9092/service/user/index') {
                 return config;
             } else {
@@ -127,7 +129,7 @@ export default class Home extends Component {
         });
 
         //添加一个响应拦截器,解码
-        axios.interceptors.response.use(function (res) {
+        this.resInterceptor = axios.interceptors.response.use(function (res) {
             if (res.data.data && res.data.data.length > 0) {
                 res.data.data = JSON.parse(AESDecrypt(res.data.data, SECRETKEY));
                 return res.data;
@@ -176,6 +178,11 @@ export default class Home extends Component {
                 })
             })
         })
+    }
+
+    componentWillUnmount() {
+        axios.interceptors.request.eject(this.reqInterceptor);
+        axios.interceptors.response.eject(this.resInterceptor);
     }
 
 }
