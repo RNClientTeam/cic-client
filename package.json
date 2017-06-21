@@ -6,7 +6,7 @@
     "react-native": "0.43.4",
     "react-native-actionsheet": "^2.1.0",
     "react-native-barcodescanner": "^3.1.1",
-    "react-native-datepicker": "^1.4.7",
+    "react-native-datepicker": "file:./main/lib/react-native-datepicker",
     "react-native-fileupload": "^1.2.0",
     "react-native-fs": "^2.1.0-rc.1",
     "react-native-icon-badge": "^1.1.1",
