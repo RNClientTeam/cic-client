@@ -153,11 +153,14 @@ export default class FillPerforOfCooper extends Component{
             callID: true
         }).then((responseData) => {
             if (responseData.code === 1) {
-                Toast.show('保存成功！');
+                Toast.show('确认完成成功！');
                 const self = this;
                 let timer = setTimeout(() => {
                     self.props.navigator.pop();
-                }, 1500);
+                    clearTimeout(timer);
+                }, 500);
+            } else {
+                Toast.show(responseData.message);
             }
         }).catch((error) => {
             Toast.show('服务端错误');

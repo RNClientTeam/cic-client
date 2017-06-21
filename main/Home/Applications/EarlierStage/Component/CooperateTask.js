@@ -128,6 +128,8 @@ export default class CooperateTask extends Component {
                 if (showToast) {
                     Toast.show('您没有相关权限');
                 }
+            } else {
+                Toast.show(data.message);
             }
         }).catch((error) => {
             Toast.show('服务端出错');

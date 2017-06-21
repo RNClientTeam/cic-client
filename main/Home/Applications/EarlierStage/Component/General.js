@@ -86,7 +86,6 @@ export default class General extends Component {
         }).then(data=>{
             if(data.code === 1){
                 data = data.data;
-                console.log(data);
                 this.setState({
                     dataSource: [
                         {key:'关联设计项目', value:data.sjxmmc},
