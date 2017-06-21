@@ -8,7 +8,8 @@ import {
     StyleSheet,
     Dimensions,
     ListView,
-    Text
+    Text,
+    TouchableOpacity
 } from 'react-native'
 const {width} = Dimensions.get('window');
 import {getTimestamp} from '../../../../Util/Util.js';
@@ -17,6 +18,7 @@ import LoadMore from "../../../../Component/LoadMore.js";
 import TotalImplementationCell from "./TotalImplementationCell.js";
 import Reload from "../../../../Component/Reload.js";
 import Toast from 'react-native-simple-toast';
+import AddZzxqk from "../MoreOperations/AddZzxqk";
 export default class TotalImplementation extends Component {
     constructor(props) {
         super(props);
@@ -63,8 +65,24 @@ export default class TotalImplementation extends Component {
                     onEndReachedThreshold={60}
                     enableEmptySections={true}
                 />
+                <TouchableOpacity onPress={() => this.addProfile()}>
+                    <View style={styles.button}>
+                        <Text style={styles.buttonText}>填写总执行情况</Text>
+                    </View>
+                </TouchableOpacity>
             </View>
         )
+    }
+
+    addProfile(){
+        this.props.navigator.push({
+            name:'AddZzxqk',
+            component:AddZzxqk,
+            params:{
+                jhxxId:this.props.jhxxId,
+                refreshData:this.getDataFromNet.bind(this)
+            }
+        })
     }
 
     onPullRelease(resolve) {
@@ -89,5 +107,16 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#f2f2f2',
         paddingTop:width*0.02
-    }
+    },
+    button: {
+        height: 0.12 * width,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        borderTopColor: '#dcdcdc',
+        borderTopWidth: 1
+    },
+    buttonText: {
+        color: '#216fd0'
+    },
 });
