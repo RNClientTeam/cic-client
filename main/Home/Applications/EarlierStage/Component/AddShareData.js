@@ -21,7 +21,7 @@ export default class AddShareData extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            shareTypeArr:['计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4', '计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4'],
+            shareTypeArr:['全员查询', '本人查询', '指定部门', '指定人员'],
             shareType: '请选择共享方式',
             shareRangeArr:['计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4', '计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4'],
             shareRange:'请选择共享范围'
