@@ -76,7 +76,7 @@ export default class MoreOperations extends Component {
         for(let i = 0;i<this.state.data.length;i++){
             cs.push(
                 <MoreOperationsCell
-                    reloadInfo={()=>this.props.reloadInfo()}
+                    reloadInfo={this.props.reloadInfo}
                     zrrmc={this.props.zrrmc}
                     tag={this.props.tag}
                     sDate={this.props.sDate}

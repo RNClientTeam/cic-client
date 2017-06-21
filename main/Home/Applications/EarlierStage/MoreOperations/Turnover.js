@@ -270,7 +270,8 @@ export default class Turnover extends Component{
                         params: {
                             resID: responseData.data,
                             tag: self.props.tag,
-                            from: 'turnover'
+                            from: 'turnover',
+                            reloadInfo: this.props.reloadInfo
                         }
                     });
                     clearTimeout(timer);
@@ -281,10 +282,6 @@ export default class Turnover extends Component{
         }).catch((error) => {
             Toast.show('服务端错误');
         });
-    }
-
-    componentWillUnmount() {
-        this.props.reloadInfo()
     }
 }
 

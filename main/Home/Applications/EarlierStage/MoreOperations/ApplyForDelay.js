@@ -26,6 +26,7 @@ import CheckFlowInfo from './CheckFlowInfo.js';
 export default class ApplyForDelay extends Component{
     constructor(props) {
         super(props);
+        this.changeIntroduction = '';
         this.state = {
             isLoading: false,
             proName: '',
@@ -181,6 +182,18 @@ export default class ApplyForDelay extends Component{
     }
 
     submit() {
+        if (this.state.changeReason.length === 0) {
+            Toast.show('请选择变更原因');
+            return;
+        }
+        if (this.state.changeEndTime.length === 0) {
+            Toast.show('请选择变更结束时间');
+            return;
+        }
+        if (this.changeIntroduction.length === 0) {
+            Toast.show('请填写变更情况说明');
+            return;
+        }
         axios.post('psmQqjdjh/saveYqbg', {
             userID: GLOBAL_USERID,
             jhxxId: this.props.jhxxId,
@@ -203,7 +216,8 @@ export default class ApplyForDelay extends Component{
                         component: CheckFlowInfo,
                         params: {
                             resID: responseData.data,
-                            tag: self.props.tag ? self.props.tag : ''
+                            tag: self.props.tag ? self.props.tag : '',
+                            reloadInfo: this.props.reloadInfo
                         }
                     });
                     clearTimeout(timer);
@@ -214,10 +228,6 @@ export default class ApplyForDelay extends Component{
         }).catch((error) => {
             Toast.show('服务端错误');
         });
-    }
-
-    componentWillUnmount() {
-        this.props.reloadInfo();
     }
 }
 

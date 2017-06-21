@@ -20,6 +20,7 @@ import EnsureComplete from "../MoreOperations/EnsureComplete";
 import ZongzhixinQK from "../MoreOperations/ZongzhixinQK";
 import FillPerforOfCooper from "./FillPerforOfCooper.js";
 import EnsureCompleteOfCooper from "../MoreOperations/EnsureCompleteOfCooper.js";
+import Toast from 'react-native-simple-toast';
 const {width} = Dimensions.get('window');
 
 export default class MoreOperationsCell extends Component {
@@ -72,6 +73,7 @@ export default class MoreOperationsCell extends Component {
                         rwid: this.props.rwid,
                         jhxxId: this.props.jhxxId,
                         zrrmc: this.props.zrrmc,
+                        reloadInfo:this.props.reloadInfo
                     }
                 });
             } else {
@@ -129,9 +131,13 @@ export default class MoreOperationsCell extends Component {
             rwzt: status,
             callID: true
         }).then((responseData) => {
-            console.log(responseData);
+            if (responseData.code === 1) {
+                Toast.show('操作成功');
+            } else {
+                Toast.show(responseData.message);
+            }
         }).catch((error) => {
-
+            Toast.show('服务端错误');
         });
     }
 }

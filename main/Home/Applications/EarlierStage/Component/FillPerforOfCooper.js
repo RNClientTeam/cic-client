@@ -143,6 +143,18 @@ export default class FillPerforOfCooper extends Component{
     }
 
     submit() {
+        if (this.changeIntroduction.length === 0) {
+            Toast.show('请填写变更情况说明');
+            return;
+        }
+        if (parseInt(this.state.progress) > 100) {
+            Toast.show('请填写正确的进度');
+            return;
+        }
+        if (this.state.sjwcsj.length === 0) {
+            Toast.show('请选择实际完成时间');
+            return;
+        }
         axios.post('/psmQqjdjh/save4Phrwwcqk', {
             userID: GLOBAL_USERID,
             phrwId: this.props.rwid,
@@ -157,6 +169,7 @@ export default class FillPerforOfCooper extends Component{
                 const self = this;
                 let timer = setTimeout(() => {
                     self.props.navigator.pop();
+                    this.props.reloadInfo && this.props.reloadInfo();
                     clearTimeout(timer);
                 }, 500);
             } else {

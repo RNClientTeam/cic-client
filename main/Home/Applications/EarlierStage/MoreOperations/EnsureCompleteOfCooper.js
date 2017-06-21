@@ -56,9 +56,11 @@ export default class EnsureCompleteOfCooper extends Component{
                     gzjd: res.gzjd,
                     wcqk:res.wcqk
                 });
+            } else {
+                Toast.show(responseData.message);
             }
         }).catch((error) => {
-            console.log(error);
+            Toast.show('服务端错误');
         });
     }
 
