@@ -20,6 +20,7 @@ const {width, height}  = Dimensions.get('window');
 import Toast from 'react-native-simple-toast';
 import Loading from "../../../../Component/Loading.js";
 import ChoiceDate from "../../../../Component/ChoiceDate.js";
+import toast from 'react-native-simple-toast'
 
 export default class FillPerforOfCooper extends Component{
     constructor(props) {
@@ -111,7 +112,15 @@ export default class FillPerforOfCooper extends Component{
                             <Text style={styles.label}>完成进度</Text>
                             <View style={styles.blank}/>
                             <TextInput style={styles.textinput} underlineColorAndroid="transparent"
-                                onChangeText={(text) => {this.setState({progress:text})}}/>
+                                onChangeText={(text) => {
+                                    if(parseFloat(text)>100){
+                                        toast.show('请填写0~100之间数据');
+                                    }else if(parseFloat(text)<0){
+                                        toast.show('请填写0~100中间数据');
+                                    }
+                                        this.setState({progress:text});
+
+                                }}/>
                             <Text>%</Text>
                         </View>
 
@@ -143,28 +152,32 @@ export default class FillPerforOfCooper extends Component{
     }
 
     submit() {
-        axios.post('/psmQqjdjh/save4Phrwwcqk', {
-            userID: GLOBAL_USERID,
-            phrwId: this.props.rwid,
-            jhxxId: this.props.jhxxId,
-            wcqk: this.changeIntroduction,
-            wcbl: this.state.progress,
-            sjwcsj: this.state.sjwcsj,
-            callID: true
-        }).then((responseData) => {
-            if (responseData.code === 1) {
-                Toast.show('确认完成成功！');
-                const self = this;
-                let timer = setTimeout(() => {
-                    self.props.navigator.pop();
-                    clearTimeout(timer);
-                }, 500);
-            } else {
-                Toast.show(responseData.message);
-            }
-        }).catch((error) => {
-            Toast.show('服务端错误');
-        });
+        if(parseFloat(this.state.progress)>100){
+            toast.show('完成进度请填写0~100之间数据');
+        }else if(parseFloat(this.state.progress)<0){
+            toast.show('完成进度请填写0~100之间数据');
+        }else{
+            axios.post('/psmQqjdjh/save4Phrwwcqk', {
+                userID: GLOBAL_USERID,
+                phrwId: this.props.rwid,
+                jhxxId: this.props.jhxxId,
+                wcqk: this.changeIntroduction,
+                wcbl: this.state.progress,
+                sjwcsj: this.state.sjwcsj,
+                callID: true
+            }).then((responseData) => {
+                if (responseData.code === 1) {
+                    Toast.show('保存成功！');
+                    const self = this;
+                    let timer = setTimeout(() => {
+                        self.props.navigator.pop();
+                    }, 1500);
+                }
+            }).catch((error) => {
+                Toast.show('服务端错误');
+            });
+        }
+
     }
 }
 
