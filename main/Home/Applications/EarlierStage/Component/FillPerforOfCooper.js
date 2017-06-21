@@ -158,14 +158,15 @@ export default class FillPerforOfCooper extends Component{
         }
         if(parseFloat(this.state.progress)>100){
             toast.show('完成进度请填写0~100之间数据');
+            return;
         }
         if(parseFloat(this.state.progress)<0){
             toast.show('完成进度请填写0~100之间数据');
+            return;
         }
         if (this.state.sjwcsj.length === 0) {
             Toast.show('请选择实际完成时间');
             return;
-        }   toast.show('完成进度请填写0~100之间数据');
         }
         axios.post('/psmQqjdjh/save4Phrwwcqk', {
             userID: GLOBAL_USERID,
