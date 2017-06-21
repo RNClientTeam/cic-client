@@ -81,7 +81,7 @@ export default class CooperateTask extends Component {
                     }}
                     style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
                 >
-                    <MoreOperations navigator={this.props.navigator} closeModal={() => {
+                    <MoreOperations reloadInfo={()=>this.this.onPullRelease()} navigator={this.props.navigator} closeModal={() => {
                         this.setState({modalVisible: false})
                     }} auth={this.state.auth} zrrmc={this.state.zrrmc} rwid={this.state.rwid} jhxxId={this.props.jhxxId} tag="配合任务"/>
                 </Modal>
@@ -89,7 +89,7 @@ export default class CooperateTask extends Component {
         )
     }
 
-    onPullRelease(resolve) {
+    onPullRelease(resolve=()=>{}) {
         this.state.list = [];
         this.pageNum = 1;
         this.getDataFromNet(1, resolve);

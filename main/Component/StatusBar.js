@@ -10,7 +10,8 @@ import {
     Dimensions,
     Image,
     TouchableOpacity,
-    Text
+    Text,
+    TouchableHighlight
 } from 'react-native'
 const Platform = require('Platform');
 const {width} = Dimensions.get('window');
@@ -25,16 +26,16 @@ export default class StatusBar extends Component {
                 </View>
                 <View style={styles.navigationStyle}>
                     {this.props.notBack ?
-                        <View style={styles.backIcon}/>
+                        <TouchableOpacity style={styles.backIcon}/>
                         : Platform.OS === 'android' ?
-                            <TouchableOpacity onPress={this.goBack.bind(this)}>
+                            <TouchableOpacity style={{padding:1,backgroundColor:'black'}} onPress={this.goBack.bind(this)}>
                                 <Image style={styles.backIcon}
                                        source={require('../../resource/imgs/nav/android_back.png')}/>
                             </TouchableOpacity> :
-                            <TouchableOpacity onPress={this.goBack.bind(this)}>
+                            <TouchableHighlight underlayColor='transparent' style={{padding:1}} onPress={this.goBack.bind(this)}>
                                 <Image style={styles.backIcon}
                                        source={require('../../resource/imgs/nav/ios_back.png')}/>
-                            </TouchableOpacity>
+                            </TouchableHighlight>
                     }
                     {this.props.title ? <View style={{width:width*0.85}}>
                         <Text style={{textAlign:'center',color:'#fff',fontSize:15,fontWeight:'bold'}}>{this.props.title}</Text>

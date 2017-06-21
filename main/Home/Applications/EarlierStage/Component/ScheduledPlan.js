@@ -165,7 +165,7 @@ export default class SchedulePlan extends Component {
         }).then((data) => {
             if (data.code === 1) {
                 let showToast = true;
-                for(var key in data.data) {
+                for(let key in data.data) {
                     if (data.data[key]) {
                         showToast = false;
                         this.setState({modalVisible: true, auth: data.data, rwid: rwid});

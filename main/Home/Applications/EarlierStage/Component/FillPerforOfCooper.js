@@ -56,7 +56,7 @@ export default class FillPerforOfCooper extends Component{
                     sjwcsj: res.sjwcsj,
                     zrwztmc: res.zrwztmc,
                     gzjd: res.gzjd,
-                    rwnr: res.rwnr
+                    rwnr: res.rwnr,
                 });
             }
         }).catch((error) => {
@@ -96,7 +96,7 @@ export default class FillPerforOfCooper extends Component{
                         <View style={styles.cell}>
                             <Text style={styles.label}>要求完成时间</Text>
                             <View style={styles.blank}/>
-                            <Text>2017-07-02</Text>
+                            <Text>{this.state.yqwcsj}</Text>
                         </View>
                         <View style={styles.cell}>
                             <Text style={styles.label}>实际完成时间</Text>
@@ -267,6 +267,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#5476a1',
         marginRight: 10,
-        textAlign: 'center'
+        textAlign: 'center',
+        padding:0
     }
 });
