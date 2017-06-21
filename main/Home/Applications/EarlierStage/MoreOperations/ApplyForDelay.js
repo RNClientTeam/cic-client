@@ -88,11 +88,11 @@ export default class ApplyForDelay extends Component{
                             <View style={styles.blank}/>
                             <Text>{this.state.planName}</Text>
                         </View>
-                        <View style={styles.cell}>
-                            <Text style={styles.label}>计划开始时间</Text>
-                            <View style={styles.blank}/>
-                            <Text>{this.state.startTime}</Text>
-                        </View>
+                        {/*<View style={styles.cell}>*/}
+                            {/*<Text style={styles.label}>计划开始时间</Text>*/}
+                            {/*<View style={styles.blank}/>*/}
+                            {/*<Text>{this.state.startTime}</Text>*/}
+                        {/*</View>*/}
                         <View style={styles.cell}>
                             <Text style={styles.label}>计划结束时间</Text>
                             <View style={styles.blank}/>
@@ -121,11 +121,11 @@ export default class ApplyForDelay extends Component{
                             />
                         </View>
 
-                        <View style={styles.cell}>
-                            <Text style={styles.label}>变更开始时间</Text>
-                            <View style={styles.blank}/>
-                            <ChoiceDate showDate={this.state.changeStartTime} changeDate={(date)=>{this.setState({changeStartTime:date});}}/>
-                        </View>
+                        {/*<View style={styles.cell}>*/}
+                            {/*<Text style={styles.label}>变更开始时间</Text>*/}
+                            {/*<View style={styles.blank}/>*/}
+                            {/*<ChoiceDate showDate={this.state.changeStartTime} changeDate={(date)=>{this.setState({changeStartTime:date});}}/>*/}
+                        {/*</View>*/}
 
                         <View style={styles.cell}>
                             <Text style={styles.label}>变更结束时间</Text>
@@ -207,6 +207,10 @@ export default class ApplyForDelay extends Component{
         }).catch((error) => {
             Toast.show('服务端错误');
         });
+    }
+
+    componentWillUnmount() {
+        this.props.reloadInfo();
     }
 }
 

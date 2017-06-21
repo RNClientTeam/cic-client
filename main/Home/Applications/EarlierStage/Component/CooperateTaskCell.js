@@ -19,7 +19,7 @@ export default class CooperateTaskCell extends Component{
             <View style={styles.cooperateTaskCell}>
                 <View style={styles.topView}>
                     <Text style={{color:'#729bdc',fontSize:width*0.04, width:width*0.85}}>{this.props.dataSource.rwmc}</Text>
-                    <Text>{this.props.dataSource.zrrmc}</Text>
+                    <Text >{this.props.dataSource.zrrmc}</Text>
                 </View>
                 <View style={styles.bottomView}>
                     <View style={styles.leftView}>
@@ -54,11 +54,12 @@ const styles = StyleSheet.create({
     },
     topView:{
         flexDirection:"row",
-        justifyContent:'space-between',
+        justifyContent:'space-around',
         alignItems:'center',
         height:width*0.12,
         paddingLeft:width*0.02,
-        paddingRight:width*0.02
+        paddingRight:width*0.02,
+        width:width*0.96
     },
     bottomView:{
         alignItems:'center',

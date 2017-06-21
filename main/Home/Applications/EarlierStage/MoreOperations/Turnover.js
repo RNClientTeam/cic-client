@@ -263,6 +263,10 @@ export default class Turnover extends Component{
             Toast.show('服务端错误');
         });
     }
+
+    componentWillUnmount() {
+        this.props.reloadInfo()
+    }
 }
 
 const styles = StyleSheet.create({
