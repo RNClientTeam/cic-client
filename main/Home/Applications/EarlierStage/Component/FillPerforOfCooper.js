@@ -20,6 +20,7 @@ const {width, height}  = Dimensions.get('window');
 import Toast from 'react-native-simple-toast';
 import Loading from "../../../../Component/Loading.js";
 import ChoiceDate from "../../../../Component/ChoiceDate.js";
+import toast from 'react-native-simple-toast'
 
 export default class FillPerforOfCooper extends Component{
     constructor(props) {
@@ -111,7 +112,15 @@ export default class FillPerforOfCooper extends Component{
                             <Text style={styles.label}>完成进度</Text>
                             <View style={styles.blank}/>
                             <TextInput style={styles.textinput} underlineColorAndroid="transparent"
-                                onChangeText={(text) => {this.setState({progress:text})}}/>
+                                onChangeText={(text) => {
+                                    if(parseFloat(text)>100){
+                                        toast.show('请填写0~100之间数据');
+                                    }else if(parseFloat(text)<0){
+                                        toast.show('请填写0~100中间数据');
+                                    }
+                                        this.setState({progress:text});
+
+                                }}/>
                             <Text>%</Text>
                         </View>
 
@@ -147,13 +156,16 @@ export default class FillPerforOfCooper extends Component{
             Toast.show('请填写变更情况说明');
             return;
         }
-        if (parseInt(this.state.progress) > 100) {
-            Toast.show('请填写正确的进度');
-            return;
+        if(parseFloat(this.state.progress)>100){
+            toast.show('完成进度请填写0~100之间数据');
+        }
+        if(parseFloat(this.state.progress)<0){
+            toast.show('完成进度请填写0~100之间数据');
         }
         if (this.state.sjwcsj.length === 0) {
             Toast.show('请选择实际完成时间');
             return;
+        }   toast.show('完成进度请填写0~100之间数据');
         }
         axios.post('/psmQqjdjh/save4Phrwwcqk', {
             userID: GLOBAL_USERID,

@@ -110,7 +110,11 @@ export default class Organization extends Component {
             this.setState({isLoading: false});
             this.deps = response.data.item;
             this.depsConstructor(this.deps);
-            this.renderDeps();
+            //从人员变更接口进入
+            if (this.props.getInfo)
+                this.getChildren(this.deps);
+            else //从组织tab进入
+                this.renderDeps();
         });
     }
 
