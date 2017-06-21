@@ -85,7 +85,13 @@ export default class EarlierStageListCell extends Component {
             case 'ProgressPlanDetail':
                 this.props.navigator.push({
                     component: ProgressPlanDetail,
-                    name: 'ProgressPlanDetail'
+                    name: 'ProgressPlanDetail',
+                    params: {
+                        xmbh: this.props.data.xmbh,
+                        xmmc: this.props.data.xmmc,
+                        sjd: this.props.sjd,
+                        bfb: this.props.bfb
+                    }
                 });
                 break;
             case 'ProjectSubitemSplitDetail':

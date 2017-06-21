@@ -16,11 +16,15 @@ const {width}  = Dimensions.get('window');
 import SearchHeader from '../Component/SearchHeader'
 import ProjectRangeHandoverList from './Component/ProjectRangeHandoverList'
 import ProjectRangeHandoverModal from "./Component/ProjectRangeHandoverModal";
+import {getCurrentMonS,getCurrentMonE} from '../../../Util/Util'
 export default class ProjectRangeHandover extends Component{
     constructor(props){
         super(props);
         this.state={
-            isModalVisible:false
+            isModalVisible:false,
+            sDate:getCurrentMonS(),
+            eDate:getCurrentMonE(),
+            keywords:''
         }
     }
 
@@ -32,9 +36,9 @@ export default class ProjectRangeHandover extends Component{
                         <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
-                <SearchHeader/>
+                <SearchHeader sDate={this.state.sDate} eDate={this.state.eDate}/>
                 <ProjectRangeHandoverList navigator={this.props.navigator}/>
-                {this.state.isModalVisible?<ProjectRangeHandoverModal isModalVisible={this.state.isModalVisible}  closeModal={()=>this.setState({isModalVisible:false})} />:<View></View>}
+                {this.state.isModalVisible?<ProjectRangeHandoverModal sDate={this.state.sDate} eDate={this.state.eDate} isModalVisible={this.state.isModalVisible}  closeModal={()=>this.setState({isModalVisible:false})} />:<View></View>}
             </View>
         )
     }
