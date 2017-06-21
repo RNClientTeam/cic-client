@@ -18,12 +18,70 @@ import ChoiceDate from "../../../../Component/ChoiceDate"
 const {width, height} = Dimensions.get('window');
 
 export default class ProjectChildProfile extends Component {
+     constructor(props) {
+         super(props);
+         this.state = {
+             dataSource: [],
+             cbfw: ''
+         };
+     }
+     componentDidMount() {
+        axios.get('psmSsJdjh/gczxgk', {
+            parmas: {
+                userID: GLOBAL_USERID,
+                gczxId: this.props.gczxId,
+                callID: getTimestamp()
+            }
+        }).then(responseData => {
+            if (responseData.code === 1) {
+                let data = responseData.data.data;
+                this.setState({
+                    dataSource: [
+                        {key: '项目名称', value: data.xmmc},
+                        {key: '工程子项锁定', value: '未锁定'},
+                        {key: '工程子项名称', value: data.zxmc},
+                        {key: '最晚送电时间', value: data.zwsdsj},
+                        {key: '责任部门', value: data.zrbm},
+                        {key: '子项负责人', value: data.zrr},
+                        {key: '计划开始时间', value: data.jhkssj},
+                        {key: '计划结束时间', value: data.jhjssj},
+                    ],
+                    cbfw: data.cbfw //承包范围
+                })
+            } else {
+                toast.show(responseData.message);
+            }
+        }).catch(err => {
+            console.error(err);
+        })
+    }
+
+    renderRow(item) {
+        return (
+            <View style={styles.row}>
+                <Text style={[styles.labelColor]}>{item.key}</Text>
+                <View style={styles.blank}/>
+                <Text>{item.value}</Text>
+            </View>
+        )
+    }
+
+    renderRows(dataSource) {
+        if (dataSource && dataSource.length) {
+            let row = [];
+            for (let i = 0, l = dataSource.length; i < l; i++) {
+                row.push(dataSource[i]);
+            }
+            return row
+        }
+        return <View/>
+    }
+    
     render() {
         return (
             <View style={styles.viewSty}>
             <ScrollView>
             <View style={styles.container}>
-
                 <View style={styles.row}>
                     <Text style={[styles.labelColor]}>项目名称</Text>
                     <View style={styles.blank}/>
