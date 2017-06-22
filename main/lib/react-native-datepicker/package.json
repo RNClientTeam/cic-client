@@ -110,7 +110,7 @@
   "readme": "ERROR: No README data found!",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xgfe/react-native-datepicker.git"
+    "url": "file:../react-native-datapicker"
   },
   "scripts": {
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",

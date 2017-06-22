@@ -13,7 +13,7 @@ import {
 } from 'react-native'
 import StatusBar from "../../../../Component/StatusBar";
 import Toast from 'react-native-simple-toast'
-const {width} = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 export default class AddZzxqk extends Component {
     constructor(props){
@@ -39,15 +39,21 @@ export default class AddZzxqk extends Component {
                         </View>
                         <Text style={[styles.textColor, styles.leftMargin]}>%</Text>
                     </View>
-                    <View style={styles.row}>
-                        <Text style={styles.labelColor}>当前完成情况</Text>
-                    </View>
-                    <View style={styles.textArea}>
-                        <TextInput style={{height: 0.2 * width,fontSize:width*0.042}}
-                                   multiline = {true}
-                                   defaultValue={this.state.wcxx}
-                                   onChangeText={(text) => this.setState({wcxx: text})}
-                                   placeholder="请输入"/>
+                    <View style={styles.inputCell}>
+                        <View style={styles.inputLabel}>
+                            <Text style={styles.label}>项目总体进度描述*</Text>
+                        </View>
+                        <View>
+                            <TextInput
+                                multiline={true}
+                                underlineColorAndroid="transparent"
+                                textAlignVertical="top"
+                                numberOfLines={4}
+                                defaultValue={this.state.wcxx}
+                                onChangeText={(text) => this.setState({wcxx: text})}
+                                style={{backgroundColor: '#eee', height: 0.28 * height, borderRadius: 10}}
+                            />
+                        </View>
                     </View>
                 </View>
                 <View style={styles.blank}/>
@@ -65,6 +71,8 @@ export default class AddZzxqk extends Component {
             Toast.show('完成比例请填写0~100');
         }else if(parseFloat(this.state.wcbl)<0){
             Toast.show('完成比例请填写0~100');
+        }else if(parseFloat(this.state.wcbl)!==parseInt(this.state.wcbl)){
+            Toast.show('完成比例请填写整数');
         }else{
             axios.post('/psmQqjdjh/saveZxqk',{
                 userID:GLOBAL_USERID,
@@ -112,7 +120,8 @@ const styles = StyleSheet.create({
         width: 0.15 * width,
         borderRadius: 5,
         borderWidth: 1,
-        borderColor: '#216fd0'
+        borderColor: '#216fd0',
+        padding:0
     },
     blank: {
         flex: 1
@@ -143,5 +152,18 @@ const styles = StyleSheet.create({
     },
     labelColor: {
         color: '#5476a1'
-    }
+    },
+    inputCell: {
+        height: height * 0.35,
+        paddingLeft: width * 0.02,
+        paddingRight: width * 0.02,
+        marginBottom:width*0.04
+    },
+    inputLabel: {
+        height: height * 0.07,
+        justifyContent: 'center',
+    },
+    label: {
+        color: '#5476a1'
+    },
 });
