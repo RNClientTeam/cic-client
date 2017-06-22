@@ -28,11 +28,11 @@ export default class StatusBar extends Component {
                     {this.props.notBack ?
                         <TouchableOpacity style={styles.backIcon}/>
                         : Platform.OS === 'android' ?
-                            <TouchableOpacity style={{padding:1,backgroundColor:'black'}} onPress={this.goBack.bind(this)}>
+                            <TouchableOpacity underlayColor='transparent' style={{padding:10}} onPress={this.goBack.bind(this)}>
                                 <Image style={styles.backIcon}
                                        source={require('../../resource/imgs/nav/android_back.png')}/>
                             </TouchableOpacity> :
-                            <TouchableHighlight underlayColor='transparent' style={{padding:1}} onPress={this.goBack.bind(this)}>
+                            <TouchableHighlight underlayColor='transparent' style={{padding:10}} onPress={this.goBack.bind(this)}>
                                 <Image style={styles.backIcon}
                                        source={require('../../resource/imgs/nav/ios_back.png')}/>
                             </TouchableHighlight>

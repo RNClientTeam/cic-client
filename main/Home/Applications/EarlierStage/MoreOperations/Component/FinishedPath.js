@@ -65,6 +65,21 @@ export default class FinishedPath extends Component{
     renderRows() {
         return this.dataSource.map((item, index) => (<PathRow key={index} data={item}/>))
     }
+
+    componentDidMount() {
+        if(this.props.tag==='进度计划'){
+            axios.get('/workFlow/multiActionList',{
+                params:{
+                    userID:GLOBAL_USERID,
+                    resID:this.props.rwid,
+                    groupWfName:'qqjdjh-zx-zrw',
+                    callID:true
+                }
+            }).then(data=>{
+                console.log(data);
+            })
+        }
+    }
 }
 
 const styles = StyleSheet.create(

@@ -25,7 +25,7 @@ export default class AddShareData extends Component {
             shareType: '请选择共享方式',
             shareRangeArr:['计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4', '计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4'],
             shareRange:'请选择共享范围',
-            shareClass:['空','会议系列','商务系类','其他']
+            shareClass:['会议系列','商务系类','其他']
         }
     }
 

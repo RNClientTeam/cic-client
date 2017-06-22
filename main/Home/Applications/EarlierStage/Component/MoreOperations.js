@@ -33,6 +33,9 @@ export default class MoreOperations extends Component {
 
     componentDidMount() {
         let dataArr = [];
+        if(this.props.auth.workflow){
+            dataArr.push({img:require('../../../../../resource/imgs/home/earlierStage/workflow.png'),name:'查看已完成流程步骤'})
+        }
         if(this.props.auth.rybg){
             dataArr.push({img:require('../../../../../resource/imgs/home/earlierStage/peopleChange.png'),name:'人员变更'})
         }

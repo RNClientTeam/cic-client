@@ -21,6 +21,7 @@ import ZongzhixinQK from "../MoreOperations/ZongzhixinQK";
 import FillPerforOfCooper from "./FillPerforOfCooper.js";
 import EnsureCompleteOfCooper from "../MoreOperations/EnsureCompleteOfCooper.js";
 import Toast from 'react-native-simple-toast';
+import FinishedPath from "../MoreOperations/Component/FinishedPath";
 const {width} = Dimensions.get('window');
 
 export default class MoreOperationsCell extends Component {
@@ -120,6 +121,15 @@ export default class MoreOperationsCell extends Component {
             this.changeStatus('90');
         } else if (this.props.dataSource.name === '恢复') {
             this.changeStatus('100');
+        }else if(this.props.dataSource.name === '查看已完成流程步骤'){
+            this.props.navigator.push({
+                name:'FinishedPath',
+                component:FinishedPath,
+                params:{
+                    rwid:this.props.rwid,
+                    tag:this.props.tag
+                }
+            });
         }
         this.props.closeModal()
     }

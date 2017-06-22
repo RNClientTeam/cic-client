@@ -56,10 +56,11 @@ export default class ProjectRangeHandover extends Component{
                 eDate:this.state.eDate,
                 pageNum:pageNum,
                 pageSize:10,
-                callID:true,
-                keywords:this.state.keywords
+                callID:true
             }
         }).then(data=>{
+            console.log(data);
+            // TODO
             data = {
                 "code": 1,
                 "data": {

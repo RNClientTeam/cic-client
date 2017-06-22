@@ -181,6 +181,8 @@ export default class FillPerformance extends Component {
             toast.show('完成比例必须在0~100之间');
         } else if (parseFloat(this.state.wcbl) < 0) {
             toast.show('完成比例必须在0~100之间');
+        }else if(parseFloat(this.state.wcbl)!== parseInt(this.state.wcbl)){
+            toast.show('完成比例必须为整数');
         } else {
             this.showLoading();
             axios.post('/psmQqjdjh/save4Zrwwcqk', {
