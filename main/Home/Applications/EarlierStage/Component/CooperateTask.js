@@ -83,7 +83,8 @@ export default class CooperateTask extends Component {
                 >
                     <MoreOperations reloadInfo={this.onPullRelease.bind(this)} navigator={this.props.navigator} closeModal={() => {
                         this.setState({modalVisible: false})
-                    }} auth={this.state.auth} zrrmc={this.state.zrrmc} rwid={this.state.rwid} jhxxId={this.props.jhxxId} tag="配合任务"/>
+                    }} auth={this.state.auth} zrrmc={this.state.zrrmc} rwid={this.state.rwid}
+                    jhxxId={this.props.jhxxId} tag="配合任务" exchangeRwid={this.exchangeRwid.bind(this)}/>
                 </Modal>
             </View>
         )
@@ -100,6 +101,20 @@ export default class CooperateTask extends Component {
             <CooperateTaskCell key={rowID} dataSource={item}
                 setModalVisible={this.setModalVisible.bind(this, item.phrwId, item.zrrmc)}/>
         );
+    }
+
+    exchangeRwid(newId) {
+        let tempIndex = -1;
+        this.state.list.forEach((elem, index) => {
+            if (elem.phrwId === this.state.rwid) {
+                tempIndex = index;
+                return;
+            }
+        });
+        if (tempIndex >= 0) {
+            this.state.list[tempIndex].phrwId = newId;
+            this.setState({list:this.state.list});
+        }
     }
 
     setModalVisible(phrwId, zrrmc) {

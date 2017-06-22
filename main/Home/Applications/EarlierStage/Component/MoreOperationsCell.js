@@ -44,6 +44,7 @@ export default class MoreOperationsCell extends Component {
                     jhxxId:this.props.jhxxId,
                     tag: this.props.tag ? this.props.tag : '',
                     reloadInfo:this.props.reloadInfo,
+                    exchangeRwid:this.props.exchangeRwid
                 }
             });
         }else if(this.props.dataSource.name === '流程信息查看'){
@@ -61,6 +62,7 @@ export default class MoreOperationsCell extends Component {
                     sDate:this.props.sDate,
                     eDate:this.props.eDate,
                     reloadInfo:this.props.reloadInfo,
+                    exchangeRwid:this.props.exchangeRwid,
                     tag: this.props.tag ? this.props.tag : ''
                 }
             });

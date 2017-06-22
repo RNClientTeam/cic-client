@@ -81,7 +81,7 @@ export default class EnsureCompleteOfCooper extends Component{
                         <View style={styles.cell}>
                             <Text style={styles.label}>计划完成时间</Text>
                             <View style={styles.blank}/>
-                            <Text>{`${this.state.zrwjhkssj} - ${this.state.zrwjhjssj}`}</Text>
+                            <Text>{`${this.state.zrwjhkssj} ／ ${this.state.zrwjhjssj}`}</Text>
                         </View>
                     </View>
                     <View style={styles.editPanel}>
@@ -120,13 +120,12 @@ export default class EnsureCompleteOfCooper extends Component{
                         </View>
                     </View>
                     <View style={styles.blank}/>
-                    <TouchableOpacity onPress={this.submit.bind(this)}>
-                        <View style={styles.button}>
-                            <Text style={styles.buttonText}>确认完成</Text>
-                        </View>
-                    </TouchableOpacity>
                 </ScrollView>
-                {this.state.loading?<Loading/>:null}
+                <TouchableOpacity onPress={this.submit.bind(this)}>
+                    <View style={styles.button}>
+                        <Text style={styles.buttonText}>确认完成</Text>
+                    </View>
+                </TouchableOpacity>
             </View>
         )
     }

@@ -149,13 +149,12 @@ export default class ApplyForDelay extends Component{
                         </View>
                     </View>
                     <View style={styles.blank}/>
-                    <TouchableOpacity onPress={this.submit.bind(this)}>
-                        <View style={styles.button}>
-                            <Text style={styles.buttonText}>提交</Text>
-                        </View>
-                    </TouchableOpacity>
                 </ScrollView>
-                {this.state.loading?<Loading/>:null}
+                <TouchableOpacity onPress={this.submit.bind(this)}>
+                    <View style={styles.button}>
+                        <Text style={styles.buttonText}>提交</Text>
+                    </View>
+                </TouchableOpacity>
             </View>
         )
     }
@@ -208,6 +207,7 @@ export default class ApplyForDelay extends Component{
             callID: getTimestamp()
         }).then((responseData) => {
             if (responseData.code === 1) {
+                this.props.exchangeRwid(responseData.data);
                 Toast.show('提交申请成功');
                 const self = this;
                 let timer = setTimeout(() => {

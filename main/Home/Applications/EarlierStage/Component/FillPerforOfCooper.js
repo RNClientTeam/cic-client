@@ -25,6 +25,7 @@ import toast from 'react-native-simple-toast'
 export default class FillPerforOfCooper extends Component{
     constructor(props) {
         super(props);
+        this.changeIntroduction = '';
         this.state = {
             isLoading: false,
             yqwcsj: '',
@@ -140,13 +141,12 @@ export default class FillPerforOfCooper extends Component{
                         </View>
                     </View>
                     <View style={styles.blank}/>
-                    <TouchableOpacity onPress={this.submit.bind(this)}>
-                        <View style={styles.button}>
-                            <Text style={styles.buttonText}>保存</Text>
-                        </View>
-                    </TouchableOpacity>
                 </ScrollView>
-                {this.state.loading?<Loading/>:null}
+                <TouchableOpacity onPress={this.submit.bind(this)}>
+                    <View style={styles.button}>
+                        <Text style={styles.buttonText}>保存</Text>
+                    </View>
+                </TouchableOpacity>
             </View>
         )
     }

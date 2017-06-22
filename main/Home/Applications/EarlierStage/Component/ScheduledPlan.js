@@ -104,6 +104,7 @@ export default class SchedulePlan extends Component {
                 >
                     <MoreOperations reloadInfo={()=>{this.getAllTask();this.getMyTask()}} tag="进度计划" sDate={this.state.rySDate} eDate={this.state.ryEdate} jhxxId={this.props.jhxxId} auth={this.state.auth} rwid={this.state.rwid}
                                     navigator={this.props.navigator}
+                                    exchangeRwid={this.exchangeRwid.bind(this)}
                                     closeModal={() => {
                                         this.setState({modalVisible: false})
                                     }}/>
@@ -111,6 +112,31 @@ export default class SchedulePlan extends Component {
 
             </View>
         );
+    }
+
+    exchangeRwid(newId) {
+        let myTaskIndex = -1;
+        let allTaskIndex = -1;
+        this.state.myTask.forEach((elem, index) => {
+            if (elem.rwid === this.state.rwid) {
+                myTaskIndex = index;
+                return;
+            }
+        });
+        this.state.allTask.forEach((elem, index) => {
+            if (elem.rwid === this.state.rwid) {
+                allTaskIndex = index;
+                return;
+            }
+        });
+        if (myTaskIndex >= 0) {
+            this.state.myTask[myTaskIndex].rwid = newId;
+            this.setState({myTask: this.state.myTask});
+        }
+        if (allTaskIndex >= 0) {
+            this.state.allTask[allTaskIndex].rwid = newId;
+            this.setState({allTask: this.state.allTask});
+        }
     }
 
     changePage(page) {
@@ -168,7 +194,11 @@ export default class SchedulePlan extends Component {
                 for(let key in data.data) {
                     if (data.data[key]) {
                         showToast = false;
-                        this.setState({modalVisible: true, auth: data.data, rwid: rwid});
+                        this.setState({
+                            modalVisible: true,
+                            auth: data.data,
+                            rwid: rwid
+                        });
                         return;
                     }
                 }

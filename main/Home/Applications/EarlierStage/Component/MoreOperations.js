@@ -83,6 +83,7 @@ export default class MoreOperations extends Component {
                     eDate={this.props.eDate}
                     jhxxId={this.props.jhxxId}
                     rwid={this.props.rwid}
+                    exchangeRwid={this.props.exchangeRwid}
                     closeModal={()=>{this.props.closeModal()}}
                     navigator={this.props.navigator}
                     key={i}
