@@ -168,7 +168,7 @@ export default class EarlierStage extends Component {
                         hasMoreData = true
                     } else {
                         hasMoreData = false;
-                        Toast.show('没有更多数据了！')
+                        // Toast.show('没有更多数据了！')
                     }
                     for (let i = 0; i < resultData.length; i++) {
                         this.dataArr.push(resultData[i])
