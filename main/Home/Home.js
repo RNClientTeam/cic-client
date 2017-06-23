@@ -8,6 +8,9 @@ import {
     Dimensions,
     TouchableOpacity,
     ScrollView,
+    NativeModules,
+    Platform,
+    ToastAndroid
 } from 'react-native';
 const {width} = Dimensions.get('window');
 import StatusBar from '../Component/StatusBar'
@@ -38,12 +41,23 @@ export default class Home extends Component {
         }
     }
 
+    test() {
+        if (Platform.OS === 'android') {
+            NativeModules.MyRN.scan((msg) => {
+                ToastAndroid.show('文件地址为:'+msg,ToastAndroid.SHORT);
+            },
+            (result) => {
+                ToastAndroid.show('JS界面:错误信息为:'+result,ToastAndroid.SHORT);
+            });
+        }
+    }
+
     render() {
         return (
             <View style={{paddingBottom: 50}}>
                 <StatusBar notBack={true} navigator={this.props.navigator}>
                     <Image style={styles.logoStyle} source={require('../../resource/imgs/home/home_logo.png')}/>
-                    <Text style={styles.logoText}>九州方圆</Text>
+                    <Text style={styles.logoText} onPress={this.test.bind(this)}>九州方圆</Text>
                     <View style={styles.operationViewStyle}>
                         <TouchableOpacity onPress={this.onPressSweep.bind(this)}>
                             <Image style={styles.sweepStyle} source={require('../../resource/imgs/home/sweep.png')}/>
