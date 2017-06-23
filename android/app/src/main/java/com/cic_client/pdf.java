@@ -45,6 +45,10 @@ public class pdf extends AppCompatActivity {
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         startActivityForResult(intent,1);
     }
+    public void can (View v){
+        Toast.makeText(pdf.this,"取消",Toast.LENGTH_SHORT).show();
+        finish();
+    }
     //文件路径
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
