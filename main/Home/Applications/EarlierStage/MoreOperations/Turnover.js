@@ -123,8 +123,7 @@ export default class Turnover extends Component{
                                 defaultValue={'请选择>'}
                                 style={{flex:1, alignItems:'flex-end'}}
                                 onSelect={(a) => {
-
-                                    this.setState({changeReason:this.state.reasonList[a]});
+                                    this.setState({changeReason:a});
                                 }}
                                 showsVerticalScrollIndicator={false}
                             />
