@@ -34,6 +34,13 @@ public class MyRN extends ReactContextBaseJavaModule {
         constants.put("LONG", Toast.LENGTH_LONG);
         return constants;
     }
+    //获取文件
+    @ReactMethod
+    public void scan(){
+        Activity currentActivity = getCurrentActivity();
+        Intent intent = new Intent(currentActivity, pdf.class);
+        currentActivity.startActivity(intent);
+    }
     @ReactMethod
     public void show(String message, int duration) {
         Toast.makeText(getReactApplicationContext(), message, duration).show();
