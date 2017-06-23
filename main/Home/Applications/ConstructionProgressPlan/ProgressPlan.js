@@ -186,7 +186,7 @@ export default class ProgressPlan extends Component {
                 this.getDataFromNet(this.state.pageNum);
             })
         } else {
-            toast.show("没有更多数据");
+            // toast.show("没有更多数据");
         }
     }
 }

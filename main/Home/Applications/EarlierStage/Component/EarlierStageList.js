@@ -93,7 +93,7 @@ export default class EarlierStageList extends Component {
                 hasMoreData:this.props.loadMore()
             },function () {
                 if(!this.state.hasMoreData){
-                    Toast.show('没有更多数据') ;
+                    // Toast.show('没有更多数据') ;
                 }
             })
         }
