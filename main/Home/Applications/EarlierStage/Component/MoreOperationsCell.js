@@ -120,9 +120,9 @@ export default class MoreOperationsCell extends Component {
                 }
             });
         } else if (this.props.dataSource.name === '暂停') {
-            this.changeStatus('90');
-        } else if (this.props.dataSource.name === '恢复') {
             this.changeStatus('100');
+        } else if (this.props.dataSource.name === '恢复') {
+            this.changeStatus('90');
         }else if(this.props.dataSource.name === '查看已完成流程步骤'){
             this.props.navigator.push({
                 name:'FinishedPath',

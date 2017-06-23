@@ -65,7 +65,7 @@ export default class ProgressPlan extends Component {
                     dataSource: this.state.dataSource.concat(responseData.data.data),
                     hasMoreData: responseData.data.data.length===0?false:true
                 }, () => {
-                    !this.state.hasMoreData && Toast.show('没有更多数据了');
+                    // !this.state.hasMoreData && Toast.show('没有更多数据了');
                 });
             }
             callback();

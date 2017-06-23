@@ -71,7 +71,7 @@ export default class FillPerforOfCooper extends Component {
     render() {
         return (
             <View style={styles.containerStyle}>
-                <StatusBar navigator={this.props.navigator} title="任务概况"/>
+                <StatusBar navigator={this.props.navigator} title="填报完成情况"/>
                 <ScrollView>
                     <View style={styles.viewSty}>
                         <View style={[styles.cell, {borderBottomWidth: 0}]}>
@@ -114,17 +114,16 @@ export default class FillPerforOfCooper extends Component {
                                                toast.show('请填写0~100中间数据');
                                            }
                                            this.setState({progress: text});
-
                                        }}/>
                             <Text>%</Text>
                         </View>
                         {
-                            parseFloat(this.state.process) === 100 ?
+                            this.state.progress === '100' ?
                                 <View style={styles.cell}>
                                     <Text style={styles.label}>实际完成时间</Text>
                                     <View style={styles.blank}/>
-                                    <ChoiceDate showDate={this.state.sjwcsh} changeDate={(date) => {
-                                        this.setState({sjwcsh: date});
+                                    <ChoiceDate showDate={this.state.sjwcsj} changeDate={(date) => {
+                                        this.setState({sjwcsj: date});
                                     }}/>
                                 </View> : null
                         }
@@ -159,7 +158,7 @@ export default class FillPerforOfCooper extends Component {
 
     submit() {
         if (this.changeIntroduction.length === 0) {
-            Toast.show('请填写变更情况说明');
+            Toast.show('请填写当前进展情况说明');
             return;
         }
         if (parseFloat(this.state.progress) > 100) {

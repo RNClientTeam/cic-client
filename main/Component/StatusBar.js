@@ -37,7 +37,7 @@ export default class StatusBar extends Component {
                                        source={require('../../resource/imgs/nav/ios_back.png')}/>
                             </TouchableHighlight>
                     }
-                    {this.props.title ? <View style={{width:width*0.85}}>
+                    {this.props.title ? <View style={{width:width*0.85-20}}>
                         <Text style={{textAlign:'center',color:'#fff',fontSize:15,fontWeight:'bold'}}>{this.props.title}</Text>
                     </View> : <View/>}
                     {this.props.children}

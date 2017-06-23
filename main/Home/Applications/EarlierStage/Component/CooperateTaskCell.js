@@ -24,8 +24,8 @@ export default class CooperateTaskCell extends Component{
                 <View style={styles.bottomView}>
                     <View style={styles.leftView}>
                         <View style={styles.leftTopView}>
-                            <Text style={styles.leftTopText}>实际要求完成时间</Text>
-                            <Text style={[styles.leftTopText,{marginLeft:width*0.04}]}>{this.props.dataSource.yqwcsj}</Text>
+                            <Text style={styles.leftTopText}>实际／要求完成时间</Text>
+                            <Text style={[styles.leftTopText,{marginLeft:width*0.04}]}>{this.props.dataSource.sjwcsj}{this.props.dataSource.sjwcsj&&this.props.dataSource.yqwcsj&&'／'}{this.props.dataSource.yqwcsj}</Text>
                         </View>
                         <View style={styles.percentageView}>
                             <View style={styles.processView}>
