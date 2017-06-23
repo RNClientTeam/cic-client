@@ -159,7 +159,7 @@ export default class FillPerforOfCooper extends Component {
 
     submit() {
         if (this.changeIntroduction.length === 0) {
-            Toast.show('请填写变更情况说明');
+            Toast.show('请填写当前进展情况说明');
             return;
         }
         if (parseFloat(this.state.progress) > 100) {

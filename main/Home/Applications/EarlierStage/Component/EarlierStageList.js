@@ -67,10 +67,13 @@ export default class EarlierStageList extends Component {
             fzr:item.xmjl,//负责人
             bm:item.tbdw,//部门
             bfb:item.wcbl,//百分比
-            sjd:item.sDate+'／'+item.eDate,//时间段
+            sjd:'',//时间段
             count:item.count,
             jhxxId:item.jhxxId
         };
+        if(item.sDate&&item.eDate){
+            temp.sjd = item.sDate+'／'+item.eDate
+        }
         return (
             <EarlierStageListCell stateBg={stateBg} key={rowID} navigator={this.props.navigator} data={temp} target="EarlierStageDetail"/>
         );
