@@ -1,9 +1,11 @@
 package com.cic_client;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
 
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -36,10 +38,19 @@ public class MyRN extends ReactContextBaseJavaModule {
     }
     //获取文件
     @ReactMethod
-    public void scan(){
-        Activity currentActivity = getCurrentActivity();
-        Intent intent = new Intent(currentActivity, pdf.class);
-        currentActivity.startActivity(intent);
+    public void scan(Callback successBack, Callback errorBack){
+        try{
+            Activity currentActivity=getCurrentActivity();
+            if(currentActivity!=null) {
+                Intent intent = new Intent(currentActivity,pdf.class);
+                currentActivity.startActivityForResult(intent,1);
+                //进行回调数据
+                successBack.invoke(pdf.mQueue.take());
+            }
+        }catch (Exception e){
+            errorBack.invoke(e.getMessage());
+            e.printStackTrace();
+        }
     }
     @ReactMethod
     public void show(String message, int duration) {

@@ -15,6 +15,7 @@ import com.lzy.okhttputils.OkHttpUtils;
 import com.lzy.okhttputils.callback.StringCallback;
 
 import java.io.File;
+import java.util.concurrent.ArrayBlockingQueue;
 
 import okhttp3.Call;
 import okhttp3.Response;
@@ -25,13 +26,8 @@ import okhttp3.Response;
  */
 
 public class pdf extends AppCompatActivity {
-    //测试地址
-    private String Sever = "http://123.56.97.229:6080/Server/task/detail.do";
-    //上传地址
-    private String uploadfile = "http://123.56.97.229:6080/Server/task/upload.do";
-    //为了测试方便
-    private String userid = "02774bc536964386a68bd2b64145c910";
-    private String taskid = "f92a591a37fe4677b7a239158c14fbca";
+    //构建一个阻塞的单一数据的队列
+    public static ArrayBlockingQueue<String> mQueue = new ArrayBlockingQueue<String>(1);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,34 +47,28 @@ public class pdf extends AppCompatActivity {
     }
     //文件路径
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK){//是否选择，没选择就不会继续
             try {
-                Uri uri = data.getData();//得到uri，后面就是将uri转化成file的过程。
-                Log.d("文件路径--",uri+"");
-                String url = FileUtils2.getPath(pdf.this,uri);
-                String url2 = url.trim();
-                Toast.makeText(pdf.this,"文件路径为："+url2,Toast.LENGTH_SHORT).show();
-                UploadFile(url2);
-                finish();
+                if (resultCode == RESULT_OK ) {
+                    Uri uri = data.getData();//得到uri，后面就是将uri转化成file的过程。
+                    Log.d("文件路径--",uri+"");
+                    String url = FileUtils2.getPath(this,uri);
+                    String url2 = url.trim();
+                    if (url2 != null && !url2.equals("")) {
+                        mQueue.add(url2);
+                    } else {
+                        mQueue.add("无数据");
+                    }
+                } else {
+                    mQueue.add("无数据...");
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            finish();
         }
-    }
-    //上传文件
-    private void UploadFile(String url) {
-        File file = new File(url);
-        OkHttpUtils.post(uploadfile)
-                .params("userid",userid)
-                .params("taskid",taskid)
-                .params("assid","")
-                .params("file",file)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(String s, Call call, Response response) {
-                        Toast.makeText(pdf.this,"上传成功",Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 }
