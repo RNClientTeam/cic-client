@@ -29,7 +29,7 @@ export default class PathRow extends Component{
                     <View style={styles.blank}/>
                 </View>
                 <View style={{marginTop:width*0.02,paddingLeft: 0.07 * width}}>
-                    <Text>{this.props.spyj}</Text>
+                    <Text>{this.props.data.spyj}</Text>
                 </View>
                 <View style={styles.detail}>
                     <View style={styles.paddingBottom}>
