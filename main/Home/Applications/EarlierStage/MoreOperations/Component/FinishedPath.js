@@ -57,24 +57,26 @@ export default class FinishedPath extends Component{
     }
 
     componentDidMount() {
-        if(this.props.tag==='进度计划'){
-            axios.get('/workFlow/multiActionList',{
-                params:{
-                    userID:GLOBAL_USERID,
-                    resID:this.props.rwid,
-                    groupWfName:'qqjdjh-zx-zrw',
-                    callID:true
-                }
-            }).then(data=>{
-                if(data.code === 1&& data.data.length>0){
-                    this.setState({
-                        dataSource:data.data
-                    })
-                }else{
-                    toast.show(data.message);
-                }
-            })
+        let params = {
+            userID:GLOBAL_USERID,
+            resID:this.props.rwid,
+            groupWfName:'qqjdjh-zx-phrw',
+            callID:true
         }
+        if(this.props.tag==='进度计划'){
+            params.groupWfName = 'qqjdjh-zx-zrw'
+        }
+        axios.get('/workFlow/multiActionList',{
+            params:params
+        }).then(data=>{
+            if(data.code === 1&& data.data.length>0){
+                this.setState({
+                    dataSource:data.data
+                })
+            }else{
+                toast.show(data.message);
+            }
+        })
     }
 }
 
