@@ -158,6 +158,7 @@ export default class Home extends Component {
             key: keys.userMessage
         }).then((data) => {
             global.GLOBAL_USERID = data.userID;
+            console.log(1)
             let template = {
                 userID: data.userID,
                 callID: getTimestamp(),
@@ -170,6 +171,7 @@ export default class Home extends Component {
             axios.post('/user/index',
                 responseData
             ).then(resultData => {
+                console.log(resultData);
                 this.setState({
                     isLoading: false
                 });

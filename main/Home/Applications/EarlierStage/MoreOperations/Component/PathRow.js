@@ -24,17 +24,19 @@ export default class PathRow extends Component{
                     <Image style={styles.icon}
                            source={require('../../../../../../resource/imgs/home/earlierStage/location.png')}/>
                     <Text style={[styles.titleColor]}>
-                        {this.props.data.applicantTitle} 提交 {this.props.data.approvalTitle}
+                        {this.props.data.actionName}
                     </Text>
                     <View style={styles.blank}/>
-                    <Text style={[styles.actionColor]}>通过</Text>
+                </View>
+                <View style={{marginTop:width*0.02,paddingLeft: 0.07 * width}}>
+                    <Text>{this.props.spyj}</Text>
                 </View>
                 <View style={styles.detail}>
                     <View style={styles.paddingBottom}>
-                        <Text>{this.props.data.applicant}</Text>
+                        <Text>{this.props.data.spr}</Text>
                     </View>
                     <View>
-                        <Text>{this.props.data.date} {this.props.data.time}</Text>
+                        <Text>{this.props.data.spsj}</Text>
                     </View>
                 </View>
             </View>
@@ -69,10 +71,13 @@ const styles = StyleSheet.create(
         detail: {
             paddingLeft: 0.07 * width,
             paddingTop: 0.04 * width,
-            paddingBottom: 0.04 * width
+            paddingBottom: 0.04 * width,
+            flexDirection:'row',
+            justifyContent:'space-between'
         },
         paddingBottom: {
-            paddingBottom: 0.02 * width
+            paddingBottom: 0.02 * width,
+            marginRight:width*0.04
         },
         blank: {
             flex: 1

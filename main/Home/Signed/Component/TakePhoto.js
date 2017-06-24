@@ -66,6 +66,7 @@ export default class TakePhoto extends Component {
                     {name:'files',data:RNFetchBlob.wrap(response.uri),filename:'test.jpg'},
                     {name:'businessModule',data:JSON.stringify(data.businessModule)},
                     {name:'isAttach',data:JSON.stringify(1)},
+                    {name:'resourceId',data:JSON.stringify(data.resourceId)},
                     {name:'callID',data:JSON.stringify(data.callID)},
                     {name:'sign',data:JSON.stringify(data.sign)}
                 ];
