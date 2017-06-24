@@ -31,7 +31,8 @@ export default class CheckFlowInfo extends Component{
             optionListID: [],
             actionID: '',
             entry_id: '',
-            stepID: ''
+            stepID: '',
+            stepName: ''
         }
     }
 
@@ -63,7 +64,8 @@ export default class CheckFlowInfo extends Component{
                     optionListName: this.state.optionListName,
                     optionListID: this.state.optionListID,
                     entry_id: res.entry_id,
-                    stepID: res.stepID
+                    stepID: res.stepID,
+                    stepName: res.stepName
                 });
             }
         }).catch((error) => {
@@ -80,7 +82,7 @@ export default class CheckFlowInfo extends Component{
                         <View style={styles.flowInfoRow}>
                             <Text style={[styles.labelColor]}>当前步骤</Text>
                             <View style={styles.blank}/>
-                            <Text>主管领导</Text>
+                            <Text>{this.state.stepName}</Text>
                         </View>
                         <View style={styles.flowInfoRow}>
                             <Text style={[styles.labelColor]}>当前操作</Text>

@@ -31,11 +31,7 @@ export default class Turnover extends Component{
         this.state = {
             isLoading: false,
             proName: '',
-            startTime: '',
-            endTime: '',
             planName: '',
-            changeStartTime: '',
-            changeEndTime: '',
             changeReason: '',
             rybgId:'',
             reasonList: [],
@@ -63,11 +59,7 @@ export default class Turnover extends Component{
             if (responseData.code === 1) {
                 this.setState({
                     proName: responseData.data.xmmc,
-                    startTime: responseData.data.yjhkssj,
-                    endTime: responseData.data.yjhjssj,
                     planName: responseData.data.rwmc,
-                    changeStartTime: responseData.data.xjhkssj,
-                    changeEndTime: responseData.data.xjhjssj,
                     changeReason: responseData.data.bgyy,
                     rybgId: responseData.data.rybgId,
                     yzrr: responseData.data.yzrr,

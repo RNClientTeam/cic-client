@@ -136,7 +136,6 @@ export default class Home extends Component {
                     Object.assign(target, config.params);
                     config.params.sign = getSign(target, SECRETKEY);
                 }
-                console.log(config);
                 return config;
             }
         }, function (err) {
