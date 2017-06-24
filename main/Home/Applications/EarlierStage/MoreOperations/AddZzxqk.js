@@ -9,7 +9,8 @@ import {
     Text,
     TextInput,
     StyleSheet,
-    Dimensions
+    Dimensions,
+    ScrollView
 } from 'react-native'
 import StatusBar from "../../../../Component/StatusBar";
 import Toast from 'react-native-simple-toast'
@@ -19,7 +20,7 @@ export default class AddZzxqk extends Component {
     constructor(props){
         super(props);
         this.state={
-            wcbl:0,
+            wcbl:-1,
             wcxx:''
         }
     }
@@ -27,36 +28,38 @@ export default class AddZzxqk extends Component {
         return (
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="总执行情况表单"/>
-                <View style={styles.content}>
-                    <View style={styles.row}>
-                        <Text style={styles.labelColor}>项目总进度比例</Text>
-                        <View style={styles.blank}/>
-                        <View>
-                            <TextInput style={styles.input}
-                                       underlineColorAndroid="transparent"
-                                       onChangeText={(text) => this.setState({wcbl: text})}
-                                       keyboardType="numeric"/>
+                <ScrollView scrollEnabled={false}>
+                    <View style={styles.content}>
+                        <View style={styles.row}>
+                            <Text style={styles.labelColor}>项目总进度比例</Text>
+                            <View style={styles.blank}/>
+                            <View>
+                                <TextInput style={styles.input}
+                                           underlineColorAndroid="transparent"
+                                           onChangeText={(text) => this.setState({wcbl: text})}
+                                           keyboardType="numeric"/>
+                            </View>
+                            <Text style={[styles.textColor, styles.leftMargin]}>%</Text>
                         </View>
-                        <Text style={[styles.textColor, styles.leftMargin]}>%</Text>
+                        <View style={styles.inputCell}>
+                            <View style={styles.inputLabel}>
+                                <Text style={styles.label}>项目总体进度描述*</Text>
+                            </View>
+                            <View>
+                                <TextInput
+                                    multiline={true}
+                                    underlineColorAndroid="transparent"
+                                    textAlignVertical="top"
+                                    numberOfLines={4}
+                                    defaultValue={this.state.wcxx}
+                                    onChangeText={(text) => this.setState({wcxx: text})}
+                                    style={{backgroundColor: '#eee', height: 0.28 * height, borderRadius: 10}}
+                                />
+                            </View>
+                        </View>
                     </View>
-                    <View style={styles.inputCell}>
-                        <View style={styles.inputLabel}>
-                            <Text style={styles.label}>项目总体进度描述*</Text>
-                        </View>
-                        <View>
-                            <TextInput
-                                multiline={true}
-                                underlineColorAndroid="transparent"
-                                textAlignVertical="top"
-                                numberOfLines={4}
-                                defaultValue={this.state.wcxx}
-                                onChangeText={(text) => this.setState({wcxx: text})}
-                                style={{backgroundColor: '#eee', height: 0.28 * height, borderRadius: 10}}
-                            />
-                        </View>
-                    </View>
-                </View>
-                <View style={styles.blank}/>
+                    <View style={styles.blank}/>
+                </ScrollView>
                 <TouchableOpacity onPress={() => this.submit()}>
                     <View style={styles.button}>
                         <Text style={styles.buttonText}>确认提交</Text>
@@ -67,13 +70,15 @@ export default class AddZzxqk extends Component {
     }
 
     submit() {
-        if(parseFloat(this.state.wcbl)>100){
+        if(this.state.wcbl>100){
             Toast.show('完成比例请填写0~100');
-        }else if(parseFloat(this.state.wcbl)<0){
+        }else if(this.state.wcbl<0){
             Toast.show('完成比例请填写0~100');
         }else if(parseFloat(this.state.wcbl)!==parseInt(this.state.wcbl)){
             Toast.show('完成比例请填写整数');
-        }else{
+        }else if (this.state.wcxx.length === 0) {
+            Toast.show('请填写项目进度描述');
+        } else{
             axios.post('/psmQqjdjh/saveZxqk',{
                 userID:GLOBAL_USERID,
                 jhxxId:this.props.jhxxId,

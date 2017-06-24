@@ -189,6 +189,7 @@ export default class SchedulePlan extends Component {
                 callID: getTimestamp()
             }
         }).then((data) => {
+            console.log(data);
             if (data.code === 1) {
                 let showToast = true;
                 data.data.workflow = true;
@@ -229,6 +230,7 @@ export default class SchedulePlan extends Component {
             }
         }).then(data => {
             let resultData = data.data.data;
+            this.state.allTask = [];
             for (let i = 0; i < resultData.length; i++) {
                 this.state.allTask.push(resultData[i]);
             }

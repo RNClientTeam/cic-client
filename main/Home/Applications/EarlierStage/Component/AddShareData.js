@@ -11,6 +11,7 @@ import {
     Image,
     TextInput,
     TouchableOpacity,
+    ScrollView
 } from 'react-native'
 import StatusBar from "../../../../Component/StatusBar";
 const {width} = Dimensions.get('window');
@@ -33,83 +34,85 @@ export default class AddShareData extends Component {
         return (
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="添加共享资料"/>
-                <View style={styles.keyValue}>
-                    <Text style={styles.keyStyle}>资料分类</Text>
-                    <View style={styles.indicateView}>
-                        <ModalDropdown
-                            options={this.state.shareClass}
-                            animated={true}
-                            defaultValue={this.state.shareType}
-                            style={styles.modalDropDown}
-                            textStyle={styles.modalDropDownText}
-                            dropdownStyle={styles.dropdownStyle}
-                            onSelect={(a) => {
-                                console.log(a)
-                            }}
-                            showsVerticalScrollIndicator={false}
-                        />
-                        <Image style={styles.indicateImage}
-                               source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
+                <ScrollView scrollEnabled={false}>
+                    <View style={styles.keyValue}>
+                        <Text style={styles.keyStyle}>资料分类</Text>
+                        <View style={styles.indicateView}>
+                            <ModalDropdown
+                                options={this.state.shareClass}
+                                animated={true}
+                                defaultValue={this.state.shareType}
+                                style={styles.modalDropDown}
+                                textStyle={styles.modalDropDownText}
+                                dropdownStyle={styles.dropdownStyle}
+                                onSelect={(a) => {
+                                    console.log(a)
+                                }}
+                                showsVerticalScrollIndicator={false}
+                            />
+                            <Image style={styles.indicateImage}
+                                   source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
+                        </View>
                     </View>
-                </View>
-                <View style={styles.keyValue}>
-                    <Text style={styles.keyStyle}>共享方式</Text>
-                    <View style={styles.indicateView}>
-                        <ModalDropdown
-                            options={this.state.shareTypeArr}
-                            animated={true}
-                            defaultValue={this.state.shareType}
-                            style={styles.modalDropDown}
-                            textStyle={styles.modalDropDownText}
-                            dropdownStyle={styles.dropdownStyle}
-                            onSelect={(a) => {
-                                console.log(a)
-                            }}
-                            showsVerticalScrollIndicator={false}
-                        />
-                        <Image style={styles.indicateImage}
-                               source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
+                    <View style={styles.keyValue}>
+                        <Text style={styles.keyStyle}>共享方式</Text>
+                        <View style={styles.indicateView}>
+                            <ModalDropdown
+                                options={this.state.shareTypeArr}
+                                animated={true}
+                                defaultValue={this.state.shareType}
+                                style={styles.modalDropDown}
+                                textStyle={styles.modalDropDownText}
+                                dropdownStyle={styles.dropdownStyle}
+                                onSelect={(a) => {
+                                    console.log(a)
+                                }}
+                                showsVerticalScrollIndicator={false}
+                            />
+                            <Image style={styles.indicateImage}
+                                   source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
+                        </View>
                     </View>
-                </View>
-                <View style={styles.keyValue}>
-                    <Text style={styles.keyStyle}>共享范围</Text>
-                    <View style={styles.indicateView}>
-                        <ModalDropdown
-                            options={this.state.shareRangeArr}
-                            animated={true}
-                            defaultValue={this.state.shareRange}
-                            style={styles.modalDropDown}
-                            textStyle={styles.modalDropDownText}
-                            dropdownStyle={styles.dropdownStyle}
-                            onSelect={(a) => {
-                                console.log(a)
-                            }}
-                            showsVerticalScrollIndicator={false}
-                        />
-                        <Image style={styles.indicateImage}
-                               source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
+                    <View style={styles.keyValue}>
+                        <Text style={styles.keyStyle}>共享范围</Text>
+                        <View style={styles.indicateView}>
+                            <ModalDropdown
+                                options={this.state.shareRangeArr}
+                                animated={true}
+                                defaultValue={this.state.shareRange}
+                                style={styles.modalDropDown}
+                                textStyle={styles.modalDropDownText}
+                                dropdownStyle={styles.dropdownStyle}
+                                onSelect={(a) => {
+                                    console.log(a)
+                                }}
+                                showsVerticalScrollIndicator={false}
+                            />
+                            <Image style={styles.indicateImage}
+                                   source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
+                        </View>
                     </View>
-                </View>
-                <View style={styles.keyValue}>
-                    <Text style={styles.keyStyle}>上传附件</Text>
-                    <TouchableOpacity onPress={this.choiceFile.bind(this)}>
-                        <Image style={styles.accessory} source={require('../../../../../resource/imgs/home/earlierStage/accessory.png')}/>
-                    </TouchableOpacity>
-                </View>
-                <View style={[styles.keyValue,{borderBottomWidth:0}]}>
-                    <Text style={styles.keyStyle}>资料简要描述</Text>
-                </View>
-                <View style={styles.inputView}>
-                    <TextInput
-                        style={styles.textInput}
-                        multiline={true}
-                        autoFocus={true}
-                        placeholder='请填写备注信息'
-                        onChangeText={(remark) => this.setState({remark})}
-                        underlineColorAndroid="transparent"
-                        textAlignVertical="top"
-                    />
-                </View>
+                    <View style={styles.keyValue}>
+                        <Text style={styles.keyStyle}>上传附件</Text>
+                        <TouchableOpacity onPress={this.choiceFile.bind(this)}>
+                            <Image style={styles.accessory} source={require('../../../../../resource/imgs/home/earlierStage/accessory.png')}/>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={[styles.keyValue,{borderBottomWidth:0}]}>
+                        <Text style={styles.keyStyle}>资料简要描述</Text>
+                    </View>
+                    <View style={styles.inputView}>
+                        <TextInput
+                            style={styles.textInput}
+                            multiline={true}
+                            autoFocus={true}
+                            placeholder='请填写备注信息'
+                            onChangeText={(remark) => this.setState({remark})}
+                            underlineColorAndroid="transparent"
+                            textAlignVertical="top"
+                        />
+                    </View>
+                </ScrollView>
                 <TouchableOpacity style={styles.submitButton}>
                    <Text style={{color:'#fff'}}>确认提交</Text>
                 </TouchableOpacity>
