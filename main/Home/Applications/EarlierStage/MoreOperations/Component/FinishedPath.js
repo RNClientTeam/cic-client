@@ -15,35 +15,15 @@ import {
 } from 'react-native'
 import StatusBar from "../../../../../Component/StatusBar"
 import PathRow from "./PathRow"
-
+import toast from 'react-native-simple-toast'
 const {width, height}  = Dimensions.get('window');
 
 export default class FinishedPath extends Component{
     constructor(props) {
         super(props);
-        this.dataSource = [
-            {
-                applicantTitle: '编制人',
-                approvalTitle: '市场部门经理',
-                applicant: '蔡营',
-                date: '2017-02-16',
-                time: '09:00'
-            },
-            {
-                applicantTitle: '编制人',
-                approvalTitle: '市场部门经理',
-                applicant: '蔡营',
-                date: '2017-02-16',
-                time: '09:00'
-            },
-            {
-                applicantTitle: '编制人',
-                approvalTitle: '市场部门经理',
-                applicant: '蔡营',
-                date: '2017-02-16',
-                time: '09:00'
-            }
-        ]
+        this.state = {
+            dataSource :[]
+        }
     }
 
     render() {
@@ -51,29 +31,33 @@ export default class FinishedPath extends Component{
             <View style={styles.containerStyle}>
                 <StatusBar navigator={this.props.navigator} title="已完成流程步骤"/>
                 <ScrollView>
-                    <View style={styles.titleView}>
-                        <View style={styles.titleContent}>
-                            <Text style={styles.titleText}>已完成步骤</Text>
-                        </View>
-                    </View>
-                    {this.renderRows()}
+                    {this.renderSection(this.state.dataSource)}
                 </ScrollView>
             </View>
         )
     }
 
-    renderRows() {
-        return this.dataSource.map((item, index) => (<PathRow key={index} data={item}/>))
+    renderRows(arr) {
+        return arr.map((item, index) => (<PathRow key={index} data={item}/>))
+    }
+
+    renderSection(dataArr){
+        return dataArr.map((item,index)=>
+            (
+                <View>
+                    <View style={styles.titleView} key={index}>
+                        <View style={styles.titleContent}>
+                            <Text style={styles.titleText}>{item.text}</Text>
+                        </View>
+                    </View>
+                    {this.renderRows(item.data)}
+                </View>
+            )
+        )
     }
 
     componentDidMount() {
         if(this.props.tag==='进度计划'){
-            console.log({
-                userID:GLOBAL_USERID,
-                resID:this.props.rwid,
-                groupWfName:'qqjdjh-zx-zrw',
-                callID:true
-            })
             axios.get('/workFlow/multiActionList',{
                 params:{
                     userID:GLOBAL_USERID,
@@ -82,7 +66,13 @@ export default class FinishedPath extends Component{
                     callID:true
                 }
             }).then(data=>{
-                console.log(data);
+                if(data.code === 1&& data.data.length>0){
+                    this.setState({
+                        dataSource:data.data
+                    })
+                }else{
+                    toast.show(data.message);
+                }
             })
         }
     }
