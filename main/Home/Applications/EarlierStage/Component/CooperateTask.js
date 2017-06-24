@@ -128,6 +128,7 @@ export default class CooperateTask extends Component {
         }).then(data=>{
             if (data.code === 1) {
                 let showToast = true;
+                data.data.workflow = true;
                 for(var key in data.data) {
                     if (data.data[key]) {
                         showToast = false;
