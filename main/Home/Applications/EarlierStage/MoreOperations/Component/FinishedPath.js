@@ -68,6 +68,12 @@ export default class FinishedPath extends Component{
 
     componentDidMount() {
         if(this.props.tag==='进度计划'){
+            console.log({
+                userID:GLOBAL_USERID,
+                resID:this.props.rwid,
+                groupWfName:'qqjdjh-zx-zrw',
+                callID:true
+            })
             axios.get('/workFlow/multiActionList',{
                 params:{
                     userID:GLOBAL_USERID,
