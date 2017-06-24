@@ -20,7 +20,7 @@ export default class AddZzxqk extends Component {
     constructor(props){
         super(props);
         this.state={
-            wcbl:0,
+            wcbl:-1,
             wcxx:''
         }
     }
@@ -70,13 +70,15 @@ export default class AddZzxqk extends Component {
     }
 
     submit() {
-        if(parseFloat(this.state.wcbl)>100){
+        if(this.state.wcbl>100){
             Toast.show('完成比例请填写0~100');
-        }else if(parseFloat(this.state.wcbl)<0){
+        }else if(this.state.wcbl<0){
             Toast.show('完成比例请填写0~100');
         }else if(parseFloat(this.state.wcbl)!==parseInt(this.state.wcbl)){
             Toast.show('完成比例请填写整数');
-        }else{
+        }else if (this.state.wcxx.length === 0) {
+            Toast.show('请填写项目进度描述');
+        } else{
             axios.post('/psmQqjdjh/saveZxqk',{
                 userID:GLOBAL_USERID,
                 jhxxId:this.props.jhxxId,

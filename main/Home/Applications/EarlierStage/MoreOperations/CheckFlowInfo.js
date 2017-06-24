@@ -32,7 +32,8 @@ export default class CheckFlowInfo extends Component{
             actionID: '',
             entry_id: '',
             stepID: '',
-            stepName: ''
+            stepName: '',
+            wfName: ''
         }
     }
 
@@ -54,6 +55,7 @@ export default class CheckFlowInfo extends Component{
             wfName: this.wfName,
             callID: true
         }).then((responseData) => {
+            console.log(responseData);
             if (responseData.code === 1) {
                 let res = responseData.data;
                 res.options.forEach((elem, index) => {
@@ -65,7 +67,8 @@ export default class CheckFlowInfo extends Component{
                     optionListID: this.state.optionListID,
                     entry_id: res.entry_id,
                     stepID: res.stepID,
-                    stepName: res.stepName
+                    stepName: res.stepName,
+                    wfName: res.wfName
                 });
             }
         }).catch((error) => {
@@ -135,6 +138,14 @@ export default class CheckFlowInfo extends Component{
     }
 
     submit() {
+        if (this.state.actionID.length === 0) {
+            Toast.show('请选择当前操作');
+            return;
+        }
+        if (this.optionInfo.length === 0) {
+            Toast.show('请填写审批意见');
+            return;
+        }
         axios.post('/workFlow/submit', {
             userID: GLOBAL_USERID,
             resID: this.props.resID,
@@ -172,7 +183,13 @@ export default class CheckFlowInfo extends Component{
     goFinishPage() {
         this.props.navigator.push({
             name: 'finishedPath',
-            component: FinishedPath
+            component: FinishedPath,
+            params: {
+                wfName: this.state.wfName,
+                resID: this.props.resID,
+                fromCheckFlowInfo: true,
+                from: this.props.from
+            }
         });
     }
 }

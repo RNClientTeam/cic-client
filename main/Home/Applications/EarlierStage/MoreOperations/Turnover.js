@@ -70,7 +70,8 @@ export default class Turnover extends Component{
                     selected: responseData.data.sfzzfwn==1?true:false,
                     yzrbm: responseData.data.yzrbm,
                     yzrrmc: responseData.data.yzrrmc,
-                    bgyybcmc: responseData.data.bgyybcmc
+                    bgyybcmc: responseData.data.bgyybcmc,
+                    bgyybc: responseData.data.bgyybc
                 });
             }
         }).catch((error) => {
@@ -140,24 +141,22 @@ export default class Turnover extends Component{
                                         this.setState({
                                             changeReason: this.state.allReason[a].code,
                                             reasonTag: this.state.allReason[a].sx1,
-                                            bgyybc: a===1?'0000007ca001425521d631,00000012440014126493331':'00000004a00138c242a0d9,D0020016'
+                                            bgyybc: this.state.bgyybc ? this.state.bgyybc : (a===1?'0000007ca001425521d631,00000012440014126493331':'00000004a00138c242a0d9,D0020016')
                                         });
                                     } else {
                                         this.setState({
                                             changeReason: this.state.allReason[a].code,
                                             reasonTag: '',
                                             bgyybc: ''
-
                                         });
                                     }
-                                    this.setState({changeReason:a});
                                 }}
                                 showsVerticalScrollIndicator={false}
                             />
                         </View>
 
                         {
-                            this.state.reasonTag.length !== 0 &&
+                            this.state.bgyybc.length !== 0 &&
                             <View style={styles.cell}>
                                 <Text style={styles.label}>变更原因补充</Text>
                                 <View style={styles.blank}/>

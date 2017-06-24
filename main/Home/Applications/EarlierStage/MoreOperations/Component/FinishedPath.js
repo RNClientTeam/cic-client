@@ -31,7 +31,15 @@ export default class FinishedPath extends Component{
             <View style={styles.containerStyle}>
                 <StatusBar navigator={this.props.navigator} title="已完成流程步骤"/>
                 <ScrollView>
-                    {this.renderSection(this.state.dataSource)}
+                    {
+                        this.props.fromCheckFlowInfo &&
+                        <View style={styles.titleView}>
+                            <View style={styles.titleContent}>
+                                <Text style={styles.titleText}>{this.props.from&&this.props.from==='turnover'?'人员变更':'延期申请'}</Text>
+                            </View>
+                        </View>
+                    }
+                    {this.props.fromCheckFlowInfo ? this.renderRows(this.state.dataSource): this.renderSection(this.state.dataSource)}
                 </ScrollView>
             </View>
         )
@@ -44,8 +52,8 @@ export default class FinishedPath extends Component{
     renderSection(dataArr){
         return dataArr.map((item,index)=>
             (
-                <View>
-                    <View style={styles.titleView} key={index}>
+                <View key={index}>
+                    <View style={styles.titleView}>
                         <View style={styles.titleContent}>
                             <Text style={styles.titleText}>{item.text}</Text>
                         </View>
@@ -57,22 +65,35 @@ export default class FinishedPath extends Component{
     }
 
     componentDidMount() {
-        let params = {
-            userID:GLOBAL_USERID,
-            resID:this.props.rwid,
-            groupWfName:'qqjdjh-zx-phrw',
-            callID:true
+        let params;
+        let reqURL;
+        if (this.props.fromCheckFlowInfo) {
+            params = {
+                userID: GLOBAL_USERID,
+                resID: this.props.resID,
+                wfName: this.props.wfName,
+                callID: true
+            };
+            reqURL = '/workFlow/actionList';
+        } else {
+            params = {
+                userID:GLOBAL_USERID,
+                resID:this.props.rwid,
+                groupWfName:'qqjdjh-zx-phrw',
+                callID:true
+            };
+            reqURL = '/workFlow/multiActionList';
         }
         if(this.props.tag==='进度计划'){
             params.groupWfName = 'qqjdjh-zx-zrw'
         }
-        axios.get('/workFlow/multiActionList',{
+        axios.get(reqURL,{
             params:params
         }).then(data=>{
-            if(data.code === 1&& data.data.length>0){
+            if(data.message === '成功'){
                 this.setState({
                     dataSource:data.data
-                })
+                });
             }else{
                 toast.show(data.message);
             }
