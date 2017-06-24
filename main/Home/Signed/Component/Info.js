@@ -32,9 +32,8 @@ export default class Info extends Component{
                     <TextInput
                         style={styles.textInput}
                         multiline={true}
-                        autoFocus={true}
                         placeholder='请填写备注信息'
-                        onChangeText={(remark) => this.setState({remark})}
+                        onChangeText={(remark) => this.props.inputBz(remark)}
                         underlineColorAndroid="transparent"
                         textAlignVertical="top"
                     />

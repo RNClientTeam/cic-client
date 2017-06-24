@@ -14,8 +14,8 @@ import {
 const {width, height} = Dimensions.get('window');
 import RNFetchBlob from 'react-native-fetch-blob'
 import {uploadFile,getTimestamp,getSign,getRandomId} from '../../../Util/Util'
-import qs from 'qs'
-var photoOptions = {
+import baseUrl  from '../../../Util/service.json'
+const photoOptions = {
     quality:0.75,
     allowsEditing:true,
     noData:false,
@@ -23,7 +23,7 @@ var photoOptions = {
         skipBackup: true,
         path:'images'
     }
-}
+};
 import ImagePicker from 'react-native-image-picker';
 import CameraPage from '../../Component/CameraPage'
 
@@ -51,51 +51,33 @@ export default class TakePhoto extends Component {
     takePhoto() {
         ImagePicker.launchCamera(photoOptions, (response)  => {
             if (response.uri) {
+                this.props.showLoading();
                 this.setState({image: {uri:response.uri}});
                 let data = {
                     userID:GLOBAL_USERID,
                     files:response.uri,
-                    businessModule:'zyjhcg',
-                    resourceId:getRandomId(30),
+                    businessModule:'qiandao',
+                    resourceId:getRandomId(),
                     isAttach:1,
                     callID:getTimestamp()
                 };
-                data.sign = getSign(data,SECRETKEY);
                 let reqData = [
-                    {name:'userID',data:JSON.stringify(GLOBAL_USERID)},
-                    {name:'files',data:RNFetchBlob.wrap(response.uri),filename:'test.jpg'},
-                    {name:'businessModule',data:JSON.stringify(data.businessModule)},
+                    {name:'userID',data:GLOBAL_USERID},
+                    {name:'files',data:RNFetchBlob.wrap(response.uri),filename:this.props.ids+'.jpg'},
+                    {name:'businessModule',data:'qiandao'},
                     {name:'isAttach',data:JSON.stringify(1)},
-                    {name:'resourceId',data:JSON.stringify(data.resourceId)},
-                    {name:'callID',data:JSON.stringify(data.callID)},
-                    {name:'sign',data:JSON.stringify(data.sign)}
+                    {name:'resourceId',data:this.props.ids},
+                    {name:'callID',data:JSON.stringify(data.callID)}
                 ];
-                uploadFile('http://10.1.1.12/service/sysfile/UploadHandler',reqData,(response)=>{
-                    alert(2)
+                uploadFile(baseUrl.baseUrl+'/sysfile/UploadHandler',reqData,(response)=>{
+                    this.props.hideLoading();
+                    if(response.code === 1){
+                        this.props.showToast('图片上传成功');
+                    }else{
+                        this.props.showToast('图片上传失败，请重试');
+                    }
                 },(response)=>{console.log(response,'err')});
-                // let formData = new FormData();
-                // let file = {uri: response.uri, type: 'multipart/form-data', name: 'a.jpg'};
-                // formData.append('userID',GLOBAL_USERID);
-                // formData.append('files',file);
-                // formData.append('businessModule','zyjhcg');
-                // formData.append('resourceId',data.resourceId);
-                // formData.append('isAttach',data.isAttach);
-                // formData.append('callID',data.callID);
-                // formData.append('sign',data.sign);
-                // console.log(111)
-                // fetch('http://10.1.1.12/service',{
-                //     method:'POST',
-                //     headers:{
-                //         'Content-Type':'multipart/form-data',
-                //     },
-                //     body:formData
-                // })
-                //     .then((response) => response.text() )
-                //     .then((responseData)=>{
-                //
-                //         console.log('responseData',responseData);
-                //     })
-                //     .catch((error)=>{console.error('error',error)});
+
             }
         });
     }

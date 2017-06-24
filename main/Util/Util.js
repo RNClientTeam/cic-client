@@ -69,7 +69,7 @@ export function getTimestamp() {
 
 //随机id
 
-export function getRandomId(n) {
+export function getRandomId(n=19) {
     const chars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
     let res = "";
@@ -77,7 +77,7 @@ export function getRandomId(n) {
         let id = Math.ceil(Math.random() * 35);
         res += chars[id];
     }
-    return res;
+    return res+Date.parse(new Date());
 }
 
 
@@ -141,22 +141,16 @@ export function getCurrentDate() {
 }
 
 export function uploadFile(url, body, successCallBack, failCallBack) {
+    console.log(url);
     return RNFetchBlob
-        // .config({indicator: true})
         .fetch('POST', url,{
             'Content-Type' : 'multipart/form-data'
         }, body)
-        // .progress((received, total) => {
-        //     let percent = received / total;
-        //     console.log(percent);
-        //     uploadProgress(percent)
-        // })
-        .then(response => {
-            console.log(response);
-            return response.json()
+        .progress((received,total)=>{
+            console.log(received/total)
         })
+        .then(response => response.json())
         .then(response => {
-            console.log(response, '22222');
             successCallBack(response)
         }).catch(err => {
             failCallBack(err);

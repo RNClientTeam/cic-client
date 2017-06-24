@@ -24,7 +24,7 @@ export default class ProjectRangeHandover extends Component{
             isModalVisible:false,
             sDate:getCurrentMonS(),
             eDate:getCurrentMonE(),
-            keywords:'',
+            xmmc:'',
             pageNum:1
         }
     }
@@ -56,7 +56,8 @@ export default class ProjectRangeHandover extends Component{
                 eDate:this.state.eDate,
                 pageNum:pageNum,
                 pageSize:10,
-                callID:true
+                callID:true,
+                xmmc:this.state.xmmc
             }
         }).then(data=>{
             console.log(data);
