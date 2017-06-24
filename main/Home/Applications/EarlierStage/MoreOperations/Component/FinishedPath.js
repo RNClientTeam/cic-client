@@ -38,14 +38,14 @@ export default class FinishedPath extends Component{
     }
 
     renderRows(arr) {
-        return arr.map((item, index) => (<PathRow key={index} data={item}/>))
+        return arr.map((item, index) => (<PathRow key={item.id} data={item}/>))
     }
 
     renderSection(dataArr){
         return dataArr.map((item,index)=>
             (
-                <View>
-                    <View style={styles.titleView} key={index}>
+                <View key={index}>
+                    <View style={styles.titleView} >
                         <View style={styles.titleContent}>
                             <Text style={styles.titleText}>{item.text}</Text>
                         </View>
