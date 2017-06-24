@@ -35,12 +35,16 @@ export default class Turnover extends Component{
             changeReason: '',
             rybgId:'',
             reasonList: [],
+            allReason: [],
             selected: true,
             yzrr: '',
             xzrr: '请选择>',
             yzrbm: '',
             xzrbm: '',
-            yzrrmc: ''
+            yzrrmc: '',
+            reasonTag: '',
+            bgyybc: '',
+            bgyybcmc: ''
         }
     }
     componentDidMount() {
@@ -65,12 +69,28 @@ export default class Turnover extends Component{
                     yzrr: responseData.data.yzrr,
                     selected: responseData.data.sfzzfwn==1?true:false,
                     yzrbm: responseData.data.yzrbm,
-                    yzrrmc: responseData.data.yzrrmc
+                    yzrrmc: responseData.data.yzrrmc,
+                    bgyybcmc: responseData.data.bgyybcmc
                 });
             }
         }).catch((error) => {
 
         });
+    }
+
+    selectReason() {
+        // this.props.navigator.push({
+        //     name: 'Organization',
+        //     component: Organization,
+        //     params: {
+        //         reasonTag: this.state.reasonTag,
+        //         getReasonId: this.getReasonId.bind(this)
+        //     }
+        // });
+    }
+
+    getReasonId() {
+
     }
 
     render(){
@@ -114,12 +134,38 @@ export default class Turnover extends Component{
                                 animated={true}
                                 defaultValue={'请选择>'}
                                 style={{flex:1, alignItems:'flex-end'}}
+                                textStyle={{fontSize:14}}
                                 onSelect={(a) => {
+                                    if (this.state.allReason[a].sm === '1') {
+                                        this.setState({
+                                            changeReason: this.state.allReason[a].code,
+                                            reasonTag: this.state.allReason[a].sx1,
+                                            bgyybc: a===1?'0000007ca001425521d631,00000012440014126493331':'00000004a00138c242a0d9,D0020016'
+                                        });
+                                    } else {
+                                        this.setState({
+                                            changeReason: this.state.allReason[a].code,
+                                            reasonTag: '',
+                                            bgyybc: ''
+
+                                        });
+                                    }
                                     this.setState({changeReason:a});
                                 }}
                                 showsVerticalScrollIndicator={false}
                             />
                         </View>
+
+                        {
+                            this.state.reasonTag.length !== 0 &&
+                            <View style={styles.cell}>
+                                <Text style={styles.label}>变更原因补充</Text>
+                                <View style={styles.blank}/>
+                                <Text onPress={this.selectReason.bind(this)} suppressHighlighting={true}>
+                                    {this.state.bgyybcmc||'请选择其他人或其他部门>'}
+                                </Text>
+                            </View>
+                        }
 
                         <View style={styles.cell}>
                             <Text style={styles.label}>原责任人</Text>
@@ -216,7 +262,10 @@ export default class Turnover extends Component{
                 responseData.data.forEach((elem, index) => {
                     this.state.reasonList.push(elem.name);
                 });
-                this.setState({reasonList: this.state.reasonList});
+                this.setState({
+                    reasonList: this.state.reasonList,
+                    allReason: responseData.data
+                });
             }
         }).catch((error) => {
 
@@ -248,6 +297,7 @@ export default class Turnover extends Component{
             bgyy: this.state.changeReason,
             sfzzfwn: this.state.selected?1:0,
             bgsm: this.changeIntroduction,
+            bgyybc: this.state.bgyybc,
             callID: getTimestamp()
         }).then((responseData) => {
             if (responseData.code === 1) {

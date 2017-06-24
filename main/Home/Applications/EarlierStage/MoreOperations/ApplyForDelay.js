@@ -40,8 +40,9 @@ export default class ApplyForDelay extends Component{
             yqbgId:'',
             reasonList: [],
             allReason: [],
-            showSelect: '',
-            reasonTag: ''
+            reasonTag: '',
+            bgyybc: '',
+            bgyybcmc: ''
         }
     }
     componentDidMount() {
@@ -60,6 +61,7 @@ export default class ApplyForDelay extends Component{
                 callID: getTimestamp()
             }
         }).then((responseData) => {
+            console.log(responseData);
             if (responseData.code === 1) {
                 this.setState({
                     proName: responseData.data.xmmc,
@@ -69,7 +71,8 @@ export default class ApplyForDelay extends Component{
                     changeStartTime: responseData.data.xjhkssj,
                     changeEndTime: responseData.data.xjhjssj,
                     changeReason: responseData.data.bgyy,
-                    yqbgId: responseData.data.yqbgId
+                    yqbgId: responseData.data.yqbgId,
+                    bgyybcmc: responseData.data.bgyybcmc
                 });
             }
         }).catch((error) => {
@@ -79,18 +82,18 @@ export default class ApplyForDelay extends Component{
 
     //获取其他部门／其让人id
     getReasonId(params) {
-        
+
     }
 
     selectReason() {
-        this.props.navigator.push({
-            name: 'Organization',
-            component: Organization,
-            params: {
-                reasonTag: this.state.reasonTag,
-                getReasonId: this.getReasonId.bind(this)
-            }
-        });
+        // this.props.navigator.push({
+        //     name: 'Organization',
+        //     component: Organization,
+        //     params: {
+        //         reasonTag: this.state.reasonTag,
+        //         getReasonId: this.getReasonId.bind(this)
+        //     }
+        // });
     }
 
     render(){
@@ -134,19 +137,20 @@ export default class ApplyForDelay extends Component{
                                 options={this.state.reasonList}
                                 animated={true}
                                 defaultValue={'请选择>'}
+                                textStyle={{fontSize:14}}
                                 style={{flex:1, alignItems:'flex-end'}}
                                 onSelect={(a) => {
                                     if (this.state.allReason[a].sm === '1') {
                                         this.setState({
                                             changeReason: this.state.allReason[a].code,
-                                            showSelect: this.state.allReason[a].sx1==='user'?'请选择相关人员>':'请选择相关部门>',
-                                            reasonTag: `变更原因-${this.state.allReason[a].sx1}`
+                                            reasonTag: this.state.allReason[a].sx1,
+                                            bgyybc: a===1?'0000007ca001425521d631,00000012440014126493331':'00000004a00138c242a0d9,D0020016'
                                         });
                                     } else {
                                         this.setState({
                                             changeReason: this.state.allReason[a].code,
-                                            showSelect: '',
-                                            reasonTag: ''
+                                            reasonTag: '',
+                                            bgyybc: ''
                                         })
                                     }
                                 }}
@@ -155,11 +159,12 @@ export default class ApplyForDelay extends Component{
                         </View>
 
                         {
-                            this.state.showSelect.length !== 0 &&
+                            this.state.reasonTag.length !== 0 &&
                             <View style={styles.cell}>
+                                <Text style={styles.label}>变更原因补充</Text>
                                 <View style={styles.blank}/>
                                 <Text onPress={this.selectReason.bind(this)} suppressHighlighting={true}>
-                                    {this.state.showSelect}
+                                    {this.state.bgyybcmc||'请选择其他人或其他部门>'}
                                 </Text>
                             </View>
                         }
@@ -213,6 +218,7 @@ export default class ApplyForDelay extends Component{
                 callID: true
             }
         }).then((responseData) => {
+            console.log(responseData);
             if (responseData.code === 1) {
                 this.state.reasonList = [];
                 responseData.data.forEach((elem, index) => {
@@ -256,6 +262,7 @@ export default class ApplyForDelay extends Component{
             xjhjssj: this.state.changeEndTime,
             bgyy: this.state.changeReason,
             bgsm: this.changeIntroduction,
+            bgyybc: this.state.bgyybc,
             callID: getTimestamp()
         }).then((responseData) => {
             if (responseData.code === 1) {
