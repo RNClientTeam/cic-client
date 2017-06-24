@@ -38,7 +38,7 @@ export default class FinishedPath extends Component{
     }
 
     renderRows(arr) {
-        return arr.map((item, index) => (<PathRow key={index} data={item}/>))
+        return arr.map((item, index) => (<PathRow key={`${item.id}${index}`} data={item}/>))
     }
 
     renderSection(dataArr){
@@ -66,6 +66,7 @@ export default class FinishedPath extends Component{
                     callID:true
                 }
             }).then(data=>{
+                console.log(data);
                 if(data.code === 1&& data.data.length>0){
                     this.setState({
                         dataSource:data.data
