@@ -10,6 +10,7 @@ import {
     Image,
     Dimensions
 } from 'react-native'
+import CheckBox from 'react-native-check-box'
 
 const {width, height} = Dimensions.get('window');
 
