@@ -7,6 +7,7 @@
     "react-native": "0.43.4",
     "react-native-actionsheet": "^2.1.0",
     "react-native-barcodescanner": "^3.1.1",
+    "react-native-check-box": "git://github.com/crazycodeboy/react-native-check-box.git#dbd40836b09f7bc0316d13e30abdb66a799c5077",
     "react-native-datepicker": "file:main/lib/react-native-datepicker",
     "react-native-fetch-blob": "^0.10.5",
     "react-native-fileupload": "^1.2.0",

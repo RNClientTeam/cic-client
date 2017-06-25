@@ -15,6 +15,14 @@ const {width, height} = Dimensions.get('window');
 
 export default class EmployeeItem extends Component {
     render() {
+        let actionPart;
+        if (this.props.type && this.props.type === 'emp') {
+            actionPart = <CheckBox onClick={() => this.props.onClick(this.props.dep)}
+                                   isChecked={this.props.isChecked}/>
+        } else {
+            actionPart = <Image style={styles.commentIcon} source={require('../../../resource/imgs/orgnization/comment.png')}/>;
+        }
+
         return (
             <TouchableOpacity onPress={this.handleOnClick.bind(this)}>
                 <View style={styles.empItem}>
@@ -23,7 +31,7 @@ export default class EmployeeItem extends Component {
                     </View>
                     <View style={styles.blank}/>
                     <View>
-                        <Image style={styles.commentIcon} source={require('../../../resource/imgs/orgnization/comment.png')}/>
+                        {actionPart}
                     </View>
                 </View>
             </TouchableOpacity>

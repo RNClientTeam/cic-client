@@ -5,6 +5,7 @@ import {
     View,
     ScrollView,
     Text,
+    TouchableOpacity,
     Dimensions,
     DeviceEventEmitter
 } from 'react-native';
@@ -22,8 +23,10 @@ export default class Organization extends Component {
         super(props);
         this.state = {
             deps: [],
-            isLoading: false
-        }
+            isLoading: false,
+            //type dep为选择部门, emp为选择员工
+            type: 'dep'
+        };
     }
 
     componentDidMount() {
@@ -31,7 +34,11 @@ export default class Organization extends Component {
         this.listener = RCTDeviceEventEmitter.addListener('organization', () => {
             this.renderDeps();
         });
-        this.getDeps();
+        //选择部门 只需查询部门列表
+        if (this.state.type === 'dep')
+            this.getDeps('ROOT', 0, 1);
+        else
+            this.getDeps();
         this.listener = DeviceEventEmitter.addListener('enterOrganization',
             (event) => {
                 if (event.level === 0) {
@@ -70,7 +77,13 @@ export default class Organization extends Component {
         }
         return(
             <View style={styles.container}>
-                {this.props.getInfo?<StatusBar navigator={this.props.navigator} title="请选择人员"/>:statusBar}
+                {this.props.getInfo || this.state.type === 'dep'?
+                    <StatusBar navigator={this.props.navigator} title="请选择"
+                               backButtonFun = {this.goBack.bind(this, this.state.deps)}>
+                        <TouchableOpacity onPress={() => this.submit()}>
+                            <Text style={{color: 'white'}}>确定</Text>
+                        </TouchableOpacity>
+                    </StatusBar> :statusBar}
                 <ScrollView
                     style={{height: height}}
                     ref={(scrollView) => { this._scrollView = scrollView}}>
@@ -82,6 +95,11 @@ export default class Organization extends Component {
                 {this.state.isLoading ? <Loading/> : null}
             </View>
         );
+    }
+
+    submit() {
+        let deps = this.state.deps.map(dom => dom.props.dep).filter(item => item.isChecked);
+        console.log('dddd', deps);
     }
 
     renderDeps() {
@@ -118,16 +136,39 @@ export default class Organization extends Component {
         });
     }
 
+    onClick(item) {
+        item.isChecked = !item.isChecked;
+        let tmp = this.state.deps.slice(0);
+        this.setState({deps: tmp});
+    }
+
+
+
     getChildren(dep) {
         let children = [], deps = [], emps = [];
 
         if (dep.item && dep.item.length) {
             for (let i = 0; i < dep.item.length; i++) {
-                if (dep.item[i].isuser === '0')
-                    deps.push(<DepartmentItem dep={dep.item[i]} key={i}
-                                              getChildren={this.getChildren.bind(this, dep.item[i])}/> );
-                else
-                    emps.push(<EmployeeItem getInfo={this.props.getInfo} navigator={this.props.navigator} emp={dep.item[i]} key={i}/>);
+                if (dep.item[i].isuser === '0') {
+                    if (this.state.type && this.state.type === 'dep') {
+                        deps.push(<DepartmentItem dep={dep.item[i]} key={i} type="dep"
+                                                  onClick={() => this.onClick(dep.item[i], this.state.deps)}
+                                                  isChecked={dep.item[i].isChecked}
+                                                  getChildren={this.getChildren.bind(this, dep.item[i])}/> );
+                    } else {
+                        deps.push(<DepartmentItem dep={dep.item[i]} key={i}
+                                                  getChildren={this.getChildren.bind(this, dep.item[i])}/> );
+                    }
+
+                }
+                else  {
+                    if (this.state.type && this.state.type === 'emp') {
+                        emps.push(<EmployeeItem getInfo={this.props.getInfo} navigator={this.props.navigator} emp={dep.item[i]} key={i}/>);
+                    } else {
+                        emps.push(<EmployeeItem getInfo={this.props.getInfo} navigator={this.props.navigator} emp={dep.item[i]} key={i}/>);
+                    }
+                }
+
             }
             children = deps.concat(emps);
             this.setState({deps: children});
