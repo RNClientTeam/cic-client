@@ -81,9 +81,10 @@ export default class CooperateTask extends Component {
                     }}
                     style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
                 >
-                    <MoreOperations reloadInfo={()=>this.this.onPullRelease()} navigator={this.props.navigator} closeModal={() => {
+                    <MoreOperations reloadInfo={this.onPullRelease.bind(this)} navigator={this.props.navigator} closeModal={() => {
                         this.setState({modalVisible: false})
-                    }} auth={this.state.auth} zrrmc={this.state.zrrmc} rwid={this.state.rwid} jhxxId={this.props.jhxxId} tag="配合任务"/>
+                    }} auth={this.state.auth} zrrmc={this.state.zrrmc} rwid={this.state.rwid}
+                    jhxxId={this.props.jhxxId} tag="配合任务" exchangeRwid={this.exchangeRwid.bind(this)}/>
                 </Modal>
             </View>
         )
@@ -102,6 +103,20 @@ export default class CooperateTask extends Component {
         );
     }
 
+    exchangeRwid(newId) {
+        let tempIndex = -1;
+        this.state.list.forEach((elem, index) => {
+            if (elem.phrwId === this.state.rwid) {
+                tempIndex = index;
+                return;
+            }
+        });
+        if (tempIndex >= 0) {
+            this.state.list[tempIndex].phrwId = newId;
+            this.setState({list:this.state.list});
+        }
+    }
+
     setModalVisible(phrwId, zrrmc) {
         axios.get('/psmQqjdjh/operationAuthority',{
             params:{
@@ -113,6 +128,7 @@ export default class CooperateTask extends Component {
         }).then(data=>{
             if (data.code === 1) {
                 let showToast = true;
+                data.data.workflow = true;
                 for(var key in data.data) {
                     if (data.data[key]) {
                         showToast = false;

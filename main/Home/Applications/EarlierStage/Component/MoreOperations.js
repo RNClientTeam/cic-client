@@ -33,6 +33,9 @@ export default class MoreOperations extends Component {
 
     componentDidMount() {
         let dataArr = [];
+        if(this.props.auth.workflow){
+            dataArr.push({img:require('../../../../../resource/imgs/home/earlierStage/workflow.png'),name:'查看已完成流程步骤'})
+        }
         if(this.props.auth.rybg){
             dataArr.push({img:require('../../../../../resource/imgs/home/earlierStage/peopleChange.png'),name:'人员变更'})
         }
@@ -76,13 +79,14 @@ export default class MoreOperations extends Component {
         for(let i = 0;i<this.state.data.length;i++){
             cs.push(
                 <MoreOperationsCell
-                    reloadInfo={()=>this.props.reloadInfo()}
+                    reloadInfo={this.props.reloadInfo}
                     zrrmc={this.props.zrrmc}
                     tag={this.props.tag}
                     sDate={this.props.sDate}
                     eDate={this.props.eDate}
                     jhxxId={this.props.jhxxId}
                     rwid={this.props.rwid}
+                    exchangeRwid={this.props.exchangeRwid}
                     closeModal={()=>{this.props.closeModal()}}
                     navigator={this.props.navigator}
                     key={i}

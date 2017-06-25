@@ -31,20 +31,20 @@ export default class Turnover extends Component{
         this.state = {
             isLoading: false,
             proName: '',
-            startTime: '',
-            endTime: '',
             planName: '',
-            changeStartTime: '',
-            changeEndTime: '',
             changeReason: '',
             rybgId:'',
             reasonList: [],
+            allReason: [],
             selected: true,
             yzrr: '',
             xzrr: '请选择>',
             yzrbm: '',
             xzrbm: '',
-            yzrrmc: ''
+            yzrrmc: '',
+            reasonTag: '',
+            bgyybc: '',
+            bgyybcmc: ''
         }
     }
     componentDidMount() {
@@ -63,22 +63,35 @@ export default class Turnover extends Component{
             if (responseData.code === 1) {
                 this.setState({
                     proName: responseData.data.xmmc,
-                    startTime: responseData.data.yjhkssj,
-                    endTime: responseData.data.yjhjssj,
                     planName: responseData.data.rwmc,
-                    changeStartTime: responseData.data.xjhkssj,
-                    changeEndTime: responseData.data.xjhjssj,
                     changeReason: responseData.data.bgyy,
                     rybgId: responseData.data.rybgId,
                     yzrr: responseData.data.yzrr,
                     selected: responseData.data.sfzzfwn==1?true:false,
                     yzrbm: responseData.data.yzrbm,
-                    yzrrmc: responseData.data.yzrrmc
+                    yzrrmc: responseData.data.yzrrmc,
+                    bgyybcmc: responseData.data.bgyybcmc,
+                    bgyybc: responseData.data.bgyybc
                 });
             }
         }).catch((error) => {
 
         });
+    }
+
+    selectReason() {
+        // this.props.navigator.push({
+        //     name: 'Organization',
+        //     component: Organization,
+        //     params: {
+        //         reasonTag: this.state.reasonTag,
+        //         getReasonId: this.getReasonId.bind(this)
+        //     }
+        // });
+    }
+
+    getReasonId() {
+
     }
 
     render(){
@@ -122,13 +135,36 @@ export default class Turnover extends Component{
                                 animated={true}
                                 defaultValue={'请选择>'}
                                 style={{flex:1, alignItems:'flex-end'}}
+                                textStyle={{fontSize:14}}
                                 onSelect={(a) => {
-
-                                    this.setState({changeReason:this.state.reasonList[a]});
+                                    if (this.state.allReason[a].sm === '1') {
+                                        this.setState({
+                                            changeReason: this.state.allReason[a].code,
+                                            reasonTag: this.state.allReason[a].sx1,
+                                            bgyybc: this.state.bgyybc ? this.state.bgyybc : (a===1?'0000007ca001425521d631,00000012440014126493331':'00000004a00138c242a0d9,D0020016')
+                                        });
+                                    } else {
+                                        this.setState({
+                                            changeReason: this.state.allReason[a].code,
+                                            reasonTag: '',
+                                            bgyybc: ''
+                                        });
+                                    }
                                 }}
                                 showsVerticalScrollIndicator={false}
                             />
                         </View>
+
+                        {
+                            this.state.bgyybc.length !== 0 &&
+                            <View style={styles.cell}>
+                                <Text style={styles.label}>变更原因补充</Text>
+                                <View style={styles.blank}/>
+                                <Text onPress={this.selectReason.bind(this)} suppressHighlighting={true}>
+                                    {this.state.bgyybcmc||'请选择其他人或其他部门>'}
+                                </Text>
+                            </View>
+                        }
 
                         <View style={styles.cell}>
                             <Text style={styles.label}>原责任人</Text>
@@ -180,13 +216,12 @@ export default class Turnover extends Component{
                         </View>
                     </View>
                     <View style={styles.blank}/>
-                    <TouchableOpacity onPress={this.submit.bind(this)}>
-                        <View style={styles.button}>
-                            <Text style={styles.buttonText}>提交</Text>
-                        </View>
-                    </TouchableOpacity>
                 </ScrollView>
-                {this.state.loading?<Loading/>:null}
+                <TouchableOpacity onPress={this.submit.bind(this)}>
+                    <View style={styles.button}>
+                        <Text style={styles.buttonText}>提交</Text>
+                    </View>
+                </TouchableOpacity>
             </View>
         )
     }
@@ -226,7 +261,10 @@ export default class Turnover extends Component{
                 responseData.data.forEach((elem, index) => {
                     this.state.reasonList.push(elem.name);
                 });
-                this.setState({reasonList: this.state.reasonList});
+                this.setState({
+                    reasonList: this.state.reasonList,
+                    allReason: responseData.data
+                });
             }
         }).catch((error) => {
 
@@ -258,9 +296,11 @@ export default class Turnover extends Component{
             bgyy: this.state.changeReason,
             sfzzfwn: this.state.selected?1:0,
             bgsm: this.changeIntroduction,
+            bgyybc: this.state.bgyybc,
             callID: getTimestamp()
         }).then((responseData) => {
             if (responseData.code === 1) {
+                this.props.exchangeRwid(responseData.data);
                 Toast.show('提交申请成功');
                 const self = this;
                 let timer = setTimeout(() => {
@@ -270,7 +310,8 @@ export default class Turnover extends Component{
                         params: {
                             resID: responseData.data,
                             tag: self.props.tag,
-                            from: 'turnover'
+                            from: 'turnover',
+                            reloadInfo: this.props.reloadInfo
                         }
                     });
                     clearTimeout(timer);
@@ -281,10 +322,6 @@ export default class Turnover extends Component{
         }).catch((error) => {
             Toast.show('服务端错误');
         });
-    }
-
-    componentWillUnmount() {
-        this.props.reloadInfo()
     }
 }
 

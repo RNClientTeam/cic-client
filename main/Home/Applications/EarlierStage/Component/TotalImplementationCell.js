@@ -26,7 +26,7 @@ export default class TotalImplementationCell extends Component {
                             <View style={styles.stateView}>
                                 <View style={[styles.compView, {width:width*0.55*this.props.data.wcbl/100}, this.props.data.wcbl==100&&{backgroundColor:'#25cf71'}]}></View>
                             </View>
-                            <Text style={{fontSize:13}}>{this.props.data.wcbl}%</Text>
+                            <Text style={{fontSize:13}}>{this.props.data.wcbl||'0'}%</Text>
                         </View>
                     </View>
                     <View style={styles.aboutPrincipal}>

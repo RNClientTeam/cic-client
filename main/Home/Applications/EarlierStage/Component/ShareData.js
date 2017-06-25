@@ -46,7 +46,7 @@ export default class ShareData extends Component{
                 hasMoreData: responseData.data.length === 0 ? false : true
             }, () => {
                 resolve && resolve();
-                !this.state.hasMoreData && Toast.show('没有更多数据');
+                // !this.state.hasMoreData && Toast.show('没有更多数据');
             });
         }).catch((error) => {
             Toast.show('服务端连接错误！')

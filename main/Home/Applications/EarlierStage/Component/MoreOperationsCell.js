@@ -20,6 +20,8 @@ import EnsureComplete from "../MoreOperations/EnsureComplete";
 import ZongzhixinQK from "../MoreOperations/ZongzhixinQK";
 import FillPerforOfCooper from "./FillPerforOfCooper.js";
 import EnsureCompleteOfCooper from "../MoreOperations/EnsureCompleteOfCooper.js";
+import Toast from 'react-native-simple-toast';
+import FinishedPath from "../MoreOperations/Component/FinishedPath";
 const {width} = Dimensions.get('window');
 
 export default class MoreOperationsCell extends Component {
@@ -43,6 +45,7 @@ export default class MoreOperationsCell extends Component {
                     jhxxId:this.props.jhxxId,
                     tag: this.props.tag ? this.props.tag : '',
                     reloadInfo:this.props.reloadInfo,
+                    exchangeRwid:this.props.exchangeRwid
                 }
             });
         }else if(this.props.dataSource.name === '流程信息查看'){
@@ -60,6 +63,7 @@ export default class MoreOperationsCell extends Component {
                     sDate:this.props.sDate,
                     eDate:this.props.eDate,
                     reloadInfo:this.props.reloadInfo,
+                    exchangeRwid:this.props.exchangeRwid,
                     tag: this.props.tag ? this.props.tag : ''
                 }
             });
@@ -72,6 +76,7 @@ export default class MoreOperationsCell extends Component {
                         rwid: this.props.rwid,
                         jhxxId: this.props.jhxxId,
                         zrrmc: this.props.zrrmc,
+                        reloadInfo:this.props.reloadInfo
                     }
                 });
             } else {
@@ -115,9 +120,18 @@ export default class MoreOperationsCell extends Component {
                 }
             });
         } else if (this.props.dataSource.name === '暂停') {
-            this.changeStatus('90');
-        } else if (this.props.dataSource.name === '恢复') {
             this.changeStatus('100');
+        } else if (this.props.dataSource.name === '恢复') {
+            this.changeStatus('90');
+        }else if(this.props.dataSource.name === '查看已完成流程步骤'){
+            this.props.navigator.push({
+                name:'FinishedPath',
+                component:FinishedPath,
+                params:{
+                    rwid:this.props.rwid,
+                    tag:this.props.tag
+                }
+            });
         }
         this.props.closeModal()
     }
@@ -129,9 +143,13 @@ export default class MoreOperationsCell extends Component {
             rwzt: status,
             callID: true
         }).then((responseData) => {
-            console.log(responseData);
+            if (responseData.code === 1) {
+                Toast.show('操作成功');
+            } else {
+                Toast.show(responseData.message);
+            }
         }).catch((error) => {
-
+            Toast.show('服务端错误');
         });
     }
 }

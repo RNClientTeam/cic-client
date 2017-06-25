@@ -31,7 +31,9 @@ export default class CheckFlowInfo extends Component{
             optionListID: [],
             actionID: '',
             entry_id: '',
-            stepID: ''
+            stepID: '',
+            stepName: '',
+            wfName: ''
         }
     }
 
@@ -53,6 +55,7 @@ export default class CheckFlowInfo extends Component{
             wfName: this.wfName,
             callID: true
         }).then((responseData) => {
+            console.log(responseData);
             if (responseData.code === 1) {
                 let res = responseData.data;
                 res.options.forEach((elem, index) => {
@@ -63,7 +66,9 @@ export default class CheckFlowInfo extends Component{
                     optionListName: this.state.optionListName,
                     optionListID: this.state.optionListID,
                     entry_id: res.entry_id,
-                    stepID: res.stepID
+                    stepID: res.stepID,
+                    stepName: res.stepName,
+                    wfName: res.wfName
                 });
             }
         }).catch((error) => {
@@ -80,7 +85,7 @@ export default class CheckFlowInfo extends Component{
                         <View style={styles.flowInfoRow}>
                             <Text style={[styles.labelColor]}>当前步骤</Text>
                             <View style={styles.blank}/>
-                            <Text>主管领导</Text>
+                            <Text>{this.state.stepName}</Text>
                         </View>
                         <View style={styles.flowInfoRow}>
                             <Text style={[styles.labelColor]}>当前操作</Text>
@@ -133,6 +138,14 @@ export default class CheckFlowInfo extends Component{
     }
 
     submit() {
+        if (this.state.actionID.length === 0) {
+            Toast.show('请选择当前操作');
+            return;
+        }
+        if (this.optionInfo.length === 0) {
+            Toast.show('请填写审批意见');
+            return;
+        }
         axios.post('/workFlow/submit', {
             userID: GLOBAL_USERID,
             resID: this.props.resID,
@@ -155,6 +168,7 @@ export default class CheckFlowInfo extends Component{
                 });
                 const self = this;
                 let timer = setTimeout(() => {
+                    self.props.reloadInfo && self.props.reloadInfo();
                     self.props.navigator.popToRoute(route);
                     clearTimeout(timer);
                 });
@@ -169,7 +183,13 @@ export default class CheckFlowInfo extends Component{
     goFinishPage() {
         this.props.navigator.push({
             name: 'finishedPath',
-            component: FinishedPath
+            component: FinishedPath,
+            params: {
+                wfName: this.state.wfName,
+                resID: this.props.resID,
+                fromCheckFlowInfo: true,
+                from: this.props.from
+            }
         });
     }
 }

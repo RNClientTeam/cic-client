@@ -8,6 +8,7 @@ import {
     Dimensions,
     TouchableOpacity,
     ScrollView,
+    Platform
 } from 'react-native';
 const {width} = Dimensions.get('window');
 import StatusBar from '../Component/StatusBar'
