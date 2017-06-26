@@ -11,7 +11,8 @@ import {
     StyleSheet,
     Dimensions,
     ScrollView
-} from 'react-native'
+} from 'react-native';
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 import StatusBar from "../../../../Component/StatusBar";
 import Toast from 'react-native-simple-toast'
 const {width, height} = Dimensions.get('window');
@@ -90,9 +91,11 @@ export default class AddZzxqk extends Component {
                     Toast.show('添加成功');
                     let that = this;
                     this.props.refreshData(1);
-                    setTimeout(function () {
+                    let timer = setTimeout(function () {
                         that.props.navigator.pop();
-                    },1000)
+                        clearTimeout(timer);
+                    },1000);
+                    RCTDeviceEventEmitter.emit('refreshListAndDetail');
                 }else{
                     Toast.show(data.message)
                 }

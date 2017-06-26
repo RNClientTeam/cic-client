@@ -36,7 +36,6 @@ export default class ApplyForDelay extends Component{
             planName: '',
             changeStartTime: '',
             changeEndTime: '',
-            changeReason: '',
             yqbgId:'',
             reasonList: [],
             allReason: [],
@@ -115,11 +114,11 @@ export default class ApplyForDelay extends Component{
                             <View style={styles.blank}/>
                             <Text>{this.state.planName}</Text>
                         </View>
-                        {/*<View style={styles.cell}>*/}
-                            {/*<Text style={styles.label}>计划开始时间</Text>*/}
-                            {/*<View style={styles.blank}/>*/}
-                            {/*<Text>{this.state.startTime}</Text>*/}
-                        {/*</View>*/}
+                        <View style={styles.cell}>
+                            <Text style={styles.label}>计划开始时间</Text>
+                            <View style={styles.blank}/>
+                            <Text>{this.state.startTime}</Text>
+                        </View>
                         <View style={styles.cell}>
                             <Text style={styles.label}>计划结束时间</Text>
                             <View style={styles.blank}/>
@@ -145,14 +144,15 @@ export default class ApplyForDelay extends Component{
                                 onSelect={(a) => {
                                     if (this.state.allReason[a].sm === '1') {
                                         this.setState({
-                                            changeReason: this.state.allReason[a].code,
+                                            bgyy: this.state.allReason[a].code,
                                             reasonTag: this.state.allReason[a].sx1
                                         });
                                     } else {
                                         this.setState({
-                                            changeReason: this.state.allReason[a].code,
+                                            bgyy: this.state.allReason[a].code,
                                             reasonTag: '',
-                                            bgyybc: ''
+                                            bgyybc: '',
+                                            bgyybcmc: ''
                                         })
                                     }
                                 }}
@@ -161,7 +161,7 @@ export default class ApplyForDelay extends Component{
                         </View>
 
                         {
-                            (this.state.bgyy === '2' || this.state.bgyy === '4' || this.state.changeReason === '2' || this.state.changeReason === '4') &&
+                            (this.state.bgyy === '2' || this.state.bgyy === '4') &&
                             <View style={styles.cell}>
                                 <Text style={styles.label}>变更原因补充</Text>
                                 <View style={styles.blank}/>
@@ -233,10 +233,9 @@ export default class ApplyForDelay extends Component{
                     planName: res.rwmc,
                     changeStartTime: res.xjhkssj,
                     changeEndTime: res.xjhjssj,
-                    changeReason: res.bgyy,
                     yqbgId: res.yqbgId,
                     bgyybcmc: res.bgyybcmc,
-                    bgyyDefault: this.state.reasonList[parseInt(res.bgyy)-1]||'请选择>',
+                    bgyyDefault: res.bgyy?this.state.reasonList[parseInt(res.bgyy)-1]:'请选择>',
                     reasonList: this.state.reasonList,
                     allReason: responseData.data,
                     bgsm: res.bgsm||'',
@@ -249,7 +248,7 @@ export default class ApplyForDelay extends Component{
     }
 
     submit() {
-        if (this.state.changeReason.length === 0) {
+        if (this.state.bgyy.length === 0) {
             Toast.show('请选择变更原因');
             return;
         }
@@ -261,7 +260,7 @@ export default class ApplyForDelay extends Component{
             Toast.show('请选择变更结束时间');
             return;
         }
-        if (this.changeIntroduction.length === 0) {
+        if (this.changeIntroduction.length === 0 && this.state.bgsm.length === 0) {
             Toast.show('请填写变更情况说明');
             return;
         }
@@ -274,7 +273,7 @@ export default class ApplyForDelay extends Component{
             yjhjssj: this.state.endTime,
             xjhkssj: this.state.changeStartTime,
             xjhjssj: this.state.changeEndTime,
-            bgyy: this.state.changeReason,
+            bgyy: this.state.bgyy,
             bgsm: this.changeIntroduction,
             bgyybc: this.state.bgyybc,
             callID: getTimestamp()

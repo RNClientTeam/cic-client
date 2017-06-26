@@ -80,7 +80,7 @@ export default class TotalImplementation extends Component {
             component:AddZzxqk,
             params:{
                 jhxxId:this.props.jhxxId,
-                refreshData:this.getDataFromNet.bind(this)
+                refreshData:this.onPullRelease.bind(this, null)
             }
         })
     }

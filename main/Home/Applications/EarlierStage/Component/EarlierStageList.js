@@ -21,10 +21,9 @@ import Toast from 'react-native-simple-toast'
 export default class EarlierStageList extends Component {
     constructor(props) {
         super(props);
-        this.dataSource = [];
+        this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             hasMoreData: true,
-            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})),
         }
     }
 
@@ -35,7 +34,7 @@ export default class EarlierStageList extends Component {
                     onPullRelease={this.onPullRelease.bind(this)}
                     topIndicatorRender={this.topIndicatorRender.bind(this)}
                     topIndicatorHeight={60}
-                    dataSource={this.state.list.cloneWithRows(this.props.dataSource)}
+                    dataSource={this.ds.cloneWithRows(this.props.dataSource)}
                     renderRow={this.renderRow.bind(this)}
                     onEndReached={this.loadMore.bind(this)}
                     onEndReachedThreshold={10}

@@ -13,11 +13,19 @@ import ScrollableTabView, {DefaultTabBar, ScrollableTabBar} from 'react-native-s
 import CooperateTask from "./CooperateTask";
 import ShareData from "./ShareData";
 import General from './General.js';
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 import SchedulePlan from './ScheduledPlan.js';
 import TotalImplementation from './TotalImplementation.js';
 var {width, height} = Dimensions.get('window');
 
 export default class EarlierStageDetail extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            sjd: props.sjd,
+            wcbl: props.bfb
+        }
+    }
     render() {
         return (
             <View style={styles.flex}>
@@ -27,13 +35,13 @@ export default class EarlierStageDetail extends Component {
                     source={require('../../../../../resource/imgs/home/earlierStage/backgroundImg.png')}>
                     <Text style={styles.number}>{this.props.xmbh}</Text>
                     <Text style={styles.engineerName} >{this.props.xmmc}</Text>
-                    <Text style={styles.dateSty}>日期：{this.props.sjd}</Text>
+                    <Text style={styles.dateSty}>日期：{this.state.sjd}</Text>
                     <View style={styles.progressView}>
                         <View style={styles.backView}>
-                            <View style={[styles.forgroundView,{width: 0.72 * this.props.wcbl/100 * width}]}>
+                            <View style={[styles.forgroundView,{width: 0.72 * this.state.wcbl/100 * width}]}>
                             </View>
                         </View>
-                        <Text style={styles.percentText}>{this.props.wcbl}%</Text>
+                        <Text style={styles.percentText}>{this.state.wcbl||'0'}%</Text>
                     </View>
                 </Image>
                 <ScrollableTabView
@@ -48,6 +56,19 @@ export default class EarlierStageDetail extends Component {
                 </ScrollableTabView>
             </View>
         );
+    }
+
+    componentDidMount() {
+        this.listener = RCTDeviceEventEmitter.addListener('successRefresh', (value) => {
+            this.setState({
+                wcbl: value.bfb,
+                sjd: value.sjd
+            });
+        });
+    }
+
+    componentWillUnmount() {
+        this.listener && this.listener.remove();
     }
 }
 
