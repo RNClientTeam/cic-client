@@ -14,9 +14,11 @@ import {
     ScrollView
 } from 'react-native'
 import StatusBar from "../../../../Component/StatusBar";
+const Platform = require('Platform');
 const {width} = Dimensions.get('window');
 import ModalDropdown from 'react-native-modal-dropdown';
 import RNFS from 'react-native-fs';
+import toast from 'react-native-simple-toast'
 import {getRandomId} from '../../../../Util/Util'
 import Organization from "../../../../Organization/Organization";
 export default class AddShareData extends Component {
@@ -28,14 +30,14 @@ export default class AddShareData extends Component {
             shareTypeID: [10, 50, 30, 40],
             shareType: '请选择共享方式',
             shareRangeArr: '',
-            shareRange: '请选择共享范围',
+            shareRangeCN: '',
+            shareRangeEN: '',
             shareClass: [],
             shareClassId: [],
             fjid: getRandomId(),//资料id
             zlfl: '',
             bsid: this.props.jhxxId,//业务id
             gxfs: '',
-            gzfw: '',
             zlms: '',
             zlmc: '',
 
@@ -92,7 +94,7 @@ export default class AddShareData extends Component {
                                 <TextInput
                                     style={[styles.inputStyle, {textAlign: 'right'}]}
                                     placeholder='点击选择'
-                                    value={this.state.shareRangeArr}
+                                    value={this.state.shareRangeCN}
                                     editable={false}
                                 />
                             </TouchableOpacity>
@@ -119,7 +121,7 @@ export default class AddShareData extends Component {
                         />
                     </View>
                 </ScrollView>
-                <TouchableOpacity style={styles.submitButton} onPress={this.submit()}>
+                <TouchableOpacity style={styles.submitButton} onPress={this.submit.bind(this)}>
                     <Text style={{color: '#fff'}}>确认提交</Text>
                 </TouchableOpacity>
             </View>
@@ -136,7 +138,17 @@ export default class AddShareData extends Component {
             name: 'Organization',
             params: {
                 select: (data) => {
-                    console.log(data)
+                    let cn = [];
+                    let en = [];
+                    for(let i = 0;i<data.length;i++){
+                        cn.push(data[i].name);
+                        en.push(data[i].id);
+                    }
+                    this.setState({
+                        shareRangeCN:cn.join(','),
+                        shareRangeEN:en.join(',')
+                    });
+
                 },
                 type:type
             }
@@ -144,28 +156,33 @@ export default class AddShareData extends Component {
     }
 
     choiceFile() {
-        RNFS.readDir(RNFS.MainBundlePath) // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
-            .then((result) => {
-                console.log('GOT RESULT', result);
-
-                // stat the first file
-                return Promise.all([RNFS.stat(result[0].path), result[0].path]);
-            })
-            .then((statResult) => {
-                if (statResult[0].isFile()) {
-                    // if we have a file, read it
-                    return RNFS.readFile(statResult[1], 'utf8');
-                }
-
-                return 'no file';
-            })
-            .then((contents) => {
-                // log the file contents
-                console.log(contents);
-            })
-            .catch((err) => {
-                console.log(err.message, err.code);
-            });
+        if(Platform.OS === 'android'){
+            toast.show('程序猿正在努力赶工上上传功能');
+        }else{
+            toast.show('iOS系统不支持文件上传操作');
+        }
+        // RNFS.readDir(RNFS.MainBundlePath) // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
+        //     .then((result) => {
+        //         console.log('GOT RESULT', result);
+        //
+        //         // stat the first file
+        //         return Promise.all([RNFS.stat(result[0].path), result[0].path]);
+        //     })
+        //     .then((statResult) => {
+        //         if (statResult[0].isFile()) {
+        //             // if we have a file, read it
+        //             return RNFS.readFile(statResult[1], 'utf8');
+        //         }
+        //
+        //         return 'no file';
+        //     })
+        //     .then((contents) => {
+        //         // log the file contents
+        //         console.log(contents);
+        //     })
+        //     .catch((err) => {
+        //         console.log(err.message, err.code);
+        //     });
     }
 
     componentDidMount() {
@@ -196,10 +213,38 @@ export default class AddShareData extends Component {
             bsid: this.state.bsid,
             zlfl: this.state.zlfl,
             gxfs: this.state.gxfs,
-            gzfw: this.state.gzfw,
+            gzfw: this.state.shareRangeEN,
             zlms: this.state.zlms,
             zlmc: 'zl.pdf',
             callID: true
+        };
+        console.log(data.zlms);
+        if(data.zlfl === ''){
+            toast.show('请选择资料分类');
+        }else if(data.gxfs === ''){
+            toast.show('请选择共享方式');
+        }else if((data.gxfs === 30||data.gxfs === 40)&&data.gzfw===''){
+            toast.show('请选择共享范围');
+        }else if(data.zlms === ''){
+            toast.show('请填写资料描述')
+        }else {
+            axios.post('/psmGxzl/save',data)
+                .then(data=>{
+                    if(data.code ===1){
+                        toast.show('保存成功!');
+                        let that = this;
+                        setTimeout(function () {
+                            that.props.navigator.pop();
+                        },1000);
+                    }else{
+                        toast.show(data.message);
+                    }
+                })
+                .catch(err=>{
+                    if(err){
+                        toast.show('服务端异常');
+                    }
+                })
         }
     }
 }
