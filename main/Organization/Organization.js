@@ -98,9 +98,7 @@ export default class Organization extends Component {
 
     submit() {
         let selects = [];
-
-        selects = this.state.deps.filter(item => item.isChecked);
-
+        selects = this.state.deps.filter(item => item.isChecked).map((item) => ({id: item.id, name: item.name}));
         //可以被被调用的外部方法, 返回选中的emp或者dep的数组
         this.props.select(selects)
     }
@@ -159,7 +157,7 @@ export default class Organization extends Component {
         let depArray = [], empArray = [];
         for (let i = 0; i < items.length; i++) {
             //清空选中状态
-            items[i].isChecked = false;
+            //items[i].isChecked = false;
             if (items[i].isuser === '0') {
                 if (this.props.type && this.props.type === 'dep') {
                     depArray.push(<DepartmentItem dep={items[i]} key={i} type="dep"
