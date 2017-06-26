@@ -74,14 +74,27 @@ export default class Organization extends Component {
                     notBack = {true}
                 />
         }
+
+        let action;
+        if (this.props.type === 'dep' || this.props.type === 'emp') {
+            action = <TouchableOpacity onPress={() => this.submit()}>
+                <Text style={{color: 'white'}}>确定</Text>
+            </TouchableOpacity>;
+        } else {
+            action = <View/>
+        }
+
         return(
             <View style={styles.container}>
                 {this.props.getInfo || this.props.type === 'dep' || this.props.type === 'emp'?
                     <StatusBar navigator={this.props.navigator} title="请选择"
+                               notBack={
+                                   !(this.state.deps.length &&
+                                    this.state.deps[0] &&
+                                    this.state.deps[0].parent && this.state.deps[0].parent.parent)
+                               }
                                backButtonFun = {this.goBack.bind(this, this.state.deps)}>
-                        <TouchableOpacity onPress={() => this.submit()}>
-                            <Text style={{color: 'white'}}>确定</Text>
-                        </TouchableOpacity>
+                        {action}
                     </StatusBar> :statusBar}
                 <ScrollView
                     style={{height: height}}
