@@ -44,6 +44,10 @@ export default class EmployeeItem extends Component {
             this.props.navigator.pop()
         }
     }
+
+    // componentWillReceiveProps() {
+    //
+    // }
 }
 
 const styles = StyleSheet.create({
