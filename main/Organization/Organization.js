@@ -100,7 +100,9 @@ export default class Organization extends Component {
         let selects = [];
         selects = this.state.deps.filter(item => item.isChecked).map((item) => ({id: item.id, name: item.name}));
         //可以被被调用的外部方法, 返回选中的emp或者dep的数组
-        this.props.select(selects)
+        this.props.select(selects);
+
+        this.props.navigator.pop();
     }
 
     // renderDeps() {
@@ -141,8 +143,12 @@ export default class Organization extends Component {
     }
 
     onClick(item) {
-        item.isChecked = !item.isChecked;
         let tmp = this.state.deps.slice(0);
+        for(let i = 0;i<tmp.length;i++){
+            if(tmp[i].id === item.id){
+                tmp[i].isChecked = !tmp[i].isChecked;
+            }
+        }
         this.setState({deps: tmp});
     }
 
