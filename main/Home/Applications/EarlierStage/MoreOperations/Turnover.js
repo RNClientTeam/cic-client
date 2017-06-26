@@ -80,7 +80,6 @@ export default class Turnover extends Component{
     }
 
     selectReason() {
-        console.log(this.state.reasonTag);
         this.props.navigator.push({
             name: 'Organization',
             component: Organization,
