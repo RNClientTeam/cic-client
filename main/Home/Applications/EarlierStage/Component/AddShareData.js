@@ -79,7 +79,11 @@ export default class AddShareData extends Component {
                                 textStyle={styles.modalDropDownText}
                                 dropdownStyle={styles.dropdownStyle}
                                 onSelect={(a) => {
-                                    this.setState({gxfs: this.state.shareTypeID[a]})
+                                    this.setState({
+                                        gxfs: this.state.shareTypeID[a],
+                                        shareRangeCN:'',
+                                        shareRangeEN:''
+                                    })
                                 }}
                                 showsVerticalScrollIndicator={false}
                             />
@@ -140,25 +144,25 @@ export default class AddShareData extends Component {
                 select: (data) => {
                     let cn = [];
                     let en = [];
-                    for(let i = 0;i<data.length;i++){
+                    for (let i = 0; i < data.length; i++) {
                         cn.push(data[i].name);
                         en.push(data[i].id);
                     }
                     this.setState({
-                        shareRangeCN:cn.join(','),
-                        shareRangeEN:en.join(',')
+                        shareRangeCN: cn.join(','),
+                        shareRangeEN: en.join(',')
                     });
 
                 },
-                type:type
+                type: type
             }
         })
     }
 
     choiceFile() {
-        if(Platform.OS === 'android'){
+        if (Platform.OS === 'android') {
             toast.show('程序猿正在努力赶工上上传功能');
-        }else{
+        } else {
             toast.show('iOS系统不支持文件上传操作');
         }
         // RNFS.readDir(RNFS.MainBundlePath) // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
@@ -219,29 +223,29 @@ export default class AddShareData extends Component {
             callID: true
         };
         console.log(data.zlms);
-        if(data.zlfl === ''){
+        if (data.zlfl === '') {
             toast.show('请选择资料分类');
-        }else if(data.gxfs === ''){
+        } else if (data.gxfs === '') {
             toast.show('请选择共享方式');
-        }else if((data.gxfs === 30||data.gxfs === 40)&&data.gzfw===''){
+        } else if ((data.gxfs === 30 || data.gxfs === 40) && data.gzfw === '') {
             toast.show('请选择共享范围');
-        }else if(data.zlms === ''){
+        } else if (data.zlms === '') {
             toast.show('请填写资料描述')
-        }else {
-            axios.post('/psmGxzl/save',data)
-                .then(data=>{
-                    if(data.code ===1){
+        } else {
+            axios.post('/psmGxzl/save', data)
+                .then(data => {
+                    if (data.code === 1) {
                         toast.show('保存成功!');
                         let that = this;
                         setTimeout(function () {
                             that.props.navigator.pop();
-                        },1000);
-                    }else{
+                        }, 1000);
+                    } else {
                         toast.show(data.message);
                     }
                 })
-                .catch(err=>{
-                    if(err){
+                .catch(err => {
+                    if (err) {
                         toast.show('服务端异常');
                     }
                 })
