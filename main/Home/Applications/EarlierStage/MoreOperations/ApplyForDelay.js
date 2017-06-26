@@ -61,7 +61,6 @@ export default class ApplyForDelay extends Component{
                 callID: getTimestamp()
             }
         }).then((responseData) => {
-            console.log(responseData);
             if (responseData.code === 1) {
                 this.setState({
                     proName: responseData.data.xmmc,
@@ -218,7 +217,6 @@ export default class ApplyForDelay extends Component{
                 callID: true
             }
         }).then((responseData) => {
-            console.log(responseData);
             if (responseData.code === 1) {
                 this.state.reasonList = [];
                 responseData.data.forEach((elem, index) => {
