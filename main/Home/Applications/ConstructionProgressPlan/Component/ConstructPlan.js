@@ -20,9 +20,47 @@ export default class ConstructPlan extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentPage:0,
-            modalVisible: false
+            currentPage: 1,
+            modalVisible: false,
+            myTask: []
+        };
+    }
+    componentDidMount() {
+        this.getMyTask();
+    }
+
+    getMyTask(pageNum = 1, pageSize = 10, callback = () => {}) {
+        if (pageNum === 1) {
+            this.state.myTask = [];
         }
+        axios.get('/psmSgjdjh/sgjhJhrwlb', {
+            params: {
+                userID: GLOBAL_USERID,
+                gczxId: this.props.gczxId,
+                pageNum,
+                pageSize
+            }
+        }).then(data => {
+            if (data && data.data && data.data.data) {
+                let resultData = data.data.data;
+                if (resultData.length) {
+                    this.setState({
+                        myTask: [...this.state.myTask, ...resultData],
+                        currentPage: pageNum,
+                        total: data.data.total
+                    });
+                }
+            }
+            callback();
+        })
+    }
+
+    loadMore() {
+        if (this.state.total && (this.state.myTask.length < this.state.total)) {
+            this.getMyTask(this.state.currentPage + 1, 10);
+            return true
+        }
+        return false
     }
 
     render() {
@@ -47,10 +85,14 @@ export default class ConstructPlan extends Component {
                     showsHorizontalScrollIndicator={false}
                     scrollEnabled={false}>
                     <MyPlan navigator={this.props.navigator}
+                            loadMore={() => this.loadMore()}
+                            dataSource={this.state.myTask}
                             setModalVisible={() => {
                             this.setState({modalVisible: true})
                         }}/>
                     <MyPlan navigator={this.props.navigator}
+                            loadMore={() => this.loadMore()}
+                            dataSource={this.state.myTask}
                             setModalVisible={() => {
                             this.setState({modalVisible: true})
                         }}/>

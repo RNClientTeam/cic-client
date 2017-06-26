@@ -21,48 +21,48 @@ import MyPlanCell from "./MyPlanCell"
 import MoreActionsModal from "./MoreActionsModal"
 
 const {width, height} = Dimensions.get('window');
-let dataArr = [
-    {
-        period: '准备设备',
-        state: '执行中',
-        principal: '杨磊',
-        time: '2017/11/11-2017/12/12'
-    },
-    {
-        period: '设备检测',
-        state: '执行中',
-        principal: '杨磊',
-        time: '2017/11/11-2017/12/12'
-    },
-    {
-        period: '开始施工',
-        state: '执行中',
-        principal: '杨磊',
-        time: '2017/11/11-2017/12/12'
-    },
-    {
-        period: '施工收尾',
-        state: '执行中',
-        principal: '杨磊',
-        time: '2017/11/11-2017/12/12'
-    },
-    {
-        period: '施工收尾',
-        state: '执行中',
-        principal: '杨磊',
-        time: '2017/11/11-2017/12/12'
-    },
-];
-let tempArr = dataArr;
+// let dataArr = [
+//     {
+//         period: '准备设备',
+//         state: '执行中',
+//         principal: '杨磊',
+//         time: '2017/11/11-2017/12/12'
+//     },
+//     {
+//         period: '设备检测',
+//         state: '执行中',
+//         principal: '杨磊',
+//         time: '2017/11/11-2017/12/12'
+//     },
+//     {
+//         period: '开始施工',
+//         state: '执行中',
+//         principal: '杨磊',
+//         time: '2017/11/11-2017/12/12'
+//     },
+//     {
+//         period: '施工收尾',
+//         state: '执行中',
+//         principal: '杨磊',
+//         time: '2017/11/11-2017/12/12'
+//     },
+//     {
+//         period: '施工收尾',
+//         state: '执行中',
+//         principal: '杨磊',
+//         time: '2017/11/11-2017/12/12'
+//     },
+// ];
+// let tempArr = dataArr;
 
 export default class MyPlan extends Component {
     constructor(props) {
         super(props);
-        this.dataSource = dataArr;
+        //this.dataSource = props.dataSource;
         this.state = {
             hasMoreData: true,
             modalVisible: false,
-            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(this.dataSource),
+            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}))
         }
     }
 
@@ -73,7 +73,7 @@ export default class MyPlan extends Component {
                     onPullRelease={this.onPullRelease.bind(this)}
                     topIndicatorRender={this.topIndicatorRender.bind(this)}
                     topIndicatorHeight={60}
-                    dataSource={this.state.list}
+                    dataSource={this.state.list.cloneWithRows(this.props.dataSource)}
                     renderRow={this.renderRow.bind(this)}
                     onEndReached={this.loadMore.bind(this)}
                     onEndReachedThreshold={60}
@@ -104,8 +104,11 @@ export default class MyPlan extends Component {
 
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
-            <MyPlanCell key={rowID} data={item} navigator={this.props.navigator}
-                              setModalVisible={() => {this.setState({modalVisible: true})}}/>
+            <MyPlanCell key={rowID}
+                        navigator={this.props.navigator}
+                        data={item}
+                        setModalVisible={() => {this.setState({modalVisible: true})}}
+            />
         );
     }
 
@@ -118,15 +121,24 @@ export default class MyPlan extends Component {
     }
 
     loadMore(){
-        for (let i = 0;i<tempArr.length;i++){
-            this.dataSource.push(tempArr[i])
-        }
-
-        setTimeout(() => {
+        if(this.props.dataSource.length>0){
             this.setState({
-                list: this.state.list.cloneWithRows(this.dataSource)
-            });
-        }, 1000);
+                hasMoreData:this.props.loadMore()
+            },function () {
+                if(!this.state.hasMoreData){
+                    // Toast.show('没有更多数据了');
+                }
+            })
+        }
+        // for (let i = 0;i<tempArr.length;i++){
+        //     this.dataSource.push(tempArr[i])
+        // }
+        //
+        // setTimeout(() => {
+        //     this.setState({
+        //         list: this.state.list.cloneWithRows(this.dataSource)
+        //     });
+        // }, 1000);
     }
 }
 

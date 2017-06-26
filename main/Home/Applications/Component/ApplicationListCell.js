@@ -39,14 +39,15 @@ export default class EarlierStageListCell extends Component {
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
                             <Text style={{color: '#216fd0', fontSize: width * 0.045}}>{this.props.data.xmbh}</Text>
-                            {this.props.stateBg ?
-                                <View style={[styles.stateView, {backgroundColor: this.props.stateBg}]}>
-                                    <Text style={styles.stateText}>{this.props.data.state}</Text>
-                                </View> :
-                                <View style={[styles.stateView]}>
-                                    <Text style={styles.stateText}>{this.props.data.state}</Text>
-                                </View>
-                            }
+                            {this.props.data.state ?
+                                    (this.props.stateBg ?
+                                        <View style={[styles.stateView, {backgroundColor: this.props.stateBg}]}>
+                                            <Text style={styles.stateText}>{this.props.data.state}</Text>
+                                        </View> :
+                                        <View style={[styles.stateView]}>
+                                            <Text style={styles.stateText}>{this.props.data.state}</Text>
+                                        </View>
+                                    ) : <View/>}
                         </View>
                         <View style={styles.projectName}>
                             <Text style={{width:width*0.85,lineHeight:parseInt(width*0.05)}}>{this.props.data.xmmc}</Text>

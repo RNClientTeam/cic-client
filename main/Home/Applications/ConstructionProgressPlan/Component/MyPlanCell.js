@@ -23,15 +23,17 @@ export default class MyPlanCell extends Component {
         return (
             <View style={styles.earlierStageListCell}>
                 <View style={styles.aboutProject}>
-                    <Text style={{color:'#216fd0',fontSize:width*0.045}}>{this.props.data.period}</Text>
+                    <Text style={{color:'#216fd0',fontSize:width*0.045}}>{this.props.data.rwmc}</Text>
                     <View style={styles.blank}/>
                     <View style={styles.stateView}>
-                        <Text style={styles.stateText}>{this.props.data.state}</Text>
+                        <Text style={styles.stateText}>{this.props.data.rwztmc}</Text>
                     </View>
                 </View>
                 <View style={styles.aboutPrincipal}>
-                    <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.principal}</Text>
-                    <Text style={[{width: width * 0.5}, styles.textStyle]}>{this.props.data.time}</Text>
+                    <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zrrmc}</Text>
+                    <Text style={[{width: width * 0.5}, styles.textStyle]}>
+                        {this.props.data.jhkssj + (this.props.data.jhjssj ? ' ~ ' + this.props.data.jhjssj : '')}
+                    </Text>
                     <View style={styles.blank}/>
                     <TouchableOpacity onPress={()=>{this.props.setModalVisible()}} style={styles.editTouch}>
                         <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}
