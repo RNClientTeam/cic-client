@@ -34,7 +34,7 @@ export default class TakePhoto extends Component {
         this.state = {
             image: null
         };
-    }
+    }G
 
     render() {
         return (

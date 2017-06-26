@@ -44,12 +44,14 @@ export default class Turnover extends Component{
             yzrrmc: '',
             reasonTag: '',
             bgyybc: '',
-            bgyybcmc: ''
+            bgyybcmc: '',
+            bgyyDefault: '请选择>',
+            bgsm:'',
+            bgyy: ''
         }
     }
     componentDidMount() {
         this.fetchData();
-        this.exchangeReason();
     }
 
     fetchData() {
@@ -61,18 +63,7 @@ export default class Turnover extends Component{
             }
         }).then((responseData) => {
             if (responseData.code === 1) {
-                this.setState({
-                    proName: responseData.data.xmmc,
-                    planName: responseData.data.rwmc,
-                    changeReason: responseData.data.bgyy,
-                    rybgId: responseData.data.rybgId,
-                    yzrr: responseData.data.yzrr,
-                    selected: responseData.data.sfzzfwn==1?true:false,
-                    yzrbm: responseData.data.yzrbm,
-                    yzrrmc: responseData.data.yzrrmc,
-                    bgyybcmc: responseData.data.bgyybcmc,
-                    bgyybc: responseData.data.bgyybc
-                });
+                this.exchangeReason(responseData.data);
             }
         }).catch((error) => {
 
@@ -80,18 +71,31 @@ export default class Turnover extends Component{
     }
 
     selectReason() {
-        // this.props.navigator.push({
-        //     name: 'Organization',
-        //     component: Organization,
-        //     params: {
-        //         reasonTag: this.state.reasonTag,
-        //         getReasonId: this.getReasonId.bind(this)
-        //     }
-        // });
+        this.props.navigator.push({
+            name: 'Organization',
+            component: Organization,
+            params: {
+                type: this.state.reasonTag==='dept'?'dep':'emp',
+                select: this.getReasonId.bind(this)
+            }
+        });
     }
 
-    getReasonId() {
-
+    getReasonId(params) {
+        let tempName = '';
+        let tempId = '';
+        let nameArr = params.map((elem, index) => {
+            return elem.name;
+        });
+        let idArr = params.map((elem, index) => {
+            return elem.id;
+        });
+        tempName = nameArr.join(',');
+        tempId = idArr.join(',');
+        this.setState({
+            bgyybc: tempId,
+            bgyybcmc: tempName
+        });
     }
 
     render(){
@@ -133,15 +137,14 @@ export default class Turnover extends Component{
                             <ModalDropdown
                                 options={this.state.reasonList}
                                 animated={true}
-                                defaultValue={'请选择>'}
+                                defaultValue={this.state.bgyyDefault}
                                 style={{flex:1, alignItems:'flex-end'}}
                                 textStyle={{fontSize:14}}
                                 onSelect={(a) => {
                                     if (this.state.allReason[a].sm === '1') {
                                         this.setState({
                                             changeReason: this.state.allReason[a].code,
-                                            reasonTag: this.state.allReason[a].sx1,
-                                            bgyybc: this.state.bgyybc ? this.state.bgyybc : (a===1?'0000007ca001425521d631,00000012440014126493331':'00000004a00138c242a0d9,D0020016')
+                                            reasonTag: this.state.allReason[a].sx1
                                         });
                                     } else {
                                         this.setState({
@@ -156,7 +159,7 @@ export default class Turnover extends Component{
                         </View>
 
                         {
-                            this.state.bgyybc.length !== 0 &&
+                            (this.state.bgyy === '2' || this.state.bgyy === '4' || this.state.changeReason === '2' || this.state.changeReason === '4') &&
                             <View style={styles.cell}>
                                 <Text style={styles.label}>变更原因补充</Text>
                                 <View style={styles.blank}/>
@@ -208,6 +211,7 @@ export default class Turnover extends Component{
                                 <TextInput
                                     multiline = {true}
                                     numberOfLines = {4}
+                                    placeholder={this.state.bgsm}
                                     underlineColorAndroid="transparent"
                                     onChangeText={(text) => {this.changeIntroduction = text;}}
                                     style={{backgroundColor: '#eee', height: 0.28*height, borderRadius: 10}}
@@ -248,7 +252,7 @@ export default class Turnover extends Component{
     }
 
     //修改变更原因
-    exchangeReason() {
+    exchangeReason(res) {
         axios.get('dictionary/list', {
             params: {
                 userID: GLOBAL_USERID,
@@ -262,8 +266,21 @@ export default class Turnover extends Component{
                     this.state.reasonList.push(elem.name);
                 });
                 this.setState({
+                    proName: res.xmmc,
+                    planName: res.rwmc,
+                    changeReason: res.bgyy,
+                    rybgId: res.rybgId,
+                    yzrr: res.yzrr,
+                    selected: res.sfzzfwn==1?true:false,
+                    yzrbm: res.yzrbm,
+                    yzrrmc: res.yzrrmc,
+                    bgyybcmc: res.bgyybcmc,
+                    bgyybc: res.bgyybc,
                     reasonList: this.state.reasonList,
-                    allReason: responseData.data
+                    allReason: responseData.data,
+                    bgyyDefault: this.state.reasonList[parseInt(res.bgyy)-1]||'请选择>',
+                    bgsm: res.bgsm||'',
+                    bgyy: res.bgyy||''
                 });
             }
         }).catch((error) => {

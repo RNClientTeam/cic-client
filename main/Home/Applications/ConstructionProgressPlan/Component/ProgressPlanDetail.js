@@ -41,7 +41,9 @@ export default class ProgressPlanDetail extends Component {
                     tabBarUnderlineStyle={{backgroundColor:'#51a5f0',height:2}}
                     tabBarActiveTextColor='#51a5f0'
                     tabBarInactiveTextColor='#3d3d3d'>
-                    <ProjectChildProfile tabLabel="工程子项概况" navigator={this.props.navigator} />
+                    <ProjectChildProfile tabLabel="工程子项概况"
+                                         gczxId={this.props.gczxId}
+                                         navigator={this.props.navigator} />
                     <ConstructPlan tabLabel="施工计划" navigator={this.props.navigator} />
                     <ShareFile tabLabel="共享资料" navigator={this.props.navigator} />
                 </ScrollableTabView>

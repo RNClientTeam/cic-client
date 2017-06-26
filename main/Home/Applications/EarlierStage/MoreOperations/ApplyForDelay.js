@@ -42,14 +42,14 @@ export default class ApplyForDelay extends Component{
             allReason: [],
             reasonTag: '',
             bgyybc: '',
-            bgyybcmc: ''
+            bgyybcmc: '',
+            bgyyDefault: '请选择>',
+            bgsm: '',
+            bgyy: ''
         }
     }
     componentDidMount() {
         this.fetchData();
-
-        //获取变更原因列表
-        this.exchangeReason();
     }
 
     fetchData() {
@@ -61,19 +61,9 @@ export default class ApplyForDelay extends Component{
                 callID: getTimestamp()
             }
         }).then((responseData) => {
-            console.log(responseData);
             if (responseData.code === 1) {
-                this.setState({
-                    proName: responseData.data.xmmc,
-                    startTime: responseData.data.yjhkssj,
-                    endTime: responseData.data.yjhjssj,
-                    planName: responseData.data.rwmc,
-                    changeStartTime: responseData.data.xjhkssj,
-                    changeEndTime: responseData.data.xjhjssj,
-                    changeReason: responseData.data.bgyy,
-                    yqbgId: responseData.data.yqbgId,
-                    bgyybcmc: responseData.data.bgyybcmc
-                });
+                //获取变更原因列表
+                this.exchangeReason(responseData.data);
             }
         }).catch((error) => {
 
@@ -82,18 +72,31 @@ export default class ApplyForDelay extends Component{
 
     //获取其他部门／其让人id
     getReasonId(params) {
-
+        let tempName = '';
+        let tempId = '';
+        let nameArr = params.map((elem, index) => {
+            return elem.name;
+        });
+        let idArr = params.map((elem, index) => {
+            return elem.id;
+        });
+        tempName = nameArr.join(',');
+        tempId = idArr.join(',');
+        this.setState({
+            bgyybc: tempId,
+            bgyybcmc: tempName
+        });
     }
 
     selectReason() {
-        // this.props.navigator.push({
-        //     name: 'Organization',
-        //     component: Organization,
-        //     params: {
-        //         reasonTag: this.state.reasonTag,
-        //         getReasonId: this.getReasonId.bind(this)
-        //     }
-        // });
+        this.props.navigator.push({
+            name: 'Organization',
+            component: Organization,
+            params: {
+                type: this.state.reasonTag==='dept'?'dep':'emp',
+                select: this.getReasonId.bind(this)
+            }
+        });
     }
 
     render(){
@@ -136,15 +139,14 @@ export default class ApplyForDelay extends Component{
                             <ModalDropdown
                                 options={this.state.reasonList}
                                 animated={true}
-                                defaultValue={'请选择>'}
+                                defaultValue={this.state.bgyyDefault}
                                 textStyle={{fontSize:14}}
                                 style={{flex:1, alignItems:'flex-end'}}
                                 onSelect={(a) => {
                                     if (this.state.allReason[a].sm === '1') {
                                         this.setState({
                                             changeReason: this.state.allReason[a].code,
-                                            reasonTag: this.state.allReason[a].sx1,
-                                            bgyybc: this.state.bgyybc ? this.state.bgyybc : (a===1?'0000007ca001425521d631,00000012440014126493331':'00000004a00138c242a0d9,D0020016')
+                                            reasonTag: this.state.allReason[a].sx1
                                         });
                                     } else {
                                         this.setState({
@@ -159,7 +161,7 @@ export default class ApplyForDelay extends Component{
                         </View>
 
                         {
-                            this.state.bgyybc.length !== 0 &&
+                            (this.state.bgyy === '2' || this.state.bgyy === '4' || this.state.changeReason === '2' || this.state.changeReason === '4') &&
                             <View style={styles.cell}>
                                 <Text style={styles.label}>变更原因补充</Text>
                                 <View style={styles.blank}/>
@@ -192,6 +194,7 @@ export default class ApplyForDelay extends Component{
                                 <TextInput
                                     multiline = {true}
                                     numberOfLines = {4}
+                                    placeholder={this.state.bgsm}
                                     onChangeText={(text) => {this.changeIntroduction = text;}}
                                     style={{backgroundColor: '#eee', height: 0.28*height, borderRadius: 10}}
                                 />
@@ -210,7 +213,7 @@ export default class ApplyForDelay extends Component{
     }
 
     //修改变更原因
-    exchangeReason() {
+    exchangeReason(res) {
         axios.get('dictionary/list', {
             params: {
                 userID: GLOBAL_USERID,
@@ -218,15 +221,26 @@ export default class ApplyForDelay extends Component{
                 callID: true
             }
         }).then((responseData) => {
-            console.log(responseData);
             if (responseData.code === 1) {
                 this.state.reasonList = [];
                 responseData.data.forEach((elem, index) => {
                     this.state.reasonList.push(elem.name);
                 });
                 this.setState({
+                    proName: res.xmmc,
+                    startTime: res.yjhkssj,
+                    endTime: res.yjhjssj,
+                    planName: res.rwmc,
+                    changeStartTime: res.xjhkssj,
+                    changeEndTime: res.xjhjssj,
+                    changeReason: res.bgyy,
+                    yqbgId: res.yqbgId,
+                    bgyybcmc: res.bgyybcmc,
+                    bgyyDefault: this.state.reasonList[parseInt(res.bgyy)-1]||'请选择>',
                     reasonList: this.state.reasonList,
-                    allReason: responseData.data
+                    allReason: responseData.data,
+                    bgsm: res.bgsm||'',
+                    bgyy: res.bgyy||''
                 });
             }
         }).catch((error) => {

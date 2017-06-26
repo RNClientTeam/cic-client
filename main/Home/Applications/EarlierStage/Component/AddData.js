@@ -27,7 +27,10 @@ export default class HomeHeader extends Component{
     skipPage(){
         this.props.navigator.push({
             name:'AddShareData',
-            component:AddShareData
+            component:AddShareData,
+            params:{
+                jhxxId:this.props.jhxxId
+            }
         })
     }
 }
