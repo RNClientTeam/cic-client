@@ -33,22 +33,22 @@ export default class ProjectRangeHandoverInfo extends Component {
             <View>
                 <View style={styles.headerView}>
                     <Text style={styles.headerText} numberOfLines={1}>
-                        【电气业务】{this.props.proNum} {this.props.proName}
+                        【{this.props.xmbh}】 {this.props.proName}
                     </Text>
                 </View>
-                <KeyValue  propsKey='所属部门' propsValue='市场营销一部'/>
-                <KeyValue  propsKey='项目经理' propsValue='哈哈哈'/>
+                <KeyValue  propsKey='所属部门' propsValue={this.props.ssbm}/>
+                <KeyValue  propsKey='项目经理' propsValue={this.props.xmjl}/>
                 <View style={styles.stateView}>
                     <View style={styles.textContainer}>
                         <Text style={{color:'#5476a1'}}>交接状态</Text>
                     </View>
                     <View style={styles.textContainer}>
-                        <View style={{backgroundColor:this.props.stateBg,height:width*0.05,width:this.props.proState.length*15,justifyContent:'center',borderRadius:6}}>
-                            <Text style={{color:'#fff',fontSize:width*0.034,textAlign:'center'}}>{this.props.proState}</Text>
+                        <View style={{backgroundColor:'#fe9a25',height:width*0.05,width:this.props.jjzt.length*15,justifyContent:'center',borderRadius:6}}>
+                            <Text style={{color:'#fff',fontSize:width*0.034,textAlign:'center'}}>{this.props.jjzt}</Text>
                         </View>
                     </View>
                 </View>
-                <KeyValue  propsKey='拆分时间' propsValue='2017-02-16'/>
+                <KeyValue  propsKey='拆分时间' propsValue={this.props.cfsj}/>
             </View>
         )
     }

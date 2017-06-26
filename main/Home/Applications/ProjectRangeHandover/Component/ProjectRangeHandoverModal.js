@@ -20,8 +20,8 @@ export default class ProjectRangeHandoverModal extends Component {
     constructor(props){
         super(props);
         this.state={
-            startDate:getCurrentDate(),
-            endDate:getCurrentDate()
+            startDate:this.props.sDate,
+            endDate:this.props.eDate
         }
     }
     render() {
@@ -30,7 +30,7 @@ export default class ProjectRangeHandoverModal extends Component {
                 <View style={styles.containerStyle}>
                     <Text style={styles.nameStyle}>开始时间</Text>
                     <View style={styles.indicateView}>
-                        <ChoiceDate/>
+                        <ChoiceDate showDate={this.state.startDate} changeDate={(date)=>{this.setState({startDate:date})}}/>
                         <Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
                     </View>
 
@@ -38,7 +38,7 @@ export default class ProjectRangeHandoverModal extends Component {
                 <View style={styles.containerStyle}>
                     <Text style={styles.nameStyle}>结束时间</Text>
                     <View style={styles.indicateView}>
-                        <ChoiceDate/>
+                        <ChoiceDate showDate={this.state.endDate} changeDate={(date)=>{this.setState({endDate:date})}}/>
                         <Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
                     </View>
                 </View>
@@ -46,7 +46,12 @@ export default class ProjectRangeHandoverModal extends Component {
                     <TouchableOpacity style={[styles.clickButton,{backgroundColor:'#dbdada'}]} onPress={()=>this.props.closeModal()}>
                         <Text>重置</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.clickButton,{backgroundColor:'#216fd0'}]} onPress={()=>this.props.closeModal()}>
+                    <TouchableOpacity
+                        style={[styles.clickButton,{backgroundColor:'#216fd0'}]}
+                        onPress={()=>{
+                            this.props.closeModal();
+                            this.props.changeFileter(this.state.startDate,this.state.endDate)}
+                        }>
                         <Text style={{color:'#fff'}}>确定</Text>
                     </TouchableOpacity>
                 </View>

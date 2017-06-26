@@ -60,7 +60,7 @@ export default class EarlierStageListCell extends Component {
                     <View style={styles.aboutPrincipal}>
                         <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.fzr}</Text>
                         <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.bm}</Text>
-                        <Text style={[{width: width * 0.5,paddingLeft:width*0.04}, styles.textStyle]}>{this.props.data.bfb||'0'}%</Text>
+                        <Text style={[{width: width * 0.5,paddingLeft:width*0.04}, styles.textStyle]}>{this.props.data.bfb?this.props.data.bfb+'%':''}</Text>
                         <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.sjd}</Text>
                     </View>
                 </TouchableOpacity>
@@ -108,10 +108,7 @@ export default class EarlierStageListCell extends Component {
                     component: ProjectRangeHandoverDetail,
                     name: 'ProjectRangeHandoverDetail',
                     params: {
-                        proName: this.props.data.planName,
-                        proNum: this.props.data.number,
-                        proState:this.props.data.state,
-                        stateBg:this.props.stateBg
+                        xmid:this.props.data.id
                     }
                 });
                 break;

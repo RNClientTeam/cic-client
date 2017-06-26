@@ -17,13 +17,13 @@ import StatusBar from '../../../../Component/StatusBar.js';
 import PDF from 'react-native-pdf-view';
 import Loading from '../../../../Component/Loading.js';
 import RNFS from 'react-native-fs';
-const pdfDownloadURL = 'http://image.tianjimedia.com/imagelist/2009/190/caq4z56jadof.pdf';
+const pdfDownloadURL = 'http://was.jzfyjt.com:9092/docs/test.pdf';
 
 export default class PDFView extends Component {
     constructor(props) {
         super(props);
         this.pdfView = null;
-        this.pdfPath = RNFS.DocumentDirectoryPath + '/test.pdf'
+        this.pdfPath = RNFS.DocumentDirectoryPath;
         this.state = {
             showPDF: false,
             loading: false,
