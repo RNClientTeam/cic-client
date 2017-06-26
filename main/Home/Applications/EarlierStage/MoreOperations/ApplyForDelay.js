@@ -81,18 +81,19 @@ export default class ApplyForDelay extends Component{
 
     //获取其他部门／其让人id
     getReasonId(params) {
-
+        console.log(params);
     }
 
     selectReason() {
-        // this.props.navigator.push({
-        //     name: 'Organization',
-        //     component: Organization,
-        //     params: {
-        //         reasonTag: this.state.reasonTag,
-        //         getReasonId: this.getReasonId.bind(this)
-        //     }
-        // });
+        console.log(this.state.reasonTag);
+        this.props.navigator.push({
+            name: 'Organization',
+            component: Organization,
+            params: {
+                type: this.state.reasonTag==='dept'?'dep':'emp',
+                select: this.getReasonId.bind(this)
+            }
+        });
     }
 
     render(){

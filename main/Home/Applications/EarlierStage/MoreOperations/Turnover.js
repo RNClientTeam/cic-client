@@ -80,18 +80,19 @@ export default class Turnover extends Component{
     }
 
     selectReason() {
-        // this.props.navigator.push({
-        //     name: 'Organization',
-        //     component: Organization,
-        //     params: {
-        //         reasonTag: this.state.reasonTag,
-        //         getReasonId: this.getReasonId.bind(this)
-        //     }
-        // });
+        console.log(this.state.reasonTag);
+        this.props.navigator.push({
+            name: 'Organization',
+            component: Organization,
+            params: {
+                type: this.state.reasonTag==='dept'?'dep':'emp',
+                select: this.getReasonId.bind(this)
+            }
+        });
     }
 
-    getReasonId() {
-
+    getReasonId(params) {
+        console.log(params);
     }
 
     render(){
