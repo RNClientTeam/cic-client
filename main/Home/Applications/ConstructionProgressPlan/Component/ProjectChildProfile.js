@@ -12,41 +12,76 @@ import {
     TextInput,
     ScrollView
 } from 'react-native'
-
+import {getTimestamp} from '../../../../Util/Util'
+import toast from 'react-native-simple-toast'
 import ChoiceDate from "../../../../Component/ChoiceDate"
 
 const {width, height} = Dimensions.get('window');
 
 export default class ProjectChildProfile extends Component {
-     constructor(props) {
-         super(props);
-         this.state = {
-             dataSource: [],
-             cbfw: ''
-         };
-     }
-     componentDidMount() {
-        axios.get('psmSsJdjh/gczxgk', {
-            parmas: {
+    constructor(props) {
+        super(props);
+        this.state = {
+            dataSource: [],
+            cbfw: ''
+        };
+    }
+    componentDidMount() {
+        // let data = {
+        //     code: 1,
+        //     data: {
+        //         zxmc: '配电室电气工程',
+        //         yxsdsj: '2016-11-23',
+        //         xmmc: '玄武医院配电工程',
+        //         zrrmc: "李建春(配网工程部经理)",
+        //         zwsdsj: "2016-11-23",
+        //         jhsd: "未锁定",
+        //         zgfjl: "ZNDQ2003",
+        //         jhkssj: "2016-08-19",
+        //         cbfw: "4台变压器",
+        //         jqdhsdsj: "2016-11-23",
+        //         xmbh: "CX_DS12068-13200",
+        //         zgfjlmc: "潘俊涛",
+        //         zrbmmc: "配网工程部"
+        //     },
+        //     message: '成功'
+        // };
+        // data = data.data;
+        // this.setState({
+        //     dataSource: [
+        //         {key: '项目名称', value: data.xmmc},
+        //         {key: '工程子项锁定', value: data.jhsd},
+        //         {key: '工程子项名称', value: data.zxmc},
+        //         {key: '最晚送电时间', value: data.zwsdsj},
+        //         {key: '责任部门', value: data.zrbm},
+        //         {key: '子项负责人', value: data.zrr},
+        //         {key: '计划开始时间', value: data.jhkssj},
+        //         {key: '计划结束时间', value: data.jhjssj},
+        //     ],
+        //     cbfw: data.cbfw //承包范围
+        // });
+
+         axios.get('/psmSgjdjh/gczxgk', {
+            params: {
                 userID: GLOBAL_USERID,
                 gczxId: this.props.gczxId,
                 callID: getTimestamp()
             }
         }).then(responseData => {
             if (responseData.code === 1) {
-                let data = responseData.data.data;
+                let data = responseData.data;
                 this.setState({
                     dataSource: [
                         {key: '项目名称', value: data.xmmc},
-                        {key: '工程子项锁定', value: '未锁定'},
+                        {key: '工程子项锁定', value: data.jhsd},
                         {key: '工程子项名称', value: data.zxmc},
                         {key: '最晚送电时间', value: data.zwsdsj},
-                        {key: '责任部门', value: data.zrbm},
-                        {key: '子项负责人', value: data.zrr},
+                        {key: '责任部门', value: data.zrbmmc},
+                        {key: '子项负责人', value: data.zrrmc},
                         {key: '计划开始时间', value: data.jhkssj},
                         {key: '计划结束时间', value: data.jhjssj},
                     ],
-                    cbfw: data.cbfw //承包范围
+                    cbfw: data.cbfw || '无' //承包范围
                 })
             } else {
                 toast.show(responseData.message);
@@ -56,9 +91,9 @@ export default class ProjectChildProfile extends Component {
         })
     }
 
-    renderRow(item) {
+    renderRow(item, index) {
         return (
-            <View style={styles.row}>
+            <View style={styles.row} key={index}>
                 <Text style={[styles.labelColor]}>{item.key}</Text>
                 <View style={styles.blank}/>
                 <Text>{item.value}</Text>
@@ -70,7 +105,7 @@ export default class ProjectChildProfile extends Component {
         if (dataSource && dataSource.length) {
             let row = [];
             for (let i = 0, l = dataSource.length; i < l; i++) {
-                row.push(dataSource[i]);
+                row.push(this.renderRow(dataSource[i], i));
             }
             return row
         }
@@ -82,51 +117,56 @@ export default class ProjectChildProfile extends Component {
             <View style={styles.viewSty}>
             <ScrollView>
             <View style={styles.container}>
-                <View style={styles.row}>
-                    <Text style={[styles.labelColor]}>项目名称</Text>
-                    <View style={styles.blank}/>
-                    <Text>电缆铺设计划</Text>
-                </View>
-                <View style={styles.row}>
-                    <Text style={[styles.labelColor]}>工程子项锁定</Text>
-                    <View style={styles.blank}/>
-                    <Text>未锁定</Text>
-                </View>
-                <View style={styles.row}>
-                    <Text style={[styles.labelColor]}>工程子项名称</Text>
-                    <View style={styles.blank}/>
-                    <Text>改造技术调查</Text>
-                </View>
-                <View style={styles.row}>
-                    <Text style={[styles.labelColor]}>指定工程主管(副)经理</Text>
-                    <View style={styles.blank}/>
-                    <Text style={styles.contentColor}>请选择></Text>
-                </View>
-                <View style={styles.row}>
-                    <Text style={[styles.labelColor]}>最晚送电时间</Text>
-                    <View style={styles.blank}/>
-                    <Text>意向送电: 2017-02-15</Text>
-                </View>
-                <View style={styles.row}>
-                    <Text style={[styles.labelColor]}>责任部门</Text>
-                    <View style={styles.blank}/>
-                    <Text>九恒第一市场部</Text>
-                </View>
-                <View style={styles.row}>
-                    <Text style={[styles.labelColor]}>子项负责人</Text>
-                    <View style={styles.blank}/>
-                    <Text>朱彬</Text>
-                </View>
-                <View style={styles.row}>
-                    <Text style={[styles.labelColor]}>计划开始时间</Text>
-                    <View style={styles.blank}/>
-                    <ChoiceDate/>
-                </View>
-                <View style={styles.row}>
-                    <Text style={[styles.labelColor]}>计划结束时间</Text>
-                    <View style={styles.blank}/>
-                    <ChoiceDate/>
-                </View>
+                {this.renderRows(this.state.dataSource)}
+                {
+                    /**
+                     * <View style={styles.row}>
+                     <Text style={[styles.labelColor]}>项目名称</Text>
+                     <View style={styles.blank}/>
+                     <Text>电缆铺设计划</Text>
+                     </View>
+                     <View style={styles.row}>
+                     <Text style={[styles.labelColor]}>工程子项锁定</Text>
+                     <View style={styles.blank}/>
+                     <Text>未锁定</Text>
+                     </View>
+                     <View style={styles.row}>
+                     <Text style={[styles.labelColor]}>工程子项名称</Text>
+                     <View style={styles.blank}/>
+                     <Text>改造技术调查</Text>
+                     </View>
+                     <View style={styles.row}>
+                     <Text style={[styles.labelColor]}>指定工程主管(副)经理</Text>
+                     <View style={styles.blank}/>
+                     <Text style={styles.contentColor}>请选择></Text>
+                     </View>
+                     <View style={styles.row}>
+                     <Text style={[styles.labelColor]}>最晚送电时间</Text>
+                     <View style={styles.blank}/>
+                     <Text>意向送电: 2017-02-15</Text>
+                     </View>
+                     <View style={styles.row}>
+                     <Text style={[styles.labelColor]}>责任部门</Text>
+                     <View style={styles.blank}/>
+                     <Text>九恒第一市场部</Text>
+                     </View>
+                     <View style={styles.row}>
+                     <Text style={[styles.labelColor]}>子项负责人</Text>
+                     <View style={styles.blank}/>
+                     <Text>朱彬</Text>
+                     </View>
+                     <View style={styles.row}>
+                     <Text style={[styles.labelColor]}>计划开始时间</Text>
+                     <View style={styles.blank}/>
+                     <ChoiceDate/>
+                     </View>
+                     <View style={styles.row}>
+                     <Text style={[styles.labelColor]}>计划结束时间</Text>
+                     <View style={styles.blank}/>
+                     <ChoiceDate/>
+                     </View>
+                     */
+                }
                 <View style={styles.divide}/>
                 <View>
                     <View style={styles.labelRow}>
@@ -138,6 +178,7 @@ export default class ProjectChildProfile extends Component {
                             numberOfLines = {4}
                             placeholder="请填写"
                             style={{backgroundColor: 'white', height: 0.20 * width }}
+                            value={this.state.cbfw}
                         />
                     </View>
                 </View>

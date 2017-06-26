@@ -6,15 +6,34 @@ import {
     Text,
     TouchableOpacity
 } from 'react-native'
+import CheckBox from 'react-native-check-box'
 
-const {width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 export default class DepartmentItem extends Component {
+    constructor(props) {
+        super(props);
+        this.state={
+            isChecked: this.props.isChecked
+        }
+    }
+    // onClick() {
+    //     this.props.dep.isChecked = !this.props.dep.isChecked;
+    //     this.setState({
+    //         isChecked: this.props.dep.isChecked
+    //     })
+    // }
+
     render() {
         let actionPart;
         if (this.props.dep.item && this.props.dep.item.length) {
             actionPart = <Text style={styles.action}> > </Text>;
         }
+        if (this.props.type && this.props.type === 'dep') {
+            actionPart = <CheckBox onClick={() => this.props.onClick(this.props.dep)}
+                                   isChecked={this.props.isChecked}/>
+        }
+
         return (
             <TouchableOpacity onPress={this.props.getChildren.bind(this)}>
                 <View style={styles.depItem}>

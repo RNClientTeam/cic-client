@@ -5,10 +5,10 @@ import {
     View,
     ScrollView,
     Text,
+    TouchableOpacity,
     Dimensions,
     DeviceEventEmitter
 } from 'react-native';
-import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'
 import StatusBar from '../Component/StatusBar'
 import DepartmentItem from './Component/DepartmentItem'
 import EmployeeItem from './Component/EmployeeItem'
@@ -17,25 +17,33 @@ import axios from 'axios'
 
 const {width, height} = Dimensions.get('window');
 
+/**
+ *  props中type dep为选择部门, emp为选择员工
+ */
 export default class Organization extends Component {
     constructor(props) {
         super(props);
         this.state = {
             deps: [],
-            isLoading: false
-        }
+            isLoading: false,
+
+            //type: 'emp'
+        };
     }
 
     componentDidMount() {
+        //选择部门 只需查询部门列表
+        if (this.props.type === 'dep')
+            this.getDeps('ROOT', 0, 1);
+        else
+            this.getDeps();
         //监听切换到组织tab
-        this.listener = RCTDeviceEventEmitter.addListener('organization', () => {
-            this.renderDeps();
-        });
-        this.getDeps();
         this.listener = DeviceEventEmitter.addListener('enterOrganization',
             (event) => {
                 if (event.level === 0) {
-                    this.renderDeps();
+                    let tmp = [];
+                    tmp.push(this.deps);
+                    this.setState({deps: this.deps.item});
                 }
             });
     }
@@ -53,9 +61,7 @@ export default class Organization extends Component {
         //有parent的部门, status bar才有返回箭头
         if (this.state.deps.length &&
             this.state.deps[0] &&
-            this.state.deps[0].props &&
-            ((this.state.deps[0].props.dep && this.state.deps[0].props.dep.parent) ||
-            (this.state.deps[0].props.emp && this.state.deps[0].props.emp.parent))) {
+            this.state.deps[0].parent && this.state.deps[0].parent.parent) {
             statusBar =
                 <StatusBar
                     title="组织"
@@ -70,13 +76,19 @@ export default class Organization extends Component {
         }
         return(
             <View style={styles.container}>
-                {this.props.getInfo?<StatusBar navigator={this.props.navigator} title="请选择人员"/>:statusBar}
+                {this.props.getInfo || this.props.type === 'dep' || this.props.type === 'emp'?
+                    <StatusBar navigator={this.props.navigator} title="请选择"
+                               backButtonFun = {this.goBack.bind(this, this.state.deps)}>
+                        <TouchableOpacity onPress={() => this.submit()}>
+                            <Text style={{color: 'white'}}>确定</Text>
+                        </TouchableOpacity>
+                    </StatusBar> :statusBar}
                 <ScrollView
                     style={{height: height}}
                     ref={(scrollView) => { this._scrollView = scrollView}}>
 
                     <View style={styles.viewSty}>
-                        {this.state.deps}
+                        {this.renderRows(this.state.deps)}
                     </View>
                 </ScrollView>
                 {this.state.isLoading ? <Loading/> : null}
@@ -84,11 +96,20 @@ export default class Organization extends Component {
         );
     }
 
-    renderDeps() {
-        let dep = [];
-        dep.push(<DepartmentItem key={0} getChildren={this.getChildren.bind(this, this.deps)} dep={this.deps}/>);
-        this.setState({deps: dep});
+    submit() {
+        let selects = [];
+
+        selects = this.state.deps.filter(item => item.isChecked);
+
+        //可以被被调用的外部方法, 返回选中的emp或者dep的数组
+        this.props.select(selects)
     }
+
+    // renderDeps() {
+    //     let dep = [];
+    //     dep.push(<DepartmentItem key={0} getChildren={this.getChildren.bind(this, this.deps)} dep={this.deps}/>);
+    //     this.setState({deps: dep});
+    // }
 
     getDeps(root, deep, includeUser) {
         var userID = GLOBAL_USERID,
@@ -110,37 +131,74 @@ export default class Organization extends Component {
             this.setState({isLoading: false});
             this.deps = response.data.item;
             this.depsConstructor(this.deps);
-            //从人员变更接口进入
-            if (this.props.getInfo)
-                this.getChildren(this.deps);
-            else //从组织tab进入
-                this.renderDeps();
+            let tmp = [];
+            tmp.push(this.deps);
+            this.setState({deps: this.deps.item});
+            // //从人员变更接口进入
+            // if (this.props.getInfo)
+            //     this.setState({deps: this.deps.items});
+            // else //从组织tab进入
+            //     this.setState({deps: tmp});
         });
     }
 
-    getChildren(dep) {
-        let children = [], deps = [], emps = [];
+    onClick(item) {
+        item.isChecked = !item.isChecked;
+        let tmp = this.state.deps.slice(0);
+        this.setState({deps: tmp});
+    }
 
+    getChildren(dep) {
+        //let children = [], deps = [], emps = [];
         if (dep.item && dep.item.length) {
-            for (let i = 0; i < dep.item.length; i++) {
-                if (dep.item[i].isuser === '0')
-                    deps.push(<DepartmentItem dep={dep.item[i]} key={i}
-                                              getChildren={this.getChildren.bind(this, dep.item[i])}/> );
-                else
-                    emps.push(<EmployeeItem getInfo={this.props.getInfo} navigator={this.props.navigator} emp={dep.item[i]} key={i}/>);
-            }
-            children = deps.concat(emps);
-            this.setState({deps: children});
+            this.setState({deps: dep.item});
         }
     }
 
-    goBack(deps) {
-        let dep = deps[0].props.dep || deps[0].props.emp;
-        if (dep.parent && dep.parent.parent) {
-            this.getChildren(dep.parent.parent);
-        } else if (dep.parent) {
-            this.renderDeps();
+    renderRows(items) {
+        let depArray = [], empArray = [];
+        for (let i = 0; i < items.length; i++) {
+            //清空选中状态
+            items[i].isChecked = false;
+            if (items[i].isuser === '0') {
+                if (this.props.type && this.props.type === 'dep') {
+                    depArray.push(<DepartmentItem dep={items[i]} key={i} type="dep"
+                                              onClick={() => this.onClick(items[i])}
+                                              isChecked={items[i].isChecked}
+                                              getChildren={this.getChildren.bind(this, items[i])}/> );
+                } else {
+                    depArray.push(<DepartmentItem dep={items[i]} key={i}
+                                              getChildren={this.getChildren.bind(this, items[i])}/> );
+                }
+
+            }
+            else  {
+                if (this.props.type && this.props.type === 'emp') {
+                    empArray.push(<EmployeeItem getInfo={this.props.getInfo}
+                                            type="emp"
+                                            onClick={() => this.onClick(items[i])}
+                                            isChecked={items[i].isChecked}
+                                            navigator={this.props.navigator} emp={items[i]} key={i}/>);
+                } else {
+                    empArray.push(<EmployeeItem getInfo={this.props.getInfo}
+                                            navigator={this.props.navigator} emp={items[i]} key={i}/>);
+                }
+            }
+
         }
+        return depArray.concat(empArray);
+    }
+
+    goBack(deps) {
+        let dep = deps[0];
+        if (dep.parent && dep.parent.parent) {
+            this.setState({deps: dep.parent.parent.item});
+        }
+        // else if (dep.parent) {
+        //     let tmp = [];
+        //     tmp.push(this.deps);
+        //     this.setState({deps: tmp});
+        // }
     }
 
 
