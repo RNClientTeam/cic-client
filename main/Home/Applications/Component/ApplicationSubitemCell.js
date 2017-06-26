@@ -22,17 +22,16 @@ export default class ProjectSubitemSplitDetailCell extends Component {
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
                             <Text style={{color: '#216fd0', fontSize: width * 0.045}}
-                                  numberOfLines={1}>{this.props.data.planName}</Text>
+                                  numberOfLines={1}>{this.props.data.gcjd}</Text>
                             <View style={[styles.stateView, {backgroundColor: this.props.stateBg}]}>
-                                <Text style={styles.stateText}>{this.props.data.state}</Text>
+                                <Text style={styles.stateText}>{this.props.data.jhztmc}</Text>
                             </View>
                         </View>
                     </View>
                     <View style={styles.aboutPrincipal}>
-                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.principal}</Text>
-                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.department}</Text>
-                        <Text style={[{width: width * 0.5}, styles.textStyle]}>{this.props.data.schedule}</Text>
-                        <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.time}</Text>
+                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.ssjlmc}</Text>
+                        <Text style={[{width: width * 0.5}, styles.textStyle]}>权重:{this.props.data.jdqz}</Text>
+                        <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.jhkssj&&this.props.data.jhjssj?this.props.data.jhkssj+'/'+this.props.data.jhjssj:''}</Text>
                     </View>
                 </TouchableOpacity>
             </View>
@@ -51,7 +50,10 @@ export default class ProjectSubitemSplitDetailCell extends Component {
             case 'ProjectRangeHandoverDetailInfo':
                 this.props.navigator.push({
                     component: ProjectRangeHandoverDetailInfo,
-                    name: 'ProjectRangeHandoverDetailInfo'
+                    name: 'ProjectRangeHandoverDetailInfo',
+                    params:{
+                        id:this.props.data.id
+                    }
                 });
                 break;
 

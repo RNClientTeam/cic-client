@@ -12,56 +12,16 @@ import {
 import ApplicationSubitemCell from "../../Component/ApplicationSubitemCell";
 const {width}  = Dimensions.get('window');
 import {PullList} from 'react-native-pull';
-import LoadMore from "../../../../Component/LoadMore";
+import toast from 'react-native-simple-toast'
 import Reload from "../../../../Component/Reload";
 export default class ProjectRangeHandoverDetailList extends Component{
     constructor(props) {
         super(props);
-        this.dataSource = [
-            {
-                state: '拆分审核中',
-                planName: '子项工程一',
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                state: '新建',
-                planName: '子项工程一',
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                state: '已交接',
-                planName: '子项工程一',
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                state: '已拆分子项',
-                planName: '子项工程一',
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                state: '已拆分子项',
-                planName: '子项工程一',
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            }
-        ];
+
         this.state = {
             hasMoreData: true,
-            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(this.dataSource),
+            dataSource:[],
+            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})),
         }
     }
 
@@ -72,11 +32,10 @@ export default class ProjectRangeHandoverDetailList extends Component{
                     onPullRelease={this.onPullRelease.bind(this)}
                     topIndicatorRender={this.topIndicatorRender.bind(this)}
                     topIndicatorHeight={60}
-                    dataSource={this.state.list}
+                    dataSource={this.state.list.cloneWithRows(this.state.dataSource)}
                     renderRow={this.renderRow.bind(this)}
-                    onEndReached={this.loadMore.bind(this)}
                     onEndReachedThreshold={60}
-                    renderFooter={this.renderFooter.bind(this)}
+                    enableEmptySections={true}
                 />
             </View>
         )
@@ -90,80 +49,75 @@ export default class ProjectRangeHandoverDetailList extends Component{
     }
 
     renderRow(item, sectionID, rowID, highlightRow) {
+
         let stateBg = '#fe9a25';
         if(item.state === '新建'){
             stateBg='#29b0f5';
         }else if(item.state === '已拆分子项'){
             stateBg='#1f92e2';
-        }else if(item.state === '已交接'){
+        }else if(item.state === '已生效'){
             stateBg='#18d0ca';
         }
         return (
-            <ApplicationSubitemCell target="ProjectRangeHandoverDetailInfo" proName={this.props.proName} proNum={this.props.proNum} stateBg={stateBg} key={rowID} navigator={this.props.navigator} data={item}/>
+            <ApplicationSubitemCell target="ProjectRangeHandoverDetailInfo"
+                                    proName={this.props.proName}
+                                    proNum={this.props.proNum}
+                                    stateBg={stateBg}
+                                    key={rowID}
+                                    navigator={this.props.navigator}
+                                    data={item}/>
         );
-    }
-
-    renderFooter() {
-        return (this.state.hasMoreData ? <LoadMore /> : null)
     }
 
     topIndicatorRender(pulling, pullok, pullrelease) {
         return (<Reload/>);
     }
 
-    loadMore() {
-        let a = [
-            {
-                state: '已交接',
-                planName: '子项工程一',
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                state: '已交接',
-                planName: '子项工程一',
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                state: '已拆分子项',
-                planName: '子项工程一',
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                state: '拆分审核中',
-                planName: '子项工程一',
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                state: '新建',
-                planName: '子项工程一',
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            }];
-
-        for (let i = 0; i < a.length; i++) {
-            this.dataSource.push(a[i])
-        }
-
-        setTimeout(() => {
-            this.setState({
-                list: this.state.list.cloneWithRows(this.dataSource)
-            });
-        }, 1000);
+    componentDidMount() {
+        this.getDataFromNet()
     }
+
+    getDataFromNet(){
+
+        axios.get('/psmGcfw/xmzxlist',{
+            params:{
+                userID:GLOBAL_USERID,
+                cfxxid:this.props.cfxxid,
+                callID:true
+            }
+        }).then(data=>{
+
+            if(data.code === 1){
+                data = {
+                    "code": 1,
+                    "data": {
+                        "list": [
+                            {
+                                "id": "8a8180b85a49f3ea015a4a9a1b0403e6",
+                                "jhkssj": "2016-01-19",
+                                "gcjd": "Grace-Sub-Project-2",
+                                "jhztmc": "已生效",
+                                "jhjssj": "2016-01-19",
+                                "jdqz": 0.33,
+                                "ssjlmc": "贾世坤"
+                            }
+                        ]
+                    },
+                    "message": "成功"
+                }
+                this.setState({
+                    dataSource:data.data.list
+                })
+            }else{
+                toast.show(data.message)
+            }
+        }).catch(err=>{
+            if(err){
+                toast.show('服务端异常')
+            }
+        })
+    }
+
 }
 
 const styles = StyleSheet.create({

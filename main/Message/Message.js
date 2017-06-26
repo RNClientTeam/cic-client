@@ -11,14 +11,13 @@ const {width} = Dimensions.get('window');
 /**
  *测试日历
  */
-import Calendar from '../Home/Applications/Component/Calendar'
 import StatusBar from '../Component/StatusBar'
 export default class Message extends Component {
     render() {
         return (
             <View style={styles.viewSty}>
-                <StatusBar notBack={true}/>
-                <Calendar/>
+                <StatusBar title="未开发" notBack={true}/>
+                {/*<Calendar/>*/}
             </View>
         );
     }

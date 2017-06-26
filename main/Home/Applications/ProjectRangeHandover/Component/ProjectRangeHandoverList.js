@@ -19,60 +19,9 @@ export default class HomeHeader extends Component{
 
     constructor(props) {
         super(props);
-        this.dataSource = [
-            {
-                number: 'CX_DS16052',
-                state: '拆分审核中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                number: 'CX_DS16051',
-                state: '新建',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                number: 'CX_DS17051',
-                state: '已交接',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                number: 'CX_DS66051',
-                state: '已拆分子项',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                number: 'CX_DS36051',
-                state: '已拆分子项',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            }];
         this.state = {
             hasMoreData: true,
-            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(this.dataSource),
+            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})),
         }
     }
     render() {
@@ -82,23 +31,33 @@ export default class HomeHeader extends Component{
                     onPullRelease={this.onPullRelease.bind(this)}
                     topIndicatorRender={() => this.topIndicatorRender()}
                     topIndicatorHeight={60}
-                    dataSource={this.state.list}
+                    dataSource={this.state.list.cloneWithRows(this.props.dataSource)}
                     renderRow={this.renderRow.bind(this)}
                     onEndReached={() => this.loadMore()}
                     onEndReachedThreshold={60}
                     renderFooter={() => this.renderFooter()}
+                    enableEmptySections={true}
                 />
             </View>
         )
     }
     onPullRelease(resolve) {
         //do refresh
-        setTimeout(() => {
-            resolve();
-        }, 3000);
+        this.props.getData(1,()=>resolve())
     }
 
     renderRow(item, sectionID, rowID, highlightRow) {
+        let temp = {
+            xmbh:item.xmbh,//项目编号
+            xmmc:item.xmmc,//项目名称
+            state:item.gcfwjjztmc,//项目状态
+            fzr:item.xmjl,//负责人
+            bm:item.ssdw,//部门
+            bfb:item.wcbl,//百分比
+            sjd:item.cfsj,//时间段
+            count:item.zxcount,
+            id:item.id
+        };
         let stateBg = '#fe9a25';
         if(item.state === '新建'){
             stateBg='#29b0f5';
@@ -108,12 +67,12 @@ export default class HomeHeader extends Component{
             stateBg='#18d0ca';
         }
         return (
-            <ApplicationListCell stateBg={stateBg} key={rowID} navigator={this.props.navigator} data={item} target="ProjectRangeHandoverDetail"/>
+            <ApplicationListCell stateBg={stateBg} key={rowID} navigator={this.props.navigator} data={temp} target="ProjectRangeHandoverDetail"/>
         );
     }
 
     renderFooter() {
-        return (this.state.hasMoreData ? <LoadMore /> : null)
+        return (this.state.hasMoreData&&this.props.dataSource.length? <LoadMore /> : null)
     }
 
     topIndicatorRender(pulling, pullok, pullrelease) {
@@ -121,68 +80,11 @@ export default class HomeHeader extends Component{
     }
 
     loadMore() {
-        let a = [
-            {
-                number: 'CX_DS16052',
-                state: '已交接',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                number: 'CX_DS16051',
-                state: '已交接',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                number: 'CX_DS17051',
-                state: '已拆分子项',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                number: 'CX_DS66051',
-                state: '拆分审核中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                number: 'CX_DS36051',
-                state: '新建',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            }];
-
-        for (let i = 0; i < a.length; i++) {
-
-            this.dataSource.push(a[i])
-        }
-
-        setTimeout(() => {
+        if(this.props.dataSource.length>0){
             this.setState({
-                list: this.state.list.cloneWithRows(this.dataSource)
-            });
-        }, 1000);
+                hasMoreData:this.props.loadMore()
+            })
+        }
     }
 }
 
