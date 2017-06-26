@@ -69,7 +69,7 @@ export default class ShareData extends Component{
                     enableEmptySections={true}
                     renderFooter={this.renderFooter.bind(this)}
                 />
-                <AddData navigator={this.props.navigator}/>
+                <AddData jhxxId={this.props.jhxxId} navigator={this.props.navigator}/>
             </View>
         )
     }
