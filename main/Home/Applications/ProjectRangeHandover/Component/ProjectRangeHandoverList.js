@@ -47,7 +47,6 @@ export default class HomeHeader extends Component{
     }
 
     renderRow(item, sectionID, rowID, highlightRow) {
-        console.log(item);
         let temp = {
             xmbh:item.xmbh,//项目编号
             xmmc:item.xmmc,//项目名称
@@ -57,7 +56,7 @@ export default class HomeHeader extends Component{
             bfb:item.wcbl,//百分比
             sjd:item.cfsj,//时间段
             count:item.zxcount,
-            jhxxId:item.id
+            id:item.id
         };
         let stateBg = '#fe9a25';
         if(item.state === '新建'){
