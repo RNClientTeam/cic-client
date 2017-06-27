@@ -19,54 +19,16 @@ const {width} = Dimensions.get('window');
 export default class MoreActionsModal extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            actionList: []
+        }
     }
     render() {
         return (
             <TouchableOpacity style={styles.modalView} onPress={()=>{this.props.closeModal()}}>
                 <View style={styles.container}>
-                    <TouchableOpacity onPress={() => {this.create()}}>
-                        <View style={styles.actionRow}>
-                            <Image style={styles.img}
-                                   source={require('../../../../../resource/imgs/home/applications/createItem.png')}/>
-                            <Text>新建</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => {this.update()}}>
-                        <View style={styles.actionRow}>
-                            <Image style={styles.img}
-                                   source={require('../../../../../resource/imgs/home/applications/modification.png')}/>
-                            <Text>修改</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <View style={styles.actionRow}>
-                            <Image style={styles.img}
-                                   source={require('../../../../../resource/imgs/home/applications/approvalIcon.png')}/>
-                            <Text>提交审核</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <View style={styles.actionRow}>
-                            <Image style={styles.img}
-                                   source={require('../../../../../resource/imgs/home/applications/effectiveAction.png')}/>
-                            <Text>生效</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <View style={styles.actionRow}>
-                            <Image style={styles.img}
-                                   source={require('../../../../../resource/imgs/home/applications/stopAction.png')}/>
-                            <Text>删除</Text>
-                        </View>
-                    </TouchableOpacity>
-                    {/*<View style={styles.buttonView}>*/}
-                        {/*<TouchableOpacity style={[styles.button,{backgroundColor:'#fb5560'}]}>*/}
-                            {/*<Text style={{color:'#fff'}}>删除</Text>*/}
-                        {/*</TouchableOpacity>*/}
-                        {/*<TouchableOpacity style={[styles.button, {backgroundColor:'#3999fd'}]}>*/}
-                            {/*<Text style={{color:'#fff'}}>生效</Text>*/}
-                        {/*</TouchableOpacity>*/}
-                    {/*</View>*/}
+                    { this.renderActions(this.state.actionList) }
+                    {/*{ this.state.actionList ? this.renderActions(this.state.actionList) : null}*/}
                 </View>
             </TouchableOpacity>
         )
@@ -86,6 +48,59 @@ export default class MoreActionsModal extends Component {
             component: MyPlanDetail,
             name: 'MyPlanDetail'
         });
+    }
+
+    componentDidMount() {
+        let actionList = [];
+        actionList.push(
+            {
+                img: require('../../../../../resource/imgs/home/applications/createItem.png'),
+                name: '新建',
+                action: this.create()
+            }
+        );
+        actionList.push(
+            {
+                img: require('../../../../../resource/imgs/home/applications/modification.png'),
+                name: '修改',
+                action: this.update()
+            }
+        );
+        actionList.push(
+            {
+                img: require('../../../../../resource/imgs/home/applications/approvalIcon.png'),
+                name: '提交审核',
+            }
+        );
+        actionList.push(
+            {
+                img: require('../../../../../resource/imgs/home/applications/effectiveAction.png'),
+                name: '生效',
+            }
+        );
+        actionList.push(
+            {
+                img: require('../../../../../resource/imgs/home/applications/stopAction.png'),
+                name: '删除',
+            }
+        );
+        this.setState({
+            actionList: actionList
+        })
+    }
+
+    renderActions(actionList) {
+        return actionList.map((item, i) => {
+            return (
+                <TouchableOpacity key={i} onPress={ () => this.action }>
+                    <View style={styles.actionRow}>
+                        <Image style={styles.img}
+                               source={item.img}/>
+                        <Text>{item.name}</Text>
+                    </View>
+                </TouchableOpacity>
+            )
+        })
     }
 }
 
