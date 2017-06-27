@@ -145,6 +145,7 @@ export default class MoreOperationsCell extends Component {
         }).then((responseData) => {
             if (responseData.code === 1) {
                 Toast.show('操作成功');
+                this.props.reloadInfo();
             } else {
                 Toast.show(responseData.message);
             }

@@ -11,6 +11,7 @@ import {
     Text
 } from 'react-native'
 const {width} = Dimensions.get('window');
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 import StatusBar from '../../../Component/StatusBar'
 import EarlierStageList from './Component/EarlierStageList'
 import SearchHeader from '../Component/SearchHeader'
@@ -69,6 +70,10 @@ export default class EarlierStage extends Component {
             isLoading: true
         });
         this.getDataFromNet();
+        this.listener = RCTDeviceEventEmitter.addListener('refreshListAndDetail', () => {
+            this.refreshDetail = true;
+            this.getDataFromNet();
+        });
     }
 
     filter(sDate, eDate, lx) {
@@ -119,6 +124,10 @@ export default class EarlierStage extends Component {
                 this.setState({
                     isLoading: false,
                     dataSource: this.dataArr
+                }, () => {
+                    if (this.refreshDetail === true) {
+                        this.tempListener = RCTDeviceEventEmitter.emit('refreshDetail');
+                    }
                 });
             } else {
                 Toast.show(data.message)
@@ -186,6 +195,10 @@ export default class EarlierStage extends Component {
                 // Toast.show('服务端连接错误！')
             })
         })
+    }
+
+    componentWillUnmount() {
+        this.listener && this.listener.remove();
     }
 }
 

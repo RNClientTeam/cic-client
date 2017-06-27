@@ -15,23 +15,11 @@ import ProgressPlanDetail from "../ConstructionProgressPlan/Component/ProgressPl
 import ProjectSubitemSplitDetail from "../ProjectSubitemSplit/Component/ProjectSubitemSplitDetail"
 import ProjectRangeHandoverDetail from "../ProjectRangeHandover/Component/ProjectRangeHandoverDetail"
 import ProgressExecuteDetail from "../ConstructProgressExecute/Component/ProgressExecuteDetail"
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 
 const {width} = Dimensions.get('window');
 
 export default class EarlierStageListCell extends Component {
-    constructor(props){
-        super(props);
-        this.state={
-            xmbh:'',//项目编号
-            xmmc:'',//项目名称
-            state:'',//项目状态
-            fzr:'',//负责人
-            bm:'',//部门
-            bfb:'',//百分比
-            sjd:'',//时间段
-            count:''
-        }
-    }
     render() {
         return (
             <View>
@@ -39,14 +27,15 @@ export default class EarlierStageListCell extends Component {
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
                             <Text style={{color: '#216fd0', fontSize: width * 0.045}}>{this.props.data.xmbh}</Text>
-                            {this.props.stateBg ?
-                                <View style={[styles.stateView, {backgroundColor: this.props.stateBg}]}>
-                                    <Text style={styles.stateText}>{this.props.data.state}</Text>
-                                </View> :
-                                <View style={[styles.stateView]}>
-                                    <Text style={styles.stateText}>{this.props.data.state}</Text>
-                                </View>
-                            }
+                            {this.props.data.state ?
+                                    (this.props.stateBg ?
+                                        <View style={[styles.stateView, {backgroundColor: this.props.stateBg}]}>
+                                            <Text style={styles.stateText}>{this.props.data.state}</Text>
+                                        </View> :
+                                        <View style={[styles.stateView]}>
+                                            <Text style={styles.stateText}>{this.props.data.state}</Text>
+                                        </View>
+                                    ) : <View/>}
                         </View>
                         <View style={styles.projectName}>
                             <Text style={{width:width*0.85,lineHeight:parseInt(width*0.05)}}>{this.props.data.xmmc}</Text>
@@ -68,6 +57,9 @@ export default class EarlierStageListCell extends Component {
     }
 
     skipPage() {
+        this.listener = RCTDeviceEventEmitter.addListener('refreshDetail', () => {
+            RCTDeviceEventEmitter.emit('successRefresh', (this.props.data));
+        });
         switch (this.props.target) {
             case 'EarlierStageDetail':
                 this.props.navigator.push({
@@ -118,6 +110,10 @@ export default class EarlierStageListCell extends Component {
                 });
                 break;
         }
+    }
+
+    componentWillUnmount() {
+        this.listener && this.listener.remove();
     }
 }
 

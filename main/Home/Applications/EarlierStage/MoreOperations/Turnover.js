@@ -32,16 +32,16 @@ export default class Turnover extends Component{
             isLoading: false,
             proName: '',
             planName: '',
-            changeReason: '',
             rybgId:'',
             reasonList: [],
             allReason: [],
             selected: true,
             yzrr: '',
-            xzrr: '请选择>',
+            xzrr: '',
             yzrbm: '',
             xzrbm: '',
             yzrrmc: '',
+            xzrrmc: '',
             reasonTag: '',
             bgyybc: '',
             bgyybcmc: '',
@@ -143,14 +143,15 @@ export default class Turnover extends Component{
                                 onSelect={(a) => {
                                     if (this.state.allReason[a].sm === '1') {
                                         this.setState({
-                                            changeReason: this.state.allReason[a].code,
+                                            bgyy: this.state.allReason[a].code,
                                             reasonTag: this.state.allReason[a].sx1
                                         });
                                     } else {
                                         this.setState({
-                                            changeReason: this.state.allReason[a].code,
+                                            bgyy: this.state.allReason[a].code,
                                             reasonTag: '',
-                                            bgyybc: ''
+                                            bgyybc: '',
+                                            bgyybcmc: ''
                                         });
                                     }
                                 }}
@@ -159,7 +160,7 @@ export default class Turnover extends Component{
                         </View>
 
                         {
-                            (this.state.bgyy === '2' || this.state.bgyy === '4' || this.state.changeReason === '2' || this.state.changeReason === '4') &&
+                            (this.state.bgyy === '2' || this.state.bgyy === '4') &&
                             <View style={styles.cell}>
                                 <Text style={styles.label}>变更原因补充</Text>
                                 <View style={styles.blank}/>
@@ -178,7 +179,7 @@ export default class Turnover extends Component{
                         <View style={styles.cell}>
                             <Text style={styles.label}>新责任人</Text>
                             <View style={styles.blank}/>
-                            <Text style={{padding:5, paddingRight:0}} onPress={this.getNewPerson.bind(this)}>{this.state.xzrr}</Text>
+                            <Text style={{padding:5, paddingRight:0}} onPress={this.getNewPerson.bind(this)}>{this.state.xzrrmc}</Text>
                         </View>
 
                         <View style={styles.cell}>
@@ -240,10 +241,11 @@ export default class Turnover extends Component{
         })
     }
 
-    getInfo(bmid, name) {
+    getInfo(bmid, name, id) {
         this.setState({
             xzrbm: bmid,
-            xzrr: name
+            xzrr: id,
+            xzrrmc: name
         });
     }
 
@@ -268,9 +270,10 @@ export default class Turnover extends Component{
                 this.setState({
                     proName: res.xmmc,
                     planName: res.rwmc,
-                    changeReason: res.bgyy,
                     rybgId: res.rybgId,
                     yzrr: res.yzrr,
+                    xzrrmc: res.xzrrmc || '请选择>',
+                    xzrr: res.xzrr,
                     selected: res.sfzzfwn==1?true:false,
                     yzrbm: res.yzrbm,
                     yzrrmc: res.yzrrmc,
@@ -278,7 +281,7 @@ export default class Turnover extends Component{
                     bgyybc: res.bgyybc,
                     reasonList: this.state.reasonList,
                     allReason: responseData.data,
-                    bgyyDefault: this.state.reasonList[parseInt(res.bgyy)-1]||'请选择>',
+                    bgyyDefault: res.bgyy?this.state.reasonList[parseInt(res.bgyy)-1]:'请选择>',
                     bgsm: res.bgsm||'',
                     bgyy: res.bgyy||''
                 });
@@ -289,15 +292,19 @@ export default class Turnover extends Component{
     }
 
     submit() {
-        if (this.state.changeReason.length === 0) {
+        if (this.state.bgyy.length === 0) {
             Toast.show('请选择变更原因');
             return;
         }
-        if (this.state.xzrr === '请选择>') {
+        if ((this.state.bgyy === '2' || this.state.bgyy === '4') && this.state.bgyybcmc === '请选择其他人或其他部门>') {
+            Toast.show('请选择变更原因补充');
+            return;
+        }
+        if (this.state.xzrrmc === '请选择>') {
             Toast.show('请选择新责任人');
             return;
         }
-        if (this.changeIntroduction.length === 0) {
+        if (this.changeIntroduction.length === 0 && this.state.bgsm.length === 0) {
             Toast.show('请填写变更情况说明');
             return;
         }
@@ -310,7 +317,7 @@ export default class Turnover extends Component{
             yzrbm: this.state.yzrbm,
             xzrr: this.state.xzrr,
             xzrbm: this.state.xzrbm,
-            bgyy: this.state.changeReason,
+            bgyy: this.state.bgyy,
             sfzzfwn: this.state.selected?1:0,
             bgsm: this.changeIntroduction,
             bgyybc: this.state.bgyybc,

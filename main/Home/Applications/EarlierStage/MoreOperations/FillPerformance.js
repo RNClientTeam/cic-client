@@ -177,15 +177,15 @@ export default class FillPerformance extends Component {
     }
 
     submit() {
-        if (parseFloat(this.state.wcbl) > 100) {
+        if (parseInt(this.state.wcbl) > 100) {
             toast.show('完成比例必须在0~100之间');
-        } else if (parseFloat(this.state.wcbl) < 0) {
+        } else if (parseInt(this.state.wcbl) < 0) {
             toast.show('完成比例必须在0~100之间');
         } else if(parseFloat(this.state.wcbl)!== parseInt(this.state.wcbl)){
             toast.show('完成比例必须为整数');
         } else if (this.state.sDate.length === 0) {
             toast.show('请选择实际开始时间');
-        } else if (showsjwcsj && this.state.eDate.length === 0) {
+        } else if (this.state.showsjwcsj && this.state.eDate.length === 0) {
             toast.show('请选择实际结束时间');
         } else if (this.state.wcqk.length === 0) {
             toast.show('请填写完成情况说明');
