@@ -85,7 +85,7 @@ export default class FillPerforOfCooper extends Component {
                         <View style={styles.cell}>
                             <Text style={styles.label}>计划完成时间</Text>
                             <View style={styles.blank}/>
-                            <Text>{`${this.state.zrwjhkssj} - ${this.state.zrwjhjssj}`}</Text>
+                            <Text>{this.state.zrwjhkssj}{this.state.zrwjhkssj&&this.state.zrwjhjssj&&'/'}{this.state.zrwjhjssj}</Text>
                         </View>
                     </View>
                     <View style={styles.editPanel}>
