@@ -50,7 +50,7 @@ export default class AllTask extends Component {
 
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
-            <SchedulePlanCell  key={rowID} data={item} navigator={this.props.navigator}
+            <SchedulePlanCell  key={rowID} data={item} navigator={this.props.navigator}  xmbh={this.props.xmbh}
                                setModalVisible={(rwid,sDate,eDate) => {this.props.setModalVisible(rwid,sDate,eDate);}}/>
         );
     }
