@@ -84,6 +84,7 @@ export default class SchedulePlan extends Component {
                                 this.setModalVisible(rwid,sDate,eDate)
                             }}/>
                     <AllTask navigator={this.props.navigator}
+                             xmbh={this.props.xmbh}
                              refresh={(callback) => this.getAllTask(callback)}
                              dataSource={this.state.allTask}
                              getMoreData={() => {
@@ -189,7 +190,6 @@ export default class SchedulePlan extends Component {
                 callID: getTimestamp()
             }
         }).then((data) => {
-            console.log(data);
             if (data.code === 1) {
                 let showToast = true;
                 data.data.workflow = true;

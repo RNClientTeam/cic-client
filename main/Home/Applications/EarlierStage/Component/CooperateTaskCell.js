@@ -18,8 +18,11 @@ export default class CooperateTaskCell extends Component{
         return(
             <View style={styles.cooperateTaskCell}>
                 <View style={styles.topView}>
-                    <Text style={{color:'#729bdc',fontSize:width*0.04, width:width*0.85}}>{this.props.dataSource.rwmc}</Text>
-                    <Text >{this.props.dataSource.zrrmc}</Text>
+                    <Text style={{color:'#729bdc',fontSize:width*0.04, flex:1}} numberOfLines={3}>{this.props.dataSource.rwmc}</Text>
+                    <View style={[styles.stateView,{width:this.props.dataSource.ztmc.length*width*0.04}]}>
+                        <Text style={styles.stateText}>{this.props.dataSource.ztmc}</Text>
+                    </View>
+                    <Text>{this.props.dataSource.zrrmc}</Text>
                 </View>
                 <View style={styles.bottomView}>
                     <View style={styles.leftView}>
@@ -54,7 +57,6 @@ const styles = StyleSheet.create({
     },
     topView:{
         flexDirection:"row",
-        justifyContent:'space-around',
         alignItems:'center',
         height:width*0.12,
         paddingLeft:width*0.02,
@@ -105,5 +107,14 @@ const styles = StyleSheet.create({
     },
     processingView:{
         height:width*0.026,
-    }
+    },
+    stateView: {
+        backgroundColor: '#fe9a25',
+        height:width*0.05,
+        borderRadius:3,
+        justifyContent:'center',
+        alignItems:'center',
+        marginRight: 3
+    },
+    stateText: {color: '#fff', fontSize: width * 0.03}
 });

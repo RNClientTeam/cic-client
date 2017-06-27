@@ -47,6 +47,7 @@ export default class CooperateTask extends Component {
                 callID: getTimestamp()
             }
         }).then((responseData) => {
+            console.log(responseData);
             this.setState({
                 list: this.state.list.concat(responseData.data.data),
                 hasMoreData: responseData.data.data.length === 0 ? false : true

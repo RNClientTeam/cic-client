@@ -102,6 +102,11 @@ export default class FillPerforOfCooper extends Component {
                             <View style={styles.blank}/>
                             <Text>{this.state.yqwcsj}</Text>
                         </View>
+                        <View style={styles.cell}>
+                            <Text style={styles.label}>实际完成时间</Text>
+                            <View style={styles.blank}/>
+                            <Text>{this.state.sjwcsj}</Text>
+                        </View>
 
                         <View style={styles.cell}>
                             <Text style={styles.label}>完成进度</Text>

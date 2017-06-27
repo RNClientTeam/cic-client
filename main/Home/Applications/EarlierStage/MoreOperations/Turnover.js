@@ -144,7 +144,9 @@ export default class Turnover extends Component{
                                     if (this.state.allReason[a].sm === '1') {
                                         this.setState({
                                             bgyy: this.state.allReason[a].code,
-                                            reasonTag: this.state.allReason[a].sx1
+                                            reasonTag: this.state.allReason[a].sx1,
+                                            bgyybcmc: '',
+                                            bgyybc: ''
                                         });
                                     } else {
                                         this.setState({
@@ -262,6 +264,7 @@ export default class Turnover extends Component{
                 callID: true
             }
         }).then((responseData) => {
+            console.log(responseData);
             if (responseData.code === 1) {
                 this.state.reasonList = [];
                 responseData.data.forEach((elem, index) => {
@@ -277,13 +280,15 @@ export default class Turnover extends Component{
                     selected: res.sfzzfwn==1?true:false,
                     yzrbm: res.yzrbm,
                     yzrrmc: res.yzrrmc,
+                    xzrbm: res.xzrbm,
                     bgyybcmc: res.bgyybcmc,
                     bgyybc: res.bgyybc,
                     reasonList: this.state.reasonList,
                     allReason: responseData.data,
                     bgyyDefault: res.bgyy?this.state.reasonList[parseInt(res.bgyy)-1]:'请选择>',
                     bgsm: res.bgsm||'',
-                    bgyy: res.bgyy||''
+                    bgyy: res.bgyy||'',
+                    reasonTag: res.bgyy?responseData.data[parseInt(res.bgyy)-1].sx1:''
                 });
             }
         }).catch((error) => {
@@ -319,7 +324,7 @@ export default class Turnover extends Component{
             xzrbm: this.state.xzrbm,
             bgyy: this.state.bgyy,
             sfzzfwn: this.state.selected?1:0,
-            bgsm: this.changeIntroduction,
+            bgsm: this.changeIntroduction||this.state.bgsm,
             bgyybc: this.state.bgyybc,
             callID: getTimestamp()
         }).then((responseData) => {

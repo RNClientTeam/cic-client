@@ -31,8 +31,11 @@ export default class EnsureCompleteOfCooper extends Component{
             zrwjhkssj: '',
             zrwjhjssj: '',
             sjwcsj: '',
+            zrwztmc: '',
             gzjd: '',
-            wcqk:''
+            rwnr: '',
+            progress: '',
+            wcbl: ''
         }
     }
     componentDidMount() {
@@ -53,8 +56,10 @@ export default class EnsureCompleteOfCooper extends Component{
                     zrwjhkssj: res.zrwjhkssj,
                     zrwjhjssj: res.zrwjhjssj,
                     sjwcsj: res.sjwcsj,
+                    zrwztmc: res.zrwztmc,
                     gzjd: res.gzjd,
-                    wcqk:res.wcqk
+                    rwnr: res.rwnr,
+                    wcbl: res.wcbl,
                 });
             } else {
                 Toast.show(responseData.message);
@@ -73,10 +78,10 @@ export default class EnsureCompleteOfCooper extends Component{
                         <View style={[styles.cell, {borderBottomWidth:0}]}>
                             <Text>工作节点</Text>
                             <View style={styles.blank}/>
-                            <Text>已生效</Text>
+                            <Text>{this.state.zrwztmc}</Text>
                         </View>
                         <View style={styles.cell}>
-                            <Text style={styles.label}>工作节点描述</Text>
+                            <Text style={styles.label}>{this.state.gzjd}</Text>
                         </View>
                         <View style={styles.cell}>
                             <Text style={styles.label}>计划完成时间</Text>
@@ -91,23 +96,23 @@ export default class EnsureCompleteOfCooper extends Component{
                             <Text>{this.props.zrrmc}</Text>
                         </View>
                         <View style={styles.cell}>
-                            <Text style={styles.label}>配合任务描述</Text>
+                            <Text style={styles.label}>{this.state.rwnr}</Text>
                         </View>
                         <View style={styles.cell}>
                             <Text style={styles.label}>要求完成时间</Text>
                             <View style={styles.blank}/>
-                            <Text>2017-07-02</Text>
+                            <Text>{this.state.yqwcsj}</Text>
                         </View>
                         <View style={styles.cell}>
                             <Text style={styles.label}>实际完成时间</Text>
                             <View style={styles.blank}/>
-                            <Text>{this.state.sjwcsh}</Text>
+                            <Text>{this.state.sjwcsj}</Text>
                         </View>
 
                         <View style={styles.cell}>
                             <Text style={styles.label}>完成进度</Text>
                             <View style={styles.blank}/>
-                            <Text>{this.state.gzjd}%</Text>
+                            <Text>{this.state.wcbl}%</Text>
                         </View>
 
                         <View style={styles.inputCell}>

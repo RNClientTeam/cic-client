@@ -23,7 +23,7 @@ export default class EarlierStageDetail extends Component {
         super(props);
         this.state = {
             sjd: props.sjd,
-            wcbl: props.bfb
+            wcbl: props.wcbl
         }
     }
     render() {
