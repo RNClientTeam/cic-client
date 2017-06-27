@@ -106,7 +106,8 @@ export default class MoreOperationsCell extends Component {
                     name:'ensureComplete',
                     component:EnsureComplete,
                     params:{
-                        rwid:this.props.rwid
+                        rwid:this.props.rwid,
+                        reloadInfo:this.props.reloadInfo
                     }
                 });
             }

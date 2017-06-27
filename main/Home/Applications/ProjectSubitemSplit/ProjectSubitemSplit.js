@@ -15,19 +15,19 @@ const {width} = Dimensions.get('window');
 import SearchHeader from '../Component/SearchHeader'
 import ProjectSubitemSplitList from './Component/ProjectSubitemSplitList'
 import ProjectSubitemSplitModal from "./Component/ProjectSubitemSplitModal";
-import {getTimestamp,getCurrentMonS,getCurrentMonE} from '../../../Util/Util'
+import {getTimestamp, getCurrentMonS, getCurrentMonE} from '../../../Util/Util'
 export default class ProjectSubitemSplit extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={
-            isModalVisible:false,
-            sDate:getCurrentMonS(),
-            eDate:getCurrentMonE(),
-            pageNum:1,
-            cfzt:1,//0
-            jhlx:1,//2,
-            dataSource:[]
+        this.state = {
+            isModalVisible: false,
+            sDate: getCurrentMonS(),
+            eDate: getCurrentMonE(),
+            pageNum: 1,
+            cfzt: 1,//0
+            jhlx: '我的',//2,
+            dataSource: []
         }
     }
 
@@ -35,21 +35,26 @@ export default class ProjectSubitemSplit extends Component {
         return (
             <View style={styles.projectSubitemSplit}>
                 <StatusBar navigator={this.props.navigator} title="工程子项拆分">
-                    <TouchableOpacity onPress={()=>{this.setState({isModalVisible:!this.state.isModalVisible})}}>
-                        <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
+                    <TouchableOpacity onPress={() => {
+                        this.setState({isModalVisible: !this.state.isModalVisible})
+                    }}>
+                        <Image style={styles.filtrate}
+                               source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
                 <SearchHeader/>
                 <ProjectSubitemSplitList navigator={this.props.navigator}/>
-                {this.state.isModalVisible?
+                {this.state.isModalVisible ?
                     <ProjectSubitemSplitModal
-                        changeSDate={(date)=>this.changeSDate(date)}
-                        changeEDate={(date)=>this.changeEDate(date)}
+                        changeSDate={(date) => this.changeSDate(date)}
+                        changeEDate={(date) => this.changeEDate(date)}
                         isModalVisible={this.state.isModalVisible}
-                        changeJhlx={(jhlx)=>this.setState({jhlx:jhlx})}
-                        changeCfzt={(cfzt)=>{this.setState({cfzt:cfzt})}}
-                        getDataFromNet={()=>this.getDataFromNet()}
-                        closeModal={()=>this.setState({isModalVisible:false})} />:
+                        changeJhlx={(jhlx) => this.setState({jhlx: jhlx})}
+                        changeCfzt={(cfzt) => {
+                            this.setState({cfzt: cfzt})
+                        }}
+                        getDataFromNet={() => this.getDataFromNet()}
+                        closeModal={() => this.setState({isModalVisible: false})}/> :
                     <View/>}
             </View>
         )
@@ -57,35 +62,40 @@ export default class ProjectSubitemSplit extends Component {
 
     componentDidMount() {
         this.getDataFromNet();
+        console.log(1)
     }
 
-    changeSDate(date){
+    changeSDate(date) {
         this.setState({
-            sDate:date
+            sDate: date
         })
     }
 
-    changeEDate(date){
+    changeEDate(date) {
         this.setState({
-            eDate:date
+            eDate: date
         })
     }
 
-    getDataFromNet(){
-        axios.get('/psmGczx/xmlist',{
-            params:{
-                userID:GLOBAL_USERID,
-                sDate:this.state.sDate,
-                eDate:this.state.eDate,
-                callID:getTimestamp(),
-                cfzt:this.state.cfzt,
-                jhlx:this.state.jhlx,
-                pageNum:this.state.pageNum,
-                pageSize:10
+    getDataFromNet() {
+        let cfzt = 1;
+        if (this.state.cfzt === '所有') {
+            cfzt = 2;
+        }
+        axios.get('/psmGczx/xmlist', {
+            params: {
+                userID: GLOBAL_USERID,
+                sDate: this.state.sDate,
+                eDate: this.state.eDate,
+                callID: getTimestamp(),
+                cfzt: cfzt,
+                jhlx: this.state.jhlx,
+                pageNum: this.state.pageNum,
+                pageSize: 10
             }
-        }).then(data=>{
-            console.log(data)
-            if(data){
+        }).then(data => {
+            console.log(data);
+            if (data) {
 
             }
         })
@@ -93,12 +103,12 @@ export default class ProjectSubitemSplit extends Component {
 }
 
 const styles = StyleSheet.create({
-    projectSubitemSplit:{
-        flex:1,
-        backgroundColor:'#f2f2f2'
+    projectSubitemSplit: {
+        flex: 1,
+        backgroundColor: '#f2f2f2'
     },
-    filtrate:{
-        width:width*0.045,
-        height:width*0.045
+    filtrate: {
+        width: width * 0.045,
+        height: width * 0.045
     }
 });
