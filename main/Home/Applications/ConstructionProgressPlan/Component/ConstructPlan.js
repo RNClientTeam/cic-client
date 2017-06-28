@@ -25,7 +25,7 @@ export default class ConstructPlan extends Component {
             tab: 0,
             currentPage: 1,
             modalVisible: false,
-            myTask: []
+            myTask: [],
         };
     }
     componentDidMount() {
@@ -90,7 +90,7 @@ export default class ConstructPlan extends Component {
                     <MyPlan navigator={this.props.navigator}
                             loadMore={() => this.loadMore()}
                             dataSource={this.state.myTask}
-                            setModalVisible={() => this.setModalVisible()}
+                            setModalVisible={(rwid) => this.setModalVisible(rwid)}
                     />
                     <MyPlan navigator={this.props.navigator}
                             loadMore={() => this.loadMore()}
@@ -102,15 +102,13 @@ export default class ConstructPlan extends Component {
                     animationType={"slide"}
                     transparent={true}
                     visible={this.state.modalVisible}
-                    onRequestClose={() => {
-                        this.setState({modalVisible: !this.state.modalVisible})
-                    }}
                     style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
                 >
                     <MoreActionsModal navigator={this.props.navigator}
+                                      rwid={this.state.rwid}
                                       closeModal={() => {this.setState({modalVisible: false})}}/>
                 </Modal>
-                <TouchableOpacity onPress={this.create.bind(this)}>
+                <TouchableOpacity onPress={() => this.create()}>
                     <View style={styles.button}>
                         <Image
                             source={require('../../../../../resource/imgs/home/earlierStage/addData.png')}
@@ -137,10 +135,11 @@ export default class ConstructPlan extends Component {
         }
     }
 
-    setModalVisible() {
+    setModalVisible(rwid) {
         this.setState({
-            modalVisible: true
-        })
+            modalVisible: true,
+            rwid: rwid
+        });
     }
 }
 
