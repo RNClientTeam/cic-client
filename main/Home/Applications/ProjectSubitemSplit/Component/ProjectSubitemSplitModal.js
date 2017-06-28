@@ -22,10 +22,11 @@ export default class ProjectSubitemSplitModal extends Component{
     constructor(props){
         super(props);
         this.state={
-            startDate:getCurrentMonE(),
-            endDate:getCurrentMonS(),
-            isSplit:true,
+            startDate:this.props.sDate,
+            endDate:this.props.eDate,
+            isSplit:this.props.cfzt,
             options:['我的','所有'],
+            choiceOption:'我的'
         }
     }
 
@@ -37,7 +38,7 @@ export default class ProjectSubitemSplitModal extends Component{
                     <View style={styles.indicateView}>
                         <Switch
                         value={this.state.isSplit}
-                        onValueChange={(value)=>{value?this.props.changeCfzt(1):this.props.changeCfzt(0);this.setState({isSplit:value})}}
+                        onValueChange={(value)=>{this.setState({isSplit:value})}}
                         disabled={false}
                         onTintColor={"#216fd0"}
                         />
@@ -46,7 +47,7 @@ export default class ProjectSubitemSplitModal extends Component{
                 <View style={styles.containerStyle}>
                     <Text style={styles.nameStyle}>开始时间</Text>
                     <View style={styles.indicateView}>
-                        <ChoiceDate showDate={this.state.startDate} changeDate={(date)=>this.props.changeSDate(date)}/>
+                        <ChoiceDate showDate={this.state.startDate} changeDate={(data)=>this.setState({startDate:data})}/>
                         <Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
                     </View>
 
@@ -54,7 +55,7 @@ export default class ProjectSubitemSplitModal extends Component{
                 <View style={styles.containerStyle}>
                     <Text style={styles.nameStyle}>结束时间</Text>
                     <View style={styles.indicateView}>
-                        <ChoiceDate showDate={this.state.endDate} changeDate={(date)=>this.props.changeEDate(date)}/>
+                        <ChoiceDate showDate={this.state.endDate} changeDate={(data)=>this.setState({endDate:data})}/>
                         <Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
                     </View>
                 </View>
@@ -64,11 +65,11 @@ export default class ProjectSubitemSplitModal extends Component{
                         <ModalDropdown
                             options={this.state.options}
                             animated={true}
-                            defaultValue={this.state.options[0]}
+                            defaultValue={this.state.choiceOption}
                             style={styles.modalDropDown}
                             textStyle={styles.modalDropDownText}
                             dropdownStyle={styles.dropdownStyle}
-                            onSelect={(a)=>{let i = [1,2];this.props.changeJhlx(i[a])}}
+                            onSelect={(a)=>{this.setState({choiceOption:this.state.options[a]})}}
                             showsVerticalScrollIndicator={false}
                         />
                         <Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
@@ -78,7 +79,10 @@ export default class ProjectSubitemSplitModal extends Component{
                     <TouchableOpacity style={[styles.clickButton,{backgroundColor:'#dbdada'}]} onPress={()=>this.props.closeModal()}>
                         <Text>重置</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.clickButton,{backgroundColor:'#216fd0'}]} onPress={()=>{this.props.closeModal();this.props.getDataFromNet()}}>
+                    <TouchableOpacity style={[styles.clickButton,{backgroundColor:'#216fd0'}]} onPress={()=>{
+                        this.props.closeModal();
+                        this.props.getDataFromNet(this.state.startDate,this.state.endDate,this.state.isSplit,this.state.choiceOption)
+                    }}>
                         <Text style={{color:'#fff'}}>确定</Text>
                     </TouchableOpacity>
                 </View>
