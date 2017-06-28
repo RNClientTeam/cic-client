@@ -27,7 +27,8 @@ export default class ProjectSubitemSplit extends Component {
             pageNum: 1,
             cfzt: 1,//0
             jhlx: '我的',//2,
-            dataSource: []
+            dataSource: [],
+            xmmc:''
         }
     }
 
@@ -78,9 +79,9 @@ export default class ProjectSubitemSplit extends Component {
     }
 
     getDataFromNet() {
-        let cfzt = 1;
+        let jhlx = 1;
         if (this.state.cfzt === '所有') {
-            cfzt = 2;
+            jhlx = 2;
         }
         axios.get('/psmGczx/xmlist', {
             params: {
@@ -88,10 +89,11 @@ export default class ProjectSubitemSplit extends Component {
                 sDate: this.state.sDate,
                 eDate: this.state.eDate,
                 callID: getTimestamp(),
-                cfzt: cfzt,
-                jhlx: this.state.jhlx,
+                cfzt: this.state.cfzt,
+                jhlx: jhlx,
                 pageNum: this.state.pageNum,
-                pageSize: 10
+                pageSize: 10,
+                xmmc:this.state.xmmc
             }
         }).then(data => {
             console.log(data);
