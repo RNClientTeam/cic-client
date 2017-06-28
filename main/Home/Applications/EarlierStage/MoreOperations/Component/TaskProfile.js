@@ -39,6 +39,10 @@ export default class TaskProfile extends Component {
                             <Text style={styles.label}>实际开始时间</Text>
                             <Text>{this.props.data.sjkssj}</Text>
                         </View>
+                        <View style={styles.row}>
+                            <Text style={styles.label}>实际结束时间</Text>
+                            <Text>{this.props.data.sjjssj}</Text>
+                        </View>
                         <View style={{height: width*0.02, backgroundColor: '#f2f2f2'}}/>
                         <View style={styles.row}>
                             <Text style={{color: '#5476a1'}}>主要工作内容详细说明</Text>

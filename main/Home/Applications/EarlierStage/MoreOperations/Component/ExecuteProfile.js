@@ -16,30 +16,13 @@ import ExecuteRow from "./ExecuteRow"
 const {width, height}  = Dimensions.get('window');
 
 export default class ExecuteProfile extends Component {
-    constructor(props) {
-        super(props);
-        this.dataSource = [
-            {
-                status: '完成',
-                progress: 0.7,
-                date: '2017-02-14',
-                desc: '已完成相关工作的70%, 进展顺利'
-            },
-            {
-                status: '完成',
-                progress: 0.8,
-                date: '2017-02-14',
-                desc: '已完成相关工作的70%, 进展顺利'
-            }
-        ];
-    }
     render() {
         return(
             <View style={styles.viewSty}>
                 <ScrollView>
-                <View style={styles.content}>
-                        {this.renderRow()}
-                </View>
+                    <View style={styles.content}>
+                            {this.renderRow()}
+                    </View>
                 </ScrollView>
                 <TouchableOpacity onPress={() => this.props.submit()}>
                     <View style={styles.button}>

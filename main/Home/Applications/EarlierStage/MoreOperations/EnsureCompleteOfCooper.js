@@ -35,7 +35,8 @@ export default class EnsureCompleteOfCooper extends Component{
             gzjd: '',
             rwnr: '',
             progress: '',
-            wcbl: ''
+            wcbl: '',
+            wcqk:''
         }
     }
     componentDidMount() {
@@ -60,6 +61,7 @@ export default class EnsureCompleteOfCooper extends Component{
                     gzjd: res.gzjd,
                     rwnr: res.rwnr,
                     wcbl: res.wcbl,
+                    wcqk: res.wcqk
                 });
             } else {
                 Toast.show(responseData.message);
@@ -96,7 +98,9 @@ export default class EnsureCompleteOfCooper extends Component{
                             <Text>{this.props.zrrmc}</Text>
                         </View>
                         <View style={styles.cell}>
-                            <Text style={styles.label}>{this.state.rwnr}</Text>
+                            <Text style={styles.label}>配合工作内容</Text>
+                            <View style={styles.blank}/>
+                            <Text>{this.state.rwnr}</Text>
                         </View>
                         <View style={styles.cell}>
                             <Text style={styles.label}>要求完成时间</Text>
@@ -146,6 +150,7 @@ export default class EnsureCompleteOfCooper extends Component{
                 const self = this;
                 let timer = setTimeout(() => {
                     self.props.navigator.pop();
+                    self.props.reloadInfo();
                     clearTimeout(timer);
                 }, 500);
             } else {

@@ -205,6 +205,7 @@ export default class FillPerformance extends Component {
                 this.hideLoading();
                 if (responseData.code === 1) {
                     toast.show('提交成功');
+                    this.props.reloadInfo();
                     const that = this;
                     setTimeout(function () {
                         that.props.navigator.pop();
@@ -245,10 +246,6 @@ export default class FillPerformance extends Component {
             }
 
         });
-    }
-
-    componentWillUnmount() {
-        this.props.reloadInfo();
     }
 }
 
