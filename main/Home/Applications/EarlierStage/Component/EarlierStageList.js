@@ -12,7 +12,7 @@ import {
     ListView
 } from 'react-native'
 const {width} = Dimensions.get('window');
-import EarlierStageListCell from '../../Component/ApplicationListCell'
+import EarlierStageListCell from '../../Component/ApplicationListCellWithIcon'
 import {PullList} from 'react-native-pull';
 import LoadMore from "../../../../Component/LoadMore";
 import CooperateTaskCell from "./CooperateTaskCell";
