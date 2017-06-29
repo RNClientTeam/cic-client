@@ -46,8 +46,9 @@ export default class ProjectSubitemSplit extends Component {
                 </StatusBar>
                 <SearchHeader getData={()=>this.getDataFromNet()} getKeyWord={(keywords)=>this.setState({xmmc:keywords})}/>
                 <ProjectSubitemSplitList
+                    cfzt={this.state.cfzt}
                     dataSource={this.state.dataSource}
-                    getData={()=>this.getDataFromNet()}
+                    getData={(resolve)=>this.getDataFromNet(resolve)}
                     loadMore={()=>this.loadMore()}
                     navigator={this.props.navigator}/>
                 {this.state.isModalVisible ?
@@ -89,55 +90,57 @@ export default class ProjectSubitemSplit extends Component {
         }
         this.setState({
             pageNum:1
-        });
-        axios.get('/psmGczx/xmlist', {
-            params: {
-                userID: GLOBAL_USERID,
-                sDate: this.state.sDate,
-                eDate: this.state.eDate,
-                callID: getTimestamp(),
-                cfzt: cfzt,
-                jhlx: jhlx,
-                pageNum: this.state.pageNum,
-                pageSize: 10,
-                xmmc:this.state.xmmc
-            }
-        }).then(data => {
-            console.log(data);
-            if (data) {
-                if(data.code === 1){
-                    // TODO
-                    data={
-                        "code": 1,
-                        "data": {
-                            "total": 1,
-                            "list": [
-                                {
-                                    "id": "8a8180b85beadff3015beff723770c16",
-                                    "gcfwjjztmc": "拆分已退回",
-                                    "zxcount": "0",
-                                    "xmjl": "贾世坤",
-                                    "gcfwjjzt": -2,
-                                    "xmmc": "平谷胡营路标准化改造",
-                                    "xmbh": "CX_DS14241-15013",
-                                    "ssdw": "市场营销一部",
-                                    "cfsj": "2017-05-10 00:00:00"
-                                }
-                            ]
-                        },
-                        "message": "成功"
-                    };
-                    this.setState({
-                        dataSource: data.data.list
-                    });
-                    callback();
+        },function () {
+            axios.get('/psmGczx/xmlist', {
+                params: {
+                    userID: GLOBAL_USERID,
+                    sDate: this.state.sDate,
+                    eDate: this.state.eDate,
+                    callID: getTimestamp(),
+                    cfzt: cfzt,
+                    jhlx: jhlx,
+                    pageNum: this.state.pageNum,
+                    pageSize: 10,
+                    xmmc:this.state.xmmc
                 }
-            }else{
-                toast.show(data.message);
-            }
-        }).catch(err=>{
-            if(err) toast.show('服务端异常');
-        })
+            }).then(data => {
+                console.log(data);
+                if (data) {
+                    if(data.code === 1){
+                        // TODO
+                        data={
+                            "code": 1,
+                            "data": {
+                                "total": 1,
+                                "list": [
+                                    {
+                                        "id": "8a8180b85beadff3015beff723770c16",
+                                        "gcfwjjztmc": "拆分已退回",
+                                        "zxcount": "0",
+                                        "xmjl": "贾世坤",
+                                        "gcfwjjzt": -2,
+                                        "xmmc": "平谷胡营路标准化改造",
+                                        "xmbh": "CX_DS14241-15013",
+                                        "ssdw": "市场营销一部",
+                                        "cfsj": "2017-05-10 00:00:00"
+                                    }
+                                ]
+                            },
+                            "message": "成功"
+                        };
+                        this.setState({
+                            dataSource: data.data.list
+                        });
+                        callback();
+                    }
+                }else{
+                    toast.show(data.message);
+                }
+            }).catch(err=>{
+                if(err) toast.show('服务端异常');
+            })
+        });
+
     }
 
     loadMore(){
