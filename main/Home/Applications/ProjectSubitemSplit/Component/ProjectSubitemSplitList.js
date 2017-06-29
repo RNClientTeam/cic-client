@@ -111,7 +111,9 @@ export default class ProjectSubitemSplitSearchHeader extends Component {
             stateBg='#18d0ca';
         }
         return (
-            <ProjectSubitemSplitListCell stateBg={stateBg} key={rowID} navigator={this.props.navigator}
+            <ProjectSubitemSplitListCell
+                cfzt={this.state.cfzt}
+                stateBg={stateBg} key={rowID} navigator={this.props.navigator}
                                          data={item} target="ProjectSubitemSplitDetail"/>
         );
     }

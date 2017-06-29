@@ -22,24 +22,24 @@ export default class ProjectSubitemSplitListCell extends Component {
                 <TouchableOpacity style={styles.earlierStageListCell} onPress={this.skipPage.bind(this)}>
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
-                            <Text style={{color:'#216fd0',fontSize:width*0.045}}>{this.props.data.number}</Text>
+                            <Text style={{color:'#216fd0',fontSize:width*0.045}}>{this.props.data.xmbh}</Text>
                             <View style={[styles.stateView,{backgroundColor:this.props.stateBg}]}>
-                                <Text style={styles.stateText}>{this.props.data.state}</Text>
+                                <Text style={styles.stateText}>{this.props.data.gcfwjjztmc}</Text>
                             </View>
                         </View>
                         <View style={styles.projectName}>
-                            <Text>{this.props.data.planName}</Text>
+                            <Text>{this.props.data.xmmc}</Text>
                             <View style={{flexDirection: 'row',alignItems:'center'}}>
-                                <Text>{this.props.data.contentNum}</Text>
+                                <Text>{this.props.data.zxcount}</Text>
                                 <Text style={{color:'#999',fontSize:width*0.05}}> > </Text>
                             </View>
                         </View>
                     </View>
                     <View style={styles.aboutPrincipal}>
-                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.principal}</Text>
-                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.department}</Text>
+                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.xmjl}</Text>
+                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.ssdw}</Text>
                         {/*<Text style={[{width: width * 0.5}, styles.textStyle]}>{this.props.data.schedule}</Text>*/}
-                        <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.time}</Text>
+                        <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.cfsj}</Text>
                     </View>
                 </TouchableOpacity>
             </View>
@@ -47,10 +47,18 @@ export default class ProjectSubitemSplitListCell extends Component {
     }
 
     skipPage(){
+        let cfzt = 0;
+        if(this.props.cfzt){
+            cfzt = 1;
+        }
         this.props.navigator.push({
             component: ProjectSubitemSplitDetail,
             name: 'ProjectSubitemSplitDetail',
-            params:{proName:this.props.data.planName,proNum:this.props.data.number}
+            params:{
+                cfzt:cfzt,
+                xmgh:this.props.data.xmbh,
+                cfxxid:this.props.data.id
+            }
         });
     }
 }
@@ -97,11 +105,12 @@ const styles = StyleSheet.create({
     },
     stateView: {
         backgroundColor: '#1f92e2',
-        width:width*0.17,
         height:width*0.05,
         borderRadius:3,
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
+        paddingLeft:3,
+        paddingRight:3
     },
     stateText: {color: '#fff', fontSize: width * 0.03}
 

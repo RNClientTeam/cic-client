@@ -25,7 +25,11 @@ export default class ProjectSubitemSplitDetail extends Component{
                     tabBarUnderlineStyle={{backgroundColor:'#51a5f0',height:2}}
                     tabBarActiveTextColor='#51a5f0'
                     tabBarInactiveTextColor='#3d3d3d'>
-                    <ProjectSubitemSplitInfo proName={this.props.proName} proNum={this.props.proNum}  tabLabel='详情'/>
+                    <ProjectSubitemSplitInfo
+                        cfzt={this.props.cfzt}
+                        xmgh={this.props.xmgh}
+                        cfxxid={this.props.cfxxid}
+                        tabLabel='详情'/>
                     <ProjectSubitemSplitDetailList navigator={this.props.navigator} proName={this.props.proName} proNum={this.props.proNum} tabLabel='工程子项'/>
                 </ScrollableTabView>
             </View>
