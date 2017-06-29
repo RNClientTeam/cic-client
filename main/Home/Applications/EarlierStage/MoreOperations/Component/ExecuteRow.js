@@ -64,18 +64,19 @@ const styles = StyleSheet.create({
     },
     progressBar: {
         width: 0.6 * width,
-        height: 0.035 * width,
+        height: 0.04 * width,
         backgroundColor: '#e3e3e3'
     },
     progress: {
-        height: 0.035 * width,
+        height: 0.04 * width,
         backgroundColor: '#ffb432',
         alignItems: 'flex-end',
-        paddingRight: 0.02 * width
+        paddingRight: 0.02 * width,
+        justifyContent:'center'
     },
     progressText: {
         color: '#fff',
-        fontSize: 0.033 * width,
+        fontSize: 0.032 * width,
         height: 0.035 * width
     },
     sub: {

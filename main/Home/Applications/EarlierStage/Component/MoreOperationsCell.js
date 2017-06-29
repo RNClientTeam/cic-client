@@ -98,7 +98,8 @@ export default class MoreOperationsCell extends Component {
                     params: {
                         rwid: this.props.rwid,
                         jhxxId: this.props.jhxxId,
-                        zrrmc: this.props.zrrmc
+                        zrrmc: this.props.zrrmc,
+                        reloadInfo:this.props.reloadInfo
                     }
                 });
             } else {

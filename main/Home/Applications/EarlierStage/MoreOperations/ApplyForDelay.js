@@ -114,11 +114,14 @@ export default class ApplyForDelay extends Component{
                             <View style={styles.blank}/>
                             <Text>{this.state.planName}</Text>
                         </View>
-                        <View style={styles.cell}>
-                            <Text style={styles.label}>计划开始时间</Text>
-                            <View style={styles.blank}/>
-                            <Text>{this.state.startTime}</Text>
-                        </View>
+                        {
+                            this.props.tag !== '配合任务' &&
+                            <View style={styles.cell}>
+                                <Text style={styles.label}>计划开始时间</Text>
+                                <View style={styles.blank}/>
+                                <Text>{this.state.startTime}</Text>
+                            </View>
+                        }
                         <View style={styles.cell}>
                             <Text style={styles.label}>计划结束时间</Text>
                             <View style={styles.blank}/>
