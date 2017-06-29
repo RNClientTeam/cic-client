@@ -11,15 +11,20 @@ import {
     Image,
     TextInput,
     TouchableOpacity,
-    ScrollView
+    ScrollView,
+    NativeModules,
+    TouchableHighlight
 } from 'react-native'
 import StatusBar from "../../../../Component/StatusBar";
+import Loading from "../../../../Component/Loading";
 const Platform = require('Platform');
 const {width} = Dimensions.get('window');
 import ModalDropdown from 'react-native-modal-dropdown';
+import RNFetchBlob from 'react-native-fetch-blob'
 import RNFS from 'react-native-fs';
 import toast from 'react-native-simple-toast'
-import {getRandomId} from '../../../../Util/Util'
+import {getRandomId, uploadFile, getTimestamp} from '../../../../Util/Util'
+import baseUrl from '../../../../Util/service.json'
 import Organization from "../../../../Organization/Organization";
 export default class AddShareData extends Component {
 
@@ -40,7 +45,9 @@ export default class AddShareData extends Component {
             gxfs: '',
             zlms: '',
             zlmc: '',
-
+            randomId: getRandomId(),
+            isLoading: false,
+            uploadSuccess:false
         }
     }
 
@@ -81,8 +88,8 @@ export default class AddShareData extends Component {
                                 onSelect={(a) => {
                                     this.setState({
                                         gxfs: this.state.shareTypeID[a],
-                                        shareRangeCN:'',
-                                        shareRangeEN:''
+                                        shareRangeCN: '',
+                                        shareRangeEN: ''
                                     })
                                 }}
                                 showsVerticalScrollIndicator={false}
@@ -105,10 +112,10 @@ export default class AddShareData extends Component {
                         </View> : null}
                     <View style={styles.keyValue}>
                         <Text style={styles.keyStyle}>上传附件</Text>
-                        <TouchableOpacity onPress={this.choiceFile.bind(this)}>
+                        <TouchableHighlight style={{paddingLeft: 50}} underlayColor='transparent' onPress={this.choiceFile.bind(this)}>
                             <Image style={styles.accessory}
-                                   source={require('../../../../../resource/imgs/home/earlierStage/accessory.png')}/>
-                        </TouchableOpacity>
+                                   source={this.state.uploadSuccess?require('../../../../../resource/imgs/home/earlierStage/pdf.png'):require('../../../../../resource/imgs/home/earlierStage/accessory.png')}/>
+                        </TouchableHighlight>
                     </View>
                     <View style={[styles.keyValue, {borderBottomWidth: 0}]}>
                         <Text style={styles.keyStyle}>资料简要描述</Text>
@@ -128,8 +135,21 @@ export default class AddShareData extends Component {
                 <TouchableOpacity style={styles.submitButton} onPress={this.submit.bind(this)}>
                     <Text style={{color: '#fff'}}>确认提交</Text>
                 </TouchableOpacity>
+                {this.state.isLoading ? <Loading/> : null}
             </View>
         )
+    }
+
+    showLoading() {
+        this.setState({
+            isLoading: true
+        })
+    }
+
+    hideLoading() {
+        this.setState({
+            isLoading: false
+        })
     }
 
     choicePeople() {
@@ -161,32 +181,52 @@ export default class AddShareData extends Component {
 
     choiceFile() {
         if (Platform.OS === 'android') {
-            toast.show('程序猿正在努力赶工上上传功能');
+            NativeModules.MyRN.scan((msg) => {
+                    if (msg === '请选择合适的pdf格式文件') {
+                        toast.show('请选择pdf文件');
+                    } else {
+                        this.showLoading();
+                        let data = {
+                            userID: GLOBAL_USERID,
+                            files: msg,
+                            businessModule: 'qiandao',
+                            resourceId: this.state.randomId,
+                            isAttach: 1,
+                            callID: getTimestamp()
+                        };
+                        let reqData = [
+                            {name: 'userID', data: GLOBAL_USERID},
+                            {name: 'files', data: RNFetchBlob.wrap(msg), filename: this.state.randomId + '.pdf'},
+                            {name: 'businessModule', data: 'gxzl'},
+                            {name: 'isAttach', data: JSON.stringify(1)},
+                            {name: 'resourceId', data: this.state.randomId},
+                            {name: 'callID', data: JSON.stringify(data.callID)}
+                        ];
+                        uploadFile(baseUrl.baseUrl + '/sysfile/UploadHandler', reqData, (response) => {
+                            this.hideLoading();
+                            if (response.code === 1) {
+                                toast.show('文件上传成功');
+                                this.setState({
+                                    uploadSuccess:true
+                                });
+                            } else {
+                                this.setState({
+                                    uploadSuccess:false
+                                });
+                                toast.show('文件上传失败，请重试');
+                            }
+                        }, (response) => {
+                            this.hideLoading();
+                            console.log(response, 'err')
+                        });
+                    }
+                },
+                (result) => {
+                    toast.show('JS界面:错误信息为:' + result);
+                });
         } else {
             toast.show('iOS系统不支持文件上传操作');
         }
-        // RNFS.readDir(RNFS.MainBundlePath) // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
-        //     .then((result) => {
-        //         console.log('GOT RESULT', result);
-        //
-        //         // stat the first file
-        //         return Promise.all([RNFS.stat(result[0].path), result[0].path]);
-        //     })
-        //     .then((statResult) => {
-        //         if (statResult[0].isFile()) {
-        //             // if we have a file, read it
-        //             return RNFS.readFile(statResult[1], 'utf8');
-        //         }
-        //
-        //         return 'no file';
-        //     })
-        //     .then((contents) => {
-        //         // log the file contents
-        //         console.log(contents);
-        //     })
-        //     .catch((err) => {
-        //         console.log(err.message, err.code);
-        //     });
     }
 
     componentDidMount() {
@@ -211,44 +251,47 @@ export default class AddShareData extends Component {
     }
 
     submit() {
-        let data = {
-            userID: GLOBAL_USERID,
-            fjid: this.state.fjid,
-            bsid: this.state.bsid,
-            zlfl: this.state.zlfl,
-            gxfs: this.state.gxfs,
-            gzfw: this.state.shareRangeEN,
-            zlms: this.state.zlms,
-            zlmc: 'zl.pdf',
-            callID: true
-        };
-        console.log(data.zlms);
-        if (data.zlfl === '') {
-            toast.show('请选择资料分类');
-        } else if (data.gxfs === '') {
-            toast.show('请选择共享方式');
-        } else if ((data.gxfs === 30 || data.gxfs === 40) && data.gzfw === '') {
-            toast.show('请选择共享范围');
-        } else if (data.zlms === '') {
-            toast.show('请填写资料描述')
-        } else {
-            axios.post('/psmGxzl/save', data)
-                .then(data => {
-                    if (data.code === 1) {
-                        toast.show('保存成功!');
-                        let that = this;
-                        setTimeout(function () {
-                            that.props.navigator.pop();
-                        }, 1000);
-                    } else {
-                        toast.show(data.message);
-                    }
-                })
-                .catch(err => {
-                    if (err) {
-                        toast.show('服务端异常');
-                    }
-                })
+        if(this.state.uploadSuccess){
+            let data = {
+                userID: GLOBAL_USERID,
+                fjid: this.state.fjid,
+                bsid: this.state.bsid,
+                zlfl: this.state.zlfl,
+                gxfs: this.state.gxfs,
+                gzfw: this.state.shareRangeEN,
+                zlms: this.state.zlms,
+                resourceId: this.state.randomId,
+                callID: true
+            };
+            if (data.zlfl === '') {
+                toast.show('请选择资料分类');
+            } else if (data.gxfs === '') {
+                toast.show('请选择共享方式');
+            } else if ((data.gxfs === 30 || data.gxfs === 40) && data.gzfw === '') {
+                toast.show('请选择共享范围');
+            } else if (data.zlms === '') {
+                toast.show('请填写资料描述')
+            } else {
+                axios.post('/psmGxzl/save', data)
+                    .then(data => {
+                        if (data.code === 1) {
+                            toast.show('保存成功!');
+                            let that = this;
+                            setTimeout(function () {
+                                that.props.navigator.pop();
+                            }, 1000);
+                        } else {
+                            toast.show(data.message);
+                        }
+                    })
+                    .catch(err => {
+                        if(err){
+                            toast.show('服务端异常');
+                        }
+                    })
+            }
+        }else{
+            toast.show('请先上传共享文件');
         }
     }
 }
