@@ -12,7 +12,6 @@ import {
 } from 'react-native'
 
 import ProgressExecuteDetail from "../../ConstructProgressExecute/Component/ProgressExecuteDetail.js";
-
 const {width} = Dimensions.get('window');
 
 export default class ProgressExecuteListCell extends Component {
@@ -55,7 +54,10 @@ export default class ProgressExecuteListCell extends Component {
     skipPage() {
         this.props.navigator.push({
             component: ProgressExecuteDetail,
-            name: 'ProgressExecuteDetail'
+            name: 'ProgressExecuteDetail',
+            params: {
+                rowData: this.props.data
+            }
         });
     }
 }

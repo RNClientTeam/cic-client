@@ -64,8 +64,6 @@ export default class ProgressPlan extends Component {
                 this.setState({
                     dataSource: this.state.dataSource.concat(responseData.data.data),
                     hasMoreData: responseData.data.data.length===0?false:true
-                }, () => {
-                    // !this.state.hasMoreData && Toast.show('没有更多数据了');
                 });
             }
             callback();
@@ -87,12 +85,20 @@ export default class ProgressPlan extends Component {
             eDate: eDate,
             jhlx: jhlx
         }, () => {
+            this.state.dataSource = [];
+            this.pageNum = 1;
             this.fetchData(1);
         });
     }
 
     loadMore() {
         this.fetchData(++this.pageNum);
+    }
+
+    searchData() {
+        this.state.dataSource = [];
+        this.pageNum = 1;
+        this.fetchData(1);
     }
 
     render() {
@@ -103,7 +109,7 @@ export default class ProgressPlan extends Component {
                         <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
-                <SearchHeader getKeyWord={this.getKeyWord.bind(this)} getData={this.fetchData.bind(this, 1)}/>
+                <SearchHeader getKeyWord={this.getKeyWord.bind(this)} getData={this.searchData.bind(this)}/>
                 <ProgressExecuteList navigator={this.props.navigator}
                     dataSource={this.state.dataSource}
                     hasMoreData={this.state.hasMoreData}
