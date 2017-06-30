@@ -39,7 +39,7 @@ public class MainActivity extends ReactActivity {
                     Uri uri = data.getData();
                     String url = FileUtils2.getPath(this,uri);
                     String url2 = url.trim();
-                    if (url2 != null && !url2.equals("") && url2.contains(".pdf")) {
+                    if (url2 != null && !url2.equals("") ) {
                         mQueue.add(url2);
                     } else {
                         mQueue.add("请选择合适的pdf格式文件");
