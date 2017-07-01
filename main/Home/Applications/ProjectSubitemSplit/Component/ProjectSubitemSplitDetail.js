@@ -30,7 +30,10 @@ export default class ProjectSubitemSplitDetail extends Component{
                         xmgh={this.props.xmgh}
                         cfxxid={this.props.cfxxid}
                         tabLabel='详情'/>
-                    <ProjectSubitemSplitDetailList navigator={this.props.navigator} proName={this.props.proName} proNum={this.props.proNum} tabLabel='工程子项'/>
+                    <ProjectSubitemSplitDetailList
+                        navigator={this.props.navigator}
+                        cfxxid={this.props.cfxxid}
+                        tabLabel='工程子项'/>
                 </ScrollableTabView>
             </View>
         )
