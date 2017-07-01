@@ -13,14 +13,9 @@ import {
 
 import ProgressExecuteDetail from "../../ConstructProgressExecute/Component/ProgressExecuteDetail.js";
 const {width} = Dimensions.get('window');
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 
 export default class ProgressExecuteListCell extends Component {
-    constructor(props){
-        super(props);
-        this.state={
-
-        }
-    }
     render() {
         return (
             <View>
@@ -28,9 +23,6 @@ export default class ProgressExecuteListCell extends Component {
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
                             <Text style={{color: '#216fd0', fontSize: width * 0.045}}>{this.props.data.xmbh}</Text>
-                            <View style={styles.stateView}>
-                                <Text style={styles.stateText}>{this.props.data.state}</Text>
-                            </View>
                         </View>
                         <View style={styles.projectName}>
                             <Text style={{width:width*0.85,lineHeight:parseInt(width*0.05)}}>{this.props.data.xmmc}</Text>
@@ -41,10 +33,10 @@ export default class ProgressExecuteListCell extends Component {
                         </View>
                     </View>
                     <View style={styles.aboutPrincipal}>
-                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zrr}</Text>
-                        <Text style={[{width: width * 0.25}, styles.textStyle]}>{this.props.data.zrbm}</Text>
-                        <Text style={[{width: width * 0.4,paddingLeft:width*0.04}, styles.textStyle]}>进度{this.props.data.bfb||'0'}%</Text>
-                        <Text style={[{width: width * 0.7}, styles.textStyle]}>{`${this.props.data.jhkssj}／${this.props.data.jhjssj}`}</Text>
+                        <Text style={styles.textStyle} numberOfLines={1}>{this.props.data.zrr}</Text>
+                        <Text style={styles.textStyle}>{this.props.data.zrbm}</Text>
+                        <Text style={styles.textStyle}>进度{this.props.data.jdbl||'0'}%</Text>
+                        <Text style={[{width: width * 0.7,marginTop:20}, styles.textStyle]}>{`${this.props.data.jhkssj}／${this.props.data.jhjssj}`}</Text>
                     </View>
                 </TouchableOpacity>
             </View>
@@ -52,6 +44,9 @@ export default class ProgressExecuteListCell extends Component {
     }
 
     skipPage() {
+        this.listener = RCTDeviceEventEmitter.addListener('刷新施工进度计划执行详情', () => {
+            RCTDeviceEventEmitter.emit('进度计划执行详情刷新成功', (this.props.data));
+        });
         this.props.navigator.push({
             component: ProgressExecuteDetail,
             name: 'ProgressExecuteDetail',
@@ -59,6 +54,10 @@ export default class ProgressExecuteListCell extends Component {
                 rowData: this.props.data
             }
         });
+    }
+
+    componentWillUnmount() {
+        this.listener && this.listener.remove();
     }
 }
 
@@ -83,7 +82,8 @@ const styles = StyleSheet.create({
         paddingRight: width * 0.01,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        alignItems: 'center'
+        width: 0.96 * width,
+        paddingTop: 10
     },
     numState: {
         flexDirection: 'row',
@@ -100,9 +100,8 @@ const styles = StyleSheet.create({
         paddingBottom:width*0.01
     },
     textStyle: {
-        height: width * 0.1,
-        lineHeight: 30,
         color: '#4f74a3',
+        marginRight: 15
     },
     stateView: {
         backgroundColor: '#fe9a25',
