@@ -101,7 +101,7 @@ export default class MyPlan extends Component {
     }
 
     renderFooter (){
-        return (this.state.hasMoreData ? <LoadMore /> : null)
+        return (this.state.hasMoreData&&this.props.dataSource.length > 0 ? <LoadMore /> : null)
     }
 
     topIndicatorRender(pulling, pullok, pullrelease) {
@@ -118,15 +118,6 @@ export default class MyPlan extends Component {
                 }
             })
         }
-        // for (let i = 0;i<tempArr.length;i++){
-        //     this.dataSource.push(tempArr[i])
-        // }
-        //
-        // setTimeout(() => {
-        //     this.setState({
-        //         list: this.state.list.cloneWithRows(this.dataSource)
-        //     });
-        // }, 1000);
     }
 }
 
