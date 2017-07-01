@@ -98,7 +98,8 @@ export default class MoreOperationsCell extends Component {
                     params: {
                         rwid: this.props.rwid,
                         jhxxId: this.props.jhxxId,
-                        zrrmc: this.props.zrrmc
+                        zrrmc: this.props.zrrmc,
+                        reloadInfo:this.props.reloadInfo
                     }
                 });
             } else {
@@ -106,7 +107,8 @@ export default class MoreOperationsCell extends Component {
                     name:'ensureComplete',
                     component:EnsureComplete,
                     params:{
-                        rwid:this.props.rwid
+                        rwid:this.props.rwid,
+                        reloadInfo:this.props.reloadInfo
                     }
                 });
             }

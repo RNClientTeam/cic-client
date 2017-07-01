@@ -17,35 +17,49 @@ import ProjectChildProfile from './ProjectChildProfile'
 import ConstructPlan from './ConstructPlan'
 import ExecuteProfile from './ExecuteProfile'
 import ShareFile from './ShareFile'
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 
 const {width, height} = Dimensions.get('window');
 
 export default class ProgressExecuteDetail extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            jdbl: props.rowData.jdbl
+        }
+    }
+
+    componentDidMount() {
+        this.listener = RCTDeviceEventEmitter.addListener('successRefresh', (value) => {
+            this.setState({jdbl: value.jdbl});
+        });
+    }
+
     render() {
         return (
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="施工进度计划执行"/>
                 <Image style={styles.bgImage}
                        source={require('../../../../../resource/imgs/home/earlierStage/backgroundImg.png')}>
-                    <Text style={styles.number}>CX_DS14036-13238</Text>
-                    <Text style={styles.engineerName}>人大技术学院配电增容改造技术咨询</Text>
-                    <Text style={styles.dateSty}>日期：2017/01/15-2017/02/30</Text>
+                    <Text style={styles.number}>{this.props.rowData.xmbh}</Text>
+                    <Text style={styles.engineerName}>{this.props.rowData.xmmc}</Text>
+                    <Text style={styles.dateSty}>{`日期：${this.props.rowData.jhkssj}/${this.props.rowData.jhjssj}`}</Text>
                     <View style={styles.progressView}>
                         <View style={styles.backView}>
-                            <View style={styles.foregroundView}>
+                            <View style={[styles.foregroundView, {width:parseInt(this.state.jdbl+0)/100 * 0.72 * width}]}>
                             </View>
                         </View>
-                        <Text style={styles.percentText}>80%</Text>
+                        <Text style={styles.percentText}>{this.state.jdbl || '0'}%</Text>
                     </View>
                 </Image>
                 <ScrollableTabView
                     tabBarUnderlineStyle={{backgroundColor:'#51a5f0',height:2}}
                     tabBarActiveTextColor='#51a5f0'
                     tabBarInactiveTextColor='#3d3d3d'>
-                    <ProjectChildProfile tabLabel="工程子项概况" navigator={this.props.navigator} />
-                    <ConstructPlan tabLabel="施工计划" navigator={this.props.navigator} />
-                    <ExecuteProfile tabLabel="总执行情况" navigator={this.props.navigator} />
-                    <ShareFile tabLabel="共享资料" navigator={this.props.navigator} />
+                    <ProjectChildProfile tabLabel="工程子项概况" navigator={this.props.navigator} rowData={this.props.rowData}/>
+                    <ConstructPlan tabLabel="施工计划" navigator={this.props.navigator} rowData={this.props.rowData}/>
+                    <ExecuteProfile tabLabel="总执行情况" navigator={this.props.navigator} rowData={this.props.rowData}/>
+                    <ShareFile tabLabel="共享资料" navigator={this.props.navigator} rowData={this.props.rowData}/>
                 </ScrollableTabView>
             </View>
         )
@@ -96,7 +110,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent'
     },
     foregroundView: {
-        width: 0.72 * 0.8 * width,
         height: 12,
         backgroundColor: '#ffb432'
     }

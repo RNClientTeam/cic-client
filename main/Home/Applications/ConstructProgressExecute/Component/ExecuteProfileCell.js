@@ -5,7 +5,6 @@ import {
     StyleSheet,
     Dimensions,
     Text,
-    TouchableOpacity,
     Image
 } from 'react-native'
 const {width} = Dimensions.get('window');
@@ -13,30 +12,22 @@ const {width} = Dimensions.get('window');
 export default class ExecuteProfileCell extends Component {
     render() {
         return (
-            <TouchableOpacity style={styles.earlierStageListCell} onPress={this.skipPage.bind(this)}>
+            <View style={styles.earlierStageListCell}>
                 <View style={styles.aboutProject}>
-                    <Text style={styles.Time}>{this.props.data.time}</Text>
+                    <Text style={styles.Time}>{this.props.data.tbsj}</Text>
                     <View style={styles.progressView}>
                         <Text style={{color:'#216fd0',fontSize:13,marginRight:10}}>完成进度</Text>
                         <View style={styles.stateView}>
-                            <View style={[styles.compView, {width:width*0.55*0.7}]}/>
+                            <View style={[styles.compView, {width:width*0.55*((this.props.data.wcbl+0)/100)}]}/>
                         </View>
-                        <Text style={{fontSize:13}}>{this.props.data.schedule}</Text>
+                        <Text style={{fontSize:13}}>{this.props.data.wcbl||'0'}%</Text>
                     </View>
                 </View>
                 <View style={styles.aboutPrincipal}>
-                    <Text style={styles.infoStyl}>{this.props.data.infomation}</Text>
+                    <Text style={styles.infoStyl}>{this.props.data.wcqk}</Text>
                 </View>
-            </TouchableOpacity>
+            </View>
         )
-    }
-
-    skipPage() {
-
-    }
-
-    editPress() {
-
     }
 }
 

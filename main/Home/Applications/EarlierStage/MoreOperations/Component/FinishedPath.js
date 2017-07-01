@@ -33,10 +33,8 @@ export default class FinishedPath extends Component{
                 <ScrollView>
                     {
                         this.props.fromCheckFlowInfo &&
-                        <View style={styles.titleView}>
-                            <View style={styles.titleContent}>
-                                <Text style={styles.titleText}>{this.props.from&&this.props.from==='turnover'?'人员变更':'延期申请'}</Text>
-                            </View>
+                        <View style={[styles.titleContent, {width:(item.text.length*15+0.1*width)}]}>
+                            <Text style={styles.titleText} numberOfLines={1}>{this.props.from&&this.props.from==='turnover'?'人员变更':'延期申请'}</Text>
                         </View>
                     }
                     {this.props.fromCheckFlowInfo ? this.renderRows(this.state.dataSource): this.renderSection(this.state.dataSource)}
@@ -53,11 +51,9 @@ export default class FinishedPath extends Component{
         return dataArr.map((item,index)=>
             (
                 <View key={index}>
-                    <View style={styles.titleView}>
-                        <View style={styles.titleContent}>
-                            <Text style={styles.titleText}>{item.text}</Text>
+                        <View style={[styles.titleContent, {width:(item.text.length*15+0.1*width)}]}>
+                            <Text style={styles.titleText} numberOfLines={1}>{item.text}</Text>
                         </View>
-                    </View>
                     {this.renderRows(item.data)}
                 </View>
             )
@@ -111,7 +107,6 @@ const styles = StyleSheet.create(
             backgroundColor: '#f99e3d',
             justifyContent: 'center',
             height: 0.035 * height,
-            width: 0.3 * width,
             paddingLeft: 0.06 * width,
             paddingRight: 0.02 * width,
             marginTop: 0.02 * width,
@@ -120,7 +115,8 @@ const styles = StyleSheet.create(
             borderBottomRightRadius: 0.035/2 * height
         },
         titleText: {
-            color: 'white'
+            color: 'white',
+            fontSize: 14
         }
     }
 );

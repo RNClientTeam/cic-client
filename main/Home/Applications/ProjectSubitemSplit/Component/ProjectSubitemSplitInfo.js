@@ -49,6 +49,20 @@ export default class ProjectSubitemSplitInfo extends Component {
             )
         }
         return tpl;
+    };
+
+    componentDidMount() {
+      axios.get('/psmGczx/xmDetail',{
+          params:{
+              userID:GLOBAL_USERID,
+              cfxxid:this.props.cfxxid,
+              xmgh:this.props.xmgh,
+              cfzt:this.props.cfzt,
+              callID:true
+          }
+      }).then(data=>{
+          console.log(data);
+      })
     }
 }
 

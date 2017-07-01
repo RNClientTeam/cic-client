@@ -114,11 +114,14 @@ export default class ApplyForDelay extends Component{
                             <View style={styles.blank}/>
                             <Text>{this.state.planName}</Text>
                         </View>
-                        <View style={styles.cell}>
-                            <Text style={styles.label}>计划开始时间</Text>
-                            <View style={styles.blank}/>
-                            <Text>{this.state.startTime}</Text>
-                        </View>
+                        {
+                            this.props.tag !== '配合任务' &&
+                            <View style={styles.cell}>
+                                <Text style={styles.label}>计划开始时间</Text>
+                                <View style={styles.blank}/>
+                                <Text>{this.state.startTime}</Text>
+                            </View>
+                        }
                         <View style={styles.cell}>
                             <Text style={styles.label}>计划结束时间</Text>
                             <View style={styles.blank}/>
@@ -145,7 +148,9 @@ export default class ApplyForDelay extends Component{
                                     if (this.state.allReason[a].sm === '1') {
                                         this.setState({
                                             bgyy: this.state.allReason[a].code,
-                                            reasonTag: this.state.allReason[a].sx1
+                                            reasonTag: this.state.allReason[a].sx1,
+                                            bgyybcmc: '',
+                                            bgyybc: ''
                                         });
                                     } else {
                                         this.setState({
@@ -239,7 +244,8 @@ export default class ApplyForDelay extends Component{
                     reasonList: this.state.reasonList,
                     allReason: responseData.data,
                     bgsm: res.bgsm||'',
-                    bgyy: res.bgyy||''
+                    bgyy: res.bgyy||'',
+                    reasonTag: res.bgyy?responseData.data[parseInt(res.bgyy)-1].sx1:''
                 });
             }
         }).catch((error) => {
@@ -274,7 +280,7 @@ export default class ApplyForDelay extends Component{
             xjhkssj: this.state.changeStartTime,
             xjhjssj: this.state.changeEndTime,
             bgyy: this.state.bgyy,
-            bgsm: this.changeIntroduction,
+            bgsm: this.changeIntroduction || this.state.bgsm,
             bgyybc: this.state.bgyybc,
             callID: getTimestamp()
         }).then((responseData) => {

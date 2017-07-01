@@ -10,7 +10,7 @@ import {
     TouchableOpacity,
     Text
 } from 'react-native'
-
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 import StatusBar from '../../../Component/StatusBar'
 import SearchHeader from '../Component/SearchHeader'
 import ProgressExecuteModal from './Component/ProgressExecuteModal'
@@ -24,6 +24,7 @@ export default class ProgressPlan extends Component {
     constructor(props){
         super(props);
         this.pageNum = 1;
+        this.receiveNoti = false;
         this.jhlxObj = {
             '全部' : '500',
             '我参与的' : '400',
@@ -43,6 +44,12 @@ export default class ProgressPlan extends Component {
     }
 
     componentDidMount() {
+        this.listener = RCTDeviceEventEmitter.addListener('刷新施工进度进化执行', () => {
+            this.receiveNoti = true;
+            this.state.dataSource = [];
+            this.pageNum = 1;
+            this.fetchData(1);
+        });
         this.fetchData(1);
     }
 
@@ -65,7 +72,9 @@ export default class ProgressPlan extends Component {
                     dataSource: this.state.dataSource.concat(responseData.data.data),
                     hasMoreData: responseData.data.data.length===0?false:true
                 }, () => {
-                    // !this.state.hasMoreData && Toast.show('没有更多数据了');
+                    if (this.receiveNoti) {
+                        RCTDeviceEventEmitter.emit('刷新施工进度计划执行详情');
+                    }
                 });
             }
             callback();
@@ -87,12 +96,20 @@ export default class ProgressPlan extends Component {
             eDate: eDate,
             jhlx: jhlx
         }, () => {
+            this.state.dataSource = [];
+            this.pageNum = 1;
             this.fetchData(1);
         });
     }
 
     loadMore() {
         this.fetchData(++this.pageNum);
+    }
+
+    searchData() {
+        this.state.dataSource = [];
+        this.pageNum = 1;
+        this.fetchData(1);
     }
 
     render() {
@@ -103,15 +120,15 @@ export default class ProgressPlan extends Component {
                         <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
-                <SearchHeader getKeyWord={this.getKeyWord.bind(this)} getData={this.fetchData.bind(this, 1)}/>
+                <SearchHeader getKeyWord={this.getKeyWord.bind(this)} getData={this.searchData.bind(this)}/>
                 <ProgressExecuteList navigator={this.props.navigator}
                     dataSource={this.state.dataSource}
                     hasMoreData={this.state.hasMoreData}
                     loadMore={this.loadMore.bind(this)}
                     refreshData={(callback) => {
-                        this.fetchData(1, callback);
                         this.state.dataSource = [];
                         this.pageNum = 1;
+                        this.fetchData(1, callback);
                     }}/>
                 {this.state.isModalVisible?
                     <ProgressExecuteModal
@@ -126,6 +143,9 @@ export default class ProgressPlan extends Component {
         )
     }
 
+    componentWillUnmount() {
+        this.listener && this.listener.remove();
+    }
 }
 
 const styles = StyleSheet.create({

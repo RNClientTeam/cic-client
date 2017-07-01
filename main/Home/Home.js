@@ -8,7 +8,8 @@ import {
     Dimensions,
     TouchableOpacity,
     ScrollView,
-    Platform
+    Platform,
+    NativeModules
 } from 'react-native';
 const {width} = Dimensions.get('window');
 import StatusBar from '../Component/StatusBar'
@@ -44,7 +45,7 @@ export default class Home extends Component {
             <View style={{paddingBottom: 50}}>
                 <StatusBar notBack={true} navigator={this.props.navigator}>
                     <Image style={styles.logoStyle} source={require('../../resource/imgs/home/home_logo.png')}/>
-                    <Text style={styles.logoText}>九州方圆</Text>
+                    <Text onPress={this.choicefile.bind(this)} style={styles.logoText}>九州方圆</Text>
                     <View style={styles.operationViewStyle}>
                         <TouchableOpacity onPress={this.onPressSweep.bind(this)}>
                             <Image style={styles.sweepStyle} source={require('../../resource/imgs/home/sweep.png')}/>
@@ -67,6 +68,15 @@ export default class Home extends Component {
                 {this.state.isLoading ? <Loading/> : null}
             </View>
         );
+    }
+
+    choicefile(){
+        NativeModules.MyRN.scan((msg) => {
+                toast.show('文件地址为:'+msg);
+            },
+            (result) => {
+                toast.show('JS界面:错误信息为:'+result);
+            });
     }
 
 

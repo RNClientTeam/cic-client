@@ -37,10 +37,6 @@ export default class ExecuteRow extends Component {
             </View>
         )
     }
-
-    componentDidMount() {
-        console.log(this.props.data)
-    }
 }
 
 const styles = StyleSheet.create({
@@ -64,19 +60,21 @@ const styles = StyleSheet.create({
     },
     progressBar: {
         width: 0.6 * width,
-        height: 0.035 * width,
+        height: 0.04 * width,
         backgroundColor: '#e3e3e3'
     },
     progress: {
-        height: 0.035 * width,
+        height: 0.04 * width,
         backgroundColor: '#ffb432',
         alignItems: 'flex-end',
-        paddingRight: 0.02 * width
+        justifyContent:'center'
     },
     progressText: {
         color: '#fff',
-        fontSize: 0.033 * width,
-        height: 0.035 * width
+        fontSize: 0.028 * width,
+        marginRight: 0.02 * width,
+        textAlign: 'center',
+        textAlignVertical: 'center'
     },
     sub: {
         flexDirection: 'row',
