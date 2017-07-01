@@ -78,6 +78,7 @@ export default class MyPlan extends Component {
                     onEndReached={this.loadMore.bind(this)}
                     onEndReachedThreshold={60}
                     renderFooter={this.renderFooter.bind(this)}
+                    enableEmptySections={true}
                 />
                 <Modal
                     animationType={"slide"}
