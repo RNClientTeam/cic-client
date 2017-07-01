@@ -9,10 +9,12 @@ import {
     Image,
     TouchableOpacity,
     Text,
-    ScrollView
+    ScrollView,
+    Modal
 } from 'react-native'
 import MyPlan from './MyPlan'
 import MyPlanDetail from './MyPlanDetail'
+import MoreActionsModal from "./MoreActionsModal"
 
 const {width, height} = Dimensions.get('window');
 
@@ -20,9 +22,10 @@ export default class ConstructPlan extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            tab: 0,
             currentPage: 1,
             modalVisible: false,
-            myTask: []
+            myTask: [],
         };
     }
     componentDidMount() {
@@ -68,14 +71,14 @@ export default class ConstructPlan extends Component {
             <View style={styles.container}>
                 <View style={styles.segmentView}>
                     <TouchableOpacity onPress={this.changePage.bind(this, 0)}>
-                        <View style={[styles.leftView,{backgroundColor:this.state.currentPage===0?'#4fa6ef':'white'}]}>
-                            <Text style={{fontSize:12,color:this.state.currentPage===0?'white':'#4fa6ef'}}>我的任务</Text>
+                        <View style={[styles.leftView,{backgroundColor:this.state.tab===0?'#4fa6ef':'white'}]}>
+                            <Text style={{fontSize:12,color:this.state.tab===0?'white':'#4fa6ef'}}>我的任务</Text>
                         </View>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={this.changePage.bind(this, 1)}>
-                        <View style={[styles.rightView,{backgroundColor:this.state.currentPage===1?'#4fa6ef':'white'}]}>
-                            <Text style={{fontSize:12,color:this.state.currentPage===1?'white':'#4fa6ef'}}>全部任务</Text>
+                        <View style={[styles.rightView,{backgroundColor:this.state.tab===1?'#4fa6ef':'white'}]}>
+                            <Text style={{fontSize:12,color:this.state.tab===1?'white':'#4fa6ef'}}>全部任务</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -87,17 +90,25 @@ export default class ConstructPlan extends Component {
                     <MyPlan navigator={this.props.navigator}
                             loadMore={() => this.loadMore()}
                             dataSource={this.state.myTask}
-                            setModalVisible={() => {
-                            this.setState({modalVisible: true})
-                        }}/>
+                            setModalVisible={(rwid) => this.setModalVisible(rwid)}
+                    />
                     <MyPlan navigator={this.props.navigator}
                             loadMore={() => this.loadMore()}
                             dataSource={this.state.myTask}
-                            setModalVisible={() => {
-                            this.setState({modalVisible: true})
-                        }}/>
+                            setModalVisible={() => this.setModalVisible()}
+                    />
                 </ScrollView>
-                <TouchableOpacity onPress={this.create.bind(this)}>
+                <Modal
+                    animationType={"slide"}
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
+                >
+                    <MoreActionsModal navigator={this.props.navigator}
+                                      rwid={this.state.rwid}
+                                      closeModal={() => {this.setState({modalVisible: false})}}/>
+                </Modal>
+                <TouchableOpacity onPress={() => this.create()}>
                     <View style={styles.button}>
                         <Image
                             source={require('../../../../../resource/imgs/home/earlierStage/addData.png')}
@@ -118,10 +129,17 @@ export default class ConstructPlan extends Component {
     }
 
     changePage(page) {
-        if (this.state.currentPage !== page) {
-            this.setState({currentPage:page});
+        if (this.state.tab !== page) {
+            this.setState({tab:page});
             this.refs.scrollView.scrollTo({x:page*width,y:0,animated:true});
         }
+    }
+
+    setModalVisible(rwid) {
+        this.setState({
+            modalVisible: true,
+            rwid: rwid
+        });
     }
 }
 
