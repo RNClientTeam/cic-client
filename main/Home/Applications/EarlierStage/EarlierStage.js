@@ -118,7 +118,6 @@ export default class EarlierStage extends Component {
         }).then(data => {
             if (data.code === 1) {
                 this.dataArr = [];
-                console.log(data.data.data);
                 for (let i = 0; i < data.data.data.length; i++) {
                     this.dataArr.push(data.data.data[i])
                 }

@@ -8,7 +8,8 @@ import {
     StyleSheet,
     Dimensions,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
+    Image
 } from 'react-native'
 import EarlierStageDetail from "../EarlierStage/Component/EarlierStageDetail";
 import ProgressPlanDetail from "../ConstructionProgressPlan/Component/ProgressPlanDetail"
@@ -19,14 +20,44 @@ import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 
 const {width} = Dimensions.get('window');
 
-export default class EarlierStageListCell extends Component {
+export default class ApplicationListCellWithIcon extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            diyiwei:parseInt(parseInt(this.props.data.isTodo)/10),
+            dierwei:parseInt(parseInt(this.props.data.isTodo)%10)
+        }
+    }
     render() {
+        let first = '',second='';
+        if(this.state.diyiwei===0){
+            first = null;
+        }else if(this.state.diyiwei === 1){
+            first = require('../../../../resource/imgs/home/11.png')
+        }
+        if(this.state.dierwei===0){
+            second = null
+        }else if(this.state.dierwei === 1){
+            second = require('../../../../resource/imgs/home/21.png')
+        }else if(this.state.dierwei === 2){
+            second = require('../../../../resource/imgs/home/22.png')
+        }else if(this.state.dierwei === 3){
+            second = require('../../../../resource/imgs/home/23.png')
+        }else if(this.state.dierwei === 4){
+            second = require('../../../../resource/imgs/home/24.png')
+        }else if(this.state.dierwei === 5){
+            second = require('../../../../resource/imgs/home/25.png')
+        }
+
         return (
             <View>
                 <TouchableOpacity style={styles.earlierStageListCell} onPress={this.skipPage.bind(this)}>
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
-                            <Text style={{color: '#216fd0', fontSize: width * 0.045}}>{this.props.data.xmbh}</Text>
+                            <View style={styles.iconView}>
+                                {this.state.diyiwei===0?null:<Image style={styles.iconImg} source={first}/>}
+                                {this.state.dierwei === 0?null:<Image style={styles.iconImg} source={second}/>}
+                            </View>
                             {this.props.data.state ?
                                     (this.props.stateBg ?
                                         <View style={[styles.stateView, {backgroundColor: this.props.stateBg}]}>
@@ -167,7 +198,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    stateText: {color: '#fff', fontSize: width * 0.03}
-
+    stateText: {color: '#fff', fontSize: width * 0.03},
+    iconView:{
+        flexDirection:'row'
+    },
+    iconImg:{
+        width:width*0.05,
+        height:width*0.05,
+        marginRight:width*0.03
+    }
 
 });
