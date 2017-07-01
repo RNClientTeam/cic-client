@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <Button
-    android:text="上传文件"
-    android:id="@+id/scan"
-    android:layout_width="match_parent"
-    android:layout_height="60dp"
-    android:onClick="scan"/>
-
-    <Button
-        android:text="取消"
-        android:id="@+id/can"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_main"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:onClick="can"/>
- 
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <Button
+            android:text="上传文件"
+            android:id="@+id/scan"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:onClick="scan"/>
+
+    <Button
+            android:text="取消"
+            android:id="@+id/can"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:onClick="can"/>
+
 </LinearLayout>

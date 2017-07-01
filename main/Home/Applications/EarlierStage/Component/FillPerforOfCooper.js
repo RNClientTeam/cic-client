@@ -95,17 +95,14 @@ export default class FillPerforOfCooper extends Component {
                             <Text>{this.props.zrrmc}</Text>
                         </View>
                         <View style={styles.cell}>
-                            <Text style={styles.label}>{this.state.rwnr}</Text>
+                            <Text style={styles.label}>配合工作内容</Text>
+                            <View style={styles.blank}/>
+                            <Text>{this.state.rwnr}</Text>
                         </View>
                         <View style={styles.cell}>
                             <Text style={styles.label}>要求完成时间</Text>
                             <View style={styles.blank}/>
                             <Text>{this.state.yqwcsj}</Text>
-                        </View>
-                        <View style={styles.cell}>
-                            <Text style={styles.label}>实际完成时间</Text>
-                            <View style={styles.blank}/>
-                            <Text>{this.state.sjwcsj}</Text>
                         </View>
 
                         <View style={styles.cell}>
