@@ -10,7 +10,7 @@ import {
     TouchableOpacity,
     Text
 } from 'react-native'
-
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 import StatusBar from '../../../Component/StatusBar'
 import SearchHeader from '../Component/SearchHeader'
 import ProgressExecuteModal from './Component/ProgressExecuteModal'
@@ -24,6 +24,7 @@ export default class ProgressPlan extends Component {
     constructor(props){
         super(props);
         this.pageNum = 1;
+        this.receiveNoti = false;
         this.jhlxObj = {
             '全部' : '500',
             '我参与的' : '400',
@@ -43,6 +44,12 @@ export default class ProgressPlan extends Component {
     }
 
     componentDidMount() {
+        this.listener = RCTDeviceEventEmitter.addListener('刷新施工进度进化执行', () => {
+            this.receiveNoti = true;
+            this.state.dataSource = [];
+            this.pageNum = 1;
+            this.fetchData(1);
+        });
         this.fetchData(1);
     }
 
@@ -64,6 +71,10 @@ export default class ProgressPlan extends Component {
                 this.setState({
                     dataSource: this.state.dataSource.concat(responseData.data.data),
                     hasMoreData: responseData.data.data.length===0?false:true
+                }, () => {
+                    if (this.receiveNoti) {
+                        RCTDeviceEventEmitter.emit('刷新施工进度计划执行详情');
+                    }
                 });
             }
             callback();
@@ -115,9 +126,9 @@ export default class ProgressPlan extends Component {
                     hasMoreData={this.state.hasMoreData}
                     loadMore={this.loadMore.bind(this)}
                     refreshData={(callback) => {
-                        this.fetchData(1, callback);
                         this.state.dataSource = [];
                         this.pageNum = 1;
+                        this.fetchData(1, callback);
                     }}/>
                 {this.state.isModalVisible?
                     <ProgressExecuteModal
@@ -132,6 +143,9 @@ export default class ProgressPlan extends Component {
         )
     }
 
+    componentWillUnmount() {
+        this.listener && this.listener.remove();
+    }
 }
 
 const styles = StyleSheet.create({
