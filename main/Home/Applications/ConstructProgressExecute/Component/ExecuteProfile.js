@@ -18,68 +18,38 @@ import LoadMore from "../../../../Component/LoadMore.js"
 import Reload from "../../../../Component/Reload.js"
 import ExecuteProfileCell from './ExecuteProfileCell'
 import TotalExecuteProfile from './TotalExecuteProfile'
-
 const {width} = Dimensions.get('window');
-let dataArr = [{
-        infomation: '执行情况说明执行情况说明执行情况说明执行情况说明执行情况',
-        schedule: '70%',
-        time: '2017/11/11'
-    },
-    {
-        infomation: '执行情况说明执行情况说明执行情况说明执行情况说明执行情况',
-        schedule: '70%',
-        time: '2017/11/11'
-    },
-    {
-        infomation: '执行情况说明执行情况说明执行情况说明执行情况说明执行情况',
-        schedule: '70%',
-        time: '2017/11/11'
-    },
-    {
-        infomation: '执行情况说明执行情况说明执行情况说明执行情况说明执行情况',
-        schedule: '70%',
-        time: '2017/11/11'
-    },
-    {
-        infomation: '执行情况说明执行情况说明执行情况说明执行情况说明执行情况',
-        schedule: '70%',
-        time: '2017/11/11'
-    }];
-
-let tempArr = [{
-        infomation: '执行情况说明执行情况说明执行情况说明执行情况说明执行情况',
-        schedule: '70%',
-        time: '2017/11/11'
-    },
-    {
-        infomation: '执行情况说明执行情况说明执行情况说明执行情况说明执行情况',
-        schedule: '70%',
-        time: '2017/11/11'
-    },
-    {
-        infomation: '执行情况说明执行情况说明执行情况说明执行情况说明执行情况',
-        schedule: '70%',
-        time: '2017/11/11'
-    },
-    {
-        infomation: '执行情况说明执行情况说明执行情况说明执行情况说明执行情况',
-        schedule: '70%',
-        time: '2017/11/11'
-    },
-    {
-        infomation: '执行情况说明执行情况说明执行情况说明执行情况说明执行情况',
-        schedule: '70%',
-        time: '2017/11/11'
-    }];
 
 export default class ExecuteProfile extends Component {
     constructor(props) {
         super(props);
-        this.dataSource = dataArr;
+        this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             hasMoreData: true,
-            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(this.dataSource),
+            list: []
         }
+    }
+
+    componentDidMount() {
+        this.fetchData();
+    }
+
+    fetchData(resolve) {
+        axios.get('/psmSgjdjh/sgjhJhrwZzxqklb', {
+            params: {
+                userID: GLOBAL_USERID,
+                gczxId: this.props.rowData.gczxId,
+                callID: true
+            }
+        }).then((responseData) => {
+            if (responseData.code === 1) {
+                this.setState({list: this.state.list.concat(responseData.data)}, () => {
+                    resolve && resolve();
+                });
+            }
+        }).catch((error) => {
+            resolve && resolve();
+        });
     }
 
     render() {
@@ -89,11 +59,10 @@ export default class ExecuteProfile extends Component {
                     onPullRelease={this.onPullRelease.bind(this)}
                     topIndicatorRender={this.topIndicatorRender.bind(this)}
                     topIndicatorHeight={60}
-                    dataSource={this.state.list}
+                    enableEmptySections={true}
+                    dataSource={this.ds.cloneWithRows(this.state.list)}
                     renderRow={this.renderRow.bind(this)}
-                    onEndReached={this.loadMore.bind(this)}
                     onEndReachedThreshold={60}
-                    renderFooter={this.renderFooter.bind(this)}
                 />
                 <TouchableOpacity onPress={() => this.addProfile()}>
                     <View style={styles.button}>
@@ -104,18 +73,22 @@ export default class ExecuteProfile extends Component {
         )
     }
 
+    //填报总执行情况
     addProfile() {
         this.props.navigator.push({
             component: TotalExecuteProfile,
-            name: 'AddExecuteProfile'
+            name: 'AddExecuteProfile',
+            params: {
+                gczxId: this.props.rowData.gczxId,
+                refreshData: this.onPullRelease.bind(this, null)
+            }
         });
     }
 
+    //下拉刷新
     onPullRelease(resolve) {
-        //do refresh
-        setTimeout(() => {
-            resolve();
-        }, 3000);
+        this.state.list = [];
+        this.fetchData(resolve);
     }
 
     renderRow(item, sectionID, rowID, highlightRow) {
@@ -124,24 +97,8 @@ export default class ExecuteProfile extends Component {
         );
     }
 
-    renderFooter (){
-        return (this.state.hasMoreData ? <LoadMore /> : null)
-    }
-
     topIndicatorRender(pulling, pullok, pullrelease) {
         return (<Reload />);
-    }
-
-    loadMore(){
-        for (let i = 0;i<tempArr.length;i++){
-            this.dataSource.push(tempArr[i])
-        }
-
-        setTimeout(() => {
-            this.setState({
-                list: this.state.list.cloneWithRows(this.dataSource)
-            });
-        }, 1000);
     }
 }
 

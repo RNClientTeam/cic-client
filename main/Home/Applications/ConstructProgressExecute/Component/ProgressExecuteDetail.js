@@ -17,10 +17,24 @@ import ProjectChildProfile from './ProjectChildProfile'
 import ConstructPlan from './ConstructPlan'
 import ExecuteProfile from './ExecuteProfile'
 import ShareFile from './ShareFile'
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 
 const {width, height} = Dimensions.get('window');
 
 export default class ProgressExecuteDetail extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            jdbl: props.rowData.jdbl
+        }
+    }
+
+    componentDidMount() {
+        this.listener = RCTDeviceEventEmitter.addListener('successRefresh', (value) => {
+            this.setState({jdbl: value.jdbl});
+        });
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -32,10 +46,10 @@ export default class ProgressExecuteDetail extends Component {
                     <Text style={styles.dateSty}>{`日期：${this.props.rowData.jhkssj}/${this.props.rowData.jhjssj}`}</Text>
                     <View style={styles.progressView}>
                         <View style={styles.backView}>
-                            <View style={[styles.foregroundView, {width:this.props.rowData.jdbl||0 * 0.72 * width}]}>
+                            <View style={[styles.foregroundView, {width:parseInt(this.state.jdbl+0)/100 * 0.72 * width}]}>
                             </View>
                         </View>
-                        <Text style={styles.percentText}>{this.props.rowData.jdbl || '0'}%</Text>
+                        <Text style={styles.percentText}>{this.state.jdbl || '0'}%</Text>
                     </View>
                 </Image>
                 <ScrollableTabView
