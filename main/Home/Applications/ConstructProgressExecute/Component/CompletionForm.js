@@ -12,12 +12,22 @@ import {
     StyleSheet,
     Dimensions
 } from 'react-native'
-import StatusBar from '../../../../Component/StatusBar'
-import ChoiceDate from '../../../../Component/ChoiceDate'
-
+import StatusBar from '../../../../Component/StatusBar.js';
+import ChoiceDate from '../../../../Component/ChoiceDate.js';
+import Toast from 'react-native-simple-toast';
 const {width} = Dimensions.get('window');
 
 export default class CompletionForm extends Component {
+    constructor(props) {
+        super(props);
+        this.inputPercent='';
+        this.inputInfo = '';
+        this.state = {
+            startTime: '',
+            endTime: ''
+        }
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -31,7 +41,8 @@ export default class CompletionForm extends Component {
                             <Text style={[styles.labelColor]}>当前进度比例*</Text>
                             <View style={styles.blank}/>
                             <View>
-                                <TextInput style={styles.input}/>
+                                <TextInput style={styles.input}
+                                    onChangeText={(value) => {this.inputPercent=value}}/>
                             </View>
                             <View style={{flex: 0.1}}/>
                             <Text style={[styles.textColor]}>%</Text>
@@ -39,12 +50,12 @@ export default class CompletionForm extends Component {
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>实际开始时间</Text>
                             <View style={styles.blank}/>
-                            <ChoiceDate/>
+                            <ChoiceDate showDate={this.state.startTime} changeDate={(date)=>{this.setState({startTime:date})}}/>
                         </View>
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>实际完成时间</Text>
                             <View style={styles.blank}/>
-                            <ChoiceDate/>
+                            <ChoiceDate showDate={this.state.endTime} changeDate={(date)=>{this.setState({endTime:date})}}/>
                         </View>
                         <View style={styles.textArea}>
                             <Text style={styles.labelColor}>当前完成情况*</Text>
@@ -52,8 +63,9 @@ export default class CompletionForm extends Component {
                                 style={{height: 0.22 * width,
                                     backgroundColor: '#f2f2f2', borderRadius: 5,
                                     marginTop: 0.02 * width}}
-                                multiline = {true}
-                                placeholder="在此输入"/>
+                                    multiline = {true}
+                                    onChangeText={(value) => {this.inputInfo = value;}}
+                                    placeholder="在此输入"/>
                         </View>
                     </View>
                 </ScrollView>
@@ -67,7 +79,40 @@ export default class CompletionForm extends Component {
     }
 
     submit() {
+        if (this.inputPercent.length === 0 || parseInt(this.inputPercent) < 0 || parseInt(this.inputPercent) > 100 || parseInt(this.inputPercent) !== parseFloat(this.inputPercent)) {
+            Toast.show('请输入0~100的整数');
+        } else if (this.state.startTime.length === 0) {
+            Toast.show('请选择实际开始时间');
+        } else if (this.state.endTime.length === 0) {
+            Toast.show('请选择实际结束时间');
+        } else if (this.inputInfo.length === 0) {
+            Toast.show('请输入完成情况');
+        } else {
+            axios.post('/psmSgJdjh/addSgrwWcqk', {
+                userID: GLOBAL_USERID,
+                gczxId: this.props.gczxId,
+                id: this.props.rwid,
+                wcqk: this.state.inputInfo,
+                wcbl: this.state.inputPercent,
+                sjkssj: this.state.startTime,
+                sjjssj: this.state.endTime,
+                callID: true
+            }).then((res) => {
+                if (res.code === 1) {
+                    Toast.show('提交成功');
+                    const self = this;
+                    let timer = setTimeout(() => {
+                        self.props.navigator.pop();
+                        self.props.reloadInfo();
+                        clearTimeout(timer);
+                    }, 1000);
+                } else {
+                    Toast.show(res.message);
+                }
+            }).catch((error) => {
 
+            });
+        }
     }
 }
 

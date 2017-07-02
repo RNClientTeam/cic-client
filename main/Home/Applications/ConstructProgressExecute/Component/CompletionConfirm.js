@@ -13,10 +13,59 @@ import {
     Dimensions
 } from 'react-native'
 import StatusBar from '../../../../Component/StatusBar'
-
+import Toast from 'react-native-simple-toast';
 const {width} = Dimensions.get('window');
 
 export default class CompletionConfirm extends Component {
+    constructor(props) {
+        super(props);
+        this.state={
+            jhkssj: '',     //计划开始时间
+            jhjssj: '',     //计划结束时间
+            sjkssj: '',     //实际开始时间
+            sjjssj: '',     //实际结束时间
+            zrrmc: '',      //责任人名称
+            rwmc: '',       //任务名称
+            rwxzmc: '',     //任务性质名称
+            rwztmc: '',     //任务状态名称
+            bzgq: '',       //标准工期
+            ssrymc: '',     //施工人员名称
+            wcqk: '',       //完成情况
+            wcbl: '',       //完成比例
+        }
+    }
+
+    componentDidMount() {
+        axios.get('/psmSgjdjh/sgjhJhrwDetail4Qrwc', {
+            params: {
+                userID: GLOBAL_USERID,
+                id: this.props.rwid,
+                callID: true
+            }
+        }).then((res) => {
+            if (res.code === 1) {
+                this.setState({
+                    jhkssj: res.data.jhkssj,
+                    jhjssj: res.data.jhjssj,
+                    sjkssj: res.data.sjkssj,
+                    sjjssj: res.data.sjjssj,
+                    zrrmc: res.data.zrrmc,
+                    rwmc: res.data.rwmc,
+                    rwxzmc: res.data.rwxzmc,
+                    rwztmc: res.data.rwztmc
+                    bzgq: res.data.bzgq,
+                    ssrymc: res.data.ssrymc,
+                    wcqk: res.data.wcqk,
+                    wcbl: res.data.wcbl
+                });
+            } else {
+                Toast.show(res.message);
+            }
+        }).catch((error) => {
+
+        });
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -26,32 +75,32 @@ export default class CompletionConfirm extends Component {
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>任务责任人</Text>
                             <View style={styles.blank}/>
-                            <Text style={[styles.textColor]}>潘俊涛</Text>
+                            <Text style={[styles.textColor]}>{this.state.zrrmc}</Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>当前状态</Text>
                             <View style={styles.blank}/>
-                            <Text style={[styles.textColor]}>执行中</Text>
+                            <Text style={[styles.textColor]}>{this.state.rwztmc}</Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>任务性质</Text>
                             <View style={styles.blank}/>
-                            <Text style={[styles.textColor]}>设备检验</Text>
+                            <Text style={[styles.textColor]}>{this.state.rwxzmc}</Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>标准工期</Text>
                             <View style={styles.blank}/>
-                            <Text style={[styles.textColor]}>1</Text>
+                            <Text style={[styles.textColor]}>{this.state.bzgq}</Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>进度比例</Text>
                             <View style={styles.blank}/>
-                            <Text style={[styles.textColor]}>80%</Text>
+                            <Text style={[styles.textColor]}>{this.state.wcbl||'0'}%</Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>实施人员</Text>
                             <View style={styles.blank}/>
-                            <Text style={[styles.textColor]}>潘俊涛</Text>
+                            <Text style={[styles.textColor]}>{this.state.ssrymc}</Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>表单状态</Text>
@@ -61,24 +110,24 @@ export default class CompletionConfirm extends Component {
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>计划开始时间</Text>
                             <View style={styles.blank}/>
-                            <Text style={[styles.textColor]}>2017-01-07</Text>
+                            <Text style={[styles.textColor]}>{this.state.jhkssj}</Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>计划结束时间</Text>
                             <View style={styles.blank}/>
-                            <Text style={[styles.textColor]}>2017-02-07</Text>
+                            <Text style={[styles.textColor]}>{this.state.jhjssj}</Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>实际开始时间</Text>
                             <View style={styles.blank}/>
-                            <Text style={[styles.textColor]}>2017-01-07</Text>
+                            <Text style={[styles.textColor]}>{this.state.sjkssj}</Text>
                         </View>
                         <View style={styles.divide}/>
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>当前完成情况</Text>
                         </View>
                         <View style={styles.textArea}>
-                            <Text>描述文字</Text>
+                            <Text>{this.state.wcqk}</Text>
                         </View>
                     </View>
                     <View style={styles.bottomDivide}/>
@@ -92,7 +141,27 @@ export default class CompletionConfirm extends Component {
         )
     }
 
-    submit() {}
+    submit() {
+        axios.post('/psmSgjdjh/updateSgrwToWc', {
+            userID: GLOBAL_USERID,
+            id: this.props.rwid,
+            callID: true
+        }).then((res) => {
+            if (res.code === 1) {
+                Toast.show('保存成功');
+                const self = this;
+                let timer = setTimeout(() => {
+                    self.props.navigator.pop();
+                    self.props.reloadInfo();
+                    clearTimeout(timer);
+                }, 1000);
+            } else {
+                Toast.show(res.message);
+            }
+        }).catch((error) => {
+
+        });
+    }
 }
 
 const styles = StyleSheet.create({

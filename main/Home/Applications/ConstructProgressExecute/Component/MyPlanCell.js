@@ -22,15 +22,14 @@ export default class MyPlanCell extends Component {
         return (
             <View style={styles.earlierStageListCell}>
                 <View style={styles.aboutProject}>
-                    <Text style={{color:'#216fd0',fontSize:width*0.045}}>{this.props.data.period}</Text>
-                    <View style={styles.blank}/>
+                    <Text style={{color:'#216fd0',fontSize:width*0.045,flex:1}}>{this.props.data.rwmc}</Text>
                     <View style={styles.stateView}>
-                        <Text style={styles.stateText}>{this.props.data.state}</Text>
+                        <Text style={styles.stateText}>{this.props.data.rwztmc}</Text>
                     </View>
                 </View>
                 <View style={styles.aboutPrincipal}>
-                    <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.principal}</Text>
-                    <Text style={[{width: width * 0.5}, styles.textStyle]}>{this.props.data.time}</Text>
+                    <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zrrmc}</Text>
+                    <Text style={[{width: width * 0.5}, styles.textStyle]}>{`${this.props.data.jhkssj}/${this.props.data.jhjssj}`}</Text>
                     <View style={styles.blank}/>
                     <TouchableOpacity onPress={()=>{this.props.setModalVisible()}} style={styles.editTouch}>
                         <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}
@@ -52,11 +51,12 @@ const styles = StyleSheet.create({
     },
     aboutProject: {
         backgroundColor: '#fff',
-        height: width * 0.12,
-        paddingLeft: width * 0.02,
-        paddingRight: width * 0.02,
+        paddingHorizontal: width * 0.02,
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingVertical: 10,
+        width: width * 0.96
     },
     aboutPrincipal: {
         backgroundColor: '#f6f9fa',

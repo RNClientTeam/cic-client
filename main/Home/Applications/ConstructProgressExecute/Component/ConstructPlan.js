@@ -20,7 +20,6 @@ export default class ConstructPlan extends Component {
         super(props);
         this.state = {
             currentPage:0,
-            modalVisible: false
         }
     }
 
@@ -30,12 +29,12 @@ export default class ConstructPlan extends Component {
                 <View style={styles.segmentView}>
                     <TouchableOpacity onPress={this.changePage.bind(this, 0)}>
                         <View style={[styles.leftView,{backgroundColor:this.state.currentPage===0?'#4fa6ef':'white'}]}>
-                            <Text style={{fontSize:12,color:this.state.currentPage===0?'white':'#4fa6ef'}}>我的任务</Text>
+                            <Text style={{fontSize:12,color:this.state.currentPage===0?'white':'#4fa6ef'}}>我的计划</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={this.changePage.bind(this, 1)}>
                         <View style={[styles.rightView,{backgroundColor:this.state.currentPage===1?'#4fa6ef':'white'}]}>
-                            <Text style={{fontSize:12,color:this.state.currentPage===1?'white':'#4fa6ef'}}>全部任务</Text>
+                            <Text style={{fontSize:12,color:this.state.currentPage===1?'white':'#4fa6ef'}}>全部计划</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -45,13 +44,9 @@ export default class ConstructPlan extends Component {
                     showsHorizontalScrollIndicator={false}
                     scrollEnabled={false}>
                     <MyPlan navigator={this.props.navigator}
-                            setModalVisible={() => {
-                            this.setState({modalVisible: true})
-                        }}/>
+                            rowData={this.props.rowData}/>
                     <MyPlan navigator={this.props.navigator}
-                            setModalVisible={() => {
-                            this.setState({modalVisible: true})
-                        }}/>
+                            rowData={this.props.rowData}/>
                 </ScrollView>
             </View>
         )

@@ -192,7 +192,6 @@ export default class SchedulePlan extends Component {
         }).then((data) => {
             if (data.code === 1) {
                 let showToast = true;
-                console.log(data);
                 data.data.workflow = true;
                 for(let key in data.data) {
                     if (data.data[key]) {
