@@ -42,11 +42,14 @@ export default class MoreActionsModal extends Component {
         });
     }
 
-    update() {
+    update(id) {
         this.props.closeModal();
         this.props.navigator.push({
             component: MyPlanDetail,
-            name: 'MyPlanDetail'
+            name: 'MyPlanDetail',
+            params: {
+                id
+            }
         });
     }
 
