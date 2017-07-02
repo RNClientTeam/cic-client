@@ -137,6 +137,7 @@ export default class ConstructPlan extends Component {
     }
 
     setModalVisible(rwid) {
+        console.log(rwid);
         this.setState({
             modalVisible: true,
             rwid: rwid
