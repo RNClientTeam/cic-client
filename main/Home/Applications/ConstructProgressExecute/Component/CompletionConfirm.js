@@ -52,7 +52,7 @@ export default class CompletionConfirm extends Component {
                     zrrmc: res.data.zrrmc,
                     rwmc: res.data.rwmc,
                     rwxzmc: res.data.rwxzmc,
-                    rwztmc: res.data.rwztmc
+                    rwztmc: res.data.rwztmc,
                     bzgq: res.data.bzgq,
                     ssrymc: res.data.ssrymc,
                     wcqk: res.data.wcqk,
