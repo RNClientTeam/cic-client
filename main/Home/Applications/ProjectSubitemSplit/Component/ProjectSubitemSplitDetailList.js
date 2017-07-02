@@ -17,51 +17,10 @@ import Reload from "../../../../Component/Reload";
 export default class ProjectSubitemSplitDetailList extends Component{
     constructor(props) {
         super(props);
-        this.dataSource = [
-            {
-                state: '拆分审核中',
-                planName: '子项工程一',
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                state: '新建',
-                planName: '子项工程一',
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                state: '已交接',
-                planName: '子项工程一',
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                state: '已拆分子项',
-                planName: '子项工程一',
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                state: '已拆分子项',
-                planName: '子项工程一',
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            }
-        ];
         this.state = {
             hasMoreData: true,
-            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(this.dataSource),
+            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})),
+            dataSource:[]
         }
     }
 
@@ -70,23 +29,18 @@ export default class ProjectSubitemSplitDetailList extends Component{
             <View style={styles.ProjectSubitemSplitDetailList}>
                 <PullList
                     onPullRelease={this.onPullRelease.bind(this)}
-                    topIndicatorRender={this.topIndicatorRender.bind(this)}
                     topIndicatorHeight={60}
-                    dataSource={this.state.list}
+                    dataSource={this.state.list.cloneWithRows(this.state.dataSource)}
                     renderRow={this.renderRow.bind(this)}
-                    onEndReached={this.loadMore.bind(this)}
                     onEndReachedThreshold={60}
-                    renderFooter={this.renderFooter.bind(this)}
+                    enableEmptySections={true}
                 />
             </View>
         )
     }
 
     onPullRelease(resolve) {
-        //do refresh
-        setTimeout(() => {
-            resolve();
-        }, 3000);
+       this.getDataFromNet(()=>{resolve()});
     }
 
     renderRow(item, sectionID, rowID, highlightRow) {
@@ -103,67 +57,23 @@ export default class ProjectSubitemSplitDetailList extends Component{
         );
     }
 
-    renderFooter() {
-        return (this.state.hasMoreData ? <LoadMore /> : null)
+    componentDidMount() {
+        this.getDataFromNet()
     }
 
-    topIndicatorRender(pulling, pullok, pullrelease) {
-        return (<Reload/>);
+    getDataFromNet(resolve=()=>{}){
+        axios.get('/psmGczx/zxcf4List',{
+            params:{
+                userID:true,
+                cfxxid:this.props.cfxxid,
+                callID:true
+            }
+        }).then(data=>{
+            console.log(data);
+            }
+        )
     }
 
-    loadMore() {
-        let a = [
-            {
-                state: '已交接',
-                planName: '子项工程一',
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                state: '已交接',
-                planName: '子项工程一',
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                state: '已拆分子项',
-                planName: '子项工程一',
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                state: '拆分审核中',
-                planName: '子项工程一',
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                state: '新建',
-                planName: '子项工程一',
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            }];
-
-        for (let i = 0; i < a.length; i++) {
-            this.dataSource.push(a[i])
-        }
-
-        setTimeout(() => {
-            this.setState({
-                list: this.state.list.cloneWithRows(this.dataSource)
-            });
-        }, 1000);
-    }
 }
 
 const styles = StyleSheet.create({

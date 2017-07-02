@@ -12,7 +12,7 @@ import {
     ListView
 } from 'react-native'
 const {width} = Dimensions.get('window');
-import EarlierStageListCell from '../../Component/ApplicationListCell'
+import ApplicationListCellWithIcon from '../../Component/ApplicationListCellWithIcon'
 import {PullList} from 'react-native-pull';
 import LoadMore from "../../../../Component/LoadMore";
 import CooperateTaskCell from "./CooperateTaskCell";
@@ -68,13 +68,14 @@ export default class EarlierStageList extends Component {
             bfb:item.wcbl,//百分比
             sjd:'',//时间段
             count:item.count,
-            jhxxId:item.jhxxId
+            jhxxId:item.jhxxId,
+            isTodo:item.isTodo
         };
         if(item.sDate&&item.eDate){
             temp.sjd = item.sDate+'／'+item.eDate
         }
         return (
-            <EarlierStageListCell stateBg={stateBg} key={rowID} navigator={this.props.navigator} data={temp} target="EarlierStageDetail"/>
+            <ApplicationListCellWithIcon stateBg={stateBg} key={rowID} navigator={this.props.navigator} data={temp} target="EarlierStageDetail"/>
         );
     }
 
