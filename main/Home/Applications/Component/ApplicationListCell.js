@@ -81,8 +81,8 @@ export default class EarlierStageListCell extends Component {
                     params: {
                         xmbh: this.props.data.xmbh,
                         xmmc: this.props.data.xmmc,
-                        sjd: this.props.sjd,
-                        bfb: this.props.bfb,
+                        sjd: this.props.data.sjd,
+                        bfb: this.props.data.bfb,
                         gczxId: this.props.data.gczxId
                     }
                 });
