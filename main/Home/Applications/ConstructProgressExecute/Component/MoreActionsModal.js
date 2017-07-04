@@ -13,49 +13,117 @@ import {
 } from 'react-native'
 import CompletionForm from './CompletionForm'
 import CompletionConfirm from './CompletionConfirm'
+import YanqiBG from './YanqiBGSQ.js';
 
 const {width} = Dimensions.get('window');
 
 export default class MoreActionsModal extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            data: []
+        }
+    }
+    componentDidMount() {
+        let dataArr = [];
+        if(this.props.auth.workflow){
+            dataArr.push({img:require('../../../../../resource/imgs/home/earlierStage/workflow.png'),name:'查看已完成流程步骤'})
+        }
+        if(this.props.auth.rybg){
+            dataArr.push({img:require('../../../../../resource/imgs/home/earlierStage/peopleChange.png'),name:'人员变更'})
+        }
+        if(this.props.auth.yqbg){
+            dataArr.push(
+                {img:require('../../../../../resource/imgs/home/earlierStage/applyForDelay.png'),name:'延期变更申请'}
+            );
+        }
+        if(this.props.auth.tbwcqk){
+            dataArr.push(
+                {img:require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),name:'填报完成情况'}
+            );
+        }
+        if(this.props.auth.qrwcqk){
+            dataArr.push(
+                {img:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'确认完成'}
+            );
+        }
+        if(this.props.auth.tbzzxqk){
+            dataArr.push(
+                {img:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'填报总执行情况'}
+            );
+        }
+        if (this.props.auth.start) {
+            dataArr.push({
+                img: require('../../../../../resource/imgs/home/applications/effectiveAction.png'),
+                name: '恢复'
+            });
+        }
+        if (this.props.auth.stop) {
+            dataArr.push({
+                img: require('../../../../../resource/imgs/home/applications/stopAction.png'),
+                name: '暂停'
+            });
+        }
+        this.setState({data:dataArr});
     }
     render() {
         return (
             <TouchableOpacity style={styles.modalView} onPress={()=>{this.props.closeModal()}}>
                 <View style={styles.container}>
-                    <TouchableOpacity onPress={() => {this.complete()}}>
-                        <View style={styles.actionRow}>
-                            <Image style={styles.img}
-                                   source={require('../../../../../resource/imgs/home/applications/modification.png')}/>
-                            <Text>填报完成情况</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => {this.confirm()}}>
-                        <View style={styles.actionRow}>
-                            <Image style={styles.img}
-                                   source={require('../../../../../resource/imgs/home/applications/approvalIcon.png')}/>
-                            <Text>确认完成</Text>
-                        </View>
-                    </TouchableOpacity>
+                    {this.renderCell()}
                 </View>
             </TouchableOpacity>
         )
     }
 
-    complete() {
-        this.props.closeModal();
-        this.props.navigator.push({
-            name: 'CompletionForm',
-            component: CompletionForm
-        })
+    renderCell() {
+        let cs = [];
+        for(let i = 0;i<this.state.data.length;i++){
+            cs.push(
+                <TouchableOpacity onPress={this.confirm.bind(this, this.state.data[i])} key={i}>
+                    <View style={styles.actionRow}>
+                        <Image style={styles.img} source={this.state.data[i].img}/>
+                        <Text>{this.state.data[i].name}</Text>
+                    </View>
+                </TouchableOpacity>
+            )
+        }
+        return cs;
     }
-    confirm() {
+
+    confirm(dataSource) {
+        if(dataSource.name === '延期变更申请'){
+            this.props.navigator.push({
+                name:'YanqiBG',
+                component:YanqiBG,
+                params: {
+                    rwid: this.props.sgrwId,
+                    gczxId:this.props.gczxId,
+                    reloadInfo:this.props.reloadInfo,
+                    exchangeRwid:this.props.exchangeRwid
+                }
+            });
+        } else if(dataSource.name === '填报完成情况'){
+            this.props.navigator.push({
+                name:'CompletionForm',
+                component:CompletionForm,
+                params:{
+                    rwid:this.props.sgrwId,
+                    gczxId:this.props.gczxId,
+                    reloadInfo:this.props.reloadInfo
+                }
+            });
+        }else if(dataSource.name === '确认完成'){
+            this.props.navigator.push({
+                name:'CompletionConfirm',
+                component:CompletionConfirm,
+                params:{
+                    rwid:this.props.sgrwId,
+                    reloadInfo:this.props.reloadInfo
+                }
+            });
+        }
         this.props.closeModal();
-        this.props.navigator.push({
-            name: 'CompletionConfirm',
-            component: CompletionConfirm
-        })
     }
 }
 

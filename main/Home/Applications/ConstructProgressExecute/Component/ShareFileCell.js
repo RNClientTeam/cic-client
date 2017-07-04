@@ -14,23 +14,25 @@ import PDFView from "../../EarlierStage/Component/PDFView";
 const {width} = Dimensions.get('window');
 
 export default class ShareFileCell extends Component {
-
     render() {
+        let newDate = new Date();
+        newDate.setTime(this.props.dataSource.tbsj);
         return (
             <TouchableOpacity style={styles.shareDataCell} onPress={this.skipToPage.bind(this)}>
                 <View style={styles.topView}>
-                    <View style={styles.imgStyle}><Image style={styles.pdfStyle}
-                                 source={require('../../../../../resource/imgs/home/earlierStage/pdf.png')}/></View>
+                    <View style={styles.imgStyle}>
+                        <Image style={styles.pdfStyle} source={require('../../../../../resource/imgs/home/earlierStage/pdf.png')}/>
+                    </View>
                     <View style={styles.infoView}>
                         <View style={styles.topTopView}>
-                            <Text>{this.props.dataSource.dataName}</Text>
-                            <Text style={{color:'#666',marginRight:width*0.02,fontSize:width*0.032}}>{this.props.dataSource.shareTime}</Text>
+                            <Text>{this.props.dataSource.fjmc}</Text>
+                            <Text style={{color:'#666',marginRight:width*0.02,fontSize:width*0.032}}>{newDate.toLocaleDateString()}</Text>
                         </View>
-                        <Text style={{color:'#666',marginBottom:width*0.02,fontSize:width*0.032}}>{this.props.dataSource.author}</Text>
+                        <Text style={{color:'#666',marginBottom:width*0.02,fontSize:width*0.032}}>{this.props.dataSource.tbr}</Text>
                     </View>
                 </View>
                 <View style={styles.specification}>
-                    <Text style={styles.specificationText}>{this.props.dataSource.specification}</Text>
+                    <Text style={styles.specificationText}>{this.props.dataSource.ms}</Text>
                 </View>
             </TouchableOpacity>
         )
@@ -40,7 +42,7 @@ export default class ShareFileCell extends Component {
         this.props.navigator.push({
             name:'PdfView',
             component:PDFView
-        })
+        });
     }
 }
 

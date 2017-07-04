@@ -19,51 +19,48 @@ import LoadMore from "../../../../Component/LoadMore.js"
 import Reload from "../../../../Component/Reload.js"
 import MyPlanCell from "./MyPlanCell"
 import MoreActionsModal from "./MoreActionsModal"
-
 const {width, height} = Dimensions.get('window');
-let dataArr = [
-    {
-        period: '准备设备',
-        state: '执行中',
-        principal: '杨磊',
-        time: '2017/11/11-2017/12/12'
-    },
-    {
-        period: '设备检测',
-        state: '执行中',
-        principal: '杨磊',
-        time: '2017/11/11-2017/12/12'
-    },
-    {
-        period: '开始施工',
-        state: '执行中',
-        principal: '杨磊',
-        time: '2017/11/11-2017/12/12'
-    },
-    {
-        period: '施工收尾',
-        state: '执行中',
-        principal: '杨磊',
-        time: '2017/11/11-2017/12/12'
-    },
-    {
-        period: '施工收尾',
-        state: '执行中',
-        principal: '杨磊',
-        time: '2017/11/11-2017/12/12'
-    },
-];
-let tempArr = dataArr;
+import Toast from 'react-native-simple-toast';
 
 export default class MyPlan extends Component {
     constructor(props) {
         super(props);
-        this.dataSource = dataArr;
+        this.pageNum = 1;
+        this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             hasMoreData: true,
             modalVisible: false,
-            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(this.dataSource),
+            list: [],
+            auth: {},
+            sgrwId: ''
         }
+    }
+
+    componentDidMount() {
+        this.fetchData(1, null);
+    }
+
+    fetchData(pageNum, resolve) {
+        axios.get('/psmSgjdjh/sgjhJhrwlb', {
+            params: {
+                userID: GLOBAL_USERID,
+                gczxId: this.props.rowData.gczxId,
+                pageNum: pageNum,
+                pageSize: 12,
+                callID: true
+            }
+        }).then((responseData) => {
+            if (responseData.code === 1) {
+                this.setState({
+                    list: this.state.list.concat(responseData.data.data),
+                    hasMoreData: responseData.data.data.length !== 0 ? true : false
+                }, () => {
+                    resolve && resolve();
+                });
+            }
+        }).catch((error) => {
+            resolve && resolve();
+        });
     }
 
     render() {
@@ -73,40 +70,82 @@ export default class MyPlan extends Component {
                     onPullRelease={this.onPullRelease.bind(this)}
                     topIndicatorRender={this.topIndicatorRender.bind(this)}
                     topIndicatorHeight={60}
-                    dataSource={this.state.list}
+                    enableEmptySections={true}
+                    dataSource={this.ds.cloneWithRows(this.state.list)}
                     renderRow={this.renderRow.bind(this)}
                     onEndReached={this.loadMore.bind(this)}
                     onEndReachedThreshold={60}
                     renderFooter={this.renderFooter.bind(this)}
                 />
-                <Modal
-                    animationType={"slide"}
-                    transparent={true}
-                    visible={this.state.modalVisible}
-                    onRequestClose={() => {
-                        this.setState({modalVisible: !this.state.modalVisible})
-                    }}
-                    style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
-                >
-                    <MoreActionsModal navigator={this.props.navigator}
-                                      closeModal={() => {this.setState({modalVisible: false})}}/>
-                </Modal>
+                {
+                    this.state.modalVisible &&
+                    <Modal animationType={"slide"}
+                        transparent={true}
+                        visible={this.state.modalVisible}
+                        onRequestClose={() => {this.setState({modalVisible: false})}}
+                        style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}>
+                        <MoreActionsModal navigator={this.props.navigator}
+                            closeModal={() => {this.setState({modalVisible: false})}}
+                            auth={this.state.auth} sgrwId={this.state.sgrwId}
+                            gczxId={this.props.rowData.gczxId}
+                            exchangeSgrwId={this.exchangeSgrwId.bind(this)}
+                            reloadInfo={this.onPullRelease.bind(this,null)}/>
+                    </Modal>
+                }
             </View>
         )
     }
 
+    exchangeSgrwId() {
+
+    }
+
     onPullRelease(resolve) {
-        //do refresh
-        setTimeout(() => {
-            resolve();
-        }, 3000);
+        this.pageNum = 1;
+        this.state.list = [];
+        this.fetchData(1, resolve);
     }
 
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
             <MyPlanCell key={rowID} data={item} navigator={this.props.navigator}
-                              setModalVisible={() => {this.setState({modalVisible: true})}}/>
+                              setModalVisible={this.setModalVisible.bind(this,item.id)}/>
         );
+    }
+
+    setModalVisible(sgrwId) {
+        //获取权限
+        axios.get('/psmSgjdjh/operationAuthority4zx', {
+            params: {
+                userID: GLOBAL_USERID,
+                belongTo: 1,
+                gczxId: this.props.rowData.gczxId,
+                sgrwId: sgrwId,
+                callID: true
+            }
+        }).then((res) => {
+            if (res.code === 1) {
+                let showToast = true;
+                for (var key in res.data) {
+                    if (res.data[key]) {
+                        showToast = false;
+                        this.setState({
+                            modalVisible: true,
+                            auth: res.data,
+                            sgrwId: sgrwId
+                        });
+                        return;
+                    }
+                }
+                if (showToast) {
+                    Toast.show('您没有相关权限');
+                }
+            } else {
+                Toast.show(res.message);
+            }
+        }).catch((error) => {
+
+        });
     }
 
     renderFooter (){
@@ -118,15 +157,7 @@ export default class MyPlan extends Component {
     }
 
     loadMore(){
-        for (let i = 0;i<tempArr.length;i++){
-            this.dataSource.push(tempArr[i])
-        }
-
-        setTimeout(() => {
-            this.setState({
-                list: this.state.list.cloneWithRows(this.dataSource)
-            });
-        }, 1000);
+        this.state.hasMoreData && this.fetchData(++this.pageNum, null);
     }
 }
 
