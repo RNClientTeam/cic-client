@@ -23,7 +23,8 @@ export default class MyPlanCell extends Component {
         return (
             <View style={styles.earlierStageListCell}>
                 <View style={styles.aboutProject}>
-                    <Text style={{color:'#216fd0',fontSize:width*0.045}}>{this.props.data.rwmc}</Text>
+                    <Text style={{color:'#216fd0',fontSize:width*0.04, }}
+                          numberOfLines={3}>{this.props.data.rwmc}</Text>
                     <View style={styles.blank}/>
                     <View style={styles.stateView}>
                         <Text style={styles.stateText}>{this.props.data.rwztmc}</Text>
