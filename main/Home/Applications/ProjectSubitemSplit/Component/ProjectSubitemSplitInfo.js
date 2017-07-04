@@ -56,21 +56,7 @@ export default class ProjectSubitemSplitInfo extends Component {
               callID:true
           }
       }).then(data=>{
-        // TODO
           if(data.code === 1){
-              data = {
-                  "code": 1,
-                  "data": {
-                      "xmjl": "贾世坤",
-                      "xmjssj": "2015-09-30 00:00:00",
-                      "htkssj": "2015-03-01",
-                      "xmmc": "CX_DS14241-15013 - 平谷胡营路标准化改造",
-                      "htjssj": "2015-09-30",
-                      "ssdw": "市场营销一部",
-                      "xmkssj": "2015-03-01 00:00:00"
-                  },
-                  "message": "成功"
-              };
               let temp = [];
               for(let i in data.data){
                   if(i ==='xmmc'){

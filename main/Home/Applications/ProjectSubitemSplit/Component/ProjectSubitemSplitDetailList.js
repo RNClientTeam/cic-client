@@ -74,27 +74,7 @@ export default class ProjectSubitemSplitDetailList extends Component {
             }
         }).then(data => {
                 if(data.code === 1){
-                    // TODO
-                    data = {
-                        "code": 1,
-                        "data": [
-                            {
-                                "jhztmc": "已生效",
-                                "ssjlmc": "李轩",
-                                "jhsd": 0,
-                                "id": "8a8180b85bacee8d015bad74376d0320",
-                                "gclb": "2,5",
-                                "zxmc": "tsc子工程02",
-                                "jhkssj": "2017-04-26 00:00:00",
-                                "jhsdmc": "否",
-                                "cbfw": "通信",
-                                "jhzt": 60,
-                                "jhjssj": "2017-04-28 00:00:00",
-                                "zxqz": 0.67
-                            }
-                        ],
-                        "message": "成功"
-                    }
+
                     this.setState({
                         dataSource:data.data
                     })

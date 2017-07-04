@@ -106,50 +106,6 @@ export default class ProjectRangeHandover extends Component{
             }
         }).then(data=>{
             this.hideLoading();
-            // TODO
-            if(pageNum<10){
-                data = {
-                    "code": 1,
-                    "data": {
-                        "total": 13,
-                        "list": [
-                            {
-                                "id": "8a8180b85c0b0744015c0b0e6d45004b",
-                                "gcfwjjztmc": "已拆分子项",
-                                "zxcount": "0",
-                                "xmjl": "刘姗姗",
-                                "gcfwjjzt": 60,
-                                "xmmc": "京棉A1区北区2号配及A2区2#配户表集中器",
-                                "xmbh": "DQ11104-14161",
-                                "ssdw": "市场营销二部",
-                                "cfsj": "2017-05-15 00:00:00"
-                            },
-                            {
-                                "id": "8a8180b85bacee8d015bad56dfc10306",
-                                "gcfwjjztmc": "已拆分子项",
-                                "zxcount": "1",
-                                "xmjl": "贾世坤",
-                                "gcfwjjzt": 60,
-                                "xmmc": "2016平谷南营路网架结构优化",
-                                "xmbh": "CX_DS16003-16016",
-                                "ssdw": "市场营销一部",
-                                "cfsj": "2017-04-27 00:00:00"
-                            }
-                        ]
-                    },
-                    "message": "成功"
-                };
-            }else{
-                data = {
-                    "code": 1,
-                    "data": {
-                        "total": 13,
-                        "list": []
-                    },
-                    "message": "成功"
-                };
-            }
-
             if(data.code ===1){
                 resolve();
                 if(pageNum === 1){
