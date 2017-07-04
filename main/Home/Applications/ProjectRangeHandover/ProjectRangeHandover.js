@@ -111,16 +111,23 @@ export default class ProjectRangeHandover extends Component{
                 if(pageNum === 1){
                     this.state.list = [];
                 }
-                for(let i = 0;i<data.data.list.length;i++){
-                    this.state.list.push(data.data.list[i]);
-                }
-                this.setState({
-                    list:this.state.list
-                });
-                if(data.data.list.length===0){
-                    return false
+                if(data.data.list){
+                    for(let i = 0;i<data.data.list.length;i++){
+                        this.state.list.push(data.data.list[i]);
+                    }
+                    this.setState({
+                        list:this.state.list
+                    });
+                    if(data.data.list.length===0){
+                        return false
+                    }else{
+                        return true
+                    }
                 }else{
-                    return true
+                    this.setState({
+                        list:[]
+                    });
+                    return false
                 }
             }
         }).catch(err=>{

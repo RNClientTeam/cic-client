@@ -107,9 +107,11 @@ export default class ProjectSubitemSplit extends Component {
                 console.log(data);
                 if (data) {
                     if(data.code === 1){
-                        this.setState({
-                            dataSource: data.data.list
-                        });
+                        if(data.data){
+                            this.setState({
+                                dataSource: data.data.list||[]
+                            });
+                        }
                         callback();
                     }
                 }else{
@@ -150,30 +152,6 @@ export default class ProjectSubitemSplit extends Component {
                 console.log(data);
                 if (data) {
                     if(data.code === 1){
-                        // TODO
-                        if(this.state.pageNum<10){
-                            data={
-                                "code": 1,
-                                "data": {
-                                    "total": 1,
-                                    "list": [
-                                        {
-                                            "id": "8a8180b85beadff3015beff723770c16",
-                                            "gcfwjjztmc": "拆分已退回",
-                                            "zxcount": "0",
-                                            "xmjl": "贾世坤",
-                                            "gcfwjjzt": -2,
-                                            "xmmc": "平谷胡营路标准化改造",
-                                            "xmbh": "CX_DS14241-15013",
-                                            "ssdw": "市场营销一部",
-                                            "cfsj": "2017-05-10 00:00:00"
-                                        }
-                                    ]
-                                },
-                                "message": "成功"
-                            };
-                        }
-
                         if(data.data&&data.data.list&&data.data.list.length>0){
                             hasMoreData = true;
                             for(let i = 0;i<data.data.list.length;i++){
