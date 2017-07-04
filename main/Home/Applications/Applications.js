@@ -246,6 +246,11 @@ export default class Applications extends Component {
                 component: DepartmentExecute,
                 name: 'DepartmentExecute'
             })
+        } else if (item.title === '实施进度计划') {
+            // this.props.navigator.push({
+            //     component: Ssjdjh,
+            //     name: 'Ssjdjh'
+            // })
         }
 
     }

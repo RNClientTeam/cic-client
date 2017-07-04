@@ -44,9 +44,11 @@ export default class ConstructPlan extends Component {
                     showsHorizontalScrollIndicator={false}
                     scrollEnabled={false}>
                     <MyPlan navigator={this.props.navigator}
-                            rowData={this.props.rowData}/>
+                            rowData={this.props.rowData}
+                            rwlx={'100'}/>
                     <MyPlan navigator={this.props.navigator}
-                            rowData={this.props.rowData}/>
+                            rowData={this.props.rowData}
+                            rwlx={'200'}/>
                 </ScrollView>
             </View>
         )

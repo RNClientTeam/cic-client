@@ -46,10 +46,12 @@ export default class MyPlan extends Component {
                 userID: GLOBAL_USERID,
                 gczxId: this.props.rowData.gczxId,
                 pageNum: pageNum,
+                rwlx: this.props.rwlx,
                 pageSize: 12,
                 callID: true
             }
         }).then((responseData) => {
+            console.log(responseData);
             if (responseData.code === 1) {
                 this.setState({
                     list: this.state.list.concat(responseData.data.data),
@@ -59,6 +61,7 @@ export default class MyPlan extends Component {
                 });
             }
         }).catch((error) => {
+            console.log(error);
             resolve && resolve();
         });
     }
@@ -96,8 +99,18 @@ export default class MyPlan extends Component {
         )
     }
 
-    exchangeSgrwId() {
-
+    exchangeSgrwId(newId) {
+        let taskIndex = -1;
+        this.state.list.forEach((elem, index) => {
+            if (elem.sgrwId === this.state.sgrwId) {
+                taskIndex = index;
+                return;
+            }
+        });
+        if (taskIndex >= 0) {
+            this.state.list[taskIndex].sgrwId = newId;
+            this.setState({list: this.state.list});
+        }
     }
 
     onPullRelease(resolve) {
