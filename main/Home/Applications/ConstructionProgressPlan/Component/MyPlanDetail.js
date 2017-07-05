@@ -34,6 +34,8 @@ export default class MyPlanDetail extends Component {
     }
 
     componentDidMount() {
+        // 获取任务性质列表
+        this.getRWXZList();
         if (this.props.id) {
             this.getDetail(this.props.id);
         }
@@ -56,17 +58,32 @@ export default class MyPlanDetail extends Component {
                             <Text style={{padding:5, paddingRight:0, flex: 1, textAlign: 'right'}}
                                   onPress={() => this.goPersonSelector()}>{this.state.zrrmc}></Text>
                         </View>
-                        <View style={styles.row}>
-                            <Text style={[styles.labelColor]}>当前状态</Text>
-                            <TextInput value={this.state.rwztmc}
-                                       onChangeText={(value) => this.setState({rwztmc: value})}
-                                       style={styles.inputStyle}/>
-                        </View>
+                        {this.props.id ?
+                            <View style={styles.row}>
+                                <Text style={[styles.labelColor]}>当前状态</Text>
+                                <TextInput value={this.state.rwztmc}
+                                        onChangeText={(value) => this.setState({rwztmc: value})}
+                                        style={styles.inputStyle}/>
+                            </View> : 
+                            <View />
+                        }
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>任务性质</Text>
-                            <TextInput value={this.state.rwxzmc}
+                            {/*<TextInput value={this.state.rwxzmc}
                                        onChangeText={(value) => this.setState({rwxzmc: value})}
-                                       style={styles.inputStyle}/>
+                                       style={styles.inputStyle}/>*/}
+                            <ModalDropdown
+                                options={this.state.rwxzList}
+                                animated={true}
+                                defaultValue={'请选择>'}
+                                style={{flex:1, alignItems:'flex-end'}}
+                                textStyle={styles.modalDropDownText}
+                                dropdownStyle={styles.dropdownStyle}
+                                onSelect={(a) => {
+                                    this.setState({rwxz: this.state.rwxzIdList[a]});
+                                }}
+                                showsVerticalScrollIndicator={false}
+                            />
                         </View>
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>标准工期</Text>
@@ -161,6 +178,28 @@ export default class MyPlanDetail extends Component {
             console.log('rwDetail', data);
         })
     }
+    // 获取任务性质(rwxz)
+    getRWXZList() {
+        axios.get('/dictionary/list', {
+            params: {
+                userID: GLOBAL_USERID,
+                root: 'JDJH_SGRWXZ',
+                callID: true
+            }
+        }).then(responseData => {
+            if (responseData.code === 1) {
+                let rwxzList = [], rwxzIdList = [];
+                for (let i = 0; i < responseData.data.length; i++) {
+                    rwxzList.push(responseData.data[i].name);
+                    rwxzIdList.push(responseData.data[i].code);
+                }
+                this.setState({
+                    rwxzList,
+                    rwxzIdList,
+                })
+            }
+        })
+    }
 
 }
 
@@ -205,5 +244,14 @@ const styles = StyleSheet.create({
     },
     labelColor: {
         color: '#5476a1'
-    }
+    },
+    modalDropDownText: {
+        fontSize: width * 0.035,
+        textAlign: 'right'
+    },
+    dropdownStyle: {
+        width: width * 0.55,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 });

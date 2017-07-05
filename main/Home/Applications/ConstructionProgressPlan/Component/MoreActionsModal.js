@@ -74,44 +74,54 @@ export default class MoreActionsModal extends Component {
 
     componentDidMount() {
         let actionList = [];
-        actionList.push(
-            {
-                img: require('../../../../../resource/imgs/home/applications/createItem.png'),
-                name: '新建',
-                action: () => this.create()
+        const authority = this.props.authority;
+        // 有创建权限
+        if (authority) {
+            if (authority.addSgrw) {
+                actionList.push(
+                    {
+                        img: require('../../../../../resource/imgs/home/applications/createItem.png'),
+                        name: '新建',
+                        action: () => this.create()
+                    }
+                );
+            } else if (authority.updateSgrw) {
+                actionList.push(
+                    {
+                        img: require('../../../../../resource/imgs/home/applications/modification.png'),
+                        name: '修改',
+                        action: () => this.update(this.props.rwid)
+                    }
+                );
+            } else if (authority.submit) {
+                actionList.push(
+                    {
+                        img: require('../../../../../resource/imgs/home/applications/approvalIcon.png'),
+                        name: '提交审核',
+                        action: () => this.approval(this.props.rwid)
+                    }
+                );            
+            } else if (authority.effectSgrw) {
+                actionList.push(
+                    {
+                        img: require('../../../../../resource/imgs/home/applications/effectiveAction.png'),
+                        name: '生效',
+                        action: () => this.effect(this.props.rwid)
+                    }
+                );
+            } else if (authority.deleteSgrw) {
+                actionList.push(
+                    {
+                        img: require('../../../../../resource/imgs/home/applications/stopAction.png'),
+                        name: '删除',
+                        action: () => this.delete(this.props.rwid)
+                    }
+                );            
             }
-        );
-        actionList.push(
-            {
-                img: require('../../../../../resource/imgs/home/applications/modification.png'),
-                name: '修改',
-                action: () => this.update(this.props.rwid)
-            }
-        );
-        actionList.push(
-            {
-                img: require('../../../../../resource/imgs/home/applications/approvalIcon.png'),
-                name: '提交审核',
-                action: () => this.approval(this.props.rwid)
-            }
-        );
-        actionList.push(
-            {
-                img: require('../../../../../resource/imgs/home/applications/effectiveAction.png'),
-                name: '生效',
-                action: () => this.effect(this.props.rwid)
-            }
-        );
-        actionList.push(
-            {
-                img: require('../../../../../resource/imgs/home/applications/stopAction.png'),
-                name: '删除',
-                action: () => this.delete(this.props.rwid)
-            }
-        );
-        this.setState({
-            actionList: actionList
-        })
+            this.setState({
+                actionList: actionList
+            });           
+        }
     }
 
     renderActions(actionList) {

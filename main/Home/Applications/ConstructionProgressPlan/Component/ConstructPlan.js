@@ -15,6 +15,7 @@ import {
 import MyPlan from './MyPlan'
 import MyPlanDetail from './MyPlanDetail'
 import MoreActionsModal from "./MoreActionsModal"
+import Toast from 'react-native-simple-toast'
 
 const {width, height} = Dimensions.get('window');
 
@@ -106,6 +107,7 @@ export default class ConstructPlan extends Component {
                 >
                     <MoreActionsModal navigator={this.props.navigator}
                                       rwid={this.state.rwid}
+                                      authority={this.state.authority}
                                       closeModal={() => {this.setState({modalVisible: false})}}/>
                 </Modal>
                 <TouchableOpacity onPress={() => this.create()}>
@@ -140,6 +142,32 @@ export default class ConstructPlan extends Component {
             modalVisible: true,
             rwid: rwid
         });
+        // 获取权限
+        this.getAuthority(rwid);
+    }
+
+    getAuthority(rwid) {
+        axios.get('/psmSgjdjh/operationAuthority4bz', {
+            params: {
+                userID: GLOBAL_USERID,
+                gczxId: this.props.gczxId,
+                sgrwId: rwid,
+                belongTo: 2, // 2,'施工计划'
+                callID: true,
+            }
+        }).then(responseData => {
+            if (responseData.code === 1) {
+                this.setState({
+                    authority: responseData.data
+                })
+            } else {
+                Toast.show(responseData.data);
+            }
+        }).catch( error => {
+            if (error) {
+                Toast.show('服务端异常');
+            }
+        } )
     }
 }
 
