@@ -13,8 +13,6 @@ import {
 const {width} = Dimensions.get('window');
 
 export default class CalendarCell extends Component {
-
-
     render() {
         return (
             this.props.date > 0 ?

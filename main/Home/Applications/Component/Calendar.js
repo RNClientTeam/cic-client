@@ -18,7 +18,7 @@ export default class Calendar extends Component{
     constructor(props){
         super(props);
         this.state = {
-            selectDate:new Date().getDate(),
+            selectDate:this.props.day,
             renderCalendarArrAll:[],
             all:true,
             renderCalendarArrWeek:[]
@@ -49,13 +49,30 @@ export default class Calendar extends Component{
         let renderCalendarCell = [];
         for(let i = 0;i<renderCalendarArr.length;i++){
             renderCalendarCell.push(
-                <CalendarCell checkThisDay={this.choiceData.bind(this,renderCalendarArr[i])} hasPlan={arr.includes(renderCalendarArr[i])} beenSelected={this.state.selectDate === renderCalendarArr[i]} date={renderCalendarArr[i]} key={i}/>
+                <CalendarCell
+                    checkThisDay={this.choiceData.bind(this,renderCalendarArr[i])}
+                    hasPlan={this.hasTask(renderCalendarArr[i])}
+                    beenSelected={this.state.selectDate === renderCalendarArr[i]}
+                    date={renderCalendarArr[i]}
+                    key={i}/>
             )
         }
         return renderCalendarCell;
     }
 
+    hasTask(index){
+        let result = false;
+        for(let i = 0;i<this.props.data.length;i++){
+            if(parseInt(this.props.data[i].day)===index){
+                result =  this.props.data[i].yrw === 1;
+                break;
+            }
+        }
+        return result;
+    }
+
     choiceData(data){
+        this.props.changeDay(data);
         this.setState({
             selectDate:data
         },()=>{
