@@ -26,8 +26,8 @@ export default class ProjectListCell extends Component{
             <TouchableOpacity style={[styles.container,this.state.isSelected?{backgroundColor:'#f1f5fa'}:{backgroundColor:'#fff'}]}
                               onPress={()=>{this.props.choiceThisCell();this.setState({isSelected:!this.state.isSelected})}}>
                 <View style={styles.leftView}>
-                    <Text numberOfLines={1} style={styles.numberStyle}>{this.props.data.number}</Text>
-                    <Text numberOfLines={1}>{this.props.data.planName}</Text>
+                    <Text numberOfLines={1} style={styles.numberStyle}>{this.props.data.xmgh}</Text>
+                    <Text numberOfLines={1}>{this.props.data.xmmc}</Text>
                 </View>
                 <View style={styles.imgView}>
                     <Image style={styles.imgStyle} source={this.state.isSelected?require('../../../../../resource/imgs/home/constuctPlan/choiced.png'):require('../../../../../resource/imgs/home/constuctPlan/unchoiced.png')}/>
