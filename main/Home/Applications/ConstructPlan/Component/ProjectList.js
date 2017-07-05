@@ -76,8 +76,6 @@ export default class ProjectList extends Component {
             })
         }
     }
-
-
     componentWillUnmount() {
         //selected为TRUE的传出去要
         console.log(this.dataSource)
