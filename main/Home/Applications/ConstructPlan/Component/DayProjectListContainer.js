@@ -52,7 +52,7 @@ export default class DayProjectListContainer extends Component {
         return list.map((items, index) =>
             (
                 <View key={index}>
-                    <ProjectTagName name={items.xmmc}/>
+                    <ProjectTagName name={items.zxmc}/>
                     {items.listMap && items.listMap.length > 0 ? this.renderInsert(items.listMap) : null}
                 </View>
             )
@@ -61,7 +61,7 @@ export default class DayProjectListContainer extends Component {
 
     renderInsert(list) {
         return list.map((item, index) =>
-            (<IndexProjectListCell key={index} showModal={() => this.setState({modalVisible: true})}/>)
+            (<IndexProjectListCell item={item} key={index} showModal={() => this.setState({modalVisible: true})}/>)
         )
     }
 }

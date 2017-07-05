@@ -19,15 +19,15 @@ export default class IndexProjectListCell extends Component{
             <TouchableOpacity style={styles.containerStyle}>
                 <View style={styles.topView}
                 >
-                    <Text style={styles.topText}> 任务一</Text>
+                    <Text style={styles.topText}>{this.props.item.rwmc}</Text>
                     <View style={styles.stateStyle}>
-                        <Text style={{color:'#fff',fontSize:width*0.036}}>执行中</Text>
+                        <Text style={{color:'#fff',fontSize:width*0.036}}>{this.props.item.rwztmc}</Text>
                     </View>
                 </View>
                 <View style={styles.bottomView}>
-                    <Text style={styles.bottomText}>驾驶轮</Text>
-                    <Text style={styles.bottomText}>进度10%</Text>
-                    <Text style={styles.bottomText}>2017-09-11-2017-01-11</Text>
+                    <Text style={styles.bottomText}>{this.props.item.zrrmc}</Text>
+                    <Text style={styles.bottomText}>进度{this.props.item.wcbl}%</Text>
+                    <Text style={styles.bottomText}>{this.props.item.kssj.substr(0,10)}/{this.props.item.wcsj.substr(0,10)}</Text>
                     <TouchableOpacity onPress={()=>this.props.showModal()}>
                         <Image style={styles.editImg} source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}/>
                     </TouchableOpacity>

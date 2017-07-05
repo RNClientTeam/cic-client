@@ -149,8 +149,8 @@ export default class ConstructPlan extends Component{
             }
         }).then(data=>{
             this.hideLoading();
-            // TODO
             if(data.code === 1){
+                // TODO
                 data = {
                     "code": 1,
                     "data": {
@@ -263,8 +263,6 @@ export default class ConstructPlan extends Component{
                 }
                 this.setState({
                     taskList:data.data.list
-                },function () {
-                    console.log(this.state.taskList);
                 })
             }else{
                 toast.show(data.message)
