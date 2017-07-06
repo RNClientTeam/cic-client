@@ -48,7 +48,7 @@ export default class ConstructPlan extends Component{
                 </StatusBar>
                 <ConstructPlanHeader changeRange={this.changeRange.bind(this)} range={this.state.lx} changeDate={this.changeYearAndMonth.bind(this)}/>
                 <Calendar changeDay={(day)=>this.changeDay(day)} day={this.state.day} data={this.state.calendarState} year={this.state.year} month={this.state.month}/>
-                <DayProjectListContainer dataSource={this.state.taskList} navigator={this.props.navigator}/>
+                <DayProjectListContainer  dataSource={this.state.taskList} navigator={this.props.navigator}/>
                 {this.state.isLoading?<Loading/>:null}
             </View>
         )
@@ -77,7 +77,11 @@ export default class ConstructPlan extends Component{
     skipPage(){
         this.props.navigator.push({
             name:'ProjectListView',
-            component:ProjectListView
+            component:ProjectListView,
+            params:{
+                setZxid:(arr)=>{this.setZxid(arr)},
+                zxid:this.state.zxid
+            }
         })
     }
 
@@ -94,6 +98,14 @@ export default class ConstructPlan extends Component{
             lx:txt
         },function () {
             this.getTask()
+        })
+    }
+
+    setZxid(arr){
+        this.setState({
+            zxid:arr.join(',')
+        },function () {
+            this.getDataFronNet();
         })
     }
 

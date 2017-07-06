@@ -32,13 +32,19 @@ export default class ProjectListView extends Component {
         return (
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="选择子项"/>
-                <SearchHeader/>
-                <ProjectList loadMore={() => this.loadMore()} getDataFromNet={(resolve) => {
+                <SearchHeader getData={()=>this.getDataFromNet(1)} changeZxmc={(name)=>this.changeZxmc(name)}/>
+                <ProjectList zxid={this.props.zxid} setZxid={(arr)=>{this.props.setZxid(arr);}} loadMore={() => this.loadMore()} getDataFromNet={(resolve) => {
                     this.getDataFromNet(1, resolve)
                 }} dataSource={this.state.list} navigator={this.props.navigator}/>
                 {this.state.isLoading ? <Loading/> : null}
             </View>
         )
+    }
+
+    changeZxmc(name){
+        this.setState({
+            zxmc:name
+        })
     }
 
     showLoading() {
@@ -67,8 +73,7 @@ export default class ProjectListView extends Component {
         })
     }
 
-    getDataFromNet(pageNum, resolve) {
-        console.log(pageNum)
+    getDataFromNet(pageNum, resolve=()=>{}) {
         this.showLoading();
         axios.get('/psmSgrjh/list4gczx', {
             params: {
@@ -80,65 +85,67 @@ export default class ProjectListView extends Component {
             }
         }).then(data => {
             this.hideLoading();
-            // TODO
-            if (pageNum < 10) {
-                data = {
-                    "code": 1,
-                    "data": {
-                        "total": 110,
-                        "list": [
-                            {
-                                "zxid": "8a8180b858dc0f0e0158dc430a8f00fd",
-                                "xmgh": "CX_DS13140-13224",
-                                "xmmc": "人大土建子项",
-                                "cfid": "8a8180b858dc0f0e0158dc401f9c00eb"
-                            },
-                            {
-                                "zxid": "8a8180b858dc0f0e0158dc4202ed00f5",
-                                "xmgh": "CX_DS13140-13224",
-                                "xmmc": "人大配电子项",
-                                "cfid": "8a8180b858dc0f0e0158dc401f9c00eb"
+            if(data.code === 1){
+                // TODO
+                if (pageNum < 10) {
+                    data = {
+                        "code": 1,
+                        "data": {
+                            "total": 110,
+                            "list": [
+                                {
+                                    "zxid": "8a8180b858dc0f0e0158dc430a8f00fd",
+                                    "xmgh": "CX_DS13140-13224",
+                                    "xmmc": "人大土建子项",
+                                    "cfid": "8a8180b858dc0f0e0158dc401f9c00eb"
+                                },
+                                {
+                                    "zxid": "8a8180b858dc0f0e0158dc4202ed00f5",
+                                    "xmgh": "CX_DS13140-13224",
+                                    "xmmc": "人大配电子项",
+                                    "cfid": "8a8180b858dc0f0e0158dc401f9c00eb"
+                                }
+                            ]
+                        },
+                        "message": "成功"
+                    };
+                } else {
+                    data = {
+                        "code": 1,
+                        "data": {
+                            "total": 110,
+                            "list": []
+                        },
+                        "message": "成功"
+                    };
+                }
+                resolve();
+                if (data.data && data.data.list) {
+                    if (data.data.list.length > 0) {
+                        if (pageNum === 1) {
+                            this.setState({
+                                list: data.data.list,
+                                pageNum: 1
+                            });
+                        } else {
+                            for (let i = 0; i < data.data.list.length; i++) {
+                                this.state.list.push(data.data.list[i])
                             }
-                        ]
-                    },
-                    "message": "成功"
-                };
-            } else {
-                data = {
-                    "code": 1,
-                    "data": {
-                        "total": 110,
-                        "list": []
-                    },
-                    "message": "成功"
-                };
-            }
-            resolve();
-            if (data.data && data.data.list) {
-                if (data.data.list.length > 0) {
-                    if (pageNum === 1) {
-                        this.setState({
-                            list: data.data.list,
-                            pageNum: 1
-                        });
-                    } else {
-                        for (let i = 0; i < data.data.list.length; i++) {
-                            this.state.list.push(data.data.list[i])
+                            this.setState({
+                                list: this.state.list
+                            })
                         }
-                        this.setState({
-                            list: this.state.list
-                        })
-                    }
 
-                    return true
+                        return true
+                    } else {
+                        return false
+                    }
                 } else {
                     return false
                 }
-            } else {
-                return false
+            }else{
+                toast.show(data.message)
             }
-
-
         })
     }
 }

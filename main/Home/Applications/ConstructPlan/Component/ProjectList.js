@@ -51,7 +51,10 @@ export default class ProjectList extends Component {
     }
 
     renderRow(item, sectionID, rowID, highlightRow) {
-
+        item.selected = false;
+        if(this.props.zxid.indexOf(item.zxid)>0){
+            item.selected = true
+        }
         return (
             <ProjectListCell key={rowID} navigator={this.props.navigator} choiceThisCell={()=>this.choiceThisCell(item)} data={item} target="EarlierStageDetail"/>
         );
@@ -78,7 +81,14 @@ export default class ProjectList extends Component {
     }
     componentWillUnmount() {
         //selected为TRUE的传出去要
-        console.log(this.dataSource)
+        let str = [];
+        for(let i = 0;i<this.props.dataSource.length;i++){
+            if(this.props.dataSource[i].selected){
+                str.push(this.props.dataSource[i].zxid);
+            }
+        }
+        console.log(str)
+        this.props.setZxid(str);
     }
 
 }
