@@ -46,6 +46,7 @@ export default class ConstructPlan extends Component {
         }).then(data => {
             if (data && data.data && data.data.data) {
                 let resultData = data.data.data;
+                console.log(resultData);
                 if (resultData.length) {
                     this.setState({
                         myTask: [...this.state.myTask, ...resultData],
@@ -136,6 +137,7 @@ export default class ConstructPlan extends Component {
     }
 
     setModalVisible(rwid) {
+        console.log(rwid);
         this.setState({
             modalVisible: true,
             rwid: rwid

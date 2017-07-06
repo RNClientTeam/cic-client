@@ -15,6 +15,7 @@ import {
 import {getTimestamp} from '../../../../Util/Util'
 import toast from 'react-native-simple-toast'
 import ChoiceDate from "../../../../Component/ChoiceDate"
+import Organization from '../../../../Organization/Organization';
 
 const {width, height} = Dimensions.get('window');
 
@@ -23,44 +24,11 @@ export default class ProjectChildProfile extends Component {
         super(props);
         this.state = {
             dataSource: [],
-            cbfw: ''
+            cbfw: '',
+            zrrmc: '请选择>',
         };
     }
     componentDidMount() {
-        // let data = {
-        //     code: 1,
-        //     data: {
-        //         zxmc: '配电室电气工程',
-        //         yxsdsj: '2016-11-23',
-        //         xmmc: '玄武医院配电工程',
-        //         zrrmc: "李建春(配网工程部经理)",
-        //         zwsdsj: "2016-11-23",
-        //         jhsd: "未锁定",
-        //         zgfjl: "ZNDQ2003",
-        //         jhkssj: "2016-08-19",
-        //         cbfw: "4台变压器",
-        //         jqdhsdsj: "2016-11-23",
-        //         xmbh: "CX_DS12068-13200",
-        //         zgfjlmc: "潘俊涛",
-        //         zrbmmc: "配网工程部"
-        //     },
-        //     message: '成功'
-        // };
-        // data = data.data;
-        // this.setState({
-        //     dataSource: [
-        //         {key: '项目名称', value: data.xmmc},
-        //         {key: '工程子项锁定', value: data.jhsd},
-        //         {key: '工程子项名称', value: data.zxmc},
-        //         {key: '最晚送电时间', value: data.zwsdsj},
-        //         {key: '责任部门', value: data.zrbm},
-        //         {key: '子项负责人', value: data.zrr},
-        //         {key: '计划开始时间', value: data.jhkssj},
-        //         {key: '计划结束时间', value: data.jhjssj},
-        //     ],
-        //     cbfw: data.cbfw //承包范围
-        // });
-
          axios.get('/psmSgjdjh/gczxgk', {
             params: {
                 userID: GLOBAL_USERID,
@@ -81,7 +49,9 @@ export default class ProjectChildProfile extends Component {
                         {key: '计划开始时间', value: data.jhkssj},
                         {key: '计划结束时间', value: data.jhjssj},
                     ],
-                    cbfw: data.cbfw || '无' //承包范围
+                    cbfw: data.cbfw || '无', //承包范围
+                    zrrmc: data.zrrmc, // 责任人名称
+                    zrbmmc: data.zrbmmc, // 责任部门名称
                 })
             } else {
                 toast.show(responseData.message);
@@ -105,11 +75,52 @@ export default class ProjectChildProfile extends Component {
         if (dataSource && dataSource.length) {
             let row = [];
             for (let i = 0, l = dataSource.length; i < l; i++) {
-                row.push(this.renderRow(dataSource[i], i));
+                if (dataSource[i].key === '子项负责人') {
+                    row.push (
+                        <View style={styles.row} key={i}>
+                            <Text style={[styles.labelColor]}>{dataSource[i].key}</Text>
+                            <Text
+                                style={{flex: 1, textAlign: 'right'}}
+                                onPress={() => this.goPersonSelector()}>
+                                {this.state.zrrmc}
+                            </Text>
+                        </View>
+                    )
+                } else if (dataSource[i].key === '责任部门') {
+                    row.push (
+                        <View style={styles.row} key={i}>
+                            <Text style={[styles.labelColor]}>{dataSource[i].key}</Text>
+                            <View style={styles.blank}/>
+                            <Text>{this.state.zrbmmc}</Text>
+                        </View>
+                    )
+                }
+                else {
+                    row.push(this.renderRow(dataSource[i], i));
+                }
             }
             return row
         }
         return <View/>
+    }
+
+    goPersonSelector() {
+        this.props.navigator.push({
+            name: 'Organization',
+            component: Organization,
+            params: {
+                getInfo: (bmid ,name, id, zrbmmc) => this.getInfo(bmid ,name, id, zrbmmc),
+            }
+        })
+    }
+    // params 部门id, 责任人名字, 责任人ID, 责任部门名称
+    getInfo(zrbm, name, id, zrbmmc) {
+        this.setState({
+            zrbm,
+            zrr: id,
+            zrrmc: name,
+            zrbmmc,
+        });
     }
     
     render() {
@@ -187,7 +198,7 @@ export default class ProjectChildProfile extends Component {
             <View style={styles.divide}/>
             <TouchableOpacity onPress={this.submit.bind(this)}>
                 <View style={styles.button}>
-                    <Text style={styles.buttonText}>提交</Text>
+                    <Text style={styles.buttonText}>确认保存</Text>
                 </View>
             </TouchableOpacity>
             </View>

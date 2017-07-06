@@ -228,8 +228,6 @@ export default class FillPerformance extends Component {
                 callID: true
             }
         }).then(data => {
-            // TODO
-            console.log(data);
             if (data.code === 1) {
                 data = data.data;
                 for (let i = 0; i < data.data.length; i++) {

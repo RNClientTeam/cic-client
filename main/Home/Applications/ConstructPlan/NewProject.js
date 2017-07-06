@@ -19,29 +19,122 @@ import KeyValueN from "../../../Component/KeyValueN";
 import KeyPercentage from "../../../Component/KeyPercentage";
 import BottomSaveButton from "../../../Component/BottomSaveButton";
 import ListHeaderCell from "../Component/ListHeaderCell";
+import Organization from "../../../Organization/Organization";
 const {width}  = Dimensions.get('window');
+import {getCurrentMonS,getCurrentMonE} from '../../../Util/Util'
+import toast from 'react-native-simple-toast'
 
 export default class NewProject extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            zrr:'',
+            zrbm:'',
+            kssj:getCurrentMonS(),
+            wcsj:getCurrentMonE(),
+            cyry:'',
+            sgdd:'',
+            rwmc:'',
+            wcqk:'',
+            wcbl:'',
+            zrrCN:'',
+            cyryCN:''
+
+        }
+    }
     render(){
         return(
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="新建施工日计划"/>
                 <ScrollView>
                     <ListHeaderCell name="临时任务"/>
-                    <KeySelect propKey="任务负责人"/>
-                    <KeyTime propKey="任务开始时间"/>
-                    <KeyTime propKey="任务结束时间"/>
-                    <KeySelect propKey="参与人员"/>
+                    <KeySelect value={this.state.zrrCN} choiceInfo={this.choiceInfo.bind(this)} propKey="任务负责人"/>
+                    <KeyTime changeDate={(date)=>this.setState({kssj:date})} showDate={this.state.kssj} propKey="任务开始时间"/>
+                    <KeyTime changeDate={(date)=>this.setState({wcsj:date})} showDate={this.state.wcsj} propKey="任务结束时间"/>
+                    <KeySelect value={this.state.cyryCN} choiceInfo={this.choiceCYRN.bind(this)} propKey="参与人员"/>
                     <View style={{marginTop:width*0.02,marginBottom:width*0.03}}>
-                        <KeyValueN propKey="工作地点"/>
-                        <KeyValueN propKey="工作内容"/>
-                        <KeyValueN propKey="完成情况"/>
+                        <KeyValueN textChange={(txt)=>{this.setState({sgdd:txt})}} propKey="工作地点"/>
+                        <KeyValueN textChange={(txt)=>{this.setState({rwmc:txt})}} propKey="工作内容"/>
+                        <KeyValueN textChange={(txt)=>{this.setState({wcqk:txt})}} propKey="完成情况"/>
                     </View>
-                    <KeyPercentage propKey="完成比例"/>
-                    <BottomSaveButton/>
+                    <KeyPercentage textChange={(txt)=>{this.setState({wcbl:txt})}} propKey="完成比例"/>
+                    <BottomSaveButton submit={this.submit.bind(this)}/>
                 </ScrollView>
             </View>
         )
+    }
+
+    choiceInfo(){
+        this.props.navigator.push({
+            name: 'Organization',
+            component: Organization,
+            params: {
+                getInfo: this.getInfo.bind(this)
+            }
+        })
+    }
+
+    choiceCYRN(){
+        this.props.navigator.push({
+            component: Organization,
+            name: 'Organization',
+            params: {
+                select: (data) => {
+                    let cn = [];
+                    let en = [];
+                    for (let i = 0; i < data.length; i++) {
+                        cn.push(data[i].name);
+                        en.push(data[i].id);
+                    }
+                    this.setState({
+                        cyryCN: cn.join(','),
+                        cyry: en.join(',')
+                    });
+
+                },
+                type: 'emp'
+            }
+        })
+    }
+
+
+    getInfo(bmId,userName,userId){
+        this.setState({
+            zrr:userId,
+            zrbm:bmId,
+            zrrCN:userName
+        })
+    }
+
+    submit(){
+        console.log(this.state);
+        let data = {
+          userID:GLOBAL_USERID,
+            zrr:this.state.zrr,
+            zrbm:this.state.zrbm,
+            kssj:this.state.kssj,
+            cyry:this.state.cyry,
+            sgdd:this.state.sgdd,
+            rwmc:this.state.rwmc,
+            wcqk:this.state.wcqk,
+            wcbl:this.state.wcbl,
+            callID:true
+        };
+        axios.post('/psmSgrjh/saveRjh',data)
+            .then(data=>{
+                if(data.code === 1){
+                    toast.show('提交成功!');
+                    let that = this;
+                    setTimeout(function () {
+                        this.props.reload();
+                       that.props.navigator.pop();
+                    },500)
+                }else{
+                    toast.show(data.message)
+                }
+            }).catch(err=>{
+                toast.show('服务端异常');
+        })
     }
 }
 

@@ -2,7 +2,7 @@
  * Created by Nealyang on 2017/5/16.
  */
 'use strict';
-import React,{Component} from 'react'
+import React, {Component} from 'react'
 import {
     View,
     StyleSheet,
@@ -14,30 +14,22 @@ import {
 import ProjectTagName from "./ProjectTagName";
 import IndexProjectListCell from "./IndexProjectListCell";
 import ModalView from "./ModalView";
-const {width}  = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
-export default class DayProjectListContainer extends Component{
+export default class DayProjectListContainer extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={
-            modalVisible:false
+        this.state = {
+            modalVisible: false,
         }
     }
 
-    render(){
-        return(
-            <View style={{flex:1}}>
+    render() {
+        return (
+            <View style={{flex: 1}}>
                 <ScrollView >
-                    <ProjectTagName name="工程子项拆分项目1"/>
-                    <IndexProjectListCell showModal={()=>this.setState({modalVisible: true})}/>
-                    <IndexProjectListCell/>
-                    <IndexProjectListCell/>
-                    <IndexProjectListCell/>
-                    <ProjectTagName name="其他任务"/>
-                    <IndexProjectListCell/>
-                    <IndexProjectListCell/>
-                    <IndexProjectListCell/>
+                    {this.renderContent(this.props.dataSource)}
                 </ScrollView>
                 <Modal
                     animationType={"slide"}
@@ -48,13 +40,30 @@ export default class DayProjectListContainer extends Component{
                     }}
                     style={{backgroundColor: 'rgba(0, 0, 0,0.75)'}}
                 >
-                    <ModalView navigator={this.props.navigator} hiddenModal={()=>{this.setState({modalVisible: false})}}/>
+                    <ModalView navigator={this.props.navigator} hiddenModal={() => {
+                        this.setState({modalVisible: false})
+                    }}/>
                 </Modal>
             </View>
         )
     }
+
+    renderContent(list) {
+        return list.map((items, index) =>
+            (
+                <View key={index}>
+                    <ProjectTagName name={items.zxmc}/>
+                    {items.listMap && items.listMap.length > 0 ? this.renderInsert(items.listMap) : null}
+                </View>
+            )
+        )
+    }
+
+    renderInsert(list) {
+        return list.map((item, index) =>
+            (<IndexProjectListCell item={item} key={index} showModal={() => this.setState({modalVisible: true})}/>)
+        )
+    }
 }
 
-const styles = StyleSheet.create({
-
-});
+const styles = StyleSheet.create({});

@@ -9,7 +9,8 @@ import {
     Dimensions,
     Text,
     TouchableOpacity,
-    Image
+    Image,
+    ScrollView
 } from 'react-native'
 import StatusBar from "../../../../Component/StatusBar";
 const {width}  = Dimensions.get('window');
@@ -31,9 +32,11 @@ export default class ProjectRangeHandoverDetailInfo extends Component{
         return(
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title={this.state.dataSource.length>0?this.state.dataSource[0].zfbgc:''}/>
-                {this.renderSection(this.state.dataSource.length>0?this.state.dataSource:[])}
-                <View style={{flex:1,backgroundColor:'#ddd'}}>
-                </View>
+                <ScrollView>
+                    {this.renderSection(this.state.dataSource.length>0?this.state.dataSource:[])}
+                    <View style={{flex:1,backgroundColor:'#ddd'}}>
+                    </View>
+                </ScrollView>
             </View>
         )
     }
@@ -81,93 +84,6 @@ export default class ProjectRangeHandoverDetailInfo extends Component{
             }
         }).then(data=>{
             if(data.code === 1){
-                // TODO
-                data = {
-                    "code": 1,
-                    "data": {
-                        "list": [
-                            {
-                                "zfbgcId": "ZF000007",
-                                "zfbgc": "低压负荷临时倒接供电",
-                                "listMap": [
-                                    {
-                                        "ssfsmc": "电力公司",
-                                        "bz": "123",
-                                        "ghfsms": "甲供",
-                                        "xhjgxs": "1",
-                                        "id": "8a8180b85a49f3ea015a4aa39585050b",
-                                        "fxgc": "临时低压柜安装",
-                                        "fxgcId": "FX000032",
-                                        "sl": "1",
-                                        "hsfsmc": "退回业主"
-                                    },
-                                    {
-                                        "ssfsmc": "",
-                                        "bz": "",
-                                        "ghfsms": "",
-                                        "xhjgxs": "",
-                                        "id": "8a8180b85a49f3ea015a4aa39585050c",
-                                        "fxgc": "临时低压电缆安装",
-                                        "fxgcId": "FX000033",
-                                        "sl": "",
-                                        "hsfsmc": ""
-                                    },
-                                    {
-                                        "ssfsmc": "",
-                                        "bz": "",
-                                        "ghfsms": "",
-                                        "xhjgxs": "",
-                                        "id": "8a8180b85a49f3ea015a4aa39585050d",
-                                        "fxgc": "临时箱变安装",
-                                        "fxgcId": "FX000034",
-                                        "sl": "",
-                                        "hsfsmc": ""
-                                    }
-                                ]
-                            },
-                            {
-                                "zfbgcId": "ZF000007",
-                                "zfbgc": "低压负荷临时倒接供电",
-                                "listMap": [
-                                    {
-                                        "ssfsmc": "电力公司",
-                                        "bz": "123",
-                                        "ghfsms": "甲供",
-                                        "xhjgxs": "1",
-                                        "id": "8a8180b85a49f3ea015a4aa39585050b",
-                                        "fxgc": "临时低压柜安装",
-                                        "fxgcId": "FX000032",
-                                        "sl": "1",
-                                        "hsfsmc": "退回业主"
-                                    },
-                                    {
-                                        "ssfsmc": "",
-                                        "bz": "",
-                                        "ghfsms": "",
-                                        "xhjgxs": "",
-                                        "id": "8a8180b85a49f3ea015a4aa39585050c",
-                                        "fxgc": "临时低压电缆安装",
-                                        "fxgcId": "FX000033",
-                                        "sl": "",
-                                        "hsfsmc": ""
-                                    },
-                                    {
-                                        "ssfsmc": "",
-                                        "bz": "",
-                                        "ghfsms": "",
-                                        "xhjgxs": "",
-                                        "id": "8a8180b85a49f3ea015a4aa39585050d",
-                                        "fxgc": "临时箱变安装",
-                                        "fxgcId": "FX000034",
-                                        "sl": "",
-                                        "hsfsmc": ""
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    "message": "成功"
-                }
                 data.data.list.forEach(() => {
                     this.state.sectionSelected.push(true);
                 });

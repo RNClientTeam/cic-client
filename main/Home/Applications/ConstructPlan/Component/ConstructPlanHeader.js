@@ -21,11 +21,11 @@ export default class ConstructPlanHeader extends Component {
             <View style={styles.container}>
                 <View style={styles.choiceView}>
                     <View style={styles.tagView}>
-                        <TouchableOpacity onPress={()=>this.props.changeRange('mine')} style={[styles.oneTagView,{borderRightColor:'#216fd0',borderRightWidth:1},this.props.range==='mine'?{backgroundColor:'#216fd0'}:{backgroundColor:'#fff'}]}>
-                            <Text style={[styles.tagText,this.props.range==='mine'?{color:'#fff'}:{color:'#216fd0'}]}>我的</Text>
+                        <TouchableOpacity onPress={()=>this.props.changeRange('我的')} style={[styles.oneTagView,{borderRightColor:'#216fd0',borderRightWidth:1},this.props.range==='我的'?{backgroundColor:'#216fd0'}:{backgroundColor:'#fff'}]}>
+                            <Text style={[styles.tagText,this.props.range==='我的'?{color:'#fff'}:{color:'#216fd0'}]}>我的</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={()=>this.props.changeRange('all')} style={[styles.oneTagView,this.props.range==='all'?{backgroundColor:'#216fd0'}:{backgroundColor:'#fff'}]}>
-                            <Text style={[styles.tagText,this.props.range==='all'?{color:'#fff'}:{color:'#216fd0'}]}>全部</Text>
+                        <TouchableOpacity onPress={()=>this.props.changeRange('全部')} style={[styles.oneTagView,this.props.range==='全部'?{backgroundColor:'#216fd0'}:{backgroundColor:'#fff'}]}>
+                            <Text style={[styles.tagText,this.props.range==='全部'?{color:'#fff'}:{color:'#216fd0'}]}>全部</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

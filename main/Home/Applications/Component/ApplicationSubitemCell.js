@@ -22,7 +22,7 @@ export default class ProjectSubitemSplitDetailCell extends Component {
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
                             <Text style={{color: '#216fd0', fontSize: width * 0.045}}
-                                  numberOfLines={1}>{this.props.data.gcjd}</Text>
+                                  numberOfLines={1}>{this.props.data.gcjd?this.props.data.gcjd:this.props.data.zxmc}</Text>
                             <View style={[styles.stateView, {backgroundColor: this.props.stateBg}]}>
                                 <Text style={styles.stateText}>{this.props.data.jhztmc}</Text>
                             </View>
@@ -44,7 +44,7 @@ export default class ProjectSubitemSplitDetailCell extends Component {
                 this.props.navigator.push({
                     component: ProjectSubitemSplitDetailInfo,
                     name: 'ProjectSubitemSplitDetailInfo',
-                    params: {proName: this.props.proName, proNum: this.props.proNum}
+                    params: {id:this.props.data.id,zxmc:this.props.data.zxmc}
                 });
                 break;
             case 'ProjectRangeHandoverDetailInfo':
