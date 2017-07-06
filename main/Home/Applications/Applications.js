@@ -1,7 +1,3 @@
-/**
- * Created by fan on 2017/4/30.
- * 首页应用列表
- */
 "use strict"
 import React, {Component} from 'react';
 import {
@@ -28,6 +24,7 @@ import ProgressExecute from './ConstructProgressExecute/ProgressExecute'
 import QualityCheckPlan from "./QualityCheckPlan/QualityCheckPlan";
 import QualityCheckRecord from "./QualityCheckRecord/QualityCheckRecord";
 import DepartmentExecute from "./DeparmentExecute/DepartmentExecute"
+import Ssjdjh from './Ssjdjh/Ssjdjh.js';
 
 const {width, height}  = Dimensions.get('window');
 
@@ -247,10 +244,10 @@ export default class Applications extends Component {
                 name: 'DepartmentExecute'
             })
         } else if (item.title === '实施进度计划') {
-            // this.props.navigator.push({
-            //     component: Ssjdjh,
-            //     name: 'Ssjdjh'
-            // })
+            this.props.navigator.push({
+                component: Ssjdjh,
+                name: 'Ssjdjh'
+            })
         }
 
     }
