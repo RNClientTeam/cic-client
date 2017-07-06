@@ -19,6 +19,7 @@ export default class KeyPercentage extends Component{
                 <Text style={styles.keyStyle}>{this.props.propKey}</Text>
                 <View style={styles.percentageView}>
                     <TextInput
+                        onChangeText={(text)=>this.props.textChange(text)}
                         style={styles.textInput}
                         underlineColorAndroid="transparent"
                         keyboardType="number-pad"
@@ -57,6 +58,7 @@ const styles = StyleSheet.create({
         height:width*0.08,
         width:width*0.2,
         borderRadius:5,
-        marginRight:width*0.02
+        marginRight:width*0.02,
+        padding:0
     }
 });

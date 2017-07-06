@@ -7,7 +7,7 @@ import {
     View,
     StyleSheet,
     Dimensions,
-    Text
+    Text,
 } from 'react-native'
 const {width} = Dimensions.get('window');
 
@@ -16,7 +16,7 @@ export default class KeySelect extends Component {
         return (
             <View style={styles.container}>
                 <Text style={styles.keyStyle}>{this.props.propKey}</Text>
-                <Text style={styles.selectStyle}>请选择 ></Text>
+                <Text onPress={()=>this.props.choiceInfo()} style={styles.selectStyle}>{this.props.value===''?'请选择':this.props.value} ></Text>
             </View>
         )
     }

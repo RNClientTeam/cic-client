@@ -22,6 +22,7 @@ export default class KeyValueN extends Component{
                 </View>
                 <View style={styles.textContainer}>
                     <TextInput
+                        onChangeText={(text)=>this.props.textChange(text)}
                         style={styles.textInput}
                         placeholder='请填写'
                         underlineColorAndroid="transparent"
