@@ -16,10 +16,10 @@ export default class EditProcessHeader extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.textView}>
-                    <Text style={{fontWeight:'500'}}>线路抢修</Text>
+                    <Text style={{fontWeight:'500'}}>项目名称</Text>
                 </View>
                 <View style={styles.textView}>
-                    <Text style={{color:'#ababab'}}>处理线路抢修问题</Text>
+                    <Text style={{color:'#ababab'}}>{this.props.xmmc}</Text>
                 </View>
             </View>
         )

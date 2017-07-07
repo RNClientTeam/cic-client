@@ -21,7 +21,7 @@ import BottomSaveButton from "../../../Component/BottomSaveButton";
 import ListHeaderCell from "../Component/ListHeaderCell";
 import Organization from "../../../Organization/Organization";
 const {width} = Dimensions.get('window');
-import {getCurrentMonS, getCurrentMonE} from '../../../Util/Util'
+import {getCurrentDate} from '../../../Util/Util'
 import toast from 'react-native-simple-toast'
 import Loading from "../../../Component/Loading";
 
@@ -31,8 +31,8 @@ export default class NewProject extends Component {
         this.state = {
             zrr: '',
             zrbm: '',
-            kssj: getCurrentMonS(),
-            wcsj: getCurrentMonE(),
+            kssj: getCurrentDate(),
+            wcsj: getCurrentDate(),
             cyry: '',
             sgdd: '',
             rwmc: '',
@@ -131,6 +131,7 @@ export default class NewProject extends Component {
             rwmc: this.state.rwmc,
             wcqk: this.state.wcqk,
             wcbl: this.state.wcbl,
+            wcsj:this.state.wcsj,
             callID: true
         };
         axios.post('/psmSgrjh/saveRjh', data)
@@ -140,7 +141,7 @@ export default class NewProject extends Component {
                     toast.show('提交成功!');
                     let that = this;
                     setTimeout(function () {
-                        this.props.reload();
+                        that.props.reload();
                         that.props.navigator.pop();
                     }, 500)
                 } else {

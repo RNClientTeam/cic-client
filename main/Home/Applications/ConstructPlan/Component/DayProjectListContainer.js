@@ -22,6 +22,7 @@ export default class DayProjectListContainer extends Component {
         super(props);
         this.state = {
             modalVisible: false,
+            currentItem:{}
         }
     }
 
@@ -40,12 +41,18 @@ export default class DayProjectListContainer extends Component {
                     }}
                     style={{backgroundColor: 'rgba(0, 0, 0,0.75)'}}
                 >
-                    <ModalView navigator={this.props.navigator} hiddenModal={() => {
+                    <ModalView reload={()=>this.props.reload()} currentItem={this.state.currentItem} navigator={this.props.navigator} hiddenModal={() => {
                         this.setState({modalVisible: false})
                     }}/>
                 </Modal>
             </View>
         )
+    }
+
+    setCurrentItem(item){
+        this.setState({
+            currentItem:item
+        })
     }
 
     renderContent(list) {
@@ -61,7 +68,7 @@ export default class DayProjectListContainer extends Component {
 
     renderInsert(list) {
         return list.map((item, index) =>
-            (<IndexProjectListCell item={item} key={index} showModal={() => this.setState({modalVisible: true})}/>)
+            (<IndexProjectListCell setCurrentItem={(item)=>this.setCurrentItem(item)} item={item} key={index} showModal={() => this.setState({modalVisible: true})}/>)
         )
     }
 }

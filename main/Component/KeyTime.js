@@ -17,7 +17,7 @@ export default class KeyTime extends Component{
         return(
             <View style={styles.container}>
                 <Text style={{color:'#5476a1'}}>{this.props.propKey}</Text>
-                <ChoiceDate changeDate={(date)=>this.props.changeDate(date)} showDate={this.props.showDate}/>
+                <ChoiceDate dateTime={true} changeDate={(date)=>this.props.changeDate(date)} showDate={this.props.showDate}/>
             </View>
         )
     }

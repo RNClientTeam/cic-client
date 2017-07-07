@@ -28,7 +28,7 @@ export default class IndexProjectListCell extends Component{
                     <Text style={styles.bottomText}>{this.props.item.zrrmc}</Text>
                     <Text style={styles.bottomText}>进度{this.props.item.wcbl}%</Text>
                     <Text style={styles.bottomText}>{this.props.item.kssj.substr(0,10)}/{this.props.item.wcsj.substr(0,10)}</Text>
-                    <TouchableOpacity onPress={()=>this.props.showModal()}>
+                    <TouchableOpacity onPress={()=>{this.props.showModal();this.props.setCurrentItem(this.props.item)}}>
                         <Image style={styles.editImg} source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}/>
                     </TouchableOpacity>
                 </View>
