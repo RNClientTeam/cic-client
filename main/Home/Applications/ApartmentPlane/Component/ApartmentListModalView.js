@@ -16,15 +16,15 @@ import ChoiceDate from "../../../../Component/ChoiceDate";
 const {width, height} = Dimensions.get('window');
 const Platform = require('Platform');
 import ModalDropdown from 'react-native-modal-dropdown';
-export default class EarlierStageListModalView extends Component {
+export default class ApartmentListModalView extends Component {
     constructor(props) {
         super(props);
         this.state = {
             startDate: this.props.sDate,
             endDate: this.props.eDate,
             options:[],
-            jhlx:this.props.jhlx,
-            ids:[]
+            ids:[],
+            rwzt:''
         }
     }
 
@@ -54,13 +54,13 @@ export default class EarlierStageListModalView extends Component {
                         <ModalDropdown
                             options={this.state.options}
                             animated={true}
-                            defaultValue={this.state.jhlx}
+                            defaultValue={this.props.rwzt}
                             style={styles.modalDropDown}
                             textStyle={styles.modalDropDownText}
                             dropdownStyle={styles.dropdownStyle}
                             onSelect={(a) => {
                                 this.setState({
-                                    jhlx:this.state.options[a]
+                                    rwzt:this.state.ids[a]
                                 })
                             }}
                             showsVerticalScrollIndicator={false}
@@ -75,7 +75,7 @@ export default class EarlierStageListModalView extends Component {
                         <Text>重置</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.clickButton, {backgroundColor: '#216fd0'}]}
-                                      onPress={() => {this.props.closeModal();this.props.changeFilter(this.state.startDate,this.state.endDate,this.state.jhlx)}}>
+                                      onPress={() => {this.props.closeModal();this.props.changeFilter(this.state.startDate,this.state.endDate,this.state.rwzt)}}>
                         <Text style={{color: '#fff'}}>确定</Text>
                     </TouchableOpacity>
                 </View>

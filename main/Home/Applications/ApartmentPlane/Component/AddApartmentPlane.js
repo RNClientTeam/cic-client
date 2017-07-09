@@ -61,11 +61,15 @@ export default class AddApartmentPlane extends Component {
         }
     }
 
-    addPlane(planeStyle, proStyle, proName) {
-        this.state.dataSource[1].value = planeStyle;
-        this.state.dataSource[2].value = proStyle;
-        this.state.dataSource[3].value = proName;
-        this.setState({dataSource: this.state.dataSource});
+    // addPlane(planeStyle, proStyle, proName) {
+    //     this.state.dataSource[1].value = planeStyle;
+    //     this.state.dataSource[2].value = proStyle;
+    //     this.state.dataSource[3].value = proName;
+    //     this.setState({dataSource: this.state.dataSource});
+    // }
+    addPlane(rwid,rwmc,xmid,xmmc,ly,lymc){
+        console.log(rwid,xmid,ly);
+        console.log(rwmc,xmmc,lymc)
     }
 
     renderRow(rowData, sectionID, rowID) {
