@@ -191,7 +191,7 @@ export default class FillPerformance extends Component {
             toast.show('请填写完成情况说明');
         } else {
             this.showLoading();
-            axios.post('/psmQqjdjh/save4Zrwwcqk', {
+            axios.post('/psmSsjdjh/save4Zrwwcqk', {
                 userID: GLOBAL_USERID,
                 jhxxId: this.props.jhxxId,
                 rwid: this.props.rwid,
@@ -221,15 +221,13 @@ export default class FillPerformance extends Component {
     }
 
     componentDidMount() {
-        axios.get('/psmQqjdjh/wcqkxx', {
+        axios.get('/psmSsjdjh/wcqkxx', {
             params: {
                 userID: GLOBAL_USERID,
                 rwid: this.props.rwid,
                 callID: true
             }
         }).then(data => {
-            // TODO
-            console.log(data);
             if (data.code === 1) {
                 data = data.data;
                 for (let i = 0; i < data.data.length; i++) {

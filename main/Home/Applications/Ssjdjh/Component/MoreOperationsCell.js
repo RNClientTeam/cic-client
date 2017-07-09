@@ -139,7 +139,7 @@ export default class MoreOperationsCell extends Component {
     }
 
     changeStatus(status) {
-        axios.post('/psmQqjdjh/updateRwztToStartOrStop', {
+        axios.post('/psmSsjdjh/updateRwztToStartOrStop', {
             userID: GLOBAL_USERID,
             rwid: this.props.rwid,
             rwzt: status,

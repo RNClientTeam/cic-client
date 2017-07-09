@@ -44,7 +44,7 @@ export default class FillPerforOfCooper extends Component {
     }
 
     fetchData() {
-        axios.get('/psmQqjdjh/phrwDetail', {
+        axios.get('/psmSsjdjh/phrwDetail', {
             params: {
                 userID: GLOBAL_USERID,
                 phrwId: this.props.rwid,
@@ -179,7 +179,7 @@ export default class FillPerforOfCooper extends Component {
             Toast.show('请选择实际完成时间');
             return;
         }
-        axios.post('/psmQqjdjh/save4Phrwwcqk', {
+        axios.post('/psmSsjdjh/save4Phrwwcqk', {
             userID: GLOBAL_USERID,
             phrwId: this.props.rwid,
             jhxxId: this.props.jhxxId,

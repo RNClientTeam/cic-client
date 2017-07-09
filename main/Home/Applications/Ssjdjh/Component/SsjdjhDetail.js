@@ -50,8 +50,10 @@ export default class SsjdjhDetail extends Component {
                     <General xmbh={this.props.xmbh} tabLabel='概况' gczxId={this.props.gczxId}/>
                     <SchedulePlan xmbh={this.props.xmbh} jhxxId={this.props.jhxxId} tabLabel='进度计划' navigator={this.props.navigator}/>
                     <CooperateTask navigator={this.props.navigator} tabLabel='配合任务' jhxxId={this.props.jhxxId}/>
-                    <TotalImplementation navigator={this.props.navigator} tabLabel='总执行情况' jhxxId={this.props.jhxxId}/>
-                    <ShareData navigator={this.props.navigator} xmbh={this.props.xmbh} jhxxId={this.props.jhxxId} tabLabel='共享资料'/>
+                    {/**
+                        <TotalImplementation navigator={this.props.navigator} tabLabel='总执行情况' jhxxId={this.props.jhxxId}/>
+                    **/}
+                    <ShareData navigator={this.props.navigator} xmbh={this.props.xmbh} jhxxId={this.props.jhxxId} tabLabel='共享资料' gczxId={this.props.gczxId}/>
                 </ScrollableTabView>
             </View>
         );

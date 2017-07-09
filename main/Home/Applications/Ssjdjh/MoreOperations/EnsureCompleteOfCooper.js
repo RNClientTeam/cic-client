@@ -43,7 +43,7 @@ export default class EnsureCompleteOfCooper extends Component{
         this.fetchData();
     }
     fetchData() {
-        axios.get('/psmQqjdjh/phrwDetail', {
+        axios.get('/psmSsjdjh/phrwDetail', {
             params: {
                 userID: GLOBAL_USERID,
                 phrwId: this.props.rwid,
@@ -140,7 +140,7 @@ export default class EnsureCompleteOfCooper extends Component{
     }
 
     submit() {
-        axios.post('/psmQqjdjh/updatePhrwForQrwc', {
+        axios.post('/psmSsjdjh/updatePhrwForQrwc', {
             userID: GLOBAL_USERID,
             phrwId: this.props.rwid,
             callID: true
