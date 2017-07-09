@@ -55,7 +55,7 @@ export default class Turnover extends Component{
     }
 
     fetchData() {
-        axios.get('psmQqjdjh/rybg', {
+        axios.get('/psmSsjdjh/rybg', {
             params: {
                 userID: GLOBAL_USERID,
                 rwid: this.props.rwid,
@@ -257,14 +257,13 @@ export default class Turnover extends Component{
 
     //修改变更原因
     exchangeReason(res) {
-        axios.get('dictionary/list', {
+        axios.get('/dictionary/list', {
             params: {
                 userID: GLOBAL_USERID,
                 root: 'JDJH_BGYY',
                 callID: true
             }
         }).then((responseData) => {
-            console.log(responseData);
             if (responseData.code === 1) {
                 this.state.reasonList = [];
                 responseData.data.forEach((elem, index) => {
@@ -313,7 +312,7 @@ export default class Turnover extends Component{
             Toast.show('请填写变更情况说明');
             return;
         }
-        axios.post('psmQqjdjh/saveRybg', {
+        axios.post('/psmSsjdjh/saveRybg', {
             userID: GLOBAL_USERID,
             jhxxId: this.props.jhxxId,
             rwid: this.props.rwid,

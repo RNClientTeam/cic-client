@@ -48,7 +48,7 @@ export default class EnsureComplete extends Component{
     }
 
     componentDidMount() {
-        axios.get('/psmQqjdjh/preQrwcqk',{
+        axios.get('/psmSsjdjh/preQrwcqk',{
             params:{
                 userID:GLOBAL_USERID,
                 rwid:this.props.rwid,
@@ -71,7 +71,7 @@ export default class EnsureComplete extends Component{
     }
 
     affirmComplete(){
-        axios.post('/psmQqjdjh/qrwcqk',{
+        axios.post('/psmSsjdjh/qrwcqk',{
             userID:GLOBAL_USERID,
             rwid:this.props.rwid,
             callID:true

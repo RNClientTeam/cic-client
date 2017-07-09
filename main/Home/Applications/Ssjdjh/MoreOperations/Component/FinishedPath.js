@@ -75,13 +75,13 @@ export default class FinishedPath extends Component{
             params = {
                 userID:GLOBAL_USERID,
                 resID:this.props.rwid,
-                groupWfName:'qqjdjh-zx-phrw',
+                groupWfName:'ssjdjh-zx-phrw',
                 callID:true
             };
             reqURL = '/workFlow/multiActionList';
         }
         if(this.props.tag==='进度计划'){
-            params.groupWfName = 'qqjdjh-zx-zrw'
+            params.groupWfName = 'ssjdjh-zx-zrw'
         }
         axios.get(reqURL,{
             params:params

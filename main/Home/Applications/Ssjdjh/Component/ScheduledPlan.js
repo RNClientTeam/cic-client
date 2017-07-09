@@ -1,7 +1,3 @@
-/**
- * Created by fan on 2017/05/02.
- * 前期进度计划执行-进度计划
- */
 "use strict";
 import React, {Component} from 'react';
 import {

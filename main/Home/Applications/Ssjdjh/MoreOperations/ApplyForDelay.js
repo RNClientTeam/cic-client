@@ -52,7 +52,7 @@ export default class ApplyForDelay extends Component{
     }
 
     fetchData() {
-        axios.get('psmQqjdjh/yqbg', {
+        axios.get('/psmSsjdjh/yqbg', {
             params: {
                 userID: GLOBAL_USERID,
                 rwid: this.props.rwid,
@@ -219,7 +219,7 @@ export default class ApplyForDelay extends Component{
 
     //修改变更原因
     exchangeReason(res) {
-        axios.get('dictionary/list', {
+        axios.get('/dictionary/list', {
             params: {
                 userID: GLOBAL_USERID,
                 root: 'JDJH_BGYY',
@@ -270,7 +270,7 @@ export default class ApplyForDelay extends Component{
             Toast.show('请填写变更情况说明');
             return;
         }
-        axios.post('psmQqjdjh/saveYqbg', {
+        axios.post('/psmSsjdjh/saveYqbg', {
             userID: GLOBAL_USERID,
             jhxxId: this.props.jhxxId,
             rwid: this.props.rwid,

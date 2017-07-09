@@ -37,7 +37,7 @@ export default class ShareData extends Component{
         axios.get('/psmGxzl/list', {
             params: {
                 userID: GLOBAL_USERID,
-                bsid: this.props.xmbh,
+                bsid: this.props.gczxId,
                 callID: getTimestamp()
             }
         }).then((responseData) => {
