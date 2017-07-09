@@ -12,17 +12,16 @@ import {
 const {width, height} = Dimensions.get('window');
 import StatusBar from '../../../../Component/StatusBar.js';
 import ChoosePlane from './ChoosePlane.js';
+import toast from 'react-native-simple-toast'
+import Loading from "../../../../Component/Loading";
 
 export default class ChoosePro extends Component {
     constructor(props) {
         super(props);
         this.ds = new ListView.DataSource({rowHasChanged:(r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: [
-                {proNum: 'JZ_DS14029', proInfo: '计量院昌平基地重力加速度箱变'},
-                {proNum: 'JZ_DS14029', proInfo: '计量院昌平基地重力加速度箱变'},
-                {proNum: 'JZ_DS14029', proInfo: '计量院昌平基地重力加速度箱变'}
-            ]
+            dataSource: [],
+            isLoading:false
         }
     }
     render() {
@@ -32,10 +31,12 @@ export default class ChoosePro extends Component {
                 <ListView
                     dataSource={this.ds.cloneWithRows(this.state.dataSource)}
                     renderRow={this._renderRow.bind(this)}
-                    scrollEnabled={false}
+                    scrollEnabled={true}
+                    enableEmptySections={true}
                     renderSeparator={(sectionID, rowID) => {
                         return (<View key={`${sectionID}-${rowID}`} style={styles.separatorView}/>)
                     }}/>
+                {this.state.isLoading?<Loading/>:null}
             </View>
         );
     }
@@ -43,8 +44,8 @@ export default class ChoosePro extends Component {
         return (
             <TouchableHighlight onPress={this._clickItem.bind(this, rowData)} underlayColor="#e8e8e8">
                 <View style={styles.itemView}>
-                    <Text style={styles.textNum}>{rowData.proNum}</Text>
-                    <Text style={styles.textInfo}>{rowData.proInfo}</Text>
+                    <Text style={styles.textNum}>{rowData.xmid}</Text>
+                    <Text style={styles.textInfo}>{rowData.xmmc}</Text>
                 </View>
             </TouchableHighlight>
         );
@@ -54,10 +55,39 @@ export default class ChoosePro extends Component {
             component: ChoosePlane,
             name: 'ChoosePlane',
             params: {
-                planeStyle: this.props.planeStyle,
-                proStyle: rowData.proNum,
+                planeStyle: this.props.code,
+                proStyle: rowData.xmid,
                 addPlane: this.props.addPlane
             }
+        })
+    }
+
+    componentDidMount() {
+        this.setState({
+            isLoading:true
+        });
+        axios.get('/psmBmjh/bmJhXmxzList',{
+            params:{
+                type:this.props.code,
+                userID:GLOBAL_USERID,
+                callID:true
+            }
+        }).then(data=>{
+            this.setState({
+                isLoading:false
+            });
+            if(data.code ===1){
+                this.setState({
+                    dataSource:data.data&&data.data.list?data.data.list:[]
+                })
+            }else{
+                toast.show(data.message)
+            }
+        }).catch(err=>{
+            this.setState({
+                isLoading:false
+            });
+            toast.show('服务端异常');
         })
     }
 }

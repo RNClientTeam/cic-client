@@ -17,9 +17,10 @@ import ApartmentPlaneList from './Component/ApartmentPlaneList.js';
 import SearchHeader from '../Component/SearchHeader.js';
 import MoreOperation from './Component/MoreOperation.js';
 import AddApartmentPlane from './Component/AddApartmentPlane.js';
-import EarlierStageListModalView from "../EarlierStage/Component/EarlierStageListModalView.js";
 import Loading from "../../../Component/Loading";
 import {getCurrentMonS,getCurrentMonE} from '../../../Util/Util'
+import ApartmentListModalView from "./Component/ApartmentListModalView";
+import toast from 'react-native-simple-toast'
 export default class ApartmentPlane extends Component{
     constructor(props){
         super(props);
@@ -31,7 +32,9 @@ export default class ApartmentPlane extends Component{
             jhmc:'',
             sDate:getCurrentMonS(),
             eDate:getCurrentMonE(),
-            pageNum:1
+            pageNum:1,
+            rwzt:'请选择任务状态',
+            dataList:[]
         }
     }
 
@@ -54,10 +57,20 @@ export default class ApartmentPlane extends Component{
                     </TouchableOpacity>
                 </StatusBar>
                 <SearchHeader/>
-                <ApartmentPlaneList navigator={this.props.navigator}
+                <ApartmentPlaneList
+                    loadMore={()=>this.loadMore()}
+                    dataSource={this.state.dataList}
+                    navigator={this.props.navigator}
+                    refresh={(resolve)=>this.getDataFromNet(1,resolve)}
                     setModalVisible={()=>{this.setState({modalVisible:true})}}/>
                 {this.state.isModalVisible &&
-                    <EarlierStageListModalView isModalVisible={this.state.isModalVisible}
+                    <ApartmentListModalView
+                        rwzt={this.state.rwzt}
+                        sDate={this.state.sDate}
+                        eDate={this.state.eDate}
+                        isModalVisible={this.state.isModalVisible}
+                        changeFilter={(sDate,eDate,rwzt)=>this.changeFilter(sDate,eDate,rwzt)}
+                        choiceRwzt={(rwzt)=>this.setState({rwzt:rwzt})}
                         closeModal={()=>this.setState({isModalVisible:false})} />}
                 {
                     this.state.modalVisible &&
@@ -75,6 +88,142 @@ export default class ApartmentPlane extends Component{
                 {this.state.isLoading?<Loading/>:null}
             </View>
         )
+    }
+
+    showLoading(){
+        this.setState({
+            isLoading:true
+        })
+    }
+
+    changeFilter(sDate,eDate,rwzt){
+        this.setState({
+            sDate:sDate,
+            eDate:eDate,
+            rwzt:rwzt
+        },function () {
+            this.getDataFromNet();
+        })
+    }
+
+    loadMore(){
+        this.setState({
+            pageNum:this.state.pageNum+1
+        },function () {
+            this.getDataFromNet(this.state.pageNum)
+        })
+    }
+
+    hideLoading(){
+        this.setState({
+            isLoading:false
+        })
+    }
+    componentDidMount() {
+        this.getDataFromNet();
+    }
+    getDataFromNet(pageNum=1,resolve=()=>{}){
+        this.showLoading();
+        let rwzt='all';
+        axios.get('/psmBmjh/list',{
+            params:{
+                userID:GLOBAL_USERID,
+                dataType:2,
+                jhmc:this.state.jhmc,
+                sDate:this.state.sDate,
+                eDate:this.state.eDate,
+                rwzt:this.state.rwzt==='请选择任务状态'?rwzt:this.state.rwzt,
+                pageNum:pageNum,
+                pageSize:10,
+                callID:true
+            }
+        }).then(data=>{
+            this.hideLoading();
+            if(data.code ===1){
+                // TODO
+                let result = true;
+                data = {
+                    "code": 1,
+                    "data": {
+                        "total": 12,
+                        "list": [
+                            {
+                                "cjrmc": "石建喜",
+                                "jhrw": "完成工程实施特批",
+                                "xmmc": "京棉A1区北区2#配及A2区2#配户表集中器",
+                                "qdsj": "2017-05-15 00:00:00",
+                                "zrrmc": "石建喜",
+                                "RN": 1,
+                                "wcbl": "",
+                                "jhrwId": "8a8180b858fcb9990159001bfcff0679",
+                                "ly": "91",
+                                "jhmc": "ce2",
+                                "zrbm": "00000004800138c242a0d9",
+                                "id": "000000030015cbfb48e",
+                                "lymc": "项目前期计划任务",
+                                "gczxmc": "",
+                                "zrr": "ZNDQ1943",
+                                "zt": "200",
+                                "ztmc": "启动",
+                                "xmbh": "CX_DS14040",
+                                "cjr": "ZNDQ1943",
+                                "wcsj": "2017-05-17 00:00:00",
+                                "zrbmmc": "市场营销二部"
+                            },
+                            {
+                                "cjrmc": "石建喜",
+                                "jhrw": "完成施工招投标",
+                                "xmmc": "京棉A1区北区2#配及A2区2#配户表集中器",
+                                "qdsj": "2017-05-15 00:00:00",
+                                "zrrmc": "石建喜",
+                                "RN": 2,
+                                "wcbl": "10",
+                                "jhrwId": "8a8180b858fcb9990159001bfabe066c",
+                                "ly": "91",
+                                "jhmc": "ceshi1",
+                                "zrbm": "00000004800138c242a0d9",
+                                "id": "000000020015cbfb48e",
+                                "lymc": "项目前期计划任务",
+                                "gczxmc": "",
+                                "zrr": "ZNDQ1943",
+                                "zt": "200",
+                                "ztmc": "启动",
+                                "xmbh": "CX_DS14040",
+                                "cjr": "ZNDQ1943",
+                                "wcsj": "2017-05-15 00:00:00",
+                                "zrbmmc": "市场营销二部"
+                            }
+                        ]
+                    },
+                    "message": "成功"
+                };
+                if(data.data && data.data.list && data.data.list.length>0){
+                    if(pageNum === 1){
+                        this.setState({
+                            dataList:data.data.list
+                        })
+                    }else{
+                        for(let i = 0;i<data.data.list.length;i++){
+                            this.state.dataList.push(data.data.list[i])
+                        }
+                        this.setState({
+                            dataList:this.state.dataList
+                        })
+                    }
+
+                }else{
+                    result = false
+                }
+
+                resolve();
+                return result;
+            }else{
+                toast.show(data.message)
+            }
+        }).catch(err=>{
+            this.hideLoading();
+            toast.show('服务端异常');
+        })
     }
 }
 
