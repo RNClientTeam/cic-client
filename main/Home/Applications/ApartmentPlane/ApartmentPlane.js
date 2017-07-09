@@ -18,12 +18,20 @@ import SearchHeader from '../Component/SearchHeader.js';
 import MoreOperation from './Component/MoreOperation.js';
 import AddApartmentPlane from './Component/AddApartmentPlane.js';
 import EarlierStageListModalView from "../EarlierStage/Component/EarlierStageListModalView.js";
+import Loading from "../../../Component/Loading";
+import {getCurrentMonS,getCurrentMonE} from '../../../Util/Util'
 export default class ApartmentPlane extends Component{
     constructor(props){
         super(props);
         this.state={
             isModalVisible:false,
-            modalVisible: false
+            modalVisible: false,
+            isLoading:false,
+            dataType:'我的',//1,全部:2
+            jhmc:'',
+            sDate:getCurrentMonS(),
+            eDate:getCurrentMonE(),
+            pageNum:1
         }
     }
 
@@ -64,6 +72,7 @@ export default class ApartmentPlane extends Component{
                         }}/>
                     </Modal>
                 }
+                {this.state.isLoading?<Loading/>:null}
             </View>
         )
     }
