@@ -108,7 +108,7 @@ export default class MyPlan extends Component {
     }
 
     loadMore(){
-        if(this.props.dataSource.length>0){
+        if(this.props.dataSource.length > 0){
             this.setState({
                 hasMoreData:this.props.loadMore()
             },function () {
@@ -117,15 +117,6 @@ export default class MyPlan extends Component {
                 }
             })
         }
-        // for (let i = 0;i<tempArr.length;i++){
-        //     this.dataSource.push(tempArr[i])
-        // }
-        //
-        // setTimeout(() => {
-        //     this.setState({
-        //         list: this.state.list.cloneWithRows(this.dataSource)
-        //     });
-        // }, 1000);
     }
 }
 
