@@ -13,7 +13,7 @@ import {
     ScrollView
 } from 'react-native'
 import { getTimestamp } from '../../../../Util/Util'
-import toast from 'react-native-simple-toast'
+import Toast from 'react-native-simple-toast'
 import ChoiceDate from "../../../../Component/ChoiceDate"
 import Organization from '../../../../Organization/Organization';
 
@@ -26,10 +26,12 @@ export default class ProjectChildProfile extends Component {
             dataSource: [],
             cbfw: '',
             zrrmc: '请选择>',
+            authority: {},
         };
     }
     componentDidMount() {
         this.getGCZYGK();
+        this.getAuthority('1111');
         // let data = {
         //     code: 1,
         //     data: {
@@ -87,6 +89,7 @@ export default class ProjectChildProfile extends Component {
                         { key: '计划结束时间', value: data.jhjssj },
                         { key: '指定工程主管(副)经理', value: data.zgfjlmc }
                     ],
+                    zgfjl: data.zgfjl, // 指定工程主管(副)经理id
                     zgfjlmc: data.zgfjlmc, // 指定工程主管(副)经理
                     cbfw: data.cbfw || '无', //承包范围
                     zrrmc: data.zrrmc, // 责任人名称
@@ -95,7 +98,7 @@ export default class ProjectChildProfile extends Component {
                     jhjssj: data.jhjssj, // 计划结束时间
                 })
             } else {
-                toast.show(responseData.message);
+                Toast.show(responseData.message);
             }
         }).catch(err => {
             console.error(err);
@@ -116,29 +119,6 @@ export default class ProjectChildProfile extends Component {
         if (dataSource && dataSource.length) {
             let row = [];
             for (let i = 0, l = dataSource.length; i < l; i++) {
-                // if (dataSource[i].key === '子项负责人') {
-                //     row.push(
-                //         <View style={styles.row} key={i}>
-                //             <Text style={[styles.labelColor]}>{dataSource[i].key}</Text>
-                //             <Text
-                //                 style={{ flex: 1, textAlign: 'right' }}
-                //                 onPress={() => this.goPersonSelector()}>
-                //                 {this.state.zrrmc}
-                //             </Text>
-                //         </View>
-                //     )
-                // } else if (dataSource[i].key === '责任部门') {
-                //     row.push(
-                //         <View style={styles.row} key={i}>
-                //             <Text style={[styles.labelColor]}>{dataSource[i].key}</Text>
-                //             <View style={styles.blank} />
-                //             <Text>{this.state.zrbmmc}</Text>
-                //         </View>
-                //     )
-                // }
-                // else {
-                //     row.push(this.renderRow(dataSource[i], i));
-                // }
                 switch (dataSource[i].key) {
                     case '指定工程主管(副)经理':
                         row.push(
@@ -146,7 +126,7 @@ export default class ProjectChildProfile extends Component {
                                 <Text style={[styles.labelColor]}>{dataSource[i].key}</Text>
                                 <Text
                                     style={{ flex: 1, textAlign: 'right' }}
-                                    onPress={() => this.goPersonSelector()}>
+                                    onPress={() => this.state.authority.zdzgfjl && this.goPersonSelector()}>
                                     {this.state.zgfjlmc}
                                 </Text>
                             </View>
@@ -157,9 +137,14 @@ export default class ProjectChildProfile extends Component {
                             <View style={styles.row} key={i}>
                                 <Text style={[styles.labelColor]}>{dataSource[i].key}</Text>
                                 <View style={styles.blank} />
-                                <ChoiceDate
-                                    showDate={this.state.jhkssj}
-                                    changeDate={(date) => { this.setState({ jhkssj: date }); }} />
+                                {this.state.authority.zdzgfjl ?
+                                    <ChoiceDate
+                                        showDate={this.state.jhkssj}
+                                        changeDate={(date) => {
+                                        this.state.authority.zdzgfjl && this.setState({ jhkssj: date });
+                                    }} />:
+                                    <Text>{this.state.jhkssj}</Text>
+                                }
                             </View>
                         );
                         break;
@@ -168,9 +153,14 @@ export default class ProjectChildProfile extends Component {
                             <View style={styles.row} key={i}>
                                 <Text style={[styles.labelColor]}>{dataSource[i].key}</Text>
                                 <View style={styles.blank} />
-                                <ChoiceDate
-                                    showDate={this.state.jhjssj}
-                                    changeDate={(date) => { this.setState({ jhjssj: date }); }} />
+                                {this.state.authority.zdzgfjl ?
+                                    <ChoiceDate
+                                        showDate={this.state.jhjssj}
+                                        changeDate={(date) => {
+                                        this.state.authority.zdzgfjl && this.setState({ jhjssj: date });
+                                    }} />:
+                                    <Text>{this.state.jhjssj}</Text>
+                                }
                             </View>
                         );
                         break;
@@ -212,25 +202,43 @@ export default class ProjectChildProfile extends Component {
                             <View style={styles.labelRow}>
                                 <Text style={[styles.labelColor]}>承包范围</Text>
                             </View>
-                            <View style={styles.textArea}>
-                                <TextInput
-                                    multiline={true}
-                                    numberOfLines={4}
-                                    placeholder="请填写"
-                                    style={{ backgroundColor: 'white', height: 0.20 * width }}
-                                    value={this.state.cbfw}
-                                    onChangeText={(value) => this.setState({cbfw: value})}
-                                />
-                            </View>
+                            {this.state.authority.zdzgfjl ?
+                                <View style={styles.textArea}>
+                                    <TextInput
+                                        multiline={true}
+                                        numberOfLines={4}
+                                        placeholder="请填写"
+                                        style={{ backgroundColor: 'white', height: 0.20 * width }}
+                                        value={this.state.cbfw}
+                                        onChangeText={(value) => {
+                                        this.setState({cbfw: value});
+                                    }}
+                                        editable={true}
+                                    />
+                                </View>:
+                                <View style={styles.textArea}>
+                                    <TextInput
+                                        multiline={true}
+                                        numberOfLines={4}
+                                        placeholder="请填写"
+                                        style={{ backgroundColor: 'white', height: 0.20 * width }}
+                                        value={this.state.cbfw}
+                                        editable={false}
+                                    />
+                                </View>}
+
                         </View>
                     </View>
                 </ScrollView>
                 <View style={styles.divide} />
-                <TouchableOpacity onPress={() => this.submit()}>
-                    <View style={styles.button}>
-                        <Text style={styles.buttonText}>确认保存</Text>
-                    </View>
-                </TouchableOpacity>
+                {this.state.authority.zdzgfjl ?
+                    <TouchableOpacity onPress={() => this.submit()}>
+                        <View style={styles.button}>
+                            <Text style={styles.buttonText}>确认保存</Text>
+                        </View>
+                    </TouchableOpacity>:
+                    <View/>
+                }
             </View>
         )
     }
@@ -242,20 +250,46 @@ export default class ProjectChildProfile extends Component {
             jhkssj: this.state.jhkssj,
             jhjssj: this.state.jhjssj,
             cbfw: this.state.cbfw,
-        }
+        };
         axios.post('/psmSgjdjh/updateZgfjl', data)
             .then(data => {
                 if (data.code === 1) {
-                    toast.show('保存成功!');
+                    Toast.show('保存成功!');
                 } else {
-                    toast.show(data.message);
+                    Toast.show(data.message);
                 }
             })
             .catch(err => {
                 if (err) {
-                    toast.show('服务端异常');
+                    Toast.show('服务端异常');
                 }
             })
+    }
+
+    // 获取权限
+    getAuthority(rwid = '') {
+        axios.get('/psmSgjdjh/operationAuthority4bz', {
+            params: {
+                userID: GLOBAL_USERID,
+                gczxId: this.props.gczxId,
+                sgrwId: rwid,
+                belongTo: 1, // 1,'工程子项概况'
+                callID: true,
+            }
+        }).then(responseData => {
+            if (responseData.code === 1) {
+                this.setState({
+                    authority: responseData.data,
+                    // authority: {zdzgfjl: true}
+                })
+            } else {
+                Toast.show(responseData.data);
+            }
+        }).catch( error => {
+            if (error) {
+                Toast.show('服务端异常');
+            }
+        } )
     }
 }
 

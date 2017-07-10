@@ -24,6 +24,7 @@ export default class ConstructPlan extends Component {
         super(props);
         this.state = {
             tab: 0,
+            rwlx: 100,
             currentPage: 1,
             modalVisible: false,
             myTask: [],
@@ -33,7 +34,7 @@ export default class ConstructPlan extends Component {
         this.getMyTask();
     }
 
-    getMyTask(pageNum = 1, pageSize = 10, callback = () => {}) {
+    getMyTask(pageNum = 1, pageSize = 10, rwlx = 100, callback = () => {}) {
         if (pageNum === 1) {
             this.state.myTask = [];
         }
@@ -41,20 +42,25 @@ export default class ConstructPlan extends Component {
             params: {
                 userID: GLOBAL_USERID,
                 gczxId: this.props.gczxId,
+                rwlx,
                 pageNum,
                 pageSize
             }
-        }).then(data => {
-            if (data && data.data && data.data.data) {
-                let resultData = data.data.data;
-                console.log(resultData);
-                if (resultData.length) {
-                    this.setState({
-                        myTask: [...this.state.myTask, ...resultData],
-                        currentPage: pageNum,
-                        total: data.data.total
-                    });
+        }).then(responseData => {
+            console.log('----------', data);
+            if (responseData.code === 1 ) {
+                if (responseData.data && responseData.data.data) {
+                    let resultData = responseData.data.data;
+                    if (resultData.length) {
+                        this.setState({
+                            myTask: [...this.state.myTask, ...resultData],
+                            currentPage: pageNum,
+                            total: data.data.total
+                        });
+                    }
                 }
+            } else {
+                Toast.show(responseData.message);
             }
             callback();
         })
@@ -72,7 +78,7 @@ export default class ConstructPlan extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.segmentView}>
-                    <TouchableOpacity onPress={this.changePage.bind(this, 0)}>
+                    <TouchableOpacity onPress={() => this.changePage(0)}>
                         <View style={[styles.leftView,{backgroundColor:this.state.tab===0?'#4fa6ef':'white'}]}>
                             <Text style={{fontSize:12,color:this.state.tab===0?'white':'#4fa6ef'}}>我的任务</Text>
                         </View>
@@ -135,6 +141,19 @@ export default class ConstructPlan extends Component {
         if (this.state.tab !== page) {
             this.setState({tab:page});
             this.refs.scrollView.scrollTo({x:page*width,y:0,animated:true});
+            if (page === 0) {
+                // rwlx 100 我的任务
+                this.setState({
+                    rwlx: 100,
+                });
+                this.getMyTask(1, 10, 100);
+            } else {
+                // rwlx 200 全部任务
+                this.setState({
+                    rwlx: 200,
+                });
+                this.getMyTask(1, 10, 200);
+            }
         }
     }
 
@@ -142,7 +161,7 @@ export default class ConstructPlan extends Component {
         console.log(rwid);
         this.setState({
             modalVisible: true,
-            rwid: rwid
+            rwid,
         });
         // 获取权限
         this.getAuthority(rwid);

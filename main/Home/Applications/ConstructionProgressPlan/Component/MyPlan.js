@@ -109,7 +109,7 @@ export default class MyPlan extends Component {
     }
 
     loadMore(){
-        if(this.props.dataSource.length>0){
+        if(this.props.dataSource.length > 0){
             this.setState({
                 hasMoreData:this.props.loadMore()
             },function () {
