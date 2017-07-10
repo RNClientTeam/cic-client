@@ -75,24 +75,26 @@ export default class QualityCheckPlan extends Component{
                     rwxzId={this.state.rwxzid}
                     rwzt={this.state.rwzt}
                     rwxz={this.state.rwxz}
-                    closeFiltrate={(zt,xz,ztCoe,xzCode)=>this.filterData(zt,xz,ztCoe,xzCode)}/>:null}
+                    closeFiltrate={(type,zt,xz,ztCoe,xzCode)=>this.filterData(type,zt,xz,ztCoe,xzCode)}/>:null}
                 {this.state.isLoading?<Loading/>:null}
             </View>
         )
     }
 
     //过滤
-    filterData(zt,xz,ztCode,xzCode){
+    filterData(type,zt,xz,ztCode,xzCode){
         this.setState({filtrate:false});
-        this.setState({
-            rwzt:zt,
-            rwxz:xz,
-            rwztid:ztCode,
-            rwxzid:xzCode
-        },function () {
-            this.getTask();
-            this.getCalendarData();
-        })
+        if(type === 1){
+            this.setState({
+                rwzt:zt,
+                rwxz:xz,
+                rwztid:ztCode,
+                rwxzid:xzCode
+            },function () {
+                this.getTask();
+                this.getCalendarData();
+            })
+        }
     }
 
     //选择日期
