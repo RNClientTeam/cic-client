@@ -68,21 +68,6 @@ export default class ProjectRangeHandoverDetail extends Component{
             }
         }).then(responseData=>{
             if(responseData.code === 1){
-                // TODO
-                responseData = {
-                    "code": 1,
-                    "data": {
-                        "id": "8a8180b85bacee8d015bad56dfc10306",
-                        "gcfwjjztmc": "已拆分子项",
-                        "xmjl": "贾世坤",
-                        "gcfwjjzt": 60,
-                        "xmmc": "2016平谷南营路网架结构优化",
-                        "xmbh": "CX_DS16003-16016",
-                        "ssdw": "市场营销一部",
-                        "cfsj": "2017-04-27 00:00:00"
-                    },
-                    "message": "成功"
-                };
                 let data = responseData.data;
                 this.setState({
                     proName:data.xmmc,

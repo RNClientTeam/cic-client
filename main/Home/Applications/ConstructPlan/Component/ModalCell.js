@@ -13,6 +13,7 @@ import {
 } from 'react-native'
 import EditProcess from "../EditProcess";
 import EnsureComplete from "../EnsureComplete";
+import toast from 'react-native-simple-toast'
 const {width}  = Dimensions.get('window');
 
 export default class ModalCell extends Component{
@@ -27,16 +28,75 @@ export default class ModalCell extends Component{
     }
 
     skipPage(){
-        this.props.hiddenModal()
+        this.props.hiddenModal();
         if(this.props.name === '填报进展'){
             this.props.navigator.push({
                 name:'EditProcess',
-                component:EditProcess
+                component:EditProcess,
+                params:{
+                    currentItem:this.props.currentItem,
+                    reload:this.props.reload
+                }
             })
         }else if(this.props.name === '确认完成'){
             this.props.navigator.push({
                 name:'EnsureComplete',
-                component:EnsureComplete
+                component:EnsureComplete,
+                params:{
+                    currentItem:this.props.currentItem,
+                    reload:this.props.reload
+                }
+            })
+        }else if(this.props.name === '停工'){
+            axios.post('/psmSgrjh/updateRjhZt',{
+                userID:GLOBAL_USERID,
+                rwid:this.props.currentItem.rwid,
+                sgzt:0,
+                callID:true
+            }).then(data=>{
+                if(data.code === 1){
+                    toast.show('修改成功');
+                    this.props.reload();
+                }else{
+                    toast.show(data.message)
+                }
+            }).catch(err=>{
+                if(err)
+                    toast.show('服务端异常');
+            });
+
+        }else if(this.props.name === '复工'){
+            axios.post('/psmSgrjh/updateRjhZt',{
+                userID:GLOBAL_USERID,
+                rwid:this.props.currentItem.rwid,
+                sgzt:1,
+                callID:true
+            }).then(data=>{
+                if(data.code === 1){
+                    toast.show('修改成功');
+                    this.props.reload();
+                }else{
+                    toast.show(data.message)
+                }
+            }).catch(err=>{
+                if(err)
+                    toast.show('服务端异常');
+            })
+        }else if(this.props.name === '删除'){
+            axios.post('/psmSgrjh/deleteRjh',{
+                userID:GLOBAL_USERID,
+                rwid:this.props.currentItem.rwid,
+                callID:true
+            }).then(data=>{
+                if(data.code === 1){
+                    toast.show('删除成功');
+                    this.props.reload();
+                }else{
+                    toast.show(data.message)
+                }
+            }).catch(err=>{
+                if(err)
+                    toast.show('服务端异常');
             })
         }
     }

@@ -22,8 +22,9 @@ export default class EarlierStageListModalView extends Component {
         this.state = {
             startDate: this.props.sDate,
             endDate: this.props.eDate,
-            options:['全部', '我参与的', '我审核的', '我的计划', '我的待办'],
-            jhlx:this.props.jhlx
+            options:[],
+            jhlx:this.props.jhlx,
+            ids:[]
         }
     }
 
@@ -48,7 +49,7 @@ export default class EarlierStageListModalView extends Component {
                     </View>
                 </View>
                 <View style={styles.containerStyle}>
-                    <Text style={styles.nameStyle}>计划类型</Text>
+                    <Text style={styles.nameStyle}>任务状态</Text>
                     <View style={styles.indicateView}>
                         <ModalDropdown
                             options={this.state.options}
@@ -81,6 +82,29 @@ export default class EarlierStageListModalView extends Component {
             </View>
         )
     }
+
+    componentDidMount() {
+        axios.get('/dictionary/list',{
+            params:{
+                userID:GLOBAL_USERID,
+                root:'ZHGL_GZJH_ZT',
+                callID:true
+            }
+        }).then(data=>{
+            console.log(data)
+            if(data.code === 1){
+                for(let i = 0;i<data.data.length;i++){
+                    this.state.options.push(data.data[i].name);
+                    this.state.ids.push(data.data[i].code);
+                }
+                this.setState({
+                    options:this.state.options,
+                    ids:this.state.ids
+                })
+            }
+        })
+    }
+
 }
 
 const styles = StyleSheet.create({

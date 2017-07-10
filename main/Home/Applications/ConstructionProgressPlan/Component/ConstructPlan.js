@@ -55,7 +55,7 @@ export default class ConstructPlan extends Component {
                         this.setState({
                             myTask: [...this.state.myTask, ...resultData],
                             currentPage: pageNum,
-                            total: data.data.total
+                            total: responseData.data.total
                         });
                     }
                 }
@@ -158,6 +158,7 @@ export default class ConstructPlan extends Component {
     }
 
     setModalVisible(rwid) {
+        console.log(rwid);
         this.setState({
             modalVisible: true,
             rwid,

@@ -21,19 +21,19 @@ export default class ApartmentPlaneListCell extends Component {
                 <TouchableOpacity style={styles.earlierStageListCell} onPress={this.skipPage.bind(this)}>
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
-                            <Text style={{color:'#216fd0',fontSize:width*0.045}} numberOfLines={1}>{this.props.data.number}</Text>
+                            <Text style={{color:'#216fd0',fontSize:width*0.045}} numberOfLines={1}>{this.props.data.jhrw}</Text>
                             <View style={styles.stateView}>
-                                <Text style={styles.stateText}>{this.props.data.state}</Text>
+                                <Text style={styles.stateText}>{this.props.data.ztmc}</Text>
                             </View>
                         </View>
-                        <Text style={styles.projectName}>{this.props.data.planName}</Text>
+                        <Text style={styles.projectName}>{this.props.data.xmbh} - {this.props.data.lymc}</Text>
                     </View>
                     <View style={styles.aboutPrincipal}>
-                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.principal}</Text>
-                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.department}</Text>
-                        <Text style={[{width: width * 0.5}, styles.textStyle]}>{this.props.data.schedule}</Text>
-                        <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.time}</Text>
-                        <TouchableOpacity onPress={()=>{this.props.setModalVisible()}} style={styles.editTouch}>
+                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zrrmc}</Text>
+                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zrbmmc}</Text>
+                        <Text style={[{width: width * 0.5,marginLeft: 3}, styles.textStyle]}>{this.props.data.wcbl?this.props.data.wcbl+'%':""}</Text>
+                        <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.qdsj}</Text>
+                        <TouchableOpacity onPress={()=>{this.props.setModalVisible();this.props.getOperatingItem(this.props.data)}} style={styles.editTouch}>
                             <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}
                                 style={styles.editImg} resizeMode="contain"/>
                         </TouchableOpacity>
@@ -46,7 +46,10 @@ export default class ApartmentPlaneListCell extends Component {
     skipPage() {
         this.props.navigator.push({
             component: HistoricalCompletion,
-            name: 'HistoricalCompletion'
+            name: 'HistoricalCompletion',
+            params:{
+                id:this.props.data.id
+            }
         });
     }
 }

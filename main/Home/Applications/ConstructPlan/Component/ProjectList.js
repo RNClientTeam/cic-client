@@ -19,41 +19,9 @@ import ProjectListCell from "./ProjectListCell";
 export default class ProjectList extends Component {
     constructor(props) {
         super(props);
-        this.dataSource = [
-            {
-                number: 'CX_DS16052',
-                planName: '人大技术学院配电增容改造技术咨询',
-                selected: false
-            },
-            {
-                number: 'CX_DS16052',
-                planName: '人大技术学院配电增容改造技术咨询',
-                selected: false
-            }, {
-                number: 'CX_DS16052',
-                planName: '人大技术学院配电增容改造技术咨询',
-                selected: false
-            }, {
-                number: 'CX_DS16052',
-                planName: '人大技术学院配电增容改造技术咨询',
-                selected: false
-            }, {
-                number: 'CX_DS16052',
-                planName: '人大技术学院配电增容改造技术咨询',
-                selected: false
-            }, {
-                number: 'CX_DS16052',
-                planName: '人大技术学院配电增容改造技术咨询',
-                selected: false
-            }, {
-                number: 'CX_DS16052',
-                planName: '人大技术学院配电增容改造技术咨询',
-                selected: false
-            },
-        ];
         this.state = {
             hasMoreData: true,
-            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(this.dataSource),
+            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})),
         }
     }
 
@@ -64,25 +32,29 @@ export default class ProjectList extends Component {
                     onPullRelease={this.onPullRelease.bind(this)}
                     topIndicatorRender={this.topIndicatorRender.bind(this)}
                     topIndicatorHeight={60}
-                    dataSource={this.state.list}
+                    dataSource={this.state.list.cloneWithRows(this.props.dataSource)}
                     renderRow={this.renderRow.bind(this)}
                     onEndReached={this.loadMore.bind(this)}
                     onEndReachedThreshold={60}
                     renderFooter={this.renderFooter.bind(this)}
+                    enableEmptySections={true}
                 />
             </View>
         )
     }
 
     onPullRelease(resolve) {
-        //do refresh
-        setTimeout(() => {
-            resolve();
-        }, 3000);
+        this.props.getDataFromNet(()=>{resolve()});
+        this.setState({
+            hasMoreData:true
+        })
     }
 
     renderRow(item, sectionID, rowID, highlightRow) {
-
+        item.selected = false;
+        if(this.props.zxid.indexOf(item.zxid)>0){
+            item.selected = true
+        }
         return (
             <ProjectListCell key={rowID} navigator={this.props.navigator} choiceThisCell={()=>this.choiceThisCell(item)} data={item} target="EarlierStageDetail"/>
         );
@@ -93,7 +65,7 @@ export default class ProjectList extends Component {
     }
 
     renderFooter() {
-        return (this.state.hasMoreData ? <LoadMore /> : null)
+        return (this.state.hasMoreData&&this.props.dataSource.length ? <LoadMore /> : null)
     }
 
     topIndicatorRender(pulling, pullok, pullrelease) {
@@ -101,53 +73,22 @@ export default class ProjectList extends Component {
     }
 
     loadMore() {
-        let a = [
-            {
-                number: 'CX_DS16052',
-                planName: '人大技术学院配电增容改造技术咨询',
-                selected: false
-            }, {
-                number: 'CX_DS16052',
-                planName: '人大技术学院配电增容改造技术咨询',
-                selected: false
-            }, {
-                number: 'CX_DS16052',
-                planName: '人大技术学院配电增容改造技术咨询',
-                selected: false
-            }, {
-                number: 'CX_DS16052',
-                planName: '人大技术学院配电增容改造技术咨询',
-                selected: false
-            }, {
-                number: 'CX_DS16052',
-                planName: '人大技术学院配电增容改造技术咨询',
-                selected: false
-            }, {
-                number: 'CX_DS16052',
-                planName: '人大技术学院配电增容改造技术咨询',
-                selected: false
-            }, {
-                number: 'CX_DS16052',
-                planName: '人大技术学院配电增容改造技术咨询',
-                selected: false
-            },
-        ];
-
-        for (let i = 0; i < a.length; i++) {
-            this.dataSource.push(a[i])
-        }
-
-        setTimeout(() => {
+        if(this.props.dataSource.length>0){
             this.setState({
-                list: this.state.list.cloneWithRows(this.dataSource)
-            });
-        }, 1000);
+                hasMoreData:this.props.loadMore()
+            })
+        }
     }
-
-
     componentWillUnmount() {
         //selected为TRUE的传出去要
-        console.log(this.dataSource)
+        let str = [];
+        for(let i = 0;i<this.props.dataSource.length;i++){
+            if(this.props.dataSource[i].selected){
+                str.push(this.props.dataSource[i].zxid);
+            }
+        }
+        console.log(str)
+        this.props.setZxid(str);
     }
 
 }

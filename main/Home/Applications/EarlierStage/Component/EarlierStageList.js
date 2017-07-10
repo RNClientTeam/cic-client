@@ -91,10 +91,6 @@ export default class EarlierStageList extends Component {
         if(this.props.dataSource.length>0){
             this.setState({
                 hasMoreData:this.props.loadMore()
-            },function () {
-                if(!this.state.hasMoreData){
-                    // Toast.show('没有更多数据') ;
-                }
             })
         }
     }

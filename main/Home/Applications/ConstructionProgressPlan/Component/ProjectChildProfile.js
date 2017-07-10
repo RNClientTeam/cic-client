@@ -32,43 +32,12 @@ export default class ProjectChildProfile extends Component {
     componentDidMount() {
         this.getGCZYGK();
         this.getAuthority('1111');
-        // let data = {
-        //     code: 1,
-        //     data: {
-        //         zxmc: '配电室电气工程',
-        //         yxsdsj: '2016-11-23',
-        //         xmmc: '玄武医院配电工程',
-        //         zrrmc: "李建春(配网工程部经理)",
-        //         zwsdsj: "2016-11-23",
-        //         jhsd: "未锁定",
-        //         zgfjl: "ZNDQ2003",
-        //         jhkssj: "2016-08-19",
-        //         cbfw: "4台变压器",
-        //         jqdhsdsj: "2016-11-23",
-        //         xmbh: "CX_DS12068-13200",
-        //         zgfjlmc: "潘俊涛",
-        //         zrbmmc: "配网工程部"
-        //     },
-        //     message: '成功'
-        // };
-        // data = data.data;
-        // this.setState({
-        //     dataSource: [
-        //         {key: '项目名称', value: data.xmmc},
-        //         {key: '工程子项锁定', value: data.jhsd},
-        //         {key: '工程子项名称', value: data.zxmc},
-        //         {key: '最晚送电时间', value: data.zwsdsj},
-        //         {key: '责任部门', value: data.zrbm},
-        //         {key: '子项负责人', value: data.zrr},
-        //         {key: '计划开始时间', value: data.jhkssj},
-        //         {key: '计划结束时间', value: data.jhjssj},
-        //     ],
-        //     cbfw: data.cbfw //承包范围
-        // });
     }
+
     // 获取工程子项概况
     getGCZYGK() {
         axios.get('/psmSgjdjh/gczxgk', {
+
             params: {
                 userID: GLOBAL_USERID,
                 gczxId: this.props.gczxId,

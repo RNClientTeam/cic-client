@@ -15,7 +15,7 @@ const {width}  = Dimensions.get('window');
 export default class BottomSaveButton extends Component{
     render(){
         return(
-            <TouchableOpacity style={styles.sureButton}>
+            <TouchableOpacity style={styles.sureButton} onPress={()=>this.props.submit()}>
                 <View style={styles.sureButtonView}>
                     <Text style={{color: "#fff"}}>保存</Text>
                 </View>

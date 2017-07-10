@@ -1,7 +1,3 @@
-/**
- * Created by fan on 2017/4/30.
- * 首页应用列表
- */
 "use strict"
 import React, {Component} from 'react';
 import {
@@ -28,6 +24,7 @@ import ProgressExecute from './ConstructProgressExecute/ProgressExecute'
 import QualityCheckPlan from "./QualityCheckPlan/QualityCheckPlan";
 import QualityCheckRecord from "./QualityCheckRecord/QualityCheckRecord";
 import DepartmentExecute from "./DeparmentExecute/DepartmentExecute"
+import Ssjdjh from './Ssjdjh/Ssjdjh.js';
 
 const {width, height}  = Dimensions.get('window');
 
@@ -44,8 +41,7 @@ var businessApp = [
     {title:'施工进度计划编制', image: require('../../../resource/imgs/home/applications/schedulePlanning.png'), sectionID:1},
     {title:'施工进度计划执行', image: require('../../../resource/imgs/home/applications/executionConstruction.png'), sectionID:1},
     {title:'施工日计划', image: require('../../../resource/imgs/home/applications/dailyPlan.png'), sectionID:1},
-    {title:'部门计划编制', image: require('../../../resource/imgs/home/applications/departmentalPlanning.png'), sectionID:1},
-    {title:'部门计划执行', image: require('../../../resource/imgs/home/applications/departmentPlanExecution.png'), sectionID:1},
+    {title:'部门计划', image: require('../../../resource/imgs/home/applications/departmentalPlanning.png'), sectionID:1},
     {title:'质量检查计划', image: require('../../../resource/imgs/home/applications/qualityInspectionPlan.png'), sectionID:1},
     {title:'质量检查记录', image: require('../../../resource/imgs/home/applications/qualityInspectionRecord.png'), sectionID:1},
     {title:'安全检查计划', image: require('../../../resource/imgs/home/applications/inspectionPlan.png'), sectionID:1},
@@ -216,7 +212,7 @@ export default class Applications extends Component {
                 component: ConstructPlan,
                 name: 'ConstructPlan'
             });
-        } else if (item.title === '部门计划编制') {
+        } else if (item.title === '部门计划') {
             this.props.navigator.push({
                 component: ApartmentPlane,
                 name: 'ApartmentPlane'
@@ -245,6 +241,11 @@ export default class Applications extends Component {
             this.props.navigator.push({
                 component: DepartmentExecute,
                 name: 'DepartmentExecute'
+            })
+        } else if (item.title === '实施进度计划') {
+            this.props.navigator.push({
+                component: Ssjdjh,
+                name: 'Ssjdjh'
             })
         }
 

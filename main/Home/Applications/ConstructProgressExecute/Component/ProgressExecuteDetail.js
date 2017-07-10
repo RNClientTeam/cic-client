@@ -30,7 +30,7 @@ export default class ProgressExecuteDetail extends Component {
     }
 
     componentDidMount() {
-        this.listener = RCTDeviceEventEmitter.addListener('successRefresh', (value) => {
+        this.listener = RCTDeviceEventEmitter.addListener('进度计划执行详情刷新成功', (value) => {
             this.setState({jdbl: value.jdbl});
         });
     }

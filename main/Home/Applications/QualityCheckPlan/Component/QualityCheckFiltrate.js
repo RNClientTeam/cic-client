@@ -17,7 +17,19 @@ import ModalDropdown from 'react-native-modal-dropdown';
 
 export default class QualityCheckFiltrate extends Component {
 
-
+    constructor(props){
+        super(props);
+        this.state={
+            xzCn:[],
+            xzCode:[],
+            ztCn:[],
+            ztCode:[],
+            rwzt:this.props.rwzt,
+            rwxz:this.props.rwxz,
+            rwztCode:this.props.rwztId,
+            rwxzCode:this.props.rwxzId
+        }
+    }
 
     render() {
         return (
@@ -26,14 +38,17 @@ export default class QualityCheckFiltrate extends Component {
                     <Text style={{color:'#216fd0'}}>当前状态</Text>
                     <View style={styles.indicateView}>
                         <ModalDropdown
-                            options={['计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4', '计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4']}
+                            options={this.state.ztCn}
                             animated={true}
-                            defaultValue='计划类型 1'
+                            defaultValue={this.state.rwzt}
                             style={styles.modalDropDown}
                             textStyle={styles.modalDropDownText}
                             dropdownStyle={styles.dropdownStyle}
                             onSelect={(a) => {
-                                console.log(a)
+                                this.setState({
+                                    rwztCode:this.state.ztCode[a],
+                                    rwzt:this.state.ztCn[a]
+                                })
                             }}
                             showsVerticalScrollIndicator={false}
                         />
@@ -45,14 +60,17 @@ export default class QualityCheckFiltrate extends Component {
                     <Text style={{color:'#216fd0'}}>任务性质</Text>
                     <View style={styles.indicateView}>
                         <ModalDropdown
-                            options={['计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4', '计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4']}
+                            options={this.state.xzCn}
                             animated={true}
-                            defaultValue='计划类型 1'
+                            defaultValue={this.state.rwxz}
                             style={styles.modalDropDown}
                             textStyle={styles.modalDropDownText}
                             dropdownStyle={styles.dropdownStyle}
                             onSelect={(a) => {
-                                console.log(a)
+                                this.setState({
+                                    rwxzCode:this.state.xzCode[a],
+                                    rwxz:this.state.xzCn[a]
+                                })
                             }}
                             showsVerticalScrollIndicator={false}
                         />
@@ -62,16 +80,51 @@ export default class QualityCheckFiltrate extends Component {
                 </View>
                 <View style={styles.buttonView}>
                     <TouchableOpacity style={[styles.clickButton, {backgroundColor: '#dbdada'}]}
-                                      onPress={() => this.props.closeFiltrate()}>
+                                      onPress={() => this.props.closeFiltrate(2,'请选择任务状态','请选择任务性质','all', 'all')}>
                         <Text>重置</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.clickButton, {backgroundColor: '#216fd0'}]}
-                                      onPress={() => this.props.closeFiltrate()}>
+                                      onPress={() => this.props.closeFiltrate(1,this.state.rwzt,this.state.rwxz,this.state.rwztCode,this.state.rwxzCode)}>
                         <Text style={{color: '#fff'}}>确定</Text>
                     </TouchableOpacity>
                 </View>
             </View>
         )
+    }
+
+    componentDidMount() {
+        axios.get('/dictionary/list',{
+            params:{
+                userID:GLOBAL_USERID,
+                root:'JDJH_SGRWXZ',
+                callID:true
+            }
+        }).then(xzData=>{
+            console.log(xzData);
+            axios.get('/dictionary/list',{
+                params:{
+                    userID:GLOBAL_USERID,
+                    root:'JDJH_RWZT',
+                    callID:true
+                }
+            }).then(ztData=>{
+                let xzCode = [],xzCn=[],ztCode=[],ztCn=[];
+                for(let i = 0;i<xzData.data.length;i++){
+                    xzCode.push(xzData.data[i].code);
+                    xzCn.push(xzData.data[i].name);
+                }
+                for(let i = 0;i<ztData.data.length;i++){
+                    ztCode.push(ztData.data[i].code);
+                    ztCn.push(ztData.data[i].name);
+                }
+                this.setState({
+                    xzCode:xzCode,
+                    xzCn:xzCn,
+                    ztCode:ztCode,
+                    ztCn:ztCn
+                });
+            })
+        })
     }
 }
 

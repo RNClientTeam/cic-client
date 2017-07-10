@@ -34,6 +34,12 @@ export default class KeyValueRight extends Component{
             </View>
         )
     }
+
+    componentWillReceiveProps(c,n) {
+        this.setState({
+            textValue:c.defaultValue
+        })
+    }
 }
 
 const styles = StyleSheet.create({

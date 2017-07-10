@@ -10,6 +10,7 @@ import {
     Text
 } from 'react-native'
 import KeyValue from "../../../../Component/KeyValueLeft";
+import toast from 'react-native-simple-toast'
 const {width} = Dimensions.get('window');
 
 export default class ProjectSubitemSplitInfo extends Component {
@@ -17,14 +18,8 @@ export default class ProjectSubitemSplitInfo extends Component {
     constructor(props){
         super(props);
         this.state = {
-            dataSource:[
-                {key:"所属部门",value:"市场营销一部"},
-                {key:"项目经理",value:"王二"},
-                {key:"合同工期开始时间",value:"2017-02-16"},
-                {key:"合同工期结束时间",value:"2017-09-12"},
-                {key:"合同计划开始时间",value:"2017-09-12"},
-                {key:"合同计划结束时间",value:"2017-09-12"},
-            ]
+            dataSource:[],
+            xmmc:''
         }
     }
 
@@ -33,19 +28,19 @@ export default class ProjectSubitemSplitInfo extends Component {
             <View>
                 <View style={styles.headerView}>
                     <Text style={styles.headerText} numberOfLines={1}>
-                        【电气业务】{this.props.proNum} {this.props.proName}
+                        {this.state.xmmc}
                     </Text>
                 </View>
-                {this.renderKV()}
+                {this.renderKV(this.state.dataSource)}
             </View>
         )
     }
 
-    renderKV = ()=>{
+    renderKV = (dataSource)=>{
         let tpl = [];
-        for(let i = 0;i<this.state.dataSource.length;i++){
+        for(let i = 0;i<dataSource.length;i++){
             tpl.push(
-                <KeyValue key={i} propKey={this.state.dataSource[i].key} propValue={this.state.dataSource[i].value}/>
+                <KeyValue key={i} propsKey={dataSource[i].key} propsValue={dataSource[i].value}/>
             )
         }
         return tpl;
@@ -61,7 +56,33 @@ export default class ProjectSubitemSplitInfo extends Component {
               callID:true
           }
       }).then(data=>{
-          console.log(data);
+          if(data.code === 1){
+              let temp = [];
+              for(let i in data.data){
+                  if(i ==='xmmc'){
+                      this.setState({
+                          xmmc:data.data[i]
+                      })
+                  }else if(i==='ssdw'){
+                      temp.push({key:'所属部门',value:data.data[i]});
+                  }else if(i==='xmjl'){
+                      temp.push({key:'项目经理',value:data.data[i]});
+                  }else if(i==='htjssj'){
+                      temp.push({key:'合同结束时间',value:data.data[i]});
+                  }else if(i==='htkssj'){
+                      temp.push({key:'合同开始时间',value:data.data[i]});
+                  }else if(i ==='xmjssj'){
+                      temp.push({key:'项目结束时间',value:data.data[i]});
+                  }else if(i==='xmkssj'){
+                      temp.push({key:'项目开始时间',value:data.data[i]});
+                  }
+              }
+              this.setState({
+                  dataSource:temp
+              })
+          }else{
+              toast.show(data.message)
+          }
       })
     }
 }

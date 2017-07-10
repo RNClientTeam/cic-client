@@ -17,6 +17,7 @@ import ProgressPlanList from './Component/ProgressPlanList'
 import ProgressPlanListModalView from './Component/ProgressPlanListModalView'
 import {getCurrentMonS, getCurrentMonE} from '../../../Util/Util'
 import toast from 'react-native-simple-toast'
+import Loading from "../../../Component/Loading";
 
 const {width, height} = Dimensions.get('window');
 
@@ -31,7 +32,8 @@ export default class ProgressPlan extends Component {
             pageNum: 1,
             pageSize: 10,
             keywords: '',
-            dataSource:[]
+            dataSource:[],
+            isLoading:false
         }
     }
 
@@ -50,7 +52,7 @@ export default class ProgressPlan extends Component {
                 <ProgressPlanList navigator={this.props.navigator}
                                   dataSource={this.state.dataSource}
                                   loadMore={() => this.loadMore()}
-                                  refresh={(callback) => this.getDataFromNet(callback)}
+                                  refresh={(callback) => this.getDataFromNet(1,callback)}
                                   />
                 {this.state.isModalVisible ?
                     <ProgressPlanListModalView isModalVisible={this.state.isModalVisible}
@@ -62,6 +64,7 @@ export default class ProgressPlan extends Component {
                                                }}
                                                closeModal={() => this.setState({isModalVisible: false})}/> :
                     <View/>}
+                {this.state.isLoading? <Loading/>:null}
             </View>
         )
     }
@@ -80,8 +83,11 @@ export default class ProgressPlan extends Component {
         })
     }
 
-    getDataFromNet(pageNum) {
+    getDataFromNet(pageNum,resolve=()=>{}) {
         let jhlx = 500;
+        this.setState({
+            isLoading:true
+        });
         switch (this.state.jhlx) {
             case '全部':
                 jhlx = 500;
@@ -114,46 +120,9 @@ export default class ProgressPlan extends Component {
                 callID: true
             }
         }).then(responseData => {
-            console.log(responseData);
-            // responseData = {
-            //     "code": 1,
-            //     "data": {
-            //         "total": 209,
-            //         "data": [
-            //             {
-            //                 "jhkssj": "2017-10-31",
-            //                 "zxmc": "3号配电室设备安装",
-            //                 "count": 0,
-            //                 "cfxxId": "8a8180d856b8094b0156e4d958f84669",
-            //                 "zrr": "李建春(配网工程部经理)",
-            //                 "xmmc": "密云华润希望小镇配电室",
-            //                 "gczxId": "8a8180d857433a5b015746cadea804ac",
-            //                 "jhjssj": "2017-12-31",
-            //                 "xmbh": "C112003-14002",
-            //                 "RN": 1,
-            //                 "isTodo": 0,
-            //                 "jdbl": "",
-            //                 "zrbm": "配网工程部"
-            //             },
-            //             {
-            //                 "jhkssj": "2017-03-01",
-            //                 "zxmc": "万家果园箱变基础",
-            //                 "count": 0,
-            //                 "cfxxId": "8a8180d856b8094b0156e4d958f84669",
-            //                 "zrr": "于文晓",
-            //                 "xmmc": "密云华润希望小镇配电室",
-            //                 "gczxId": "8a8180d857433a5b015746c707bb03bf",
-            //                 "jhjssj": "2017-10-31",
-            //                 "xmbh": "C112003-14002",
-            //                 "RN": 2,
-            //                 "isTodo": 0,
-            //                 "jdbl": "",
-            //                 "zrbm": "市政工程部"
-            //             }
-            //         ]
-            //     },
-            //     "message": "成功"
-            // };
+            this.setState({
+                isLoading:false
+            });
             if(responseData.code === 1){
                 //第一页数据 设置total 清空dataSource数组
                 if (pageNum === 1) {
@@ -167,6 +136,7 @@ export default class ProgressPlan extends Component {
                 for(let i = 0; i < data.data.length;i++){
                     tmp.push(data.data[i]);
                 }
+                resolve();
                 this.setState({
                     dataSource: tmp
                 });
@@ -174,6 +144,12 @@ export default class ProgressPlan extends Component {
             }else {
                 toast.show(responseData.message)
             }
+        }).catch(err=>{
+            console.log(err);
+            toast.show('服务端异常');
+            this.setState({
+                isLoading:false
+            });
         })
     }
 

@@ -16,7 +16,7 @@ import Toast from 'react-native-simple-toast';
 import Loading from "../../../../Component/Loading.js";
 import ChoiceDate from "../../../../Component/ChoiceDate.js";
 import ModalDropdown from 'react-native-modal-dropdown';
-// import CheckFlowInfo from './CheckFlowInfo.js';
+import CheckFlowInfo from './CheckflowInfo.js';
 import Organization from '../../../../Organization/Organization.js';
 
 export default class ApplyForDelay extends Component{
@@ -279,21 +279,20 @@ export default class ApplyForDelay extends Component{
             callID: getTimestamp()
         }).then((responseData) => {
             if (responseData.code === 1) {
-                // this.props.exchangeRwid(responseData.data);
-                // Toast.show('提交申请成功');
-                // const self = this;
-                // let timer = setTimeout(() => {
-                //     self.props.navigator.push({
-                //         name: 'CheckFlowInfo',
-                //         component: CheckFlowInfo,
-                //         params: {
-                //             resID: responseData.data,
-                //             tag: self.props.tag ? self.props.tag : '',
-                //             reloadInfo: this.props.reloadInfo
-                //         }
-                //     });
-                //     clearTimeout(timer);
-                // }, 1500);
+                this.props.exchangeRwid(responseData.data);
+                Toast.show('提交申请成功');
+                const self = this;
+                let timer = setTimeout(() => {
+                    self.props.navigator.push({
+                        name: 'CheckFlowInfo',
+                        component: CheckFlowInfo,
+                        params: {
+                            resID: responseData.data,
+                            reloadInfo: this.props.reloadInfo
+                        }
+                    });
+                    clearTimeout(timer);
+                }, 1500);
             } else {
                 Toast.show(responseData.message);
             }

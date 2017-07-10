@@ -21,7 +21,9 @@ export default class MoreOperation extends Component {
                 {img:require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),name:'填报进展'},
                 {img:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'确认完成'},
                 {img:require('../../../../../resource/imgs/home/applications/effectiveAction.png'),name:'生效'},
-                {img:require('../../../../../resource/imgs/home/applications/stopAction.png'),name:'删除'}
+                {img:require('../../../../../resource/imgs/home/applications/stopAction.png'),name:'删除'},
+                {img:require('../../../../../resource/imgs/home/applications/checkDetail.png'),name:'查看详情'},
+                {img:require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),name:'修改'}
             ]
         }
     }
@@ -32,16 +34,6 @@ export default class MoreOperation extends Component {
                 <View style={styles.containerView}>
                     {this.renderCell()}
                 </View>
-                {/*
-                 <View style={styles.buttonView}>
-                 <TouchableOpacity style={[styles.button,{backgroundColor:'#fb5560'}]}>
-                 <Text style={{color:'#fff'}}>删除</Text>
-                 </TouchableOpacity>
-                 <TouchableOpacity style={[styles.button, {backgroundColor:'#3999fd'}]}>
-                 <Text style={{color:'#fff'}}>生效</Text>
-                 </TouchableOpacity>
-                 </View>
-                */}
             </TouchableOpacity>
         )
     }
@@ -50,7 +42,12 @@ export default class MoreOperation extends Component {
         let cs = [];
         for(let i = 0;i<this.state.data.length;i++){
             cs.push(
-                <MoreOperationsCell closeModal={()=>{this.props.closeModal()}} navigator={this.props.navigator} key={i} dataSource={this.state.data[i]}/>
+                <MoreOperationsCell
+                    operatingItem={this.props.operatingItem}
+                    closeModal={()=>{this.props.closeModal()}}
+                    navigator={this.props.navigator}
+                    key={i}
+                    dataSource={this.state.data[i]}/>
             )
         }
         return cs;
