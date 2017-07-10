@@ -120,7 +120,7 @@ export default class NewProject extends Component {
     }
 
     submit() {
-        this.setState({isLoading: true})
+        this.setState({isLoading: true});
         let data = {
             userID: GLOBAL_USERID,
             zrr: this.state.zrr,
@@ -136,7 +136,7 @@ export default class NewProject extends Component {
         };
         axios.post('/psmSgrjh/saveRjh', data)
             .then(data => {
-                this.setState({isLoading: false})
+                this.setState({isLoading: false});
                 if (data.code === 1) {
                     toast.show('提交成功!');
                     let that = this;
@@ -148,7 +148,7 @@ export default class NewProject extends Component {
                     toast.show(data.message)
                 }
             }).catch(err => {
-            this.setState({isLoading: false})
+            this.setState({isLoading: false});
             toast.show('服务端异常');
         })
     }

@@ -57,7 +57,9 @@ export default class ChoosePro extends Component {
             params: {
                 planeStyle: this.props.code,
                 proStyle: rowData.xmid,
-                addPlane: this.props.addPlane
+                addPlane: this.props.addPlane,
+                xmid:rowData.xmid,
+                xmmc:rowData.xmmc
             }
         })
     }

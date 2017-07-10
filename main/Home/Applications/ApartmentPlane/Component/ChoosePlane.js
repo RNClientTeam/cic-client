@@ -53,7 +53,7 @@ export default class ChoosePlane extends Component {
             if (this.props.navigator.getCurrentRoutes()[i].name === 'AddApartmentPlane') {
                 let popRoute = this.props.navigator.getCurrentRoutes()[i];
                 this.props.navigator.popToRoute(popRoute);
-                this.props.addPlane(this.props.planeStyle, this.props.proStyle, rowData.proName);
+                this.props.addPlane(rowData.id, rowData.rwmc, this.props.xmid,this.props.xmmc,rowData.ly,rowData.lymc);
                 return;
             }
         }
