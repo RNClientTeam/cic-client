@@ -48,7 +48,7 @@ export default class ApartmentPlaneList extends Component {
 
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
-            <ApartmentPlaneListCell key={rowID} data={item} navigator={this.props.navigator}
+            <ApartmentPlaneListCell getOperatingItem={(item)=>this.props.getOperatingItem(item)} key={rowID} data={item} navigator={this.props.navigator}
                 setModalVisible={() => this.props.setModalVisible()}/>
         );
     }

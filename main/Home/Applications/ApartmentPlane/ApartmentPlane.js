@@ -34,7 +34,8 @@ export default class ApartmentPlane extends Component{
             eDate:getCurrentMonE(),
             pageNum:1,
             rwzt:'请选择任务状态',
-            dataList:[]
+            dataList:[],
+            operatingItem:{}
         }
     }
 
@@ -62,6 +63,7 @@ export default class ApartmentPlane extends Component{
                     dataSource={this.state.dataList}
                     navigator={this.props.navigator}
                     refresh={(resolve)=>this.getDataFromNet(1,resolve)}
+                    getOperatingItem={(item)=>this.getOperatingItem(item)}
                     setModalVisible={()=>{this.setState({modalVisible:true})}}/>
                 {this.state.isModalVisible &&
                     <ApartmentListModalView
@@ -80,7 +82,7 @@ export default class ApartmentPlane extends Component{
                         visible={this.state.modalVisible}
                         onRequestClose={() => {this.setState({modalVisible: false})}}
                         style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}>
-                        <MoreOperation navigator={this.props.navigator} closeModal={() => {
+                        <MoreOperation operatingItem={this.state.operatingItem} navigator={this.props.navigator} closeModal={() => {
                             this.setState({modalVisible: false})
                         }}/>
                     </Modal>
@@ -88,6 +90,12 @@ export default class ApartmentPlane extends Component{
                 {this.state.isLoading?<Loading/>:null}
             </View>
         )
+    }
+
+    getOperatingItem(item){
+        this.setState({
+            operatingItem:item
+        })
     }
 
     showLoading(){

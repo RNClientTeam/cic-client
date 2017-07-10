@@ -33,7 +33,7 @@ export default class ApartmentPlaneListCell extends Component {
                         <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zrbmmc}</Text>
                         <Text style={[{width: width * 0.5,marginLeft: 3}, styles.textStyle]}>{this.props.data.wcbl?this.props.data.wcbl+'%':""}</Text>
                         <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.qdsj}</Text>
-                        <TouchableOpacity onPress={()=>{this.props.setModalVisible()}} style={styles.editTouch}>
+                        <TouchableOpacity onPress={()=>{this.props.setModalVisible();this.props.getOperatingItem(this.props.data)}} style={styles.editTouch}>
                             <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}
                                 style={styles.editImg} resizeMode="contain"/>
                         </TouchableOpacity>
