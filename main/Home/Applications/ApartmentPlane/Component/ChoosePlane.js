@@ -11,17 +11,15 @@ import {
 
 const {width, height} = Dimensions.get('window');
 import StatusBar from '../../../../Component/StatusBar.js';
-
+import toast from 'react-native-simple-toast'
+import Loading from "../../../../Component/Loading";
 export default class ChoosePlane extends Component {
     constructor(props) {
         super(props);
         this.ds = new ListView.DataSource({rowHasChanged:(r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: [
-                {proName: '图纸审核记录报批', proTime: '2016/09/17-2016/10/01'},
-                {proName: '图纸审核记录报批', proTime: '2016/09/17-2016/10/01'},
-                {proName: '图纸审核记录报批', proTime: '2016/09/17-2016/10/01'}
-            ]
+            dataSource: [],
+            isLoading:false
         }
     }
     render() {
@@ -31,10 +29,12 @@ export default class ChoosePlane extends Component {
                 <ListView
                     dataSource={this.ds.cloneWithRows(this.state.dataSource)}
                     renderRow={this._renderRow.bind(this)}
-                    scrollEnabled={false}
+                    scrollEnabled={true}
+                    enableEmptySections={true}
                     renderSeparator={(sectionID, rowID) => {
                         return (<View key={`${sectionID}-${rowID}`} style={styles.separatorView}/>)
                     }}/>
+                {this.state.isLoading?<Loading/>:null}
             </View>
         );
     }
@@ -42,8 +42,8 @@ export default class ChoosePlane extends Component {
         return (
             <TouchableHighlight onPress={this._clickItem.bind(this, rowData)} underlayColor="#e8e8e8">
                 <View style={styles.itemView}>
-                    <Text style={styles.textNum}>{rowData.proName}</Text>
-                    <Text style={styles.textInfo}>{rowData.proTime}</Text>
+                    <Text style={styles.textNum}>{rowData.rwmc}</Text>
+                    <Text style={styles.textInfo}>{rowData.jhkssj} / {rowData.jhjssj}</Text>
                 </View>
             </TouchableHighlight>
         );
@@ -53,10 +53,41 @@ export default class ChoosePlane extends Component {
             if (this.props.navigator.getCurrentRoutes()[i].name === 'AddApartmentPlane') {
                 let popRoute = this.props.navigator.getCurrentRoutes()[i];
                 this.props.navigator.popToRoute(popRoute);
-                this.props.addPlane(this.props.planeStyle, this.props.proStyle, rowData.proName);
+                this.props.addPlane(rowData.id, rowData.rwmc, this.props.xmid,this.props.xmmc,rowData.ly,rowData.lymc);
                 return;
             }
         }
+    }
+
+    componentDidMount() {
+        this.setState({
+            isLoading:true
+        });
+        axios.get('/psmBmjh/bmJhRwxzList',{
+            params:{
+                userID:GLOBAL_USERID,
+                type:this.props.planeStyle,
+                xmid:this.props.proStyle,
+                callID:true
+            }
+        }).then(data=>{
+            this.setState({
+                isLoading:false
+            });
+            console.log(data);
+            if(data.code === 1){
+                this.setState({
+                    dataSource:data.data.list
+                })
+            }else{
+                toast.show(data.message)
+            }
+        }).catch(err=>{
+            toast.show('服务端异常');
+            this.setState({
+                isLoading:false
+            })
+        })
     }
 }
 

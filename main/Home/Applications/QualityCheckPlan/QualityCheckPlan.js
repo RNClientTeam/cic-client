@@ -19,6 +19,8 @@ import QualityCheckPlanList from "./Component/QualityCheckPlanList";
 import QualityCheckFiltrate from "./Component/QualityCheckFiltrate";
 import QualityCheckModal from "./Component/QualityCheckModal";
 const {width}  = Dimensions.get('window');
+import toast from 'react-native-simple-toast'
+import Loading from "../../../Component/Loading";
 
 export default class QualityCheckPlan extends Component{
     constructor(props){
@@ -26,9 +28,17 @@ export default class QualityCheckPlan extends Component{
         this.state={
             year:new Date().getFullYear(),//当前年份
             month:new Date().getMonth(),//当前月份
-            selectRange:"mine",
+            day:new Date().getDate(),
             filtrate:false,
-            modalVisible:false
+            modalVisible:false,
+            calendarState:[],
+            rwxz:'请选择任务性质',
+            rwzt:'请选择任务状态',
+            pageNum:1,
+            rwxzid:'all',
+            rwztid:'all',
+            isLoading:false,
+            dataSource:[]
         }
     }
     render(){
@@ -39,9 +49,13 @@ export default class QualityCheckPlan extends Component{
                         <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
-                <QualityCheckPlanHeader changeRange={this.changeRange.bind(this)} range={this.state.selectRange} changeDate={this.changeYearAndMonth.bind(this)}/>
-                <Calendar year={this.state.year} month={this.state.month}/>
-                <QualityCheckPlanList navigator={this.props.navigator} showModal={()=>this.setState({modalVisible:true})}/>
+                <QualityCheckPlanHeader  changeDate={this.changeYearAndMonth.bind(this)}/>
+                <Calendar changeDay={(day)=>this.changeDay(day)} day={this.state.day} data={this.state.calendarState} year={this.state.year} month={this.state.month}/>
+                <QualityCheckPlanList dataSource={this.state.dataSource}
+                                      reload={(resolve)=>this.getTask(1,resolve)}
+                                      loadMore={this.loadMore.bind(this)}
+                                      navigator={this.props.navigator}
+                                      showModal={()=>this.setState({modalVisible:true})}/>
 
                 <Modal
                     animationType={"slide"}
@@ -56,23 +70,181 @@ export default class QualityCheckPlan extends Component{
                         this.setState({modalVisible: false})
                     }}/>
                 </Modal>
-                {this.state.filtrate?<QualityCheckFiltrate closeFiltrate={()=>this.setState({filtrate:false})}/>:null}
+                {this.state.filtrate?<QualityCheckFiltrate
+                    rwztId={this.state.rwztid}
+                    rwxzId={this.state.rwxzid}
+                    rwzt={this.state.rwzt}
+                    rwxz={this.state.rwxz}
+                    closeFiltrate={(type,zt,xz,ztCoe,xzCode)=>this.filterData(type,zt,xz,ztCoe,xzCode)}/>:null}
+                {this.state.isLoading?<Loading/>:null}
             </View>
         )
     }
 
+    //过滤
+    filterData(type,zt,xz,ztCode,xzCode){
+        this.setState({filtrate:false});
+        if(type === 1){
+            this.setState({
+                rwzt:zt,
+                rwxz:xz,
+                rwztid:ztCode,
+                rwxzid:xzCode
+            },function () {
+                this.getTask();
+                this.getCalendarData();
+            })
+        }
+    }
+
+    //选择日期
     changeYearAndMonth(data){
         this.setState({
             year:data.substr(0,4),
             month:parseInt(data.substr(-2,data.length-1))-1
+        },function () {
+            this.getTask();
+            this.getCalendarData();
+        })
+    }
+
+    //点击某一天
+    changeDay(day){
+        this.setState({
+            day:day
+        },function () {
+            this.getTask()
         })
     }
 
 
+    componentDidMount() {
+        this.getCalendarData();
+        this.getTask()
+    }
 
-    changeRange(txt){
+    getCalendarData(){
+        axios.get('/psmZljcjh/calendar4Zljcjh',{
+            params:{
+                userID:GLOBAL_USERID,
+                month:this.state.year+'-'+(this.state.month+1),
+                rwzt:this.state.rwztid,
+                rwxz:this.state.rwxzid,
+                callID:true
+            }
+        }).then(data=>{
+            if(data.code === 1){
+                this.setState({
+                    calendarState:data.data.list
+                })
+            }else{
+                toast.show(data.message)
+            }
+        }).catch(err=>{
+            toast.show('服务端异常');
+        })
+    }
+    
+    loadMore(){
         this.setState({
-            selectRange:txt
+            pageNum:this.state.pageNum+1
+        },function () {
+            this.getTask(this.state.pageNum);
+        })
+    }
+    
+    getTask(pageNum=1,resolve=()=>{}){
+        this.setState({isLoading:true});
+        axios.get('/psmZljcjh/list',{
+            params:{
+                userID:GLOBAL_USERID,
+                date:this.state.year+'-'+(this.state.month+1)+'-'+this.state.day,
+                rwzt:this.state.rwztid,
+                rwxz:this.state.rwxzid,
+                pageNum:pageNum,
+                pageSize:10,
+                callID:true
+            }
+        }).then(data=>{
+            this.setState({isLoading:false});
+            if(data.code ===1){
+                resolve();
+                data={
+                    "code": 1,
+                    "data": {
+                        "total": 2,
+                        "list": [
+                            {
+                                "zxmc": "施家胡同配电子项",
+                                "rn": 1,
+                                "cfxxId": "8a8180d856ec904a0156fe2e64806ea5",
+                                "twztmc": "已生效",
+                                "xmgh": "JZ_DS16065-16042",
+                                "xmmc": "大栅栏廊坊二条等4条街架空线入地工程",
+                                "cjbm": "00000004e00138c242a0d9",
+                                "zrrmc": "赵春华",
+                                "jhjssjt": "2016-12-26 00:00:00",
+                                "jhkssjt": "2016-12-26 00:00:00",
+                                "rwxz": 6,
+                                "zrbm": "00000004e00138c242a0d9",
+                                "id": "8a8180d858fa588c015914da35f029f4",
+                                "rwnr": "送电",
+                                "rwxzmc": "专工验收",
+                                "zrr": "ZNDQ2008",
+                                "gczxId": "8a8180d856ec904a0156fe35fc8870c3",
+                                "twzt": 100,
+                                "ssbmmc": "配网工程部",
+                                "cjsjt": "2016-12-19 10:12:41",
+                                "cjr": "ZNDQ2003"
+                            },
+                            {
+                                "zxmc": "施家胡同电缆子项",
+                                "rn": 2,
+                                "cfxxId": "8a8180d856ec904a0156fe2e64806ea5",
+                                "twztmc": "已生效",
+                                "xmgh": "JZ_DS16065-16042",
+                                "xmmc": "大栅栏廊坊二条等4条街架空线入地工程",
+                                "cjbm": "00000004e00138c242a0d9",
+                                "zrrmc": "赵春华",
+                                "jhjssjt": "2016-12-26 00:00:00",
+                                "jhkssjt": "2016-12-26 00:00:00",
+                                "rwxz": 6,
+                                "zrbm": "00000004e00138c242a0d9",
+                                "id": "8a8180d858fa588c015914d49475284c",
+                                "rwnr": "送电",
+                                "rwxzmc": "专工验收",
+                                "zrr": "ZNDQ2008",
+                                "gczxId": "8a8180d857482f62015750bf2ff962b2",
+                                "twzt": 100,
+                                "ssbmmc": "配网工程部",
+                                "cjsjt": "2016-12-19 10:06:32",
+                                "cjr": "ZNDQ2003"
+                            }
+                        ]
+                    },
+                    "message": "成功"
+                };
+                if(data.data && data.data.total>0){
+                    if(pageNum===1){
+                        this.setState({
+                            dataSource:data.data.list
+                        })
+                    }else{
+                        for(let i = 0;i<data.data.list.length;i++){
+                            this.state.dataSource.push(data.data.list[i]);
+                        }
+                        this.setState({
+                            dataSource:this.state.dataSource
+                        })
+                    }
+                    return true
+                }else{
+                    return false
+                }
+            }
+        }).catch(err=>{
+            this.setState({isLoading:false});
+            toast.show('服务端异常');
         })
     }
 }

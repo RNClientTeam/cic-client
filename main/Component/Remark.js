@@ -15,13 +15,6 @@ const {width}  = Dimensions.get('window');
 
 export default class Remark extends Component{
 
-    constructor(props){
-        super(props);
-        this.state={
-            remark:this.props.remark
-        }
-    }
-
     render(){
         return(
             <View style={styles.container}>
@@ -30,16 +23,14 @@ export default class Remark extends Component{
                 </View>
                 <TextInput
                     style={styles.textInputStyle}
+                    onChangeText={(text)=>this.props.textChange(text)}
                     multiline={true}
                     autoFocus={true}
-                    value={this.state.remark}
                     placeholder='请填写备注信息'
-                    onChangeText={(remark) => this.setState({remark})}
                     underlineColorAndroid="transparent"
                     textAlignVertical="top"
                     editable={this.props.remark === ''}
                 />
-                <BottomSaveButton/>
             </View>
         )
     }
@@ -48,7 +39,7 @@ export default class Remark extends Component{
 const styles = StyleSheet.create({
     container:{
         height:width*0.42,
-        backgroundColor:'#fff'
+        backgroundColor:'#fff',
     },
     textView:{
         height:width*0.08,

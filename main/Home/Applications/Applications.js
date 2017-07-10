@@ -41,8 +41,7 @@ var businessApp = [
     {title:'施工进度计划编制', image: require('../../../resource/imgs/home/applications/schedulePlanning.png'), sectionID:1},
     {title:'施工进度计划执行', image: require('../../../resource/imgs/home/applications/executionConstruction.png'), sectionID:1},
     {title:'施工日计划', image: require('../../../resource/imgs/home/applications/dailyPlan.png'), sectionID:1},
-    {title:'部门计划编制', image: require('../../../resource/imgs/home/applications/departmentalPlanning.png'), sectionID:1},
-    {title:'部门计划执行', image: require('../../../resource/imgs/home/applications/departmentPlanExecution.png'), sectionID:1},
+    {title:'部门计划', image: require('../../../resource/imgs/home/applications/departmentalPlanning.png'), sectionID:1},
     {title:'质量检查计划', image: require('../../../resource/imgs/home/applications/qualityInspectionPlan.png'), sectionID:1},
     {title:'质量检查记录', image: require('../../../resource/imgs/home/applications/qualityInspectionRecord.png'), sectionID:1},
     {title:'安全检查计划', image: require('../../../resource/imgs/home/applications/inspectionPlan.png'), sectionID:1},
@@ -213,7 +212,7 @@ export default class Applications extends Component {
                 component: ConstructPlan,
                 name: 'ConstructPlan'
             });
-        } else if (item.title === '部门计划编制') {
+        } else if (item.title === '部门计划') {
             this.props.navigator.push({
                 component: ApartmentPlane,
                 name: 'ApartmentPlane'

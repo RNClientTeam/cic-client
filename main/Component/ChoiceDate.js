@@ -26,9 +26,9 @@ export default class ChoiceDate extends Component{
                 <DatePicker
                     style={{width: 200}}
                     date={this.state.date || this.props.showDate}
-                    mode="date"
+                    mode={this.props.dateTime?"datetime":"date"}
                     placeholder="select date"
-                    format="YYYY-MM-DD"
+                    format={this.props.dateTime?"YYYY-MM-DD HH:mm:ss":"YYYY-MM-DD"}
                     minDate="2000-05-01"
                     maxDate="2116-06-01"
                     confirmBtnText="确认"

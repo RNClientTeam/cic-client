@@ -23,6 +23,7 @@ export default class ModalView extends Component {
                 {src:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'确认完成'},
                 {src:require('../../../../../resource/imgs/home/applications/effectiveAction.png'),name:'复工'},
                 {src:require('../../../../../resource/imgs/home/applications/stopAction.png'),name:'停工'},
+                {src:require('../../../../../resource/imgs/home/applications/delete.png'),name:'删除'},
             ]
         }
     }
@@ -31,16 +32,6 @@ export default class ModalView extends Component {
         return (
             <TouchableOpacity style={styles.modalView} onPress={()=>this.props.hiddenModal()}>
                 {this.renderModalCell()}
-                {/*
-                 <View style={styles.buttonView}>
-                 <TouchableOpacity style={[styles.button,{backgroundColor:'#fb5560'}]} onPress={()=>this.props.hiddenModal()}>
-                 <Text style={{color:'#fff'}}>停工</Text>
-                 </TouchableOpacity>
-                 <TouchableOpacity style={[styles.button, {backgroundColor:'#3999fd'}]} onPress={()=>this.props.hiddenModal()}>
-                 <Text style={{color:'#fff'}}>复工</Text>
-                 </TouchableOpacity>
-                 </View>
-                */}
             </TouchableOpacity>
         )
     }
@@ -49,7 +40,7 @@ export default class ModalView extends Component {
         let tempCell = [];
         for(let i = 0;i<this.state.modals.length;i++){
             tempCell.push(
-                <ModalCell hiddenModal={()=>this.props.hiddenModal()} navigator={this.props.navigator} key={i} src={this.state.modals[i].src} name={this.state.modals[i].name}/>
+                <ModalCell reload={()=>this.props.reload()} currentItem={this.props.currentItem} hiddenModal={()=>this.props.hiddenModal()} navigator={this.props.navigator} key={i} src={this.state.modals[i].src} name={this.state.modals[i].name}/>
             )
         }
         return tempCell;

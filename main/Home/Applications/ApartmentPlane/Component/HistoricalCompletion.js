@@ -19,28 +19,7 @@ export default class HistoricalCompletion extends Component{
         super(props);
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state={
-            dataSource:  [
-                {
-                    time: '2017/2/16',
-                    progress: 100,
-                    infomation: '已完成相关工作的100%，进展顺利'
-                },
-                {
-                    time: '2017/2/1',
-                    progress: 80,
-                    infomation: '已完成相关工作的80%，进展顺利'
-                },
-                {
-                    time: '2017/1/20',
-                    progress: 60,
-                    infomation: '已完成相关工作的60%，进展顺利'
-                },
-                {
-                    time: '2017/1/17',
-                    progress: 40,
-                    infomation: '已完成相关工作的40%，进展顺利'
-                }
-            ]
+            dataSource:  []
         }
     }
 
@@ -50,6 +29,7 @@ export default class HistoricalCompletion extends Component{
                 <StatusBar navigator={this.props.navigator} title="历史完成情况" />
                 <ListView
                     dataSource={this.ds.cloneWithRows(this.state.dataSource)}
+                    enableEmptySections={true}
                     renderRow={this.renderRow.bind(this)}/>
             </View>
         )
@@ -59,21 +39,41 @@ export default class HistoricalCompletion extends Component{
         return (
             <View style={styles.itemStyle}>
                 <View style={styles.topView}>
-                    <Text style={styles.timeSty}>{rowData.time}</Text>
+                    <Text style={styles.timeSty}>{rowData.tbsj}</Text>
                     <View style={styles.progressView}>
                         <Text style={styles.timeSty}>完成进度</Text>
                         <View style={styles.bgView}>
-                            <View style={{width:rowData.progress/200*width,height: 15, backgroundColor:rowData.progress==100?'#24cf71':'#ffb432'}}></View>
+                            <View style={{width:rowData.wcbl/200*width,height: 15, backgroundColor:rowData.wcbl==100?'#24cf71':'#ffb432'}}></View>
                         </View>
-                        <Text style={[styles.timeSty, {flex:1, textAlign:'right'}]}>{rowData.progress}%</Text>
+                        <Text style={[styles.timeSty, {flex:1, textAlign:'right'}]}>{rowData.wcbl}%</Text>
                     </View>
                 </View>
                 <View style={styles.infoView}>
-                    <Text style={styles.infoText}>{rowData.infomation}</Text>
+                    <Text style={styles.infoText}>{rowData.jzms}</Text>
                 </View>
             </View>
         );
     }
+
+    componentDidMount() {
+        axios.get('/psmBmjh/jzqkList',{
+            params:{
+                userID:GLOBAL_USERID,
+                callID:true,
+                jhid:this.props.id
+            }
+        }).then(data=>{
+            if(data.code === 1){
+                if(data.data&&data.data.list&&data.data.list.length>0){
+                    this.setState({
+                        dataSource:data.data.list
+                    })
+                }
+            }
+        })
+    }
+
+
 }
 
 const styles = StyleSheet.create({

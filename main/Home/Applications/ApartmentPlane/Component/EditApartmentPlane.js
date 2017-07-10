@@ -16,11 +16,10 @@ import StatusBar from '../../../../Component/StatusBar.js';
 import ChoosePlaneStyle from './ChoosePlaneStyle.js';
 import KeyTime from "../../../../Component/KeyTime";
 const heightArr = [0.0735, 0.0735, 0.087, 0.079, 0.0705, 0.0705, 0.0705, 0.075];
-import {getCurrentMonE,getCurrentMonS} from '../../../../Util/Util'
 import Organization from "../../../../Organization/Organization";
 import toast from 'react-native-simple-toast'
 
-export default class AddApartmentPlane extends Component {
+export default class EditApartmentPlane extends Component {
     constructor(props) {
         super(props);
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -38,15 +37,15 @@ export default class AddApartmentPlane extends Component {
             zrbmmc:'',
             zrr:'',
             zrrmc:"",
-            jhkssj:getCurrentMonS(),
-            jhjssj:getCurrentMonE(),
+            jhkssj:'',
+            jhjssj:'',
             wcbz:''
         }
     }
     render() {
         return (
             <View style={styles.flex}>
-                <StatusBar title="部门计划任务新增" navigator={this.props.navigator}/>
+                <StatusBar title="部门计划任务修改" navigator={this.props.navigator}/>
                 <ScrollView>
                     <TouchableHighlight underlayColor="transparent">
                         <View style={[styles.viewStyle, {height:0.0735*height,marginBottom:1}]}>
@@ -54,6 +53,7 @@ export default class AddApartmentPlane extends Component {
                             <TextInput placeholder='请填写'
                                        underlineColorAndroid="transparent"
                                        placeholderTextColor='#999'
+                                       defaultValue={this.state.jhmc}
                                        onChangeText={(text)=>this.setState({jhmc:text})}
                                        textAlign="right"
                                        style={{width:width*0.5, fontSize:15}}
@@ -98,7 +98,7 @@ export default class AddApartmentPlane extends Component {
                         </View>
                         <TouchableHighlight onPress={this.createPlane.bind(this)} underlayColor="transparent">
                             <View style={styles.btnView}>
-                                <Text style={styles.btnText}>创建</Text>
+                                <Text style={styles.btnText}>保存</Text>
                             </View>
                         </TouchableHighlight>
                     </View>
@@ -253,6 +253,43 @@ export default class AddApartmentPlane extends Component {
                 </TouchableHighlight>
             </View>
         )
+    }
+
+    componentDidMount() {
+        this.setState({
+            isLoading:true
+        });
+        axios.get('/psmBmjh/detail',{
+            params:{
+                jhId:this.props.id,
+                userID:GLOBAL_USERID,
+                callID:true
+            }
+        }).then(data=>{
+            this.setState({
+                isLoading:false
+            });
+            if(data.code === 1){
+                this.state.dataSource[0].value = data.data.jhrw;
+                this.state.dataSource[1].value = data.data.xmmc;
+                this.state.dataSource[2].value = data.data.lymc;
+                this.setState({
+                    jhmc:data.data.jhmc,
+                    jhkssj:data.data.qdsj,
+                    jhjssj:data.data.wcsj,
+                    zrbmmc:data.data.zrbmmc,
+                    zrrmc:data.data.zrrmc,
+                    wcbz:data.data.wcbz,
+                    jhrwId:data.data.jhrwId,
+                    xmbh:data.data.xmbh,
+                    ly:data.data.ly,
+                    zrbm:data.data.zrbm,
+                    zrr:data.data.zrr,
+                })
+            }
+        }).catch(err=>{
+            toast.show('服务端异常')
+        })
     }
 }
 
