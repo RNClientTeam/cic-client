@@ -71,7 +71,8 @@ export default class ConstructPlan extends Component{
             year:data.substr(0,4),
             month:parseInt(data.substr(-2,data.length-1))-1
         },function () {
-            this.getTask()
+            this.getTask();
+            this.getDataFronNet()
         })
     }
     skipPage(){
