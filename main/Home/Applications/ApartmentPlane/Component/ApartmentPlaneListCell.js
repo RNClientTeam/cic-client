@@ -46,7 +46,10 @@ export default class ApartmentPlaneListCell extends Component {
     skipPage() {
         this.props.navigator.push({
             component: HistoricalCompletion,
-            name: 'HistoricalCompletion'
+            name: 'HistoricalCompletion',
+            params:{
+                id:this.props.data.id
+            }
         });
     }
 }

@@ -59,21 +59,64 @@ export default class HistoricalCompletion extends Component{
         return (
             <View style={styles.itemStyle}>
                 <View style={styles.topView}>
-                    <Text style={styles.timeSty}>{rowData.time}</Text>
+                    <Text style={styles.timeSty}>{rowData.tbsj}</Text>
                     <View style={styles.progressView}>
                         <Text style={styles.timeSty}>完成进度</Text>
                         <View style={styles.bgView}>
-                            <View style={{width:rowData.progress/200*width,height: 15, backgroundColor:rowData.progress==100?'#24cf71':'#ffb432'}}></View>
+                            <View style={{width:rowData.wcbl/200*width,height: 15, backgroundColor:rowData.wcbl==100?'#24cf71':'#ffb432'}}></View>
                         </View>
-                        <Text style={[styles.timeSty, {flex:1, textAlign:'right'}]}>{rowData.progress}%</Text>
+                        <Text style={[styles.timeSty, {flex:1, textAlign:'right'}]}>{rowData.wcbl}%</Text>
                     </View>
                 </View>
                 <View style={styles.infoView}>
-                    <Text style={styles.infoText}>{rowData.infomation}</Text>
+                    <Text style={styles.infoText}>{rowData.jzms}</Text>
                 </View>
             </View>
         );
     }
+
+    componentDidMount() {
+        axios.get('/psmBmjh/jzqkList',{
+            params:{
+                userID:GLOBAL_USERID,
+                callID:true,
+                jhid:this.props.id
+            }
+        }).then(data=>{
+            if(data.code === 1){
+                // TODO
+                data = {
+                    "code": 1,
+                    "data": {
+                        "total": 1,
+                        "list": [
+                            {
+                                "id": "0000000330015c3855a4a4",
+                                "tbsj": "2017-05-25 08:44:29",
+                                "gzndid": "",
+                                "jzms": "11",
+                                "tbrmc": "刘姗姗",
+                                "tbbm": "00000004800138c242a0d9",
+                                "bz": "",
+                                "gzndnr": "",
+                                "tbbmmc": "市场营销二部",
+                                "wcbl": 10,
+                                "tbr": "ZNDQ1948"
+                            }
+                        ]
+                    },
+                    "message": "查询成功"
+                }
+
+                this.setState({
+                    dataSource:data.data.list
+                })
+
+            }
+        })
+    }
+
+
 }
 
 const styles = StyleSheet.create({
