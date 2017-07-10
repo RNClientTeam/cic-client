@@ -15,7 +15,6 @@ import ShareData from "./ShareData";
 import General from './General.js';
 import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 import SchedulePlan from './ScheduledPlan.js';
-import TotalImplementation from './TotalImplementation.js';
 var {width, height} = Dimensions.get('window');
 
 export default class SsjdjhDetail extends Component {
@@ -50,9 +49,6 @@ export default class SsjdjhDetail extends Component {
                     <General xmbh={this.props.xmbh} tabLabel='概况' gczxId={this.props.gczxId}/>
                     <SchedulePlan xmbh={this.props.xmbh} jhxxId={this.props.jhxxId} tabLabel='进度计划' navigator={this.props.navigator}/>
                     <CooperateTask navigator={this.props.navigator} tabLabel='配合任务' jhxxId={this.props.jhxxId}/>
-                    {/**
-                        <TotalImplementation navigator={this.props.navigator} tabLabel='总执行情况' jhxxId={this.props.jhxxId}/>
-                    **/}
                     <ShareData navigator={this.props.navigator} xmbh={this.props.xmbh} jhxxId={this.props.jhxxId} tabLabel='共享资料' gczxId={this.props.gczxId}/>
                 </ScrollableTabView>
             </View>

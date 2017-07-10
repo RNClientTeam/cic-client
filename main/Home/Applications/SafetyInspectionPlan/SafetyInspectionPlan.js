@@ -28,7 +28,7 @@ export default class SafetyInspectionPlane extends Component{
     render(){
         return(
             <View style={styles.earlierStage}>
-                <StatusBar navigator={this.props.navigator} title="安全检查计划（5）">
+                <StatusBar navigator={this.props.navigator} title="安全检查计划">
                     <TouchableOpacity onPress={()=>{this.setState({isModalVisible:!this.state.isModalVisible})}}>
                         <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>

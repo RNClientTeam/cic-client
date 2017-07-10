@@ -15,10 +15,8 @@ import {
     TouchableOpacity
 } from 'react-native'
 import StatusBar from "../../../../Component/StatusBar";
-import {getTimestamp} from '../../../../Util/Util.js';
 const {width, height}  = Dimensions.get('window');
 import Toast from 'react-native-simple-toast';
-import Loading from "../../../../Component/Loading.js";
 import ChoiceDate from "../../../../Component/ChoiceDate.js";
 import ModalDropdown from 'react-native-modal-dropdown';
 import Organization from '../../../../Organization/Organization.js';
@@ -29,7 +27,6 @@ export default class Turnover extends Component{
         super(props);
         this.changeIntroduction = '';
         this.state = {
-            isLoading: false,
             proName: '',
             planName: '',
             rybgId:'',
@@ -43,8 +40,6 @@ export default class Turnover extends Component{
             yzrrmc: '',
             xzrrmc: '',
             reasonTag: '',
-            bgyybc: '',
-            bgyybcmc: '',
             bgyyDefault: '请选择>',
             bgsm:'',
             bgyy: ''
@@ -67,34 +62,6 @@ export default class Turnover extends Component{
             }
         }).catch((error) => {
 
-        });
-    }
-
-    selectReason() {
-        this.props.navigator.push({
-            name: 'Organization',
-            component: Organization,
-            params: {
-                type: this.state.reasonTag==='dept'?'dep':'emp',
-                select: this.getReasonId.bind(this)
-            }
-        });
-    }
-
-    getReasonId(params) {
-        let tempName = '';
-        let tempId = '';
-        let nameArr = params.map((elem, index) => {
-            return elem.name;
-        });
-        let idArr = params.map((elem, index) => {
-            return elem.id;
-        });
-        tempName = nameArr.join(',');
-        tempId = idArr.join(',');
-        this.setState({
-            bgyybc: tempId,
-            bgyybcmc: tempName
         });
     }
 
@@ -141,36 +108,11 @@ export default class Turnover extends Component{
                                 style={{flex:1, alignItems:'flex-end'}}
                                 textStyle={{fontSize:14}}
                                 onSelect={(a) => {
-                                    if (this.state.allReason[a].sm === '1') {
-                                        this.setState({
-                                            bgyy: this.state.allReason[a].code,
-                                            reasonTag: this.state.allReason[a].sx1,
-                                            bgyybcmc: '',
-                                            bgyybc: ''
-                                        });
-                                    } else {
-                                        this.setState({
-                                            bgyy: this.state.allReason[a].code,
-                                            reasonTag: '',
-                                            bgyybc: '',
-                                            bgyybcmc: ''
-                                        });
-                                    }
+                                    this.setState({bgyy: this.state.allReason[a].code});
                                 }}
                                 showsVerticalScrollIndicator={false}
                             />
                         </View>
-
-                        {
-                            (this.state.bgyy === '2' || this.state.bgyy === '4') &&
-                            <View style={styles.cell}>
-                                <Text style={styles.label}>变更原因补充</Text>
-                                <View style={styles.blank}/>
-                                <Text onPress={this.selectReason.bind(this)} suppressHighlighting={true}>
-                                    {this.state.bgyybcmc||'请选择其他人或其他部门>'}
-                                </Text>
-                            </View>
-                        }
 
                         <View style={styles.cell}>
                             <Text style={styles.label}>原责任人</Text>
@@ -280,8 +222,6 @@ export default class Turnover extends Component{
                     yzrbm: res.yzrbm,
                     yzrrmc: res.yzrrmc,
                     xzrbm: res.xzrbm,
-                    bgyybcmc: res.bgyybcmc,
-                    bgyybc: res.bgyybc,
                     reasonList: this.state.reasonList,
                     allReason: responseData.data,
                     bgyyDefault: res.bgyy?this.state.reasonList[parseInt(res.bgyy)-1]:'请选择>',
@@ -298,10 +238,6 @@ export default class Turnover extends Component{
     submit() {
         if (this.state.bgyy.length === 0) {
             Toast.show('请选择变更原因');
-            return;
-        }
-        if ((this.state.bgyy === '2' || this.state.bgyy === '4') && this.state.bgyybcmc === '请选择其他人或其他部门>') {
-            Toast.show('请选择变更原因补充');
             return;
         }
         if (this.state.xzrrmc === '请选择>') {
@@ -324,8 +260,7 @@ export default class Turnover extends Component{
             bgyy: this.state.bgyy,
             sfzzfwn: this.state.selected?1:0,
             bgsm: this.changeIntroduction||this.state.bgsm,
-            bgyybc: this.state.bgyybc,
-            callID: getTimestamp()
+            callID: true
         }).then((responseData) => {
             if (responseData.code === 1) {
                 this.props.exchangeRwid(responseData.data);
