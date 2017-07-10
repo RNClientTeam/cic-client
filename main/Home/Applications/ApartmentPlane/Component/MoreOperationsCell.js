@@ -17,6 +17,7 @@ import CompletionForm from './CompletionForm.js';
 import toast from 'react-native-simple-toast'
 import ApartmentPlaneDetail from "./ApartmentPlaneDetail";
 import EditApartmentPlane from "./EditApartmentPlane";
+import FillProgress from "./FillProgress";
 export default class MoreOperationsCell extends Component {
     render() {
         return (
@@ -29,7 +30,7 @@ export default class MoreOperationsCell extends Component {
     }
 
     skipPage(){
-        if (this.props.dataSource.name === '填报进展') {
+        if (this.props.dataSource.name === '确认完成') {
             this.props.navigator.push({
                 component: CompletionForm,
                 name: 'CompletionForm'
@@ -56,6 +57,14 @@ export default class MoreOperationsCell extends Component {
             this.props.navigator.push({
                 component:EditApartmentPlane,
                 name:"EditApartmentPlane",
+                params:{
+                    id:this.props.operatingItem.id
+                }
+            })
+        }else if(this.props.dataSource.name === '填报进展'){
+            this.props.navigator.push({
+                component:FillProgress,
+                name:"FillProgress",
                 params:{
                     id:this.props.operatingItem.id
                 }

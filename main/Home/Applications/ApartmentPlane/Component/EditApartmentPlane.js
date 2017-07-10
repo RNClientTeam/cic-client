@@ -16,7 +16,6 @@ import StatusBar from '../../../../Component/StatusBar.js';
 import ChoosePlaneStyle from './ChoosePlaneStyle.js';
 import KeyTime from "../../../../Component/KeyTime";
 const heightArr = [0.0735, 0.0735, 0.087, 0.079, 0.0705, 0.0705, 0.0705, 0.075];
-import {getCurrentMonE,getCurrentMonS} from '../../../../Util/Util'
 import Organization from "../../../../Organization/Organization";
 import toast from 'react-native-simple-toast'
 
@@ -38,8 +37,8 @@ export default class EditApartmentPlane extends Component {
             zrbmmc:'',
             zrr:'',
             zrrmc:"",
-            jhkssj:getCurrentMonS(),
-            jhjssj:getCurrentMonE(),
+            jhkssj:'',
+            jhjssj:'',
             wcbz:''
         }
     }
