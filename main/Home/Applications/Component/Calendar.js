@@ -62,7 +62,7 @@ export default class Calendar extends Component{
 
     hasTask(index){
         let result = false;
-        for(let i = 0;i<this.props.data.length;i++){
+        for(let i = 0;i<this.props.data&&this.props.data.length;i++){
             if(parseInt(this.props.data[i].day)===index){
                 result =  this.props.data[i].yrw === 1;
                 break;
