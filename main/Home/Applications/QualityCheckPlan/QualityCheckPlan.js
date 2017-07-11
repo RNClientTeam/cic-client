@@ -169,6 +169,7 @@ export default class QualityCheckPlan extends Component{
             this.setState({isLoading:false});
             if(data.code ===1){
                 resolve();
+                // TODO
                 data={
                     "code": 1,
                     "data": {
