@@ -18,11 +18,13 @@ import QualityCheckRecordHeader from "./Component/QualityCheckRecordHeader";
 import QualityCheckRecordList from "./Component/QualityCheckRecordList";
 import QualityCheckRecordFiltrate from "./Component/QualityCheckRecordFiltrate";
 import QualityCheckModal from "./Component/QualityCheckModal";
+import QualityCheckRecordDetail from "./Component/QualityCheckRecordDetail.js";
+const {width}  = Dimensions.get('window');
 import Loading from "../../../Component/Loading";
-const {width} = Dimensions.get('window');
 import toast from 'react-native-simple-toast'
-export default class QualityCheckRecord extends Component {
-    constructor(props) {
+
+export default class QualityCheckRecord extends Component{
+    constructor(props){
         super(props);
         this.state = {
             year: new Date().getFullYear(),//当前年份
@@ -48,10 +50,15 @@ export default class QualityCheckRecord extends Component {
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="质量检查记录">
                     <TouchableOpacity onPress={() => {
-                        this.setState({filtrate: !this.state.filtrate})
+                        this.props.navigator.push({
+                            component:QualityCheckRecordDetail,
+                            name:'QualityCheckRecordDetail',
+                        });
                     }}>
-                        <Image style={styles.filtrate}
-                               source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
+                        <Image style={{width:0.04*width,height:0.04*width,marginLeft:-width*0.04-10}} source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={()=>{this.setState({filtrate:!this.state.filtrate})}}>
+                        <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
                 <QualityCheckRecordHeader changeDate={this.changeYearAndMonth.bind(this)}/>
