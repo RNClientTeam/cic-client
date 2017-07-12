@@ -51,7 +51,7 @@ export default class QualityCheckPlanListCell extends Component {
             component:QualityCheckPlanDetail,
             name:'QualityCheckPlanDetail',
             params: {
-                proName: this.props.data.projectName,
+                id: this.props.data.id,
             }
         })
     }

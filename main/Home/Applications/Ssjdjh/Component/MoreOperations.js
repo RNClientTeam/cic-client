@@ -54,11 +54,6 @@ export default class MoreOperations extends Component {
                 {img:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'确认完成'}
             );
         }
-        if(this.props.auth.tbzzxqk){
-            dataArr.push(
-                {img:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'填报总执行情况'}
-            );
-        }
         if (this.props.auth.start) {
             dataArr.push({
                 img: require('../../../../../resource/imgs/home/applications/effectiveAction.png'),

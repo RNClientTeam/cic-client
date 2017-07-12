@@ -33,7 +33,6 @@ export default class ProjectChildProfile extends Component {
         this.getGCZYGK();
         this.getAuthority('1111');
     }
-
     // 获取工程子项概况
     getGCZYGK() {
         axios.get('/psmSgjdjh/gczxgk', {

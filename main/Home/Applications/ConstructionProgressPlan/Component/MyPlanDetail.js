@@ -271,6 +271,28 @@ export default class MyPlanDetail extends Component {
             }
         })
     }
+    // 获取任务性质(rwxz)
+    getRWXZList() {
+        axios.get('/dictionary/list', {
+            params: {
+                userID: GLOBAL_USERID,
+                root: 'JDJH_SGRWXZ',
+                callID: true
+            }
+        }).then(responseData => {
+            if (responseData.code === 1) {
+                let rwxzList = [], rwxzIdList = [];
+                for (let i = 0; i < responseData.data.length; i++) {
+                    rwxzList.push(responseData.data[i].name);
+                    rwxzIdList.push(responseData.data[i].code);
+                }
+                this.setState({
+                    rwxzList,
+                    rwxzIdList,
+                })
+            }
+        })
+    }
 
 }
 

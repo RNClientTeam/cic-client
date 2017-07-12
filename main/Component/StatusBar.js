@@ -65,7 +65,6 @@ const styles = StyleSheet.create({
     },
     backIcon: {
         width: width * 0.05,
-        height: width * 0.05,
-        marginLeft: 5,
+        height: width * 0.05
     }
 });

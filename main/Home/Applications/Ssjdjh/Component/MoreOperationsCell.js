@@ -17,7 +17,6 @@ import CheckFlowInfo from "../MoreOperations/CheckFlowInfo";
 import Turnover from "../MoreOperations/Turnover";
 import FillPerformance from "../MoreOperations/FillPerformance";
 import EnsureComplete from "../MoreOperations/EnsureComplete";
-import ZongzhixinQK from "../MoreOperations/ZongzhixinQK";
 import FillPerforOfCooper from "./FillPerforOfCooper.js";
 import EnsureCompleteOfCooper from "../MoreOperations/EnsureCompleteOfCooper.js";
 import Toast from 'react-native-simple-toast';
@@ -112,15 +111,6 @@ export default class MoreOperationsCell extends Component {
                     }
                 });
             }
-        }else if(this.props.dataSource.name === '填报总执行情况'){
-            this.props.navigator.push({
-                name:'ZongzhixinQK',
-                component:ZongzhixinQK,
-                params:{
-                    rwid:this.props.rwid,
-                    jhxxId:this.props.jhxxId
-                }
-            });
         } else if (this.props.dataSource.name === '暂停') {
             this.changeStatus('100');
         } else if (this.props.dataSource.name === '恢复') {

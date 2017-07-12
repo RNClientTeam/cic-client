@@ -11,32 +11,32 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native'
-import QualityCheckRecordDetail from "./QualityCheckRecordDetail"
+import QualityDoubleCheckRecord from "./QualityDoubleCheckRecord.js";
 
 const {width} = Dimensions.get('window');
 
 export default class QualityCheckRecordListCell extends Component {
     render() {
         return (
-            <TouchableOpacity style={styles.container} onPress={this.skipToDetail.bind(this)}>
+            <TouchableOpacity style={styles.container} onPress={this.skipToDetail.bind(this,this.props.data)}>
                 <View style={styles.topView}>
                     <View style={styles.topTopView}>
-                        <Text style={styles.projectNameStyle}>{this.props.data.projectName}</Text>
+                        <Text style={styles.projectNameStyle}>{this.props.data.zxmc}</Text>
                         <View style={[styles.stateView, {backgroundColor: this.props.bgC}]}>
-                            <Text style={styles.stateStyle}>{this.props.data.state}</Text>
+                            <Text style={styles.stateStyle}>{this.props.data.dqztmc}</Text>
                         </View>
                     </View>
                     <Text style={styles.topTaskStyle}>
-                        {this.props.data.task}
+                        {this.props.data.xmmc}
                     </Text>
                 </View>
                 <View style={styles.bottomView}>
                     <View style={styles.bottomLeftView}>
                         <View style={styles.bottomLeftBottomView}>
-                            <Text style={[styles.bottomTextStyle,{marginRight:width*0.03}]}>{this.props.data.number}</Text>
-                            <Text style={styles.bottomTextStyle}>{this.props.data.principal}</Text>
+                            <Text style={[styles.bottomTextStyle,{marginRight:width*0.03}]}>{this.props.data.xmgh}</Text>
+                            <Text style={styles.bottomTextStyle}>{this.props.data.jcr}</Text>
                         </View>
-                        <Text style={styles.bottomTextStyle}>{this.props.data.time}</Text>
+                        <Text style={styles.bottomTextStyle}>{this.props.data.cjsj}</Text>
                     </View>
                     <TouchableOpacity style={styles.bottomRightView} onPress={()=>this.props.showModal()}>
                         <Image style={styles.imgSty}
@@ -47,13 +47,13 @@ export default class QualityCheckRecordListCell extends Component {
         )
     }
 
-    skipToDetail(){
+    skipToDetail(data){
         this.props.navigator.push({
-            component:QualityCheckRecordDetail,
-            name:'QualityCheckRecordDetail',
-            // params: {
-            //     proName: this.props.data.projectName,
-            // }
+            component:QualityDoubleCheckRecord,
+            name:'QualityDoubleCheckRecord',
+            params: {
+                data
+            }
         })
     }
 }

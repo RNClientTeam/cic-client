@@ -15,21 +15,17 @@ import {
     TouchableOpacity
 } from 'react-native'
 import StatusBar from "../../../../Component/StatusBar";
-import {getTimestamp} from '../../../../Util/Util.js';
 const {width, height}  = Dimensions.get('window');
 import Toast from 'react-native-simple-toast';
-import Loading from "../../../../Component/Loading.js";
 import ChoiceDate from "../../../../Component/ChoiceDate.js";
 import ModalDropdown from 'react-native-modal-dropdown';
 import CheckFlowInfo from './CheckFlowInfo.js';
-import Organization from '../../../../Organization/Organization.js';
 
 export default class ApplyForDelay extends Component{
     constructor(props) {
         super(props);
         this.changeIntroduction = '';
         this.state = {
-            isLoading: false,
             proName: '',
             startTime: '',
             endTime: '',
@@ -39,9 +35,6 @@ export default class ApplyForDelay extends Component{
             yqbgId:'',
             reasonList: [],
             allReason: [],
-            reasonTag: '',
-            bgyybc: '',
-            bgyybcmc: '',
             bgyyDefault: '请选择>',
             bgsm: '',
             bgyy: ''
@@ -57,7 +50,7 @@ export default class ApplyForDelay extends Component{
                 userID: GLOBAL_USERID,
                 rwid: this.props.rwid,
                 rwlx: this.props.tag && this.props.tag === '配合任务' ? 2 : 1,
-                callID: getTimestamp()
+                callID: true
             }
         }).then((responseData) => {
             if (responseData.code === 1) {
@@ -69,32 +62,37 @@ export default class ApplyForDelay extends Component{
         });
     }
 
-    //获取其他部门／其让人id
-    getReasonId(params) {
-        let tempName = '';
-        let tempId = '';
-        let nameArr = params.map((elem, index) => {
-            return elem.name;
-        });
-        let idArr = params.map((elem, index) => {
-            return elem.id;
-        });
-        tempName = nameArr.join(',');
-        tempId = idArr.join(',');
-        this.setState({
-            bgyybc: tempId,
-            bgyybcmc: tempName
-        });
-    }
-
-    selectReason() {
-        this.props.navigator.push({
-            name: 'Organization',
-            component: Organization,
+    //修改变更原因
+    exchangeReason(res) {
+        axios.get('/dictionary/list', {
             params: {
-                type: this.state.reasonTag==='dept'?'dep':'emp',
-                select: this.getReasonId.bind(this)
+                userID: GLOBAL_USERID,
+                root: 'JDJH_BGYY',
+                callID: true
             }
+        }).then((responseData) => {
+            if (responseData.code === 1) {
+                this.state.reasonList = [];
+                responseData.data.forEach((elem, index) => {
+                    this.state.reasonList.push(elem.name);
+                });
+                this.setState({
+                    proName: res.xmmc,
+                    startTime: res.yjhkssj,
+                    endTime: res.yjhjssj,
+                    planName: res.rwmc,
+                    changeStartTime: res.xjhkssj,
+                    changeEndTime: res.xjhjssj,
+                    yqbgId: res.yqbgId,
+                    bgyyDefault: res.bgyy?this.state.reasonList[parseInt(res.bgyy)-1]:'请选择>',
+                    reasonList: this.state.reasonList,
+                    allReason: responseData.data,
+                    bgsm: res.bgsm||'',
+                    bgyy: res.bgyy||''
+                });
+            }
+        }).catch((error) => {
+
         });
     }
 
@@ -145,36 +143,11 @@ export default class ApplyForDelay extends Component{
                                 textStyle={{fontSize:14}}
                                 style={{flex:1, alignItems:'flex-end'}}
                                 onSelect={(a) => {
-                                    if (this.state.allReason[a].sm === '1') {
-                                        this.setState({
-                                            bgyy: this.state.allReason[a].code,
-                                            reasonTag: this.state.allReason[a].sx1,
-                                            bgyybcmc: '',
-                                            bgyybc: ''
-                                        });
-                                    } else {
-                                        this.setState({
-                                            bgyy: this.state.allReason[a].code,
-                                            reasonTag: '',
-                                            bgyybc: '',
-                                            bgyybcmc: ''
-                                        })
-                                    }
+                                    this.setState({bgyy: this.state.allReason[a].code});
                                 }}
                                 showsVerticalScrollIndicator={false}
                             />
                         </View>
-
-                        {
-                            (this.state.bgyy === '2' || this.state.bgyy === '4') &&
-                            <View style={styles.cell}>
-                                <Text style={styles.label}>变更原因补充</Text>
-                                <View style={styles.blank}/>
-                                <Text onPress={this.selectReason.bind(this)} suppressHighlighting={true}>
-                                    {this.state.bgyybcmc||'请选择其他人或其他部门>'}
-                                </Text>
-                            </View>
-                        }
 
                         {
                             this.props.tag !== "配合任务" &&
@@ -217,42 +190,6 @@ export default class ApplyForDelay extends Component{
         )
     }
 
-    //修改变更原因
-    exchangeReason(res) {
-        axios.get('/dictionary/list', {
-            params: {
-                userID: GLOBAL_USERID,
-                root: 'JDJH_BGYY',
-                callID: true
-            }
-        }).then((responseData) => {
-            if (responseData.code === 1) {
-                this.state.reasonList = [];
-                responseData.data.forEach((elem, index) => {
-                    this.state.reasonList.push(elem.name);
-                });
-                this.setState({
-                    proName: res.xmmc,
-                    startTime: res.yjhkssj,
-                    endTime: res.yjhjssj,
-                    planName: res.rwmc,
-                    changeStartTime: res.xjhkssj,
-                    changeEndTime: res.xjhjssj,
-                    yqbgId: res.yqbgId,
-                    bgyybcmc: res.bgyybcmc,
-                    bgyyDefault: res.bgyy?this.state.reasonList[parseInt(res.bgyy)-1]:'请选择>',
-                    reasonList: this.state.reasonList,
-                    allReason: responseData.data,
-                    bgsm: res.bgsm||'',
-                    bgyy: res.bgyy||'',
-                    reasonTag: res.bgyy?responseData.data[parseInt(res.bgyy)-1].sx1:''
-                });
-            }
-        }).catch((error) => {
-
-        });
-    }
-
     submit() {
         if (this.state.bgyy.length === 0) {
             Toast.show('请选择变更原因');
@@ -281,8 +218,7 @@ export default class ApplyForDelay extends Component{
             xjhjssj: this.state.changeEndTime,
             bgyy: this.state.bgyy,
             bgsm: this.changeIntroduction || this.state.bgsm,
-            bgyybc: this.state.bgyybc,
-            callID: getTimestamp()
+            callID: true
         }).then((responseData) => {
             if (responseData.code === 1) {
                 this.props.exchangeRwid(responseData.data);
