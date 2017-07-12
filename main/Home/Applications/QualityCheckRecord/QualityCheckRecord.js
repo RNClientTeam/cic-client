@@ -82,12 +82,27 @@ export default class QualityCheckRecord extends Component {
                         rwzt={this.state.rwzt}
                         rwxz={this.state.rwxz}
                         type={this.state.type}
-                        closeFiltrate={() => this.setState({filtrate: false})}/> : null}
+                        closeFiltrate={(tag,type,zt,xz,ztCode,xzCode) => this.filterData(tag,type,zt,xz,ztCode,xzCode)}/> : null}
                 {this.state.isLoading ? <Loading/> : null}
             </View>
         )
     }
 
+    //过滤
+    filterData(tag,type,zt,xz,ztCode,xzCode){
+        this.setState({filtrate:false});
+        if(tag === 1){
+            this.setState({
+                type:type,
+                rwzt:ztCode,
+                rwxz:xzCode,
+                rwztCn:zt,
+                rwxzCn:xz
+            },function () {
+                this.getData()
+            })
+        }
+    }
     //点击某一天
     changeDay(day) {
         this.setState({
