@@ -46,8 +46,8 @@ export default class QualityDoubleCheckRecord extends Component {
                     tabBarActiveTextColor='#51a5f0'
                     tabBarInactiveTextColor='#3d3d3d'
                     tabBarBackgroundColor="white">
-                    <DoubleCheckDetail tabLabel="检查记录" navigator={this.props.navigator}/>
-                    <DoubleCheckModification tabLabel="整改任务" navigator={this.props.navigator}/>
+                    <DoubleCheckDetail id={this.props.data.id} tabLabel="检查记录" navigator={this.props.navigator}/>
+                    <DoubleCheckModification id={this.props.data.id} tabLabel="整改任务" navigator={this.props.navigator}/>
                     <DoubleCheckRecord tabLabel="复查" navigator={this.props.navigator}/>
                 </ScrollableTabView>
             </View>

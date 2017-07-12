@@ -148,6 +148,18 @@ export default class DoubleCheckModification extends Component {
             });
         }, 1000);
     }
+
+    componentDidMount() {
+        axios.get('/psmSgrjl/zgrwList',{
+            params:{
+                userID:GLOBAL_USERID,
+                zljcjlId:this.props.id,
+                callID:true
+            }
+        }).then(data=>{
+            console.log(data);
+        })
+    }
 }
 
 const styles = StyleSheet.create({
