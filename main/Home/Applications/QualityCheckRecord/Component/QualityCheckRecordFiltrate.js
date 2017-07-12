@@ -14,26 +14,62 @@ import {
 const {width, height} = Dimensions.get('window');
 const Platform = require('Platform');
 import ModalDropdown from 'react-native-modal-dropdown';
-
+import toast from 'react-native-simple-toast'
 export default class QualityCheckRecordFiltrate extends Component {
-
-
+    constructor(props){
+        super(props);
+        this.state={
+            rwxzCn:this.props.rwxzCn,
+            rwztCn:this.props.rwztCn,
+            rwxzCodes:[],
+            rwztCodes:[],
+            rwxzCns:[],
+            rwztCns:[],
+            rwxzCode:this.props.rwxz,
+            rwztCode:this.props.rwzt,
+            type:this.props.type
+        }
+    }
 
     render() {
         return (
             <View style={[styles.containerStyle, Platform.OS === 'android' ? {top: 44} : {top: 64}]}>
                 <View style={styles.cellStyle}>
-                    <Text style={{color:'#216fd0'}}>当前状态</Text>
+                    <Text style={{color:'#216fd0'}}>任务状态</Text>
                     <View style={styles.indicateView}>
                         <ModalDropdown
-                            options={['计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4', '计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4']}
+                            options={this.state.rwztCns}
                             animated={true}
-                            defaultValue='计划类型 1'
+                            defaultValue={this.state.rwztCn||'请选择任务状态'}
                             style={styles.modalDropDown}
                             textStyle={styles.modalDropDownText}
                             dropdownStyle={styles.dropdownStyle}
                             onSelect={(a) => {
-                                console.log(a)
+                                this.setState({
+                                    rwztCode:this.state.rwztCodes[a],
+                                    rwztCn:this.state.rwztCns[a]
+                                })
+                            }}
+                            showsVerticalScrollIndicator={false}
+                        />
+                        <Image style={styles.indicateImage}
+                               source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
+                    </View>
+                </View>
+                <View style={styles.cellStyle}>
+                    <Text style={{color:'#216fd0'}}>记录范围</Text>
+                    <View style={styles.indicateView}>
+                        <ModalDropdown
+                            options={['全部', '我代办', '我参与']}
+                            animated={true}
+                            defaultValue={this.state.type}
+                            style={styles.modalDropDown}
+                            textStyle={styles.modalDropDownText}
+                            dropdownStyle={styles.dropdownStyle}
+                            onSelect={(a) => {
+                                this.setState({
+                                    type:['全部', '我代办', '我参与'][a]
+                                })
                             }}
                             showsVerticalScrollIndicator={false}
                         />
@@ -45,14 +81,17 @@ export default class QualityCheckRecordFiltrate extends Component {
                     <Text style={{color:'#216fd0'}}>任务性质</Text>
                     <View style={styles.indicateView}>
                         <ModalDropdown
-                            options={['计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4', '计划类型 1', '计划类型 2', '计划类型 3', '计划类型 4']}
+                            options={this.state.rwxzCns}
                             animated={true}
-                            defaultValue='计划类型 1'
+                            defaultValue={this.state.rwxzCn||'请选择任务性质'}
                             style={styles.modalDropDown}
                             textStyle={styles.modalDropDownText}
                             dropdownStyle={styles.dropdownStyle}
                             onSelect={(a) => {
-                                console.log(a)
+                                this.setState({
+                                    rwxzCode:this.state.rwxzCodes[a],
+                                    rwxzCn:this.state.rwxzCns[a]
+                                })
                             }}
                             showsVerticalScrollIndicator={false}
                         />
@@ -66,12 +105,61 @@ export default class QualityCheckRecordFiltrate extends Component {
                         <Text>重置</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.clickButton, {backgroundColor: '#216fd0'}]}
-                                      onPress={() => this.props.closeFiltrate()}>
+                                      onPress={() => {this.props.closeFiltrate();console.log(this.state)}}>
                         <Text style={{color: '#fff'}}>确定</Text>
                     </TouchableOpacity>
                 </View>
             </View>
         )
+    }
+
+    componentDidMount() {
+        axios.get('/dictionary/list',{
+            params:{
+                userID:GLOBAL_USERID,
+                root:'JDJH_SGRWXZ',
+                callID:true
+            }
+        }).then(rwxzData=>{
+            if(rwxzData.code===1){
+                let cn = [],code = [];
+                for(let i = 0;i<rwxzData.data.length;i++){
+                    cn.push(rwxzData.data[i].name);
+                    code.push(rwxzData.data[i].code)
+                }
+                this.setState({
+                    rwxzCns:cn,
+                    rwxzCodes:code
+                });
+                axios.get('/dictionary/list',{
+                    params:{
+                        userID:GLOBAL_USERID,
+                        root:"JDJH_RWZT",
+                        callID:true
+                    }
+                }).then(ztData=>{
+                    if(ztData.code === 1){
+                        let cns=[],codes=[];
+                        for(let j = 0;j<ztData.data.length;j++){
+                            cns.push(ztData.data[j].name);
+                            codes.push(ztData.data[j].code);
+                        }
+                        this.setState({
+                            rwztCns:cns,
+                            rwztCodes:codes
+                        })
+                    }else{
+                        toast.show(ztData.message)
+                    }
+                }).catch(err=>{
+                    toast.show('服务端异常');
+                })
+            }else{
+                toast.show(rwxzData.message)
+            }
+        }).catch(err=>{
+            toast.show('服务端异常');
+        })
     }
 }
 
