@@ -118,6 +118,13 @@ export default class MoreActionsModal extends Component {
                     }
                 );            
             }
+            actionList.push(
+                {
+                    img: require('../../../../../resource/imgs/home/applications/modification.png'),
+                    name: '修改',
+                    action: () => this.update(this.props.rwid)
+                }
+            );
             this.setState({
                 actionList: actionList
             });           

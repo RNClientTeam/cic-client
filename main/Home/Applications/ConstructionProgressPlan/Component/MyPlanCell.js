@@ -36,7 +36,9 @@ export default class MyPlanCell extends Component {
                         {this.props.data.jhkssj + (this.props.data.jhjssj ? ' ~ ' + this.props.data.jhjssj : '')}
                     </Text>
                     <View style={styles.blank}/>
-                    <TouchableOpacity onPress={()=>{this.props.setModalVisible(this.props.data.id)}} style={styles.editTouch}>
+                    <TouchableOpacity
+                        onPress={ () => this.props.setModalVisible(this.props.data.id) }
+                        style={styles.editTouch}>
                         <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}
                                style={styles.editImg} resizeMode="contain"/>
                     </TouchableOpacity>

@@ -37,7 +37,6 @@ export default class ProjectChildProfile extends Component {
     // 获取工程子项概况
     getGCZYGK() {
         axios.get('/psmSgjdjh/gczxgk', {
-
             params: {
                 userID: GLOBAL_USERID,
                 gczxId: this.props.gczxId,

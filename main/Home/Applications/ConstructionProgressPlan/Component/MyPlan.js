@@ -95,7 +95,7 @@ export default class MyPlan extends Component {
             <MyPlanCell key={rowID}
                         navigator={this.props.navigator}
                         data={item}
-                        setModalVisible={(rwid) => {this.props.setModalVisible(rwid)}}
+                        setModalVisible={ (rwid) => this.props.setModalVisible(rwid) }
             />
         );
     }

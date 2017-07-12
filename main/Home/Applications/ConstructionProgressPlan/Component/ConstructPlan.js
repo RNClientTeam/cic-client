@@ -47,7 +47,6 @@ export default class ConstructPlan extends Component {
                 pageSize
             }
         }).then(responseData => {
-            console.log('----------', data);
             if (responseData.code === 1 ) {
                 if (responseData.data && responseData.data.data) {
                     let resultData = responseData.data.data;
@@ -103,7 +102,7 @@ export default class ConstructPlan extends Component {
                     <MyPlan navigator={this.props.navigator}
                             loadMore={() => this.loadMore()}
                             dataSource={this.state.myTask}
-                            setModalVisible={() => this.setModalVisible()}
+                            setModalVisible={(rwid) => this.setModalVisible(rwid)}
                     />
                 </ScrollView>
                 <Modal
@@ -133,7 +132,11 @@ export default class ConstructPlan extends Component {
     create() {
         this.props.navigator.push({
             component: MyPlanDetail,
-            name: 'MyPlanDetail'
+            name: 'MyPlanDetail',
+            params: {
+                gczxId: this.props.gczxId,
+                cfxxId: this.props.cfxxId,
+            }
         });
     }
 

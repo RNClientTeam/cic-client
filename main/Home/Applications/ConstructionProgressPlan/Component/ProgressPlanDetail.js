@@ -47,6 +47,7 @@ export default class ProgressPlanDetail extends Component {
                     <ConstructPlan tabLabel="施工计划"
                                    navigator={this.props.navigator}
                                    gczxId={this.props.gczxId}
+                                   cfxxId={this.props.cfxxId}
                     />
                     <ShareFile bsid={this.props.gczxId} tabLabel="共享资料" navigator={this.props.navigator} />
                 </ScrollableTabView>

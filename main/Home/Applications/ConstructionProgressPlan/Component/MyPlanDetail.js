@@ -16,6 +16,8 @@ import {
 import Organization from '../../../../Organization/Organization';
 import StatusBar from '../../../../Component/StatusBar';
 import ChoiceDate from '../../../../Component/ChoiceDate';
+import ModalDropdown from 'react-native-modal-dropdown';
+import Toast from 'react-native-simple-toast';
 
 const {width} = Dimensions.get('window');
 
@@ -26,10 +28,9 @@ export default class MyPlanDetail extends Component {
             title: props.id ? '编辑工作任务' : '新建工作任务',
             rwmc: '',
             rwxz: '',
+            rwxzmc: '请选择>',
             zrrmc: '请选择>',
             ssrymc: '请选择>',
-            currentStatus: '新建任务', // 当前状态
-            formStatus: '新建', // 表单状态
         };
     }
 
@@ -56,17 +57,10 @@ export default class MyPlanDetail extends Component {
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>任务责任人</Text>
                             <Text style={{padding:5, paddingRight:0, flex: 1, textAlign: 'right'}}
-                                  onPress={() => this.goPersonSelector()}>{this.state.zrrmc}></Text>
+                                  onPress={() => this.goPersonSelector()}>
+                                {this.state.zrrmc}
+                            </Text>
                         </View>
-                        {this.props.id ?
-                            <View style={styles.row}>
-                                <Text style={[styles.labelColor]}>当前状态</Text>
-                                <TextInput value={this.state.rwztmc}
-                                        onChangeText={(value) => this.setState({rwztmc: value})}
-                                        style={styles.inputStyle}/>
-                            </View> : 
-                            <View />
-                        }
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>任务性质</Text>
                             {/*<TextInput value={this.state.rwxzmc}
@@ -75,7 +69,7 @@ export default class MyPlanDetail extends Component {
                             <ModalDropdown
                                 options={this.state.rwxzList}
                                 animated={true}
-                                defaultValue={'请选择>'}
+                                defaultValue={this.state.rwxzmc}
                                 style={{flex:1, alignItems:'flex-end'}}
                                 textStyle={styles.modalDropDownText}
                                 dropdownStyle={styles.dropdownStyle}
@@ -93,16 +87,15 @@ export default class MyPlanDetail extends Component {
                         </View>
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>实施人员</Text>
-                            <View style={styles.blank}/>
-                            <Text onPress={() => this.multiSelector()}>
-                                {this.state.ssrymc}>
+                            <Text style={{flex: 1, textAlign: 'right'}} onPress={() => this.multiSelector()}>
+                                {this.state.ssrymc}
                             </Text>
                         </View>
-                        <View style={styles.row}>
-                            <Text style={[styles.labelColor]}>表单状态</Text>
-                            <View style={styles.blank}/>
-                            <Text>{this.state.formStatus}</Text>
-                        </View>
+                        {/*<View style={styles.row}>*/}
+                            {/*<Text style={[styles.labelColor]}>表单状态</Text>*/}
+                            {/*<View style={styles.blank}/>*/}
+                            {/*<Text>{this.state.formStatus}</Text>*/}
+                        {/*</View>*/}
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>计划开始时间</Text>
                             <View style={styles.blank}/>
@@ -117,7 +110,7 @@ export default class MyPlanDetail extends Component {
                         </View>
                     </View>
                 </ScrollView>
-                <TouchableOpacity onPress={() => this.save()}>
+                <TouchableOpacity onPress={() => this.submit()}>
                     <View style={styles.button}>
                         <Text style={styles.buttonText}>提交</Text>
                     </View>
@@ -126,8 +119,73 @@ export default class MyPlanDetail extends Component {
         )
     }
     save() {
-        alert(this.state.rwmc);
+        let data = {
+            userID: GLOBAL_USERID,
+            gczxId: this.props.gczxId,
+            cfxxId: this.props.cfxxId,
+            rwmc: this.state.rwmc,
+            zrr: this.state.zrr,
+            zrbm: this.state.zrbm,
+            rwxz: this.state.rwxz,
+            bzgq: this.state.bzgq,
+            ssry: this.state.ssry,
+            jhkssj: this.state.jhkssj,
+            jhjssj: this.state.jhjssj,
+            callID: true,
+        };
+        axios.post('/psmSgjdjh/addSgjhJhrw', data)
+            .then(data => {
+                console.log('--------data', data);
+                if (data.code === 1) {
+                    Toast.show('保存成功!');
+                } else {
+                    Toast.show(data.message);
+                }
+            })
+            .catch(err => {
+                if (err) {
+                    Toast.show('服务端异常');
+                }
+            })
     }
+
+    update() {
+        let data = {
+            userID: GLOBAL_USERID,
+            id: this.props.id,
+            rwmc: this.state.rwmc,
+            zrr: this.state.zrr,
+            zrbm: this.state.zrbm,
+            rwxz: this.state.rwxz,
+            bzgq: this.state.bzgq,
+            ssry: this.state.ssry,
+            jhkssj: this.state.jhkssj,
+            jhjssj: this.state.jhjssj,
+            callID: true,
+        };
+        axios.post('/psmSgjdjh/updateSgjhJhrw', data)
+            .then(data => {
+                if (data.code === 1) {
+                    Toast.show('保存成功!');
+                } else {
+                    Toast.show(data.message);
+                }
+            })
+            .catch(err => {
+                if (err) {
+                    Toast.show('服务端异常');
+                }
+            })
+    }
+
+    submit() {
+        if (this.props.id) {
+            this.update();
+        } else {
+            this.save();
+        }
+    }
+
     goPersonSelector() {
         this.props.navigator.push({
             name: 'Organization',
@@ -174,8 +232,21 @@ export default class MyPlanDetail extends Component {
                 userID: GLOBAL_USERID,
                 id: id
             }
-        }).then((data) => {
-            console.log('rwDetail', data);
+        }).then(responseData => {
+            this.setState(
+                {
+                    rwmc: responseData.data.rwmc,
+                    rwxz: responseData.data.rwxz,
+                    rwxzmc: responseData.data.rwxzmc || '请选择>',
+                    zrr: responseData.data.zrr,
+                    zrrmc: responseData.data.zrrmc || '请选择>',
+                    ssry: responseData.data.ssry,
+                    ssrymc: responseData.data.ssrymc || '请选择>',
+                    bzgq: responseData.data.bzgq,
+                    jhkssj: responseData.data.jhkssj,
+                    jhjssj: responseData.data.jhjssj,
+                }
+            );
         })
     }
     // 获取任务性质(rwxz)
@@ -250,7 +321,7 @@ const styles = StyleSheet.create({
         textAlign: 'right'
     },
     dropdownStyle: {
-        width: width * 0.55,
+        width: width * 0.4,
         alignItems: 'center',
         justifyContent: 'center',
     },

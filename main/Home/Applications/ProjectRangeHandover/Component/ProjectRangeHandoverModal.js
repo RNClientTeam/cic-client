@@ -15,7 +15,7 @@ import {getCurrentDate} from '../../../../Util/Util'
 import ChoiceDate from "../../../../Component/ChoiceDate";
 const {width, height} = Dimensions.get('window');
 const Platform = require('Platform');
-import ModalDropdown from 'react-native-modal-dropdown';
+
 export default class ProjectRangeHandoverModal extends Component {
     constructor(props){
         super(props);
