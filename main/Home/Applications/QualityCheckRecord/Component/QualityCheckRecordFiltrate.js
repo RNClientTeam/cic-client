@@ -101,11 +101,11 @@ export default class QualityCheckRecordFiltrate extends Component {
                 </View>
                 <View style={styles.buttonView}>
                     <TouchableOpacity style={[styles.clickButton, {backgroundColor: '#dbdada'}]}
-                                      onPress={() => this.props.closeFiltrate()}>
+                                      onPress={() => this.props.closeFiltrate(0,'全部','','','all','all')}>
                         <Text>重置</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.clickButton, {backgroundColor: '#216fd0'}]}
-                                      onPress={() => {this.props.closeFiltrate();console.log(this.state)}}>
+                                      onPress={() => {this.props.closeFiltrate(1,this.state.type,this.state.rwztCn,this.state.rwxzCn,this.state.rwztCode,this.state.rwxzCode)}}>
                         <Text style={{color: '#fff'}}>确定</Text>
                     </TouchableOpacity>
                 </View>
