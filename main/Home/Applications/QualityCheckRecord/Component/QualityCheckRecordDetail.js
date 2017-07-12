@@ -14,18 +14,25 @@ import {
     TextInput,
     Switch
 } from 'react-native'
-import StatusBar from "../../../../Component/StatusBar"
-import KeyValueRight from "../../../../Component/KeyValueRight"
-import KeyTime from "../../../../Component/KeyTime"
-import LabelTextArea from "../../../../Component/LabelTextArea"
-
+import StatusBar from "../../../../Component/StatusBar";
+import KeyValueRight from "../../../../Component/KeyValueRight";
+import KeyTime from "../../../../Component/KeyTime";
+import LabelTextArea from "../../../../Component/LabelTextArea";
+const selectImg = [
+    require('../../../../../resource/imgs/home/constuctPlan/choiced.png'),
+    require('../../../../../resource/imgs/home/constuctPlan/unchoiced.png')
+];
 const {width} = Dimensions.get('window');
 
 export default class QualityCheckRecordDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isFinished: false
+            isFinished: false,
+            proNormal: true,
+            pro1: false,
+            pro2: false,
+            pro3: false
         };
     }
 
@@ -41,6 +48,36 @@ export default class QualityCheckRecordDetail extends Component {
                     <KeyValueRight propKey="工程节点" readOnly={true} defaultValue="施工进场"/>
                     <KeyTime propKey="检验时间"/>
                     <KeyValueRight propKey="检验人" readOnly={true} defaultValue="王娜>"/>
+                    <View style={styles.proView}>
+                        <Text style={{color:'#5476a1'}}>问题类别</Text>
+                        <View style={styles.seleView}>
+                            <View style={styles.itemView}>
+                                <TouchableOpacity style={styles.touchSty} onPress={this.normalBtn.bind(this)}>
+                                    <Image source={this.state.proNormal?selectImg[0]:selectImg[1]} style={styles.imgSty}/>
+                                </TouchableOpacity>
+                                <Text>正常</Text>
+                            </View>
+                            <View style={styles.itemView}>
+                                <TouchableOpacity style={styles.touchSty} onPress={()=>{this.setState({proNormal:false,pro1:!this.state.pro1});}}>
+                                    <Image source={this.state.pro1?selectImg[0]:selectImg[1]} style={styles.imgSty}/>
+                                </TouchableOpacity>
+
+                                <Text>施工安装问题</Text>
+                            </View>
+                            <View style={styles.itemView}>
+                                <TouchableOpacity style={styles.touchSty} onPress={()=>{this.setState({proNormal:false,pro2:!this.state.pro2});}}>
+                                    <Image source={this.state.pro2?selectImg[0]:selectImg[1]} style={styles.imgSty}/>
+                                </TouchableOpacity>
+                                <Text>设备问题</Text>
+                            </View>
+                            <View style={styles.itemView}>
+                                <TouchableOpacity style={styles.touchSty} onPress={()=>{this.setState({proNormal:false,pro3:!this.state.pro3});}}>
+                                    <Image source={this.state.pro3?selectImg[0]:selectImg[1]} style={styles.imgSty}/>
+                                </TouchableOpacity>
+                                <Text>土建交安问题</Text>
+                            </View>
+                        </View>
+                    </View>
                     <View style={styles.row}>
                         <Text style={styles.labelColor}>附件</Text>
                         <View style={styles.blank}/>
@@ -87,6 +124,23 @@ export default class QualityCheckRecordDetail extends Component {
             </View>
         )
     }
+
+    //问题类别选择正常
+    normalBtn() {
+        if (this.state.proNormal) {
+            this.setState({
+                proNormal: false
+            });
+        } else {
+            this.setState({
+                proNormal: true,
+                pro1: false,
+                pro2: false,
+                pro3: false
+            });
+        }
+    }
+
     submit() {
 
     }
@@ -173,5 +227,34 @@ const styles = StyleSheet.create({
         borderStyle: 'dashed',
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    proView: {
+        paddingHorizontal:width*0.02,
+        borderBottomWidth:1,
+        borderBottomColor:"#ddd",
+        flexDirection:"row",
+        justifyContent:'space-between',
+        backgroundColor:'#fff',
+        paddingTop: 15
+    },
+    seleView: {
+        width: width * 0.64,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent:'space-between'
+    },
+    itemView: {
+        width: width * 0.319,
+        flexDirection: 'row',
+        marginBottom: 15
+    },
+    imgSty: {
+        width: 15,
+        height: 15,
+        marginRight: 10
+    },
+    touchSty: {
+        padding:5,
+        paddingTop:0
     }
 });
