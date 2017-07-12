@@ -29,7 +29,7 @@ export default class KeyValueRight extends Component{
                     placeholder='请填写'
                     underlineColorAndroid="transparent"
                     editable={!this.props.readOnly}
-                    onChangeText={(value)=>this.setState({textValue:value})}
+                    onChangeText={(value)=>{this.setState({textValue:value});if(this.props.txtChange){this.props.txtChange(value)}}}
                 />
             </View>
         )

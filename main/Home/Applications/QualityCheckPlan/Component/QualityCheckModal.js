@@ -32,13 +32,6 @@ export default class QualityCheckModal extends Component{
                 <View style={styles.containerView}>
                     {this.renderCell()}
                 </View>
-                {/*
-                 <View style={styles.buttonView}>
-                 <TouchableOpacity style={[styles.button,{backgroundColor:'#fb5560'}]}>
-                 <Text style={{color:'#fff'}}>删除</Text>
-                 </TouchableOpacity>
-                 </View>
-                */}
             </TouchableOpacity>
         )
     }

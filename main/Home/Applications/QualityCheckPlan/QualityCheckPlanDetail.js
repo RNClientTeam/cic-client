@@ -24,7 +24,7 @@ export default class QualityCheckPlanDetail extends Component {
                 <StatusBar navigator={this.props.navigator} title="项目质量检查计划详情"/>
                 <ScrollView>
                     <ListHeaderCell name={this.props.proName}/>
-                    <KeyValueLeft propKey="项目编号" propValue="CX-DS140188-1032"/>
+                    <KeyValueLeft propsKey="项目编号" propsValue="CX-DS140188-1032"/>
                     <KeyValueLeft propKey="项目名称" propValue="十三陵配电基地啦啦啦"/>
                     <KeyValueLeft propKey="工程子项名称" propValue="工程子项1"/>
                     <KeyValueLeft propKey="任务性质" propValue="一检"/>
@@ -40,6 +40,18 @@ export default class QualityCheckPlanDetail extends Component {
                 </TouchableOpacity>
             </View>
         )
+    }
+
+    componentDidMount() {
+        axios.get('/psmZljcjh/detail',{
+            params:{
+                userID:GLOBAL_USERID,
+                jhrwId:this.props.id,
+                callID:true
+            }
+        }).then(data=>{
+            console.log(data);
+        })
     }
 }
 

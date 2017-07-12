@@ -42,7 +42,6 @@ export default class QualityCheckRecord extends Component{
                 <QualityCheckRecordHeader changeRange={this.changeRange.bind(this)} range={this.state.selectRange} changeDate={this.changeYearAndMonth.bind(this)}/>
                 <Calendar year={this.state.year} month={this.state.month}/>
                 <QualityCheckRecordList navigator={this.props.navigator} showModal={()=>this.setState({modalVisible:true})}/>
-
                 <Modal
                     animationType={"slide"}
                     transparent={true}
@@ -68,13 +67,12 @@ export default class QualityCheckRecord extends Component{
         })
     }
 
-
-
     changeRange(txt){
         this.setState({
             selectRange:txt
         })
     }
+
 }
 
 const styles = StyleSheet.create({
