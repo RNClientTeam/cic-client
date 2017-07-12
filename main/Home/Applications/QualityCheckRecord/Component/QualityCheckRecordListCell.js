@@ -11,14 +11,14 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native'
-import QualityCheckRecordDetail from "./QualityCheckRecordDetail"
+import QualityDoubleCheckRecord from "./QualityDoubleCheckRecord.js";
 
 const {width} = Dimensions.get('window');
 
 export default class QualityCheckRecordListCell extends Component {
     render() {
         return (
-            <TouchableOpacity style={styles.container} onPress={this.skipToDetail.bind(this)}>
+            <TouchableOpacity style={styles.container} onPress={this.skipToDetail.bind(this,this.props.data)}>
                 <View style={styles.topView}>
                     <View style={styles.topTopView}>
                         <Text style={styles.projectNameStyle}>{this.props.data.projectName}</Text>
@@ -47,13 +47,13 @@ export default class QualityCheckRecordListCell extends Component {
         )
     }
 
-    skipToDetail(){
+    skipToDetail(data){
         this.props.navigator.push({
-            component:QualityCheckRecordDetail,
-            name:'QualityCheckRecordDetail',
-            // params: {
-            //     proName: this.props.data.projectName,
-            // }
+            component:QualityDoubleCheckRecord,
+            name:'QualityDoubleCheckRecord',
+            params: {
+                data
+            }
         })
     }
 }

@@ -20,17 +20,29 @@ import DoubleCheckRecord from './DoubleCheckRecord'
 const {width} = Dimensions.get('window');
 
 export default class QualityDoubleCheckRecord extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            addIcon: false
+        }
+    }
     render() {
         return (
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="质量检查记录复查">
-                    <TouchableOpacity
-                        onPress={() => this.addModification()}>
-                        <Image style={[styles.icon]} source={require('../../../../../resource/imgs/home/earlierStage/add.png')}/>
-                    </TouchableOpacity>
+                    {
+                        this.state.addIcon &&
+                        <TouchableOpacity
+                            onPress={() => this.addModification()}>
+                            <Image style={styles.icon} source={require('../../../../../resource/imgs/home/earlierStage/add.png')}/>
+                        </TouchableOpacity>
+                    }
                 </StatusBar>
                 <ScrollableTabView
                     tabBarUnderlineStyle={{backgroundColor:'#51a5f0',height:2}}
+                    onChangeTab={(obj) => {
+                        this.setState({addIcon:obj.i===1?true:false});
+                    }}
                     tabBarActiveTextColor='#51a5f0'
                     tabBarInactiveTextColor='#3d3d3d'
                     tabBarBackgroundColor="white">
@@ -50,7 +62,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#f2f2f2'
     },
     icon: {
-        width:width*0.045,
-        height:width*0.045
+        width:width*0.04,
+        height:width*0.04,
+        marginHorizontal:10
     }
 });

@@ -18,6 +18,7 @@ import QualityCheckRecordHeader from "./Component/QualityCheckRecordHeader";
 import QualityCheckRecordList from "./Component/QualityCheckRecordList";
 import QualityCheckRecordFiltrate from "./Component/QualityCheckRecordFiltrate";
 import QualityCheckModal from "./Component/QualityCheckModal";
+import QualityCheckRecordDetail from "./Component/QualityCheckRecordDetail.js";
 const {width}  = Dimensions.get('window');
 
 export default class QualityCheckRecord extends Component{
@@ -35,6 +36,14 @@ export default class QualityCheckRecord extends Component{
         return(
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="质量检查记录">
+                    <TouchableOpacity onPress={() => {
+                        this.props.navigator.push({
+                            component:QualityCheckRecordDetail,
+                            name:'QualityCheckRecordDetail',
+                        });
+                    }}>
+                        <Image style={{width:0.04*width,height:0.04*width,marginLeft:-width*0.04-10}} source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
+                    </TouchableOpacity>
                     <TouchableOpacity onPress={()=>{this.setState({filtrate:!this.state.filtrate})}}>
                         <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
@@ -84,6 +93,7 @@ const styles = StyleSheet.create({
     },
     filtrate:{
         width:width*0.045,
-        height:width*0.045
+        height:width*0.045,
+        marginRight: 5
     }
 });
