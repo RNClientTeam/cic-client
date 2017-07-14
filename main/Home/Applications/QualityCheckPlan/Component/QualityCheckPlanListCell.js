@@ -48,8 +48,8 @@ export default class QualityCheckPlanListCell extends Component {
 
     skipToDetail(){
         this.props.navigator.push({
-            component:QualityCheckPlanDetail,
-            name:'QualityCheckPlanDetail',
+            component: QualityCheckPlanDetail,
+            name: 'QualityCheckPlanDetail',
             params: {
                 id: this.props.data.id,
             }

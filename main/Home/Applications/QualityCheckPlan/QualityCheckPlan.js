@@ -19,7 +19,7 @@ import QualityCheckPlanList from "./Component/QualityCheckPlanList";
 import QualityCheckFiltrate from "./Component/QualityCheckFiltrate";
 import QualityCheckModal from "./Component/QualityCheckModal";
 const {width}  = Dimensions.get('window');
-import toast from 'react-native-simple-toast'
+import toast from 'react-native-simple-toast';
 import Loading from "../../../Component/Loading";
 
 export default class QualityCheckPlan extends Component{
@@ -55,7 +55,7 @@ export default class QualityCheckPlan extends Component{
                                       reload={(resolve)=>this.getTask(1,resolve)}
                                       loadMore={this.loadMore.bind(this)}
                                       navigator={this.props.navigator}
-                                      showModal={()=>this.setState({modalVisible:true})}/>
+                                      showModal={(jhrwId) => this.setModalVisible(jhrwId)}/>
 
                 <Modal
                     animationType={"slide"}
@@ -66,8 +66,10 @@ export default class QualityCheckPlan extends Component{
                     }}
                     style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
                 >
-                    <QualityCheckModal navigator={this.props.navigator} closeModal={() => {
-                        this.setState({modalVisible: false})
+                    <QualityCheckModal
+                        navigator={this.props.navigator}
+                        jhrwId={this.state.jhrwId}
+                        closeModal={() => {this.setState({modalVisible: false})
                     }}/>
                 </Modal>
                 {this.state.filtrate?<QualityCheckFiltrate
@@ -75,10 +77,20 @@ export default class QualityCheckPlan extends Component{
                     rwxzId={this.state.rwxzid}
                     rwzt={this.state.rwzt}
                     rwxz={this.state.rwxz}
-                    closeFiltrate={(type,zt,xz,ztCoe,xzCode)=>this.filterData(type,zt,xz,ztCoe,xzCode)}/>:null}
+                    closeFiltrate={(type,zt,xz,ztCode,xzCode)=>this.filterData(type,zt,xz,ztCode,xzCode)}/>:null}
                 {this.state.isLoading?<Loading/>:null}
             </View>
         )
+    }
+
+    setModalVisible(jhrwId) {
+        console.log('------data', jhrwId);
+        this.setState(
+            {
+                modalVisible: true,
+                jhrwId
+            }
+        );
     }
 
     //过滤
@@ -133,6 +145,7 @@ export default class QualityCheckPlan extends Component{
                 callID:true
             }
         }).then(data=>{
+            console.log('-----getCalendarData', data);
             if(data.code === 1){
                 this.setState({
                     calendarState:data.data.list
@@ -166,66 +179,67 @@ export default class QualityCheckPlan extends Component{
                 callID:true
             }
         }).then(data=>{
+            console.log('-----getTask', data);
             this.setState({isLoading:false});
             if(data.code ===1){
                 resolve();
                 // TODO
-                data={
-                    "code": 1,
-                    "data": {
-                        "total": 2,
-                        "list": [
-                            {
-                                "zxmc": "施家胡同配电子项",
-                                "rn": 1,
-                                "cfxxId": "8a8180d856ec904a0156fe2e64806ea5",
-                                "twztmc": "已生效",
-                                "xmgh": "JZ_DS16065-16042",
-                                "xmmc": "大栅栏廊坊二条等4条街架空线入地工程",
-                                "cjbm": "00000004e00138c242a0d9",
-                                "zrrmc": "赵春华",
-                                "jhjssjt": "2016-12-26 00:00:00",
-                                "jhkssjt": "2016-12-26 00:00:00",
-                                "rwxz": 6,
-                                "zrbm": "00000004e00138c242a0d9",
-                                "id": "8a8180d858fa588c015914da35f029f4",
-                                "rwnr": "送电",
-                                "rwxzmc": "专工验收",
-                                "zrr": "ZNDQ2008",
-                                "gczxId": "8a8180d856ec904a0156fe35fc8870c3",
-                                "twzt": 100,
-                                "ssbmmc": "配网工程部",
-                                "cjsjt": "2016-12-19 10:12:41",
-                                "cjr": "ZNDQ2003"
-                            },
-                            {
-                                "zxmc": "施家胡同电缆子项",
-                                "rn": 2,
-                                "cfxxId": "8a8180d856ec904a0156fe2e64806ea5",
-                                "twztmc": "已生效",
-                                "xmgh": "JZ_DS16065-16042",
-                                "xmmc": "大栅栏廊坊二条等4条街架空线入地工程",
-                                "cjbm": "00000004e00138c242a0d9",
-                                "zrrmc": "赵春华",
-                                "jhjssjt": "2016-12-26 00:00:00",
-                                "jhkssjt": "2016-12-26 00:00:00",
-                                "rwxz": 6,
-                                "zrbm": "00000004e00138c242a0d9",
-                                "id": "8a8180d858fa588c015914d49475284c",
-                                "rwnr": "送电",
-                                "rwxzmc": "专工验收",
-                                "zrr": "ZNDQ2008",
-                                "gczxId": "8a8180d857482f62015750bf2ff962b2",
-                                "twzt": 100,
-                                "ssbmmc": "配网工程部",
-                                "cjsjt": "2016-12-19 10:06:32",
-                                "cjr": "ZNDQ2003"
-                            }
-                        ]
-                    },
-                    "message": "成功"
-                };
-                if(data.data && data.data.total>0){
+                // data={
+                //     "code": 1,
+                //     "data": {
+                //         "total": 2,
+                //         "list": [
+                //             {
+                //                 "zxmc": "施家胡同配电子项",
+                //                 "rn": 1,
+                //                 "cfxxId": "8a8180d856ec904a0156fe2e64806ea5",
+                //                 "twztmc": "已生效",
+                //                 "xmgh": "JZ_DS16065-16042",
+                //                 "xmmc": "大栅栏廊坊二条等4条街架空线入地工程",
+                //                 "cjbm": "00000004e00138c242a0d9",
+                //                 "zrrmc": "赵春华",
+                //                 "jhjssjt": "2016-12-26 00:00:00",
+                //                 "jhkssjt": "2016-12-26 00:00:00",
+                //                 "rwxz": 6,
+                //                 "zrbm": "00000004e00138c242a0d9",
+                //                 "id": "8a8180d858fa588c015914da35f029f4",
+                //                 "rwnr": "送电",
+                //                 "rwxzmc": "专工验收",
+                //                 "zrr": "ZNDQ2008",
+                //                 "gczxId": "8a8180d856ec904a0156fe35fc8870c3",
+                //                 "twzt": 100,
+                //                 "ssbmmc": "配网工程部",
+                //                 "cjsjt": "2016-12-19 10:12:41",
+                //                 "cjr": "ZNDQ2003"
+                //             },
+                //             {
+                //                 "zxmc": "施家胡同电缆子项",
+                //                 "rn": 2,
+                //                 "cfxxId": "8a8180d856ec904a0156fe2e64806ea5",
+                //                 "twztmc": "已生效",
+                //                 "xmgh": "JZ_DS16065-16042",
+                //                 "xmmc": "大栅栏廊坊二条等4条街架空线入地工程",
+                //                 "cjbm": "00000004e00138c242a0d9",
+                //                 "zrrmc": "赵春华",
+                //                 "jhjssjt": "2016-12-26 00:00:00",
+                //                 "jhkssjt": "2016-12-26 00:00:00",
+                //                 "rwxz": 6,
+                //                 "zrbm": "00000004e00138c242a0d9",
+                //                 "id": "8a8180d858fa588c015914d49475284c",
+                //                 "rwnr": "送电",
+                //                 "rwxzmc": "专工验收",
+                //                 "zrr": "ZNDQ2008",
+                //                 "gczxId": "8a8180d857482f62015750bf2ff962b2",
+                //                 "twzt": 100,
+                //                 "ssbmmc": "配网工程部",
+                //                 "cjsjt": "2016-12-19 10:06:32",
+                //                 "cjr": "ZNDQ2003"
+                //             }
+                //         ]
+                //     },
+                //     "message": "成功"
+                // };
+                if(data.data && data.data.total > 0){
                     if(pageNum===1){
                         this.setState({
                             dataSource:data.data.list

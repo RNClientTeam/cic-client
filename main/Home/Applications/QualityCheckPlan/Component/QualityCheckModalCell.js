@@ -11,8 +11,9 @@ import {
     Text,
     TouchableOpacity
 } from 'react-native'
-import AddOrEditQualityCehck from "../AddOrEditQualityCehck";
+import AddOrEditQualityCheck from "../AddOrEditQualityCehck";
 const {width} = Dimensions.get('window');
+import toast from 'react-native-simple-toast';
 
 export default class QualityCheckModalCell extends Component {
     render() {
@@ -28,8 +29,8 @@ export default class QualityCheckModalCell extends Component {
     skipPage(){
         if(this.props.dataSource.name === '检查计划新建'){
             this.props.navigator.push({
-                name:"AddOrEditQualityCehck",
-                component:AddOrEditQualityCehck,
+                name: "AddOrEditQualityCheck",
+                component: AddOrEditQualityCheck,
                 params:{
                     flag:'add'
                 }
@@ -37,14 +38,36 @@ export default class QualityCheckModalCell extends Component {
 
         }else if(this.props.dataSource.name === '检查计划编辑'){
             this.props.navigator.push({
-                name:"AddOrEditQualityCehck",
-                component:AddOrEditQualityCehck,
+                name:"AddOrEditQualityCheck",
+                component:AddOrEditQualityCheck,
                 params:{
-                    flag:'edit'
+                    flag:'edit',
+                    jhrwId: this.props.jhrwId,
                 }
             })
+        }else if(this.props.dataSource.name === '检查计划编辑'){
+            this.delete(this.props.jhrwId);
         }
         this.props.closeModal()
+    }
+
+    delete(jhrwId) {
+        axios.post('/psmZljcjh/delete', {
+            userID: GLOBAL_USERID,
+            jhrwId,
+            callID:true
+        }).then(data=>{
+            this.setState({
+                isLoading:false
+            });
+            if(data.code === 1){
+                toast.show('删除成功');
+            }else{
+                toast.show(data.message)
+            }
+        }).catch(err=>{
+            toast.show('服务端异常');
+        })
     }
 
 }

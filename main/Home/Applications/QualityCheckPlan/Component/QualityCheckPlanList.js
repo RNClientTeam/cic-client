@@ -55,11 +55,12 @@ export default class QualityCheckPlanList extends Component {
         }
         return (
             <QualityCheckPlanListCell
-                showModal={()=>this.props.showModal()}
+                showModal={()=>this.props.showModal(item.id)}
                 bgC={bgC}
                 key={rowID}
                 navigator={this.props.navigator}
-                data={item}/>
+                data={item}
+            />
         );
     }
 

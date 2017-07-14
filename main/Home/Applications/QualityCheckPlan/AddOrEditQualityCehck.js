@@ -58,7 +58,7 @@ export default class AddOrEditQualityCheck extends Component {
                            title={this.props.flag === 'add' ? "质量检查计划新建" : "质量检查计划编辑"}/>
                 <ScrollView>
                     <KeySelect choiceInfo={() => this.choiceInfo()} value={this.state.xmmc || "请选择"} propKey="项目名称"/>
-                    <KeyValueRight propKey="项目工号" readOnly={true} defaultValue={this.state.cfxxId}/>
+                    <KeyValueRight propKey="项目工号" readOnly={true} defaultValue={this.state.xmgh}/>
                     <KeyValueRight propKey="子项名称" readOnly={true} defaultValue={this.state.zxmc}/>
                     <KeyValueRight txtChange={(txt) => {
                         this.setState({rwnr: txt})
@@ -124,13 +124,19 @@ export default class AddOrEditQualityCheck extends Component {
                         </View>
                         :
                         <View style={styles.buttonView}>
-                            <TouchableOpacity style={[styles.button, {backgroundColor: '#02bd93'}]}>
+                            <TouchableOpacity
+                                style={[styles.button, {backgroundColor: '#02bd93'}]}
+                                onPress={() => this.approval(this.props.jhrwId)}>
                                 <Text style={{color: '#fff'}}>提交审核</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={[styles.button, {backgroundColor: '#216fd0'}]}>
+                            <TouchableOpacity
+                                style={[styles.button, {backgroundColor: '#216fd0'}]}
+                                onPress={() => this.update(this.props.jhrwId)}>
                                 <Text style={{color: '#fff'}}>保存</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={[styles.button, {backgroundColor: '#fc9628'}]}>
+                            <TouchableOpacity
+                                style={[styles.button, {backgroundColor: '#fc9628'}]}
+                                onPress={() => this.effective(this.props.jhrwId)}>
                                 <Text style={{color: '#fff'}}>生效</Text>
                             </TouchableOpacity>
                         </View>
@@ -156,12 +162,12 @@ export default class AddOrEditQualityCheck extends Component {
         })
     }
 
-    addProject(xmmc, xmgh, zxmc, zxid) {
+    addProject(xmmc, xmgh, zxmc, gczxId) {
         this.setState({
-            xmmc: xmmc,
-            cfxxId: xmgh,
-            gczxId: zxid,
-            zxmc: zxmc
+            xmmc,
+            gczxId,
+            zxmc,
+            xmgh,
         })
     }
 
@@ -227,6 +233,10 @@ export default class AddOrEditQualityCheck extends Component {
     componentDidMount() {
         this.getRwxz();
         this.getTwzt();
+        // 编辑情况下 获取详情
+        if (this.props.jhrwId) {
+            this.getDetail(this.props.jhrwId);
+        }
     }
 
 
@@ -297,6 +307,165 @@ export default class AddOrEditQualityCheck extends Component {
                 toast.show(data.message)
             }
         }).catch(err => {
+            toast.show('服务端异常');
+            this.setState({
+                isLoading: false
+            });
+        })
+    }
+
+    getDetail(jhrwId) {
+        this.setState({
+            isLoading: true
+        });
+        axios.get('/psmZljcjh/detail', {
+            params: {
+                userID: GLOBAL_USERID,
+                jhrwId,
+                callID: true,
+            }
+        }).then(responseData => {
+            console.log('66666666666', responseData);
+            this.setState({
+                isLoading: false
+            });
+            // responseData = {
+            //     code: 1,
+            //     data: {
+            //         "zxmc": "施家胡同配电子项",
+            //         "rn": 1,
+            //         "cfxxId": "8a8180d856ec904a0156fe2e64806ea5",
+            //         "twztmc": "已生效",
+            //         "xmgh": "JZ_DS16065-16042",
+            //         "xmmc": "大栅栏廊坊二条等4条街架空线入地工程",
+            //         "cjbm": "00000004e00138c242a0d9",
+            //         "zrrmc": "赵春华",
+            //         "jhjssjt": "2016-12-26 00:00:00",
+            //         "jhkssjt": "2016-12-26 00:00:00",
+            //         "rwxz": 6,
+            //         "zrbm": "00000004e00138c242a0d9",
+            //         "id": "8a8180d858fa588c015914da35f029f4",
+            //         "rwnr": "送电",
+            //         "rwxzmc": "专工验收",
+            //         "zrr": "ZNDQ2008",
+            //         "gczxId": "8a8180d856ec904a0156fe35fc8870c3",
+            //         "twzt": 100,
+            //         "ssbmmc": "配网工程部",
+            //         "cjsjt": "2016-12-19 10:12:41",
+            //         "cjr": "ZNDQ2003"
+            //     }
+            // };
+            if (responseData.code === 1) {
+                this.setState({
+                    xmmc: responseData.data.xmmc,
+                    xmgh: responseData.data.xmgh,
+                    zxmc: responseData.data.zxmc,
+                    rwnr: responseData.data.rwnr,
+                    rwxzmc: responseData.data.rwxzmc,
+                    twztmc: responseData.data.twztmc,
+                    zrrmc: responseData.data.zrrmc,
+                    jhkssjt: responseData.data.jhkssjt,
+                    jhjssjt: responseData.data.jhkssjt,
+                })
+            } else {
+                toast.show(responseData.message)
+            }
+        }).catch(err => {
+            toast.show('服务端异常');
+            this.setState({
+                isLoading: false
+            });
+        })
+    }
+
+    effective(jhrwId) {
+        axios.post('/psmZljcjh/updateRwzt', {
+            userID: GLOBAL_USERID,
+            jhrwId,
+            callID: true,
+        }).then(responseData => {
+            this.setState({
+                isLoading: false
+            });
+            if (responseData.code === 1) {
+                toast.show('生效成功!');
+            } else {
+                toast.show(responseData.message);
+            }
+        }).catch(() => {
+            toast.show('服务端异常');
+            this.setState({
+                isLoading: false
+            });
+        })
+    }
+
+    update(jhrwId) {
+        axios.post('/psmZljcjh/edit', {
+            userID: GLOBAL_USERID,
+            jhrwId,
+            cfxxId: this.state.cfxxId,
+            gczxId: this.state.gczxId,
+            rwxz: this.state.rwxz,
+            twzt: this.state.twzt,
+            rwnr: this.state.rwnr,
+            zrr: this.state.zrr,
+            zrbm: this.state.zrbm,
+            jhkssj: this.state.jhkssj,
+            jhjssj: this.state.jhjssj,
+            callID: true
+        }).then(responseData => {
+            this.setState({
+                isLoading: false
+            });
+            if (responseData.code === 1) {
+                toast.show('保存成功!');
+            } else {
+                toast.show(responseData.message);
+            }
+        }).catch(() => {
+            toast.show('服务端异常');
+            this.setState({
+                isLoading: false
+            });
+        })
+    }
+
+    approval(jhrwId) {
+        axios.post('/psmZljcjh/edit', {
+            userID: GLOBAL_USERID,
+            jhrwId,
+            cfxxId: this.state.cfxxId,
+            gczxId: this.state.gczxId,
+            rwxz: this.state.rwxz,
+            twzt: this.state.twzt,
+            rwnr: this.state.rwnr,
+            zrr: this.state.zrr,
+            zrbm: this.state.zrbm,
+            jhkssj: this.state.jhkssj,
+            jhjssj: this.state.jhjssj,
+            callID: true
+        }).then(responseData => {
+            this.setState({
+                isLoading: false
+            });
+            if (responseData.code === 1) {
+                axios.post('/workFlow/preSubmit', {
+                    userID: GLOBAL_USERID,
+                    resID: responseData.data.resID,
+                    wfName: responseData.data.wfName,
+                    callID: true,
+                }).then( data => {
+                    if (data.code === 1) {
+                        toast.show('审批成功');
+                    } else {
+                        toast.show(data.message);
+                    }
+                })
+            } else {
+                toast.show(responseData.message);
+            }
+        }).catch(() => {
             toast.show('服务端异常');
             this.setState({
                 isLoading: false

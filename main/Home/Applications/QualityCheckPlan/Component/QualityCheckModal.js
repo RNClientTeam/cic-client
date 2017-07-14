@@ -39,7 +39,12 @@ export default class QualityCheckModal extends Component{
         let cs = [];
         for(let i = 0;i<this.state.data.length;i++){
             cs.push(
-                <QualityCheckModalCell closeModal={()=>{this.props.closeModal()}} navigator={this.props.navigator} key={i} dataSource={this.state.data[i]}/>
+                <QualityCheckModalCell
+                    closeModal={()=>{this.props.closeModal()}}
+                    navigator={this.props.navigator} key={i}
+                    dataSource={this.state.data[i]}
+                    jhrwId={this.props.jhrwId}
+                />
             )
         }
         return cs;

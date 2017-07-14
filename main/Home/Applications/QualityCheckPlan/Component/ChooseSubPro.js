@@ -51,10 +51,11 @@ export default class ChooseSubPro extends Component {
     }
     _clickItem(rowData) {
         for (var i = 0; i < this.props.navigator.getCurrentRoutes().length; i++) {
-            if (this.props.navigator.getCurrentRoutes()[i].name === 'AddOrEditQualityCehck') {
+            if (this.props.navigator.getCurrentRoutes()[i].name === 'AddOrEditQualityCheck') {
                 let popRoute = this.props.navigator.getCurrentRoutes()[i];
                 this.props.navigator.popToRoute(popRoute);
-                this.props.addProject(this.props.dataSource.xmmc, this.props.dataSource.cfxxId, rowData.zxmc,rowData.gczxId);
+                this.props.addProject(this.props.dataSource.xmmc, this.props.dataSource.xmgh, rowData.zxmc,
+                    rowData.gczxId);
                 return;
             }
         }
