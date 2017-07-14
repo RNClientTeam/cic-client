@@ -9,6 +9,7 @@ import {
     Dimensions,
     Text,
     TouchableOpacity,
+    TouchableWithoutFeedback,
     Image
 } from 'react-native'
 
@@ -19,21 +20,26 @@ export default class ModificationTaskCell extends Component {
         return (
             <View style={styles.modificationTaskCell}>
                 <View style={styles.aboutProject}>
-                    <Text style={{color:'#216fd0',fontSize:width*0.045}}>{this.props.data.problem}</Text>
+                    <Text style={{color:'#216fd0',fontSize:width*0.045}}>{this.props.data.zgzrbmmc}</Text>
                     <View style={styles.blank}/>
                     <View style={styles.stateView}>
-                        <Text style={styles.stateText}>{this.props.data.state}</Text>
+                        <Text style={styles.stateText}>{this.props.data.dqztmc}</Text>
                     </View>
                 </View>
                 <View style={styles.aboutPrincipal}>
-                    <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.principal}</Text>
-                    <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.department}</Text>
-                    <Text style={[{width: width * 0.3}, styles.textStyle]}>{this.props.data.time}</Text>
-                    <View style={styles.blank}/>
-                    <Text style={styles.textStyle}>></Text>
+                    <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zgzrrmc}</Text>
+                    <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zgzrbmmc}</Text>
+                    <Text style={[{width: width * 0.7, marginTop:10}, styles.textStyle]}>{this.props.data.zgwcsjt}</Text>
+                    <TouchableWithoutFeedback onPress={this.editBtn.bind(this)}>
+                        <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')} style={styles.editBtnSty}/>
+                    </TouchableWithoutFeedback>
                 </View>
             </View>
         )
+    }
+
+    editBtn() {
+
     }
 }
 
@@ -55,12 +61,13 @@ const styles = StyleSheet.create({
     },
     aboutPrincipal: {
         backgroundColor: '#f6f9fa',
-        height: width * 0.12,
+        height: width * 0.15,
         paddingLeft: width * 0.02,
         paddingRight: width * 0.02,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingTop: 10
     },
     projectName: {
         height: width * 0.1,
@@ -87,5 +94,12 @@ const styles = StyleSheet.create({
     editImg: {
         width: 22,
         height: 25
+    },
+    editBtnSty: {
+        position: 'absolute',
+        top: 15,
+        right: 20,
+        width: 22,
+        height: 22
     }
 });

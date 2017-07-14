@@ -17,110 +17,29 @@ import {PullList} from 'react-native-pull';
 import ModificationTaskCell from './ModificationTaskCell'
 
 const {width} = Dimensions.get('window');
-let dataArr = [
-    {
-        problem: '一般问题',
-        state: '执行中',
-        department: '营销一部',
-        principal: '杨磊',
-        time: '2017/11/11'
-    },
-    {
-        problem: '一般问题',
-        state: '执行中',
-        department: '营销一部',
-        principal: '杨磊',
-        time: '2017/11/11'
-    },
-    {
-        problem: '一般问题',
-        state: '执行中',
-        department: '营销一部',
-        principal: '杨磊',
-        time: '2017/11/11'
-    },
-    {
-        problem: '一般问题',
-        state: '执行中',
-        department: '营销一部',
-        principal: '杨磊',
-        time: '2017/11/11'
-    },
-    {
-        problem: '一般问题',
-        state: '执行中',
-        department: '营销一部',
-        principal: '杨磊',
-        time: '2017/11/11'
-    },
-    {
-        problem: '一般问题',
-        state: '执行中',
-        department: '营销一部',
-        principal: '杨磊',
-        time: '2017/11/11'
-    },
-    {
-        problem: '一般问题',
-        state: '执行中',
-        department: '营销一部',
-        principal: '杨磊',
-        time: '2017/11/11'
-    },
-    {
-        problem: '一般问题',
-        state: '执行中',
-        department: '营销一部',
-        principal: '杨磊',
-        time: '2017/11/11'
-    },
-    {
-        problem: '一般问题',
-        state: '执行中',
-        department: '营销一部',
-        principal: '杨磊',
-        time: '2017/11/11'
-    },
-    {
-        problem: '一般问题',
-        state: '执行中',
-        department: '营销一部',
-        principal: '杨磊',
-        time: '2017/11/11'
-    }
-];
-let tempArr = dataArr;
 
 export default class DoubleCheckModification extends Component {
     constructor(props) {
         super(props);
-        this.dataSource = dataArr;
         this.state = {
             hasMoreData: true,
-            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(this.dataSource)
+            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})),
+            dataSource:[]
         }
     }
+
     render() {
         return (
             <View style={styles.container}>
                 <PullList
-                    onPullRelease={this.onPullRelease.bind(this)}
-                    topIndicatorRender={this.topIndicatorRender.bind(this)}
                     topIndicatorHeight={60}
-                    dataSource={this.state.list}
+                    dataSource={this.state.list.cloneWithRows(this.state.dataSource)}
                     renderRow={this.renderRow.bind(this)}
-                    onEndReached={this.loadMore.bind(this)}
                     onEndReachedThreshold={60}
-                    renderFooter={this.renderFooter.bind(this)}
+                    enableEmptySections={true}
                 />
             </View>
         )
-    }
-    onPullRelease(resolve) {
-        //do refresh
-        setTimeout(() => {
-            resolve();
-        }, 3000);
     }
 
     renderRow(item, sectionID, rowID, highlightRow) {
@@ -129,24 +48,42 @@ export default class DoubleCheckModification extends Component {
         );
     }
 
-    renderFooter (){
-        return (this.state.hasMoreData ? <LoadMore /> : null)
-    }
 
-    topIndicatorRender(pulling, pullok, pullrelease) {
-        return (<Reload />);
-    }
 
-    loadMore(){
-        for (let i = 0;i<tempArr.length;i++){
-            this.dataSource.push(tempArr[i])
-        }
-
-        setTimeout(() => {
-            this.setState({
-                list: this.state.list.cloneWithRows(this.dataSource)
-            });
-        }, 1000);
+    componentDidMount() {
+        axios.get('/psmZljcjl/zgrwList', {
+            params: {
+                userID: GLOBAL_USERID,
+                zljcjlId: this.props.id,
+                callID: true
+            }
+        }).then(data => {
+            if (data.code === 1) {
+                data = {
+                    "code": 1,
+                    "data": [{
+                        "id": "8a8180d85***666db03f5",
+                        "zgzrbmmc": "市场音效部",
+                        "zgzrrmc": "驾驶坤",
+                        "dqztmc": "新建任务",
+                        "wtlb": "C112038-13005",
+                        "zgyq": "昌平老旧小区配电改造(郝庄家园)",
+                        "zgzrr": "00000005000138c242a0d9",
+                        "zgzrbm": "",
+                        "zgzrbm": "2017-01-20 00:00:00",
+                        "zgwcsjt": "2017-01-02 00:00:00",
+                        "sjwcsjt": 7,
+                        "zcjg": ""
+                    }],
+                    "message": "成功"
+                };
+                if(data.data){
+                    this.setState({
+                        dataSource:data.data
+                    })
+                }
+            }
+        })
     }
 }
 
