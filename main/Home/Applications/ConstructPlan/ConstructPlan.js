@@ -184,7 +184,8 @@ export default class ConstructPlan extends Component{
                                         "wcbl": "0",
                                         "rwztmc": "开工",
                                         "rwzt": "1",
-                                        "wcqk": ""
+                                        "wcqk": "",
+                                        "sgcy":''
                                     },
                                     {
                                         "wcsj": "2016-12-20 17:30:00",
@@ -198,7 +199,8 @@ export default class ConstructPlan extends Component{
                                         "wcbl": "0",
                                         "rwztmc": "开工",
                                         "rwzt": "1",
-                                        "wcqk": ""
+                                        "wcqk": "",
+                                        "sgcy":''
                                     },
                                     {
                                         "wcsj": "2016-12-20 17:30:00",
@@ -212,7 +214,8 @@ export default class ConstructPlan extends Component{
                                         "wcbl": "0",
                                         "rwztmc": "开工",
                                         "rwzt": "1",
-                                        "wcqk": ""
+                                        "wcqk": "",
+                                        "sgcy":''
                                     }
                                 ]
                             },
@@ -232,7 +235,8 @@ export default class ConstructPlan extends Component{
                                         "wcbl": "0",
                                         "rwztmc": "开工",
                                         "rwzt": "1",
-                                        "wcqk": ""
+                                        "wcqk": "",
+                                        "sgcy":''
                                     },
                                     {
                                         "wcsj": "2016-12-20 17:30:00",
@@ -246,7 +250,8 @@ export default class ConstructPlan extends Component{
                                         "wcbl": "0",
                                         "rwztmc": "开工",
                                         "rwzt": "1",
-                                        "wcqk": ""
+                                        "wcqk": "",
+                                        "sgcy":''
                                     }
                                 ]
                             },
@@ -266,7 +271,8 @@ export default class ConstructPlan extends Component{
                                         "wcbl": "12",
                                         "rwztmc": "",
                                         "rwzt": "",
-                                        "wcqk": "121212"
+                                        "wcqk": "121212",
+                                        "sgcy":''
                                     }
                                 ]
                             }
