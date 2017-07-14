@@ -20,16 +20,16 @@ export default class ModificationTaskCell extends Component {
         return (
             <View style={styles.modificationTaskCell}>
                 <View style={styles.aboutProject}>
-                    <Text style={{color:'#216fd0',fontSize:width*0.045}}>{this.props.data.problem}</Text>
+                    <Text style={{color:'#216fd0',fontSize:width*0.045}}>{this.props.data.zgzrbmmc}</Text>
                     <View style={styles.blank}/>
                     <View style={styles.stateView}>
-                        <Text style={styles.stateText}>{this.props.data.state}</Text>
+                        <Text style={styles.stateText}>{this.props.data.dqztmc}</Text>
                     </View>
                 </View>
                 <View style={styles.aboutPrincipal}>
-                    <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.principal}</Text>
-                    <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.department}</Text>
-                    <Text style={[{width: width * 0.7, marginTop:10}, styles.textStyle]}>{this.props.data.time}</Text>
+                    <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zgzrrmc}</Text>
+                    <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zgzrbmmc}</Text>
+                    <Text style={[{width: width * 0.7, marginTop:10}, styles.textStyle]}>{this.props.data.zgwcsjt}</Text>
                     <TouchableWithoutFeedback onPress={this.editBtn.bind(this)}>
                         <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')} style={styles.editBtnSty}/>
                     </TouchableWithoutFeedback>
