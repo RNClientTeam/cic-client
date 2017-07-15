@@ -27,6 +27,7 @@ export default class LabelTextArea extends Component {
                         multiline = {true}
                         numberOfLines = {4}
                         placeholder="请填写"
+                        onChangeText={(text) => {this.props.inputResult(text)}}
                         style={{height: 0.20 * width }}
                     />
                 </View>
