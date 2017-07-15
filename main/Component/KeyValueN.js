@@ -24,7 +24,8 @@ export default class KeyValueN extends Component{
                     <TextInput
                         onChangeText={(text)=>this.props.textChange(text)}
                         style={styles.textInput}
-                        placeholder='请填写'
+                        editable={this.props.readOnly?false:true}
+                        placeholder={this.props.value?this.props.value:'请填写'}
                         underlineColorAndroid="transparent"
                         textAlignVertical="top"
                     />

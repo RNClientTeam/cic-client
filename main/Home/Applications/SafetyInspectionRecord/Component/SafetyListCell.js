@@ -51,21 +51,6 @@ export default class SafetyInspectionListCell extends Component {
                 data: this.props.data
             }
         });
-        // else if (this.props.rowID == 1) {
-        //     //审批页面
-        //     this.props.navigator.push({
-        //         component: ExamineAndApprove,
-        //         name: 'ExamineAndApprove'
-        //     });
-        // } else if (this.props.rowID == 2) {
-        //     //下达整改任务
-        //     this.props.navigator.push({
-        //         component: RectifyTask,
-        //         name: 'RectifyTask'
-        //     });
-        // } else if (this.props.rowID == 3) {
-        //
-        // }
     }
 
 }
