@@ -46,7 +46,10 @@ export default class SafetyInspectionListCell extends Component {
     skipPage() {
         this.props.navigator.push({
             component: RectifyTask,
-            name: 'RectifyTask'
+            name: 'RectifyTask',
+            params: {
+                data: this.props.data
+            }
         });
         // else if (this.props.rowID == 1) {
         //     //审批页面

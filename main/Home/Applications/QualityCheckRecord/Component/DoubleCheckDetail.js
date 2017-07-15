@@ -22,8 +22,7 @@ export default class DoubleCheckDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoading: false,
-
+            isLoading: false
         }
     }
 
