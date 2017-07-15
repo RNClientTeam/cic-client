@@ -55,6 +55,7 @@ export default class QualityCheckRecordDetail extends Component {
         this.checkResult = '';  //检查结果
         this.changeResult = ''; //整改要求
         this.gcjd = '';         //工程节点
+        this.imageId = [];      //图片附件的id
         this.randomId = getRandomId();
         this.state = {
             choiceFileName: '',//选择附件的名字
@@ -247,16 +248,17 @@ export default class QualityCheckRecordDetail extends Component {
                 if (choiceImg) {
                     //选择图片
                     this.state.imageList.push({uri:msg});
-
+                    this.imageId.push(response.data.id);
                     this.setState({
                         imageList: this.state.imageList,
                         jcfj: this.state.jcfj
                     });
                 } else {
+                    let tempArr = msg.split('/');
                     //android选择附件
                     this.setState({
                         jcfj: this.state.jcfj,
-                        choiceFileName: msg
+                        choiceFileName: tempArr[tempArr.length-1]
                     });
                 }
             } else {
@@ -272,8 +274,6 @@ export default class QualityCheckRecordDetail extends Component {
         ImagePicker.showImagePicker(photoOptions,(response) =>{
             if (response.uri) {
                 this.uploadFileFun(response.uri, '.jpg', true);
-                this.state.imageList.push({uri:response.uri});
-                this.setState({imageList: this.state.imageList});
             }
         });
     }
@@ -296,6 +296,14 @@ export default class QualityCheckRecordDetail extends Component {
     delImg(index) {
         this.state.imageList.splice(index, 1);
         this.setState({imageList:this.state.imageList});
+        let delImgId = this.imageId[index];
+        let result = this.state.jcfj.findIndex((elem, index) => {
+            elem = delImgId;
+        });
+        if (result !== -1) {
+            this.state.jcfj.splice(result, 1);
+            this.setState({jcfj: this.state.jcfj});
+        }
     }
 
     render() {
