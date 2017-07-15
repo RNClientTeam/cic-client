@@ -9,7 +9,8 @@ import {
     Image,
     TouchableOpacity,
     Text,
-    Modal
+    Modal,
+    TouchableWithoutFeedback
 } from 'react-native'
 const {width}  = Dimensions.get('window');
 import NewCreateRecord from './Component/NewCreateRecord.js';
@@ -40,14 +41,23 @@ export default class SafetyInspectionRecord extends Component{
         return(
             <View style={styles.earlierStage}>
                 <StatusBar navigator={this.props.navigator} title="安全检查记录（5）">
-                    <TouchableOpacity onPress={()=>{this.setState({isModalVisible:!this.state.isModalVisible})}}>
-                        <Image style={[styles.filtrate, {marginLeft:-width*0.045-10}]} source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={()=>{this.addBtn()}}>
-                        <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
+                    <TouchableWithoutFeedback
+                        onPress={()=>{this.addBtn()}}
+                    >
+                        <Image style={{width: 0.04 * width, height: 0.04 * width,position:'absolute',right:width*0.12}}
+                               source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
+                    </TouchableWithoutFeedback>
+                    <TouchableOpacity
+                        onPress={()=>{this.setState({isModalVisible:!this.state.isModalVisible})}}
+                    >
+                        <Image style={styles.filtrate}
+                               source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
-                <SearchHeader/>
+                <SearchHeader
+                    changeZxmc={(text)=>this.setState({keywords:text})}
+                    getData={this._getData.bind(this)}
+                />
                 <SafetyList
                     refresh={(resolve)=>this._getData(1,resolve)}
                     loadMore={this._loadMore.bind(this)}
@@ -55,7 +65,12 @@ export default class SafetyInspectionRecord extends Component{
                     navigator={this.props.navigator}
                     setModalVisible={()=>{this.setState({modalVisible:true})}}/>
                 {this.state.isModalVisible &&
-                    <ModalView isModalVisible={this.state.isModalVisible}
+                    <ModalView
+                        kssj={this.state.ksrq}
+                        jssj={this.state.jsrq}
+                        jhlx={this.state.jhlx}
+                        isModalVisible={this.state.isModalVisible}
+                        changeFilter={(kssj,jssj,jhlx)=>this._changeFilter(kssj,jssj,jhlx)}
                         closeModal={()=>this.setState({isModalVisible:false})} />}
                 {
                     this.state.modalVisible &&
@@ -73,6 +88,16 @@ export default class SafetyInspectionRecord extends Component{
 
             </View>
         )
+    }
+
+    _changeFilter(kssj,jssj,jhlx){
+        this.setState({
+            ksrq:kssj,
+            jsrq:jssj,
+            jhlx:jhlx
+        },function () {
+            this._getData();
+        })
     }
 
     _loadMore(){
