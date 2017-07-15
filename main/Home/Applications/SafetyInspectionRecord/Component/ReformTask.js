@@ -11,87 +11,16 @@ import {
     Text
 } from 'react-native'
 const {width, height} = Dimensions.get('window');
-let dataArr = [{
-        question: '一般问题',
-        state: '新建',
-        principal: '贾世超',
-        department: '市场营销一部',
-        time: '2017/11/11'
-    },
-    {
-        question: '一般问题',
-        state: '新建',
-        principal: '贾世超',
-        department: '市场营销一部',
-        time: '2017/11/11'
-    },
-    {
-        question: '一般问题',
-        state: '新建',
-        principal: '贾世超',
-        department: '市场营销一部',
-        time: '2017/11/11'
-    },
-    {
-        question: '一般问题',
-        state: '新建',
-        principal: '贾世超',
-        department: '市场营销一部',
-        time: '2017/11/11'
-    },
-    {
-        question: '一般问题',
-        state: '新建',
-        principal: '贾世超',
-        department: '市场营销一部',
-        time: '2017/11/11'
-    }];
-let tempArr = [{
-        question: '一般问题',
-        state: '新建',
-        principal: '贾世超',
-        department: '市场营销一部',
-        time: '2017/11/11'
-    },
-    {
-        question: '一般问题',
-        state: '新建',
-        principal: '贾世超',
-        department: '市场营销一部',
-        time: '2017/11/11'
-    },
-    {
-        question: '一般问题',
-        state: '新建',
-        principal: '贾世超',
-        department: '市场营销一部',
-        time: '2017/11/11'
-    },
-    {
-        question: '一般问题',
-        state: '新建',
-        principal: '贾世超',
-        department: '市场营销一部',
-        time: '2017/11/11'
-    },
-    {
-        question: '一般问题',
-        state: '新建',
-        principal: '贾世超',
-        department: '市场营销一部',
-        time: '2017/11/11'
-    }];
 import {PullList} from 'react-native-pull';
-import LoadMore from "../../../../Component/LoadMore.js";
 import ReformTaskCell from "./ReformTaskCell.js";
-import Reload from "../../../../Component/Reload.js";
+import toast from 'react-native-simple-toast'
 export default class ReformTask extends Component {
     constructor(props) {
         super(props);
-        this.dataSource = dataArr;
         this.state = {
             hasMoreData: true,
-            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(this.dataSource),
+            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})),
+            dataSource:[]
         }
     }
 
@@ -99,25 +28,16 @@ export default class ReformTask extends Component {
         return (
             <View style={styles.container}>
                 <PullList
-                    onPullRelease={this.onPullRelease.bind(this)}
-                    topIndicatorRender={this.topIndicatorRender.bind(this)}
                     topIndicatorHeight={60}
-                    dataSource={this.state.list}
+                    dataSource={this.state.list.cloneWithRows(this.state.dataSource)}
                     renderRow={this.renderRow.bind(this)}
-                    onEndReached={this.loadMore.bind(this)}
                     onEndReachedThreshold={60}
-                    renderFooter={this.renderFooter.bind(this)}
+                    enableEmptySections={true}
                 />
             </View>
         )
     }
 
-    onPullRelease(resolve) {
-        //do refresh
-        setTimeout(() => {
-            resolve();
-        }, 3000);
-    }
 
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
@@ -126,25 +46,57 @@ export default class ReformTask extends Component {
         );
     }
 
-    renderFooter (){
-        return (this.state.hasMoreData ? <LoadMore /> : null)
+
+    componentDidMount() {
+        this._getData();
     }
 
-    topIndicatorRender(pulling, pullok, pullrelease) {
-        return (<Reload />);
+    _getData(){
+        axios.get('/psmAqjcjh/list4Zgrw',{
+            params:{
+                userID:GLOBAL_USERID,
+                aqjcjlId:this.props.item.aqjcjhId,
+                callID:true
+            }
+        }).then(data=>{
+            if(data.code === 1){
+             // TODO
+                data = {
+                    "code": 1,
+                    "data": [
+                        {
+                            "id": "8a8180d85b45c261015b57a73cf839da",
+                            "dqztmc": "整改完成",
+                            "zgwcsj": "2017-04-10",
+                            "wtlbmc": "一般问题",
+                            "zgzrbmmc": "安全管理部",
+                            "zgzrrmc": "董术义"
+                        },
+                        {
+                            "id": "000000010015ca9c26f1f",
+                            "dqztmc": "新建",
+                            "zgwcsj": "2016-12-12",
+                            "wtlbmc": "严重问题",
+                            "zgzrbmmc": "市场营销三部",
+                            "zgzrrmc": "刘海军"
+                        }
+                    ],
+                    "message": "成功"
+                };
+                if(data.data){
+                    this.setState({
+                        dataSource:data.data
+                    })
+                }
+            }else{
+                toast.show(data.message)
+            }
+        }).catch(err=>{
+            toast.show('服务端异常')
+        })
     }
 
-    loadMore(){
-        for (let i = 0;i<tempArr.length;i++){
-            this.dataSource.push(tempArr[i])
-        }
 
-        setTimeout(() => {
-            this.setState({
-                list: this.state.list.cloneWithRows(this.dataSource)
-            });
-        }, 1000);
-    }
 }
 
 const styles = StyleSheet.create({

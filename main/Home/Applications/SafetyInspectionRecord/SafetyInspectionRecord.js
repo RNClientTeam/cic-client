@@ -21,6 +21,7 @@ import SearchHeader from '../Component/SearchHeader.js';
 import ModalView from "./Component/ModalView.js";
 import {getCurrentMonS,getCurrentMonE} from '../../../Util/Util'
 import toast from 'react-native-simple-toast'
+import Loading from "../../../Component/Loading";
 export default class SafetyInspectionRecord extends Component{
     constructor(props){
         super(props);
@@ -33,7 +34,7 @@ export default class SafetyInspectionRecord extends Component{
             keywords:'',
             pageNum:1,
             isLoading:false,
-            dataSource:[]
+            dataSource:[],
         }
     }
 
@@ -85,7 +86,7 @@ export default class SafetyInspectionRecord extends Component{
                         }}/>
                     </Modal>
                 }
-
+                {this.state.isLoading?<Loading/>:null}
             </View>
         )
     }
@@ -113,6 +114,9 @@ export default class SafetyInspectionRecord extends Component{
     }
 
     _getData(pageNum = 1,resolve=()=>{}){
+        this.setState({
+            isLoading:true
+        });
         let jhlx=300;
         if(this.state.jhlx==='我主责的'){
             jhlx=200
@@ -131,6 +135,9 @@ export default class SafetyInspectionRecord extends Component{
                 callID:true
             }
         }).then(data=>{
+            this.setState({
+                isLoading:false
+            });
             if(data.code === 1){
                 if(data.data&&data.data.length>0){
                     if(pageNum === 1){
@@ -154,6 +161,9 @@ export default class SafetyInspectionRecord extends Component{
             }
             resolve();
         }).catch(err=>{
+            this.setState({
+                isLoading:false
+            });
             toast.show('服务端异常');
             resolve();
             // TODO

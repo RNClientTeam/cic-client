@@ -29,7 +29,7 @@ export default class RectifyTask extends Component {
                     tabBarInactiveTextColor='#3d3d3d'
                     tabBarBackgroundColor="#fff">
                     <CheckRecord tabLabel='检查记录' navigator={this.props.navigator}/>
-                    <ReformTask tabLabel='整改任务' navigator={this.props.navigator}/>
+                    <ReformTask tabLabel='整改任务' item={this.props.item} navigator={this.props.navigator}/>
                     <ReviewRecord tabLabel="复查记录" navigator={this.props.navigator}/>
                 </ScrollableTabView>
             </View>
