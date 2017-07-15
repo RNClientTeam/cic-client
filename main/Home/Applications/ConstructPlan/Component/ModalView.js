@@ -19,10 +19,6 @@ export default class ModalView extends Component {
         super(props);
         this.state = {
             modals:[
-                {src:require('../../../../../resource/imgs/home/constuctPlan/editComplete.png'),name:'填报进展'},
-                {src:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'确认完成'},
-                {src:require('../../../../../resource/imgs/home/applications/effectiveAction.png'),name:'复工'},
-                {src:require('../../../../../resource/imgs/home/applications/stopAction.png'),name:'停工'},
                 {src:require('../../../../../resource/imgs/home/applications/delete.png'),name:'删除'},
             ]
         }
@@ -44,6 +40,32 @@ export default class ModalView extends Component {
             )
         }
         return tempCell;
+    }
+
+    componentDidMount() {
+        console.log(this.props.authList);
+        if(this.props.authList){
+            let tempalteArr = [];
+            this.props.authList.map((item,index)=>{
+                if(item.key === 'tg' && item.value){
+                    tempalteArr.push({src:require('../../../../../resource/imgs/home/applications/stopAction.png'),name:'停工'})
+                }
+                if(item.key === 'kg' && item.value){
+                    tempalteArr.push({src:require('../../../../../resource/imgs/home/applications/effectiveAction.png'),name:'复工'},)
+                }
+                if(item.key === 'lsxj' && item.value){
+                    //新建
+                    // tempalteArr.push({src:require('../../../../../resource/imgs/home/applications/effectiveAction.png'),name:'复工'},)
+                }
+                if(item.key === 'tbwcqk' && item.value){
+                    tempalteArr.push({src:require('../../../../../resource/imgs/home/constuctPlan/editComplete.png'),name:'填报进展'})
+                }
+                if(item.key === 'qrwcqk' && item.value){
+                    tempalteArr.push({src:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'确认完成'})
+                }
+
+            })
+        }
     }
 }
 
