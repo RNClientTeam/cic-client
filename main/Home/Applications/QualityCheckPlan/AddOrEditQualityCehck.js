@@ -134,11 +134,15 @@ export default class AddOrEditQualityCheck extends Component {
                                 onPress={() => this.update(this.props.jhrwId)}>
                                 <Text style={{color: '#fff'}}>保存</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity
-                                style={[styles.button, {backgroundColor: '#fc9628'}]}
-                                onPress={() => this.effective(this.props.jhrwId)}>
-                                <Text style={{color: '#fff'}}>生效</Text>
-                            </TouchableOpacity>
+                            {
+                                this.state.effectZljcjh ?
+                                    <TouchableOpacity
+                                        style={[styles.button, {backgroundColor: '#fc9628'}]}
+                                        onPress={() => this.effective(this.props.jhrwId)}>
+                                        <Text style={{color: '#fff'}}>生效</Text>
+                                    </TouchableOpacity>
+                                    : <View/>
+                            }
                         </View>
                 }
                 {this.state.isLoading ? <Loading/> : null}
@@ -227,6 +231,13 @@ export default class AddOrEditQualityCheck extends Component {
             }).catch(err=>{
                 toast.show('服务端异常');
             })
+        }
+    }
+
+    componentWillMount() {
+        // 编辑情况下 获取权限
+        if (this.props.jhrwId) {
+            this.getAuthority(this.props.jhrwId);
         }
     }
 
@@ -325,7 +336,6 @@ export default class AddOrEditQualityCheck extends Component {
                 callID: true,
             }
         }).then(responseData => {
-            console.log('66666666666', responseData);
             this.setState({
                 isLoading: false
             });
@@ -471,6 +481,34 @@ export default class AddOrEditQualityCheck extends Component {
                 isLoading: false
             });
         })
+    }
+
+    getAuthority(id) {
+        axios.get('/psmZljcjh/getOperationAuthority4Zljcjh', {
+            params: {
+                userID: GLOBAL_USERID,
+                //to do
+                zlcjhId: 'ddddd',
+                callID: true,
+            }
+        }).then(responseData => {
+            console.log('-------data', responseData);
+            responseData = {
+                "code": 1,
+                "data": {
+                    "addZljcjh": false,
+                    "updateZljcjh": true,
+                    "deleteZljcjh": false,
+                    "effectZljcjh": true,
+                    "tbZljcjl": true,
+                },
+                "message": "成功"
+            };
+            // 生效按钮
+            this.setState({
+                effectZljcjh: responseData.data.effectZljcjh
+            })
+        });
     }
 }
 

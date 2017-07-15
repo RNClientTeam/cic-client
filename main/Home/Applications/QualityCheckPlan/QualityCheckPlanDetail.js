@@ -39,12 +39,19 @@ export default class QualityCheckPlanDetail extends Component {
                     <KeyValueLeft propsKey="负责人" propsValue={this.state.zrrmc} />
                     <KeyValueLeft propsKey="创建时间" propsValue={this.state.cjsjt} />
                 </ScrollView>
-                <TouchableOpacity style={styles.editRecord}>
-                    <Image style={styles.imgSty} source={require('../../../../resource/imgs/home/QualityCheckPlan/editRecord.png')}/>
-                    <Text style={{color:'#216fd0'}}>填报检查记录</Text>
-                </TouchableOpacity>
+                {this.state.tbZljcjl ?
+                    <TouchableOpacity style={styles.editRecord}>
+                        <Image style={styles.imgSty} source={require('../../../../resource/imgs/home/QualityCheckPlan/editRecord.png')}/>
+                        <Text style={{color:'#216fd0'}}>填报检查记录</Text>
+                    </TouchableOpacity>
+                    : <View/>
+                }
             </View>
         )
+    }
+
+    componentWillMount() {
+        this.getAuthority(this.props.id);
     }
 
     componentDidMount() {
@@ -105,7 +112,35 @@ export default class QualityCheckPlanDetail extends Component {
             this.setState({
                 isLoading: false
             });
-        })
+        });
+    }
+
+    getAuthority(id) {
+        axios.get('/psmZljcjh/getOperationAuthority4Zljcjh', {
+            params: {
+                userID: GLOBAL_USERID,
+                //to do
+                zlcjhId: 'ddddd',
+                callID: true,
+            }
+        }).then(responseData => {
+            console.log('-------data', responseData);
+            responseData = {
+                "code": 1,
+                "data": {
+                    "addZljcjh": false,
+                    "updateZljcjh": true,
+                    "deleteZljcjh": false,
+                    "effectZljcjh": false,
+                    "tbZljcjl": false,
+                },
+                "message": "成功"
+            };
+            // 填报按钮
+            this.setState({
+                tbZljcjl: responseData.data.tbZljcjl
+            })
+        });
     }
 }
 

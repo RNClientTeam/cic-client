@@ -17,13 +17,20 @@ export default class QualityCheckModal extends Component{
 
     constructor(props){
         super(props);
+        // this.state={
+        //     data:[
+        //         {img:require('../../../../../resource/imgs/home/earlierStage/applyForDelay.png'),name:'检查计划新建'},
+        //         {img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),name:'检查计划编辑'},
+        //         {img:require('../../../../../resource/imgs/home/applications/stopAction.png'),name:'删除'}
+        //     ]
+        // }
         this.state={
-            data:[
-                {img:require('../../../../../resource/imgs/home/earlierStage/applyForDelay.png'),name:'检查计划新建'},
-                {img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),name:'检查计划编辑'},
-                {img:require('../../../../../resource/imgs/home/applications/stopAction.png'),name:'删除'}
-            ]
+            data:[]
         }
+    }
+
+    componentWillMount() {
+        this.getAuthority(this.props.jhrwId);
     }
 
     render() {
@@ -35,6 +42,7 @@ export default class QualityCheckModal extends Component{
             </TouchableOpacity>
         )
     }
+
     renderCell = ()=>{
         let cs = [];
         for(let i = 0;i<this.state.data.length;i++){
@@ -48,6 +56,51 @@ export default class QualityCheckModal extends Component{
             )
         }
         return cs;
+    };
+
+    getAuthority(id) {
+        axios.get('/psmZljcjh/getOperationAuthority4Zljcjh', {
+            params: {
+                userID: GLOBAL_USERID,
+                //to do
+                zlcjhId: 'ddddd',
+                callID: true,
+            }
+        }).then(responseData => {
+            console.log('-------data', responseData);
+            responseData = {
+                "code": 1,
+                "data": {
+                    "addZljcjh": false,
+                    "updateZljcjh": true,
+                    "deleteZljcjh": false,
+                    "effectZljcjh": false,
+                    "tbZljcjl ": true
+                },
+                "message": "成功"
+            };
+            let data = [];
+            // 新建
+            if (responseData.data.addZljcjh) {
+                data.push({
+                    img:require('../../../../../resource/imgs/home/earlierStage/applyForDelay.png'),
+                    name:'检查计划新建'
+                });
+            } else if (responseData.data.updateZljcjh) { // 编辑
+                data.push({
+                    img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
+                    name:'检查计划编辑'
+                });
+            } else if (responseData.data.deleteZljcjh) { // 删除
+                data.push({
+                    img:require('../../../../../resource/imgs/home/applications/stopAction.png'),
+                    name:'删除',
+                })
+            }
+            this.setState({
+                data
+            });
+        })
     }
 }
 
