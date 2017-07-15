@@ -11,106 +11,6 @@ import {
     Text
 } from 'react-native'
 const {width} = Dimensions.get('window');
-let dataArr = [{
-        number: 'CX_DS16052',
-        state: '执行中',
-        planName: '人大技术学院配电增容改造技术咨询人大技术学院配电增容改造技术咨询',
-        contentNum: 18,
-        principal: '贾世超',
-        department: 'CX_DS16052',
-        schedule: '10%',
-        time: '2017/11/11'
-    },
-    {
-        number: 'CX_DS16051',
-        state: '执行中',
-        planName: '人大技术学院配电增容改造技术咨询人大技术学院配电增容改造技术咨询人大技术学院配电增容改造技术咨询',
-        contentNum: 18,
-        principal: '贾世超',
-        department: 'CX_DS16052',
-        schedule: '10%',
-        time: '2017/11/11'
-    },
-    {
-        number: 'CX_DS17051',
-        state: '执行中',
-        planName: '人大技术学院配电增容改造技术咨询人大技术学院配电增容改造技术咨询人大技术学院配电增容改造技术咨询人大技术学院配电增容改造技术咨询',
-        contentNum: 18,
-        principal: '贾世超',
-        department: 'CX_DS16052',
-        schedule: '10%',
-        time: '2017/11/11'
-    },
-    {
-        number: 'CX_DS66051',
-        state: '执行中',
-        planName: '人大技术学院配电增容改造技术咨询人大技术学院配电增容改造技术咨询人大技术学院配电增容改造技术咨询人大技术学院配电增容改造技术咨询人大技术学院配电增容改造技术咨询',
-        contentNum: 18,
-        principal: '贾世超',
-        department: 'CX_DS16052',
-        schedule: '10%',
-        time: '2017/11/11'
-    },
-    {
-        number: 'CX_DS36051',
-        state: '执行中',
-        planName: '人大技术学院配电增容改造技术咨询',
-        contentNum: 18,
-        principal: '贾世超',
-        department: 'CX_DS16052',
-        schedule: '10%',
-        time: '2017/11/11'
-    }];
-let tempArr = [{
-            number: 'CX_DS16052',
-            state: '执行中',
-            planName: '人大技术学院配电增容改造技术咨询',
-            contentNum: 18,
-            principal: '贾世超',
-            department: 'CX_DS16052',
-            schedule: '10%',
-            time: '2017/11/11'
-        },
-        {
-            number: 'CX_DS16051',
-            state: '执行中',
-            planName: '人大技术学院配电增容改造技术咨询',
-            contentNum: 18,
-            principal: '贾世超',
-            department: 'CX_DS16052',
-            schedule: '10%',
-            time: '2017/11/11'
-        },
-        {
-            number: 'CX_DS17051',
-            state: '执行中',
-            planName: '人大技术学院配电增容改造技术咨询',
-            contentNum: 18,
-            principal: '贾世超',
-            department: 'CX_DS16052',
-            schedule: '10%',
-            time: '2017/11/11'
-        },
-        {
-            number: 'CX_DS66051',
-            state: '执行中',
-            planName: '人大技术学院配电增容改造技术咨询',
-            contentNum: 18,
-            principal: '贾世超',
-            department: 'CX_DS16052',
-            schedule: '10%',
-            time: '2017/11/11'
-        },
-        {
-            number: 'CX_DS36051',
-            state: '执行中',
-            planName: '人大技术学院配电增容改造技术咨询',
-            contentNum: 18,
-            principal: '贾世超',
-            department: 'CX_DS16052',
-            schedule: '10%',
-            time: '2017/11/11'
-        }];
 import {PullList} from 'react-native-pull';
 import LoadMore from "../../../../Component/LoadMore.js";
 import SafetyListCell from "./SafetyListCell.js";
@@ -118,10 +18,9 @@ import Reload from "../../../../Component/Reload.js";
 export default class SafetyList extends Component {
     constructor(props) {
         super(props);
-        this.dataSource = dataArr;
         this.state = {
             hasMoreData: true,
-            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})).cloneWithRows(this.dataSource),
+            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})),
         }
     }
 
@@ -132,11 +31,12 @@ export default class SafetyList extends Component {
                     onPullRelease={this.onPullRelease.bind(this)}
                     topIndicatorRender={this.topIndicatorRender.bind(this)}
                     topIndicatorHeight={60}
-                    dataSource={this.state.list}
+                    dataSource={this.state.list.cloneWithRows(this.props.dataSource)}
                     renderRow={this.renderRow.bind(this)}
                     onEndReached={this.loadMore.bind(this)}
                     onEndReachedThreshold={60}
                     renderFooter={this.renderFooter.bind(this)}
+                    enableEmptySections={true}
                 />
             </View>
         )
@@ -144,9 +44,7 @@ export default class SafetyList extends Component {
 
     onPullRelease(resolve) {
         //do refresh
-        setTimeout(() => {
-            resolve();
-        }, 3000);
+        this.props.refresh(()=>{resolve()})
     }
 
     renderRow(item, sectionID, rowID, highlightRow) {
@@ -157,7 +55,7 @@ export default class SafetyList extends Component {
     }
 
     renderFooter (){
-        return (this.state.hasMoreData ? <LoadMore /> : null)
+        return (this.state.hasMoreData&&this.props.dataSource.length ? <LoadMore /> : null)
     }
 
     topIndicatorRender(pulling, pullok, pullrelease) {
@@ -165,15 +63,11 @@ export default class SafetyList extends Component {
     }
 
     loadMore(){
-        for (let i = 0;i<tempArr.length;i++){
-            this.dataSource.push(tempArr[i])
-        }
-
-        setTimeout(() => {
+        if(this.props.dataSource.length>0){
             this.setState({
-                list: this.state.list.cloneWithRows(this.dataSource)
-            });
-        }, 1000);
+                hasMoreData:this.props.loadMore()
+            })
+        }
     }
 }
 

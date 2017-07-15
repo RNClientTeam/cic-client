@@ -22,17 +22,17 @@ export default class SafetyInspectionListCell extends Component {
                 <TouchableOpacity style={styles.earlierStageListCell} onPress={this.skipPage.bind(this)}>
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
-                            <Text style={{color:'#216fd0',fontSize:width*0.045}} numberOfLines={1}>{this.props.data.number}</Text>
+                            <Text style={{color:'#216fd0',fontSize:width*0.045}} numberOfLines={1}>{this.props.data.zxmc}</Text>
                             <View style={styles.stateView}>
                                 <Text style={styles.stateText}>{this.props.data.state}</Text>
                             </View>
                         </View>
-                        <Text style={styles.projectName} numberOfLines={0}>{this.props.data.planName}</Text>
+                        <Text style={styles.projectName} numberOfLines={0}>{this.props.data.xmmc}</Text>
                     </View>
                     <View style={styles.aboutPrincipal}>
-                        <Text style={[{marginRight: 15}, styles.textStyle]}>{this.props.data.principal}</Text>
-                        <Text style={[{marginRight: 15}, styles.textStyle]}>{this.props.data.department}</Text>
-                        <Text style={[styles.textStyle, {flex:1}]}>{this.props.data.time}</Text>
+                        <Text style={[{marginRight: 15}, styles.textStyle]}>{this.props.data.jcrmc}</Text>
+                        <Text style={[{marginRight: 15}, styles.textStyle]}>{this.props.data.xmbh}</Text>
+                        <Text style={[styles.textStyle, {flex:1}]}>{this.props.data.jcsj}</Text>
                         <TouchableOpacity onPress={this.props.setModalVisible}>
                             <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}
                                 style={styles.editImg} resizeMode="contain"/>
@@ -65,6 +65,7 @@ export default class SafetyInspectionListCell extends Component {
 
         }
     }
+
 }
 
 const styles = StyleSheet.create({

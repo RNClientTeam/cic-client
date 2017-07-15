@@ -130,7 +130,7 @@ export default class ApartmentPlane extends Component{
         this.getDataFromNet();
     }
     _getAuthList(jhId){
-        this.setState({modalVisible:true})
+        this.setState({modalVisible:true});
         axios.get('/psmBmjh/getOperationAuthority4Bmjh',{
             params:{
                 userID:GLOBAL_USERID,

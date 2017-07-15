@@ -141,7 +141,6 @@ export function getCurrentDate() {
 }
 
 export function uploadFile(url, body, successCallBack, failCallBack) {
-    console.log(url);
     return RNFetchBlob
         .fetch('POST', url,{
             'Content-Type' : 'multipart/form-data'
