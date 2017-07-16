@@ -14,15 +14,17 @@ import {
 import ProjectTagName from "./ProjectTagName";
 import IndexProjectListCell from "./IndexProjectListCell";
 import ModalView from "./ModalView";
+import {getCurrentDate} from '../../../../Util/Util'
 const {width} = Dimensions.get('window');
-
+import toast from 'react-native-simple-toast'
 export default class DayProjectListContainer extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             modalVisible: false,
-            currentItem:{}
+            currentItem:{},
+            authList:[]
         }
     }
 
@@ -41,7 +43,7 @@ export default class DayProjectListContainer extends Component {
                     }}
                     style={{backgroundColor: 'rgba(0, 0, 0,0.75)'}}
                 >
-                    <ModalView reload={()=>this.props.reload()} currentItem={this.state.currentItem} navigator={this.props.navigator} hiddenModal={() => {
+                    <ModalView authList={this.state.authList} reload={()=>this.props.reload()} currentItem={this.state.currentItem} navigator={this.props.navigator} hiddenModal={() => {
                         this.setState({modalVisible: false})
                     }}/>
                 </Modal>
@@ -68,8 +70,52 @@ export default class DayProjectListContainer extends Component {
 
     renderInsert(list) {
         return list.map((item, index) =>
-            (<IndexProjectListCell setCurrentItem={(item)=>this.setCurrentItem(item)} item={item} key={index} showModal={() => this.setState({modalVisible: true})}/>)
+            (<IndexProjectListCell setCurrentItem={(item)=>this.setCurrentItem(item)} item={item} key={index} showModal={() => this._showModal(item)}/>)
         )
+    }
+
+    _showModal(item){
+
+        axios.get('/psmSgrjh/getOperationAuthority4Sgrjh',{
+            params:{
+                userID:GLOBAL_USERID,
+                id:item.rwid,
+                sgcy:item.sgcy,
+                date:getCurrentDate(),
+                callID:true
+            }
+        }).then(data=>{
+           // TODO
+            data = {
+                "code": 1,
+                "data": {
+                    "tg": true,
+                    "kg": true,
+                    " lsxj": true,
+                    " tbwcqk ":false,
+                    " qrwcqk ": false
+                },
+                "message": "成功"
+            };
+            if(data.code === 1){
+                let tempArr = [];
+                for(let item in data.data){
+                    let tempObj = {};
+                    tempObj.key=item;
+                    tempObj.value=data.data[item];
+                    tempArr.push(tempObj)
+                }
+                this.setState({
+                    authList:tempArr,
+                    modalVisible: true
+                })
+
+            }else{
+                toast.show(data.message)
+            }
+        }).catch(err=>{
+            toast.show('服务端异常');
+        })
     }
 }
 

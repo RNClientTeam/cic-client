@@ -9,26 +9,30 @@ import {
     Dimensions,
     Text,
     TouchableOpacity,
-    Image
+    Image,
+    TouchableWithoutFeedback
 } from 'react-native';
 const {width, height} = Dimensions.get('window');
 import AccomplishProgress from './AccomplishProgress.js';
 export default class ReformTaskCell extends Component {
     render() {
         return (
-            <View>
-                <TouchableOpacity style={styles.reformTaskCell} onPress={this.skipPage.bind(this)}>
+            <View style={styles.modificationTaskCell}>
+                <TouchableOpacity  onPress={this.skipPage.bind(this)}>
                     <View style={styles.aboutProject}>
-                        <Text style={{color:'#216fd0',fontSize:15}} numberOfLines={1}>{this.props.data.question}</Text>
+                        <Text style={{color:'#216fd0',fontSize:width*0.045}}>{this.props.data.zgzrbmmc}</Text>
+                        <View style={styles.blank}/>
                         <View style={styles.stateView}>
-                            <Text style={styles.stateText}>{this.props.data.state}</Text>
+                            <Text style={styles.stateText}>{this.props.data.dqztmc}</Text>
                         </View>
                     </View>
                     <View style={styles.aboutPrincipal}>
-                        <Text style={[{marginRight: 15}, styles.textStyle]}>{this.props.data.principal}</Text>
-                        <Text style={[{marginRight: 15}, styles.textStyle]}>{this.props.data.department}</Text>
-                        <Text style={styles.textStyle}>{this.props.data.time}</Text>
-                        <Text style={[styles.textStyle, {flex:1,textAlign:'right'}]}>></Text>
+                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zgzrrmc}</Text>
+                        <Text style={[{width: width * 0.6}, styles.textStyle]} numberOfLines={1}>{this.props.data.zgzrbmmc}</Text>
+                        <Text style={[{width: width * 0.7, marginTop:10}, styles.textStyle]}>{this.props.data.zgwcsj}</Text>
+                        <TouchableWithoutFeedback onPress={this.editBtn.bind(this)}>
+                            <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')} style={styles.editBtnSty}/>
+                        </TouchableWithoutFeedback>
                     </View>
                 </TouchableOpacity>
             </View>
@@ -38,62 +42,76 @@ export default class ReformTaskCell extends Component {
     skipPage() {
         this.props.navigator.push({
             component: AccomplishProgress,
-            name: 'AccomplishProgress'
+            name: 'AccomplishProgress',
+            params:{
+                readOnly:true,
+                id:this.props.data.id
+            }
         });
+    }
+
+    editBtn(){
+
     }
 }
 
 const styles = StyleSheet.create({
-    reformTaskCell: {
+    modificationTaskCell: {
         marginBottom: width * 0.03,
-        marginHorizontal: width * 0.02,
+        marginLeft: width * 0.02,
         borderWidth: 1,
         borderColor: '#ddd',
         width: width * 0.96,
     },
     aboutProject: {
         backgroundColor: '#fff',
-        paddingHorizontal: 10,
+        height: width * 0.12,
+        paddingLeft: width * 0.02,
+        paddingRight: width * 0.02,
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        height: 0.084*height,
-        paddingBottom: 5
+        alignItems: 'center'
     },
     aboutPrincipal: {
         backgroundColor: '#f6f9fa',
+        height: width * 0.15,
+        paddingLeft: width * 0.02,
+        paddingRight: width * 0.02,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
         alignItems: 'center',
-        paddingHorizontal: 10,
-        height: 0.085 * height,
-        flexDirection: 'row'
+        paddingTop: 10
     },
     projectName: {
-        lineHeight: 21,
-        paddingBottom: 15,
-        fontSize: 14,
-        color: '#3d3d3d'
+        height: width * 0.1,
+        lineHeight: 21
     },
     textStyle: {
-        color:'#4f74a3',
-        fontSize: 14
+        color:'#4f74a3'
     },
     stateView: {
-        backgroundColor: '#23aee8',
-        width:width*0.12,
+        backgroundColor: '#23afe9',
+        width:width*0.17,
         height:width*0.05,
         borderRadius:3,
         justifyContent:'center',
         alignItems:'center'
     },
-    stateText: {color: '#fff', fontSize: width * 0.03},
-    editTouch: {
-        position: 'absolute',
-        top: 22,
-        right: 18,
+    stateText: {
+        color: '#fff',
+        fontSize: width * 0.03
+    },
+    blank: {
+        flex: 1
     },
     editImg: {
         width: 22,
         height: 25
+    },
+    editBtnSty: {
+        position: 'absolute',
+        top: 15,
+        right: 20,
+        width: 22,
+        height: 22
     }
-
 });

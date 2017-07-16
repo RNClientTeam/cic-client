@@ -27,7 +27,7 @@ export default class ChoiceDate extends Component{
                     style={{width: 200}}
                     date={this.state.date || this.props.showDate}
                     mode={this.props.dateTime?"datetime":"date"}
-                    placeholder="select date"
+                    placeholder="请选择>"
                     format={this.props.dateTime?"YYYY-MM-DD HH:mm:ss":"YYYY-MM-DD"}
                     minDate="2000-05-01"
                     maxDate="2116-06-01"

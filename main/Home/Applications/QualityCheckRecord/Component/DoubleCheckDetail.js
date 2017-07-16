@@ -31,14 +31,14 @@ export default class DoubleCheckDetail extends Component {
             <View>
                 <ScrollView>
                     <View style={styles.divide}/>
-                    <KeyValueLeft propsKey="检验任务" propsValue="质量检查计划1>"/>
-                    <KeyValueLeft propsKey="工程工号" propsValue="CX_DS14034"/>
-                    <KeyValueLeft propsKey="项目名称" propsValue="龙泽苑D区配电室改造工程"/>
-                    <KeyValueLeft propsKey="工程子项名称" propsValue="项目实施计划任务"/>
-                    <KeyValueLeft propsKey="工程节点" propsValue="施工进场"/>
-                    <KeyValueLeft propsKey="检验时间" propsValue="2017-05-15"/>
-                    <KeyValueLeft propsKey="检验人" propsValue="王娜"/>
-                    <KeyValueLeft propsKey="问题类别" propsValue="施工安装问题"/>
+                    <KeyValueLeft propsKey="检验任务" propsValue={(this.state.data&&this.state.data.rwnr)||''}/>
+                    <KeyValueLeft propsKey="工程工号" propsValue={(this.state.data&&this.state.data.xmgh)||''}/>
+                    <KeyValueLeft propsKey="项目名称" propsValue={(this.state.data&&this.state.data.xmmc)||''}/>
+                    <KeyValueLeft propsKey="工程子项名称" propsValue={(this.state.data&&this.state.data.zxmc)||''}/>
+                    <KeyValueLeft propsKey="工程节点" propsValue={(this.state.data&&this.state.data.gcjd)||''}/>
+                    <KeyValueLeft propsKey="检验时间" propsValue={(this.state.data&&this.state.data.jcsj)||''}/>
+                    <KeyValueLeft propsKey="检验人" propsValue={(this.state.data&&this.state.data.jcr)||''}/>
+                    <KeyValueLeft propsKey="问题类别" propsValue={(this.state.data&&this.state.wtlb)||''}/>
                     <View style={styles.divide}/>
                     <View style={styles.row}>
                         <Text style={styles.labelColor}>附件</Text>
@@ -76,30 +76,40 @@ export default class DoubleCheckDetail extends Component {
                 data = {
                     "code": 1,
                     "data": {
-                        "zxmc": "1号配电室装修",
-                        "cfxxId": "8a8180d85702071c01570da666db03f5",
-                        "twztmc": "新建任务",
-                        "xmgh": "C112038-13005",
-                        "xmmc": "昌平老旧小区配电改造(郝庄家园)",
-                        "cjbm": "00000005000138c242a0d9",
-                        "zrrmc": "",
-                        "jhjssjt": "2017-01-20 00:00:00",
-                        "jhkssjt": "2017-01-02 00:00:00",
-                        "rwxz": 7,
-                        "zrbm": "",
-                        "id": "8a8180d8592e44ed015939cf2aa03b88",
-                        "rwnr": "请市场部尽快协调进场时间",
-                        "rwxzmc": "其它检验",
-                        "zrr": "",
-                        "gczxId": "8a8180d85702071c01570db2b28705b0",
-                        "twzt": 0,
-                        "ssbmmc": "",
-                        "cjsjt": "2016-12-26 14:26:35",
-                        "cjr": "00000009a00154c7ec8cda"
+                        "code": 1,
+                        "data": {
+                            "zxmc": "附属设施施工",
+                            "xmgh": "JZ_JY15011-16004",
+                            "xmmc": "规划九路电力沟道工程（注浆专业）",
+                            "cjsj": "2017-06-08 16:54:43",
+                            "jcsj": "2017-06-08 00:00:00",
+                            "RN": 1,
+                            "dqzt": 20,
+                            "rwxz": 5,
+                            "jcr": "刘栓",
+                            "id": "8a8181a25c85d8dc015c86e9ba0f0135",
+                            "gcjd": "设备厂验",
+                            "dqztmc": "审批中",
+                            "rwnr": "123",
+                            "nodeId": "0",
+                            "zxid": "8a8180d8573fd03c01574138cda03ded",
+                            "sfxczg": 0,
+                            "twzt": 100,
+                            "sfdb": "0",
+                            "cjr": "ZNDQ2053",
+                            "wtlb": "设备问题,施工安装问题"
+
+                        },
+                        "message": "成功"
                     },
                     "message": "成功"
-                }
-
+                };
+                data = data.data.data;
+                this.setState({
+                    data
+                },function () {
+                    console.log(this.state.data)
+                })
 
             } else {
                 toast.show(data.message)

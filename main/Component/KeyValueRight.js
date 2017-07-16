@@ -22,7 +22,7 @@ export default class KeyValueRight extends Component{
     render(){
         return(
             <View style={styles.container}>
-                <Text style={{color:'#5476a1'}}>{this.props.propKey}</Text>
+                <Text style={{color:'#5476a1'}} numberOfLines={1}>{this.props.propKey}</Text>
                 <TextInput
                     style={styles.inputStyle}
                     value={this.state.textValue}
@@ -56,8 +56,7 @@ const styles = StyleSheet.create({
     },
     inputStyle:{
         height:width*0.12,
-        color:'#666',
-        width:width*0.5,
+        width:width*0.6,
         textAlign:'right',
         fontSize:14
     }

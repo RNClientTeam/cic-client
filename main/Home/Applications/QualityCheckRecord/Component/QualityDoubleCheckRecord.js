@@ -16,6 +16,7 @@ import StatusBar from "../../../../Component/StatusBar"
 import DoubleCheckDetail from "./DoubleCheckDetail"
 import DoubleCheckModification from './DoubleCheckModification'
 import DoubleCheckRecord from './DoubleCheckRecord'
+import AddModification from "./AddModification";
 
 const {width} = Dimensions.get('window');
 
@@ -47,13 +48,22 @@ export default class QualityDoubleCheckRecord extends Component {
                     tabBarInactiveTextColor='#3d3d3d'
                     tabBarBackgroundColor="white">
                     <DoubleCheckDetail id={this.props.data.id} tabLabel="检查记录" navigator={this.props.navigator}/>
-                    <DoubleCheckModification id={this.props.data.id} tabLabel="整改任务" navigator={this.props.navigator}/>
+                    <DoubleCheckModification id={this.props.data.id} nodeId={this.props.data.nodeId} tabLabel="整改任务" navigator={this.props.navigator}/>
                     <DoubleCheckRecord tabLabel="复查" navigator={this.props.navigator}/>
                 </ScrollableTabView>
             </View>
         )
     }
-    addModification() {}
+    addModification() {
+        this.props.navigator.push({
+            name:"AddModification",
+            component:AddModification,
+            params:{
+                id:this.props.data.id,
+                nodeId:this.props.data.nodeId
+            }
+        })
+    }
 }
 
 const styles = StyleSheet.create({
