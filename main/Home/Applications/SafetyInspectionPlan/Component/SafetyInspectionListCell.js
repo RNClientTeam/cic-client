@@ -20,17 +20,17 @@ export default class SafetyInspectionListCell extends Component {
                 <TouchableOpacity style={styles.earlierStageListCell} onPress={this.skipPage.bind(this)}>
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
-                            <Text style={{color:'#216fd0',fontSize:width*0.045}} numberOfLines={1}>{this.props.data.number}</Text>
+                            <Text style={{color:'#216fd0',fontSize:width*0.045}} numberOfLines={1}>{this.props.data.aqjcjhmc}</Text>
                             <View style={styles.stateView}>
                                 <Text style={styles.stateText}>{this.props.data.state}</Text>
                             </View>
                         </View>
-                        <Text style={styles.projectName} numberOfLines={0}>{this.props.data.planName}</Text>
+                        <Text style={styles.projectName} numberOfLines={0}>{this.props.data.xmmc}</Text>
                     </View>
                     <View style={styles.aboutPrincipal}>
-                        <Text style={[{marginRight: 15}, styles.textStyle]}>{this.props.data.principal}</Text>
-                        <Text style={[{marginRight: 15}, styles.textStyle]}>{this.props.data.department}</Text>
-                        <Text style={styles.textStyle}>{this.props.data.time}</Text>
+                        <Text style={[{marginRight: 15}, styles.textStyle]}>{this.props.data.jcrmc}</Text>
+                        <Text style={[{marginRight: 15}, styles.textStyle]}>{this.props.data.xmbh}</Text>
+                        <Text style={styles.textStyle}>{this.props.data.jcsj}</Text>
                     </View>
                 </TouchableOpacity>
             </View>
@@ -40,7 +40,11 @@ export default class SafetyInspectionListCell extends Component {
     skipPage() {
         this.props.navigator.push({
             component: SafetyInspectionDetail,
-            name: 'SafetyInspectionDetail'
+            name: 'SafetyInspectionDetail',
+            params: {
+                id: this.props.data.aqjcjhId,
+                gxzxmc: this.props.data.gxzxmc,
+            }
         })
     }
 }

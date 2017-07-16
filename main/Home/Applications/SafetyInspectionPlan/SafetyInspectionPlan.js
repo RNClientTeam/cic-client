@@ -16,13 +16,23 @@ import StatusBar from '../../../Component/StatusBar.js';
 import SafetyInspectionList from './Component/SafetyInspectionList.js';
 import SearchHeader from '../Component/SearchHeader.js';
 import ModalView from "./Component/ModalView.js";
+import toast from 'react-native-simple-toast';
+
 export default class SafetyInspectionPlane extends Component{
     constructor(props){
         super(props);
         this.state={
             isModalVisible:false,
-            modalVisible: false
+            modalVisible: false,
+            dataSource: [],
+            ksrq: '2017-01-01',
+            jsrq: '2019-01-01',
+            jhlx: 300,
         }
+    }
+
+    componentDidMount() {
+        this.getList();
     }
 
     render(){
@@ -33,13 +43,80 @@ export default class SafetyInspectionPlane extends Component{
                         <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
-                <SearchHeader/>
-                <SafetyInspectionList navigator={this.props.navigator}/>
+                <SearchHeader
+                    getData={()=>this.getList()}
+                    changeZxmc={(keywords)=>this.setState({keywords:keywords})} />
+                <SafetyInspectionList
+                    navigator={this.props.navigator}
+                    dataSource={this.state.dataSource}
+                />
                 {this.state.isModalVisible &&
-                    <ModalView isModalVisible={this.state.isModalVisible}
-                        closeModal={()=>this.setState({isModalVisible:false})} />}
+                    <ModalView
+                        jhlx={this.state.jhlx}
+                        ksrq={this.state.ksrq}
+                        jsrq={this.state.jsrq}
+                        isModalVisible={this.state.isModalVisible}
+                        closeModal={(type, ksrq, jsrq, jhlx) => this.closeModal(ksrq, jsrq, jhlx)}/>}
             </View>
         )
+    }
+
+    getList(pageNum = 1, callBack = () => {}) {
+        const {
+            ksrq = '2017-01-01',
+            jsrq = '2019-01-01',
+            jhlx = 300,
+            keywords = '',
+        } = this.state;
+        axios.get('/psmAqjcjh/list4Aqjcjl', {
+            params: {
+                userID: GLOBAL_USERID,
+                ksrq,
+                jsrq,
+                jhlx,
+                keywords,
+                pageNum,
+                pageSize: 10,
+                callID: true,
+            }
+        }).then(responseData => {
+            console.log('data-------', responseData);
+            this.setState({
+                isLoading: false
+            });
+            let tmp = [];
+            if (responseData.code === 1) {
+                if (pageNum === 1) {
+                   this.setState({
+                       dataSource: responseData.data.data,
+                   })
+                } else {
+                    tmp = [...this.state.dataSource, ...responseData.data.data];
+                    this.setState({
+                        dataSource: tmp
+                    })
+                }
+            } else {
+                toast.show(responseData.message);
+            }
+
+        }).catch(err =>{
+            this.setState({isLoading:false});
+            toast.show('服务端异常');
+        })
+    }
+
+    closeModal(type, ksrq, jsrq, jhlx) {
+        console.log(ksrq, jsrq, jhlx);
+        this.setState({isModalVisible:false});
+        if (type === 1) {
+            this.setState({
+                ksrq,
+                jsrq,
+                jhlx
+            });
+        }
+        this.getList();
     }
 }
 

@@ -19,20 +19,34 @@ import ModalDropdown from 'react-native-modal-dropdown';
 export default class ModalView extends Component {
     constructor(props){
         super(props);
+        this.jhlxMap = {
+            100: '我的待办',
+            200: '我参与的',
+            300: '全部计划',
+        };
+
         this.state={
-            startDate:getCurrentDate(),
-            endDate:getCurrentDate(),
-            planType:'全部计划',
-            currentStatus: '新建任务'
+            ksrq: this.props.ksrq,
+            jsrq: this.props.jsrq,
+            jhlx: this.props.jhlx,
+            jhlxmc: this.jhlxMap[this.props.jhlx],
         }
     }
+
+    componentDidMount() {
+        // 获取计划类型
+        this.getDict();
+    }
+
     render() {
         return (
             <View style={[styles.earlierStageListModalView,Platform.OS === 'android' ?{top:44}:{top:64}]}>
                 <View style={styles.containerStyle}>
                     <Text style={styles.nameStyle}>开始时间</Text>
                     <View style={styles.indicateView}>
-                        <ChoiceDate/>
+                        <ChoiceDate
+                            showDate={this.state.ksrq}
+                            changeDate={(date)=>{this.setState({ksrq: date});}}/>
                         <Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
                     </View>
 
@@ -40,7 +54,9 @@ export default class ModalView extends Component {
                 <View style={styles.containerStyle}>
                     <Text style={styles.nameStyle}>结束时间</Text>
                     <View style={styles.indicateView}>
-                        <ChoiceDate/>
+                        <ChoiceDate
+                            showDate={this.state.jsrq}
+                            changeDate={(date)=>{this.setState({jsrq: date});}}/>
                         <Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
                     </View>
                 </View>
@@ -48,44 +64,65 @@ export default class ModalView extends Component {
                     <Text style={styles.nameStyle}>计划类型</Text>
                     <View style={styles.indicateView}>
                         <ModalDropdown
-                            options={['计划类型 1', '计划类型 2','计划类型 3','计划类型 4','计划类型 1', '计划类型 2','计划类型 3','计划类型 4']}
+                            options={this.state.jhlxmcList}
                             animated={true}
-                            defaultValue={this.state.planType}
+                            defaultValue={this.state.jhlxmc}
                             style={styles.modalDropDown}
                             textStyle={styles.modalDropDownText}
                             dropdownStyle={styles.dropdownStyle}
-                            onSelect={(a)=>{console.log(a)}}
+                            onSelect={index=>{
+                                this.setState({
+                                    jhlx: this.state.jhlxList[index]
+                                })
+                            }}
                             showsVerticalScrollIndicator={false}
                         />
                         <Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
                     </View>
                 </View>
-                <View style={styles.containerStyle}>
-                    <Text style={styles.nameStyle}>当前状态</Text>
-                    <View style={styles.indicateView}>
-                        <ModalDropdown
-                            options={['任务 1', '任务 2','任务 3','任务 4']}
-                            animated={true}
-                            defaultValue={this.state.currentStatus}
-                            style={styles.modalDropDown}
-                            textStyle={styles.modalDropDownText}
-                            dropdownStyle={styles.dropdownStyle}
-                            onSelect={(a)=>{console.log(a)}}
-                            showsVerticalScrollIndicator={false}
-                        />
-                        <Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
-                    </View>
-                </View>
+                {/*<View style={styles.containerStyle}>*/}
+                    {/*<Text style={styles.nameStyle}>当前状态</Text>*/}
+                    {/*<View style={styles.indicateView}>*/}
+                        {/*<ModalDropdown*/}
+                            {/*options={['任务 1', '任务 2','任务 3','任务 4']}*/}
+                            {/*animated={true}*/}
+                            {/*defaultValue={this.state.currentStatus}*/}
+                            {/*style={styles.modalDropDown}*/}
+                            {/*textStyle={styles.modalDropDownText}*/}
+                            {/*dropdownStyle={styles.dropdownStyle}*/}
+                            {/*onSelect={(a)=>{console.log(a)}}*/}
+                            {/*showsVerticalScrollIndicator={false}*/}
+                        {/*/>*/}
+                        {/*<Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>*/}
+                    {/*</View>*/}
+                {/*</View>*/}
                 <View style={styles.buttonView}>
-                    <TouchableOpacity style={[styles.clickButton,{backgroundColor:'#dbdada'}]} onPress={()=>this.props.closeModal()}>
+                    <TouchableOpacity
+                        style={[styles.clickButton,{backgroundColor:'#dbdada'}]}
+                        onPress={
+                            () => this.props.closeModal(2, this.state.ksrq, this.state.jsrq, this.state.jhlx)
+                        }>
                         <Text style={{color:'#3d3d3d',fontWeight:'200'}}>重置</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.clickButton,{backgroundColor:'#216fd0'}]} onPress={()=>this.props.closeModal()}>
+                    <TouchableOpacity
+                        style={[styles.clickButton,{backgroundColor:'#216fd0'}]}
+                        onPress={
+                            () => this.props.closeModal(1, this.state.ksrq, this.state.jsrq, this.state.jhlx)
+                        }>
                         <Text style={{color:'#fff'}}>确定</Text>
                     </TouchableOpacity>
                 </View>
             </View>
         )
+    }
+
+    getDict() {
+        let jhlxList = [100, 200, 300];
+        let jhlxmcList = ['我的待办', '我参与的', '全部计划'];
+        this.setState({
+            jhlxList,
+            jhlxmcList,
+        });
     }
 }
 

@@ -20,19 +20,26 @@ export default class SafetyInspectionDetail extends Component {
         super(props);
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: [
-                {name: '安全检测任务1', value:''},
-                {name: '项目编号', value:'CX_DS16051-1032'},
-                {name: '项目名称', value:'十三陵基地配电增容'},
-                {name: '工程子项名称', value:'工程子项1'},
-                {name: '施工任务', value:'施工任务名称1'},
-                {name: '当前状态', value:'新建任务'},
-                {name: '计划开始时间', value:'2017/3/16'},
-                {name: '计划结束时间', value:'2017/4/5'},
-                {name: '责任人', value:'阿拉蕾'},
-                {name: '创建时间', value:'2017/3/15'}
-            ]
-        }
+            dataSource: [],
+        };
+        // this.state = {
+        //     dataSource: [
+        //         {name: this.props.data.aqjcjhmc, value:''},
+        //         {name: '项目编号', value: this.props.data.xmbh},
+        //         {name: '项目名称', value: this.props.data.xmmc},
+        //         {name: '工程子项名称', value: this.props.data.gxzxmc},
+        //         {name: '施工任务', value:'施工任务名称1'},
+        //         {name: '当前状态', value:'新建任务'},
+        //         {name: '计划开始时间', value: this.props.data.ksrq},
+        //         {name: '计划结束时间', value: this.props.data.jsrq},
+        //         {name: '责任人', value: this.prop.data.jcrmc},
+        //         {name: '创建时间', value:'2017/3/15'}
+        //     ]
+        // }
+    }
+
+    componentDidMount() {
+        this.getDetail(this.props.id);
     }
     render() {
         return (
@@ -77,6 +84,40 @@ export default class SafetyInspectionDetail extends Component {
                 </TouchableOpacity>
             </View>
         )
+    }
+
+    getDetail(id) {
+        axios.get('/psmAqjcjh/aqjcjhDetail', {
+            params: {
+                userID: GLOBAL_USERID,
+                id,
+                callID: true,
+            }
+        }).then( responseData => {
+            if (responseData.code === 1) {
+                console.log('------------responseData', responseData);
+                let data = responseData.data;
+                this.setState({
+                    dataSource: [
+                        {name: data.aqjcjhmc, value:''},
+                        {name: '项目编号', value: data.xmbh},
+                        {name: '项目名称', value: data.xmmc},
+                        {name: '工程子项名称', value: data.zxmc},
+                        {name: '施工任务', value: data.sgrwmc},
+                        {name: '当前状态', value: data.ztmc},
+                        {name: '计划开始时间', value: data.jhkssj},
+                        {name: '计划结束时间', value: data.jhjssj},
+                        {name: '责任人', value: data.zrrmc},
+                        {name: '创建时间', value: data.cjsj},
+                    ]
+                })
+            } else {
+                toast.show(responseData.message);
+            }
+        }).catch(() => {
+            this.setState({isLoading:false});
+            toast.show('服务端异常');
+        })
     }
 }
 
