@@ -19,7 +19,6 @@ import {getTimestamp} from '../../../../Util/Util.js';
 const {width, height}  = Dimensions.get('window');
 import Toast from 'react-native-simple-toast';
 import Loading from "../../../../Component/Loading.js";
-import ChoiceDate from "../../../../Component/ChoiceDate.js";
 import ModalDropdown from 'react-native-modal-dropdown';
 import Organization from '../../../../Organization/Organization.js';
 import CheckFlowInfo from './CheckFlowInfo.js';

@@ -11,7 +11,8 @@ import {
     TextInput,
     Image,
     NativeModules,
-    Platform
+    Platform,
+    TouchableWithoutFeedback
 } from 'react-native';
 const photoOptions = {
     title:'更换头像',
@@ -49,7 +50,6 @@ export default class ReviewRecord extends Component {
             jcfj: [],       //附件id
             imageList: [],
             choiceFileName: '所选附件名称'
-
         }
     }
 
@@ -226,24 +226,34 @@ export default class ReviewRecord extends Component {
 
     save() {
         let jcfj = this.state.jcfj.join(',');
-        axios.post('/psmAqjcjh/saveAqjcjl4fc', {
-            userID: GLOBAL_USERID,
-            id: this.props.data.aqjcjhId,
-            frc: this.state.personId,
-            fcsj: this.state.fuchaTime,
-            fcjg: this.inputResult,
-            callID: true
-        }).then((res) => {
-            if (res.code === 1) {
+        if (this.state.fuchaTime.length === 0) {
+            Toast.show('请选择复查时间');
+        } else if (this.state.fuchaPerson === '请选择>') {
+            Toast.show('请选择复查人');
+        } else if (jcfj.length === 0) {
+            Toast.show('请选择附件');
+        } else if (this.inputResult.length === 0) {
+            Toast.show('请填写复查结果');
+        } else {
+            axios.post('/psmAqjcjh/saveAqjcjl4fc', {
+                userID: GLOBAL_USERID,
+                id: this.props.data.aqjcjhId,
+                frc: this.state.personId,
+                fcsj: this.state.fuchaTime,
+                fcjg: this.inputResult,
+                callID: true
+            }).then((res) => {
+                if (res.code === 1) {
+                    Toast.show('保存成功');
+                    this.props.navigator.pop();
+                } else {
+                    Toast.show(res.message);
+                }
+            }).catch((error) => {
 
-            } else {
-                Toast.show(res.message);
-            }
-        }).catch((error) => {
-
-        });
+            });
+        }
     }
-
 }
 
 const styles = StyleSheet.create({

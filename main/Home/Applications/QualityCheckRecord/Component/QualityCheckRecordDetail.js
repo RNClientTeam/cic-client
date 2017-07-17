@@ -439,32 +439,33 @@ export default class QualityCheckRecordDetail extends Component {
             Toast.show('请填写检查结果');
         } else if (this.changeResult.length === 0) {
             Toast.show('请填写整改要求');
-        }
-        axios.post('/psmZljcjl/save', {
-            userID: GLOBAL_USERID,
-            rwnrid: this.state.rwnrid,
-            gcjd: this.gcjd,
-            wtlb: wtlb,
-            jcbm: this.state.jcbm,
-            jcr: this.state.jcrID,
-            jcsj: this.state.jcsj,
-            jcjg: this.checkResult,
-            jcfj: jcfj,
-            zgyq: this.changeResult,
-            sfxczg: this.state.isFinished,
-            rwnr: this.state.rwnr,
-            gczxid: this.state.gczxid,
-            xmgh: this.state.xmgh,
-            callID: true
-        }).then((data) => {
-            if (data.code === 1) {
-                Toast.show('保存成功');
-            } else {
-                Toast.show(data.message);
-            }
-        }).catch((error) => {
+        } else {
+            axios.post('/psmZljcjl/save', {
+                userID: GLOBAL_USERID,
+                rwnrid: this.state.rwnrid,
+                gcjd: this.gcjd,
+                wtlb: wtlb,
+                jcbm: this.state.jcbm,
+                jcr: this.state.jcrID,
+                jcsj: this.state.jcsj,
+                jcjg: this.checkResult,
+                jcfj: jcfj,
+                zgyq: this.changeResult,
+                sfxczg: this.state.isFinished,
+                rwnr: this.state.rwnr,
+                gczxid: this.state.gczxid,
+                xmgh: this.state.xmgh,
+                callID: true
+            }).then((data) => {
+                if (data.code === 1) {
+                    Toast.show('保存成功');
+                } else {
+                    Toast.show(data.message);
+                }
+            }).catch((error) => {
 
-        });
+            });
+        }
     }
 
     toggle(value) {

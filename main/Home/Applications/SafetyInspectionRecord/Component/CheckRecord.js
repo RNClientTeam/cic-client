@@ -68,6 +68,11 @@ export default class DoubleCheckDetail extends Component {
         });
     }
 
+    //选择附件
+    choiceFile() {
+
+    }
+
     render() {
         return (
             <View>
@@ -81,9 +86,12 @@ export default class DoubleCheckDetail extends Component {
                     <KeyValueLeft propsKey="检验时间" propsValue={(this.state.data&&this.state.data.jcsj)||''}/>
                     <KeyValueLeft propsKey="检验人" propsValue={(this.state.data&&this.state.data.jcrmc)||''}/>
                     <View style={styles.divide}/>
-                    <View style={styles.row}>
-                        <Text style={styles.labelColor}>附件</Text>
-                    </View>
+                    <TouchableOpacity onPress={this.choiceFile.bind(this)}>
+                        <View style={styles.row}>
+                            <Text style={styles.labelColor}>附件</Text>
+                            <Image style={{width:0.05*width, height:0.05*width}} source={require('../../../../../resource/imgs/home/attachment.png')}/>
+                        </View>
+                    </TouchableOpacity>
                     <View style={styles.attachment}>
                         <View style={styles.attachmentLabel}>
                             <Text style={{color: '#666'}}>文件名.pdf</Text>
@@ -121,7 +129,8 @@ const styles = StyleSheet.create({
         borderBottomColor: '#dcdcdc',
         flexDirection: 'row',
         backgroundColor: 'white',
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'space-between'
     },
     attachment: {
         paddingLeft: 0.02 * width,

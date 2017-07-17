@@ -41,7 +41,7 @@ export default class SafetyInspectionRecord extends Component{
     render(){
         return(
             <View style={styles.earlierStage}>
-                <StatusBar navigator={this.props.navigator} title="安全检查记录（5）">
+                <StatusBar navigator={this.props.navigator} title="安全检查记录">
                     <TouchableWithoutFeedback
                         onPress={()=>{this.addBtn()}}
                     >
