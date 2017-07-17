@@ -30,20 +30,31 @@ export default class NewCreateRecord extends Component {
         super(props);
         this.imageId = [];      //图片附件的id
         this.wenti = '';
+        this.jianchaResult = '';
         this.state = {
-            aqjcjhmc: '',
-            xmbh: '',
-            xmmc: '',
-            zxmc: '',
-            jcsj: '',
-            jcrmc: '请选择>',
-            jcrId: '',
+            jcbm: '',           //检查部门
+            zxmc: '',           //子项名称
+            xmmc: '',           //项目名称
+            fcsj: '',           //复查时间
+            aqjcjhId: '',       //安全检查计划Id
+            jcsj: '',           //检查时间
+            fcr: '',            //复查人
+            fcfj: '',           //复查附件
+            id: '',             //安全检查记录id
+            jcr: '',            //检查人
+            jcrmc: '请选择>',    //检查人名称
+            wtlbmc: '',         //问题类别名称
+            aqjcjhmc: '',       //安全检查计划名称
+            fcrmc: '',          //复查人名称
+            gczxId: '',         //工程子项Id
+            jcfj: '',           //检查附件ID
+            fcjg: '',           //复查结果
+            xmbh: '',           //项目编号
+            sfxczg: '',         //是否现场整改
+            wtlb: '',           //问题类别编码
             questionList: [],
             proList: [],
-            wentiType: '请选择>',
-            jianyanTime: '',
             choiceFileName: '所选文件名',
-            jcfj: '',       //附件ID
         }
     }
 
@@ -88,12 +99,26 @@ export default class NewCreateRecord extends Component {
         }).then((res) => {
             if (res.code === 1) {
                 this.setState({
+                    jcbm: res.data.jcbm,
+                    fcsj: res.data.fcsj,
                     aqjcjhmc: res.data.aqjcjhmc,
+                    aqjcjhId: res.data.aqjcjhId,
                     xmbh: res.data.xmbh,
                     xmmc: res.data.xmmc,
                     zxmc: res.data.zxmc,
                     jcsj: res.data.jcsj,
                     jcrmc: res.data.jcrmc,
+                    wtlbmc: res.data.wtlbmc||'请选择>',
+                    fcr: res.data.fcr,
+                    jcr: res.data.jcr,
+                    fcfj: res.data.fcfj,
+                    id: res.data.id,
+                    fcrmc: res.data.fcrmc,
+                    gczxId: res.data.gczxId,
+                    jcfj: res.data.jcfj,
+                    fcjg: res.data.fcjg,
+                    sfxczg: res.data.sfxczg,
+                    wtlb: res.data.wtlb
                 });
             } else {
                 Toash.show(res.message);
@@ -129,7 +154,7 @@ export default class NewCreateRecord extends Component {
                         <ModalDropdown
                             options={this.state.questionList}
                             animated={true}
-                            defaultValue={this.state.wentiType}
+                            defaultValue={this.state.wtlbmc}
                             style={{flex:1, alignItems:'flex-end'}}
                             textStyle={{fontSize:14}}
                             onSelect={(a) => {
@@ -139,16 +164,18 @@ export default class NewCreateRecord extends Component {
                     </View>
                     <View style={styles.viewStyle}>
                         <Text style={styles.keyText}>检验时间</Text>
-                        <ChoiceDate showDate={this.state.jianyanTime}
-                            changeDate={(date)=>{this.setState({jianyanTime:date})}}/>
+                        <ChoiceDate showDate={this.state.jcsj}
+                            changeDate={(date)=>{this.setState({jcsj:date})}}/>
                     </View>
-                    <TouchableHighlight onPress={this.getNewPerson.bind(this)}>
+                    <TouchableHighlight onPress={this.getNewPerson.bind(this)} underlayColor="transparent">
                         <View style={styles.viewStyle}>
                             <Text style={styles.keyText}>检验人</Text>
                             <Text style={styles.valueText}>{this.state.jcrmc}</Text>
                         </View>
                     </TouchableHighlight>
-                    <ChoiceFileComponent getFileID={(theID) => {this.setState({jcfj:theID})}}/>
+                    <ChoiceFileComponent getFileID={(theID) => {
+                        // this.setState({fcfj:theID});
+                    }}/>
                     <View style={styles.footSeparator}></View>
                     <View style={styles.footIntor}>
                         <Text style={styles.keyText}>检查结果</Text>
@@ -158,6 +185,7 @@ export default class NewCreateRecord extends Component {
                             multiline={true}
                             autoCapitalize="none"
                             autoCorrect={false}
+                            onChangeText={(text) => {this.jianchaResult=text;}}
                             underlineColorAndroid="transparent"
                             placeholder=""/>
                     </View>
@@ -193,28 +221,91 @@ export default class NewCreateRecord extends Component {
     getInfo(bmid, name, id) {
         this.setState({
             jcrmc: name,
-            jcrId: id
+            jcr: id,
+            jcbm: bmid
         });
     }
 
+    //保存并提交
     saveAndCommit() {
-        // axios.post('/psmAqjcjh/saveAndsumbitAqjcjl', {
-        //
-        // }).then((res) => {
-        //
-        // }).catch((error) => {
-        //
-        // });
+        if (this.state.wtlbmc === '请选择>') {
+            Toast.show('请选择问题类比');
+        } else if (this.state.jcsj.length === 0) {
+            Toast.show('请选择检查时间');
+        } else if (this.state.jcrmc.length) {
+            Toast.show('请选择检查人');
+        } else if (this.state.fcfj.length === 0) {
+            Toast.show('请选择附件');
+        } else {
+            axios.post('/psmAqjcjh/saveAndsumbitAqjcjl', {
+                userID: GLOBAL_USERID,
+                id: this.state.id,
+                aqjcjhId: this.state.aqjcjhId,
+                aqjcjhmc: this.state.aqjcjhmc,
+                gczxId: this.state.gczxId,
+                xmbh: this.state.xmbh,
+                jcr: this.state.jcr,
+                jcbm: this.state.jcbm,
+                jcsj: this.state.jcsj,
+                jcjg: this.jianchaResult,
+                zgyq: '',
+                wtlb: this.wenti,
+                sfxczg: this.state.sfxczg,
+                jcfj: this.state.jcfj,
+                fcfj: this.state.fcfj,
+                callID: true
+            }).then((res) => {
+                if (res.code === 1) {
+                    Toast.show('保存成功');
+                    this.props.navigator.pop();
+                } else {
+                    Toast.show(res.message);
+                }
+            }).catch((error) => {
+
+            });
+        }
     }
 
+    //保存
     save() {
-        // axios.post('/psmAqjcjh/saveAqjcjh', {
-        //
-        // }).then((res) => {
-        //
-        // }).catch((error) => {
-        //
-        // });
+        if (this.state.wtlbmc === '请选择>') {
+            Toast.show('请选择问题类比');
+        } else if (this.state.jcsj.length === 0) {
+            Toast.show('请选择检查时间');
+        } else if (this.state.jcrmc.length) {
+            Toast.show('请选择检查人');
+        } else if (this.state.fcfj.length === 0) {
+            Toast.show('请选择附件');
+        } else {
+            axios.post('/psmAqjcjh/saveAqjcjl', {
+                userID: GLOBAL_USERID,
+                id: this.state.id,
+                aqjcjhId: this.state.aqjcjhId,
+                aqjcjhmc: this.state.aqjcjhmc,
+                gczxId: this.state.gczxId,
+                xmbh: this.state.xmbh,
+                jcr: this.state.jcr,
+                jcbm: this.state.jcbm,
+                jcsj: this.state.jcsj,
+                jcjg: this.jianchaResult,
+                zgyq: '',
+                wtlb: this.wenti,
+                sfxczg: this.state.sfxczg,
+                jcfj: this.state.jcfj,
+                fcfj: this.state.fcfj,
+                callID: true
+            }).then((res) => {
+                if (res.code === 1) {
+                    Toast.show('保存成功');
+                    this.props.navigator.pop();
+                } else {
+                    Toast.show(res.message);
+                }
+            }).catch((error) => {
+
+            });
+        }
     }
 }
 

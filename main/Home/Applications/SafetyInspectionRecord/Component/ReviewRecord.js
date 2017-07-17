@@ -50,7 +50,6 @@ export default class ReviewRecord extends Component {
             jcfj: [],       //附件id
             imageList: [],
             choiceFileName: '所选附件名称'
-
         }
     }
 
