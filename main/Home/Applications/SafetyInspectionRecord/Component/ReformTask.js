@@ -8,19 +8,22 @@ import {
     StyleSheet,
     Dimensions,
     ListView,
-    Text
+    Text,
+    Modal
 } from 'react-native'
 const {width, height} = Dimensions.get('window');
 import {PullList} from 'react-native-pull';
 import ReformTaskCell from "./ReformTaskCell.js";
 import toast from 'react-native-simple-toast'
+import ZGMoreOperation from "./ZGMoreOperation";
 export default class ReformTask extends Component {
     constructor(props) {
         super(props);
         this.state = {
             hasMoreData: true,
             list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})),
-            dataSource:[]
+            dataSource:[],
+            modalVisible:false
         }
     }
 
@@ -34,6 +37,19 @@ export default class ReformTask extends Component {
                     onEndReachedThreshold={60}
                     enableEmptySections={true}
                 />
+                {
+                    this.state.modalVisible&&
+                    <Modal
+                        animationType={"slide"}
+                        transparent={true}
+                        visible={this.state.modalVisible}
+                        onRequestClose={() => {this.setState({modalVisible: false})}}
+                        style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}>
+                        <ZGMoreOperation navigator={this.props.navigator} closeModal={() => {
+                            this.setState({modalVisible: false})
+                        }}/>
+                    </Modal>
+                }
             </View>
         )
     }
@@ -41,11 +57,16 @@ export default class ReformTask extends Component {
 
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
-            <ReformTaskCell key={rowID} data={item} navigator={this.props.navigator}
+            <ReformTaskCell showAuthList={this.showAuthList.bind(this)} key={rowID} data={item} navigator={this.props.navigator}
                 setModalVisible={() => this.props.setModalVisible()}/>
         );
     }
 
+    showAuthList(){
+        this.setState({
+            modalVisible:true
+        })
+    }
 
     componentDidMount() {
         this._getData();

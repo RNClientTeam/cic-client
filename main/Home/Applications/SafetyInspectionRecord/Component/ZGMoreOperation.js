@@ -13,7 +13,7 @@ import {
 } from 'react-native'
 import MoreOperationsCell from "./MoreOperationsCell";
 const {width} = Dimensions.get('window');
-export default class MoreOperation extends Component {
+export default class ZGMoreOperation extends Component {
     render() {
         return (
             <TouchableOpacity style={styles.modalView} onPress={()=>{this.props.closeModal()}}>

@@ -86,39 +86,6 @@ export default class ProjectListView extends Component {
         }).then(data => {
             this.hideLoading();
             if(data.code === 1){
-                // TODO
-                if (pageNum < 10) {
-                    data = {
-                        "code": 1,
-                        "data": {
-                            "total": 110,
-                            "list": [
-                                {
-                                    "zxid": "8a8180b858dc0f0e0158dc430a8f00fd",
-                                    "xmgh": "CX_DS13140-13224",
-                                    "xmmc": "人大土建子项",
-                                    "cfid": "8a8180b858dc0f0e0158dc401f9c00eb"
-                                },
-                                {
-                                    "zxid": "8a8180b858dc0f0e0158dc4202ed00f5",
-                                    "xmgh": "CX_DS13140-13224",
-                                    "xmmc": "人大配电子项",
-                                    "cfid": "8a8180b858dc0f0e0158dc401f9c00eb"
-                                }
-                            ]
-                        },
-                        "message": "成功"
-                    };
-                } else {
-                    data = {
-                        "code": 1,
-                        "data": {
-                            "total": 110,
-                            "list": []
-                        },
-                        "message": "成功"
-                    };
-                }
                 resolve();
                 if (data.data && data.data.list) {
                     if (data.data.list.length > 0) {
