@@ -76,7 +76,7 @@ export default class SafetyInspectionDetail extends Component {
     renderFooter() {
         return (
             <View>
-                <View style={styles.footSeparator}></View>
+                <View style={styles.footSeparator}/>
                 <TouchableOpacity style={styles.footerView} onPress={this.onPress.bind(this)}>
                     <Image source={require('../../../../../resource/imgs/home/applications/editBtn.png')}
                         style={{width:20, height:20, marginRight:5}}/>

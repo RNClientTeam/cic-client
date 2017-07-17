@@ -65,7 +65,7 @@ export default class QualityCheckPlanList extends Component {
     }
 
     renderFooter() {
-        return (this.state.hasMoreData&&this.props.dataSource ? <LoadMore /> : null)
+        return (this.state.hasMoreData && this.props.dataSource.length ? <LoadMore /> : null)
     }
 
     topIndicatorRender(pulling, pullok, pullrelease) {

@@ -28,6 +28,7 @@ export default class SafetyInspectionPlane extends Component{
             ksrq: '2017-01-01',
             jsrq: '2019-01-01',
             jhlx: 300,
+            pageNum: 1,
         }
     }
 
@@ -49,6 +50,8 @@ export default class SafetyInspectionPlane extends Component{
                 <SafetyInspectionList
                     navigator={this.props.navigator}
                     dataSource={this.state.dataSource}
+                    loadMore={() => this.loadMore()}
+                    total={this.state.total}
                 />
                 {this.state.isModalVisible &&
                     <ModalView
@@ -56,7 +59,9 @@ export default class SafetyInspectionPlane extends Component{
                         ksrq={this.state.ksrq}
                         jsrq={this.state.jsrq}
                         isModalVisible={this.state.isModalVisible}
-                        closeModal={(type, ksrq, jsrq, jhlx) => this.closeModal(ksrq, jsrq, jhlx)}/>}
+                        closeModal={(type, ksrq, jsrq, jhlx) => this.closeModal(ksrq, jsrq, jhlx)}
+                    />
+                }
             </View>
         )
     }
@@ -68,6 +73,7 @@ export default class SafetyInspectionPlane extends Component{
             jhlx = 300,
             keywords = '',
         } = this.state;
+
         axios.get('/psmAqjcjh/list4Aqjcjl', {
             params: {
                 userID: GLOBAL_USERID,
@@ -96,6 +102,9 @@ export default class SafetyInspectionPlane extends Component{
                         dataSource: tmp
                     })
                 }
+                this.setState({
+                    total: responseData.data.total || 0,
+                })
             } else {
                 toast.show(responseData.message);
             }
@@ -104,6 +113,14 @@ export default class SafetyInspectionPlane extends Component{
             this.setState({isLoading:false});
             toast.show('服务端异常');
         })
+    }
+
+    loadMore() {
+        let pageNum = ++this.state.pageNum;
+        this.getList(pageNum);
+        this.setState({
+            pageNum,
+        });
     }
 
     closeModal(type, ksrq, jsrq, jhlx) {

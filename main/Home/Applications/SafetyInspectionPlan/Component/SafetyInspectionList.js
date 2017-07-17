@@ -26,20 +26,24 @@ export default class SafetyInspectionList extends Component {
     }
 
     render() {
-        return (
-            <View style={styles.container}>
-                <PullList
-                    onPullRelease={this.onPullRelease.bind(this)}
-                    topIndicatorRender={this.topIndicatorRender.bind(this)}
-                    topIndicatorHeight={60}
-                    dataSource={this.state.list.cloneWithRows(this.props.dataSource)}
-                    renderRow={this.renderRow.bind(this)}
-                    onEndReached={this.loadMore.bind(this)}
-                    onEndReachedThreshold={60}
-                    renderFooter={this.renderFooter.bind(this)}
-                />
-            </View>
-        )
+        if (this.props.dataSource.length) {
+            return (
+                <View style={styles.container}>
+                    <PullList
+                        onPullRelease={this.onPullRelease.bind(this)}
+                        topIndicatorRender={this.topIndicatorRender.bind(this)}
+                        topIndicatorHeight={60}
+                        dataSource={this.state.list.cloneWithRows(this.props.dataSource)}
+                        renderRow={this.renderRow.bind(this)}
+                        onEndReached={this.loadMore.bind(this)}
+                        onEndReachedThreshold={60}
+                        pageSize={101}
+                        renderFooter={this.renderFooter.bind(this)}
+                    />
+                </View>
+            )
+        }
+        return <View/>
     }
 
     onPullRelease(resolve) {
@@ -57,7 +61,7 @@ export default class SafetyInspectionList extends Component {
     }
 
     renderFooter (){
-        return (this.state.hasMoreData ? <LoadMore /> : null)
+        return ( (this.props.dataSource.length && (this.props.dataSource.length < this.props.total)) ? <LoadMore /> : null)
     }
 
     topIndicatorRender(pulling, pullok, pullrelease) {
@@ -74,6 +78,7 @@ export default class SafetyInspectionList extends Component {
         //         list: this.state.list.cloneWithRows(this.dataSource)
         //     });
         // }, 1000);
+        this.props.loadMore();
     }
 }
 
