@@ -1,0 +1,202 @@
+/**
+ * Created by fan on 2017/05/10.
+ */
+import React,{Component} from 'react'
+import {
+    View,
+    StyleSheet,
+    Dimensions,
+    Image,
+    TouchableOpacity,
+    Text,
+    Modal
+} from 'react-native'
+const {width}  = Dimensions.get('window');
+import StatusBar from '../../../Component/StatusBar.js';
+import ApartmentPlaneList from './Component/ApartmentPlaneList.js';
+import SearchHeader from '../Component/SearchHeader.js';
+import MoreOperation from './Component/MoreOperation.js';
+import AddApartmentPlane from './Component/AddApartmentPlane.js';
+import Loading from "../../../Component/Loading";
+import {getCurrentMonS,getCurrentMonE} from '../../../Util/Util'
+import ApartmentListModalView from "./Component/ApartmentListModalView";
+import toast from 'react-native-simple-toast'
+export default class ApartmentPlane extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            isModalVisible:false,
+            modalVisible: false,
+            isLoading:false,
+            dataType:'我的',//1,全部:2
+            jhmc:'',
+            sDate:getCurrentMonS(),
+            eDate:getCurrentMonE(),
+            pageNum:1,
+            rwzt:'请选择任务状态',
+            dataList:[],
+            operatingItem:{},
+            authList:[]
+        }
+    }
+
+    addBtn() {
+        this.props.navigator.push({
+            component: AddApartmentPlane,
+            name: 'AddApartmentPlane'
+        });
+    }
+
+    render(){
+        return(
+            <View style={styles.earlierStage}>
+                <StatusBar navigator={this.props.navigator} title="部门计划">
+                    <TouchableOpacity onPress={()=>{this.setState({isModalVisible:!this.state.isModalVisible})}}>
+                        <Image style={[styles.filtrate, {marginLeft:-width*0.045-10}]} source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={()=>{this.addBtn()}}>
+                        <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
+                    </TouchableOpacity>
+                </StatusBar>
+                <SearchHeader/>
+                <ApartmentPlaneList
+                    loadMore={()=>this.loadMore()}
+                    dataSource={this.state.dataList}
+                    navigator={this.props.navigator}
+                    refresh={(resolve)=>this.getDataFromNet(1,resolve)}
+                    getOperatingItem={(item)=>this.getOperatingItem(item)}
+                    setModalVisible={(item)=>this._getAuthList(item)}/>
+                {this.state.isModalVisible &&
+                    <ApartmentListModalView
+                        rwzt={this.state.rwzt}
+                        sDate={this.state.sDate}
+                        eDate={this.state.eDate}
+                        isModalVisible={this.state.isModalVisible}
+                        changeFilter={(sDate,eDate,rwzt)=>this.changeFilter(sDate,eDate,rwzt)}
+                        choiceRwzt={(rwzt)=>this.setState({rwzt:rwzt})}
+                        closeModal={()=>this.setState({isModalVisible:false})} />}
+                {
+                    this.state.modalVisible &&
+                    <Modal
+                        animationType={"slide"}
+                        transparent={true}
+                        visible={this.state.modalVisible}
+                        onRequestClose={() => {this.setState({modalVisible: false})}}
+                        style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}>
+                        <MoreOperation operatingItem={this.state.operatingItem} navigator={this.props.navigator} closeModal={()=>this.setState({modalVisible: false})}/>
+                    </Modal>
+                }
+                {this.state.isLoading?<Loading/>:null}
+            </View>
+        )
+    }
+
+    getOperatingItem(item){
+        this.setState({
+            operatingItem:item
+        })
+    }
+
+    showLoading(){
+        this.setState({
+            isLoading:true
+        })
+    }
+
+    changeFilter(sDate,eDate,rwzt){
+        this.setState({
+            sDate:sDate,
+            eDate:eDate,
+            rwzt:rwzt
+        },function () {
+            this.getDataFromNet();
+        })
+    }
+
+    loadMore(){
+        this.setState({
+            pageNum:this.state.pageNum+1
+        },function () {
+            this.getDataFromNet(this.state.pageNum)
+        })
+    }
+
+    hideLoading(){
+        this.setState({
+            isLoading:false
+        })
+    }
+    componentDidMount() {
+        this.getDataFromNet();
+    }
+    _getAuthList(jhId){
+        this.setState({modalVisible:true});
+        axios.get('/psmBmjh/getOperationAuthority4Bmjh',{
+            params:{
+                userID:GLOBAL_USERID,
+                jhId:jhId,
+                callID:true
+            }
+        }).then(data=>{
+            this.setState({modalVisible:true})
+        })
+    }
+    getDataFromNet(pageNum=1,resolve=()=>{}){
+        this.showLoading();
+        let rwzt='all';
+        axios.get('/psmBmjh/list',{
+            params:{
+                userID:GLOBAL_USERID,
+                dataType:2,
+                jhmc:this.state.jhmc,
+                sDate:this.state.sDate,
+                eDate:this.state.eDate,
+                rwzt:this.state.rwzt==='请选择任务状态'?rwzt:this.state.rwzt,
+                pageNum:pageNum,
+                pageSize:10,
+                callID:true
+            }
+        }).then(data=>{
+            this.hideLoading();
+            if(data.code ===1){
+                let result = true;
+                if(data.data && data.data.list && data.data.list.length>0){
+                    if(pageNum === 1){
+                        this.setState({
+                            dataList:data.data.list
+                        })
+                    }else{
+                        for(let i = 0;i<data.data.list.length;i++){
+                            this.state.dataList.push(data.data.list[i])
+                        }
+                        this.setState({
+                            dataList:this.state.dataList
+                        })
+                    }
+
+                }else{
+                    result = false
+                }
+
+                resolve();
+                return result;
+            }else{
+                toast.show(data.message)
+            }
+        }).catch(err=>{
+            this.hideLoading();
+            toast.show('服务端异常');
+        })
+    }
+}
+
+const styles = StyleSheet.create({
+    earlierStage:{
+        backgroundColor:'#f2f2f2',
+        flex:1
+    },
+    filtrate:{
+        width:width*0.045,
+        height:width*0.045
+    }
+});

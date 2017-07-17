@@ -1,0 +1,330 @@
+"use strict";
+import React, {Component} from 'react';
+import {
+    View,
+    Text,
+    TextInput,
+    StyleSheet,
+    Dimensions,
+    TouchableHighlight,
+    Image,
+    ScrollView,
+    TouchableOpacity,
+    TouchableWithoutFeedback,
+    Platform
+} from 'react-native';
+import ChoiceDate from "../../../../Component/ChoiceDate.js";
+import ChoiceFileComponent from '../../Component/ChoiceFileComponent.js';
+const selectImg = [
+    require('../../../../../resource/imgs/home/constuctPlan/choiced.png'),
+    require('../../../../../resource/imgs/home/constuctPlan/unchoiced.png')
+];
+import Toast from 'react-native-simple-toast';
+import Organization from '../../../../Organization/Organization.js';
+const {width, height} = Dimensions.get('window');
+import StatusBar from '../../../../Component/StatusBar.js';
+import ModalDropdown from 'react-native-modal-dropdown';
+
+export default class NewCreateRecord extends Component {
+    constructor(props) {
+        super(props);
+        this.imageId = [];      //图片附件的id
+        this.wenti = '';
+        this.state = {
+            aqjcjhmc: '',
+            xmbh: '',
+            xmmc: '',
+            zxmc: '',
+            jcsj: '',
+            jcrmc: '请选择>',
+            jcrId: '',
+            questionList: [],
+            proList: [],
+            wentiType: '请选择>',
+            jianyanTime: '',
+            choiceFileName: '所选文件名',
+            jcfj: '',       //附件ID
+        }
+    }
+
+    componentDidMount() {
+        this.initData();
+        //获取问题类别
+        this.getQuestionType();
+    }
+
+    //获取问题类别
+    getQuestionType() {
+        axios.get('/dictionary/list', {
+            params: {
+                userID: GLOBAL_USERID,
+                root: 'JDJH_WTLB_AQ',
+                callID: true
+            }
+        }).then((res) => {
+            if (res.code === 1) {
+                this.setState({
+                    questionList:res.data.map((elem, index) => {
+                        return elem.name
+                    }),
+                    proList: res.data
+                });
+            } else {
+                Toast.show(res.message);
+            }
+        }).catch((error) => {
+
+        });
+    }
+
+    //初始化数据
+    initData() {
+        axios.get('/psmAqjcjh/init4Aqjcjl', {
+            params: {
+                userID: GLOBAL_USERID,
+                id: '',
+                callID: true
+            }
+        }).then((res) => {
+            if (res.code === 1) {
+                this.setState({
+                    aqjcjhmc: res.data.aqjcjhmc,
+                    xmbh: res.data.xmbh,
+                    xmmc: res.data.xmmc,
+                    zxmc: res.data.zxmc,
+                    jcsj: res.data.jcsj,
+                    jcrmc: res.data.jcrmc,
+                });
+            } else {
+                Toash.show(res.message);
+            }
+        }).catch((error) => {
+
+        });
+    }
+
+    render() {
+        return (
+            <View style={styles.flex}>
+                <StatusBar title="项目安全检查记录" navigator={this.props.navigator}/>
+                <ScrollView>
+                    <View style={styles.viewStyle}>
+                        <Text style={styles.keyText}>检查任务</Text>
+                        <Text style={styles.valueText}>{this.state.aqjcjhmc}</Text>
+                    </View>
+                    <View style={styles.viewStyle}>
+                        <Text style={styles.keyText}>项目工号</Text>
+                        <Text style={styles.valueText}>{this.state.xmbh}</Text>
+                    </View>
+                    <View style={styles.viewStyle}>
+                        <Text style={styles.keyText}>项目名称</Text>
+                        <Text style={styles.valueText}>{this.state.xmmc}</Text>
+                    </View>
+                    <View style={styles.viewStyle}>
+                        <Text style={styles.keyText}>工程子项名称</Text>
+                        <Text style={styles.valueText}>{this.state.zxmc}</Text>
+                    </View>
+                    <View style={styles.viewStyle}>
+                        <Text style={styles.keyText}>问题类别</Text>
+                        <ModalDropdown
+                            options={this.state.questionList}
+                            animated={true}
+                            defaultValue={this.state.wentiType}
+                            style={{flex:1, alignItems:'flex-end'}}
+                            textStyle={{fontSize:14}}
+                            onSelect={(a) => {
+                                this.wenti = this.state.proList[a].code;
+                            }}
+                            showsVerticalScrollIndicator={false}/>
+                    </View>
+                    <View style={styles.viewStyle}>
+                        <Text style={styles.keyText}>检验时间</Text>
+                        <ChoiceDate showDate={this.state.jianyanTime}
+                            changeDate={(date)=>{this.setState({jianyanTime:date})}}/>
+                    </View>
+                    <TouchableHighlight onPress={this.getNewPerson.bind(this)}>
+                        <View style={styles.viewStyle}>
+                            <Text style={styles.keyText}>检验人</Text>
+                            <Text style={styles.valueText}>{this.state.jcrmc}</Text>
+                        </View>
+                    </TouchableHighlight>
+                    <ChoiceFileComponent getFileID={(theID) => {this.setState({jcfj:theID})}}/>
+                    <View style={styles.footSeparator}></View>
+                    <View style={styles.footIntor}>
+                        <Text style={styles.keyText}>检查结果</Text>
+                    </View>
+                    <View style={styles.footInfo}>
+                        <TextInput style={styles.textinputStyle}
+                            multiline={true}
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            underlineColorAndroid="transparent"
+                            placeholder=""/>
+                    </View>
+                </ScrollView>
+                <View style={styles.bottomView}>
+                    <TouchableHighlight underlayColor="transparent" onPress={this.saveAndCommit.bind(this)}>
+                        <View style={[styles.btnView, {backgroundColor:'#41cc85'}]}>
+                            <Text style={styles.btnText}>保存并提交</Text>
+                        </View>
+                    </TouchableHighlight>
+                    <TouchableHighlight underlayColor="transparent" onPress={this.save.bind(this)}>
+                        <View style={[styles.btnView, {backgroundColor:'#216fd0'}]}>
+                            <Text style={styles.btnText}>保存</Text>
+                        </View>
+                    </TouchableHighlight>
+                </View>
+            </View>
+        );
+    }
+
+    //跳转到组织选择获取检验人
+    getNewPerson() {
+        this.props.navigator.push({
+            name: 'Organization',
+            component: Organization,
+            params: {
+                getInfo: this.getInfo.bind(this)
+            }
+        })
+    }
+
+    //获取检验人：部门id  姓名  id
+    getInfo(bmid, name, id) {
+        this.setState({
+            jcrmc: name,
+            jcrId: id
+        });
+    }
+
+    saveAndCommit() {
+        // axios.post('/psmAqjcjh/saveAndsumbitAqjcjl', {
+        //
+        // }).then((res) => {
+        //
+        // }).catch((error) => {
+        //
+        // });
+    }
+
+    save() {
+        // axios.post('/psmAqjcjh/saveAqjcjh', {
+        //
+        // }).then((res) => {
+        //
+        // }).catch((error) => {
+        //
+        // });
+    }
+}
+
+const styles = StyleSheet.create({
+    flex: {
+        flex: 1,
+        backgroundColor: '#f1f1f1'
+    },
+    viewStyle: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: width,
+        paddingHorizontal: 15,
+        justifyContent: 'space-between',
+        backgroundColor:'#fff',
+        height: 0.0734*height,
+        marginBottom: 1
+    },
+    footSeparator: {
+        width: width,
+        height: 0.0165*height,
+        backgroundColor: '#f1f1f1'
+    },
+    footIntor: {
+        width: width,
+        height: 0.07 * height,
+        paddingLeft: 15,
+        justifyContent: 'center',
+        backgroundColor: '#fff',
+        borderBottomWidth: 1,
+        borderBottomColor: '#f1f1f1'
+    },
+    separatorView: {
+        width: width,
+        height: 1,
+        backgroundColor: '#f1f1f1'
+    },
+    footInfo: {
+        width: width,
+        height: 0.117 * height,
+        paddingVertical: 8,
+        paddingHorizontal: 17,
+        backgroundColor: '#fff'
+    },
+    keyText: {
+        fontSize: 15,
+        color: '#5476a1'
+    },
+    valueText: {
+        fontSize: 15,
+        color: '#3d3d3d',
+        alignItems: 'flex-end'
+    },
+    textinputStyle: {
+        flex: 1,
+        backgroundColor: '#f1f1f1',
+        borderRadius: 5,
+        paddingLeft: 5,
+        fontSize:15
+    },
+    btnView: {
+        height: 0.045 * height,
+        width: 0.36 * width,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    btnText: {
+        fontSize: 15,
+        color: '#fff'
+    },
+    bottomView: {
+        paddingHorizontal: 25,
+        paddingVertical: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#fff'
+    },
+    attachment: {
+        paddingLeft: 0.02 * width,
+        paddingRight: 0.02 * width,
+        backgroundColor: 'white'
+    },
+    attachmentLabel: {
+        height: 0.12 * width,
+        justifyContent: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor: '#f1f1f1'
+    },
+    attachmentContent: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        paddingBottom: 10
+    },
+    choicImgSty: {
+        height: 0.2 * width,
+        width: 0.2 * width,
+        marginRight: 0.03 * width,
+        marginTop: 0.04*width
+    },
+    square: {
+        height: 0.2 * width,
+        width: 0.2 * width,
+        borderWidth: 1.5,
+        borderColor: '#d2d2d2',
+        borderStyle: 'dashed',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 0.03 * width,
+        marginTop: 0.04*width
+    }
+});
