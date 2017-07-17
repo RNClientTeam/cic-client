@@ -51,7 +51,7 @@ export default class ReformTaskCell extends Component {
     }
 
     editBtn(){
-
+        this.props.showAuthList();
     }
 }
 
