@@ -15,6 +15,7 @@ const {width} = Dimensions.get('window');
 import SafetyDetail from './SafetyDetail.js';
 import ExamineAndApprove from './ExamineAndApprove.js';
 import RectifyTask from './RectifyTask.js';
+import Toast from 'react-native-simple-toast';
 export default class SafetyInspectionListCell extends Component {
     render() {
         return (
@@ -33,7 +34,7 @@ export default class SafetyInspectionListCell extends Component {
                         <Text style={[{marginRight: 15}, styles.textStyle]}>{this.props.data.jcrmc}</Text>
                         <Text style={[{marginRight: 15}, styles.textStyle]}>{this.props.data.xmbh}</Text>
                         <Text style={[styles.textStyle, {flex:1}]}>{this.props.data.jcsj}</Text>
-                        <TouchableOpacity onPress={this.props.setModalVisible}>
+                        <TouchableOpacity onPress={this.authBtn.bind(this)}>
                             <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}
                                 style={styles.editImg} resizeMode="contain"/>
                         </TouchableOpacity>
@@ -41,6 +42,25 @@ export default class SafetyInspectionListCell extends Component {
                 </TouchableOpacity>
             </View>
         )
+    }
+
+    authBtn() {
+        axios.get('/psmAqjcjh/getOperationAuthority4Aqjcjl', {
+            params: {
+                userID: GLOBAL_USERID,
+                stepId: this.props.data.stepId,
+                isTodo: this.props.data.isTodo,
+                callID: true
+            }
+        }).then((res) => {
+            if (res.code === 1) {
+                this.props.setModalVisible(res.data);
+            } else {
+                Toast.show(res.message);
+            }
+        }).catch((error) => {
+
+        });
     }
 
     skipPage() {

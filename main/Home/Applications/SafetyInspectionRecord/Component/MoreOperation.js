@@ -14,6 +14,53 @@ import {
 import MoreOperationsCell from "./MoreOperationsCell";
 const {width} = Dimensions.get('window');
 export default class MoreOperation extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            data:[]
+        }
+    }
+
+    componentDidMount() {
+        let dataArr = [];
+        // if (this.props.auth.addAqjcjl) {
+        //     dataArr.push({
+        //         img: require(''),
+        //         name: '增加'
+        //     });
+        // } else if (this.props.auth.editAqjcjl) {
+        //     dataArr.push({
+        //         img: require(''),
+        //         name: '修改'
+        //     });
+        // } else if (this.props.auth.deleteAqjcjl) {
+        //     dataArr.push({
+        //         img: require(''),
+        //         name: '删除'
+        //     });
+        // } else if (this.props.auth.checkAqjcjl) {
+        //     dataArr.push({
+        //         img: require(''),
+        //         name: '审核'
+        //     });
+        // } else if (this.props.auth.checkAndaddZgrw) {
+        //     dataArr.push({
+        //         img: require(''),
+        //         name: '审核并下发整改任务'
+        //     });
+        // } else if (this.props.auth.tbZgwcqk) {
+        //     dataArr.push({
+        //         img: require(''),
+        //         name: '填报整改情况'
+        //     });
+        // } else if (this.props.auth.tbFcjl) {
+        //     dataArr.push({
+        //         img: require(''),
+        //         name: '填报复查记录'
+        //     });
+        // }
+    }
+
     render() {
         return (
             <TouchableOpacity style={styles.modalView} onPress={()=>{this.props.closeModal()}}>

@@ -35,6 +35,7 @@ export default class SafetyInspectionRecord extends Component{
             pageNum:1,
             isLoading:false,
             dataSource:[],
+            auth: {}
         }
     }
 
@@ -64,7 +65,12 @@ export default class SafetyInspectionRecord extends Component{
                     loadMore={this._loadMore.bind(this)}
                     dataSource={this.state.dataSource}
                     navigator={this.props.navigator}
-                    setModalVisible={()=>{this.setState({modalVisible:true})}}/>
+                    setModalVisible={(data)=>{
+                        this.setState({
+                            modalVisible:true,
+                            auth: data
+                        });
+                    }}/>
                 {this.state.isModalVisible &&
                     <ModalView
                         kssj={this.state.ksrq}
@@ -81,9 +87,12 @@ export default class SafetyInspectionRecord extends Component{
                         visible={this.state.modalVisible}
                         onRequestClose={() => {this.setState({modalVisible: false})}}
                         style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}>
-                        <MoreOperation navigator={this.props.navigator} closeModal={() => {
-                            this.setState({modalVisible: false})
-                        }}/>
+                        <MoreOperation navigator={this.props.navigator} 
+                            closeModal={() => {
+                                this.setState({modalVisible: false})
+                            }}
+                            auth={this.state.auth}
+                        />
                     </Modal>
                 }
                 {this.state.isLoading?<Loading/>:null}
