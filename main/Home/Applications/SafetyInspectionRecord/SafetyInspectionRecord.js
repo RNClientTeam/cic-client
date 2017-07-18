@@ -66,10 +66,21 @@ export default class SafetyInspectionRecord extends Component{
                     dataSource={this.state.dataSource}
                     navigator={this.props.navigator}
                     setModalVisible={(data)=>{
-                        this.setState({
-                            modalVisible:true,
-                            auth: data
-                        });
+                        let tempData = false;
+                        for (var key in data) {
+                            if (data[key]) {
+                                tempData = true;
+                                return;
+                            }
+                        }
+                        if (tempData) {
+                            this.setState({
+                                modalVisible:true,
+                                auth: data
+                            });
+                        } else {
+                            toast.show('没有相关权限');
+                        }
                     }}/>
                 {this.state.isModalVisible &&
                     <ModalView
@@ -87,7 +98,7 @@ export default class SafetyInspectionRecord extends Component{
                         visible={this.state.modalVisible}
                         onRequestClose={() => {this.setState({modalVisible: false})}}
                         style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}>
-                        <MoreOperation navigator={this.props.navigator} 
+                        <MoreOperation navigator={this.props.navigator}
                             closeModal={() => {
                                 this.setState({modalVisible: false})
                             }}
