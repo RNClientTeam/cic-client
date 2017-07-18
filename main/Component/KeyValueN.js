@@ -22,6 +22,7 @@ export default class KeyValueN extends Component{
                 </View>
                 <View style={styles.textContainer}>
                     <TextInput
+                        placeholderTextColor={this.props.value?'#555':'#bbb'}
                         onChangeText={(text)=>this.props.textChange(text)}
                         style={styles.textInput}
                         editable={this.props.readOnly?false:true}

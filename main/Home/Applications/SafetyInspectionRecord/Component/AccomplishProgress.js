@@ -23,7 +23,8 @@ import Organization from "../../../../Organization/Organization";
 import {getCurrentDate} from '../../../../Util/Util'
 import KeyValueN from "../../../../Component/KeyValueN";
 import KeyValueLeft from "../../../../Component/KeyValueLeft";
-export default class ReformTaskCell extends Component {
+import ChoiceFileComponent from "../../Component/ChoiceFileComponent";
+export default class AccomplishProgress extends Component {
     constructor(props) {
         super(props);
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -45,6 +46,11 @@ export default class ReformTaskCell extends Component {
         };
     }
 
+    /**
+     * readOnly
+     * type:查看详情/新建/编辑
+     * @returns {XML}
+     */
     render() {
         return (
             <View style={styles.flex}>
@@ -115,11 +121,7 @@ export default class ReformTaskCell extends Component {
                                textChange={(text)=>this.setState({zcjg:text})}
                     />
                     <View style={{height:10}}/>
-                    <TouchableOpacity style={styles.viewStyle}>
-                        <Text style={styles.keyText}>附件</Text>
-                        <Image source={require('../../../../../resource/imgs/home/attachment.png')}
-                               style={{width: 18, height: 18}}/>
-                    </TouchableOpacity>
+                    <ChoiceFileComponent getFileID={(ids)=>{alert(ids)}}/>
                 </ScrollView>
                 {
                     this.props.readOnly?
@@ -149,13 +151,51 @@ export default class ReformTaskCell extends Component {
         })
     }
 
+    /**
+     * 保存
+     */
     saveAndCommit() {
+        if(this.props.type === '新建'){
+            if(this.state.wtlb === ''){
+                toast.show('请选择问题类别');
+            }else if(this.state.zgyq === ''){
+                toast.show('请填写整改要求');
+            }else if(this.state.zgzrr === ''){
+                toast.show('请选择整改责任人');
+            }else if(this.state.zcjg === ''){
+                toast.show('请填写整改情况');
+            }else{
+                this.showLoading();
+                axios.post('psmAqjcjh/saveZgrw',{
+                    userID:GLOBAL_USERID,
+                    id:'',
+                    aqjcjlId:this.props.aqjcjlId,
+                    wtlb:this.state.wtlb,
+                    zgyq:this.state.zgyq,
+                    zgzrbm:this.state.zgzrbm,
+                    zgzrr:this.state.zgzrr,
+                    zgwcsj:this.state.zgwcsj,
+                    sjwcsj:this.state.sjwcsj,
+                    zcjg:this.state.zcjg
+                }).then(data=>{
+                    this.hideLoading();
+                    if(data.code === 1){
 
+                    }else{
+                        toast.show(data.message);
+                    }
+                }).catch(err=>{
+                    toast.show('服务端异常')
+                })
+            }
+
+        }
+        // console.log(this.state)
     }
 
     componentDidMount() {
         this._getWtlb();
-        if(this.props.readOnly){
+        if(this.props.type==='查看详情'){
             this._initPage();
         }
     }
@@ -172,6 +212,10 @@ export default class ReformTaskCell extends Component {
         })
     }
 
+    /**
+     * 查看详情
+     * @private
+     */
     _initPage(){
         this.showLoading();
         axios.get('/psmAqjcjh/init4Zgrw',{
@@ -182,7 +226,6 @@ export default class ReformTaskCell extends Component {
             }
         }).then(data=>{
             this.hideLoading();
-            console.log(1111)
             if(data.code ===1){
                 this.setState({
                     aqjcjlId:data.data.aqjcjlId,
@@ -208,6 +251,10 @@ export default class ReformTaskCell extends Component {
         })
     }
 
+    /**
+     * 问题类别
+     * @private
+     */
     _getWtlb() {
         this.showLoading();
         axios.get('/dictionary/list', {

@@ -161,6 +161,7 @@ export default class ConstructPlan extends Component{
                 callID:true
             }
         }).then(data=>{
+            console.info(data);
             this.hideLoading();
             if(data.code === 1){
                 this.setState({

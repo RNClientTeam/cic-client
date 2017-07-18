@@ -17,6 +17,7 @@ import StatusBar from '../../../../Component/StatusBar.js';
 import CheckRecord from './CheckRecord.js';
 import ReformTask from './ReformTask.js';
 import ReviewRecord from './ReviewRecord.js';
+import AccomplishProgress from "./AccomplishProgress";
 
 export default class RectifyTask extends Component {
     constructor(props) {
@@ -54,14 +55,14 @@ export default class RectifyTask extends Component {
     }
 
     addModification() {
-        // this.props.navigator.push({
-        //     name:"AddModification",
-        //     component:AddModification,
-        //     params:{
-        //         id:this.props.data.id,
-        //         nodeId:this.props.data.nodeId
-        //     }
-        // })
+        this.props.navigator.push({
+            name:"AccomplishProgress",
+            component:AccomplishProgress,
+            params:{
+                type:'新建',
+                aqjcjlId:this.props.data.aqjcjlId
+            }
+        })
     }
 }
 
