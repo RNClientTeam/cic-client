@@ -24,6 +24,8 @@ import {getCurrentDate} from '../../../../Util/Util'
 import KeyValueN from "../../../../Component/KeyValueN";
 import KeyValueLeft from "../../../../Component/KeyValueLeft";
 import ChoiceFileComponent from "../../Component/ChoiceFileComponent";
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'
+import CheckFlowInfo from "./CheckFlowInfo";
 export default class AccomplishProgress extends Component {
     constructor(props) {
         super(props);
@@ -122,6 +124,7 @@ export default class AccomplishProgress extends Component {
                     />
                     <View style={{height:10}}/>
                     <ChoiceFileComponent getFileID={(ids)=>{alert(ids)}}/>
+                    <CheckFlowInfo/>
                 </ScrollView>
                 {
                     this.props.readOnly?
@@ -135,6 +138,9 @@ export default class AccomplishProgress extends Component {
         );
     }
 
+    /**
+     * 选择整改责任人
+     */
     choicePeople() {
         this.props.navigator.push({
             component: Organization,
@@ -180,7 +186,16 @@ export default class AccomplishProgress extends Component {
                 }).then(data=>{
                     this.hideLoading();
                     if(data.code === 1){
-
+                        this.props.navigator.push({
+                            name:"",
+                            component:CheckFlowInfo,
+                            params:{
+                                resID:data.data,
+                                reloadInfo:this._reloadInfo.bind(this),
+                                // TODO
+                                wfName:'待确认'
+                            }
+                        })
                     }else{
                         toast.show(data.message);
                     }
@@ -190,12 +205,15 @@ export default class AccomplishProgress extends Component {
             }
 
         }
-        // console.log(this.state)
+    }
+
+    _reloadInfo(){
+        RCTDeviceEventEmitter.emit('reloadZGList',{});
     }
 
     componentDidMount() {
         this._getWtlb();
-        if(this.props.type==='查看详情'){
+        if(this.props.type==='查看详情'||this.props.type==='编辑'){
             this._initPage();
         }
     }

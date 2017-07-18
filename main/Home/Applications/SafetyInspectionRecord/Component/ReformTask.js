@@ -11,19 +11,25 @@ import {
     Text,
     Modal
 } from 'react-native'
+
 const {width, height} = Dimensions.get('window');
 import {PullList} from 'react-native-pull';
 import ReformTaskCell from "./ReformTaskCell.js";
 import toast from 'react-native-simple-toast'
 import ZGMoreOperation from "./ZGMoreOperation";
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
+
+
 export default class ReformTask extends Component {
     constructor(props) {
         super(props);
         this.state = {
             hasMoreData: true,
             list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})),
-            dataSource:[],
-            modalVisible:false
+            dataSource: [],
+            modalVisible: false,
+            modalAuth:{},
+            operateItem:{}
         }
     }
 
@@ -38,16 +44,21 @@ export default class ReformTask extends Component {
                     enableEmptySections={true}
                 />
                 {
-                    this.state.modalVisible&&
+                    this.state.modalVisible &&
                     <Modal
                         animationType={"slide"}
                         transparent={true}
                         visible={this.state.modalVisible}
-                        onRequestClose={() => {this.setState({modalVisible: false})}}
-                        style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}>
-                        <ZGMoreOperation navigator={this.props.navigator} closeModal={() => {
+                        onRequestClose={() => {
                             this.setState({modalVisible: false})
-                        }}/>
+                        }}
+                        style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}>
+                        <ZGMoreOperation
+                            navigator={this.props.navigator}
+                            closeModal={() => {this.setState({modalVisible: false})}}
+                            auth={this.state.modalAuth}
+                            operateItem={this.state.operateItem}
+                        />
                     </Modal>
                 }
             </View>
@@ -57,31 +68,66 @@ export default class ReformTask extends Component {
 
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
-            <ReformTaskCell showAuthList={this.showAuthList.bind(this)} key={rowID} data={item} navigator={this.props.navigator}
-                setModalVisible={() => this.props.setModalVisible()}/>
+            <ReformTaskCell showAuthList={this.showAuthList.bind(this, item)} key={rowID} data={item}
+                            navigator={this.props.navigator}
+                            setModalVisible={() => this.props.setModalVisible()}/>
         );
     }
 
-    showAuthList(){
-        this.setState({
-            modalVisible:true
-        })
+
+    /**
+     * 权限操作
+     */
+    showAuthList(item) {
+        axios.get('/psmAqjcjh/getsubOperationAuthority4Aqjcjl', {
+            params: {
+                userID: GLOBAL_USERID,
+                stepId: this.props.item.stepId,
+                isTodo: this.props.item.isTodo,
+                zgrwId: item.id,
+                callID: true
+            }
+        }).then(data => {
+            data = {
+                "code": 1,
+                "data": {
+                    "tbzgqk": false,
+                    "editzgrw": true
+                },
+                "message": "成功"
+            };
+            if (data.code === 1) {
+                this.setState({
+                    modalVisible: true,
+                    modalAuth:data.data,
+                    operateItem:item
+                });
+            } else {
+                toast.show(data.message);
+            }
+        }).catch(err => {
+            toast.show('服务端异常');
+        });
     }
 
     componentDidMount() {
         this._getData();
+        this.listener = RCTDeviceEventEmitter.addListener('reloadZGList', (value) => {
+            // 接受到通知后的处理
+            this._getData();
+        });
     }
 
-    _getData(){
-        axios.get('/psmAqjcjh/list4Zgrw',{
-            params:{
-                userID:GLOBAL_USERID,
-                aqjcjlId:this.props.item.aqjcjhId,
-                callID:true
+    _getData() {
+        axios.get('/psmAqjcjh/list4Zgrw', {
+            params: {
+                userID: GLOBAL_USERID,
+                aqjcjlId: this.props.item.aqjcjhId,
+                callID: true
             }
-        }).then(data=>{
-            if(data.code === 1){
-             // TODO
+        }).then(data => {
+            if (data.code === 1) {
+                // TODO
                 data = {
                     "code": 1,
                     "data": [
@@ -104,19 +150,22 @@ export default class ReformTask extends Component {
                     ],
                     "message": "成功"
                 };
-                if(data.data){
+                if (data.data) {
                     this.setState({
-                        dataSource:data.data
+                        dataSource: data.data
                     })
                 }
-            }else{
+            } else {
                 toast.show(data.message)
             }
-        }).catch(err=>{
+        }).catch(err => {
             toast.show('服务端异常')
         })
     }
 
+    componentWillUnmount() {
+        this.listener.remove();
+    }
 
 }
 
