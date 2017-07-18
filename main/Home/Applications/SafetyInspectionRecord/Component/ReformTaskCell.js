@@ -45,7 +45,8 @@ export default class ReformTaskCell extends Component {
             name: 'AccomplishProgress',
             params:{
                 readOnly:true,
-                id:this.props.data.id
+                id:this.props.data.id,
+                type:'查看详情'
             }
         });
     }
