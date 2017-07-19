@@ -13,6 +13,8 @@ import {
 } from 'react-native'
 import MoreOperationsCell from "./MoreOperationsCell";
 import NewCreateRecord from './NewCreateRecord.js';
+import ExamineAndApprove from './ExamineAndApprove.js';
+import RectifyTask from './RectifyTask.js';
 const {width} = Dimensions.get('window');
 export default class MoreOperation extends Component {
     constructor(props){
@@ -34,11 +36,6 @@ export default class MoreOperation extends Component {
                 img: require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),
                 name: '修改'
             });
-        } else if (this.props.auth.deleteAqjcjl) {
-            dataArr.push({
-                img: require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),
-                name: '删除'
-            });
         } else if (this.props.auth.checkAqjcjl) {
             dataArr.push({
                 img: require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),
@@ -58,6 +55,11 @@ export default class MoreOperation extends Component {
             dataArr.push({
                 img: require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),
                 name: '填报复查记录'
+            });
+        } else if (this.props.auth.deleteAqjcjl) {
+            dataArr.push({
+                img: require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),
+                name: '删除'
             });
         }
         this.setState({data: dataArr});
@@ -89,41 +91,67 @@ export default class MoreOperation extends Component {
     skipPage(rowData){
         if (rowData.name === '增加') {
             this.props.navigator.push({
-                name: 'NewCreateRecord',
-                component: NewCreateRecord
+                name: 'RectifyTask',
+                component: RectifyTask,
+                params: {
+                    add: true,
+                    initialPage: 0,
+                    data: this.props.data
+                }
             });
         } else if (rowData.name === '修改') {
             this.props.navigator.push({
-                name: 'NewCreateRecord',
-                component: NewCreateRecord
+                name: 'RectifyTask',
+                component: RectifyTask,
+                params: {
+                    edit: true,
+                    initialPage: 0,
+                    data: this.props.data
+                }
+            });
+        } else if (rowData.name === '审核') {
+            this.props.navigator.push({
+                name: 'RectifyTask',
+                component: RectifyTask,
+                params: {
+                    check: true,
+                    initialPage: 0,
+                    data: this.props.data
+                }
+            });
+        } else if (rowData.name === '下达整改任务') {
+            this.props.navigator.push({
+                name: 'RectifyTask',
+                component:RectifyTask,
+                params: {
+                    checkAndZgrw: true,
+                    initialPage: 1,
+                    data: this.props.data
+                }
+            });
+        } else if (rowData.name === '填报整改情况') {
+            this.props.navigator.push({
+                name: 'RectifyTask',
+                component:RectifyTask,
+                params: {
+                    tbzgqk: true,
+                    initialPage: 1,
+                    data: this.props.data
+                }
+            });
+        } else if (rowData.name === '填报复查记录') {
+            this.props.navigator.push({
+                name: 'RectifyTask',
+                component:RectifyTask,
+                params: {
+                    fcjf: true,
+                    initialPage: 2,
+                    data: this.props.data
+                }
             });
         } else if (rowData.name === '删除') {
-            this.props.navigator.push({
-                name: 'NewCreateRecord',
-                component: NewCreateRecord
-            });
+            alert('删除操作');
         }
-        // else if (rowData.name === '审核') {
-        //     this.props.navigator.push({
-        //         name: '',
-        //         component:
-        //     });
-        // } else if (rowData.name === '下达整改任务') {
-        //     this.props.navigator.push({
-        //         name: '',
-        //         component:
-        //     });
-        // } else if (rowData.name === '填报整改情况') {
-        //     this.props.navigator.push({
-        //         name: '',
-        //         component:
-        //     });
-        // } else if (rowData.name === '填报复查记录') {
-        //     this.props.navigator.push({
-        //         name: '',
-        //         component:
-        //     });
-        // }
         this.props.closeModal();
     }
 }

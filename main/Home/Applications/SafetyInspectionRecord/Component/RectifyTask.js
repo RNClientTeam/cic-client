@@ -39,6 +39,7 @@ export default class RectifyTask extends Component {
                     }
                 </StatusBar>
                 <ScrollableTabView
+                    initialPage={this.props.initialPage||0}
                     tabBarUnderlineStyle={{backgroundColor:'#51a5f0',height:2, width:width*0.25,marginLeft:width*0.04}}
                     onChangeTab={(obj) => {
                         this.setState({addIcon:obj.i===1?true:false});

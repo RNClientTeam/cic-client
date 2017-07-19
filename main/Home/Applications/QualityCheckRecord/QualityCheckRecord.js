@@ -42,7 +42,9 @@ export default class QualityCheckRecord extends Component {
             isLoading: false,
             calendarState: [],
             pageNum: 1,
-            dataSource: []
+            dataSource: [],
+            auth: {},
+            data: {}
         }
     }
 
@@ -72,10 +74,26 @@ export default class QualityCheckRecord extends Component {
                 <Calendar changeDay={(day) => this.changeDay(day)} day={this.state.day} data={this.state.calendarState}
                           year={this.state.year} month={this.state.month}/>
                 <QualityCheckRecordList navigator={this.props.navigator}
-                                        dataSource={this.state.dataSource}
-                                        reload={(resolve) => this.getData(1, resolve)}
-                                        loadMore={this.loadMore.bind(this)}
-                                        showModal={() => this.setState({modalVisible: true})}/>
+                    dataSource={this.state.dataSource}
+                    reload={(resolve) => this.getData(1, resolve)}
+                    loadMore={this.loadMore.bind(this)}
+                    showModal={(auth, data) => {
+                        let tempAuth = false;
+                        for (var key in auth) {
+                            if (auth[key] && !tempAuth) {
+                                tempAuth = true;
+                            }
+                        }
+                        if (tempAuth) {
+                            this.setState({
+                                modalVisible: true,
+                                auth: auth,
+                                data: data
+                            });
+                        } else {
+                            toast.show('没有相关权限');
+                        }
+                    }}/>
                 <Modal
                     animationType={"slide"}
                     transparent={true}
@@ -85,9 +103,12 @@ export default class QualityCheckRecord extends Component {
                     }}
                     style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
                 >
-                    <QualityCheckModal navigator={this.props.navigator} closeModal={() => {
-                        this.setState({modalVisible: false})
-                    }}/>
+                    <QualityCheckModal navigator={this.props.navigator}
+                        closeModal={() => {
+                            this.setState({modalVisible: false})
+                        }}
+                        auth={this.state.auth}
+                        data={this.state.data}/>
                 </Modal>
                 {this.state.filtrate ?
                     <QualityCheckRecordFiltrate

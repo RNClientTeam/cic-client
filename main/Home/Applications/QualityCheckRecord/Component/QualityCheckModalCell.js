@@ -11,12 +11,7 @@ import {
     Text,
     TouchableOpacity
 } from 'react-native'
-import SecurityApproval from "./SecurityApproval"
-import QualityCheckRecordModification from "./QualityCheckRecordModification"
-import RecordApproval from "./RecordApproval"
 import QualityDoubleCheckRecord from "./QualityDoubleCheckRecord"
-import RecordModification from "./RecordModification"
-
 const {width} = Dimensions.get('window');
 
 export default class QualityCheckModalCell extends Component {
@@ -31,31 +26,68 @@ export default class QualityCheckModalCell extends Component {
     }
 
     skipPage(){
-        if (this.props.dataSource.name === '提交安全审核') {
-            this.props.navigator.push({
-                name: 'SecurityApproval',
-                component: SecurityApproval
-            })
-        } else if (this.props.dataSource.name === '记录整改') {
-            this.props.navigator.push({
-                name: 'QualityCheckRecordModification',
-                component: QualityCheckRecordModification
-            })
-        } else if (this.props.dataSource.name === '审批') {
-            this.props.navigator.push({
-                name: 'RecordApproval',
-                component: RecordApproval
-            })
-        } else if (this.props.dataSource.name === '复查') {
+        if (this.props.dataSource.name === '增加') {
             this.props.navigator.push({
                 name: 'QualityDoubleCheckRecord',
-                component: QualityDoubleCheckRecord
+                component: QualityDoubleCheckRecord,
+                params: {
+                    add: true,
+                    initialPage: 0,
+                    data: this.props.data
+                }
             })
-        } else if (this.props.dataSource.name === '质量检查记录整改') {
+        } else if (this.props.dataSource.name === '修改') {
             this.props.navigator.push({
-                name: 'RecordModification',
-                component: RecordModification
+                name: 'QualityDoubleCheckRecord',
+                component: QualityDoubleCheckRecord,
+                params: {
+                    edit: true,
+                    initialPage: 0,
+                    data: this.props.data
+                }
             })
+        } else if (this.props.dataSource.name === '审核') {
+            this.props.navigator.push({
+                name: 'QualityDoubleCheckRecord',
+                component: QualityDoubleCheckRecord,
+                params: {
+                    check: true,
+                    initialPage: 0,
+                    data: this.props.data
+                }
+            })
+        } else if (this.props.dataSource.name === '下发整改任务') {
+            this.props.navigator.push({
+                name: 'QualityDoubleCheckRecord',
+                component: QualityDoubleCheckRecord,
+                params: {
+                    checkAndZgrw: true,
+                    initialPage: 1,
+                    data: this.props.data
+                }
+            })
+        } else if (this.props.dataSource.name === '填报整改情况') {
+            this.props.navigator.push({
+                name: 'QualityDoubleCheckRecord',
+                component: QualityDoubleCheckRecord,
+                params: {
+                    tbzgqk: true,
+                    initialPage: 1,
+                    data: this.props.data
+                }
+            })
+        } else if (this.props.dataSource.name === '填报复查记录') {
+            this.props.navigator.push({
+                name: 'QualityDoubleCheckRecord',
+                component: QualityDoubleCheckRecord,
+                params: {
+                    fcjl: true,
+                    initialPage: 2,
+                    data: this.props.data
+                }
+            })
+        } else if (this.props.dataSource.name === '删除') {
+            alert('删除操作');
         }
         this.props.closeModal()
     }

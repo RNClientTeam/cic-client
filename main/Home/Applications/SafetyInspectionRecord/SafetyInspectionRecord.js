@@ -1,6 +1,3 @@
-/**
- * Created by fan on 2017/05/18.
- */
 import React,{Component} from 'react'
 import {
     View,
@@ -35,7 +32,8 @@ export default class SafetyInspectionRecord extends Component{
             pageNum:1,
             isLoading:false,
             dataSource:[],
-            auth: {}
+            auth: {},
+            data: {}
         }
     }
 
@@ -65,18 +63,18 @@ export default class SafetyInspectionRecord extends Component{
                     loadMore={this._loadMore.bind(this)}
                     dataSource={this.state.dataSource}
                     navigator={this.props.navigator}
-                    setModalVisible={(data)=>{
+                    setModalVisible={(auth, data)=>{
                         let tempData = false;
-                        for (var key in data) {
-                            if (data[key]) {
+                        for (var key in auth) {
+                            if (auth[key] && !tempData) {
                                 tempData = true;
-                                return;
                             }
                         }
                         if (tempData) {
                             this.setState({
                                 modalVisible:true,
-                                auth: data
+                                auth: auth,
+                                data: data
                             });
                         } else {
                             toast.show('没有相关权限');
@@ -103,6 +101,7 @@ export default class SafetyInspectionRecord extends Component{
                                 this.setState({modalVisible: false})
                             }}
                             auth={this.state.auth}
+                            data={this.state.data}
                         />
                     </Modal>
                 }

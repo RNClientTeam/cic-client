@@ -12,7 +12,7 @@ import {
     Image
 } from 'react-native'
 import QualityDoubleCheckRecord from "./QualityDoubleCheckRecord.js";
-
+import Toast from 'react-native-simple-toast';
 const {width} = Dimensions.get('window');
 
 export default class QualityCheckRecordListCell extends Component {
@@ -38,13 +38,32 @@ export default class QualityCheckRecordListCell extends Component {
                         </View>
                         <Text style={styles.bottomTextStyle}>{this.props.data.cjsj}</Text>
                     </View>
-                    <TouchableOpacity style={styles.bottomRightView} onPress={()=>this.props.showModal()}>
+                    <TouchableOpacity style={styles.bottomRightView} onPress={this.editBtn.bind(this)}>
                         <Image style={styles.imgSty}
                                source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}/>
                     </TouchableOpacity>
                 </View>
             </TouchableOpacity>
         )
+    }
+
+    editBtn() {
+        axios.get('/psmZljcjl/getOperationAuthority4Zljcjl', {
+            params: {
+                userID: GLOBAL_USERID,
+                stepId: this.props.data.stepId||'0',
+                isTodo: this.props.data.isTodo||'1',
+                callID: true
+            }
+        }).then((res) => {
+            if (res.code === 1) {
+                this.props.showModal(res.data, this.props.data);
+            } else {
+                Toast.show(res.message);
+            }
+        }).catch((error) => {
+            console.log(error);
+        });
     }
 
     skipToDetail(data){
