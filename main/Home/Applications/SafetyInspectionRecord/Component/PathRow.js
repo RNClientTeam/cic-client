@@ -22,7 +22,7 @@ export default class PathRow extends Component{
             <View style={styles.content}>
                 <View style={styles.title}>
                     <Image style={styles.icon}
-                           source={require('../../../../../../resource/imgs/home/earlierStage/location.png')}/>
+                           source={require('../../../../../resource/imgs/home/earlierStage/location.png')}/>
                     <Text style={[styles.titleColor]}>
                         {this.props.data.actionName}
                     </Text>

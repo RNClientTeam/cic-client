@@ -1,6 +1,7 @@
 /**
  * Created by fan on 2017/5/18.
  */
+
 'use strict';
 import React, {Component} from 'react'
 import {
@@ -12,6 +13,7 @@ import {
     Image
 } from 'react-native'
 import MoreOperationsCell from "./MoreOperationsCell";
+import AccomplishProgress from "./AccomplishProgress";
 const {width} = Dimensions.get('window');
 export default class ZGMoreOperation extends Component {
     render() {
@@ -21,18 +23,18 @@ export default class ZGMoreOperation extends Component {
                     <TouchableOpacity style={styles.moreOperationsCell} onPress={this.skipPage.bind(this)}>
                         <Image style={styles.imgStyle}
                                source={require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png')}/>
-                        <Text style={{color:'#6b6b6b',fontSize:width*0.037}}>填报结果</Text>
+                        <Text style={{color:'#6b6b6b',fontSize:width*0.037}}>编辑</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.moreOperationsCell} onPress={this.skipPage.bind(this)}>
-                        <Image style={styles.imgStyle}
-                               source={require('../../../../../resource/imgs/home/applications/effectiveAction.png')}/>
-                        <Text style={{color:'#6b6b6b',fontSize:width*0.037}}>生效</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.moreOperationsCell} onPress={this.skipPage.bind(this)}>
-                        <Image style={styles.imgStyle}
-                               source={require('../../../../../resource/imgs/home/applications/stopAction.png')}/>
-                        <Text style={{color:'#6b6b6b',fontSize:width*0.037}}>删除</Text>
-                    </TouchableOpacity>
+                    {/*<TouchableOpacity style={styles.moreOperationsCell} onPress={this.skipPage.bind(this)}>*/}
+                        {/*<Image style={styles.imgStyle}*/}
+                               {/*source={require('../../../../../resource/imgs/home/applications/effectiveAction.png')}/>*/}
+                        {/*<Text style={{color:'#6b6b6b',fontSize:width*0.037}}>生效</Text>*/}
+                    {/*</TouchableOpacity>*/}
+                    {/*<TouchableOpacity style={styles.moreOperationsCell} onPress={this.skipPage.bind(this)}>*/}
+                        {/*<Image style={styles.imgStyle}*/}
+                               {/*source={require('../../../../../resource/imgs/home/applications/stopAction.png')}/>*/}
+                        {/*<Text style={{color:'#6b6b6b',fontSize:width*0.037}}>删除</Text>*/}
+                    {/*</TouchableOpacity>*/}
                 </View>
             </TouchableOpacity>
         )
@@ -40,6 +42,14 @@ export default class ZGMoreOperation extends Component {
 
     skipPage(){
         this.props.closeModal();
+        this.props.navigator.push({
+            name:"",
+            component:AccomplishProgress,
+            params:{
+                type:'编辑',
+                id:this.props.operateItem.id
+            }
+        })
     }
 }
 
