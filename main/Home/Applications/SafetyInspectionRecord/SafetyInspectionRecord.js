@@ -172,88 +172,19 @@ export default class SafetyInspectionRecord extends Component{
                         })
                     }
                     return true;
-                }else{
-                    return false
+                } else {
+                    return false;
                 }
             }else{
-                toast.show(data.message)
+                toast.show(data.message);
+                return false;
             }
             resolve();
         }).catch(err=>{
-            this.setState({
-                isLoading:false
-            });
+            this.setState({isLoading:false});
             toast.show('服务端异常');
             resolve();
-            // TODO
-            let data = {
-                "code": 1,
-                "data": {
-                    "total": 8,
-                    "data": [
-                        {
-                            "jcbm": "00000005100138c242a0d9",
-                            "zxmc": "配电室工程",
-                            "xmmc": "碧水庄园9#配电室改造",
-                            "aqjcjhId": "8a8180d85b5f2339015b5f799bf000bc",
-                            "jcsj": "2017-04-12",
-                            "RN": 1,
-                            "isTodo": "0",
-                            "fcfj": "0000002cf0015b649e8d7e",
-                            "id": "8a8180d85b638d3e015b69d0047d0b03",
-                            "jcr": "ZNDQ2106",
-                            "wtlbmc": "正常",
-                            "aqjcjhmc": "现场检查",
-                            "gczxId": "8a8180d857482f6201574add5b073f67",
-                            "jcfj": "0000002ce0015b649e8d7e",
-                            "xmbh": "JZ_DS16041-16021",
-                            "sfxczg": 0,
-                            "jcrmc": "董术义",
-                            "stepId": "",
-                            "wtlb": "1"
-                        },
-                        {
-                            "jcbm": "00000005100138c242a0d9",
-                            "zxmc": "配电室工程",
-                            "xmmc": "北京人家4#配电室改造",
-                            "aqjcjhId": "8a8180d85b45c261015b56ce688a01a6",
-                            "jcsj": "2017-04-10",
-                            "RN": 2,
-                            "isTodo": "0",
-                            "fcfj": "00000016530015b45ce46df",
-                            "id": "8a8180d85b45c261015b56d025ee0243",
-                            "jcr": "ZNDQ2106",
-                            "wtlbmc": "一般问题",
-                            "aqjcjhmc": "现场检查",
-                            "gczxId": "8a8180d857482f6201574ae3684e40b3",
-                            "jcfj": "00000016520015b45ce46df",
-                            "xmbh": "JZ_DS16041-16019",
-                            "sfxczg": 1,
-                            "jcrmc": "董术义",
-                            "stepId": "",
-                            "wtlb": "2"
-                        }
-                    ]
-                },
-                "message": "成功"
-            };
-            if(data.data&&data.data.data.length>0){
-                if(pageNum === 1){
-                    this.setState({
-                        dataSource:data.data.data
-                    })
-                }else{
-                    for(let i = 0;i<data.data.data.length;i++){
-                        this.state.dataSource.push(data.data.data[i])
-                    }
-                    this.setState({
-                        dataSource:this.state.dataSource
-                    })
-                }
-                return true;
-            }else{
-                return false
-            }
+            return false;
         })
     }
 

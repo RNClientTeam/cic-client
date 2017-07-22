@@ -23,9 +23,9 @@ import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 export default class ReformTask extends Component {
     constructor(props) {
         super(props);
+        this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             hasMoreData: true,
-            list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})),
             dataSource: [],
             modalVisible: false,
             modalAuth:{},
@@ -38,7 +38,7 @@ export default class ReformTask extends Component {
             <View style={styles.container}>
                 <PullList
                     topIndicatorHeight={60}
-                    dataSource={this.state.list.cloneWithRows(this.state.dataSource)}
+                    dataSource={this.ds.cloneWithRows(this.state.dataSource)}
                     renderRow={this.renderRow.bind(this)}
                     onEndReachedThreshold={60}
                     enableEmptySections={true}
@@ -127,34 +127,9 @@ export default class ReformTask extends Component {
             }
         }).then(data => {
             if (data.code === 1) {
-                // TODO
-                data = {
-                    "code": 1,
-                    "data": [
-                        {
-                            "id": "8a8180d85b45c261015b57a73cf839da",
-                            "dqztmc": "整改完成",
-                            "zgwcsj": "2017-04-10",
-                            "wtlbmc": "一般问题",
-                            "zgzrbmmc": "安全管理部",
-                            "zgzrrmc": "董术义"
-                        },
-                        {
-                            "id": "000000010015ca9c26f1f",
-                            "dqztmc": "新建",
-                            "zgwcsj": "2016-12-12",
-                            "wtlbmc": "严重问题",
-                            "zgzrbmmc": "市场营销三部",
-                            "zgzrrmc": "刘海军"
-                        }
-                    ],
-                    "message": "成功"
-                };
-                if (data.data) {
-                    this.setState({
-                        dataSource: data.data
-                    })
-                }
+                this.setState({
+                    dataSource: data.data
+                });
             } else {
                 toast.show(data.message)
             }

@@ -11,7 +11,6 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native'
-import MoreOperationsCell from "./MoreOperationsCell";
 import NewCreateRecord from './NewCreateRecord.js';
 import ExamineAndApprove from './ExamineAndApprove.js';
 import RectifyTask from './RectifyTask.js';

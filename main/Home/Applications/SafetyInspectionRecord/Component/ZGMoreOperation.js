@@ -1,7 +1,3 @@
-/**
- * Created by fan on 2017/5/18.
- */
-
 'use strict';
 import React, {Component} from 'react'
 import {
@@ -12,7 +8,6 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native'
-import MoreOperationsCell from "./MoreOperationsCell";
 import AccomplishProgress from "./AccomplishProgress";
 const {width} = Dimensions.get('window');
 export default class ZGMoreOperation extends Component {

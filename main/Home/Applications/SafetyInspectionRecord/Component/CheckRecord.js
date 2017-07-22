@@ -7,24 +7,55 @@ import {
     ScrollView,
     Image,
     TouchableOpacity,
-    TextInput
+    TextInput,
+    TouchableHighlight
 } from 'react-native';
+import ChoiceDate from "../../../../Component/ChoiceDate.js";
 import Loading from "../../../../Component/Loading.js";
 import Toast from 'react-native-simple-toast'
-const {width} = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 import KeyValueLeft from './KeyValueLeft.js';
-
+import ModalDropdown from 'react-native-modal-dropdown';
+import Organization from '../../../../Organization/Organization.js';
+import ChoiceFileComponent from '../../Component/ChoiceFileComponent.js';
 export default class DoubleCheckDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isLoading: false,
-            data: null
+            data: null,
+            questionList: [],
+            proList: []
         }
     }
 
+    //获取问题类别
+    getQuestionType() {
+        axios.get('/dictionary/list', {
+            params: {
+                userID: GLOBAL_USERID,
+                root: 'JDJH_WTLB_AQ',
+                callID: true
+            }
+        }).then((res) => {
+            if (res.code === 1) {
+                this.setState({
+                    questionList:res.data.map((elem, index) => {
+                        return elem.name
+                    }),
+                    proList: res.data
+                });
+            } else {
+                Toast.show(res.message);
+            }
+        }).catch((error) => {
+
+        });
+    }
+
     componentDidMount() {
-        console.log(this.props.data);
+        //获取问题类别
+        this.getQuestionType();
         this.setState({isLoading:true});
         axios.get('/psmAqjcjh/init4Aqjcjl', {
             params: {
@@ -33,36 +64,15 @@ export default class DoubleCheckDetail extends Component {
                 callID: true
             }
         }).then((res) => {
-            this.setState({isLoading:false});
-            // if (res.code === 1) {
-            //     this.setState({data: res.data});
-            // } else {
-            //     Toast.show(res.message);
-            // }
-            this.setState({
-                data: {
-                    "jcbm": "00000005100138c242a0d9",
-                    "zxmc": "配电室电气工程",
-                    "fcsj": "",
-                    "xmmc": "宣武医院（杉浩集团）配电工程",
-                    "aqjcjhId": "8a8180d85726ecdb01573abd0aa93cc0",
-                    "jcsj": "2016-12-12",
-                    "fcr": "",
-                    "fcfj": "1214134",
-                    "id": "000000020015ca96c5a4a",
-                    "jcr": "ZNDQ2000",
-                    "wtlbmc": "正常",
-                    "aqjcjhmc": "aaa",
-                    "fcrmc": "",
-                    "gczxId": "8a8180d856b8094b0156d8fdae6f299b",
-                    "jcfj": "213214",
-                    "fcjg": "一切正常",
-                    "xmbh": "CX_DS12068-13200",
-                    "sfxczg": 0,
-                    "jcrmc": "时永强",
-                    "wtlb": "1"
-                }
-            })
+            if (res.code === 1) {
+                this.setState({
+                    data: res.data,
+                    isLoading: false
+                });
+            } else {
+                this.setState({isLoading:false});
+                Toast.show(res.message);
+            }
         }).catch((error) => {
             this.setState({isLoading:false});
         });
@@ -73,35 +83,99 @@ export default class DoubleCheckDetail extends Component {
 
     }
 
+    gotoOrganization() {
+        this.props.navigator.push({
+            name: 'Organization',
+            component: Organization,
+            params: {
+                getInfo: this.getInfo.bind(this)
+            }
+        })
+    }
+
+    //获取检验人：部门id  姓名  id
+    getInfo(bmid, name, id) {
+        this.state.data.jcrmc = name;
+        this.state.data.jcr = id;
+        this.setState({data:data});
+    }
+
     render() {
         return (
             <View>
                 <ScrollView>
                     <View style={styles.divide}/>
-                    <KeyValueLeft propsKey="检验任务" propsValue={(this.state.data&&this.state.data.aqjcjhmc)||''}/>
-                    <KeyValueLeft propsKey="工程工号" propsValue={(this.state.data&&this.state.data.xmbh)||''}/>
-                    <KeyValueLeft propsKey="项目名称" propsValue={(this.state.data&&this.state.data.xmmc)||''}/>
-                    <KeyValueLeft propsKey="工程子项名称" propsValue={(this.state.data&&this.state.data.zxmc)||''}/>
-                    <KeyValueLeft propsKey="问题类别" propsValue={(this.state.data&&this.state.wtlb)||''}/>
-                    <KeyValueLeft propsKey="检验时间" propsValue={(this.state.data&&this.state.data.jcsj)||''}/>
-                    <KeyValueLeft propsKey="检验人" propsValue={(this.state.data&&this.state.data.jcrmc)||''}/>
-                    <View style={styles.divide}/>
-                    <TouchableOpacity onPress={this.choiceFile.bind(this)}>
-                        <View style={styles.row}>
-                            <Text style={styles.labelColor}>附件</Text>
-                            <Image style={{width:0.05*width, height:0.05*width}} source={require('../../../../../resource/imgs/home/attachment.png')}/>
+                    <View style={styles.keyValue}>
+                        <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>检验任务</Text>
+                        <TextInput style={styles.contentText}
+                            numberOfLines={1}
+                            defaultValue={this.state.data.aqjcjhmc||''}
+                            onChangeText={(text) => {
+                                this.state.data.aqjcjhmc = text;
+                                this.setState({data:this.state.data});
+                            }}/>
+                    </View>
+                    <View style={styles.keyValue}>
+                        <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>工程工号</Text>
+                        <TextInput style={styles.contentText}
+                            numberOfLines={1}
+                            defaultValue={this.state.data.xmbh||''}
+                            onChangeText={(text) => {
+                                this.state.data.xmbh = text;
+                                this.setState({data:this.state.data});
+                            }}/>
+                    </View>
+                    <View style={styles.keyValue}>
+                        <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>项目名称</Text>
+                        <TextInput style={styles.contentText}
+                            numberOfLines={1}
+                            defaultValue={this.state.data.xmmc||''}
+                            onChangeText={(text) => {
+                                this.state.data.xmmc = text;
+                                this.setState({data:this.state.data});
+                            }}/>
+                    </View>
+                    <View style={styles.keyValue}>
+                        <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>工程子项名称</Text>
+                        <TextInput style={styles.contentText}
+                            numberOfLines={1}
+                            defaultValue={this.state.data.zxmc||''}
+                            onChangeText={(text) => {
+                                this.state.data.zxmc = text;
+                                this.setState({data:this.state.data});
+                            }}/>
+                    </View>
+                    <View style={styles.keyValue}>
+                        <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>问题类别</Text>
+                        <ModalDropdown
+                            options={this.state.questionList}
+                            animated={true}
+                            defaultValue={this.state.data.wtlb||''}
+                            style={{flex:1, alignItems:'flex-end'}}
+                            textStyle={{fontSize:14}}
+                            onSelect={(a) => {
+                                // this.wenti = this.state.proList[a].code;
+                            }}
+                            showsVerticalScrollIndicator={false}/>
+                    </View>
+                    <View style={styles.keyValue}>
+                        <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>检验时间</Text>
+                        <ChoiceDate showDate={this.state.data.jcsj||''}
+                            changeDate={(date)=>{
+                                this.state.data.jcsj = date;
+                                this.setState({data:this.state.data});
+                            }}/>
+                    </View>
+                    <TouchableOpacity onPress={this.gotoOrganization.bind(this)}>
+                        <View style={styles.keyValue}>
+                            <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>检验人</Text>
+                            <Text style={styles.contentText} numberOfLines={1}>{this.state.data.jcrmc||''}</Text>
                         </View>
                     </TouchableOpacity>
-                    <View style={styles.attachment}>
-                        <View style={styles.attachmentLabel}>
-                            <Text style={{color: '#666'}}>文件名.pdf</Text>
-                        </View>
-                        <View style={styles.attachmentContent}>
-                            <View style={styles.square}>
-                                <Text style={{fontSize: 0.1 * width, color: "#d2d2d2"}}>+</Text>
-                            </View>
-                        </View>
-                    </View>
+                    <View style={styles.divide}/>
+                    <ChoiceFileComponent getFileID={(theID) => {
+                        // this.setState({fcfj:theID});
+                    }}/>
                     <View style={styles.divide}/>
                     <View style={styles.bottomRow}>
                         <Text style={styles.labelColor}>检查结果</Text>
@@ -112,8 +186,30 @@ export default class DoubleCheckDetail extends Component {
                     <View style={styles.divide}/>
                 </ScrollView>
                 {this.state.isLoading ? <Loading/> : null}
+                <View style={styles.bottomView}>
+                    <TouchableHighlight underlayColor="transparent" onPress={this.saveAndCommit.bind(this)}>
+                        <View style={[styles.btnView, {backgroundColor:'#41cc85'}]}>
+                            <Text style={styles.btnText}>保存并提交</Text>
+                        </View>
+                    </TouchableHighlight>
+                    <TouchableHighlight underlayColor="transparent" onPress={this.save.bind(this)}>
+                        <View style={[styles.btnView, {backgroundColor:'#216fd0'}]}>
+                            <Text style={styles.btnText}>保存</Text>
+                        </View>
+                    </TouchableHighlight>
+                </View>
             </View>
         )
+    }
+
+    //提交并保存
+    saveAndCommit() {
+
+    }
+
+    //提交
+    save() {
+
     }
 }
 
@@ -174,5 +270,42 @@ const styles = StyleSheet.create({
         backgroundColor:'white',
         justifyContent: 'center',
         height: 0.12*width
+    },
+    keyValue: {
+        height: width * 0.12,
+        alignItems: 'center',
+        flexDirection: 'row',
+        backgroundColor: '#fff',
+        borderBottomWidth: 1,
+        borderBottomColor: '#ddd',
+        justifyContent: 'space-between'
+    },
+    textStyle: {
+        width: width*0.35,
+        marginLeft:width*0.02,
+    },
+    contentText: {
+        flex: 1,
+        textAlign: 'right',
+        marginRight: 10
+    },
+    bottomView: {
+        paddingHorizontal: 25,
+        paddingVertical: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#fff'
+    },
+    btnView: {
+        height: 0.045 * height,
+        width: 0.36 * width,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    btnText: {
+        fontSize: 15,
+        color: '#fff'
     }
 });
