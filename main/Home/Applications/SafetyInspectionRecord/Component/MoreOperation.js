@@ -14,6 +14,7 @@ import {
 import NewCreateRecord from './NewCreateRecord.js';
 import ExamineAndApprove from './ExamineAndApprove.js';
 import RectifyTask from './RectifyTask.js';
+import Toast from 'react-native-simple-toast';
 const {width} = Dimensions.get('window');
 export default class MoreOperation extends Component {
     constructor(props){
@@ -149,7 +150,19 @@ export default class MoreOperation extends Component {
                 }
             });
         } else if (rowData.name === '删除') {
-            alert('删除操作');
+            axios.post('/psmAqjcjh/deleteAqjcjl', {
+                userID: GLOBAL_USERID,
+                id: this.props.data.aqjcjlId,
+                callID: true
+            }).then((res) => {
+                if (res.code ===1) {
+                    Toast.show('删除成功');
+                } else {
+                    Toast.show(res.message);
+                }
+            }).catch((error) => {
+
+            });
         }
         this.props.closeModal();
     }

@@ -21,6 +21,8 @@ import ChoiceFileComponent from '../../Component/ChoiceFileComponent.js';
 export default class DoubleCheckDetail extends Component {
     constructor(props) {
         super(props);
+        this.wenti = '';
+        this.jianchaResult = '';
         this.state = {
             isLoading: false,
             data: null,
@@ -76,11 +78,6 @@ export default class DoubleCheckDetail extends Component {
         }).catch((error) => {
             this.setState({isLoading:false});
         });
-    }
-
-    //选择附件
-    choiceFile() {
-
     }
 
     gotoOrganization() {
@@ -154,7 +151,7 @@ export default class DoubleCheckDetail extends Component {
                             style={{flex:1, alignItems:'flex-end'}}
                             textStyle={{fontSize:14}}
                             onSelect={(a) => {
-                                // this.wenti = this.state.proList[a].code;
+                                this.wenti = this.state.proList[a].code;
                             }}
                             showsVerticalScrollIndicator={false}/>
                     </View>
@@ -181,7 +178,12 @@ export default class DoubleCheckDetail extends Component {
                         <Text style={styles.labelColor}>检查结果</Text>
                     </View>
                     <View style={styles.textContent}>
-                        <Text>{this.state.data&&this.state.data.fcjg||''}</Text>
+                        <TextInput style={styles.textinputStyle}
+                            multiline={true}
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            onChangeText={(text) => {this.jianchaResult=text;}}
+                            underlineColorAndroid="transparent"/>
                     </View>
                     <View style={styles.divide}/>
                 </ScrollView>
@@ -204,12 +206,64 @@ export default class DoubleCheckDetail extends Component {
 
     //提交并保存
     saveAndCommit() {
+        axios.post('/psmAqjcjh/saveAndsumbitAqjcjl', {
+            userID: GLOBAL_USERID,
+            id: this.state.data.id,
+            aqjcjhId: this.state.data.aqjcjhId,
+            aqjcjhmc: this.state.data.aqjcjhmc,
+            gczxId: this.state.data.gczxId,
+            xmbh: this.state.data.xmbh,
+            jcr: this.state.data.jcr,
+            jcbm: this.state.data.jcbm,
+            jcsj: this.state.data.jcsj,
+            jcjg: this.jianchaResult,
+            zgyq: '',
+            wtlb: this.wenti,
+            sfxczg: this.state.data.sfxczg,
+            jcfj: this.state.data.jcfj,
+            fcfj: this.state.data.fcfj,
+            callID: true
+        }).then((res) => {
+            if (res.code === 1) {
+                Toast.show('保存成功');
+                this.props.navigator.pop();
+            } else {
+                Toast.show(res.message);
+            }
+        }).catch((error) => {
 
+        });
     }
 
     //提交
     save() {
+        axios.post('/psmAqjcjh/saveAqjcjl', {
+            userID: GLOBAL_USERID,
+            id: this.state.data.id,
+            aqjcjhId: this.state.data.aqjcjhId,
+            aqjcjhmc: this.state.data.aqjcjhmc,
+            gczxId: this.state.data.gczxId,
+            xmbh: this.state.data.xmbh,
+            jcr: this.state.data.jcr,
+            jcbm: this.state.data.jcbm,
+            jcsj: this.state.data.jcsj,
+            jcjg: this.jianchaResult,
+            zgyq: '',
+            wtlb: this.wenti,
+            sfxczg: this.state.data.sfxczg,
+            jcfj: this.state.data.jcfj,
+            fcfj: this.state.data.fcfj,
+            callID: true
+        }).then((res) => {
+            if (res.code === 1) {
+                Toast.show('保存成功');
+                this.props.navigator.pop();
+            } else {
+                Toast.show(res.message);
+            }
+        }).catch((error) => {
 
+        });
     }
 }
 
@@ -263,13 +317,13 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#dcdcdc',
         backgroundColor: 'white'
-
     },
     textContent: {
+        width: width,
+        height: 0.117 * height,
+        paddingVertical: 8,
+        backgroundColor: '#fff',
         paddingHorizontal: 0.02 * width,
-        backgroundColor:'white',
-        justifyContent: 'center',
-        height: 0.12*width
     },
     keyValue: {
         height: width * 0.12,
@@ -307,5 +361,12 @@ const styles = StyleSheet.create({
     btnText: {
         fontSize: 15,
         color: '#fff'
+    },
+    textinputStyle: {
+        flex: 1,
+        backgroundColor: '#f1f1f1',
+        borderRadius: 5,
+        paddingLeft: 5,
+        fontSize:15
     }
 });
