@@ -138,6 +138,7 @@ export default class ApartmentPlane extends Component{
                 callID:true
             }
         }).then(data=>{
+            console.log(data)
             this.setState({modalVisible:true})
         })
     }
