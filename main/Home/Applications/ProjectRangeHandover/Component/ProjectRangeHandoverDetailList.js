@@ -78,7 +78,6 @@ export default class ProjectRangeHandoverDetailList extends Component{
     }
 
     getDataFromNet(){
-
         axios.get('/psmGcfw/xmzxlist',{
             params:{
                 userID:GLOBAL_USERID,
@@ -86,25 +85,7 @@ export default class ProjectRangeHandoverDetailList extends Component{
                 callID:true
             }
         }).then(data=>{
-
             if(data.code === 1){
-                data = {
-                    "code": 1,
-                    "data": {
-                        "list": [
-                            {
-                                "id": "8a8180b85a49f3ea015a4a9a1b0403e6",
-                                "jhkssj": "2016-01-19",
-                                "gcjd": "Grace-Sub-Project-2",
-                                "jhztmc": "已生效",
-                                "jhjssj": "2016-01-19",
-                                "jdqz": 0.33,
-                                "ssjlmc": "贾世坤"
-                            }
-                        ]
-                    },
-                    "message": "成功"
-                }
                 this.setState({
                     dataSource:data.data.list
                 })
