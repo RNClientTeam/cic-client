@@ -1,6 +1,3 @@
-/**
- * Created by fan on 2017/05/18.
- */
 import React,{Component} from 'react'
 import {
     View,
@@ -35,6 +32,8 @@ export default class SafetyInspectionRecord extends Component{
             pageNum:1,
             isLoading:false,
             dataSource:[],
+            auth: {},
+            data: {}
         }
     }
 
@@ -57,14 +56,30 @@ export default class SafetyInspectionRecord extends Component{
                 </StatusBar>
                 <SearchHeader
                     changeZxmc={(text)=>this.setState({keywords:text})}
-                    getData={this._getData.bind(this)}
+                    getData={this._getData.bind(this, 1)}
                 />
                 <SafetyList
                     refresh={(resolve)=>this._getData(1,resolve)}
                     loadMore={this._loadMore.bind(this)}
                     dataSource={this.state.dataSource}
                     navigator={this.props.navigator}
-                    setModalVisible={()=>{this.setState({modalVisible:true})}}/>
+                    setModalVisible={(auth, data)=>{
+                        let tempData = false;
+                        for (var key in auth) {
+                            if (auth[key] && !tempData) {
+                                tempData = true;
+                            }
+                        }
+                        if (tempData) {
+                            this.setState({
+                                modalVisible:true,
+                                auth: auth,
+                                data: data
+                            });
+                        } else {
+                            toast.show('没有相关权限');
+                        }
+                    }}/>
                 {this.state.isModalVisible &&
                     <ModalView
                         kssj={this.state.ksrq}
@@ -81,9 +96,14 @@ export default class SafetyInspectionRecord extends Component{
                         visible={this.state.modalVisible}
                         onRequestClose={() => {this.setState({modalVisible: false})}}
                         style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}>
-                        <MoreOperation navigator={this.props.navigator} closeModal={() => {
-                            this.setState({modalVisible: false})
-                        }}/>
+                        <MoreOperation navigator={this.props.navigator}
+                            closeModal={() => {
+                                this.setState({modalVisible: false})
+                            }}
+                            reloadInfo={() => {this._getData(1)}}
+                            auth={this.state.auth}
+                            data={this.state.data}
+                        />
                     </Modal>
                 }
                 {this.state.isLoading?<Loading/>:null}
@@ -97,23 +117,23 @@ export default class SafetyInspectionRecord extends Component{
             jsrq:jssj,
             jhlx:jhlx
         },function () {
-            this._getData();
+            this._getData(1);
         })
     }
 
     _loadMore(){
         this.setState({
-            pageNum:this.state.pageNum++
+            pageNum:++this.state.pageNum
         },function () {
             this._getData(this.state.pageNum)
         })
     }
 
     componentDidMount() {
-        this._getData();
+        this._getData(1);
     }
 
-    _getData(pageNum = 1,resolve=()=>{}){
+    _getData(pageNum,resolve=()=>{}){
         this.setState({
             isLoading:true
         });
@@ -129,7 +149,7 @@ export default class SafetyInspectionRecord extends Component{
                 ksrq:this.state.ksrq,
                 jsrq:this.state.jsrq,
                 jhlx:jhlx,
-                keywords:'y',
+                keywords:'',
                 pageNum:pageNum,
                 pageSize:10,
                 callID:true
@@ -139,102 +159,33 @@ export default class SafetyInspectionRecord extends Component{
                 isLoading:false
             });
             if(data.code === 1){
-                if(data.data&&data.data.length>0){
+                if(data.data.data&&data.data.data.length>0){
                     if(pageNum === 1){
                         this.setState({
-                            dataSource:data.data
+                            dataSource:data.data.data
                         })
                     }else{
-                        for(let i = 0;i<data.data.length;i++){
-                            this.state.dataSource.push(data.data[i])
+                        for(let i = 0;i<data.data.data.length;i++){
+                            this.state.dataSource.push(data.data.data[i])
                         }
                         this.setState({
                             dataSource:this.state.dataSource
                         })
                     }
                     return true;
-                }else{
-                    return false
+                } else {
+                    return false;
                 }
             }else{
-                toast.show(data.message)
+                toast.show(data.message);
+                return false;
             }
             resolve();
         }).catch(err=>{
-            this.setState({
-                isLoading:false
-            });
+            this.setState({isLoading:false});
             toast.show('服务端异常');
             resolve();
-            // TODO
-            let data = {
-                "code": 1,
-                "data": {
-                    "total": 8,
-                    "data": [
-                        {
-                            "jcbm": "00000005100138c242a0d9",
-                            "zxmc": "配电室工程",
-                            "xmmc": "碧水庄园9#配电室改造",
-                            "aqjcjhId": "8a8180d85b5f2339015b5f799bf000bc",
-                            "jcsj": "2017-04-12",
-                            "RN": 1,
-                            "isTodo": "0",
-                            "fcfj": "0000002cf0015b649e8d7e",
-                            "id": "8a8180d85b638d3e015b69d0047d0b03",
-                            "jcr": "ZNDQ2106",
-                            "wtlbmc": "正常",
-                            "aqjcjhmc": "现场检查",
-                            "gczxId": "8a8180d857482f6201574add5b073f67",
-                            "jcfj": "0000002ce0015b649e8d7e",
-                            "xmbh": "JZ_DS16041-16021",
-                            "sfxczg": 0,
-                            "jcrmc": "董术义",
-                            "stepId": "",
-                            "wtlb": "1"
-                        },
-                        {
-                            "jcbm": "00000005100138c242a0d9",
-                            "zxmc": "配电室工程",
-                            "xmmc": "北京人家4#配电室改造",
-                            "aqjcjhId": "8a8180d85b45c261015b56ce688a01a6",
-                            "jcsj": "2017-04-10",
-                            "RN": 2,
-                            "isTodo": "0",
-                            "fcfj": "00000016530015b45ce46df",
-                            "id": "8a8180d85b45c261015b56d025ee0243",
-                            "jcr": "ZNDQ2106",
-                            "wtlbmc": "一般问题",
-                            "aqjcjhmc": "现场检查",
-                            "gczxId": "8a8180d857482f6201574ae3684e40b3",
-                            "jcfj": "00000016520015b45ce46df",
-                            "xmbh": "JZ_DS16041-16019",
-                            "sfxczg": 1,
-                            "jcrmc": "董术义",
-                            "stepId": "",
-                            "wtlb": "2"
-                        }
-                    ]
-                },
-                "message": "成功"
-            };
-            if(data.data&&data.data.data.length>0){
-                if(pageNum === 1){
-                    this.setState({
-                        dataSource:data.data.data
-                    })
-                }else{
-                    for(let i = 0;i<data.data.data.length;i++){
-                        this.state.dataSource.push(data.data.data[i])
-                    }
-                    this.setState({
-                        dataSource:this.state.dataSource
-                    })
-                }
-                return true;
-            }else{
-                return false
-            }
+            return false;
         })
     }
 

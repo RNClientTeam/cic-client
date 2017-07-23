@@ -17,6 +17,7 @@ import StatusBar from '../../../../Component/StatusBar.js';
 import CheckRecord from './CheckRecord.js';
 import ReformTask from './ReformTask.js';
 import ReviewRecord from './ReviewRecord.js';
+import AccomplishProgress from "./AccomplishProgress";
 
 export default class RectifyTask extends Component {
     constructor(props) {
@@ -38,6 +39,7 @@ export default class RectifyTask extends Component {
                     }
                 </StatusBar>
                 <ScrollableTabView
+                    initialPage={this.props.initialPage||0}
                     tabBarUnderlineStyle={{backgroundColor:'#51a5f0',height:2, width:width*0.25,marginLeft:width*0.04}}
                     onChangeTab={(obj) => {
                         this.setState({addIcon:obj.i===1?true:false});
@@ -45,7 +47,7 @@ export default class RectifyTask extends Component {
                     tabBarActiveTextColor='#51a5f0'
                     tabBarInactiveTextColor='#3d3d3d'
                     tabBarBackgroundColor="#fff">
-                    <CheckRecord tabLabel='检查记录' navigator={this.props.navigator} data={this.props.data}/>
+                    <CheckRecord tabLabel='检查记录' navigator={this.props.navigator} data={this.props.data} fromList={this.props.fromList}/>
                     <ReformTask tabLabel='整改任务' navigator={this.props.navigator} item={this.props.data}/>
                     <ReviewRecord tabLabel="复查记录" navigator={this.props.navigator} data={this.props.data}/>
                 </ScrollableTabView>
@@ -54,14 +56,14 @@ export default class RectifyTask extends Component {
     }
 
     addModification() {
-        // this.props.navigator.push({
-        //     name:"AddModification",
-        //     component:AddModification,
-        //     params:{
-        //         id:this.props.data.id,
-        //         nodeId:this.props.data.nodeId
-        //     }
-        // })
+        this.props.navigator.push({
+            name:"AccomplishProgress",
+            component:AccomplishProgress,
+            params:{
+                type:'新建',
+                aqjcjlId:this.props.data.aqjcjlId
+            }
+        })
     }
 }
 
@@ -74,4 +76,4 @@ const styles = StyleSheet.create({
         width: 0.04*width,
         height: 0.04*width
     }
-})
+});

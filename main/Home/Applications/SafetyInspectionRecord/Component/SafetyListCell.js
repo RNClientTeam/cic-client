@@ -15,6 +15,7 @@ const {width} = Dimensions.get('window');
 import SafetyDetail from './SafetyDetail.js';
 import ExamineAndApprove from './ExamineAndApprove.js';
 import RectifyTask from './RectifyTask.js';
+import Toast from 'react-native-simple-toast';
 export default class SafetyInspectionListCell extends Component {
     render() {
         return (
@@ -24,7 +25,7 @@ export default class SafetyInspectionListCell extends Component {
                         <View style={styles.numState}>
                             <Text style={{color:'#216fd0',fontSize:width*0.045}} numberOfLines={1}>{this.props.data.zxmc}</Text>
                             <View style={styles.stateView}>
-                                <Text style={styles.stateText}>{this.props.data.state}</Text>
+                                <Text style={styles.stateText} numberOfLines={1}>{this.props.data.ztmc}</Text>
                             </View>
                         </View>
                         <Text style={styles.projectName} numberOfLines={0}>{this.props.data.xmmc}</Text>
@@ -33,7 +34,7 @@ export default class SafetyInspectionListCell extends Component {
                         <Text style={[{marginRight: 15}, styles.textStyle]}>{this.props.data.jcrmc}</Text>
                         <Text style={[{marginRight: 15}, styles.textStyle]}>{this.props.data.xmbh}</Text>
                         <Text style={[styles.textStyle, {flex:1}]}>{this.props.data.jcsj}</Text>
-                        <TouchableOpacity onPress={this.props.setModalVisible}>
+                        <TouchableOpacity onPress={this.authBtn.bind(this)}>
                             <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}
                                 style={styles.editImg} resizeMode="contain"/>
                         </TouchableOpacity>
@@ -43,12 +44,32 @@ export default class SafetyInspectionListCell extends Component {
         )
     }
 
+    authBtn() {
+        axios.get('/psmAqjcjh/getOperationAuthority4Aqjcjl', {
+            params: {
+                userID: GLOBAL_USERID,
+                stepId: this.props.data.stepId||0,
+                isTodo: this.props.data.isTodo||1,
+                callID: true
+            }
+        }).then((res) => {
+            if (res.code === 1) {
+                this.props.setModalVisible(res.data, this.props.data);
+            } else {
+                Toast.show(res.message);
+            }
+        }).catch((error) => {
+
+        });
+    }
+
     skipPage() {
         this.props.navigator.push({
             component: RectifyTask,
             name: 'RectifyTask',
             params: {
-                data: this.props.data
+                data: this.props.data,
+                fromList: true
             }
         });
     }
@@ -93,13 +114,14 @@ const styles = StyleSheet.create({
     },
     stateView: {
         backgroundColor: '#fe9a25',
-        width:width*0.12,
-        height:width*0.05,
         borderRadius:3,
-        justifyContent:'center',
-        alignItems:'center'
+        paddingHorizontal: 8,
+        paddingVertical: 3
     },
-    stateText: {color: '#fff', fontSize: width * 0.03},
+    stateText: {
+        color: '#fff',
+        fontSize: width * 0.03
+    },
     editTouch: {
         position: 'absolute',
         top: 22,

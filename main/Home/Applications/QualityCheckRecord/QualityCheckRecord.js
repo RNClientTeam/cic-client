@@ -42,7 +42,9 @@ export default class QualityCheckRecord extends Component {
             isLoading: false,
             calendarState: [],
             pageNum: 1,
-            dataSource: []
+            dataSource: [],
+            auth: {},
+            data: {}
         }
     }
 
@@ -72,10 +74,26 @@ export default class QualityCheckRecord extends Component {
                 <Calendar changeDay={(day) => this.changeDay(day)} day={this.state.day} data={this.state.calendarState}
                           year={this.state.year} month={this.state.month}/>
                 <QualityCheckRecordList navigator={this.props.navigator}
-                                        dataSource={this.state.dataSource}
-                                        reload={(resolve) => this.getData(1, resolve)}
-                                        loadMore={this.loadMore.bind(this)}
-                                        showModal={() => this.setState({modalVisible: true})}/>
+                    dataSource={this.state.dataSource}
+                    reload={(resolve) => this.getData(1, resolve)}
+                    loadMore={this.loadMore.bind(this)}
+                    showModal={(auth, data) => {
+                        let tempAuth = false;
+                        for (var key in auth) {
+                            if (auth[key] && !tempAuth) {
+                                tempAuth = true;
+                            }
+                        }
+                        if (tempAuth) {
+                            this.setState({
+                                modalVisible: true,
+                                auth: auth,
+                                data: data
+                            });
+                        } else {
+                            toast.show('没有相关权限');
+                        }
+                    }}/>
                 <Modal
                     animationType={"slide"}
                     transparent={true}
@@ -85,9 +103,12 @@ export default class QualityCheckRecord extends Component {
                     }}
                     style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
                 >
-                    <QualityCheckModal navigator={this.props.navigator} closeModal={() => {
-                        this.setState({modalVisible: false})
-                    }}/>
+                    <QualityCheckModal navigator={this.props.navigator}
+                        closeModal={() => {
+                            this.setState({modalVisible: false})
+                        }}
+                        auth={this.state.auth}
+                        data={this.state.data}/>
                 </Modal>
                 {this.state.filtrate ?
                     <QualityCheckRecordFiltrate
@@ -220,39 +241,6 @@ export default class QualityCheckRecord extends Component {
         }).then(data => {
             resolve();
             if (data.code == 1) {
-                // TODO
-                data = {
-                    "code": 1,
-                    "data": {
-                        "total": 5,
-                        "list": [
-                            {
-                                "zxmc": "附属设施施工",
-                                "xmgh": "JZ_JY15011-16004",
-                                "xmmc": "规划九路电力沟道工程（注浆专业）",
-                                "cjsj": "2017-06-08 16:54:43",
-                                "jcsj": "2017-06-08 00:00:00",
-                                "RN": 1,
-                                "dqzt": 20,
-                                "rwxz": 5,
-                                "jcr": "刘栓",
-                                "id": "8a8181a25c85d8dc015c86e9ba0f0135",
-                                "gcjd": "设备厂验",
-                                "dqztmc": "审批中",
-                                "rwnr": "123",
-                                "nodeId": "0",
-                                "zxid": "8a8180d8573fd03c01574138cda03ded",
-                                "sfxczg": 0,
-                                "twzt": 100,
-                                "sfdb": "0",
-                                "cjr": "ZNDQ2053",
-                                "wtlb": "设备问题,施工安装问题"
-                            },
-
-                        ]
-                    },
-                    "message": "成功"
-                };
                 if (data.data && data.data.list && data.data.list.length > 0) {
                     if (pageNum == 1) {
                         this.setState({
@@ -275,6 +263,7 @@ export default class QualityCheckRecord extends Component {
                 return false
             }
         }).catch(err => {
+            resolve();
             toast.show('服务端异常');
             return false;
         })

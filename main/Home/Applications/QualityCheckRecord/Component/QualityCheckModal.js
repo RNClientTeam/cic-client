@@ -1,6 +1,3 @@
-/**
- * Created by Nealyang on 2017/5/21.
- */
 'use strict';
 import React,{Component} from 'react'
 import {
@@ -14,21 +11,52 @@ import QualityCheckModalCell from "./QualityCheckModalCell";
 const {width}  = Dimensions.get('window');
 
 export default class QualityCheckModal extends Component{
-
     constructor(props){
         super(props);
         this.state={
-            data:[
-                {img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),name:'提交安全审核'},
-                {img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),name:'审批'},
-                {img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),name:'记录整改'},
-                {img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),name:'复查'},
-                {img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),name:'质量检查记录整改'},
-                {img:require('../../../../../resource/imgs/home/earlierStage/applyForDelay.png'),name:'检查计划新建'},
-                {img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),name:'检查计划编辑'},
-                {img:require('../../../../../resource/imgs/home/applications/stopAction.png'),name:'删除'},
-            ]
+            data:[]
         }
+    }
+
+    componentDidMount() {
+        let dataArr = [];
+        if (this.props.auth.addZljcjl) {
+            dataArr.push({
+                img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
+                name: '增加'
+            });
+        } else if (this.props.auth.editZljcjl) {
+            dataArr.push({
+                img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
+                name: '修改'
+            });
+        } else if (this.props.auth.checkZljcjl) {
+            dataArr.push({
+                img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
+                name: '审核'
+            });
+        } else if (this.props.auth.checkAndaddZgrw) {
+            dataArr.push({
+                img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
+                name: '下发整改任务'
+            });
+        } else if (this.props.auth.tbZgwcqk) {
+            dataArr.push({
+                img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
+                name: '填报整改情况'
+            });
+        } else if (this.props.auth.tbFcjl) {
+            dataArr.push({
+                img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
+                name: '填报复查记录'
+            });
+        } else if (this.props.auth.deleteZljcjl) {
+            dataArr.push({
+                img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
+                name: '删除'
+            });
+        }
+        this.setState({data: dataArr});
     }
 
     render() {
@@ -37,11 +65,6 @@ export default class QualityCheckModal extends Component{
                 <View style={styles.containerView}>
                     {this.renderCell()}
                 </View>
-                {/*<View style={styles.buttonView}>*/}
-                    {/*<TouchableOpacity style={[styles.button,{backgroundColor:'#fb5560'}]}>*/}
-                        {/*<Text style={{color:'#fff'}}>删除</Text>*/}
-                    {/*</TouchableOpacity>*/}
-                {/*</View>*/}
             </TouchableOpacity>
         )
     }
@@ -49,7 +72,11 @@ export default class QualityCheckModal extends Component{
         let cs = [];
         for(let i = 0;i<this.state.data.length;i++){
             cs.push(
-                <QualityCheckModalCell closeModal={()=>{this.props.closeModal()}} navigator={this.props.navigator} key={i} dataSource={this.state.data[i]}/>
+                <QualityCheckModalCell
+                    closeModal={()=>{this.props.closeModal()}}
+                    navigator={this.props.navigator} key={i}
+                    dataSource={this.state.data[i]}
+                    data={this.props.data}/>
             )
         }
         return cs;

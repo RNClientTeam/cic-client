@@ -44,6 +44,7 @@ export default class QualityDoubleCheckRecord extends Component {
                     onChangeTab={(obj) => {
                         this.setState({addIcon:obj.i===1?true:false});
                     }}
+                    initialPage={this.props.initialPage||0}
                     tabBarActiveTextColor='#51a5f0'
                     tabBarInactiveTextColor='#3d3d3d'
                     tabBarBackgroundColor="white">

@@ -66,18 +66,9 @@ export default class SelectedRenwuJD extends Component {
             }
         }).then((res) => {
             if (res.code === 1) {
-                this.setState({dataSource:[{
-                   "rwnr": "123",
-                   "zxmc": "附属设施施工",
-                   "zxid": "8a8180d8573fd03c01574138cda03ded",
-                   "xmgh": "JZ_JY15011-16004",
-                   "xmmc": "规划九路电力沟道工程（注浆专业）",
-                   "rwid": "8a8181a25c810f90015c816775360051",
-                   "ssbmmc": "调试抢修部",
-                   "rwxz": "设备检验",
-                   "cfid": "8a8180d856b8094b0156bf1a400d0a4e",
-                   "zrbm": "00000004f00138c242a0d9"
-               }]})
+                if (res.data.list) {
+                    this.setState({dataSource: res.data.list});
+                }
            } else {
                toast.show(res.message);
            }

@@ -58,6 +58,7 @@ export default class ApartmentPlane extends Component{
                         <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
+                {/*添加功能*/}
                 <SearchHeader/>
                 <ApartmentPlaneList
                     loadMore={()=>this.loadMore()}
@@ -138,6 +139,7 @@ export default class ApartmentPlane extends Component{
                 callID:true
             }
         }).then(data=>{
+            console.log(data)
             this.setState({modalVisible:true})
         })
     }
@@ -159,63 +161,7 @@ export default class ApartmentPlane extends Component{
         }).then(data=>{
             this.hideLoading();
             if(data.code ===1){
-                // TODO
                 let result = true;
-                data = {
-                    "code": 1,
-                    "data": {
-                        "total": 12,
-                        "list": [
-                            {
-                                "cjrmc": "石建喜",
-                                "jhrw": "完成工程实施特批",
-                                "xmmc": "京棉A1区北区2#配及A2区2#配户表集中器",
-                                "qdsj": "2017-05-15 00:00:00",
-                                "zrrmc": "石建喜",
-                                "RN": 1,
-                                "wcbl": "",
-                                "jhrwId": "8a8180b858fcb9990159001bfcff0679",
-                                "ly": "91",
-                                "jhmc": "ce2",
-                                "zrbm": "00000004800138c242a0d9",
-                                "id": "000000030015cbfb48e",
-                                "lymc": "项目前期计划任务",
-                                "gczxmc": "",
-                                "zrr": "ZNDQ1943",
-                                "zt": "200",
-                                "ztmc": "启动",
-                                "xmbh": "CX_DS14040",
-                                "cjr": "ZNDQ1943",
-                                "wcsj": "2017-05-17 00:00:00",
-                                "zrbmmc": "市场营销二部"
-                            },
-                            {
-                                "cjrmc": "石建喜",
-                                "jhrw": "完成施工招投标",
-                                "xmmc": "京棉A1区北区2#配及A2区2#配户表集中器",
-                                "qdsj": "2017-05-15 00:00:00",
-                                "zrrmc": "石建喜",
-                                "RN": 2,
-                                "wcbl": "10",
-                                "jhrwId": "8a8180b858fcb9990159001bfabe066c",
-                                "ly": "91",
-                                "jhmc": "ceshi1",
-                                "zrbm": "00000004800138c242a0d9",
-                                "id": "000000020015cbfb48e",
-                                "lymc": "项目前期计划任务",
-                                "gczxmc": "",
-                                "zrr": "ZNDQ1943",
-                                "zt": "200",
-                                "ztmc": "启动",
-                                "xmbh": "CX_DS14040",
-                                "cjr": "ZNDQ1943",
-                                "wcsj": "2017-05-15 00:00:00",
-                                "zrbmmc": "市场营销二部"
-                            }
-                        ]
-                    },
-                    "message": "成功"
-                };
                 if(data.data && data.data.list && data.data.list.length>0){
                     if(pageNum === 1){
                         this.setState({

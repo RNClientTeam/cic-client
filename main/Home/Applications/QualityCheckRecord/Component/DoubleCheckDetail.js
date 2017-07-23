@@ -22,7 +22,8 @@ export default class DoubleCheckDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoading: false
+            isLoading: false,
+            data: {}
         }
     }
 
@@ -72,45 +73,9 @@ export default class DoubleCheckDetail extends Component {
         }).then(data => {
             this.setState({isLoading: false});
             if (data.code === 1) {
-                // TODO
-                data = {
-                    "code": 1,
-                    "data": {
-                        "code": 1,
-                        "data": {
-                            "zxmc": "附属设施施工",
-                            "xmgh": "JZ_JY15011-16004",
-                            "xmmc": "规划九路电力沟道工程（注浆专业）",
-                            "cjsj": "2017-06-08 16:54:43",
-                            "jcsj": "2017-06-08 00:00:00",
-                            "RN": 1,
-                            "dqzt": 20,
-                            "rwxz": 5,
-                            "jcr": "刘栓",
-                            "id": "8a8181a25c85d8dc015c86e9ba0f0135",
-                            "gcjd": "设备厂验",
-                            "dqztmc": "审批中",
-                            "rwnr": "123",
-                            "nodeId": "0",
-                            "zxid": "8a8180d8573fd03c01574138cda03ded",
-                            "sfxczg": 0,
-                            "twzt": 100,
-                            "sfdb": "0",
-                            "cjr": "ZNDQ2053",
-                            "wtlb": "设备问题,施工安装问题"
-
-                        },
-                        "message": "成功"
-                    },
-                    "message": "成功"
-                };
-                data = data.data.data;
-                this.setState({
-                    data
-                },function () {
-                    console.log(this.state.data)
-                })
-
+                if (data.data.data) {
+                    this.setState({data:data.data.data});
+                }
             } else {
                 toast.show(data.message)
             }

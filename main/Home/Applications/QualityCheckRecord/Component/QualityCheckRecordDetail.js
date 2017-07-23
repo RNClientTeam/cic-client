@@ -68,6 +68,7 @@ export default class QualityCheckRecordDetail extends Component {
             jianyanRW: '请选择>',
             reasonList: [],
             reasonListText: [],
+            showBottom: true,
             rwnrid: '',     //质量检查任务ID
             jcbm: '',       //检查部门
             jcr: '请选择>',  //检查人
@@ -160,12 +161,20 @@ export default class QualityCheckRecordDetail extends Component {
                     this.state.selList.push(false);
                 }
             });
-            this.setState({selList:this.state.selList});
+            this.changeResult = '';
+            this.setState({
+                selList:this.state.selList,
+                showBottom: false,
+                isFinished: false,
+            });
         } else {
             this.state.selList.splice(0,1,false);
             let tempSel = !this.state.selList[index];
             this.state.selList.splice(index,1,tempSel);
-            this.setState({selList:this.state.selList});
+            this.setState({
+                selList:this.state.selList,
+                showBottom: true
+            });
         }
     }
 
@@ -235,8 +244,8 @@ export default class QualityCheckRecordDetail extends Component {
         let reqData = [
             {name: 'userID', data: GLOBAL_USERID},
             {name: 'files', data: RNFetchBlob.wrap(msg), filename: this.randomId + fileSuffix},
-            {name: 'businessModule', data: 'gxzl'},
-            {name: 'isAttach', data: JSON.stringify(1)},
+            {name: 'businessModule', data: 'zljcjl'},
+            {name: 'isAttach', data: this.state.isFinished?1:0},
             {name: 'resourceId', data: this.randomId},
             {name: 'callID', data: JSON.stringify(getTimestamp())}
         ];
@@ -366,16 +375,22 @@ export default class QualityCheckRecordDetail extends Component {
                         </View>
                     </View>
                     <LabelTextArea label="检查结果" inputResult={this.inputCheckResult.bind(this)}/>
-                    <LabelTextArea label="整改要求" inputResult={this.inputChangeResult.bind(this)}/>
+                    {
+                        this.state.showBottom &&
+                        <LabelTextArea label="整改要求" inputResult={this.inputChangeResult.bind(this)}/>
+                    }
                     <View style={styles.divide}/>
-                    <View style={styles.row}>
-                        <Text style={styles.labelColor}>
-                            是否已现场整改
-                        </Text>
-                        <View style={styles.blank}/>
-                        <Switch onValueChange={(value) => this.toggle(value)}
-                                value={this.state.isFinished}/>
-                    </View>
+                    {
+                        this.state.showBottom &&
+                        <View style={styles.row}>
+                            <Text style={styles.labelColor}>
+                                是否已现场整改
+                            </Text>
+                            <View style={styles.blank}/>
+                            <Switch onValueChange={(value) => this.toggle(value)}
+                                    value={this.state.isFinished}/>
+                        </View>
+                    }
                 </ScrollView>
                 <View style={styles.actionPanel}>
                     <TouchableOpacity onPress={() => this.saveAndSubmit()}>
@@ -437,7 +452,7 @@ export default class QualityCheckRecordDetail extends Component {
             Toast.show('请选择附件');
         } else if (this.checkResult.length === 0) {
             Toast.show('请填写检查结果');
-        } else if (this.changeResult.length === 0) {
+        } else if (this.changeResult.length === 0 && this.state.showBottom) {
             Toast.show('请填写整改要求');
         } else {
             axios.post('/psmZljcjl/save', {
@@ -451,7 +466,7 @@ export default class QualityCheckRecordDetail extends Component {
                 jcjg: this.checkResult,
                 jcfj: jcfj,
                 zgyq: this.changeResult,
-                sfxczg: this.state.isFinished,
+                sfxczg: this.state.isFinished?'1':'0',
                 rwnr: this.state.rwnr,
                 gczxid: this.state.gczxid,
                 xmgh: this.state.xmgh,

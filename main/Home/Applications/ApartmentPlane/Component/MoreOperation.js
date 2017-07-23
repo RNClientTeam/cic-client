@@ -17,10 +17,8 @@ export default class MoreOperation extends Component {
         super(props);
         this.state={
             data:[
-                {img:require('../../../../../resource/imgs/home/earlierStage/upload.png'),name:'提交审批'},
                 {img:require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),name:'填报进展'},
                 {img:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'确认完成'},
-                {img:require('../../../../../resource/imgs/home/applications/effectiveAction.png'),name:'生效'},
                 {img:require('../../../../../resource/imgs/home/applications/stopAction.png'),name:'删除'},
                 {img:require('../../../../../resource/imgs/home/applications/checkDetail.png'),name:'查看详情'},
                 {img:require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),name:'修改'}

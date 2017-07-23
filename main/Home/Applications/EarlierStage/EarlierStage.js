@@ -46,7 +46,7 @@ export default class EarlierStage extends Component {
                                source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
-                <SearchHeader getData={()=>this.getDataFromNet()} getKeyWord={(keywords)=>this.setState({keywords:keywords})}/>
+                <SearchHeader getData={()=>this.getDataFromNet()} changeZxmc={(keywords)=>this.setState({keywords:keywords})}/>
                 <EarlierStageList loadMore={() => this.loadMore()} refresh={(callback) => this.getDataFromNet(callback)}
                                   dataSource={this.state.dataSource} navigator={this.props.navigator}/>
                 {this.state.isModalVisible ?

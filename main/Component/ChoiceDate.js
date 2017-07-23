@@ -12,7 +12,6 @@ const {width}  = Dimensions.get('window');
 import DatePicker from 'react-native-datepicker'
 import {getCurrentDate} from '../Util/Util'
 export default class ChoiceDate extends Component{
-
     constructor(props){
         super(props);
         this.state={

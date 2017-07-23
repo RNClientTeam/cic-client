@@ -59,28 +59,10 @@ export default class DoubleCheckModification extends Component {
             }
         }).then(data => {
             if (data.code === 1) {
-                data = {
-                    "code": 1,
-                    "data": [{
-                        "id": "8a8180d85***666db03f5",
-                        "zgzrbmmc": "市场音效部",
-                        "zgzrrmc": "驾驶坤",
-                        "dqztmc": "新建任务",
-                        "wtlb": "C112038-13005",
-                        "zgyq": "昌平老旧小区配电改造(郝庄家园)",
-                        "zgzrr": "00000005000138c242a0d9",
-                        "zgzrbm": "",
-                        "zgzrbm": "2017-01-20 00:00:00",
-                        "zgwcsjt": "2017-01-02 00:00:00",
-                        "sjwcsjt": 7,
-                        "zcjg": ""
-                    }],
-                    "message": "成功"
-                };
                 if(data.data){
                     this.setState({
                         dataSource:data.data
-                    })
+                    });
                 }
             }
         })

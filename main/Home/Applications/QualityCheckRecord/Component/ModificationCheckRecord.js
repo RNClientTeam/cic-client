@@ -18,7 +18,7 @@ const {width} = Dimensions.get('window');
 export default class ModificationCheckRecord extends Component {
     render() {
         return (
-            <View style={styles.container}>
+            <View>
                 <ScrollView>
                     <View style={styles.divide}/>
                     <KeyValueLeft propKey="检查任务" propValue="质量检查任务1"/>
@@ -58,9 +58,6 @@ export default class ModificationCheckRecord extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-
-    },
     row: {
         paddingLeft: width*0.02,
         paddingRight: width*0.02,

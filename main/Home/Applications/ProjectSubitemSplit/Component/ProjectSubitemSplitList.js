@@ -18,61 +18,8 @@ import {PullList} from 'react-native-pull';
 import LoadMore from "../../../../Component/LoadMore";
 import Reload from "../../../../Component/Reload";
 export default class ProjectSubitemSplitSearchHeader extends Component {
-
     constructor(props) {
         super(props);
-        this.dataSource = [
-            {
-                number: 'CX_DS16052',
-                state: '拆分审核中',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                number: 'CX_DS16051',
-                state: '新建',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                number: 'CX_DS17051',
-                state: '已交接',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                number: 'CX_DS66051',
-                state: '已拆分子项',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            },
-            {
-                number: 'CX_DS36051',
-                state: '已拆分子项',
-                planName: '人大技术学院配电增容改造技术咨询',
-                contentNum: 18,
-                principal: '杨磊',
-                department: '技术部',
-                schedule: '10%',
-                time: '2017/11/11-2017/12/12'
-            }
-        ];
         this.state = {
             hasMoreData: true,
             list: (new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})),
