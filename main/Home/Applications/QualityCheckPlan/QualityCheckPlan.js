@@ -1,7 +1,6 @@
 /**
  * Created by Nealyang on 2017/5/10.
  */
-
 'use strict';
 import React,{Component} from 'react'
 import {
@@ -18,9 +17,10 @@ import QualityCheckPlanHeader from "./Component/QualityCheckPlanHeader";
 import QualityCheckPlanList from "./Component/QualityCheckPlanList";
 import QualityCheckFiltrate from "./Component/QualityCheckFiltrate";
 import QualityCheckModal from "./Component/QualityCheckModal";
-const {width}  = Dimensions.get('window');
 import toast from 'react-native-simple-toast';
 import Loading from "../../../Component/Loading";
+
+const {width}  = Dimensions.get('window');
 
 export default class QualityCheckPlan extends Component{
     constructor(props){
@@ -109,7 +109,7 @@ export default class QualityCheckPlan extends Component{
         }
     }
 
-    //选择日期
+    // 选择日期
     changeYearAndMonth(data){
         this.setState({
             year:data.substr(0,4),
@@ -120,7 +120,7 @@ export default class QualityCheckPlan extends Component{
         })
     }
 
-    //点击某一天
+    // 点击某一天
     changeDay(day){
         this.setState({
             day:day
@@ -128,7 +128,6 @@ export default class QualityCheckPlan extends Component{
             this.getTask()
         })
     }
-
 
     componentDidMount() {
         this.getCalendarData();
@@ -184,61 +183,61 @@ export default class QualityCheckPlan extends Component{
             if(data.code ===1){
                 resolve();
                 // TODO
-                // data={
-                //     "code": 1,
-                //     "data": {
-                //         "total": 2,
-                //         "list": [
-                //             {
-                //                 "zxmc": "施家胡同配电子项",
-                //                 "rn": 1,
-                //                 "cfxxId": "8a8180d856ec904a0156fe2e64806ea5",
-                //                 "twztmc": "已生效",
-                //                 "xmgh": "JZ_DS16065-16042",
-                //                 "xmmc": "大栅栏廊坊二条等4条街架空线入地工程",
-                //                 "cjbm": "00000004e00138c242a0d9",
-                //                 "zrrmc": "赵春华",
-                //                 "jhjssjt": "2016-12-26 00:00:00",
-                //                 "jhkssjt": "2016-12-26 00:00:00",
-                //                 "rwxz": 6,
-                //                 "zrbm": "00000004e00138c242a0d9",
-                //                 "id": "8a8180d858fa588c015914da35f029f4",
-                //                 "rwnr": "送电",
-                //                 "rwxzmc": "专工验收",
-                //                 "zrr": "ZNDQ2008",
-                //                 "gczxId": "8a8180d856ec904a0156fe35fc8870c3",
-                //                 "twzt": 100,
-                //                 "ssbmmc": "配网工程部",
-                //                 "cjsjt": "2016-12-19 10:12:41",
-                //                 "cjr": "ZNDQ2003"
-                //             },
-                //             {
-                //                 "zxmc": "施家胡同电缆子项",
-                //                 "rn": 2,
-                //                 "cfxxId": "8a8180d856ec904a0156fe2e64806ea5",
-                //                 "twztmc": "已生效",
-                //                 "xmgh": "JZ_DS16065-16042",
-                //                 "xmmc": "大栅栏廊坊二条等4条街架空线入地工程",
-                //                 "cjbm": "00000004e00138c242a0d9",
-                //                 "zrrmc": "赵春华",
-                //                 "jhjssjt": "2016-12-26 00:00:00",
-                //                 "jhkssjt": "2016-12-26 00:00:00",
-                //                 "rwxz": 6,
-                //                 "zrbm": "00000004e00138c242a0d9",
-                //                 "id": "8a8180d858fa588c015914d49475284c",
-                //                 "rwnr": "送电",
-                //                 "rwxzmc": "专工验收",
-                //                 "zrr": "ZNDQ2008",
-                //                 "gczxId": "8a8180d857482f62015750bf2ff962b2",
-                //                 "twzt": 100,
-                //                 "ssbmmc": "配网工程部",
-                //                 "cjsjt": "2016-12-19 10:06:32",
-                //                 "cjr": "ZNDQ2003"
-                //             }
-                //         ]
-                //     },
-                //     "message": "成功"
-                // };
+                data={
+                    "code": 1,
+                    "data": {
+                        "total": 2,
+                        "list": [
+                            {
+                                "zxmc": "施家胡同配电子项",
+                                "rn": 1,
+                                "cfxxId": "8a8180d856ec904a0156fe2e64806ea5",
+                                "twztmc": "已生效",
+                                "xmgh": "JZ_DS16065-16042",
+                                "xmmc": "大栅栏廊坊二条等4条街架空线入地工程",
+                                "cjbm": "00000004e00138c242a0d9",
+                                "zrrmc": "赵春华",
+                                "jhjssjt": "2016-12-26 00:00:00",
+                                "jhkssjt": "2016-12-26 00:00:00",
+                                "rwxz": 6,
+                                "zrbm": "00000004e00138c242a0d9",
+                                "id": "8a8180d858fa588c015914da35f029f4",
+                                "rwnr": "送电",
+                                "rwxzmc": "专工验收",
+                                "zrr": "ZNDQ2008",
+                                "gczxId": "8a8180d856ec904a0156fe35fc8870c3",
+                                "twzt": 100,
+                                "ssbmmc": "配网工程部",
+                                "cjsjt": "2016-12-19 10:12:41",
+                                "cjr": "ZNDQ2003"
+                            },
+                            {
+                                "zxmc": "施家胡同电缆子项",
+                                "rn": 2,
+                                "cfxxId": "8a8180d856ec904a0156fe2e64806ea5",
+                                "twztmc": "已生效",
+                                "xmgh": "JZ_DS16065-16042",
+                                "xmmc": "大栅栏廊坊二条等4条街架空线入地工程",
+                                "cjbm": "00000004e00138c242a0d9",
+                                "zrrmc": "赵春华",
+                                "jhjssjt": "2016-12-26 00:00:00",
+                                "jhkssjt": "2016-12-26 00:00:00",
+                                "rwxz": 6,
+                                "zrbm": "00000004e00138c242a0d9",
+                                "id": "8a8180d858fa588c015914d49475284c",
+                                "rwnr": "送电",
+                                "rwxzmc": "专工验收",
+                                "zrr": "ZNDQ2008",
+                                "gczxId": "8a8180d857482f62015750bf2ff962b2",
+                                "twzt": 100,
+                                "ssbmmc": "配网工程部",
+                                "cjsjt": "2016-12-19 10:06:32",
+                                "cjr": "ZNDQ2003"
+                            }
+                        ]
+                    },
+                    "message": "成功"
+                };
                 if(data.data && data.data.total > 0){
                     if(pageNum===1){
                         this.setState({

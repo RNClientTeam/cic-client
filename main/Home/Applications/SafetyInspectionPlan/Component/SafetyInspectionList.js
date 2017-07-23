@@ -37,7 +37,7 @@ export default class SafetyInspectionList extends Component {
                         renderRow={this.renderRow.bind(this)}
                         onEndReached={this.loadMore.bind(this)}
                         onEndReachedThreshold={60}
-                        pageSize={101}
+                        pageSize={10}
                         renderFooter={this.renderFooter.bind(this)}
                     />
                 </View>
@@ -48,9 +48,7 @@ export default class SafetyInspectionList extends Component {
 
     onPullRelease(resolve) {
         //do refresh
-        setTimeout(() => {
-            resolve();
-        }, 3000);
+        this.props.reload(resolve);
     }
 
     renderRow(item, sectionID, rowID, highlightRow) {
@@ -61,10 +59,12 @@ export default class SafetyInspectionList extends Component {
     }
 
     renderFooter (){
-        return ( (this.props.dataSource.length && (this.props.dataSource.length < this.props.total)) ? <LoadMore /> : null)
+        return null;
+        // return ( (this.props.dataSource.length && (this.props.dataSource.length < this.props.total)) ? <LoadMore /> : null)
     }
 
     topIndicatorRender(pulling, pullok, pullrelease) {
+        // return <View/>;
         return (<Reload />);
     }
 
@@ -85,6 +85,8 @@ export default class SafetyInspectionList extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f2f2f2'
+        backgroundColor: '#f2f2f2',
+        position: 'relative',
+        zIndex: -1
     }
 });

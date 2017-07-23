@@ -40,7 +40,9 @@ export default class QualityCheckPlanDetail extends Component {
                     <KeyValueLeft propsKey="创建时间" propsValue={this.state.cjsjt} />
                 </ScrollView>
                 {this.state.tbZljcjl ?
-                    <TouchableOpacity style={styles.editRecord}>
+                    <TouchableOpacity
+                        style={styles.editRecord}
+                        onPress={() => this.tianbao()}>
                         <Image style={styles.imgSty} source={require('../../../../resource/imgs/home/QualityCheckPlan/editRecord.png')}/>
                         <Text style={{color:'#216fd0'}}>填报检查记录</Text>
                     </TouchableOpacity>
@@ -128,11 +130,11 @@ export default class QualityCheckPlanDetail extends Component {
             responseData = {
                 "code": 1,
                 "data": {
-                    "addZljcjh": false,
+                    "addZljcjh": true,
                     "updateZljcjh": true,
                     "deleteZljcjh": false,
                     "effectZljcjh": false,
-                    "tbZljcjl": false,
+                    "tbZljcjl": true,
                 },
                 "message": "成功"
             };
