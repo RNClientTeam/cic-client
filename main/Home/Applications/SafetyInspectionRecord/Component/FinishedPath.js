@@ -1,7 +1,3 @@
-/**
- * Created by zhubin on 17/5/6.
- */
-
 import React,{Component} from 'react'
 import {
     View,
@@ -31,13 +27,10 @@ export default class FinishedPath extends Component{
             <View style={styles.containerStyle}>
                 <StatusBar navigator={this.props.navigator} title="已完成流程步骤"/>
                 <ScrollView>
-                    {
-                        this.props.fromCheckFlowInfo &&
-                        <View style={[styles.titleContent, {width:(item.text.length*15+0.1*width)}]}>
-                            <Text style={styles.titleText} numberOfLines={1}>流程步骤</Text>
-                        </View>
-                    }
-                    {this.props.fromCheckFlowInfo ? this.renderRows(this.state.dataSource): this.renderSection(this.state.dataSource)}
+                    <View style={[styles.titleContent, {width:(item.text.length*15+0.1*width)}]}>
+                        <Text style={styles.titleText} numberOfLines={1}>流程步骤</Text>
+                    </View>
+                    {this.renderRows(this.state.dataSource)}
                 </ScrollView>
             </View>
         )
@@ -47,39 +40,14 @@ export default class FinishedPath extends Component{
         return arr.map((item, index) => (<PathRow key={`${item.id}${index}`} data={item}/>))
     }
 
-    renderSection(dataArr){
-        return dataArr.map((item,index)=>
-            (
-                <View key={index}>
-                        <View style={[styles.titleContent, {width:(item.text.length*15+0.1*width)}]}>
-                            <Text style={styles.titleText} numberOfLines={1}>{item.text}</Text>
-                        </View>
-                    {this.renderRows(item.data)}
-                </View>
-            )
-        )
-    }
-
     componentDidMount() {
-        let params;
-        let reqURL;
-        if (this.props.fromCheckFlowInfo) {
-            params = {
-                userID: GLOBAL_USERID,
-                resID: this.props.resID,
-                wfName: this.props.wfName,
-                callID: true
-            };
-            reqURL = '/workFlow/actionList';
-        } else {
-            params = {
-                userID:GLOBAL_USERID,
-                resID:this.props.rwid,
-                groupWfName:'qqjdjh-zx-phrw',
-                callID:true
-            };
-            reqURL = '/workFlow/multiActionList';
-        }
+        let params = {
+            userID: GLOBAL_USERID,
+            resID: this.props.resID,
+            wfName: this.props.wfName,
+            callID: true
+        };
+        let reqURL = '/workFlow/actionList';
         axios.get(reqURL,{
             params:params
         }).then(data=>{

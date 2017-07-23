@@ -56,7 +56,7 @@ export default class SafetyInspectionRecord extends Component{
                 </StatusBar>
                 <SearchHeader
                     changeZxmc={(text)=>this.setState({keywords:text})}
-                    getData={this._getData.bind(this)}
+                    getData={this._getData.bind(this, 1)}
                 />
                 <SafetyList
                     refresh={(resolve)=>this._getData(1,resolve)}
@@ -100,6 +100,7 @@ export default class SafetyInspectionRecord extends Component{
                             closeModal={() => {
                                 this.setState({modalVisible: false})
                             }}
+                            reloadInfo={() => {this._getData(1)}}
                             auth={this.state.auth}
                             data={this.state.data}
                         />
@@ -116,23 +117,23 @@ export default class SafetyInspectionRecord extends Component{
             jsrq:jssj,
             jhlx:jhlx
         },function () {
-            this._getData();
+            this._getData(1);
         })
     }
 
     _loadMore(){
         this.setState({
-            pageNum:this.state.pageNum++
+            pageNum:++this.state.pageNum
         },function () {
             this._getData(this.state.pageNum)
         })
     }
 
     componentDidMount() {
-        this._getData();
+        this._getData(1);
     }
 
-    _getData(pageNum = 1,resolve=()=>{}){
+    _getData(pageNum,resolve=()=>{}){
         this.setState({
             isLoading:true
         });
@@ -148,7 +149,7 @@ export default class SafetyInspectionRecord extends Component{
                 ksrq:this.state.ksrq,
                 jsrq:this.state.jsrq,
                 jhlx:jhlx,
-                keywords:'y',
+                keywords:'',
                 pageNum:pageNum,
                 pageSize:10,
                 callID:true
@@ -158,14 +159,14 @@ export default class SafetyInspectionRecord extends Component{
                 isLoading:false
             });
             if(data.code === 1){
-                if(data.data&&data.data.length>0){
+                if(data.data.data&&data.data.data.length>0){
                     if(pageNum === 1){
                         this.setState({
-                            dataSource:data.data
+                            dataSource:data.data.data
                         })
                     }else{
-                        for(let i = 0;i<data.data.length;i++){
-                            this.state.dataSource.push(data.data[i])
+                        for(let i = 0;i<data.data.data.length;i++){
+                            this.state.dataSource.push(data.data.data[i])
                         }
                         this.setState({
                             dataSource:this.state.dataSource

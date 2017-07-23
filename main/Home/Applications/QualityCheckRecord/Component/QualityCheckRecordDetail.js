@@ -235,8 +235,8 @@ export default class QualityCheckRecordDetail extends Component {
         let reqData = [
             {name: 'userID', data: GLOBAL_USERID},
             {name: 'files', data: RNFetchBlob.wrap(msg), filename: this.randomId + fileSuffix},
-            {name: 'businessModule', data: 'gxzl'},
-            {name: 'isAttach', data: JSON.stringify(1)},
+            {name: 'businessModule', data: 'zljcjl'},
+            {name: 'isAttach', data: this.state.isFinished?1:0},
             {name: 'resourceId', data: this.randomId},
             {name: 'callID', data: JSON.stringify(getTimestamp())}
         ];
@@ -451,7 +451,7 @@ export default class QualityCheckRecordDetail extends Component {
                 jcjg: this.checkResult,
                 jcfj: jcfj,
                 zgyq: this.changeResult,
-                sfxczg: this.state.isFinished,
+                sfxczg: this.state.isFinished?'1':'0',
                 rwnr: this.state.rwnr,
                 gczxid: this.state.gczxid,
                 xmgh: this.state.xmgh,

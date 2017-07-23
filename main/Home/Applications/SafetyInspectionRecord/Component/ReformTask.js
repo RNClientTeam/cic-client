@@ -19,7 +19,6 @@ import toast from 'react-native-simple-toast'
 import ZGMoreOperation from "./ZGMoreOperation";
 import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 
-
 export default class ReformTask extends Component {
     constructor(props) {
         super(props);
@@ -73,7 +72,6 @@ export default class ReformTask extends Component {
                             setModalVisible={() => this.props.setModalVisible()}/>
         );
     }
-
 
     /**
      * 权限操作
