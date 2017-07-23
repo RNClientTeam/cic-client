@@ -43,7 +43,7 @@ export default class ProjectRangeHandover extends Component{
                 </StatusBar>
                 <SearchHeader
                     getData={()=>{this.getDateFromNet(1)}}
-                    getKeyWord={(txt)=>{this.setState({xmmc:txt})}}/>
+                    changeZxmc={(txt)=>{this.setState({xmmc:txt})}}/>
                 <ProjectRangeHandoverList
                     getData={(pageNum,resolve)=>this.getDateFromNet(pageNum,resolve)}
                     loadMore={()=>this.loadMore()}

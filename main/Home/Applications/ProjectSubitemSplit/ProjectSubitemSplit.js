@@ -1,6 +1,7 @@
 /**
  * Created by Nealyang on 2017/5/5.
  */
+
 'use strict';
 import React, {Component} from 'react'
 import {
@@ -17,6 +18,7 @@ import ProjectSubitemSplitList from './Component/ProjectSubitemSplitList'
 import ProjectSubitemSplitModal from "./Component/ProjectSubitemSplitModal";
 import {getTimestamp, getCurrentMonS, getCurrentMonE} from '../../../Util/Util'
 import toast from 'react-native-simple-toast'
+import Loading from "../../../Component/Loading";
 export default class ProjectSubitemSplit extends Component {
 
     constructor(props) {
@@ -30,6 +32,7 @@ export default class ProjectSubitemSplit extends Component {
             jhlx: '我的',//2,
             dataSource: [],
             xmmc:'',
+            isLoading:false
         }
     }
 
@@ -44,7 +47,7 @@ export default class ProjectSubitemSplit extends Component {
                                source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
-                <SearchHeader getData={()=>this.getDataFromNet()} getKeyWord={(keywords)=>this.setState({xmmc:keywords})}/>
+                <SearchHeader getData={()=>this.getDataFromNet()} changeZxmc={(keywords)=>this.setState({xmmc:keywords})}/>
                 <ProjectSubitemSplitList
                     cfzt={this.state.cfzt}
                     dataSource={this.state.dataSource}
@@ -60,6 +63,7 @@ export default class ProjectSubitemSplit extends Component {
                         getDataFromNet={(sDate,eData,isSplit,mine) => this.changeFilter(sDate,eData,isSplit,mine)}
                         closeModal={() => this.setState({isModalVisible: false})}/> :
                     <View/>}
+                {this.state.isLoading?<Loading/>:null}
             </View>
         )
     }
@@ -81,6 +85,9 @@ export default class ProjectSubitemSplit extends Component {
     }
 
     getDataFromNet(callback=()=>{}) {
+        this.setState({
+            isLoading:true
+        });
         let jhlx = 1,cfzt=0;
         if (this.state.jhlx === '所有') {
             jhlx = 2;
@@ -104,7 +111,9 @@ export default class ProjectSubitemSplit extends Component {
                     xmmc:this.state.xmmc
                 }
             }).then(data => {
-                console.log(data);
+                this.setState({
+                    isLoading:false
+                });
                 if (data) {
                     if(data.code === 1){
                         if(data.data){
@@ -118,6 +127,9 @@ export default class ProjectSubitemSplit extends Component {
                     toast.show(data.message);
                 }
             }).catch(err=>{
+                this.setState({
+                    isLoading:false
+                });
                 if(err) toast.show('服务端异常');
             })
         });

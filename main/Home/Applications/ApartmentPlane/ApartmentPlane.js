@@ -58,6 +58,7 @@ export default class ApartmentPlane extends Component{
                         <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
+                {/*添加功能*/}
                 <SearchHeader/>
                 <ApartmentPlaneList
                     loadMore={()=>this.loadMore()}

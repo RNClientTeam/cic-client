@@ -48,7 +48,7 @@ export default class ProgressPlan extends Component {
                                source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
-                <SearchHeader getData={()=>this.getDataFromNet(1)} getKeyWord={(keywords) => this.setState({keywords:keywords})}/>
+                <SearchHeader getData={()=>this.getDataFromNet(1)} changeZxmc={(keywords) => this.setState({keywords:keywords})}/>
                 <ProgressPlanList navigator={this.props.navigator}
                                   dataSource={this.state.dataSource}
                                   loadMore={() => this.loadMore()}

@@ -11,24 +11,43 @@ import {
     TextInput
 } from 'react-native'
 const {width}  = Dimensions.get('window');
-
+import toast from 'react-native-simple-toast'
 export default class KeyPercentage extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            value:this.props.value
+        }
+    }
     render(){
         return(
             <View style={styles.container}>
                 <Text style={styles.keyStyle}>{this.props.propKey}</Text>
                 <View style={styles.percentageView}>
                     <TextInput
-                        onChangeText={(text)=>this.props.textChange(text)}
+                        onChangeText={(text)=>{
+                            if(parseInt(text)>100||parseInt(text)<0){
+                                toast.show('进度范围为0~100')
+                            }else{
+                                this.props.textChange(text);
+                            }
+                        }}
                         style={styles.textInput}
                         underlineColorAndroid="transparent"
                         keyboardType="number-pad"
                         editable={!this.props.readOnly}
+                        value={this.state.value}
                     />
                     <Text style={styles.keyStyle}>%</Text>
                 </View>
             </View>
         )
+    }
+
+    componentWillReceiveProps(props) {
+        this.setState({
+            value:props.value
+        })
     }
 }
 
