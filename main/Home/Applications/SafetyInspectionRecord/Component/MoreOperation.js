@@ -69,7 +69,7 @@ export default class MoreOperation extends Component {
         let cs = [];
         for(let i = 0;i<this.state.data.length;i++){
             cs.push(
-                <TouchableOpacity style={styles.moreOperationsCell} onPress={this.skipPage.bind(this, this.state.data[i])}>
+                <TouchableOpacity style={styles.moreOperationsCell} onPress={this.skipPage.bind(this, this.state.data[i])} key={this.state.data[i].name}>
                     <Image style={styles.imgStyle} source={this.state.data[i].img}/>
                     <Text style={{color:'#6b6b6b',fontSize:width*0.037}}>{this.state.data[i].name}</Text>
                 </TouchableOpacity>
@@ -157,6 +157,7 @@ export default class MoreOperation extends Component {
             }).then((res) => {
                 if (res.code ===1) {
                     Toast.show('删除成功');
+                    this.props.reloadInfo();
                 } else {
                     Toast.show(res.message);
                 }

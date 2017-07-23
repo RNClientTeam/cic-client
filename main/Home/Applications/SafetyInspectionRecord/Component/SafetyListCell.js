@@ -25,7 +25,7 @@ export default class SafetyInspectionListCell extends Component {
                         <View style={styles.numState}>
                             <Text style={{color:'#216fd0',fontSize:width*0.045}} numberOfLines={1}>{this.props.data.zxmc}</Text>
                             <View style={styles.stateView}>
-                                <Text style={styles.stateText}>{this.props.data.state}</Text>
+                                <Text style={styles.stateText} numberOfLines={1}>{this.props.data.ztmc}</Text>
                             </View>
                         </View>
                         <Text style={styles.projectName} numberOfLines={0}>{this.props.data.xmmc}</Text>
@@ -68,7 +68,8 @@ export default class SafetyInspectionListCell extends Component {
             component: RectifyTask,
             name: 'RectifyTask',
             params: {
-                data: this.props.data
+                data: this.props.data,
+                fromList: true
             }
         });
     }
@@ -113,13 +114,14 @@ const styles = StyleSheet.create({
     },
     stateView: {
         backgroundColor: '#fe9a25',
-        width:width*0.12,
-        height:width*0.05,
         borderRadius:3,
-        justifyContent:'center',
-        alignItems:'center'
+        paddingHorizontal: 8,
+        paddingVertical: 3
     },
-    stateText: {color: '#fff', fontSize: width * 0.03},
+    stateText: {
+        color: '#fff',
+        fontSize: width * 0.03
+    },
     editTouch: {
         position: 'absolute',
         top: 22,

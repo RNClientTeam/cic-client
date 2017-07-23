@@ -32,10 +32,6 @@ import Toast from 'react-native-simple-toast';
 import RNFetchBlob from 'react-native-fetch-blob';
 import baseUrl from '../../../Util/service.json';
 import {getRandomId, getTimestamp, uploadFile} from '../../../Util/Util.js';
-const selectImg = [
-    require('../../../../resource/imgs/home/constuctPlan/choiced.png'),
-    require('../../../../resource/imgs/home/constuctPlan/unchoiced.png')
-];
 const {width, height} = Dimensions.get('window');
 
 export default class ChoiceFileComponent extends Component {
@@ -66,15 +62,15 @@ export default class ChoiceFileComponent extends Component {
                 Toast.show('iOS系统不支持文件上传操作');
             }
         }
-    }
+    }fcjlisAttach
 
     uploadFileFun(msg, fileSuffix, choiceImg) {
         this.setState({isLoading: true});
         let reqData = [
             {name: 'userID', data: GLOBAL_USERID},
             {name: 'files', data: RNFetchBlob.wrap(msg), filename: this.randomId + fileSuffix},
-            {name: 'businessModule', data: 'gxzl'},
-            {name: 'isAttach', data: JSON.stringify(1)},
+            {name: 'businessModule', data: this.props.businessModule},
+            {name: 'isAttach', data: this.props.isAttach||'0'},
             {name: 'resourceId', data: this.randomId},
             {name: 'callID', data: JSON.stringify(getTimestamp())}
         ];

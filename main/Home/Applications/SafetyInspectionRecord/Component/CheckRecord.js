@@ -8,7 +8,8 @@ import {
     Image,
     TouchableOpacity,
     TextInput,
-    TouchableHighlight
+    TouchableHighlight,
+    Switch
 } from 'react-native';
 import ChoiceDate from "../../../../Component/ChoiceDate.js";
 import Loading from "../../../../Component/Loading.js";
@@ -21,13 +22,15 @@ import ChoiceFileComponent from '../../Component/ChoiceFileComponent.js';
 export default class DoubleCheckDetail extends Component {
     constructor(props) {
         super(props);
-        this.wenti = '';
+        this.zgyq = '';
         this.jianchaResult = '';
         this.state = {
             isLoading: false,
-            data: null,
+            data: {},
             questionList: [],
-            proList: []
+            proList: [],
+            wenti: '',
+            isFinished: false
         }
     }
 
@@ -62,10 +65,11 @@ export default class DoubleCheckDetail extends Component {
         axios.get('/psmAqjcjh/init4Aqjcjl', {
             params: {
                 userID: GLOBAL_USERID,
-                id: this.props.data.aqjcjhId,
+                id: this.props.data.id,
                 callID: true
             }
         }).then((res) => {
+            console.log(res);
             if (res.code === 1) {
                 this.setState({
                     data: res.data,
@@ -81,6 +85,7 @@ export default class DoubleCheckDetail extends Component {
     }
 
     gotoOrganization() {
+        if (this.props.check) return;
         this.props.navigator.push({
             name: 'Organization',
             component: Organization,
@@ -106,6 +111,7 @@ export default class DoubleCheckDetail extends Component {
                         <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>检验任务</Text>
                         <TextInput style={styles.contentText}
                             numberOfLines={1}
+                            editable={!this.props.check}
                             defaultValue={this.state.data.aqjcjhmc||''}
                             onChangeText={(text) => {
                                 this.state.data.aqjcjhmc = text;
@@ -116,6 +122,7 @@ export default class DoubleCheckDetail extends Component {
                         <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>工程工号</Text>
                         <TextInput style={styles.contentText}
                             numberOfLines={1}
+                            editable={!this.props.check}
                             defaultValue={this.state.data.xmbh||''}
                             onChangeText={(text) => {
                                 this.state.data.xmbh = text;
@@ -126,6 +133,7 @@ export default class DoubleCheckDetail extends Component {
                         <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>项目名称</Text>
                         <TextInput style={styles.contentText}
                             numberOfLines={1}
+                            editable={!this.props.check}
                             defaultValue={this.state.data.xmmc||''}
                             onChangeText={(text) => {
                                 this.state.data.xmmc = text;
@@ -136,6 +144,7 @@ export default class DoubleCheckDetail extends Component {
                         <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>工程子项名称</Text>
                         <TextInput style={styles.contentText}
                             numberOfLines={1}
+                            editable={!this.props.check}
                             defaultValue={this.state.data.zxmc||''}
                             onChangeText={(text) => {
                                 this.state.data.zxmc = text;
@@ -147,17 +156,23 @@ export default class DoubleCheckDetail extends Component {
                         <ModalDropdown
                             options={this.state.questionList}
                             animated={true}
-                            defaultValue={this.state.data.wtlb||''}
+                            disabled={this.props.check}
+                            defaultValue={this.state.questionList[this.state.data.wtlb]||''}
                             style={{flex:1, alignItems:'flex-end'}}
                             textStyle={{fontSize:14}}
                             onSelect={(a) => {
-                                this.wenti = this.state.proList[a].code;
+                                this.setState({
+                                    wenti:this.state.proList[a].code,
+                                    isFinished:this.state.proList[a].code==='1'?false:this.state.isFinished,
+                                });
+                                this.zgyq = this.state.proList[a].code==='1'?'':this.zgyq;
                             }}
                             showsVerticalScrollIndicator={false}/>
                     </View>
                     <View style={styles.keyValue}>
                         <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>检验时间</Text>
                         <ChoiceDate showDate={this.state.data.jcsj||''}
+                            disabled={!this.props.check}
                             changeDate={(date)=>{
                                 this.state.data.jcsj = date;
                                 this.setState({data:this.state.data});
@@ -170,9 +185,9 @@ export default class DoubleCheckDetail extends Component {
                         </View>
                     </TouchableOpacity>
                     <View style={styles.divide}/>
-                    <ChoiceFileComponent getFileID={(theID) => {
-                        // this.setState({fcfj:theID});
-                    }}/>
+                    <ChoiceFileComponent getFileID={(theID) => {}}
+                        businessModule={this.state.data.businessModule}
+                        isAttach={this.state.data.fcjlisAttach}/>
                     <View style={styles.divide}/>
                     <View style={styles.bottomRow}>
                         <Text style={styles.labelColor}>检查结果</Text>
@@ -180,26 +195,57 @@ export default class DoubleCheckDetail extends Component {
                     <View style={styles.textContent}>
                         <TextInput style={styles.textinputStyle}
                             multiline={true}
+                            editable={!this.props.check}
+                            defaultValue={this.state.data.fcjg}
                             autoCapitalize="none"
                             autoCorrect={false}
                             onChangeText={(text) => {this.jianchaResult=text;}}
                             underlineColorAndroid="transparent"/>
                     </View>
-                    <View style={styles.divide}/>
+                    {
+                        this.state.wenti !== '1' &&
+                        <View style={styles.bottomRow}>
+                            <Text style={styles.labelColor}>整改要求</Text>
+                        </View>
+                    }
+                    {
+                        this.state.wenti !== '1' &&
+                        <View style={styles.textContent}>
+                            <TextInput style={styles.textinputStyle}
+                                multiline={true}
+                                defaultValue={this.state.data.zgyq||''}
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                onChangeText={(text) => {this.zgyq=text;}}
+                                underlineColorAndroid="transparent"/>
+                        </View>
+                    }
+                    {
+                        this.state.wenti !== '1' &&
+                        <View style={styles.keyValue}>
+                            <Text style={[styles.labelColor,{marginLeft:width*0.02}]}>是否已现场整改</Text>
+                            <Switch onValueChange={(value) => {this.setState({isFinished:value})}}
+                                    value={this.state.isFinished}/>
+                        </View>
+                    }
+
+                    {
+                        !this.props.fromList &&
+                        <View style={styles.bottomView}>
+                            <TouchableHighlight underlayColor="transparent" onPress={this.saveAndCommit.bind(this)}>
+                                <View style={[styles.btnView, {backgroundColor:'#41cc85'}]}>
+                                    <Text style={styles.btnText}>保存并提交</Text>
+                                </View>
+                            </TouchableHighlight>
+                            <TouchableHighlight underlayColor="transparent" onPress={this.save.bind(this)}>
+                                <View style={[styles.btnView, {backgroundColor:'#216fd0'}]}>
+                                    <Text style={styles.btnText}>保存</Text>
+                                </View>
+                            </TouchableHighlight>
+                        </View>
+                    }
                 </ScrollView>
                 {this.state.isLoading ? <Loading/> : null}
-                <View style={styles.bottomView}>
-                    <TouchableHighlight underlayColor="transparent" onPress={this.saveAndCommit.bind(this)}>
-                        <View style={[styles.btnView, {backgroundColor:'#41cc85'}]}>
-                            <Text style={styles.btnText}>保存并提交</Text>
-                        </View>
-                    </TouchableHighlight>
-                    <TouchableHighlight underlayColor="transparent" onPress={this.save.bind(this)}>
-                        <View style={[styles.btnView, {backgroundColor:'#216fd0'}]}>
-                            <Text style={styles.btnText}>保存</Text>
-                        </View>
-                    </TouchableHighlight>
-                </View>
             </View>
         )
     }
@@ -217,8 +263,8 @@ export default class DoubleCheckDetail extends Component {
             jcbm: this.state.data.jcbm,
             jcsj: this.state.data.jcsj,
             jcjg: this.jianchaResult,
-            zgyq: '',
-            wtlb: this.wenti,
+            zgyq: this.zgyq,
+            wtlb: this.state.wenti,
             sfxczg: this.state.data.sfxczg,
             jcfj: this.state.data.jcfj,
             fcfj: this.state.data.fcfj,
@@ -248,8 +294,8 @@ export default class DoubleCheckDetail extends Component {
             jcbm: this.state.data.jcbm,
             jcsj: this.state.data.jcsj,
             jcjg: this.jianchaResult,
-            zgyq: '',
-            wtlb: this.wenti,
+            zgyq: this.zgyq,
+            wtlb: this.state.wenti,
             sfxczg: this.state.data.sfxczg,
             jcfj: this.state.data.jcfj,
             fcfj: this.state.data.fcfj,
@@ -314,8 +360,7 @@ const styles = StyleSheet.create({
         paddingRight: width*0.02,
         justifyContent: 'center',
         height: 0.12 * width,
-        borderBottomWidth: 1,
-        borderBottomColor: '#dcdcdc',
+        marginBottom :1,
         backgroundColor: 'white'
     },
     textContent: {
@@ -332,7 +377,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderBottomWidth: 1,
         borderBottomColor: '#ddd',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        paddingRight:15
     },
     textStyle: {
         width: width*0.35,
@@ -341,7 +387,7 @@ const styles = StyleSheet.create({
     contentText: {
         flex: 1,
         textAlign: 'right',
-        marginRight: 10
+        fontSize: 14
     },
     bottomView: {
         paddingHorizontal: 25,

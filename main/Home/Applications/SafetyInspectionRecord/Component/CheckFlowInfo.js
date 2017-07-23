@@ -175,8 +175,7 @@ export default class CheckFlowInfo extends Component{
             component: FinishedPath,
             params: {
                 wfName: this.props.wfName,
-                resID: this.props.resID,
-                fromCheckFlowInfo: true
+                resID: this.props.resID
             }
         });
     }

@@ -13,6 +13,7 @@ import {
     TouchableWithoutFeedback,
     Platform
 } from 'react-native';
+import CheckFlowInfo from './CheckFlowInfo.js';
 import ChoiceDate from "../../../../Component/ChoiceDate.js";
 import ChoiceFileComponent from '../../Component/ChoiceFileComponent.js';
 const selectImg = [
@@ -52,6 +53,8 @@ export default class NewCreateRecord extends Component {
             xmbh: '',           //项目编号
             sfxczg: '',         //是否现场整改
             wtlb: '',           //问题类别编码
+            fcjlisAttach: '',
+            businessModule: '',
             questionList: [],
             proList: [],
             choiceFileName: '所选文件名',
@@ -97,6 +100,7 @@ export default class NewCreateRecord extends Component {
                 callID: true
             }
         }).then((res) => {
+            console.log(res);
             if (res.code === 1) {
                 this.setState({
                     jcbm: res.data.jcbm,
@@ -118,7 +122,9 @@ export default class NewCreateRecord extends Component {
                     jcfj: res.data.jcfj,
                     fcjg: res.data.fcjg,
                     sfxczg: res.data.sfxczg,
-                    wtlb: res.data.wtlb
+                    wtlb: res.data.wtlb,
+                    businessModule: res.data.businessModule,
+                    fcjlisAttach: res.data.fcjlisAttach
                 });
             } else {
                 Toash.show(res.message);
@@ -173,9 +179,9 @@ export default class NewCreateRecord extends Component {
                             <Text style={styles.valueText}>{this.state.jcrmc}</Text>
                         </View>
                     </TouchableHighlight>
-                    <ChoiceFileComponent getFileID={(theID) => {
-                        // this.setState({fcfj:theID});
-                    }}/>
+                    <ChoiceFileComponent getFileID={(theID) => {}}
+                        businessModule={this.state.businessModule}
+                        isAttach={this.state.fcjlisAttach}/>
                     <View style={styles.footSeparator}></View>
                     <View style={styles.footIntor}>
                         <Text style={styles.keyText}>检查结果</Text>
@@ -256,8 +262,20 @@ export default class NewCreateRecord extends Component {
                 callID: true
             }).then((res) => {
                 if (res.code === 1) {
-                    Toast.show('保存成功');
-                    this.props.navigator.pop();
+                    if (res.data.isToSubmit) {
+                        //进入流程审批页面
+                        this.props.navigator.push({
+                            name: 'CheckFlowInfo',
+                            component: CheckFlowInfo,
+                            params: {
+                                resID: res.data.aqjcjlId,
+                                wfName: 'jdjhaqjcjl'
+                            }
+                        })
+                    } else {
+                        Toast.show('提交成功');
+                        this.props.navigator.pop();
+                    }
                 } else {
                     Toast.show(res.message);
                 }
