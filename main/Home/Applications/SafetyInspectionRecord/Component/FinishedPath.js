@@ -27,7 +27,7 @@ export default class FinishedPath extends Component{
             <View style={styles.containerStyle}>
                 <StatusBar navigator={this.props.navigator} title="已完成流程步骤"/>
                 <ScrollView>
-                    <View style={[styles.titleContent, {width:(item.text.length*15+0.1*width)}]}>
+                    <View style={[styles.titleContent, {width:(4*15+0.1*width)}]}>
                         <Text style={styles.titleText} numberOfLines={1}>流程步骤</Text>
                     </View>
                     {this.renderRows(this.state.dataSource)}
