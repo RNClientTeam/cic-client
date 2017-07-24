@@ -22,12 +22,16 @@ export default class QualityCheckPlanHeader extends Component {
                 <View style={styles.choiceView}>
                 </View>
                 <View style={styles.indicateView}>
-                    <ConstructPlanChoiceDate changeDate={this.props.changeDate.bind(this)}/>
+                    <ConstructPlanChoiceDate
+                        showDate={this.props.showDate}
+                        changeDate={this.props.changeDate.bind(this)}/>
                     <Image style={styles.indicateImage}
                            source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
                 </View>
                 <View style={styles.rightView}>
-                    <TouchableOpacity style={styles.todayView}>
+                    <TouchableOpacity
+                        style={styles.todayView}
+                        onPress={() => this.props.setToday()}>
                         <Text style={styles.today}>今天</Text>
                     </TouchableOpacity>
                 </View>

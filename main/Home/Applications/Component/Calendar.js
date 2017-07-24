@@ -83,7 +83,10 @@ export default class Calendar extends Component{
 
     componentWillReceiveProps(props){
         this.getSelectedWeek();
-        this.renderAll(parseInt(props.year),parseInt(props.month))
+        this.renderAll(parseInt(props.year),parseInt(props.month));
+        this.setState({
+            selectDate: props.day
+        })
     }
 
     componentDidMount() {
