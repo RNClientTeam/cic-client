@@ -240,6 +240,7 @@ export default class QualityCheckRecord extends Component {
             }
         }).then(data => {
             resolve();
+            console.log(data);
             if (data.code == 1) {
                 if (data.data && data.data.list && data.data.list.length > 0) {
                     if (pageNum == 1) {
