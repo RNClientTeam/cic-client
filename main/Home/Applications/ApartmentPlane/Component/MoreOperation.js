@@ -16,13 +16,7 @@ export default class MoreOperation extends Component {
     constructor(props){
         super(props);
         this.state={
-            data:[
-                {img:require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),name:'填报进展'},
-                {img:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'确认完成'},
-                {img:require('../../../../../resource/imgs/home/applications/stopAction.png'),name:'删除'},
-                {img:require('../../../../../resource/imgs/home/applications/checkDetail.png'),name:'查看详情'},
-                {img:require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),name:'修改'}
-            ]
+            data:[]
         }
     }
 
@@ -50,6 +44,25 @@ export default class MoreOperation extends Component {
             )
         }
         return cs;
+    };
+
+    componentWillReceiveProps(props) {
+        let authList = props.authList;
+        let templateArr = [{img:require('../../../../../resource/imgs/home/applications/checkDetail.png'),name:'查看详情'}];
+        for(let i = 0;i<authList.length;i++){
+            if(authList[i].name === 'edit' && authList[i].show){
+                templateArr.push({img:require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),name:'修改'})
+            }else if(authList[i].name === 'del' && authList[i].show){
+                templateArr.push({img:require('../../../../../resource/imgs/home/applications/stopAction.png'),name:'删除'})
+            }else if(authList[i].name === 'tbjkqk' && authList[i].show){
+                templateArr.push({img:require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),name:'填报进展'})
+            }else if(authList[i].name === 'qrwcqk' && authList[i].show){
+                templateArr.push( {img:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'确认完成'})
+            }
+        }
+        this.setState({
+            data:templateArr
+        })
     }
 }
 

@@ -93,7 +93,7 @@ export default class FillProgress extends Component {
                     isLoading:false
                 });
                 if(data.code === 1){
-                   toast.show('提价成功');
+                   toast.show('提交成功');
                    let that = this;
                    setTimeout(function () {
                        that.props.navigator.pop();

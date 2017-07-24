@@ -38,7 +38,6 @@ export default class CompletionForm extends Component {
                     <Text style={{fontSize:15,fontWeight:'500'}}>部门工作计划1</Text>
                 </View>
                 <KeyPercentage readOnly={true} propKey="当前进度" value={this.state.wcbl} textChange={(value)=>this.setState({wcbl:value})}/>
-                {/*<KeyTime propKey="实际开始时间" showDate={this.state.sjqdsj} changeDate={(date)=>this.setState({sjqdsj:date})}/>*/}
                 <KeyValueRight propKey="实际开始时间" defaultValue={this.state.sjqdsj} readOnly={true}/>
                 {parseInt(this.state.wcbl)===100?
                     <KeyTime propKey="实际完成时间" showDate={this.state.sjwcsj} changeDate={(date)=>this.setState({sjwcsj:date})}/>
@@ -83,12 +82,9 @@ export default class CompletionForm extends Component {
             this.setState({
                 isLoading:true
             });
-            axios.post('/psmBmjh/updateJzqk',{
+            axios.post('/psmBmjh/updateQrwc',{
                 userID:GLOBAL_USERID,
                 jhid:this.props.id,
-                wcqk:this.state.wcbz,
-                wcbl:this.state.wcbl,
-                sjqdsj:this.state.sjqdsj,
                 sjwcsj:this.state.sjwcsj,
                 callID:true
             }).then(data=>{
@@ -96,7 +92,7 @@ export default class CompletionForm extends Component {
                     isLoading:false
                 });
                 if(data.code === 1){
-                    toast.show('提价成功');
+                    toast.show('提交成功');
                     let that = this;
                     setTimeout(function () {
                         that.props.navigator.pop();
