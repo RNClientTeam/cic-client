@@ -84,7 +84,11 @@ export default class ApartmentPlane extends Component{
                         visible={this.state.modalVisible}
                         onRequestClose={() => {this.setState({modalVisible: false})}}
                         style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}>
-                        <MoreOperation operatingItem={this.state.operatingItem} navigator={this.props.navigator} closeModal={()=>this.setState({modalVisible: false})}/>
+                        <MoreOperation
+                            operatingItem={this.state.operatingItem}
+                            reload={this.getDataFromNet.bind(this)}
+                            navigator={this.props.navigator}
+                            closeModal={()=>this.setState({modalVisible: false})}/>
                     </Modal>
                 }
                 {this.state.isLoading?<Loading/>:null}

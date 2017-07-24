@@ -13,8 +13,22 @@ const {width, height} = Dimensions.get('window');
 import StatusBar from '../../../../Component/StatusBar.js';
 import KeyTime from "../../../../Component/KeyTime";
 import KeyPercentage from "../../../../Component/KeyPercentage";
+import Loading from "../../../../Component/Loading";
+import toast from 'react-native-simple-toast'
+import KeyValueRight from "../../../../Component/KeyValueRight";
 
 export default class CompletionForm extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            isLoading:false,
+            jhmc:'',
+            wcbl:'',
+            sjqdsj:'',
+            sjwcsj:'',
+            wcbz:'',
+        }
+    }
 
     render() {
         return (
@@ -23,9 +37,12 @@ export default class CompletionForm extends Component {
                 <View style={styles.itemView}>
                     <Text style={{fontSize:15,fontWeight:'500'}}>部门工作计划1</Text>
                 </View>
-                <KeyPercentage propKey="当前进度" textChange={(value)=>console.log(value)}/>
-                <KeyTime propKey="实际开始时间" showDate="2017-09-11" changeDate={(date)=>console.log(date)}/>
-                <KeyTime propKey="实际完成时间" showDate="2017-09-11" changeDate={(date)=>console.log(date)}/>
+                <KeyPercentage readOnly={true} propKey="当前进度" value={this.state.wcbl} textChange={(value)=>this.setState({wcbl:value})}/>
+                {/*<KeyTime propKey="实际开始时间" showDate={this.state.sjqdsj} changeDate={(date)=>this.setState({sjqdsj:date})}/>*/}
+                <KeyValueRight propKey="实际开始时间" defaultValue={this.state.sjqdsj} readOnly={true}/>
+                {parseInt(this.state.wcbl)===100?
+                    <KeyTime propKey="实际完成时间" showDate={this.state.sjwcsj} changeDate={(date)=>this.setState({sjwcsj:date})}/>
+                    :null}
 
                 <View style={styles.lastItem}>
                     <Text style={styles.textKeySty}>当前完成情况*</Text>
@@ -34,6 +51,13 @@ export default class CompletionForm extends Component {
                         style={styles.textInput}
                         placeholder="在此输入"
                         multiline={true}
+                        onChangeText={(value)=>{
+                            this.setState({
+                                wcbz:value
+                            })
+                        }}
+                        value={this.state.wcbz}
+                        editable={false}
                         autoCapitalize="none"
                         autoCorrect={false}/>
                 </View>
@@ -43,11 +67,79 @@ export default class CompletionForm extends Component {
                         确认提交
                     </Text>
                 </TouchableOpacity>
+                {this.state.isLoading?<Loading/>:null}
             </View>
         );
     }
     clickBtn() {
-        alert('确认提交');
+
+        if(this.state.wcbl===''){
+            toast.show('请填写完成比例');
+        }else if(this.state.sjqdsj===''){
+            toast.show('请填写开始时间')
+        }else if(parseInt(this.state.wcbl)===100&&this.state.sjwcsj===''){
+            toast.show('请填写完成时间')
+        }else{
+            this.setState({
+                isLoading:true
+            });
+            axios.post('/psmBmjh/updateJzqk',{
+                userID:GLOBAL_USERID,
+                jhid:this.props.id,
+                wcqk:this.state.wcbz,
+                wcbl:this.state.wcbl,
+                sjqdsj:this.state.sjqdsj,
+                sjwcsj:this.state.sjwcsj,
+                callID:true
+            }).then(data=>{
+                this.setState({
+                    isLoading:false
+                });
+                if(data.code === 1){
+                    toast.show('提价成功');
+                    let that = this;
+                    setTimeout(function () {
+                        that.props.navigator.pop();
+                        this.props.reload();
+                    })
+                }else{
+                    toast.show(data.message);
+                }
+            }).catch(err=>{
+                toast.show('服务端异常');
+            })
+        }
+    }
+
+    componentDidMount() {
+        this.setState({
+            isLoading:true
+        });
+        axios.get('/psmBmjh/detail',{
+            params:{
+                jhId:this.props.id,
+                userID:GLOBAL_USERID,
+                callID:true
+            }
+        }).then(data=>{
+            this.setState({
+                isLoading:false
+            });
+            if(data.code === 1){
+                data = data.data;
+                this.setState({
+                    jhmc:data.jhmc,
+                    sjqdsj:data.sjqdsj||data.qdsj,
+                    sjwcsj:data.sjwcsj,
+                    wcbl:data.wcbl+'',
+                    wcbz:data.wcbz
+                })
+            }else{
+                toast.show(data.message)
+            }
+        }).catch(err=>{
+            toast.show('服务端异常');
+        })
     }
 }
 

@@ -33,7 +33,7 @@ export default class FinishedPath extends Component{
                 <ScrollView>
                     {
                         this.props.fromCheckFlowInfo &&
-                        <View style={[styles.titleContent, {width:(item.text.length*15+0.1*width)}]}>
+                        <View style={[styles.titleContent, {width:(4*15+0.1*width)}]}>
                             <Text style={styles.titleText} numberOfLines={1}>{this.props.from&&this.props.from==='turnover'?'人员变更':'延期申请'}</Text>
                         </View>
                     }

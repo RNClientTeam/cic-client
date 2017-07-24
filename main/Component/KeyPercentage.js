@@ -28,6 +28,8 @@ export default class KeyPercentage extends Component{
                         onChangeText={(text)=>{
                             if(parseInt(text)>100||parseInt(text)<0){
                                 toast.show('进度范围为0~100')
+                            }else if(text.indexOf('.')>0){
+                                toast.show('请填写整数')
                             }else{
                                 this.props.textChange(text);
                             }

@@ -160,7 +160,7 @@ export default class CheckFlowInfo extends Component{
                 let route;
                 let currentRoutes = this.props.navigator.getCurrentRoutes();
                 currentRoutes.forEach((elem, index) => {
-                    if (elem.name === "EarlierStageDetail") {
+                    if (elem.name === "SsjdjhDetail") {
                         route = elem;
                         return;
                     }

@@ -41,6 +41,7 @@ export default class MoreOperation extends Component {
         for(let i = 0;i<this.state.data.length;i++){
             cs.push(
                 <MoreOperationsCell
+                    reload={this.props.reload.bind(this)}
                     operatingItem={this.props.operatingItem}
                     closeModal={()=>{this.props.closeModal()}}
                     navigator={this.props.navigator}

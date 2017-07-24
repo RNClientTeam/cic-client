@@ -37,9 +37,9 @@ export default class FillProgress extends Component {
                     <Text style={{fontSize:15,fontWeight:'500'}}>部门工作计划1</Text>
                 </View>
                 <KeyPercentage propKey="当前进度" value={this.state.wcbl} textChange={(value)=>this.setState({wcbl:value})}/>
-                <KeyTime propKey="实际开始时间" showDate={this.state.sjqdsj} changeDate={(date)=>this.setState({sjqdsj:value})}/>
+                <KeyTime propKey="实际开始时间" showDate={this.state.sjqdsj} changeDate={(date)=>this.setState({sjqdsj:date})}/>
                 {parseInt(this.state.wcbl)===100?
-                    <KeyTime propKey="实际完成时间" showDate={this.state.sjwcsj} changeDate={(date)=>this.setState({sjwcsj:value})}/>
+                    <KeyTime propKey="实际完成时间" showDate={this.state.sjwcsj} changeDate={(date)=>this.setState({sjwcsj:date})}/>
                 :null}
 
                 <View style={styles.lastItem}>
@@ -69,7 +69,43 @@ export default class FillProgress extends Component {
         );
     }
     clickBtn() {
-        alert('确认提交');
+
+        if(this.state.wcbl===''){
+            toast.show('请填写完成比例');
+        }else if(this.state.sjqdsj===''){
+            toast.show('请填写开始时间')
+        }else if(parseInt(this.state.wcbl)===100&&this.state.sjwcsj===''){
+            toast.show('请填写完成时间')
+        }else{
+            this.setState({
+                isLoading:true
+            });
+            axios.post('/psmBmjh/updateJzqk',{
+                userID:GLOBAL_USERID,
+                jhid:this.props.id,
+                wcqk:this.state.wcbz,
+                wcbl:this.state.wcbl,
+                sjqdsj:this.state.sjqdsj,
+                sjwcsj:this.state.sjwcsj,
+                callID:true
+            }).then(data=>{
+                this.setState({
+                    isLoading:false
+                });
+                if(data.code === 1){
+                   toast.show('提价成功');
+                   let that = this;
+                   setTimeout(function () {
+                       that.props.navigator.pop();
+                       this.props.reload();
+                   })
+                }else{
+                    toast.show(data.message);
+                }
+            }).catch(err=>{
+                toast.show('服务端异常');
+            })
+        }
     }
 
     componentDidMount() {
@@ -87,12 +123,13 @@ export default class FillProgress extends Component {
                 isLoading:false
             });
             if(data.code === 1){
+                data = data.data;
                 this.setState({
                     jhmc:data.jhmc,
                     sjqdsj:data.sjqdsj||data.qdsj,
                     sjwcsj:data.sjwcsj,
-                    wcbl:data.wcbl,
-                    wcbz:wcbz
+                    wcbl:data.wcbl+'',
+                    wcbz:data.wcbz
                 })
             }else{
                 toast.show(data.message)
