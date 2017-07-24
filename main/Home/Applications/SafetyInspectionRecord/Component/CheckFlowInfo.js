@@ -83,6 +83,7 @@ export default class CheckFlowInfo extends Component{
                                 options={this.state.optionListName}
                                 animated={true}
                                 defaultValue={'请选择>'}
+                                enableEmptySections={true}
                                 style={{flex:1, alignItems:'flex-end'}}
                                 onSelect={(a) => {
                                     this.setState({actionID:this.state.optionListID[a]});
