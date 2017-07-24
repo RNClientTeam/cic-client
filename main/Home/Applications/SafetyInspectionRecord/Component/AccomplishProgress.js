@@ -26,6 +26,8 @@ import KeyValueLeft from "../../../../Component/KeyValueLeft";
 import ChoiceFileComponent from "../../Component/ChoiceFileComponent";
 import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'
 import CheckFlowInfo from "./CheckFlowInfo";
+import KeyValueRight from "../../../../Component/KeyValueRight";
+
 export default class AccomplishProgress extends Component {
     constructor(props) {
         super(props);
@@ -36,15 +38,15 @@ export default class AccomplishProgress extends Component {
             wtlbCodes: [],
             wtlbCns: [],
             wtlbmc: '请选择问题类别',
-            zgzrr:'',
-            zgzrrmc:'',
-            zgzrbm:'',
-            zgwcsj:getCurrentDate(),
-            sjwcsj:getCurrentDate(),
-            zgyq:'',
-            zcjg:'',
-            aqjcjlId:'',
-            id:''
+            zgzrr: '',
+            zgzrrmc: '',
+            zgzrbm: '',
+            zgwcsj: getCurrentDate(),
+            sjwcsj: getCurrentDate(),
+            zgyq: '',
+            zcjg: '',
+            aqjcjlId: '',
+            id: ''
         };
     }
 
@@ -59,8 +61,8 @@ export default class AccomplishProgress extends Component {
                 <StatusBar title="整改任务完成情况" navigator={this.props.navigator}/>
                 <ScrollView>
                     {
-                        this.props.readOnly?
-                            <KeyValueLeft propsKey="问题类别" propsValue={this.state.wtlbmc}/>:
+                        this.props.readOnly||this.props.type==='填报完成情况' ?
+                            <KeyValueRight propKey="问题类别" readOnly={true} defaultValue={this.state.wtlbmc}/>:
                             <View style={styles.cellStyle}>
                                 <Text style={{color: '#216fd0'}}>问题类别</Text>
                                 <View style={styles.indicateView}>
@@ -74,7 +76,7 @@ export default class AccomplishProgress extends Component {
                                         onSelect={(a) => {
                                             this.setState({
                                                 wtlb: this.state.wtlbCodes[a],
-                                                wtlbmc:this.state.wtlbCns[a]
+                                                wtlbmc: this.state.wtlbCns[a]
                                             })
                                         }}
                                         showsVerticalScrollIndicator={false}
@@ -87,48 +89,58 @@ export default class AccomplishProgress extends Component {
                     }
 
                     {
-                        this.props.readOnly?
-                            <KeyValueLeft propsKey="整改责任人" propsValue={this.state.zgzrrmc}/>:
-                            <KeySelect propKey="整改责任人" value={this.state.zgzrrmc} choiceInfo={this.choicePeople.bind(this)}/>
+                        this.props.readOnly ||this.props.type==='填报完成情况'?
+                            <KeyValueRight propKey="整改责任人" readOnly={true} defaultValue={this.state.zgzrrmc}/>:
+                            <KeySelect propKey="整改责任人" value={this.state.zgzrrmc}
+                                       choiceInfo={this.choicePeople.bind(this)}/>
                     }
                     {
-                        this.props.readOnly?
-                            <KeyValueLeft propsKey="要求完成时间" propsValue={this.state.zgwcsj}/>:
+                        this.props.readOnly ||this.props.type==='填报完成情况'?
+                            <KeyValueRight propKey="要求完成时间" readOnly={true} defaultValue={this.state.zgwcsj}/>
+                            :
                             <KeyTime propKey="要求完成时间"
                                      onlyDate={true}
-                                     changeDate={(date)=>this.setState({zgwcsj:date})}
+                                     changeDate={(date) => this.setState({zgwcsj: date})}
                                      showDate={this.state.zgwcsj}/>
                     }
 
                     {
-                        this.props.readOnly?
-                            <KeyValueLeft propsKey="实际完成时间" propsValue={this.state.sjwcsj}/>:
+                        this.props.readOnly||this.props.type ==='编辑' ?
+
+                            <KeyValueRight propKey="实际完成时间" readOnly={true} defaultValue={this.state.sjwcsj}/> :
                             <KeyTime propKey="实际完成时间"
                                      onlyDate={true}
-                                     changeDate={(date)=>this.setState({sjwcsj:date})}
+                                     changeDate={(date) => this.setState({sjwcsj: date})}
                                      showDate={this.state.sjwcsj}/>
                     }
+                    <View style={{height: 10}}/>
+                    {
+                        this.state.wtlbmc === '正常' ?
+                            null
+                            : <KeyValueN propKey="整改要求"
+                                         readOnly={this.props.readOnly||this.props.type==='填报完成情况'}
+                                         value={this.state.zgyq}
+                                         textChange={(text) => this.setState({zgyq: text})}
+                            />
+                    }
+                    <View style={{height: 10}}/>
+                    {
+                        this.state.wtlbmc === '正常' ?null
+                            : <KeyValueN propKey="整改情况"
+                                         readOnly={this.props.readOnly||this.props.type==='编辑'}
+                                         value={this.state.zcjg}
+                                         textChange={(text) => this.setState({zcjg: text})}
+                            />
+                    }
 
-                    <View style={{height:10}}/>
-
-                    <KeyValueN propKey="整改要求"
-                               readOnly={this.props.readOnly}
-                               value={this.state.zgyq}
-                               textChange={(text)=>this.setState({zgyq:text})}
-                    />
-                    <View style={{height:10}}/>
-                    <KeyValueN propKey="整改情况"
-                               readOnly={this.props.readOnly}
-                               value={this.state.zcjg}
-                               textChange={(text)=>this.setState({zcjg:text})}
-                    />
-                    <View style={{height:10}}/>
-                    <ChoiceFileComponent getFileID={(ids)=>{alert(ids)}}/>
-                    <CheckFlowInfo/>
+                    <View style={{height: 10}}/>
+                    <ChoiceFileComponent getFileID={(ids) => {
+                        alert(ids)
+                    }}/>
                 </ScrollView>
                 {
-                    this.props.readOnly?
-                        null:
+                    this.props.readOnly ?
+                        null :
                         <TouchableOpacity style={styles.bottomBtn} onPress={this.saveAndCommit.bind(this)}>
                             <Text style={{fontSize: 15, color: '#fff'}}>保存</Text>
                         </TouchableOpacity>
@@ -161,45 +173,45 @@ export default class AccomplishProgress extends Component {
      * 保存
      */
     saveAndCommit() {
-        if(this.props.type === '新建'){
-            if(this.state.wtlb === ''){
+        if (this.props.type === '新建') {
+            if (this.state.wtlb === '') {
                 toast.show('请选择问题类别');
-            }else if(this.state.zgyq === ''){
+            } else if (this.state.zgyq === '') {
                 toast.show('请填写整改要求');
-            }else if(this.state.zgzrr === ''){
+            } else if (this.state.zgzrr === '') {
                 toast.show('请选择整改责任人');
-            }else if(this.state.zcjg === ''){
+            } else if (this.state.zcjg === '') {
                 toast.show('请填写整改情况');
-            }else{
+            } else {
                 this.showLoading();
-                axios.post('psmAqjcjh/saveZgrw',{
-                    userID:GLOBAL_USERID,
-                    id:'',
-                    aqjcjlId:this.props.aqjcjlId,
-                    wtlb:this.state.wtlb,
-                    zgyq:this.state.zgyq,
-                    zgzrbm:this.state.zgzrbm,
-                    zgzrr:this.state.zgzrr,
-                    zgwcsj:this.state.zgwcsj,
-                    sjwcsj:this.state.sjwcsj,
-                    zcjg:this.state.zcjg
-                }).then(data=>{
+                axios.post('psmAqjcjh/saveZgrw', {
+                    userID: GLOBAL_USERID,
+                    id: '',
+                    aqjcjlId: this.props.aqjcjlId,
+                    wtlb: this.state.wtlb,
+                    zgyq: this.state.zgyq,
+                    zgzrbm: this.state.zgzrbm,
+                    zgzrr: this.state.zgzrr,
+                    zgwcsj: this.state.zgwcsj,
+                    sjwcsj: this.state.sjwcsj,
+                    zcjg: this.state.zcjg
+                }).then(data => {
                     this.hideLoading();
-                    if(data.code === 1){
+                    if (data.code === 1) {
                         this.props.navigator.push({
-                            name:"",
-                            component:CheckFlowInfo,
-                            params:{
-                                resID:data.data,
-                                reloadInfo:this._reloadInfo.bind(this),
+                            name: "",
+                            component: CheckFlowInfo,
+                            params: {
+                                resID: data.data,
+                                reloadInfo: this._reloadInfo.bind(this),
                                 // TODO
-                                wfName:'待确认'
+                                wfName: 'jdjhaqjdjl'
                             }
                         })
-                    }else{
+                    } else {
                         toast.show(data.message);
                     }
-                }).catch(err=>{
+                }).catch(err => {
                     toast.show('服务端异常')
                 })
             }
@@ -207,26 +219,26 @@ export default class AccomplishProgress extends Component {
         }
     }
 
-    _reloadInfo(){
-        RCTDeviceEventEmitter.emit('reloadZGList',{});
+    _reloadInfo() {
+        RCTDeviceEventEmitter.emit('reloadZGList', {});
     }
 
     componentDidMount() {
         this._getWtlb();
-        if(this.props.type==='查看详情'||this.props.type==='编辑'){
+        if (this.props.type === '查看详情' || this.props.type === '编辑') {
             this._initPage();
         }
     }
 
-    showLoading(){
+    showLoading() {
         this.setState({
-            isLoading:true
+            isLoading: true
         })
     }
 
-    hideLoading(){
+    hideLoading() {
         this.setState({
-            isLoading:false
+            isLoading: false
         })
     }
 
@@ -234,36 +246,36 @@ export default class AccomplishProgress extends Component {
      * 查看详情
      * @private
      */
-    _initPage(){
+    _initPage() {
         this.showLoading();
-        axios.get('/psmAqjcjh/init4Zgrw',{
-            params:{
-                userID:GLOBAL_USERID,
-                id:this.props.id,
-                callID:true
+        axios.get('/psmAqjcjh/init4Zgrw', {
+            params: {
+                userID: GLOBAL_USERID,
+                id: this.props.id,
+                callID: true
             }
-        }).then(data=>{
+        }).then(data => {
             this.hideLoading();
-            if(data.code ===1){
+            if (data.code === 1) {
                 this.setState({
-                    aqjcjlId:data.data.aqjcjlId,
-                    id:data.data.id,
-                    zgwcsj:data.data.zgwcsj,
-                    sjwcsj:data.data.sjwcsj,
-                    wtlbmc:data.data.wtlbmc,
-                    zgzrr:data.data.zgzrr,
-                    zgyq:data.data.zgyq,
-                    zcjg:data.data.zcjg,
-                    dqzt:data.data.dqzt,
-                    zgzrbm:data.data.zgzrbm,
-                    zgzrrmc:data.data.zgzrrmc,
-                    wtlb:data.data.wtlb
+                    aqjcjlId: data.data.aqjcjlId,
+                    id: data.data.id,
+                    zgwcsj: data.data.zgwcsj,
+                    sjwcsj: data.data.sjwcsj,
+                    wtlbmc: data.data.wtlbmc,
+                    zgzrr: data.data.zgzrr,
+                    zgyq: data.data.zgyq,
+                    zcjg: data.data.zcjg,
+                    dqzt: data.data.dqzt,
+                    zgzrbm: data.data.zgzrbm,
+                    zgzrrmc: data.data.zgzrrmc,
+                    wtlb: data.data.wtlb
                 })
-            }else{
+            } else {
                 toast.show(data.message)
             }
             console.log(data);
-        }).catch(err=>{
+        }).catch(err => {
             this.hideLoading();
             toast.show('服务端异常');
         })
@@ -298,7 +310,7 @@ export default class AccomplishProgress extends Component {
             } else {
                 toast.show(data.message)
             }
-        }).catch(err=>{
+        }).catch(err => {
             this.hideLoading();
             toast.show('服务端异常');
         })

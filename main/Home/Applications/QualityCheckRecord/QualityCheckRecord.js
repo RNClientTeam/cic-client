@@ -241,6 +241,10 @@ export default class QualityCheckRecord extends Component {
             }
         }).then(data => {
             resolve();
+            console.log(data);
+            this.setState({
+                isLoading: false
+            });
             if (data.code == 1) {
                 if (data.data && data.data.list && data.data.list.length > 0) {
                     if (pageNum == 1) {
@@ -265,6 +269,9 @@ export default class QualityCheckRecord extends Component {
             }
         }).catch(err => {
             resolve();
+            this.setState({
+                isLoading: false
+            });
             toast.show('服务端异常');
             return false;
         })

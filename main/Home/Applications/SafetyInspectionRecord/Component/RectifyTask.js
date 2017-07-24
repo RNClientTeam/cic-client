@@ -18,12 +18,14 @@ import CheckRecord from './CheckRecord.js';
 import ReformTask from './ReformTask.js';
 import ReviewRecord from './ReviewRecord.js';
 import AccomplishProgress from "./AccomplishProgress";
+import toast from 'react-native-simple-toast'
 
 export default class RectifyTask extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            addIcon: false
+            addIcon: false,
+            canAdd:false
         }
     }
     render() {
@@ -31,11 +33,12 @@ export default class RectifyTask extends Component {
             <View style={styles.flex}>
                 <StatusBar title="下达整改任务" navigator={this.props.navigator}>
                     {
-                        this.state.addIcon &&
-                        <TouchableOpacity
-                            onPress={() => this.addModification()}>
-                            <Image style={styles.icon} source={require('../../../../../resource/imgs/home/earlierStage/add.png')}/>
-                        </TouchableOpacity>
+                        this.state.addIcon&&this.state.canAdd?
+                            <TouchableOpacity
+                                onPress={() => this.addModification()}>
+                                <Image style={styles.icon} source={require('../../../../../resource/imgs/home/earlierStage/add.png')}/>
+                            </TouchableOpacity>:null
+
                     }
                 </StatusBar>
                 <ScrollableTabView
@@ -53,6 +56,26 @@ export default class RectifyTask extends Component {
                 </ScrollableTabView>
             </View>
         );
+    }
+
+    componentDidMount() {
+        axios.get('/psmAqjcjh/operationAuthority4add',{
+            params:{
+                userID:GLOBAL_USERID,
+                type:'addAqjcjl',
+                callID:true
+            }
+        }).then(data=>{
+            if(data.code === 1){
+                this.setState({
+                    canAdd:data.data.addAqjcjl
+                })
+            }else{
+                toast.show(data.message);
+            }
+        }).catch(err=>{
+            toast.show('服务端异常');
+        })
     }
 
     addModification() {

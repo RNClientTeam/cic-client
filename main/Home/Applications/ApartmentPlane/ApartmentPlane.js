@@ -36,7 +36,7 @@ export default class ApartmentPlane extends Component{
             rwzt:'请选择任务状态',
             dataList:[],
             operatingItem:{},
-            authList:[]
+            authList:[],
         }
     }
 
@@ -88,6 +88,7 @@ export default class ApartmentPlane extends Component{
                             operatingItem={this.state.operatingItem}
                             reload={this.getDataFromNet.bind(this)}
                             navigator={this.props.navigator}
+                            authList = {this.state.authList}
                             closeModal={()=>this.setState({modalVisible: false})}/>
                     </Modal>
                 }
@@ -135,6 +136,7 @@ export default class ApartmentPlane extends Component{
         this.getDataFromNet();
     }
     _getAuthList(jhId){
+        this.showLoading();
         this.setState({modalVisible:true});
         axios.get('/psmBmjh/getOperationAuthority4Bmjh',{
             params:{
@@ -143,8 +145,25 @@ export default class ApartmentPlane extends Component{
                 callID:true
             }
         }).then(data=>{
-            console.log(data)
-            this.setState({modalVisible:true})
+            this.hideLoading();
+            if(data.code === 1){
+                let arr = [];
+                for(let item in data.data){
+                    let templateObj = {};
+                    templateObj.name = item;
+                    templateObj.show=data.data[item];
+                    arr.push(templateObj);
+                }
+                this.setState({
+                    modalVisible:true,
+                    authList:arr
+                })
+            }else{
+                toast.show(data.message)
+            }
+        }).catch(err=>{
+            this.hideLoading();
+            toast.show('服务端异常');
         })
     }
     getDataFromNet(pageNum=1,resolve=()=>{}){

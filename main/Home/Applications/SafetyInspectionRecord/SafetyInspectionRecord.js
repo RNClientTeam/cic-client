@@ -159,6 +159,7 @@ export default class SafetyInspectionRecord extends Component{
                 isLoading:false
             });
             if(data.code === 1){
+                resolve();
                 if(data.data.data&&data.data.data.length>0){
                     if(pageNum === 1){
                         this.setState({
@@ -172,6 +173,7 @@ export default class SafetyInspectionRecord extends Component{
                             dataSource:this.state.dataSource
                         })
                     }
+
                     return true;
                 } else {
                     return false;
@@ -180,7 +182,6 @@ export default class SafetyInspectionRecord extends Component{
                 toast.show(data.message);
                 return false;
             }
-            resolve();
         }).catch(err=>{
             this.setState({isLoading:false});
             toast.show('服务端异常');

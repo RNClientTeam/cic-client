@@ -32,16 +32,17 @@ export default class ConstructPlan extends Component{
             rwlx:0,
             calendarState:[],
             isLoading:false,
-            taskList:[]
+            taskList:[],
+            canEdit:false
         }
     }
     render(){
         return(
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="施工日计划">
-                    <TouchableOpacity onPress={()=>this.props.navigator.push({name:'NewProject',component:NewProject,params:{reload:()=>{this.getDataFronNet();this.getTask()}}})}>
+                    {this.state.canEdit?<TouchableOpacity onPress={()=>this.props.navigator.push({name:'NewProject',component:NewProject,params:{reload:()=>{this.getDataFronNet();this.getTask()}}})}>
                         <Image style={[styles.filtrate, {marginLeft:-width*0.045-10}]} source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
-                    </TouchableOpacity>
+                    </TouchableOpacity>:null}
                     <TouchableOpacity onPress={()=>{this.skipPage()}}>
                         <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/constuctPlan/projectList.png')}/>
                     </TouchableOpacity>
@@ -116,6 +117,22 @@ export default class ConstructPlan extends Component{
     componentDidMount() {
         this.getDataFronNet();
         this.getTask();
+        axios.get('/psmSgrjh/getOperationAuthority4SgrjhCreate',{
+            params:{
+                userID:GLOBAL_USERID,
+                callID:true
+            }
+        }).then(data=>{
+            if(data.code === 1){
+                this.setState({
+                    canEdit:data.data.newcreate
+                })
+            }else{
+                toast.show(data.message)
+            }
+        }).catch(err=>{
+            toast.show('服务端异常');
+        })
     }
 
     getDataFronNet(){
@@ -127,7 +144,7 @@ export default class ConstructPlan extends Component{
         axios.get('/psmSgrjh/calendar4rjh',{
             params:{
                 userID:GLOBAL_USERID,
-                month:this.state.year+'-'+(this.state.month+1),
+                month:this.state.year+'-'+((this.state.month+1<10?'0'+(this.state.month+1):this.state.month+1)),
                 zxid:this.state.zxid,
                 rwlx:this.state.rwlx,
                 lx:lx,
@@ -157,14 +174,13 @@ export default class ConstructPlan extends Component{
         axios.get('/psmSgrjh/list4Rjh',{
             params:{
                 userID:GLOBAL_USERID,
-                date:this.state.year+'-'+(this.state.month+1)+'-'+this.state.day,
+                date:this.state.year+'-'+((this.state.month+1).toString().padStart(2,0))+'-'+(this.state.day.toString().padStart(2,0)),
                 zxid:this.state.zxid,
                 rwlx:0,
                 lx:lx,
                 callID:true
             }
         }).then(data=>{
-            console.info(data);
             this.hideLoading();
             if(data.code === 1){
                 this.setState({

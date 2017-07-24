@@ -35,7 +35,7 @@ export default class ReformTask extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <PullList
+                <ListView
                     topIndicatorHeight={60}
                     dataSource={this.ds.cloneWithRows(this.state.dataSource)}
                     renderRow={this.renderRow.bind(this)}
@@ -85,14 +85,6 @@ export default class ReformTask extends Component {
                 callID: true
             }
         }).then(data => {
-            data = {
-                "code": 1,
-                "data": {
-                    "tbzgqk": false,
-                    "editzgrw": true
-                },
-                "message": "成功"
-            };
             if (data.code === 1) {
                 this.setState({
                     modalVisible: true,

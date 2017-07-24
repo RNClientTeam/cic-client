@@ -15,23 +15,25 @@ import ProjectTagName from "./ProjectTagName";
 import IndexProjectListCell from "./IndexProjectListCell";
 import ModalView from "./ModalView";
 import {getCurrentDate} from '../../../../Util/Util'
+
 const {width} = Dimensions.get('window');
 import toast from 'react-native-simple-toast'
+
 export default class DayProjectListContainer extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             modalVisible: false,
-            currentItem:{},
-            authList:[]
+            currentItem: {},
+            authList: []
         }
     }
 
     render() {
         return (
             <View style={{flex: 1}}>
-                <ScrollView >
+                <ScrollView>
                     {this.renderContent(this.props.dataSource)}
                 </ScrollView>
                 <Modal
@@ -43,22 +45,26 @@ export default class DayProjectListContainer extends Component {
                     }}
                     style={{backgroundColor: 'rgba(0, 0, 0,0.75)'}}
                 >
-                    <ModalView authList={this.state.authList} reload={()=>this.props.reload()} currentItem={this.state.currentItem} navigator={this.props.navigator} hiddenModal={() => {
-                        this.setState({modalVisible: false})
-                    }}/>
+                    <ModalView
+                        authList={this.state.authList}
+                        reload={() => this.props.reload()}
+                        currentItem={this.state.currentItem}
+                        navigator={this.props.navigator}
+                        hiddenModal={() => {
+                            this.setState({modalVisible: false})
+                        }}/>
                 </Modal>
             </View>
         )
     }
 
-    setCurrentItem(item){
+    setCurrentItem(item) {
         this.setState({
-            currentItem:item
+            currentItem: item
         })
     }
 
     renderContent(list) {
-        console.log(list);
         return list.map((items, index) =>
             (
                 <View key={index}>
@@ -71,50 +77,50 @@ export default class DayProjectListContainer extends Component {
 
     renderInsert(list) {
         return list.map((item, index) =>
-            (<IndexProjectListCell setCurrentItem={(item)=>this.setCurrentItem(item)} item={item} key={index} showModal={() => this._showModal(item)}/>)
+            (<IndexProjectListCell setCurrentItem={(item) => this.setCurrentItem(item)} item={item} key={index}
+                                   showModal={() => this._showModal(item)}/>)
         )
     }
 
-    _showModal(item){
-
-        axios.get('/psmSgrjh/getOperationAuthority4Sgrjh',{
-            params:{
-                userID:GLOBAL_USERID,
-                id:item.rwid,
-                sgcy:item.sgcy,
-                date:getCurrentDate(),
-                callID:true
+    _showModal(item) {
+        axios.get('/psmSgrjh/getOperationAuthority4Sgrjh', {
+            params: {
+                userID: GLOBAL_USERID,
+                rwid: item.rwid,
+                jhrwid: item.jhrwid,
+                date: getCurrentDate().trim(),
+                callID: true
             }
-        }).then(data=>{
-           // TODO
-            data = {
-                "code": 1,
-                "data": {
-                    "tg": true,
-                    "kg": true,
-                    " lsxj": true,
-                    " tbwcqk ":false,
-                    " qrwcqk ": false
-                },
-                "message": "成功"
-            };
-            if(data.code === 1){
+        }).then(data => {
+            // TODO
+            if (data.code === 1) {
                 let tempArr = [];
-                for(let item in data.data){
-                    let tempObj = {};
-                    tempObj.key=item;
-                    tempObj.value=data.data[item];
-                    tempArr.push(tempObj)
+                let result = false;
+                for (let item in data.data) {
+                    if(data.data[item]){
+                        result = data.data[item]
+                    }
                 }
-                this.setState({
-                    authList:tempArr,
-                    modalVisible: true
-                })
+                if(result){
+                    for (let item in data.data) {
+                        let tempObj = {};
+                        tempObj.key = item;
+                        tempObj.value = data.data[item];
+                        tempArr.push(tempObj)
+                    }
+                    this.setState({
+                        authList: tempArr,
+                        modalVisible: true
+                    })
+                }else{
+                    toast.show('您当前没有任何操作权限');
+                }
 
-            }else{
+            } else {
                 toast.show(data.message)
             }
-        }).catch(err=>{
+        }).catch(err => {
+            console.error(err)
             toast.show('服务端异常');
         })
     }
