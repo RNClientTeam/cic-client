@@ -11,15 +11,12 @@ import {
     ScrollView,
     TouchableOpacity,
     TouchableWithoutFeedback,
-    Platform
+    Platform,
+    Switch
 } from 'react-native';
 import CheckFlowInfo from './CheckFlowInfo.js';
 import ChoiceDate from "../../../../Component/ChoiceDate.js";
 import ChoiceFileComponent from '../../Component/ChoiceFileComponent.js';
-const selectImg = [
-    require('../../../../../resource/imgs/home/constuctPlan/choiced.png'),
-    require('../../../../../resource/imgs/home/constuctPlan/unchoiced.png')
-];
 import Toast from 'react-native-simple-toast';
 import Organization from '../../../../Organization/Organization.js';
 const {width, height} = Dimensions.get('window');
@@ -30,7 +27,6 @@ export default class NewCreateRecord extends Component {
     constructor(props) {
         super(props);
         this.imageId = [];      //图片附件的id
-        this.wenti = '';
         this.jianchaResult = '';
         this.state = {
             jcbm: '',           //检查部门
@@ -51,13 +47,15 @@ export default class NewCreateRecord extends Component {
             jcfj: '',           //检查附件ID
             fcjg: '',           //复查结果
             xmbh: '',           //项目编号
-            sfxczg: '',         //是否现场整改
+            sfxczg: false,      //是否现场整改
             wtlb: '',           //问题类别编码
+            zgyq: '',           //整改要求
             fcjlisAttach: '',
             businessModule: '',
             questionList: [],
             proList: [],
             choiceFileName: '所选文件名',
+            wenti: ''
         }
     }
 
@@ -100,7 +98,6 @@ export default class NewCreateRecord extends Component {
                 callID: true
             }
         }).then((res) => {
-            console.log(res);
             if (res.code === 1) {
                 this.setState({
                     jcbm: res.data.jcbm,
@@ -121,7 +118,7 @@ export default class NewCreateRecord extends Component {
                     gczxId: res.data.gczxId,
                     jcfj: res.data.jcfj,
                     fcjg: res.data.fcjg,
-                    sfxczg: res.data.sfxczg,
+                    sfxczg: res.data.sfxczg==1?true:false,
                     wtlb: res.data.wtlb,
                     businessModule: res.data.businessModule,
                     fcjlisAttach: res.data.fcjlisAttach
@@ -164,7 +161,11 @@ export default class NewCreateRecord extends Component {
                             style={{flex:1, alignItems:'flex-end'}}
                             textStyle={{fontSize:14}}
                             onSelect={(a) => {
-                                this.wenti = this.state.proList[a].code;
+                                this.setState({
+                                    wenti: this.state.proList[a].code,
+                                    sfxczg: this.state.proList[a].code==='1'?false:this.state.sfxczg,
+                                    zgyq: this.state.proList[a].code==='1'?'':this.state.zgyq
+                                });
                             }}
                             showsVerticalScrollIndicator={false}/>
                     </View>
@@ -195,6 +196,32 @@ export default class NewCreateRecord extends Component {
                             underlineColorAndroid="transparent"
                             placeholder=""/>
                     </View>
+                    {
+                        this.state.wenti !== '1' &&
+                        <View style={styles.footIntor}>
+                            <Text style={styles.keyText}>整改要求</Text>
+                        </View>
+                    }
+                    {
+                        this.state.wenti !== '1' &&
+                        <View style={styles.footInfo}>
+                            <TextInput style={styles.textinputStyle}
+                                multiline={true}
+                                defaultValue={this.state.zgyq||''}
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                onChangeText={(text) => {this.setState({zgyq:text})}}
+                                underlineColorAndroid="transparent"/>
+                        </View>
+                    }
+                    {
+                        this.state.wenti !== '1' &&
+                        <View style={styles.viewStyle}>
+                            <Text style={styles.keyText}>是否已现场整改</Text>
+                            <Switch onValueChange={(value) => {this.setState({sfxczg:value})}}
+                                    value={this.state.sfxczg}/>
+                        </View>
+                    }
                 </ScrollView>
                 <View style={styles.bottomView}>
                     <TouchableHighlight underlayColor="transparent" onPress={this.saveAndCommit.bind(this)}>
@@ -254,9 +281,9 @@ export default class NewCreateRecord extends Component {
                 jcbm: this.state.jcbm,
                 jcsj: this.state.jcsj,
                 jcjg: this.jianchaResult,
-                zgyq: '',
-                wtlb: this.wenti,
-                sfxczg: this.state.sfxczg,
+                zgyq: this.state.zgyq,
+                wtlb: this.state.wenti,
+                sfxczg: this.state.sfxczg?'1':'0',
                 jcfj: this.state.jcfj,
                 fcfj: this.state.fcfj,
                 callID: true
@@ -307,9 +334,9 @@ export default class NewCreateRecord extends Component {
                 jcbm: this.state.jcbm,
                 jcsj: this.state.jcsj,
                 jcjg: this.jianchaResult,
-                zgyq: '',
-                wtlb: this.wenti,
-                sfxczg: this.state.sfxczg,
+                zgyq: this.state.zgyq,
+                wtlb: this.state.wenti,
+                sfxczg: this.state.sfxczg?'1':'0',
                 jcfj: this.state.jcfj,
                 fcfj: this.state.fcfj,
                 callID: true

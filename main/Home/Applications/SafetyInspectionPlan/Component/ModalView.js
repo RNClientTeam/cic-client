@@ -11,11 +11,11 @@ import {
     Image,
     TouchableOpacity
 } from 'react-native'
-import {getCurrentDate} from '../../../../Util/Util'
-import ChoiceDate from "../../../../Component/ChoiceDate";
+import ModalDropdown from 'react-native-modal-dropdown';
+import toast from 'react-native-simple-toast';
+
 const {width, height} = Dimensions.get('window');
 const Platform = require('Platform');
-import ModalDropdown from 'react-native-modal-dropdown';
 export default class ModalView extends Component {
     constructor(props){
         super(props);
@@ -26,40 +26,24 @@ export default class ModalView extends Component {
         };
 
         this.state={
-            ksrq: this.props.ksrq,
-            jsrq: this.props.jsrq,
             jhlx: this.props.jhlx,
             jhlxmc: this.jhlxMap[this.props.jhlx],
+            rwzt: this.props.rwzt,
+            rwztCodeList: [],
+            rwztmcList: [],
+            rwztMap: {},
         }
     }
 
     componentDidMount() {
         // 获取计划类型
         this.getDict();
+        this.getRwzt();
     }
 
     render() {
         return (
             <View style={[styles.earlierStageListModalView,Platform.OS === 'android' ?{top:44}:{top:64}]}>
-                <View style={styles.containerStyle}>
-                    <Text style={styles.nameStyle}>开始时间</Text>
-                    <View style={styles.indicateView}>
-                        <ChoiceDate
-                            showDate={this.state.ksrq}
-                            changeDate={(date)=>{this.setState({ksrq: date});}}/>
-                        <Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
-                    </View>
-
-                </View>
-                <View style={styles.containerStyle}>
-                    <Text style={styles.nameStyle}>结束时间</Text>
-                    <View style={styles.indicateView}>
-                        <ChoiceDate
-                            showDate={this.state.jsrq}
-                            changeDate={(date)=>{this.setState({jsrq: date});}}/>
-                        <Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
-                    </View>
-                </View>
                 <View style={styles.containerStyle}>
                     <Text style={styles.nameStyle}>计划类型</Text>
                     <View style={styles.indicateView}>
@@ -80,34 +64,38 @@ export default class ModalView extends Component {
                         <Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
                     </View>
                 </View>
-                {/*<View style={styles.containerStyle}>*/}
-                    {/*<Text style={styles.nameStyle}>当前状态</Text>*/}
-                    {/*<View style={styles.indicateView}>*/}
-                        {/*<ModalDropdown*/}
-                            {/*options={['任务 1', '任务 2','任务 3','任务 4']}*/}
-                            {/*animated={true}*/}
-                            {/*defaultValue={this.state.currentStatus}*/}
-                            {/*style={styles.modalDropDown}*/}
-                            {/*textStyle={styles.modalDropDownText}*/}
-                            {/*dropdownStyle={styles.dropdownStyle}*/}
-                            {/*onSelect={(a)=>{console.log(a)}}*/}
-                            {/*showsVerticalScrollIndicator={false}*/}
-                        {/*/>*/}
-                        {/*<Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>*/}
-                    {/*</View>*/}
-                {/*</View>*/}
+                <View style={styles.containerStyle}>
+                    <Text style={styles.nameStyle}>任务状态</Text>
+                    <View style={styles.indicateView}>
+                        <ModalDropdown
+                            options={this.state.rwztmcList}
+                            animated={true}
+                            defaultValue={this.state.rwztmc}
+                            style={styles.modalDropDown}
+                            textStyle={styles.modalDropDownText}
+                            dropdownStyle={styles.dropdownStyle}
+                            onSelect={index=>{
+                                this.setState({
+                                    rwzt: this.state.rwztCodeList[index]
+                                })
+                            }}
+                            showsVerticalScrollIndicator={false}
+                        />
+                        <Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
+                    </View>
+                </View>
                 <View style={styles.buttonView}>
                     <TouchableOpacity
                         style={[styles.clickButton,{backgroundColor:'#dbdada'}]}
                         onPress={
-                            () => this.props.closeModal(2, this.state.ksrq, this.state.jsrq, this.state.jhlx)
+                            () => this.props.closeModal(2, this.state.jhlx, this.state.rwzt)
                         }>
                         <Text style={{color:'#3d3d3d',fontWeight:'200'}}>重置</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={[styles.clickButton,{backgroundColor:'#216fd0'}]}
                         onPress={
-                            () => this.props.closeModal(1, this.state.ksrq, this.state.jsrq, this.state.jhlx)
+                            () => this.props.closeModal(1, this.state.jhlx, this.state.rwzt)
                         }>
                         <Text style={{color:'#fff'}}>确定</Text>
                     </TouchableOpacity>
@@ -123,6 +111,41 @@ export default class ModalView extends Component {
             jhlxList,
             jhlxmcList,
         });
+    }
+
+    getRwzt() {
+        axios.get('/dictionary/list',{
+            params:{
+                userID: GLOBAL_USERID,
+                root:'JDJH_RWZT',
+                callID:true
+            }
+        }).then(responseData =>{
+            console.log('------rwzt', responseData);
+            if (responseData.data && responseData.data.length) {
+                let list = responseData.data;
+                let rwztCodeList = [], rwztmcList = [], rwztMap = {};
+                for (let i = 0, l = list.length; i < l; i++) {
+                    rwztCodeList.push(list[i].code);
+                    rwztmcList.push(list[i].name);
+                    rwztMap[list[i].code] = list[i].name;
+                }
+                this.setState({
+                    rwztCodeList,
+                    rwztmcList,
+                    rwztMap,
+                });
+                if (this.state.rwzt !== '请选择') {
+                   this.setState({
+                       rwztmc: rwztMap[this.state.rwzt]
+                   });
+                }
+            } else {
+                toast.show(responseData.message);
+            }
+        }).catch(() => {
+            toast.show('服务端异常!');
+        })
     }
 }
 

@@ -59,7 +59,7 @@ export default class EarlierStage extends Component {
                         eDate={this.state.eDate}
                         sDate={this.state.sDate}
                         closeModal={() => this.setState({isModalVisible: false})}/> :
-                    <View></View>}
+                    <View/>}
                 {this.state.isLoading ? <Loading/> : null}
             </View>
         )

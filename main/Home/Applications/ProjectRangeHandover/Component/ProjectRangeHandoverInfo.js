@@ -13,21 +13,6 @@ import KeyValue from "../../../../Component/KeyValueLeft";
 const {width} = Dimensions.get('window');
 
 export default class ProjectRangeHandoverInfo extends Component {
-
-    constructor(props){
-        super(props);
-        this.state = {
-            dataSource:[
-                {key:"所属部门",value:"市场营销一部"},
-                {key:"项目经理",value:"王二"},
-                {key:"合同工期开始时间",value:"2017-02-16"},
-                {key:"合同工期结束时间",value:"2017-09-12"},
-                {key:"合同计划开始时间",value:"2017-09-12"},
-                {key:"合同计划结束时间",value:"2017-09-12"},
-            ]
-        }
-    }
-
     render() {
         return (
             <View>
@@ -52,7 +37,6 @@ export default class ProjectRangeHandoverInfo extends Component {
             </View>
         )
     }
-
 }
 
 const styles = StyleSheet.create({

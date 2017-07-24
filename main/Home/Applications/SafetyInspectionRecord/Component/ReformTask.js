@@ -64,7 +64,6 @@ export default class ReformTask extends Component {
         )
     }
 
-
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
             <ReformTaskCell showAuthList={this.showAuthList.bind(this, item)} key={rowID} data={item}
@@ -124,6 +123,7 @@ export default class ReformTask extends Component {
                 callID: true
             }
         }).then(data => {
+            console.log(data);
             if (data.code === 1) {
                 this.setState({
                     dataSource: data.data
