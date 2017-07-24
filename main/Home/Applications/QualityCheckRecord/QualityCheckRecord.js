@@ -108,7 +108,8 @@ export default class QualityCheckRecord extends Component {
                             this.setState({modalVisible: false})
                         }}
                         auth={this.state.auth}
-                        data={this.state.data}/>
+                        data={this.state.data}
+                        reloadInfo={() => {this.getData()}}/>
                 </Modal>
                 {this.state.filtrate ?
                     <QualityCheckRecordFiltrate
@@ -240,7 +241,6 @@ export default class QualityCheckRecord extends Component {
             }
         }).then(data => {
             resolve();
-            console.log(data);
             if (data.code == 1) {
                 if (data.data && data.data.list && data.data.list.length > 0) {
                     if (pageNum == 1) {

@@ -328,30 +328,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between'
     },
-    attachment: {
-        paddingLeft: 0.02 * width,
-        paddingRight: 0.02 * width,
-        backgroundColor: 'white'
-    },
-    attachmentLabel: {
-        height: 0.12 * width,
-        justifyContent: 'center',
-        borderBottomWidth: 1,
-        borderBottomColor: '#dcdcdc'
-    },
-    attachmentContent: {
-        paddingTop: 0.02 * width,
-        paddingBottom: 0.02 * width
-    },
-    square: {
-        height: 0.2 * width,
-        width: 0.2 * width,
-        borderWidth: 1.5,
-        borderColor: '#d2d2d2',
-        borderStyle: 'dashed',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
     labelColor: {
         color: '#5476a1'
     },

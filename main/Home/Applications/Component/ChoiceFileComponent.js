@@ -46,23 +46,18 @@ export default class ChoiceFileComponent extends Component {
     }
 
     choiceFile() {
-        if (this.props.getFileID) {
-            if (Platform.OS === 'android') {
-                NativeModules.MyRN.scan((msg) => {
-                        if (msg === '请选择合适的pdf格式文件') {
-                            Toast.show('请选择pdf文件');
-                        } else {
-                            this.uploadFileFun(msg, '.pdf');
-                        }
-                    },
-                    (result) => {
-                        Toast.show('JS界面:错误信息为:' + result);
-                    });
-            } else {
-                Toast.show('iOS系统不支持文件上传操作');
-            }
+        if (Platform.OS === 'android') {
+            NativeModules.MyRN.scan((msg) => {
+                if (mes) {
+                    this.uploadFileFun(msg, '.pdf');
+                }
+            }, (result) => {
+                Toast.show('上传出错');
+            });
+        } else {
+            Toast.show('iOS系统不支持文件上传操作');
         }
-    }fcjlisAttach
+    }
 
     uploadFileFun(msg, fileSuffix, choiceImg) {
         this.setState({isLoading: true});
@@ -110,13 +105,11 @@ export default class ChoiceFileComponent extends Component {
     }
 
     choiceImage() {
-        if (this.props.getFileID) {
-            ImagePicker.showImagePicker(photoOptions,(response) =>{
-                if (response.uri) {
-                    this.uploadFileFun(response.uri, '.jpg', true);
-                }
-            });
-        }
+        ImagePicker.showImagePicker(photoOptions,(response) =>{
+            if (response.uri) {
+                this.uploadFileFun(response.uri, '.jpg', true);
+            }
+        });
     }
 
     //创建选择图片的列表

@@ -71,7 +71,8 @@ export default class QualityCheckRecordListCell extends Component {
             component:QualityDoubleCheckRecord,
             name:'QualityDoubleCheckRecord',
             params: {
-                data
+                data: data,
+                fromList: true
             }
         })
     }

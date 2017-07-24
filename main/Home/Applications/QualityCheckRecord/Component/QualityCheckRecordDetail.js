@@ -30,7 +30,6 @@ const photoOptions = {
         path:'images'
     }
 };
-import ImagePicker from 'react-native-image-picker';
 import Loading from "../../../../Component/Loading.js";
 import SelectedRenwuJD from './SelectedRenwuJD.js';
 import Organization from '../../../../Organization/Organization.js';
@@ -40,8 +39,7 @@ import KeyValueRight from "../../../../Component/KeyValueRight";
 import KeyTime from "../../../../Component/KeyTime";
 import LabelTextArea from "../../../../Component/LabelTextArea";
 import ModalDropdown from 'react-native-modal-dropdown';
-import RNFetchBlob from 'react-native-fetch-blob';
-import baseUrl from '../../../../Util/service.json';
+import ChoiceFileComponent from '../../Component/ChoiceFileComponent.js';;
 import {getRandomId, getTimestamp, uploadFile} from '../../../../Util/Util.js';
 const selectImg = [
     require('../../../../../resource/imgs/home/constuctPlan/choiced.png'),
@@ -58,7 +56,6 @@ export default class QualityCheckRecordDetail extends Component {
         this.imageId = [];      //图片附件的id
         this.randomId = getRandomId();
         this.state = {
-            choiceFileName: '',//选择附件的名字
             imageList: [],
             isLoading: false,
             isFinished: false,
@@ -222,99 +219,6 @@ export default class QualityCheckRecordDetail extends Component {
         });
     }
 
-    choiceFile() {
-        if (Platform.OS === 'android') {
-            NativeModules.MyRN.scan((msg) => {
-                    if (msg === '请选择合适的pdf格式文件') {
-                        Toast.show('请选择pdf文件');
-                    } else {
-                        this.uploadFileFun(msg, '.pdf');
-                    }
-                },
-                (result) => {
-                    Toast.show('JS界面:错误信息为:' + result);
-                });
-        } else {
-            Toast.show('iOS系统不支持文件上传操作');
-        }
-    }
-
-    uploadFileFun(msg, fileSuffix, choiceImg) {
-        this.setState({isLoading: true});
-        let reqData = [
-            {name: 'userID', data: GLOBAL_USERID},
-            {name: 'files', data: RNFetchBlob.wrap(msg), filename: this.randomId + fileSuffix},
-            {name: 'businessModule', data: 'zljcjl'},
-            {name: 'isAttach', data: this.state.isFinished?1:0},
-            {name: 'resourceId', data: this.randomId},
-            {name: 'callID', data: JSON.stringify(getTimestamp())}
-        ];
-        uploadFile(baseUrl.baseUrl + '/sysfile/UploadHandler', reqData, (response) => {
-            this.setState({isLoading: false});
-            if (response.code === 1) {
-                Toast.show('文件上传成功');
-                this.state.jcfj.push(response.data.id);
-                if (choiceImg) {
-                    //选择图片
-                    this.state.imageList.push({uri:msg});
-                    this.imageId.push(response.data.id);
-                    this.setState({
-                        imageList: this.state.imageList,
-                        jcfj: this.state.jcfj
-                    });
-                } else {
-                    let tempArr = msg.split('/');
-                    //android选择附件
-                    this.setState({
-                        jcfj: this.state.jcfj,
-                        choiceFileName: tempArr[tempArr.length-1]
-                    });
-                }
-            } else {
-                Toast.show('文件上传失败，请重试');
-            }
-        }, (response) => {
-            Toast.show('ERROR');
-            this.setState({isLoading: false});
-        });
-    }
-
-    choiceImage() {
-        ImagePicker.showImagePicker(photoOptions,(response) =>{
-            if (response.uri) {
-                this.uploadFileFun(response.uri, '.jpg', true);
-            }
-        });
-    }
-
-    //创建选择图片的列表
-    createImageList() {
-        return this.state.imageList.map((elem, index) => {
-            return (
-                <View key={`i${index*11}`}>
-                    <Image source={elem} style={styles.choicImgSty} />
-                    <TouchableWithoutFeedback onPress={this.delImg.bind(this, index)}>
-                        <Image source={require('../../../../../resource/imgs/home/applications/addIcon.png')}
-                            style={{height: width*0.05,width: width*0.05,position:'absolute',right:width*0.01,top:width*0.01}}/>
-                    </TouchableWithoutFeedback>
-                </View>
-            )
-        });
-    }
-
-    delImg(index) {
-        this.state.imageList.splice(index, 1);
-        this.setState({imageList:this.state.imageList});
-        let delImgId = this.imageId[index];
-        let result = this.state.jcfj.findIndex((elem, index) => {
-            elem = delImgId;
-        });
-        if (result !== -1) {
-            this.state.jcfj.splice(result, 1);
-            this.setState({jcfj: this.state.jcfj});
-        }
-    }
-
     render() {
         return (
             <View style={styles.container}>
@@ -355,25 +259,10 @@ export default class QualityCheckRecordDetail extends Component {
                             {this.getQueList()}
                         </View>
                     </View>
-                    <TouchableOpacity onPress={this.choiceFile.bind(this)}>
-                        <View style={styles.cell}>
-                            <Text style={{color:'#5476a1'}}>附件</Text>
-                            <Image style={styles.icon} source={require('../../../../../resource/imgs/home/attachment.png')}/>
-                        </View>
-                    </TouchableOpacity>
-                    <View style={styles.attachment}>
-                        <View style={styles.attachmentLabel}>
-                            <Text style={{color: '#666'}}>{this.state.choiceFileName}</Text>
-                        </View>
-                        <View style={styles.attachmentContent}>
-                            {this.createImageList()}
-                            <TouchableOpacity onPress={this.choiceImage.bind(this)}>
-                                <View style={styles.square}>
-                                    <Text style={{fontSize: 0.1 * width, color: "#d2d2d2"}}>+</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
+                    <ChoiceFileComponent
+                        getFileID={(theId) => {}}
+                        businessModule='zljcjl'
+                        isAttach={this.state.isFinished}/>
                     <LabelTextArea label="检查结果" inputResult={this.inputCheckResult.bind(this)}/>
                     {
                         this.state.showBottom &&
@@ -393,11 +282,6 @@ export default class QualityCheckRecordDetail extends Component {
                     }
                 </ScrollView>
                 <View style={styles.actionPanel}>
-                    <TouchableOpacity onPress={() => this.saveAndSubmit()}>
-                        <View style={[styles.button, {backgroundColor: "#02c088"}] }>
-                            <Text style={styles.buttonText}>保存并提交</Text>
-                        </View>
-                    </TouchableOpacity>
                     <TouchableOpacity onPress={() => this.save()}>
                         <View style={styles.button}>
                             <Text style={styles.buttonText}>保存</Text>
@@ -421,11 +305,6 @@ export default class QualityCheckRecordDetail extends Component {
 
     changeDate(date) {
         this.setState({jcsj:date});
-    }
-
-    //保存并提交
-    saveAndSubmit() {
-
     }
 
     //保存
@@ -494,20 +373,18 @@ const styles = StyleSheet.create({
         flex: 1
     },
     actionPanel: {
-        flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        width: width,
+        paddingHorizontal: 20,
+        paddingVertical: 10
     },
     button: {
         backgroundColor: '#216fd0',
-        height: 0.12 * width,
-        width: 0.4 * width,
+        height: 0.1 * width,
+        width: width - 40,
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft: width*0.02,
-        marginRight: width*0.02,
-        marginBottom: width*0.02,
-        marginTop: width*0.03,
         borderRadius: 5
     },
     row: {
@@ -529,45 +406,8 @@ const styles = StyleSheet.create({
     labelColor: {
         color: '#5476a1'
     },
-    textArea: {
-        marginTop: 0.02 * width,
-        backgroundColor: 'white'
-    },
-    textContent: {
-        padding: 0.02 * width
-    },
     divide: {
         height: 0.02 * width
-    },
-    icon: {
-        width:width * 0.05,
-        height:width * 0.05
-    },
-    attachment: {
-        paddingLeft: 0.02 * width,
-        paddingRight: 0.02 * width,
-        backgroundColor: 'white'
-    },
-    attachmentLabel: {
-        height: 0.12 * width,
-        justifyContent: 'center',
-        borderBottomWidth: 1,
-        borderBottomColor: '#dcdcdc'
-    },
-    attachmentContent: {
-        flexDirection: 'row',
-        flexWrap: 'wrap'
-    },
-    square: {
-        height: 0.2 * width,
-        width: 0.2 * width,
-        borderWidth: 1.5,
-        borderColor: '#d2d2d2',
-        borderStyle: 'dashed',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginRight: 0.03 * width,
-        marginTop: 0.04*width
     },
     proView: {
         paddingHorizontal:width*0.02,
@@ -608,11 +448,5 @@ const styles = StyleSheet.create({
         backgroundColor:'#fff',
         justifyContent:'space-between',
         paddingRight:width*0.02
-    },
-    choicImgSty: {
-        height: 0.2 * width,
-        width: 0.2 * width,
-        marginRight: 0.03 * width,
-        marginTop: 0.04*width
     }
 });
