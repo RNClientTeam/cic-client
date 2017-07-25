@@ -14,43 +14,49 @@ import {
     Platform,
     TouchableWithoutFeedback
 } from 'react-native';
-const photoOptions = {
-    title:'更换头像',
-    cancelButtonTitle:'取消',
-    takePhotoButtonTitle:'拍照',
-    chooseFromLibraryButtonTitle:'从本地相册选取',
-    quality:0.75,
-    allowsEditing:true,
-    noData:false,
-    storageOptions: {
-        skipBackup: true,
-        path:'images'
-    }
-};
+
 const {width, height} = Dimensions.get('window');
 import Toast from 'react-native-simple-toast';
-import ImagePicker from 'react-native-image-picker';
-import RNFetchBlob from 'react-native-fetch-blob';
-import baseUrl from '../../../../Util/service.json';
 import Loading from "../../../../Component/Loading.js";
 import ChoiceDate from "../../../../Component/ChoiceDate.js";
 import Organization from '../../../../Organization/Organization.js';
-import {getRandomId, getTimestamp, uploadFile} from '../../../../Util/Util.js';
+import ChoiceFileComponent from '../../Component/ChoiceFileComponent.js';
 export default class ReviewRecord extends Component {
     constructor(props) {
         super(props);
-        this.inputResult = '';
-        this.randomId = getRandomId();
-        this.imageId = [];
         this.state = {
-            fuchaTime: '',
-            fuchaPerson: '请选择>',
-            personId: '',
-            isLoading: false,
-            jcfj: [],       //附件id
-            imageList: [],
-            choiceFileName: '所选附件名称'
+            fcrmc: '',
+            fcr: '',
+            fcsj: '',
+            fcjg: '',
+            fcfj: '',
+            aqjcjhId: ''
         }
+    }
+
+    componentDidMount() {
+        axios.get('/psmAqjcjh/init4Aqjcjl', {
+            params: {
+                userID: GLOBAL_USERID,
+                id: this.props.data.id,
+                callID: true
+            }
+        }).then((res) => {
+            if (res.code === 1) {
+                this.setState({
+                    fcrmc: res.data.fcrmc,
+                    fcr: res.data.fcr,
+                    fcsj: res.data.fcsj,
+                    fcjg: res.data.fcjg,
+                    fcfj: res.data.fcfj,
+                    aqjcjhId: res.data.aqjcjhId
+                })
+            } else {
+                Toast.show(res.message);
+            }
+        }).catch((error) => {
+
+        });
     }
 
     selPerson() {
@@ -65,102 +71,9 @@ export default class ReviewRecord extends Component {
 
     getInfo(bmid, name, id) {
         this.setState({
-            fuchaPerson: name,
-            personId: id
+            fcrmc: name,
+            fcr: id
         });
-    }
-
-    //上传附件
-    choiceFile() {
-        if (Platform.OS === 'android') {
-            NativeModules.MyRN.scan((msg) => {
-                    if (msg === '请选择合适的pdf格式文件') {
-                        Toast.show('请选择pdf文件');
-                    } else {
-                        this.uploadFileFun(msg, '.pdf');
-                    }
-                },
-                (result) => {
-                    Toast.show('JS界面:错误信息为:' + result);
-                });
-        } else {
-            Toast.show('iOS系统不支持文件上传操作');
-        }
-    }
-
-    uploadFileFun(msg, fileSuffix, choiceImg) {
-        this.setState({isLoading: true});
-        let reqData = [
-            {name: 'userID', data: GLOBAL_USERID},
-            {name: 'files', data: RNFetchBlob.wrap(msg), filename: this.randomId + fileSuffix},
-            {name: 'businessModule', data: 'gxzl'},
-            {name: 'isAttach', data: JSON.stringify(1)},
-            {name: 'resourceId', data: this.randomId},
-            {name: 'callID', data: JSON.stringify(getTimestamp())}
-        ];
-        uploadFile(baseUrl.baseUrl + '/sysfile/UploadHandler', reqData, (response) => {
-            this.setState({isLoading: false});
-            if (response.code === 1) {
-                Toast.show('文件上传成功');
-                this.state.jcfj.push(response.data.id);
-                if (choiceImg) {
-                    //选择图片
-                    this.state.imageList.push({uri:msg});
-                    this.imageId.push(response.data.id);
-                    this.setState({
-                        imageList: this.state.imageList,
-                        jcfj: this.state.jcfj
-                    });
-                } else {
-                    let tempArr = msg.split('/');
-                    //android选择附件
-                    this.setState({
-                        jcfj: this.state.jcfj,
-                        choiceFileName: tempArr[tempArr.length-1]
-                    });
-                }
-            } else {
-                Toast.show('文件上传失败，请重试');
-            }
-        }, (response) => {
-            Toast.show('ERROR');
-            this.setState({isLoading: false});
-        });
-    }
-
-    createImageList() {
-        return this.state.imageList.map((elem, index) => {
-            return (
-                <View key={`i${index*11}`}>
-                    <Image source={elem} style={styles.choicImgSty} />
-                    <TouchableWithoutFeedback onPress={this.delImg.bind(this, index)}>
-                        <Image source={require('../../../../../resource/imgs/home/applications/addIcon.png')}
-                            style={{height: width*0.05,width: width*0.05,position:'absolute',right:width*0.01,top:width*0.01}}/>
-                    </TouchableWithoutFeedback>
-                </View>
-            )
-        });
-    }
-
-    choiceImage() {
-        ImagePicker.showImagePicker(photoOptions,(response) =>{
-            if (response.uri) {
-                this.uploadFileFun(response.uri, '.jpg', true);
-            }
-        });
-    }
-
-    delImg(index) {
-        this.state.imageList.splice(index, 1);
-        this.setState({imageList:this.state.imageList});
-        let delImgId = this.imageId[index];
-        let result = this.state.jcfj.findIndex((elem, index) => {
-            elem = delImgId;
-        });
-        if (result !== -1) {
-            this.state.jcfj.splice(result, 1);
-            this.setState({jcfj: this.state.jcfj});
-        }
     }
 
     render() {
@@ -169,36 +82,18 @@ export default class ReviewRecord extends Component {
                 <View style={styles.viewStyle}>
                     <Text style={styles.keyText}>复查时间</Text>
                     <ChoiceDate
-                        showDate={this.state.fuchaTime}
-                        changeDate={(date)=>{this.setState({fuchaTime:date});}}/>
+                        showDate={this.state.fcsj}
+                        changeDate={(date)=>{this.setState({fcsj:date});}}/>
                 </View>
 
                 <TouchableOpacity onPress={this.selPerson.bind(this)}>
                     <View style={styles.viewStyle}>
                         <Text style={styles.keyText}>复查人</Text>
-                        <Text style={styles.valueText}>{this.state.fuchaPerson}</Text>
+                        <Text style={styles.valueText}>{this.state.fcrmc}</Text>
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={this.choiceFile.bind(this)}>
-                    <View style={styles.cell}>
-                        <Text style={{color:'#5476a1'}}>附件</Text>
-                        <Image style={{width:0.05*width, height:0.05*width}} source={require('../../../../../resource/imgs/home/attachment.png')}/>
-                    </View>
-                </TouchableOpacity>
-                <View style={styles.attachment}>
-                    <View style={styles.attachmentLabel}>
-                        <Text style={{color: '#666'}}>{this.state.choiceFileName}</Text>
-                    </View>
-                    <View style={styles.attachmentContent}>
-                        {this.createImageList()}
-                        <TouchableOpacity onPress={this.choiceImage.bind(this)}>
-                            <View style={styles.square}>
-                                <Text style={{fontSize: 0.1 * width, color: "#d2d2d2"}}>+</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                </View>
+                <ChoiceFileComponent businessModule='aqjcjl'/>
 
                 <View style={styles.viewStyle}>
                     <Text style={styles.keyText}>整改复查结果</Text>
@@ -206,9 +101,10 @@ export default class ReviewRecord extends Component {
                 <TextInput style={styles.inpurResult}
                     placeholder="请填写"
                     numberOfLines={2}
+                    defaultValue={this.state.fcjg}
                     multiline={true}
                     onChangeText={(text) => {
-                        this.inputResult = text;
+                        this.setState({fcjg: text});
                     }}/>
 
                 <View style={styles.bottomView}>
@@ -218,29 +114,25 @@ export default class ReviewRecord extends Component {
                         </View>
                     </TouchableHighlight>
                 </View>
-                {this.state.isLoading ? <Loading/> : null}
             </View>
 
         );
     }
 
     save() {
-        let jcfj = this.state.jcfj.join(',');
-        if (this.state.fuchaTime.length === 0) {
+        if (this.state.fcsj.length === 0) {
             Toast.show('请选择复查时间');
-        } else if (this.state.fuchaPerson === '请选择>') {
+        } else if (this.state.fcr.length === 0) {
             Toast.show('请选择复查人');
-        } else if (jcfj.length === 0) {
-            Toast.show('请选择附件');
-        } else if (this.inputResult.length === 0) {
+        } else if (this.state.fcjg === 0) {
             Toast.show('请填写复查结果');
         } else {
             axios.post('/psmAqjcjh/saveAqjcjl4fc', {
                 userID: GLOBAL_USERID,
                 id: this.props.data.aqjcjhId,
-                frc: this.state.personId,
-                fcsj: this.state.fuchaTime,
-                fcjg: this.inputResult,
+                frc: this.state.fcr,
+                fcsj: this.state.fcsj,
+                fcjg: this.state.fcjg,
                 callID: true
             }).then((res) => {
                 if (res.code === 1) {

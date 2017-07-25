@@ -69,7 +69,6 @@ export default class DoubleCheckDetail extends Component {
                 callID: true
             }
         }).then((res) => {
-            console.log(res);
             if (res.code === 1) {
                 this.setState({
                     data: res.data,

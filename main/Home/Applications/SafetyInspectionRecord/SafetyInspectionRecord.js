@@ -193,7 +193,10 @@ export default class SafetyInspectionRecord extends Component{
     addBtn() {
         this.props.navigator.push({
             component: NewCreateRecord,
-            name: 'NewCreateRecord'
+            name: 'NewCreateRecord',
+            params: {
+                reloadInfo: this._getData.bind(this, 1)
+            }
         });
     }
 

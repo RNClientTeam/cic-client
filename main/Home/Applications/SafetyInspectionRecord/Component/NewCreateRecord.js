@@ -296,7 +296,9 @@ export default class NewCreateRecord extends Component {
                             component: CheckFlowInfo,
                             params: {
                                 resID: res.data.aqjcjlId,
-                                wfName: 'jdjhaqjcjl'
+                                wfName: 'jdjhaqjcjl',
+                                name: 'SafetyInspectionRecord',
+                                reloadInfo: this.props.reloadInfo
                             }
                         })
                     } else {

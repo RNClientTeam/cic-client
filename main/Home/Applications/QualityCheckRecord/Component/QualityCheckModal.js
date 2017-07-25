@@ -76,7 +76,8 @@ export default class QualityCheckModal extends Component{
                     closeModal={()=>{this.props.closeModal()}}
                     navigator={this.props.navigator} key={i}
                     dataSource={this.state.data[i]}
-                    data={this.props.data}/>
+                    data={this.props.data}
+                    reloadInfo={this.props.reloadInfo}/>
             )
         }
         return cs;

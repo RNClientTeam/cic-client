@@ -49,8 +49,18 @@ export default class QualityCheckPlan extends Component{
                         <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
-                <QualityCheckPlanHeader  changeDate={this.changeYearAndMonth.bind(this)}/>
-                <Calendar changeDay={(day)=>this.changeDay(day)} day={this.state.day} data={this.state.calendarState} year={this.state.year} month={this.state.month}/>
+                <QualityCheckPlanHeader
+                    changeDate={this.changeYearAndMonth.bind(this)}
+                    showDate={this.state.showDate}
+                    setToday={() => this.setToday()}
+                />
+                <Calendar
+                    changeDay={(day)=>this.changeDay(day)}
+                    day={this.state.day}
+                    year={this.state.year}
+                    month={this.state.month}
+                    data={this.state.calendarState}
+                />
                 <QualityCheckPlanList dataSource={this.state.dataSource}
                                       reload={(resolve)=>this.getTask(1,resolve)}
                                       loadMore={this.loadMore.bind(this)}
@@ -111,9 +121,11 @@ export default class QualityCheckPlan extends Component{
 
     // 选择日期
     changeYearAndMonth(data){
+        const showDate = new Date(this.formatDate(data.substr(0,4), parseInt(data.substr(-2,data.length-1)), 1));
         this.setState({
-            year:data.substr(0,4),
-            month:parseInt(data.substr(-2,data.length-1))-1
+            year: data.substr(0,4),
+            month: parseInt(data.substr(-2,data.length-1))-1,
+            showDate
         },function () {
             this.getTask();
             this.getCalendarData();
@@ -129,6 +141,20 @@ export default class QualityCheckPlan extends Component{
         })
     }
 
+    // 选择今日
+    setToday() {
+        const today = new Date();
+        this.setState({
+            year: today.getFullYear(),
+            month: today.getMonth(),
+            day: today.getDate(),
+            showDate: today,
+        }, function () {
+            this.getTask();
+            this.getCalendarData();
+        })
+    }
+
     componentDidMount() {
         this.getCalendarData();
         this.getTask()
@@ -138,7 +164,7 @@ export default class QualityCheckPlan extends Component{
         axios.get('/psmZljcjh/calendar4Zljcjh',{
             params:{
                 userID:GLOBAL_USERID,
-                month:this.state.year+'-'+(this.state.month+1),
+                month:this.state.year+'-'+(this.state.month + 1 + '').padStart(2, '0'),
                 rwzt:this.state.rwztid,
                 rwxz:this.state.rwxzid,
                 callID:true
@@ -164,13 +190,17 @@ export default class QualityCheckPlan extends Component{
             this.getTask(this.state.pageNum);
         })
     }
+
+    formatDate(year, month, day) {
+        return `${year}-${(month + '').padStart(2, '0')}-${(day + '').padStart(2, '0')}`
+    }
     
-    getTask(pageNum=1,resolve=()=>{}){
+    getTask(pageNum=1,resolve=()=>{}) {
         this.setState({isLoading:true});
         axios.get('/psmZljcjh/list',{
             params:{
                 userID:GLOBAL_USERID,
-                date:this.state.year+'-'+(this.state.month+1)+'-'+this.state.day,
+                date:this.state.year + '-' + (this.state.month + 1 + '').padStart(2, '0')+'-'+this.state.day.toString().padStart(2, '0'),
                 rwzt:this.state.rwztid,
                 rwxz:this.state.rwxzid,
                 pageNum:pageNum,
