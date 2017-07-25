@@ -32,8 +32,8 @@ export default class ProgressPlan extends Component {
             pageNum: 1,
             pageSize: 10,
             keywords: '',
-            dataSource:[],
-            isLoading:false
+            dataSource: [],
+            isLoading: false
         }
     }
 
@@ -48,12 +48,13 @@ export default class ProgressPlan extends Component {
                                source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
-                <SearchHeader getData={()=>this.getDataFromNet(1)} changeZxmc={(keywords) => this.setState({keywords:keywords})}/>
+                <SearchHeader getData={() => this.getDataFromNet(1)}
+                              changeZxmc={(keywords) => this.setState({keywords: keywords})}/>
                 <ProgressPlanList navigator={this.props.navigator}
                                   dataSource={this.state.dataSource}
                                   loadMore={() => this.loadMore()}
-                                  refresh={(callback) => this.getDataFromNet(1,callback)}
-                                  />
+                                  refresh={(callback) => this.getDataFromNet(1, callback)}
+                />
                 {this.state.isModalVisible ?
                     <ProgressPlanListModalView isModalVisible={this.state.isModalVisible}
                                                ksrp={this.state.ksrq}
@@ -64,7 +65,7 @@ export default class ProgressPlan extends Component {
                                                }}
                                                closeModal={() => this.setState({isModalVisible: false})}/> :
                     <View/>}
-                {this.state.isLoading? <Loading/>:null}
+                {this.state.isLoading ? <Loading/> : null}
             </View>
         )
     }
@@ -79,14 +80,15 @@ export default class ProgressPlan extends Component {
             ksrq: sDate,
             jsrq: eDate
         }, () => {
-            this.getDataFromNet(1);
+            this.getDataFromNet();
         })
     }
 
-    getDataFromNet(pageNum,resolve=()=>{}) {
+    getDataFromNet(pageNum = 1, resolve = () => {
+    }) {
         let jhlx = 500;
         this.setState({
-            isLoading:true
+            isLoading: true
         });
         switch (this.state.jhlx) {
             case '全部':
@@ -121,9 +123,9 @@ export default class ProgressPlan extends Component {
             }
         }).then(responseData => {
             this.setState({
-                isLoading:false
+                isLoading: false
             });
-            if(responseData.code === 1){
+            if (responseData.code === 1) {
                 //第一页数据 设置total 清空dataSource数组
                 if (pageNum === 1) {
                     this.setState({
@@ -133,22 +135,24 @@ export default class ProgressPlan extends Component {
                 }
                 let data = responseData.data;
                 let tmp = this.state.dataSource;
-                for(let i = 0; i < data.data.length;i++){
+                for (let i = 0; i < data.data.length; i++) {
                     tmp.push(data.data[i]);
                 }
                 resolve();
                 this.setState({
                     dataSource: tmp
                 });
+                return data.data.length > 0
 
-            }else {
-                toast.show(responseData.message)
+            } else {
+                toast.show(responseData.message);
+                return false
             }
-        }).catch(err=>{
+        }).catch(err => {
             console.log(err);
             toast.show('服务端异常');
             this.setState({
-                isLoading:false
+                isLoading: false
             });
         })
     }

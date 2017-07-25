@@ -95,17 +95,6 @@ export default class ProgressPlanList extends Component {
                 }
             })
         }
-        // for (let i = 0; i < a.length; i++) {
-        //     this.dataSource.push(a[i])
-        // }
-        //
-        // let target = this.convert(this.dataSource);
-        //
-        // setTimeout(() => {
-        //     this.setState({
-        //         list: this.state.list.cloneWithRows(target)
-        //     });
-        // }, 1000);
     }
 }
 

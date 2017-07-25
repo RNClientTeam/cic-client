@@ -55,7 +55,7 @@ export default class ProgressPlanListModalView extends Component {
                         <ModalDropdown
                             options={this.state.options}
                             animated={true}
-                            defaultValue={this.state.planType}
+                            defaultValue={this.state.jhlx}
                             style={styles.modalDropDown}
                             textStyle={styles.modalDropDownText}
                             dropdownStyle={styles.dropdownStyle}
@@ -73,7 +73,7 @@ export default class ProgressPlanListModalView extends Component {
                     <TouchableOpacity style={[styles.clickButton,{backgroundColor:'#dbdada'}]} onPress={()=>this.props.closeModal()}>
                         <Text>重置</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.clickButton,{backgroundColor:'#216fd0'}]} onPress={()=>this.props.closeModal()}>
+                    <TouchableOpacity style={[styles.clickButton,{backgroundColor:'#216fd0'}]} onPress={()=>{this.props.closeModal();this.props.changeFilter(this.state.startDate,this.state.endDate,this.state.jhlx)}}>
                         <Text style={{color:'#fff'}}>确定</Text>
                     </TouchableOpacity>
                 </View>

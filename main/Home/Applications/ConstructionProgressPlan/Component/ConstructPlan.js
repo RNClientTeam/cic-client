@@ -16,6 +16,7 @@ import MyPlan from './MyPlan'
 import MyPlanDetail from './MyPlanDetail'
 import MoreActionsModal from "./MoreActionsModal"
 import Toast from 'react-native-simple-toast'
+import AllPlan from "./AllPlan";
 
 const {width, height} = Dimensions.get('window');
 
@@ -25,13 +26,17 @@ export default class ConstructPlan extends Component {
         this.state = {
             tab: 0,
             rwlx: 100,
-            currentPage: 1,
+            currentPageMy: 1,
+            currentPageAll:1,
             modalVisible: false,
             myTask: [],
+            allTask:[],
+            totalMy:0,
+            totalAll:0
         };
     }
     componentDidMount() {
-        this.getMyTask();
+        this.reloadInfo();
     }
 
     getMyTask(pageNum = 1, pageSize = 10, rwlx = 100, callback = () => {}) {
@@ -48,29 +53,80 @@ export default class ConstructPlan extends Component {
             }
         }).then(responseData => {
             if (responseData.code === 1 ) {
+                console.log(responseData,'my')
                 if (responseData.data && responseData.data.data) {
                     let resultData = responseData.data.data;
                     if (resultData.length) {
                         this.setState({
                             myTask: [...this.state.myTask, ...resultData],
-                            currentPage: pageNum,
-                            total: responseData.data.total
+                            currentPageMy: pageNum,
+                            totalMy: responseData.data.total
                         });
                     }
                 }
+                callback();
+                return responseData.data.data.length>0
             } else {
                 Toast.show(responseData.message);
+                callback();
+                return false
             }
-            callback();
+
         })
     }
 
-    loadMore() {
-        if (this.state.total && (this.state.myTask.length < this.state.total)) {
-            this.getMyTask(this.state.currentPage + 1, 10);
-            return true
+    getAllTask(pageNum = 1, pageSize = 10, rwlx = 200, callback = () => {}){
+        if (pageNum === 1) {
+            this.state.allTask = [];
         }
-        return false
+        axios.get('/psmSgjdjh/sgjhJhrwlb', {
+            params: {
+                userID: GLOBAL_USERID,
+                gczxId: this.props.gczxId,
+                rwlx,
+                pageNum,
+                pageSize
+            }
+        }).then(responseData => {
+            if (responseData.code === 1 ) {
+                console.log(responseData,'all')
+                if (responseData.data && responseData.data.data) {
+                    let resultData = responseData.data.data;
+                    if (resultData.length) {
+                        this.setState({
+                            allTask: [...this.state.myTask, ...resultData],
+                            currentPageAll: pageNum,
+                            totalAll: responseData.data.total
+                        });
+                    }
+                }
+                callback();
+                return responseData.data.data.length>0
+            } else {
+                Toast.show(responseData.message);
+                callback();
+                return false
+            }
+
+        })
+    }
+
+    loadMoreMy() {
+        if (this.state.totalMy && (this.state.myTask.length < this.state.totalMy)) {
+            this.getMyTask(this.state.currentPageMy + 1, 10);
+        }else{
+            return false
+        }
+
+    }
+
+    loadMoreAll(){
+        if (this.state.totalAll && (this.state.allTask.length < this.state.totalAll)) {
+            this.getAllTask(this.state.currentPageAll + 1, 10);
+        }else{
+            return false
+        }
+
     }
 
     render() {
@@ -95,15 +151,17 @@ export default class ConstructPlan extends Component {
                     showsHorizontalScrollIndicator={false}
                     scrollEnabled={false}>
                     <MyPlan navigator={this.props.navigator}
-                            loadMore={() => this.loadMore()}
+                            loadMore={() => this.loadMoreMy()}
                             dataSource={this.state.myTask}
                             setModalVisible={(rwid) => this.setModalVisible(rwid)}
                     />
-                    <MyPlan navigator={this.props.navigator}
-                            loadMore={() => this.loadMore()}
-                            dataSource={this.state.myTask}
-                            setModalVisible={(rwid) => this.setModalVisible(rwid)}
+                    <AllPlan
+                        navigator={this.props.navigator}
+                        loadMore={() => this.loadMoreAll()}
+                        dataSource={this.state.allTask}
+                        setModalVisible={(rwid) => this.setModalVisible(rwid)}
                     />
+
                 </ScrollView>
                 <Modal
                     animationType={"slide"}
@@ -112,6 +170,7 @@ export default class ConstructPlan extends Component {
                     style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
                 >
                     <MoreActionsModal navigator={this.props.navigator}
+                                      reloadInfo={()=>this.reloadInfo()}
                                       rwid={this.state.rwid}
                                       authority={this.state.authority}
                                       closeModal={() => {this.setState({modalVisible: false})}}/>
@@ -129,6 +188,11 @@ export default class ConstructPlan extends Component {
         )
     }
 
+    reloadInfo(){
+        this.getMyTask();
+        this.getAllTask();
+    }
+
     create() {
         this.props.navigator.push({
             component: MyPlanDetail,
@@ -144,32 +208,10 @@ export default class ConstructPlan extends Component {
         if (this.state.tab !== page) {
             this.setState({tab:page});
             this.refs.scrollView.scrollTo({x:page*width,y:0,animated:true});
-            if (page === 0) {
-                // rwlx 100 我的任务
-                this.setState({
-                    rwlx: 100,
-                });
-                this.getMyTask(1, 10, 100);
-            } else {
-                // rwlx 200 全部任务
-                this.setState({
-                    rwlx: 200,
-                });
-                this.getMyTask(1, 10, 200);
-            }
         }
     }
 
     setModalVisible(rwid) {
-        this.setState({
-            modalVisible: true,
-            rwid,
-        });
-        // 获取权限
-        this.getAuthority(rwid);
-    }
-
-    getAuthority(rwid) {
         axios.get('/psmSgjdjh/operationAuthority4bz', {
             params: {
                 userID: GLOBAL_USERID,
@@ -181,7 +223,9 @@ export default class ConstructPlan extends Component {
         }).then(responseData => {
             if (responseData.code === 1) {
                 this.setState({
-                    authority: responseData.data
+                    authority: responseData.data,
+                    modalVisible: true,
+                    rwid,
                 })
             } else {
                 Toast.show(responseData.data);
@@ -190,8 +234,9 @@ export default class ConstructPlan extends Component {
             if (error) {
                 Toast.show('服务端异常');
             }
-        } )
+        } );
     }
+
 }
 
 const styles = StyleSheet.create({

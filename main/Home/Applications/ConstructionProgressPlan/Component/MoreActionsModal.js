@@ -11,7 +11,7 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native'
-
+import toast from 'react-native-simple-toast'
 import MyPlanDetail from './MyPlanDetail'
 
 const {width} = Dimensions.get('window');
@@ -38,7 +38,10 @@ export default class MoreActionsModal extends Component {
         this.props.closeModal();
         this.props.navigator.push({
             component: MyPlanDetail,
-            name: 'MyPlanDetail'
+            name: 'MyPlanDetail',
+            params:{
+                reloadInfo:this.props.reloadInfo
+            }
         });
     }
 
@@ -48,7 +51,8 @@ export default class MoreActionsModal extends Component {
             component: MyPlanDetail,
             name: 'MyPlanDetail',
             params: {
-                id
+                id,
+                reloadInfo:this.props.reloadInfo
             }
         });
     }
@@ -58,23 +62,38 @@ export default class MoreActionsModal extends Component {
         axios.post('/psmSgjdjh/deleteSgjhJhrw', {
             userID: GLOBAL_USERID,
             id: rwid,
-        }).then(() => {
-            console.log('success!')
-        });
+        }).then((data) => {
+            if(data.code === 1){
+                toast.show('删除成功');
+                this.props.reloadInfo();
+            }else{
+                toast.show(data.message)
+            }
+        }).catch(err=>{
+            toast.show('服务端异常');
+        })
     }
 
     effect(rwid) {
         axios.post('/psmSgjdjh/updateStatusToEffect', {
             userID: GLOBAL_USERID,
             id: rwid,
-        }).then(() => {
-            console.log('success!')
-        });
+        }).then((data) => {
+            if(data.code === 1){
+                toast.show('删除成功');
+                this.props.reloadInfo();
+            }else{
+                toast.show(data.message)
+            }
+        }).catch(err=>{
+            toast.show('服务端异常');
+        })
     }
 
     componentDidMount() {
         let actionList = [];
         const authority = this.props.authority;
+        console.log(authority)
         // 有创建权限
         if (authority) {
             if (authority.addSgrw) {
@@ -118,13 +137,6 @@ export default class MoreActionsModal extends Component {
                     }
                 );            
             }
-            actionList.push(
-                {
-                    img: require('../../../../../resource/imgs/home/applications/modification.png'),
-                    name: '修改',
-                    action: () => this.update(this.props.rwid)
-                }
-            );
             this.setState({
                 actionList: actionList
             });           
@@ -180,8 +192,8 @@ const styles = StyleSheet.create({
         borderRadius:5
     },
     img: {
-        width:width * 0.1,
-        height:width * 0.1,
+        width:width * 0.08,
+        height:width * 0.08,
         marginLeft:width*0.04,
         marginRight:width*0.04
     }
