@@ -34,11 +34,11 @@ export default class FillProgress extends Component {
             <View style={styles.flex}>
                 <StatusBar title="填报进展" navigator={this.props.navigator}/>
                 <View style={styles.itemView}>
-                    <Text style={{fontSize:15,fontWeight:'500'}}>部门工作计划1</Text>
+                    <Text style={{fontSize:15,fontWeight:'500'}}>{this.props.jhmc}</Text>
                 </View>
-                <KeyPercentage propKey="当前进度" value={this.state.wcbl} textChange={(value)=>this.setState({wcbl:value})}/>
+                <KeyPercentage propKey="当前进度比例*" value={this.state.wcbl} textChange={(value)=>this.setState({wcbl:value})}/>
                 <KeyTime propKey="实际开始时间" showDate={this.state.sjqdsj} changeDate={(date)=>this.setState({sjqdsj:date})}/>
-                {parseInt(this.state.wcbl)===100?
+                {parseInt(this.state.wcbl)==100?
                     <KeyTime propKey="实际完成时间" showDate={this.state.sjwcsj} changeDate={(date)=>this.setState({sjwcsj:date})}/>
                 :null}
 
@@ -68,8 +68,8 @@ export default class FillProgress extends Component {
             </View>
         );
     }
-    clickBtn() {
 
+    clickBtn() {
         if(this.state.wcbl===''){
             toast.show('请填写完成比例');
         }else if(this.state.sjqdsj===''){
@@ -124,10 +124,11 @@ export default class FillProgress extends Component {
             });
             if(data.code === 1){
                 data = data.data;
+                console.log(data)
                 this.setState({
                     jhmc:data.jhmc,
                     sjqdsj:data.sjqdsj||data.qdsj,
-                    sjwcsj:data.sjwcsj,
+                    sjwcsj:data.sjwcsj||data.wcsj,
                     wcbl:data.wcbl+'',
                     wcbz:data.wcbz
                 })

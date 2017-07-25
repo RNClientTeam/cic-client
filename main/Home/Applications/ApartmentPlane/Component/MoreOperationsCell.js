@@ -1,6 +1,7 @@
 /**
  * Created by Nealyang on 2017/5/3.
  */
+
 'use strict';
 import React, {Component} from 'react'
 import {
@@ -18,6 +19,7 @@ import toast from 'react-native-simple-toast'
 import ApartmentPlaneDetail from "./ApartmentPlaneDetail";
 import EditApartmentPlane from "./EditApartmentPlane";
 import FillProgress from "./FillProgress";
+import HistoricalCompletion from "./HistoricalCompletion";
 
 export default class MoreOperationsCell extends Component {
     render() {
@@ -40,6 +42,7 @@ export default class MoreOperationsCell extends Component {
                     reload: this.props.reload
                 }
             });
+            this.props.closeModal();
         } else if (this.props.dataSource.name === '删除') {
             axios.post('/psmBmjh/delete', {
                 userID: GLOBAL_USERID,
@@ -48,35 +51,45 @@ export default class MoreOperationsCell extends Component {
             }).then(data => {
                 if (data.code === 1) {
                     toast.show('删除成功');
+                    this.props.reload();
+                    this.props.closeModal();
+                }else{
+                    toast.show(data.message)
                 }
+            }).catch(err=>{
+                toast.show('服务端异常');
             })
-        } else if (this.props.dataSource.name === '查看详情') {
+        } else if (this.props.dataSource.name === '历史进展情况') {
             this.props.navigator.push({
-                component: ApartmentPlaneDetail,
-                name: "ApartmentPlaneDetail",
+                component: HistoricalCompletion,
+                name: "HistoricalCompletion",
                 params: {
                     id: this.props.operatingItem.id
                 }
-            })
+            });
+            this.props.closeModal();
         } else if (this.props.dataSource.name === '修改') {
             this.props.navigator.push({
                 component: EditApartmentPlane,
                 name: "EditApartmentPlane",
                 params: {
-                    id: this.props.operatingItem.id
+                    id: this.props.operatingItem.id,
+                    reload: this.props.reload
                 }
-            })
+            });
+            this.props.closeModal();
         } else if (this.props.dataSource.name === '填报进展') {
             this.props.navigator.push({
                 component: FillProgress,
                 name: "FillProgress",
                 params: {
                     id: this.props.operatingItem.id,
+                    jhmc:this.props.operatingItem.jhmc,
                     reload: this.props.reload
                 }
-            })
+            });
+            this.props.closeModal();
         }
-        this.props.closeModal();
     }
 }
 

@@ -39,7 +39,7 @@ export default class CompletionForm extends Component {
                 </View>
                 <KeyPercentage readOnly={true} propKey="当前进度" value={this.state.wcbl} textChange={(value)=>this.setState({wcbl:value})}/>
                 <KeyValueRight propKey="实际开始时间" defaultValue={this.state.sjqdsj} readOnly={true}/>
-                {parseInt(this.state.wcbl)===100?
+                {parseInt(this.state.wcbl)==100?
                     <KeyTime propKey="实际完成时间" showDate={this.state.sjwcsj} changeDate={(date)=>this.setState({sjwcsj:date})}/>
                     :null}
 
@@ -71,40 +71,44 @@ export default class CompletionForm extends Component {
         );
     }
     clickBtn() {
-
-        if(this.state.wcbl===''){
-            toast.show('请填写完成比例');
-        }else if(this.state.sjqdsj===''){
-            toast.show('请填写开始时间')
-        }else if(parseInt(this.state.wcbl)===100&&this.state.sjwcsj===''){
-            toast.show('请填写完成时间')
-        }else{
-            this.setState({
-                isLoading:true
-            });
-            axios.post('/psmBmjh/updateQrwc',{
-                userID:GLOBAL_USERID,
-                jhid:this.props.id,
-                sjwcsj:this.state.sjwcsj,
-                callID:true
-            }).then(data=>{
+        if(parseInt(this.state.wcbl)===100){
+            if(this.state.wcbl===''){
+                toast.show('请填写完成比例');
+            }else if(this.state.sjqdsj===''){
+                toast.show('请填写开始时间')
+            }else if(parseInt(this.state.wcbl)===100&&this.state.sjwcsj===''){
+                toast.show('请填写完成时间')
+            }else{
                 this.setState({
-                    isLoading:false
+                    isLoading:true
                 });
-                if(data.code === 1){
-                    toast.show('提交成功');
-                    let that = this;
-                    setTimeout(function () {
-                        that.props.navigator.pop();
-                        this.props.reload();
-                    })
-                }else{
-                    toast.show(data.message);
-                }
-            }).catch(err=>{
-                toast.show('服务端异常');
-            })
+                axios.post('/psmBmjh/updateQrwc',{
+                    userID:GLOBAL_USERID,
+                    jhid:this.props.id,
+                    sjwcsj:this.state.sjwcsj,
+                    callID:true
+                }).then(data=>{
+                    this.setState({
+                        isLoading:false
+                    });
+                    if(data.code === 1){
+                        toast.show('提交成功');
+                        let that = this;
+                        setTimeout(function () {
+                            that.props.navigator.pop();
+                            this.props.reload();
+                        })
+                    }else{
+                        toast.show(data.message);
+                    }
+                }).catch(err=>{
+                    toast.show('服务端异常');
+                })
+            }
+        }else{
+            toast.show('完成比例不是100%，不可确认完成');
         }
+
     }
 
     componentDidMount() {
@@ -126,7 +130,7 @@ export default class CompletionForm extends Component {
                 this.setState({
                     jhmc:data.jhmc,
                     sjqdsj:data.sjqdsj||data.qdsj,
-                    sjwcsj:data.sjwcsj,
+                    sjwcsj:data.sjwcsj||data.wcsj,
                     wcbl:data.wcbl+'',
                     wcbz:data.wcbz
                 })

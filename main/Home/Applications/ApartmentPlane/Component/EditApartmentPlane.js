@@ -53,7 +53,7 @@ export default class EditApartmentPlane extends Component {
                             <TextInput placeholder='请填写'
                                        underlineColorAndroid="transparent"
                                        placeholderTextColor='#999'
-                                       defaultValue={this.state.jhmc}
+                                       value={this.state.jhmc}
                                        onChangeText={(text)=>this.setState({jhmc:text})}
                                        textAlign="right"
                                        style={{width:width*0.5, fontSize:15}}
@@ -92,6 +92,7 @@ export default class EditApartmentPlane extends Component {
                                        multiline={true}
                                        autoCapitalize="none"
                                        autoCorrect={false}
+                                       value={this.state.wcbz}
                                        underlineColorAndroid="transparent"
                                        onChangeText={(text)=>this.setState({wcbz:text})}
                                        placeholder="请填写"/>
@@ -221,6 +222,7 @@ export default class EditApartmentPlane extends Component {
                     let that = this;
                     setTimeout(function () {
                         that.props.navigator.pop();
+                        that.props.reload();
                     },500);
                 }else{
                     toast.show(data.message)

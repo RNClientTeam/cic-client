@@ -36,7 +36,7 @@ export default class Organization extends Component {
         if (this.props.type === 'dep')
             this.getDeps('ROOT', 0, 1);
         else
-            this.getDeps();
+            this.getDeps(this.props.depId||'');
         //监听切换到组织tab
         this.listener = DeviceEventEmitter.addListener('enterOrganization',
             (event) => {

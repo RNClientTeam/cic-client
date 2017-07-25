@@ -44,13 +44,14 @@ export default class ChoosePro extends Component {
         return (
             <TouchableHighlight onPress={this._clickItem.bind(this, rowData)} underlayColor="#e8e8e8">
                 <View style={styles.itemView}>
-                    <Text style={styles.textNum}>{rowData.xmid}</Text>
+                    <Text style={styles.textNum}>{rowData.id}</Text>
                     <Text style={styles.textInfo}>{rowData.xmmc}</Text>
                 </View>
             </TouchableHighlight>
         );
     }
     _clickItem(rowData) {
+        console.log(rowData);
         this.props.navigator.push({
             component: ChoosePlane,
             name: 'ChoosePlane',
@@ -78,6 +79,7 @@ export default class ChoosePro extends Component {
             this.setState({
                 isLoading:false
             });
+            console.log(data)
             if(data.code ===1){
                 this.setState({
                     dataSource:data.data&&data.data.list?data.data.list:[]

@@ -32,6 +32,7 @@ export default class KeyPercentage extends Component{
                                 toast.show('请填写整数')
                             }else{
                                 this.props.textChange(text);
+                                this.setState({value:text});
                             }
                         }}
                         style={styles.textInput}

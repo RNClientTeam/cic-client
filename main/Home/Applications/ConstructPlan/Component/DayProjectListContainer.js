@@ -67,7 +67,7 @@ export default class DayProjectListContainer extends Component {
     renderContent(list) {
         return list.map((items, index) =>
             (
-                <View key={index}>
+                <View key={index} style={{backgroundColor:"red"}}>
                     <ProjectTagName name={items.zxmc}/>
                     {items.listMap && items.listMap.length > 0 ? this.renderInsert(items.listMap) : null}
                 </View>

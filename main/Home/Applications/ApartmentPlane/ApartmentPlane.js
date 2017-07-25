@@ -9,7 +9,8 @@ import {
     Image,
     TouchableOpacity,
     Text,
-    Modal
+    Modal,
+    TouchableWithoutFeedback
 } from 'react-native'
 const {width}  = Dimensions.get('window');
 import StatusBar from '../../../Component/StatusBar.js';
@@ -43,7 +44,10 @@ export default class ApartmentPlane extends Component{
     addBtn() {
         this.props.navigator.push({
             component: AddApartmentPlane,
-            name: 'AddApartmentPlane'
+            name: 'AddApartmentPlane',
+            params:{
+                reload:()=>this.getDataFromNet()
+            }
         });
     }
 
@@ -51,15 +55,21 @@ export default class ApartmentPlane extends Component{
         return(
             <View style={styles.earlierStage}>
                 <StatusBar navigator={this.props.navigator} title="部门计划">
-                    <TouchableOpacity onPress={()=>{this.setState({isModalVisible:!this.state.isModalVisible})}}>
-                        <Image style={[styles.filtrate, {marginLeft:-width*0.045-10}]} source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={()=>{this.addBtn()}}>
-                        <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
+                    <TouchableWithoutFeedback
+                        onPress={()=>{this.addBtn()}}
+                    >
+                        <Image style={{width: 0.04 * width, height: 0.04 * width,position:'absolute',right:width*0.12}}
+                               source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
+                    </TouchableWithoutFeedback>
+                    <TouchableOpacity
+                        onPress={()=>{this.setState({isModalVisible:!this.state.isModalVisible})}}
+                    >
+                        <Image style={styles.filtrate}
+                               source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
                 {/*添加功能*/}
-                <SearchHeader/>
+                <SearchHeader changeZxmc={(text)=>this.setState({jhmc:text})} getData={()=>this.getDataFromNet()}/>
                 <ApartmentPlaneList
                     loadMore={()=>this.loadMore()}
                     dataSource={this.state.dataList}
@@ -183,6 +193,7 @@ export default class ApartmentPlane extends Component{
             }
         }).then(data=>{
             this.hideLoading();
+            console.log(data)
             if(data.code ===1){
                 let result = true;
                 if(data.data && data.data.list && data.data.list.length>0){

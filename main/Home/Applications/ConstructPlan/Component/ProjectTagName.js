@@ -16,7 +16,7 @@ export default class ProjectTagName extends Component{
         return(
             <View style={styles.contianerStyle}>
                 <View style={[styles.textContainer,{width:((this.props.name&&this.props.name.length)*width*0.039+width*0.02)}]}>
-                    <Text style={{color:'#fff',fontSize:width*0.035}} >{this.props.name}</Text>
+                    <Text style={{color:'#fff',fontSize:width*0.035,width:width*0.5}} >{this.props.name}</Text>
                 </View>
             </View>
         )
@@ -26,7 +26,6 @@ export default class ProjectTagName extends Component{
 const styles = StyleSheet.create({
     contianerStyle:{
         width:width,
-        height:width*0.06,
         marginTop:width*0.04,
         marginBottom:width*0.02
     },

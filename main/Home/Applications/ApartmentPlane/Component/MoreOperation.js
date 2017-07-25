@@ -48,7 +48,7 @@ export default class MoreOperation extends Component {
 
     componentWillReceiveProps(props) {
         let authList = props.authList;
-        let templateArr = [{img:require('../../../../../resource/imgs/home/applications/checkDetail.png'),name:'查看详情'}];
+        let templateArr = [{img:require('../../../../../resource/imgs/home/applications/checkDetail.png'),name:'历史进展情况'}];
         for(let i = 0;i<authList.length;i++){
             if(authList[i].name === 'edit' && authList[i].show){
                 templateArr.push({img:require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),name:'修改'})
@@ -60,6 +60,7 @@ export default class MoreOperation extends Component {
                 templateArr.push( {img:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'确认完成'})
             }
         }
+        templateArr.push({img:require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),name:'填报进展'})
         this.setState({
             data:templateArr
         })

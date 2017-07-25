@@ -38,8 +38,8 @@ export default class AddApartmentPlane extends Component {
             zrbmmc:'',
             zrr:'',
             zrrmc:"",
-            jhkssj:getCurrentMonS(),
-            jhjssj:getCurrentMonE(),
+            jhkssj:'',
+            jhjssj:'',
             wcbz:''
         }
     }
@@ -68,8 +68,8 @@ export default class AddApartmentPlane extends Component {
                         renderSeparator={(sectionID, rowID) => {
                             return (<View key={`${sectionID}-${rowID}`} style={styles.separatorView}/>)
                         }}/>
-                    <KeyTime onlyDate={true} propKey="开始时间" showDate={this.state.jhkssj} changeDate={(date)=>this.setState({jhkssj:date})}/>
-                    <KeyTime onlyDate={true} propKey="结束时间" showDate={this.state.jhjssj} changeDate={(date)=>this.setState({jhjssj:date})}/>
+                    <KeyTime onlyDate={true} propKey="计划开始时间" showDate={this.state.jhkssj} changeDate={(date)=>this.setState({jhkssj:date})}/>
+                    <KeyTime onlyDate={true} propKey="计划结束结束时间" showDate={this.state.jhjssj} changeDate={(date)=>this.setState({jhjssj:date})}/>
                     <TouchableHighlight underlayColor="transparent" onPress={this.choiceZrbm.bind(this)}>
                         <View style={[styles.viewStyle, {height:0.0735*height,marginBottom:1}]}>
                             <Text style={styles.keyText}>责任部门</Text>
@@ -148,7 +148,8 @@ export default class AddApartmentPlane extends Component {
                     });
 
                 },
-                type: 'emp'
+                type: 'emp',
+                depId:this.state.zrbm.indexOf(',')>-1?'':this.state.zrbm
             }
         })
     }
@@ -220,6 +221,7 @@ export default class AddApartmentPlane extends Component {
                     toast.show(data.message);
                     let that = this;
                     setTimeout(function () {
+                        that.props.reload();
                         that.props.navigator.pop();
                     },500);
                 }else{
@@ -229,6 +231,19 @@ export default class AddApartmentPlane extends Component {
                 toast.show('服务端异常');
             })
         }
+    }
+
+    componentDidMount() {
+        storage.load({
+            key:'userMessage'
+        }).then(data=>{
+            this.setState({
+                zrrmc: data.userName,
+                zrr: data.userId,
+                zrbmmc: data.deptName,
+                zrbm: data.deptID
+            })
+        })
     }
 
     renderFooter() {

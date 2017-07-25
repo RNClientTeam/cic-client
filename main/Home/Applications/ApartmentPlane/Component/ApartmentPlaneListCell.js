@@ -2,6 +2,7 @@
  * Created by fan on 2017/05/10.
  * 前期进度计划详情页 - 进度计划cell
  */
+
 'use strict';
 import React, {Component} from 'react'
 import {
@@ -14,6 +15,7 @@ import {
 } from 'react-native'
 const {width} = Dimensions.get('window');
 import HistoricalCompletion from './HistoricalCompletion.js';
+import ApartmentPlaneDetail from "./ApartmentPlaneDetail";
 export default class ApartmentPlaneListCell extends Component {
     render() {
         return (
@@ -22,17 +24,17 @@ export default class ApartmentPlaneListCell extends Component {
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
                             <Text style={{color:'#216fd0',fontSize:width*0.045}} numberOfLines={1}>{this.props.data.jhrw}</Text>
-                            <View style={styles.stateView}>
+                            <View style={[styles.stateView,this.props.data.ztmc==='启动'?{backgroundColor:'#11cb43'}:{}]}>
                                 <Text style={styles.stateText}>{this.props.data.ztmc}</Text>
                             </View>
                         </View>
-                        <Text style={styles.projectName}>{this.props.data.xmbh} - {this.props.data.lymc}</Text>
+                        <Text style={styles.projectName}>{this.props.data.xmbh} - {this.props.data.xmmc}</Text>
                     </View>
                     <View style={styles.aboutPrincipal}>
                         <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zrrmc}</Text>
-                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zrbmmc}</Text>
-                        <Text style={[{width: width * 0.5,marginLeft: 3}, styles.textStyle]}>{this.props.data.wcbl?this.props.data.wcbl+'%':""}</Text>
-                        <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.qdsj}</Text>
+                        <Text style={[{width: width * 0.3}, styles.textStyle]}>{this.props.data.zrbmmc}</Text>
+                        <Text style={[{width: width * 0.4,marginLeft: 4}, styles.textStyle]}>{this.props.data.wcbl?this.props.data.wcbl+'%':"0%"}</Text>
+                        <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.qdsj+' ~ ' +this.props.data.wcsj}</Text>
                         <TouchableOpacity onPress={()=>{this.props.setModalVisible(this.props.data.id);this.props.getOperatingItem(this.props.data)}} style={styles.editTouch}>
                             <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}
                                 style={styles.editImg} resizeMode="contain"/>
@@ -45,8 +47,8 @@ export default class ApartmentPlaneListCell extends Component {
 
     skipPage() {
         this.props.navigator.push({
-            component: HistoricalCompletion,
-            name: 'HistoricalCompletion',
+            component: ApartmentPlaneDetail,
+            name: 'ApartmentPlaneDetail',
             params:{
                 id:this.props.data.id
             }
@@ -90,7 +92,8 @@ const styles = StyleSheet.create({
     textStyle: {
         height: width * 0.1,
         lineHeight: 30,
-        color:'#4f74a3'
+        color:'#4f74a3',
+        fontSize:12
     },
     stateView: {
         backgroundColor: '#fe9a25',
@@ -105,6 +108,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 22,
         right: 18,
+        padding:5
     },
     editImg: {
         width: 22,
