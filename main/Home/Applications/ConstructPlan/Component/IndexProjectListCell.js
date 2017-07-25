@@ -17,8 +17,7 @@ export default class IndexProjectListCell extends Component{
     render(){
         return(
             <TouchableOpacity style={styles.containerStyle}>
-                <View style={styles.topView}
-                >
+                <View style={styles.topView}>
                     <Text style={styles.topText}>{this.props.item.rwmc}</Text>
                     <View style={styles.stateStyle}>
                         <Text style={{color:'#fff',fontSize:width*0.036}}>{this.props.item.rwztmc}</Text>
@@ -46,7 +45,9 @@ const styles = StyleSheet.create({
         marginBottom:width*0.03
     },
     topText:{
-        color:'#216fd0'
+        color:'#216fd0',
+        flex: 1,
+        marginRight: 10
     },
     topView:{
         flexDirection:'row',
