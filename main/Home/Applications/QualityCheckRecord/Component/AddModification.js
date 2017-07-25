@@ -1,6 +1,8 @@
 /**
  * Created by zhubin on 17/6/1.
  */
+
+
 'use strict';
 import React, {Component} from 'react'
 import {
@@ -16,6 +18,7 @@ import StatusBar from "../../../../Component/StatusBar"
 import KeyValueRight from "../../../../Component/KeyValueRight"
 import LabelTextArea from "../../../../Component/LabelTextArea"
 import toast from 'react-native-simple-toast'
+
 const {width} = Dimensions.get('window');
 import ModalDropdown from 'react-native-modal-dropdown'
 import Loading from "../../../../Component/Loading";
@@ -24,69 +27,105 @@ import Organization from "../../../../Organization/Organization";
 import KeyTime from "../../../../Component/KeyTime";
 import {getCurrentDate} from '../../../../Util/Util'
 import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'
+import ChoiceFileComponent from "../../Component/ChoiceFileComponent";
+import CheckFlowInfo from "../../SafetyInspectionRecord/Component/CheckFlowInfo";
+
 export default class AddModification extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={
-            wtlbCns:[],
-            wtlbCodes:[],
-            wtlbCn:'请选择问题类别',
-            wtlb:'',
-            isLoading:false,
-            zgzrr:'',
-            zgzrrmc:'',
-            zgzrbm:'',
-            zgwcsjt:getCurrentDate(),
-            sjwcsjt:getCurrentDate(),
-            zgyq:'',
-            zcjg:''
+        this.state = {
+            wtlbCns: [],
+            wtlbCodes: [],
+            wtlbCn: '请选择问题类别',
+            wtlb: '',
+            isLoading: false,
+            zgzrr: '',
+            zgzrrmc: '',
+            zgzrbm: '',
+            zgwcsjt: getCurrentDate(),
+            sjwcsjt: getCurrentDate(),
+            zgyq: '',
+            zcjg: '',
         }
     }
+
     render() {
-        return(
+        return (
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="新增整改任务"/>
                 <ScrollView>
-                    <View style={styles.cellStyle}>
-                        <Text style={{color: '#216fd0'}}>问题类别</Text>
-                        <View style={styles.indicateView}>
-                            <ModalDropdown
-                                options={this.state.wtlbCns}
-                                animated={true}
-                                defaultValue={this.state.wtlbCn}
-                                style={styles.modalDropDown}
-                                textStyle={styles.modalDropDownText}
-                                dropdownStyle={styles.dropdownStyle}
-                                onSelect={(a) => {
-                                    this.setState({
-                                        wtlbCn: this.state.wtlbCns[a],
-                                        wtlb: this.state.wtlbCodes[a]
-                                    })
-                                }}
-                                showsVerticalScrollIndicator={false}
-                            />
-                            <Image style={styles.indicateImage}
-                                   source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
+                    {this.props.type === '查看详情' ||this.props.type==='填报完成情况'?
+                        <KeyValueRight propKey="问题类别" readOnly={true} defaultValue={this.state.wtlbCn}/> :
+                        <View style={styles.cellStyle}>
+                            <Text style={{color: '#216fd0'}}>问题类别</Text>
+                            <View style={styles.indicateView}>
+                                <ModalDropdown
+                                    options={this.state.wtlbCns}
+                                    animated={true}
+                                    defaultValue={this.state.wtlbCn}
+                                    style={styles.modalDropDown}
+                                    textStyle={styles.modalDropDownText}
+                                    dropdownStyle={styles.dropdownStyle}
+                                    onSelect={(a) => {
+                                        this.setState({
+                                            wtlbCn: this.state.wtlbCns[a],
+                                            wtlb: this.state.wtlbCodes[a]
+                                        })
+                                    }}
+                                    showsVerticalScrollIndicator={false}
+                                />
+                                <Image style={styles.indicateImage}
+                                       source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
+                            </View>
                         </View>
-                    </View>
-                    <KeySelect propKey="整改责任人" choiceInfo={this.choicePeople.bind(this)} value={this.state.zgzrrmc}/>
-                    <KeyTime propKey="整改完成时间" onlyDate={true} showDate={this.state.zgwcsjt}
-                             changeDate={(date) => this.setState({zgwcsjt: date})}/>
-                    <KeyTime propKey="实际完成时间" onlyDate={true} showDate={this.state.sjwcsjt}
-                             changeDate={(date) => this.setState({sjwcsjt: date})}/>
+                    }
+                    {
+                        this.props.type === '查看详情'||this.props.type==='填报完成情况' ?
+                            <KeyValueRight propKey="整改责任人" readOnly={true} defaultValue={this.state.zgzrrmc}/> :
+                            <KeySelect propKey="整改责任人" choiceInfo={this.choicePeople.bind(this)}
+                                       value={this.state.zgzrrmc}/>
+                    }
+                    {
+                        this.props.type === '查看详情'||this.props.type==='填报完成情况' ?
+                            <KeyValueRight propKey="整改完成时间" readOnly={true} defaultValue={this.state.zgwcsjt}/> :
+                            <KeyTime propKey="整改完成时间" onlyDate={true} showDate={this.state.zgwcsjt}
+                                     changeDate={(date) => this.setState({zgwcsjt: date})}/>
+                    }
+                    {
+                        this.props.type === '查看详情' ||this.props.type === '编辑'?
+                            <KeyValueRight propKey="实际完成时间" readOnly={true} defaultValue={this.state.sjwcsjt}/> :
+                            <KeyTime propKey="实际完成时间" onlyDate={true} showDate={this.state.sjwcsjt}
+                                     changeDate={(date) => this.setState({sjwcsjt: date})}/>
+                    }
+
                     <View style={styles.divide}/>
-                    {this.state.wtlbCn==='正常'?null:<LabelTextArea onTextChange={(text)=>this.setState({zgyq:text})} label="整改要求"/>}
+                    {this.state.wtlbCn === '正常' ? null :
+                        <LabelTextArea
+                            readOnly={this.props.type === '查看详情'||this.props.type==='填报完成情况'}
+                            value={this.state.zgyq}
+                            onTextChange={(text) => this.setState({zgyq: text})}
+                            label="整改要求"/>}
                     <View style={styles.divide}/>
-                    <LabelTextArea onTextChange={(text)=>this.setState({zcjg:text})} label="检查结果"/>
+                    <LabelTextArea
+                        readOnly={this.props.type === '查看详情'||this.props.type === '编辑'}
+                        value={this.state.zcjg}
+                        onTextChange={(text) => this.setState({zcjg: text})}
+                        label="检查结果"/>
+                    <View style={styles.divide}/>
+                    <ChoiceFileComponent readOnlye={this.props.type === '查看详情'} businessModule="zljcjl"/>
                 </ScrollView>
-                <View style={styles.actionPanel}>
-                    <TouchableOpacity onPress={() => this.submit()}>
-                        <View style={styles.button}>
-                            <Text style={styles.buttonText}>保存</Text>
+                {
+                    this.props.type === '查看详情' ? null :
+                        <View style={styles.actionPanel}>
+                            <TouchableOpacity onPress={() => this.submit()}>
+                                <View style={styles.button}>
+                                    <Text style={styles.buttonText}>保存</Text>
+                                </View>
+                            </TouchableOpacity>
                         </View>
-                    </TouchableOpacity>
-                </View>
-                {this.state.isLoading?<Loading/>:null}
+                }
+
+                {this.state.isLoading ? <Loading/> : null}
             </View>
         )
     }
@@ -108,38 +147,38 @@ export default class AddModification extends Component {
     }
 
     componentDidMount() {
-        this._getDictionaryList()
+        this._getDictionaryList();
+        this._getDetail();
     }
 
-    _getDictionaryList(){
+    _getDictionaryList() {
         this.setState({
-            isLoading:true
+            isLoading: true
         });
-        axios.get('/dictionary/list',{
-            params:{
-                userID:GLOBAL_USERID,
-                root:'JDJH_WTLB',
-                callID:true
+        axios.get('/dictionary/list', {
+            params: {
+                userID: GLOBAL_USERID,
+                root: 'JDJH_WTLB',
+                callID: true
             }
-        }).then(data=>{
+        }).then(data => {
             this.setState({
-                isLoading:false
+                isLoading: false
             });
-            if(data.code === 1){
-                let cns = [],codes=[];
-                for(let i = 0;i<data.data.length;i++){
+            if (data.code === 1) {
+                let cns = [], codes = [];
+                for (let i = 0; i < data.data.length; i++) {
                     cns.push(data.data[i].name);
                     codes.push(data.data[i].code)
                 }
                 this.setState({
-                    wtlbCns:cns,
-                    wtlbCodes:codes
+                    wtlbCns: cns,
+                    wtlbCodes: codes
                 })
-            }else{
+            } else {
                 toast.show(data.message)
             }
-            console.log(data)
-        }).catch(err=>{
+        }).catch(err => {
             toast.show('服务端异常');
         })
     }
@@ -149,42 +188,135 @@ export default class AddModification extends Component {
     }
 
     /**
-     * 提交
+     * 获取详情
      */
-    submit(){
-        if(this.state.wtlb === ''){
-            toast.show('请选择问题类别')
-        }else if(this.state.zgzrr === ''){
-            toast.show('请选择责任人')
-        }else{
-            axios.post('/psmZljcjl/zgrwSave',{
-                userID:GLOBAL_USERID,
-                zljcjlId:this.props.id,
-                nodeId:this.props.nodeId,
-                wtlb:this.state.wtlb,
-                zgyq:this.state.zgyq,
-                zgzrr:this.state.zgzrr,
-                zgzrbm:this.state.zgzrbm,
-                zgwcsjt:this.state.zgwcsjt,
-                sjwcsjt:this.state.sjwcsjt,
-                zcjg:this.state.zcjg,
-                callID:true
-            }).then(data=>{
-                console.log(data);
-                if(data.code === 1){
-                    toast.show('提交成功');
-                    let that  = this;
-                    setTimeout(function () {
-                        that.props.navigator.pop();
-                    },500)
-                }else{
+    _getDetail() {
+        if (this.props.type) {
+            axios.get('/psmZljcjl/zgrwDetail', {
+                params: {
+                    userID: GLOBAL_USERID,
+                    id: this.props.id,
+                    callID: true
+                }
+            }).then(data => {
+                if (data.code === 1) {
+                    data = data.data;
+                    this.setState({
+                        wtlbCn: data.wtlbmc,
+                        wtlb: data.wtlb,
+                        zgzrrmc: data.zgzrrmc,
+                        zgzrr: data.zgzrr,
+                        zgwcsjt: data.zgwcsj,
+                        sjwcsjt: data.sjwcsj,
+                        zgyq: data.zgyq,
+                        zcjg: data.zcjg,
+                        zgzrbm: data.zgzrbm
+                    })
+                } else {
                     toast.show(data.message)
                 }
-            }).catch(err=>{
-                toast.show('服务端异常')
+            }).catch(err => {
+                toast.show('服务端异常');
             })
         }
+    }
 
+    /**
+     * 提交
+     */
+    submit() {
+        if (this.state.wtlb === '') {
+            toast.show('请选择问题类别')
+        } else if (this.state.zgzrr === '') {
+            toast.show('请选择责任人')
+        } else {
+            if(this.props.type){
+                //修改
+                axios.post('/psmZljcjl/zgrwEdit',{
+                    userID: GLOBAL_USERID,
+                    id:this.props.id,
+                    zljcjlId:this.props.zljcjlId,
+                    nodeId:this.props.nodeId,
+                    wtlb:this.state.wtlb,
+                    zgyq:this.state.zgyq,
+                    zgzrr:this.state.zgzrr,
+                    zgzrbm:this.state.zgzrbm,
+                    zgwcsjt:this.state.zgwcsjt,
+                    sjwcsjt:this.state.sjwcsjt,
+                    zcjg:this.state.zcjg,
+                    callID:true
+                }).then(data => {
+                    console.log(data);
+                    if (data.code === 1) {
+                        toast.show('提交成功');
+                        if (data.data) {
+                            this.props.navigator.push({
+                                name: 'CheckFlowInfo',
+                                component: CheckFlowInfo,
+                                params: {
+                                    resID: data.data,
+                                    wfName: 'jdjhzljcjl',
+                                    reloadInfo: this._reloadInfo.bind(this),
+                                    name: 'QualityDoubleCheckRecord'
+                                }
+                            })
+                        } else {
+                            let that = this;
+                            setTimeout(function () {
+                                that.props.navigator.pop();
+                            }, 500)
+                        }
+                    } else {
+                        toast.show(data.message)
+                    }
+                }).catch(err => {
+                    console.log(err);
+                    toast.show('服务端异常')
+                })
+            }else{
+                axios.post('/psmZljcjl/zgrwSave', {
+                    userID: GLOBAL_USERID,
+                    zljcjlId: this.props.id,
+                    nodeId: this.props.nodeId,
+                    wtlb: this.state.wtlb,
+                    zgyq: this.state.zgyq,
+                    zgzrr: this.state.zgzrr,
+                    zgzrbm: this.state.zgzrbm,
+                    zgwcsjt: this.state.zgwcsjt,
+                    sjwcsjt: this.state.sjwcsjt,
+                    zcjg: this.state.zcjg,
+                    callID: true
+                }).then(data => {
+                    if (data.code === 1) {
+                        toast.show('提交成功');
+                        if (data.data) {
+                            this.props.navigator.push({
+                                name: 'CheckFlowInfo',
+                                component: CheckFlowInfo,
+                                params: {
+                                    resID: data.data,
+                                    wfName: 'jdjhzljcjl',
+                                    reloadInfo: this._reloadInfo.bind(this),
+                                    name: 'QualityDoubleCheckRecord'
+                                }
+                            })
+                        } else {
+                            let that = this;
+                            setTimeout(function () {
+                                that.props.navigator.pop();
+                            }, 500)
+                        }
+                    } else {
+                        toast.show(data.message)
+                    }
+                }).catch(err => {
+                    console.log(err);
+                    toast.show('服务端异常')
+                })
+
+            }
+
+        }
     }
 }
 
@@ -210,7 +342,7 @@ const styles = StyleSheet.create({
         marginLeft: width * 0.02,
         marginRight: width * 0.02,
         marginBottom: width * 0.02,
-        marginTop: width*0.05,
+        marginTop: width * 0.05,
         borderRadius: 5
     },
     buttonText: {

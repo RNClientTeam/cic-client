@@ -1,6 +1,8 @@
 /**
  * Created by zhubin on 17/5/30.
  */
+
+
 'use strict';
 import React, {Component} from 'react'
 import {
@@ -12,6 +14,7 @@ import {
     TouchableWithoutFeedback,
     Image
 } from 'react-native'
+import AddModification from "./AddModification";
 
 const {width} = Dimensions.get('window');
 
@@ -30,7 +33,7 @@ export default class ModificationTaskCell extends Component {
                     <Text style={[{width: width * 0.5}, styles.textStyle]}>{this.props.data.zgzrrmc}</Text>
                     <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zgzrbmmc}</Text>
                     <Text style={[{width: width * 0.7, marginTop:10}, styles.textStyle]}>{this.props.data.zgwcsj}</Text>
-                    <TouchableWithoutFeedback onPress={this.editBtn.bind(this)}>
+                    <TouchableWithoutFeedback onPress={()=>{this.editBtn(this.props.data.id)}}>
                         <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')} style={styles.editBtnSty}/>
                     </TouchableWithoutFeedback>
                 </View>
@@ -39,11 +42,18 @@ export default class ModificationTaskCell extends Component {
     }
 
     skipToDetail(){
-
+        this.props.navigator.push({
+            name:"AddModification",
+            component:AddModification,
+            params:{
+                id:this.props.data.id,
+                type:'查看详情'
+            }
+        })
     }
 
-    editBtn() {
-        this.props.setModalVisible();
+    editBtn(id) {
+        this.props.setModalVisible(id);
     }
 }
 

@@ -14,6 +14,12 @@ import {
 const {width} = Dimensions.get('window');
 
 export default class LabelTextArea extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            value:this.props.value
+        }
+    }
     render() {
         return (
             <View style={styles.textArea}>
@@ -26,8 +32,11 @@ export default class LabelTextArea extends Component {
                     <TextInput
                         multiline = {true}
                         numberOfLines = {4}
+                        value={this.state.value}
                         placeholder="请填写"
+                        editable={!this.props.readOnly}
                         onChangeText={(text)=>{
+                            this.setState({value:text});
                             if(this.props.onTextChange){
                                 this.props.onTextChange(text);
                             } else if (this.props.inputResult) {
@@ -39,6 +48,12 @@ export default class LabelTextArea extends Component {
                 </View>
             </View>
         )
+    }
+
+    componentWillReceiveProps(props) {
+        this.setState({
+            value:props.value
+        })
     }
 }
 

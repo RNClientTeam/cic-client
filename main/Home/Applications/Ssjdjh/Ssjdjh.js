@@ -89,6 +89,9 @@ export default class Ssjdjh extends Component {
         this.setState({
             pageNum: 1
         });
+        this.setState({
+            isLoading:true
+        });
         let lx = '';
         if (this.state.jhlx === '全部') {
             lx = 500;
@@ -113,6 +116,9 @@ export default class Ssjdjh extends Component {
                 keywords: this.state.keywords
             }
         }).then(data => {
+            this.setState({
+                isLoading:false
+            });
             if (data.code === 1) {
                 this.dataArr = [];
                 for (let i = 0; i < data.data.data.length; i++) {

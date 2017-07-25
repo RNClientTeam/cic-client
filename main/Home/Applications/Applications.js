@@ -37,7 +37,7 @@ var businessApp = [
     {title:'前期进度计划执行', image: require('../../../resource/imgs/home/applications/scheduleExecution.png'), sectionID:1},
     {title:'工程子项拆分', image: require('../../../resource/imgs/home/applications/engineeringSubdivision.png'), sectionID:1},
     {title:'工程范围交接', image: require('../../../resource/imgs/home/applications/engineeringTransfer.png'), sectionID:1},
-    {title:'实施进度计划', image: require('../../../resource/imgs/home/applications/implementationSchedule.png'), sectionID:1},
+    {title:'实施进度计划执行', image: require('../../../resource/imgs/home/applications/implementationSchedule.png'), sectionID:1},
     {title:'施工进度计划编制', image: require('../../../resource/imgs/home/applications/schedulePlanning.png'), sectionID:1},
     {title:'施工进度计划执行', image: require('../../../resource/imgs/home/applications/executionConstruction.png'), sectionID:1},
     {title:'施工日计划', image: require('../../../resource/imgs/home/applications/dailyPlan.png'), sectionID:1},
@@ -242,7 +242,7 @@ export default class Applications extends Component {
                 component: DepartmentExecute,
                 name: 'DepartmentExecute'
             })
-        } else if (item.title === '实施进度计划') {
+        } else if (item.title === '实施进度计划执行') {
             this.props.navigator.push({
                 component: Ssjdjh,
                 name: 'Ssjdjh'

@@ -251,7 +251,7 @@ export default class AddShareData extends Component {
     }
 
     submit() {
-        if(this.state.uploadSuccess){
+        // if(this.state.uploadSuccess){
             let data = {
                 userID: GLOBAL_USERID,
                 fjid: this.state.fjid,
@@ -285,14 +285,15 @@ export default class AddShareData extends Component {
                         }
                     })
                     .catch(err => {
+                        console.log(err)
                         if(err){
                             toast.show('服务端异常');
                         }
                     })
             }
-        }else{
-            toast.show('请先上传共享文件');
-        }
+        // }else{
+        //     toast.show('请先上传共享文件');
+        // }
     }
 }
 
