@@ -17,6 +17,7 @@ import DoubleCheckDetail from "./DoubleCheckDetail"
 import DoubleCheckModification from './DoubleCheckModification'
 import DoubleCheckRecord from './DoubleCheckRecord'
 import AddModification from "./AddModification";
+import toast from 'react-native-simple-toast'
 
 const {width} = Dimensions.get('window');
 
@@ -24,7 +25,8 @@ export default class QualityDoubleCheckRecord extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            addIcon: false
+            addIcon: false,
+            canAdd:false
         }
     }
     render() {
@@ -32,11 +34,11 @@ export default class QualityDoubleCheckRecord extends Component {
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="质量检查记录复查">
                     {
-                        this.state.addIcon &&
+                        (this.state.addIcon && this.state.canAdd)?
                         <TouchableOpacity
                             onPress={() => this.addModification()}>
                             <Image style={styles.icon} source={require('../../../../../resource/imgs/home/earlierStage/add.png')}/>
-                        </TouchableOpacity>
+                        </TouchableOpacity>:null
                     }
                 </StatusBar>
                 <ScrollableTabView
@@ -63,6 +65,28 @@ export default class QualityDoubleCheckRecord extends Component {
                 id:this.props.data.id,
                 nodeId:this.props.data.nodeId
             }
+        })
+    }
+
+    componentDidMount() {
+        axios.get('/psmZljcjl/getOperationAuthority4Zljcjl',{
+            params:{
+                userID:GLOBAL_USERID,
+                stepId:this.props.data.nodeId,
+                isTodo:this.props.data.sfdb,
+                callID:true
+            }
+        }).then(data=>{
+            if(data.code === 1){
+                this.setState({
+                    // canAdd:data.data.checkAndaddZgrw
+                    canAdd:true
+                })
+            }else{
+                toast.show(data.message)
+            }
+        }).catch(err=>{
+            toast.show('服务端异常');
         })
     }
 }

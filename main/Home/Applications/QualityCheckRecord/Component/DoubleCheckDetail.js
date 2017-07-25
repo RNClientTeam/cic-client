@@ -10,7 +10,8 @@ import {
     ScrollView,
     Image,
     TouchableOpacity,
-    TextInput
+    TextInput,
+    Switch
 } from 'react-native'
 import ModalDropdown from 'react-native-modal-dropdown';
 import ChoiceDate from "../../../../Component/ChoiceDate.js";
@@ -152,7 +153,7 @@ export default class DoubleCheckDetail extends Component {
                     </View>
                     <View style={styles.keyValue}>
                         <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>检验时间</Text>
-                        <ChoiceDate showDate={this.state.data.jcsj||''}
+                        <ChoiceDate showDate={this.state.jcsj||''}
                             disabled={!this.props.check}
                             changeDate={(date)=>{
                                 this.setState({jcsj:date});
@@ -170,7 +171,7 @@ export default class DoubleCheckDetail extends Component {
                             options={this.state.questionList}
                             animated={true}
                             disabled={this.props.check}
-                            defaultValue={this.state.questionList[this.state.data.wtlb]||''}
+                            defaultValue={this.state.questionList[this.state.wtlb]||''}
                             style={{flex:1, alignItems:'flex-end'}}
                             textStyle={{fontSize:14}}
                             onSelect={(a) => {
@@ -199,7 +200,7 @@ export default class DoubleCheckDetail extends Component {
                         <View style={styles.textContent}>
                             <TextInput style={styles.textinputStyle}
                                 multiline={true}
-                                defaultValue={this.state.data.zgyq||''}
+                                defaultValue={this.state.zgyq||''}
                                 autoCapitalize="none"
                                 autoCorrect={false}
                                 onChangeText={(text) => {this.zgyq=text;}}

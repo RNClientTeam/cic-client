@@ -196,7 +196,7 @@ export default class QualityCheckRecord extends Component {
         axios.get('/psmZljcjl/calendar4Zljcjl', {
             params: {
                 userID: GLOBAL_USERID,
-                month: this.state.year + '-' + (this.state.month + 1),
+                month: this.state.year + '-' + (this.state.month + 1).toString().padStart(2,0),
                 type: type,
                 rwxz: this.state.rwxz,
                 rwzt: this.state.rwzt,
@@ -231,7 +231,7 @@ export default class QualityCheckRecord extends Component {
         axios.get('/psmZljcjl/list', {
             params: {
                 userID: GLOBAL_USERID,
-                date: `${this.state.year}-${this.state.month + 1}-${this.state.day}`,
+                date: `${this.state.year}-${(this.state.month + 1).toString().padStart(2,0)}-${this.state.day.toString().padStart(2,0)}`,
                 type: type,
                 rwxz: this.state.rwxz,
                 rwzt: this.state.rwzt,

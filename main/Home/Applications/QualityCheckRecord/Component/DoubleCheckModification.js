@@ -31,7 +31,7 @@ export default class DoubleCheckModification extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <PullList
+                <ListView
                     topIndicatorHeight={60}
                     dataSource={this.state.list.cloneWithRows(this.state.dataSource)}
                     renderRow={this.renderRow.bind(this)}
