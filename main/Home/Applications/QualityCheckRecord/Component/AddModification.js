@@ -10,7 +10,7 @@ import {
     Text,
     ScrollView,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
 } from 'react-native'
 import StatusBar from "../../../../Component/StatusBar"
 import KeyValueRight from "../../../../Component/KeyValueRight"
@@ -23,6 +23,7 @@ import KeySelect from "../../../../Component/KeySelect";
 import Organization from "../../../../Organization/Organization";
 import KeyTime from "../../../../Component/KeyTime";
 import {getCurrentDate} from '../../../../Util/Util'
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'
 export default class AddModification extends Component {
     constructor(props){
         super(props);
@@ -74,16 +75,11 @@ export default class AddModification extends Component {
                     <KeyTime propKey="实际完成时间" onlyDate={true} showDate={this.state.sjwcsjt}
                              changeDate={(date) => this.setState({sjwcsjt: date})}/>
                     <View style={styles.divide}/>
-                    <LabelTextArea onTextChange={(text)=>this.setState({zgyq:text})} label="整改要求"/>
+                    {this.state.wtlbCn==='正常'?null:<LabelTextArea onTextChange={(text)=>this.setState({zgyq:text})} label="整改要求"/>}
                     <View style={styles.divide}/>
                     <LabelTextArea onTextChange={(text)=>this.setState({zcjg:text})} label="检查结果"/>
                 </ScrollView>
                 <View style={styles.actionPanel}>
-                    <TouchableOpacity onPress={() => this.submit()}>
-                        <View style={[styles.button, {backgroundColor: "#02c088"}] }>
-                            <Text style={styles.buttonText}>保存并提交</Text>
-                        </View>
-                    </TouchableOpacity>
                     <TouchableOpacity onPress={() => this.submit()}>
                         <View style={styles.button}>
                             <Text style={styles.buttonText}>保存</Text>
@@ -148,6 +144,13 @@ export default class AddModification extends Component {
         })
     }
 
+    _reloadInfo() {
+        RCTDeviceEventEmitter.emit('reloadZLZGList', {});
+    }
+
+    /**
+     * 提交
+     */
     submit(){
         if(this.state.wtlb === ''){
             toast.show('请选择问题类别')
@@ -167,6 +170,7 @@ export default class AddModification extends Component {
                 zcjg:this.state.zcjg,
                 callID:true
             }).then(data=>{
+                console.log(data);
                 if(data.code === 1){
                     toast.show('提交成功');
                     let that  = this;
@@ -200,7 +204,7 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#216fd0',
         height: 0.12 * width,
-        width: 0.4 * width,
+        width: 0.8 * width,
         justifyContent: 'center',
         alignItems: 'center',
         marginLeft: width * 0.02,

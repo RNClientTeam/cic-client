@@ -18,7 +18,7 @@ const {width} = Dimensions.get('window');
 export default class ModificationTaskCell extends Component {
     render() {
         return (
-            <View style={styles.modificationTaskCell}>
+            <TouchableOpacity style={styles.modificationTaskCell} onPress={this.skipToDetail.bind(this)}>
                 <View style={styles.aboutProject}>
                     <Text style={{color:'#216fd0',fontSize:width*0.045}}>{this.props.data.zgzrbmmc}</Text>
                     <View style={styles.blank}/>
@@ -27,19 +27,23 @@ export default class ModificationTaskCell extends Component {
                     </View>
                 </View>
                 <View style={styles.aboutPrincipal}>
-                    <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zgzrrmc}</Text>
+                    <Text style={[{width: width * 0.5}, styles.textStyle]}>{this.props.data.zgzrrmc}</Text>
                     <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zgzrbmmc}</Text>
-                    <Text style={[{width: width * 0.7, marginTop:10}, styles.textStyle]}>{this.props.data.zgwcsjt}</Text>
+                    <Text style={[{width: width * 0.7, marginTop:10}, styles.textStyle]}>{this.props.data.zgwcsj}</Text>
                     <TouchableWithoutFeedback onPress={this.editBtn.bind(this)}>
                         <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')} style={styles.editBtnSty}/>
                     </TouchableWithoutFeedback>
                 </View>
-            </View>
+            </TouchableOpacity>
         )
     }
 
-    editBtn() {
+    skipToDetail(){
 
+    }
+
+    editBtn() {
+        this.props.setModalVisible();
     }
 }
 
