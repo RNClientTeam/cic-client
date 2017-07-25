@@ -15,8 +15,8 @@ export default class ProjectTagName extends Component{
     render(){
         return(
             <View style={styles.contianerStyle}>
-                <View style={[styles.textContainer,{width:((this.props.name&&this.props.name.length)*width*0.039+width*0.02)}]}>
-                    <Text style={{color:'#fff',fontSize:width*0.035,width:width*0.5}} >{this.props.name}</Text>
+                <View style={[styles.textContainer, {width:(this.props.name.length*width*0.035+width*0.04)<width*0.8?(this.props.name.length*width*0.035+width*0.04):width*0.8}]}>
+                    <Text style={{color:'#fff',fontSize:width*0.035}} numberOfLines={2}>{this.props.name}</Text>
                 </View>
             </View>
         )
@@ -30,11 +30,11 @@ const styles = StyleSheet.create({
         marginBottom:width*0.02
     },
     textContainer:{
-        height:width*0.06,
         backgroundColor:'#216fd0',
         justifyContent:'center',
-        borderTopRightRadius:5,
-        borderBottomRightRadius:5,
-        paddingLeft:width*0.02
+        borderTopRightRadius:8,
+        borderBottomRightRadius:8,
+        paddingHorizontal:width*0.02,
+        paddingVertical: 5
     }
 });

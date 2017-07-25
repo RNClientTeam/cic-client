@@ -52,6 +52,7 @@ export default class MyPlanDetail extends Component {
                             <Text style={[styles.labelColor]}>工作任务</Text>
                             <TextInput value={this.state.rwmc}
                                        onChangeText={(value) => this.setState({rwmc: value})}
+                                       underlineColorAndroid="transparent"
                                        style={styles.inputStyle}/>
                         </View>
                         <View style={styles.row}>
@@ -63,9 +64,6 @@ export default class MyPlanDetail extends Component {
                         </View>
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>任务性质</Text>
-                            {/*<TextInput value={this.state.rwxzmc}
-                                       onChangeText={(value) => this.setState({rwxzmc: value})}
-                                       style={styles.inputStyle}/>*/}
                             <ModalDropdown
                                 options={this.state.rwxzList}
                                 animated={true}
@@ -82,6 +80,7 @@ export default class MyPlanDetail extends Component {
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>标准工期</Text>
                             <TextInput value={this.state.bzgq}
+                                       underlineColorAndroid="transparent"
                                        onChangeText={(value) => this.setState({bzgq: value})}
                                        style={styles.inputStyle}/>
                         </View>
