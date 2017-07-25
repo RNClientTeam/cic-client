@@ -19,6 +19,7 @@ export default class General extends Component {
         });
         this.state = {
             dataSource: [],
+            cbfw:''
         }
     }
     render() {
@@ -59,7 +60,7 @@ export default class General extends Component {
             <View>
                 <View style={[styles.headerView, {height:10}]}></View>
                 <View style={styles.footerTitle}>
-                    <Text style={styles.textStyl}>承保范围</Text>
+                    <Text style={styles.textStyl}>承包范围</Text>
                 </View>
                 <View style={styles.footerInfo}>
                     <Text style={[styles.textStyl,{lineHeight: 25}]}>
@@ -91,7 +92,8 @@ export default class General extends Component {
                         {key:'计划结束时间', value:data.jhjssj},
                         {key:'合同工期开始时间', value:data.htgqkssj},
                         {key:'合同工期结束时间', value:data.htgqjssj},
-                    ]
+                    ],
+                    cbfw:data.cbfw
                 })
             }else{
                 toast.show(data.message)
