@@ -81,8 +81,6 @@ export default class ApplyForDelay extends Component{
                     startTime: res.yjhkssj,
                     endTime: res.yjhjssj,
                     planName: res.rwmc,
-                    changeStartTime: res.xjhkssj,
-                    changeEndTime: res.xjhjssj,
                     yqbgId: res.yqbgId,
                     bgyyDefault: res.bgyy?this.state.reasonList[parseInt(res.bgyy)-1]:'请选择>',
                     reasonList: this.state.reasonList,

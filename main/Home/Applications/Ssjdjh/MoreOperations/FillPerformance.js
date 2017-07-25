@@ -236,7 +236,6 @@ export default class FillPerformance extends Component {
                 }
                 this.setState({
                     eDate: data.sjjssj,
-                    sDate: data.sjkssj,
                     data: this.state.data,
                     options: this.state.options,
                     choiceData: this.state.data[0] && this.state.data[0].name
