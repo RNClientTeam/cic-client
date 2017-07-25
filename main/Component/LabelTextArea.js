@@ -17,7 +17,7 @@ export default class LabelTextArea extends Component {
     constructor(props){
         super(props);
         this.state={
-            value:this.props.value
+            value:props.value||''
         }
     }
     render() {
