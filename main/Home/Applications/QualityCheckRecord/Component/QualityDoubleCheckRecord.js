@@ -54,6 +54,7 @@ export default class QualityDoubleCheckRecord extends Component {
                     <DoubleCheckModification
                         id={this.props.data.id}
                         nodeId={this.props.data.nodeId}
+                        data={this.props.data}
                         tabLabel="整改任务"
                         navigator={this.props.navigator}/>
                     <DoubleCheckRecord tabLabel="复查" navigator={this.props.navigator}/>
@@ -84,8 +85,7 @@ export default class QualityDoubleCheckRecord extends Component {
         }).then(data=>{
             if(data.code === 1){
                 this.setState({
-                    // canAdd:data.data.checkAndaddZgrw
-                    canAdd:true
+                    canAdd:data.data.checkAndaddZgrw
                 })
             }else{
                 toast.show(data.message)

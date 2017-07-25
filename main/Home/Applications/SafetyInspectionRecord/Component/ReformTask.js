@@ -86,6 +86,7 @@ export default class ReformTask extends Component {
             }
         }).then(data => {
             if (data.code === 1) {
+                console.log(data);
                 this.setState({
                     modalVisible: true,
                     modalAuth:data.data,
