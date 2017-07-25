@@ -12,8 +12,8 @@ import {
     TouchableOpacity
 } from 'react-native'
 import QualityDoubleCheckRecord from "./QualityDoubleCheckRecord"
+import Toast from 'react-native-simple-toast';
 const {width} = Dimensions.get('window');
-
 export default class QualityCheckModalCell extends Component {
     render() {
         return (
@@ -33,7 +33,8 @@ export default class QualityCheckModalCell extends Component {
                 params: {
                     add: true,
                     initialPage: 0,
-                    data: this.props.data
+                    data: this.props.data,
+                    reloadInfo: this.props.reloadInfo
                 }
             })
         } else if (this.props.dataSource.name === '修改') {
@@ -43,7 +44,8 @@ export default class QualityCheckModalCell extends Component {
                 params: {
                     edit: true,
                     initialPage: 0,
-                    data: this.props.data
+                    data: this.props.data,
+                    reloadInfo: this.props.reloadInfo
                 }
             })
         } else if (this.props.dataSource.name === '审核') {
@@ -53,7 +55,8 @@ export default class QualityCheckModalCell extends Component {
                 params: {
                     check: true,
                     initialPage: 0,
-                    data: this.props.data
+                    data: this.props.data,
+                    reloadInfo: this.props.reloadInfo
                 }
             })
         } else if (this.props.dataSource.name === '下发整改任务') {
@@ -83,11 +86,26 @@ export default class QualityCheckModalCell extends Component {
                 params: {
                     fcjl: true,
                     initialPage: 2,
-                    data: this.props.data
+                    data: this.props.data,
+                    reloadInfo: this.props.reloadInfo
                 }
             })
         } else if (this.props.dataSource.name === '删除') {
-            alert('删除操作');
+            axios.post('/psmZljcjl/delete', {
+                userID: GLOBAL_USERID,
+                id: this.props.data.id,
+                callID: true
+            }).then((res) => {
+                if (res.code === 1) {
+                    Toast.show('删除成功');
+                    this.props.reloadInfo();
+                    this.props.navigator.pop();
+                } else {
+                    Toast.show(res.message);
+                }
+            }).catch((error) => {
+
+            });
         }
         this.props.closeModal()
     }

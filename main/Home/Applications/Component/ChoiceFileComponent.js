@@ -65,7 +65,7 @@ export default class ChoiceFileComponent extends Component {
             {name: 'userID', data: GLOBAL_USERID},
             {name: 'files', data: RNFetchBlob.wrap(msg), filename: this.randomId + fileSuffix},
             {name: 'businessModule', data: this.props.businessModule},
-            {name: 'isAttach', data: this.props.isAttach||'0'},
+            {name: 'isAttach', data: JSON.stringify(1)},
             {name: 'resourceId', data: this.randomId},
             {name: 'callID', data: JSON.stringify(getTimestamp())}
         ];
