@@ -52,7 +52,10 @@ export default class SafetyInspectionPlane extends Component{
                     </TouchableOpacity>
                 </StatusBar>
                 <QualityCheckPlanHeader
-                    changeDate={this.changeYearAndMonth.bind(this)}/>
+                    changeDate={this.changeYearAndMonth.bind(this)}
+                    showDate={this.state.showDate}
+                    setToday={() => this.setToday()}
+                />
                 <Calendar
                     changeDay={(day)=>this.changeDay(day)}
                     day={this.state.day}
@@ -203,9 +206,11 @@ export default class SafetyInspectionPlane extends Component{
 
     // 选择日期
     changeYearAndMonth(data){
+        const showDate = new Date(this.formatDate(data.substr(0,4), parseInt(data.substr(-2,data.length-1)), 1));
         this.setState({
-            year:data.substr(0,4),
-            month:parseInt(data.substr(-2,data.length-1))-1
+            year: data.substr(0,4),
+            month: parseInt(data.substr(-2,data.length-1))-1,
+            showDate,
         },function () {
             this.getList();
             this.getCalendarData();
@@ -213,17 +218,27 @@ export default class SafetyInspectionPlane extends Component{
     }
 
     formatDate(year, month, day) {
-        if (month < 10) {
-            month = '0' + month
-        }
-        return `${year}-${month}-${day}`
+        return `${year}-${(month + '').padStart(2, '0')}-${(day + '').padStart(2, '0')}`
+    }
+
+    setToday() {
+        const today = new Date();
+        this.setState({
+            year: today.getFullYear(),
+            month: today.getMonth(),
+            day: today.getDate(),
+            showDate: today,
+        }, function () {
+            this.getList();
+            this.getCalendarData();
+        })
     }
 
     getCalendarData(){
         axios.get('/psmAqjcjh/calendarStatus4Aqjcjh',{
             params:{
                 userID:GLOBAL_USERID,
-                month:this.state.year+'-'+(this.state.month+1),
+                month:this.state.year + '-' + (this.state.month + 1 + '').padStart(2, '0'),
                 callID:true
             }
         }).then(data=>{

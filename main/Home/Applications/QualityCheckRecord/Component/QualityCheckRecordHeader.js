@@ -22,12 +22,17 @@ export default class QualityCheckRecordHeader extends Component {
                 <View style={styles.choiceView}>
                 </View>
                 <View style={styles.indicateView}>
-                    <ConstructPlanChoiceDate changeDate={this.props.changeDate.bind(this)}/>
+                    <ConstructPlanChoiceDate
+                        changeDate={this.props.changeDate.bind(this)}
+                        showDate={this.props.showDate}
+                    />
                     <Image style={styles.indicateImage}
                            source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
                 </View>
                 <View style={styles.rightView}>
-                    <TouchableOpacity style={styles.todayView}>
+                    <TouchableOpacity
+                        onPress={() => this.props.setToday()}
+                        style={styles.todayView}>
                         <Text style={styles.today}>今天</Text>
                     </TouchableOpacity>
                 </View>

@@ -47,7 +47,13 @@ export default class ConstructPlan extends Component{
                         <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/constuctPlan/projectList.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
-                <ConstructPlanHeader changeRange={this.changeRange.bind(this)} range={this.state.lx} changeDate={this.changeYearAndMonth.bind(this)}/>
+                <ConstructPlanHeader
+                    changeRange={this.changeRange.bind(this)}
+                    range={this.state.lx}
+                    changeDate={this.changeYearAndMonth.bind(this)}
+                    showDate={this.state.showDate}
+                    setToday={() => this.setToday()}
+                />
                 <Calendar changeDay={(day)=>this.changeDay(day)} day={this.state.day} data={this.state.calendarState} year={this.state.year} month={this.state.month}/>
                 <DayProjectListContainer
                     reload={()=>{this.getDataFronNet();this.getTask()}}
@@ -71,9 +77,11 @@ export default class ConstructPlan extends Component{
     }
 
     changeYearAndMonth(data){
+        const showDate = new Date(this.formatDate(data.substr(0,4), parseInt(data.substr(-2,data.length-1)), 1));
         this.setState({
             year:data.substr(0,4),
-            month:parseInt(data.substr(-2,data.length-1))-1
+            month:parseInt(data.substr(-2,data.length-1))-1,
+            showDate,
         },function () {
             this.getTask();
             this.getDataFronNet()
@@ -114,6 +122,24 @@ export default class ConstructPlan extends Component{
         })
     }
 
+    // 选择今日
+    setToday() {
+        const today = new Date();
+        this.setState({
+            year: today.getFullYear(),
+            month: today.getMonth(),
+            day: today.getDate(),
+            showDate: today,
+        }, function () {
+            this.getTask();
+            this.getDataFronNet();
+        })
+    }
+
+    formatDate(year, month, day) {
+        return `${year}-${(month + '').padStart(2, '0')}-${(day + '').padStart(2, '0')}`
+    }
+
     componentDidMount() {
         this.getDataFronNet();
         this.getTask();
@@ -144,7 +170,7 @@ export default class ConstructPlan extends Component{
         axios.get('/psmSgrjh/calendar4rjh',{
             params:{
                 userID:GLOBAL_USERID,
-                month:this.state.year+'-'+((this.state.month+1<10?'0'+(this.state.month+1):this.state.month+1)),
+                month:this.state.year+'-'+(this.state.month + 1 + '').padStart(2, '0'),
                 zxid:this.state.zxid,
                 rwlx:this.state.rwlx,
                 lx:lx,

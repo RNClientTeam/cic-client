@@ -20,9 +20,9 @@ import QualityCheckRecordList from "./Component/QualityCheckRecordList";
 import QualityCheckRecordFiltrate from "./Component/QualityCheckRecordFiltrate";
 import QualityCheckModal from "./Component/QualityCheckModal";
 import QualityCheckRecordDetail from "./Component/QualityCheckRecordDetail.js";
-const {width} = Dimensions.get('window');
 import Loading from "../../../Component/Loading";
-import toast from 'react-native-simple-toast'
+import toast from 'react-native-simple-toast';
+const {width} = Dimensions.get('window');
 
 export default class QualityCheckRecord extends Component {
     constructor(props) {
@@ -59,7 +59,12 @@ export default class QualityCheckRecord extends Component {
                         });
                     }}
                     >
-                        <Image style={{width: 0.04 * width, height: 0.04 * width,position:'absolute',right:width*0.12}}
+                        <Image style={{
+                            width: 0.04 * width,
+                            height: 0.04 * width,
+                            position: 'absolute',
+                            right: width * 0.12
+                        }}
                                source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
                     </TouchableWithoutFeedback>
                     <TouchableOpacity onPress={() => {
@@ -70,30 +75,34 @@ export default class QualityCheckRecord extends Component {
                                source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
-                <QualityCheckRecordHeader changeDate={this.changeYearAndMonth.bind(this)}/>
+                <QualityCheckRecordHeader
+                    showDate={this.state.showDate}
+                    setToday={() => this.setToday()}
+                    changeDate={this.changeYearAndMonth.bind(this)}
+                />
                 <Calendar changeDay={(day) => this.changeDay(day)} day={this.state.day} data={this.state.calendarState}
                           year={this.state.year} month={this.state.month}/>
                 <QualityCheckRecordList navigator={this.props.navigator}
-                    dataSource={this.state.dataSource}
-                    reload={(resolve) => this.getData(1, resolve)}
-                    loadMore={this.loadMore.bind(this)}
-                    showModal={(auth, data) => {
-                        let tempAuth = false;
-                        for (var key in auth) {
-                            if (auth[key] && !tempAuth) {
-                                tempAuth = true;
-                            }
-                        }
-                        if (tempAuth) {
-                            this.setState({
-                                modalVisible: true,
-                                auth: auth,
-                                data: data
-                            });
-                        } else {
-                            toast.show('没有相关权限');
-                        }
-                    }}/>
+                                        dataSource={this.state.dataSource}
+                                        reload={(resolve) => this.getData(1, resolve)}
+                                        loadMore={this.loadMore.bind(this)}
+                                        showModal={(auth, data) => {
+                                            let tempAuth = false;
+                                            for (var key in auth) {
+                                                if (auth[key] && !tempAuth) {
+                                                    tempAuth = true;
+                                                }
+                                            }
+                                            if (tempAuth) {
+                                                this.setState({
+                                                    modalVisible: true,
+                                                    auth: auth,
+                                                    data: data
+                                                });
+                                            } else {
+                                                toast.show('没有相关权限');
+                                            }
+                                        }}/>
                 <Modal
                     animationType={"slide"}
                     transparent={true}
@@ -104,12 +113,14 @@ export default class QualityCheckRecord extends Component {
                     style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
                 >
                     <QualityCheckModal navigator={this.props.navigator}
-                        closeModal={() => {
-                            this.setState({modalVisible: false})
-                        }}
-                        auth={this.state.auth}
-                        data={this.state.data}
-                        reloadInfo={() => {this.getData()}}/>
+                                       closeModal={() => {
+                                           this.setState({modalVisible: false})
+                                       }}
+                                       auth={this.state.auth}
+                                       data={this.state.data}
+                                       reloadInfo={() => {
+                                           this.getData()
+                                       }}/>
                 </Modal>
                 {this.state.filtrate ?
                     <QualityCheckRecordFiltrate
@@ -150,9 +161,11 @@ export default class QualityCheckRecord extends Component {
     }
 
     changeYearAndMonth(data) {
+        const showDate = new Date(this.formatDate(data.substr(0,4), parseInt(data.substr(-2,data.length-1)), 1));
         this.setState({
             year: data.substr(0, 4),
-            month: parseInt(data.substr(-2, data.length - 1)) - 1
+            month: parseInt(data.substr(-2, data.length - 1)) - 1,
+            showDate,
         }, function () {
             this.getData();
         })
@@ -166,6 +179,10 @@ export default class QualityCheckRecord extends Component {
 
     componentDidMount() {
         this.getData()
+    }
+
+    formatDate(year, month, day) {
+        return `${year}-${(month + '').padStart(2, '0')}-${(day + '').padStart(2, '0')}`
     }
 
     loadMore() {
@@ -196,7 +213,7 @@ export default class QualityCheckRecord extends Component {
         axios.get('/psmZljcjl/calendar4Zljcjl', {
             params: {
                 userID: GLOBAL_USERID,
-                month: this.state.year + '-' + (this.state.month + 1).toString().padStart(2,0),
+                month: this.state.year + '-' + (this.state.month + 1).toString().padStart(2, 0),
                 type: type,
                 rwxz: this.state.rwxz,
                 rwzt: this.state.rwzt,
@@ -218,6 +235,19 @@ export default class QualityCheckRecord extends Component {
         })
     }
 
+    // 选择今日
+    setToday() {
+        const today = new Date();
+        this.setState({
+            year: today.getFullYear(),
+            month: today.getMonth(),
+            day: today.getDate(),
+            showDate: today,
+        }, function () {
+            this.getData();
+        })
+    }
+
     getList(pageNum, resolve) {
         this.setState({
             isLoading: true
@@ -231,7 +261,7 @@ export default class QualityCheckRecord extends Component {
         axios.get('/psmZljcjl/list', {
             params: {
                 userID: GLOBAL_USERID,
-                date: `${this.state.year}-${(this.state.month + 1).toString().padStart(2,0)}-${this.state.day.toString().padStart(2,0)}`,
+                date: `${this.state.year}-${(this.state.month + 1).toString().padStart(2, 0)}-${this.state.day.toString().padStart(2, 0)}`,
                 type: type,
                 rwxz: this.state.rwxz,
                 rwzt: this.state.rwzt,
@@ -246,6 +276,38 @@ export default class QualityCheckRecord extends Component {
                 isLoading: false
             });
             if (data.code == 1) {
+                // data = {
+                //     "code": 1,
+                //     "data": {
+                //         "total": 5,
+                //         "list": [
+                //             {
+                //                 "zxmc": "附属设施施工",
+                //                 "xmgh": "JZ_JY15011-16004",
+                //                 "xmmc": "规划九路电力沟道工程（注浆专业）",
+                //                 "cjsj": "2017-06-08 16:54:43",
+                //                 "jcsj": "2017-06-08 00:00:00",
+                //                 "RN": 1,
+                //                 "dqzt": 20,
+                //                 "rwxz": 5,
+                //                 "jcr": "刘栓",
+                //                 "id": "8a8181a25c85d8dc015c86e9ba0f0135",
+                //                 "gcjd": "设备厂验",
+                //                 "dqztmc": "审批中",
+                //                 "rwnr": "123",
+                //                 "nodeId": "0",
+                //                 "zxid": "8a8180d8573fd03c01574138cda03ded",
+                //                 "sfxczg": 0,
+                //                 "twzt": 100,
+                //                 "sfdb": "0",
+                //                 "cjr": "ZNDQ2053",
+                //                 "wtlb": "设备问题,施工安装问题"
+                //             }
+                //
+                //         ],
+                //     },
+                //     "message": "成功"
+                // };
                 if (data.data && data.data.list && data.data.list.length > 0) {
                     if (pageNum == 1) {
                         this.setState({

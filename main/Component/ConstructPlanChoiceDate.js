@@ -16,7 +16,15 @@ export default class ConstructPlanChoiceDate extends Component{
     constructor(props){
         super(props);
         this.state={
-            date:getCurrentDate()
+            date: getCurrentDate()
+        }
+    }
+
+    componentWillReceiveProps(props){
+        if (props && props.showDate) {
+            this.setState({
+                date: props.showDate
+            });
         }
     }
 

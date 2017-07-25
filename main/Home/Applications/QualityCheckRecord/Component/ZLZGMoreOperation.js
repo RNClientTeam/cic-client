@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native'
+import AddModification from "./AddModification";
 // import AccomplishProgress from "./AccomplishProgress";
 
 const {width} = Dimensions.get('window');
@@ -41,15 +42,17 @@ export default class ZLZGMoreOperation extends Component {
     }
 
     skipPage(tag) {
-        // this.props.closeModal();
-        // this.props.navigator.push({
-        //     name: "",
-        //     component: AccomplishProgress,
-        //     params: {
-        //         type: tag,
-        //         id: this.props.operateItem.id
-        //     }
-        // })
+        this.props.closeModal();
+        this.props.navigator.push({
+            name: "AddModification",
+            component: AddModification,
+            params: {
+                type: tag,
+                id: this.props.operateItemId,
+                zljcjlId:this.props.zljcjlId,
+                nodeId:this.props.nodeId,
+            }
+        })
     }
 }
 
