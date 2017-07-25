@@ -20,9 +20,9 @@ import QualityCheckRecordList from "./Component/QualityCheckRecordList";
 import QualityCheckRecordFiltrate from "./Component/QualityCheckRecordFiltrate";
 import QualityCheckModal from "./Component/QualityCheckModal";
 import QualityCheckRecordDetail from "./Component/QualityCheckRecordDetail.js";
-const {width} = Dimensions.get('window');
 import Loading from "../../../Component/Loading";
-import toast from 'react-native-simple-toast'
+import toast from 'react-native-simple-toast';
+const {width} = Dimensions.get('window');
 
 export default class QualityCheckRecord extends Component {
     constructor(props) {
@@ -70,7 +70,11 @@ export default class QualityCheckRecord extends Component {
                                source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
-                <QualityCheckRecordHeader changeDate={this.changeYearAndMonth.bind(this)}/>
+                <QualityCheckRecordHeader
+                    showDate={this.state.showDate}
+                    setToday={() => this.setToday()}
+                    changeDate={this.changeYearAndMonth.bind(this)}
+                />
                 <Calendar changeDay={(day) => this.changeDay(day)} day={this.state.day} data={this.state.calendarState}
                           year={this.state.year} month={this.state.month}/>
                 <QualityCheckRecordList navigator={this.props.navigator}
@@ -150,9 +154,11 @@ export default class QualityCheckRecord extends Component {
     }
 
     changeYearAndMonth(data) {
+        const showDate = new Date(this.formatDate(data.substr(0,4), parseInt(data.substr(-2,data.length-1)), 1));
         this.setState({
             year: data.substr(0, 4),
-            month: parseInt(data.substr(-2, data.length - 1)) - 1
+            month: parseInt(data.substr(-2, data.length - 1)) - 1,
+            showDate,
         }, function () {
             this.getData();
         })
@@ -166,6 +172,10 @@ export default class QualityCheckRecord extends Component {
 
     componentDidMount() {
         this.getData()
+    }
+
+    formatDate(year, month, day) {
+        return `${year}-${(month + '').padStart(2, '0')}-${(day + '').padStart(2, '0')}`
     }
 
     loadMore() {
@@ -215,6 +225,19 @@ export default class QualityCheckRecord extends Component {
             }
         }).catch(err => {
             toast.show('服务端异常');
+        })
+    }
+
+    // 选择今日
+    setToday() {
+        const today = new Date();
+        this.setState({
+            year: today.getFullYear(),
+            month: today.getMonth(),
+            day: today.getDate(),
+            showDate: today,
+        }, function () {
+            this.getData();
         })
     }
 

@@ -10,10 +10,11 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native';
-
-const {width, height} = Dimensions.get('window');
 import StatusBar from '../../../../Component/StatusBar.js';
 import EditSafetyCheck from './EditSafetyCheck.js';
+import toast from 'react-native-simple-toast';
+
+const {width, height} = Dimensions.get('window');
 
 export default class SafetyInspectionDetail extends Component {
     constructor(props) {

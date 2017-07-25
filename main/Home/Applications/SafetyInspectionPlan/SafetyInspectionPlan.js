@@ -52,8 +52,8 @@ export default class SafetyInspectionPlane extends Component{
                     </TouchableOpacity>
                 </StatusBar>
                 <QualityCheckPlanHeader
-                    showDate={this.state.showDate}
                     changeDate={this.changeYearAndMonth.bind(this)}
+                    showDate={this.state.showDate}
                     setToday={() => this.setToday()}
                 />
                 <Calendar
@@ -238,7 +238,7 @@ export default class SafetyInspectionPlane extends Component{
         axios.get('/psmAqjcjh/calendarStatus4Aqjcjh',{
             params:{
                 userID:GLOBAL_USERID,
-                month:this.state.year+'-'+(this.state.month+1),
+                month:this.state.year + '-' + (this.state.month + 1 + '').padStart(2, '0'),
                 callID:true
             }
         }).then(data=>{
