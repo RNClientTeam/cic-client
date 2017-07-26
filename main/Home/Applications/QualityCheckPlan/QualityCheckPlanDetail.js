@@ -15,6 +15,7 @@ import {
 import StatusBar from "../../../Component/StatusBar";
 import ListHeaderCell from "../Component/ListHeaderCell";
 import KeyValueLeft from "../../../Component/KeyValueLeft";
+import QualityCheckRecordDetail from "../QualityCheckRecord/Component/QualityCheckRecordDetail.js";
 const {width} = Dimensions.get('window');
 
 export default class QualityCheckPlanDetail extends Component {
@@ -122,7 +123,7 @@ export default class QualityCheckPlanDetail extends Component {
             params: {
                 userID: GLOBAL_USERID,
                 //to do
-                zlcjhId: 'ddddd',
+                zlcjhId: id,
                 callID: true,
             }
         }).then(responseData => {
@@ -142,6 +143,13 @@ export default class QualityCheckPlanDetail extends Component {
             this.setState({
                 tbZljcjl: responseData.data.tbZljcjl
             })
+        });
+    }
+
+    tianbao() {
+        this.props.navigator.push({
+            component: QualityCheckRecordDetail,
+            name: 'QualityCheckRecordDetail',
         });
     }
 }

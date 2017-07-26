@@ -57,7 +57,8 @@ export default class MyPlanDetail extends Component {
                         </View>
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>任务责任人</Text>
-                            <Text style={{padding:5, paddingRight:0, flex: 1, textAlign: 'right'}}
+                            <Text style={{padding:5, paddingRight:0,
+                                    flex: 1, textAlign: 'right', fontSize: width * 0.035}}
                                   onPress={() => this.goPersonSelector()}>
                                 {this.state.zrrmc}
                             </Text>
@@ -86,7 +87,9 @@ export default class MyPlanDetail extends Component {
                         </View>
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>实施人员</Text>
-                            <Text style={{flex: 1, textAlign: 'right'}} onPress={() => this.multiSelector()}>
+                            <Text
+                                style={{flex: 1, textAlign: 'right', fontSize: width * 0.035}}
+                                onPress={() => this.multiSelector()}>
                                 {this.state.ssrymc}
                             </Text>
                         </View>
@@ -137,6 +140,7 @@ export default class MyPlanDetail extends Component {
                 console.log('--------data', data);
                 if (data.code === 1) {
                     Toast.show('保存成功!');
+                    setTimeout(() => this.goBack());
                 } else {
                     Toast.show(data.message);
                 }
@@ -166,6 +170,7 @@ export default class MyPlanDetail extends Component {
             .then(data => {
                 if (data.code === 1) {
                     Toast.show('保存成功!');
+                    setTimeout(() => this.goBack());
                 } else {
                     Toast.show(data.message);
                 }
@@ -183,6 +188,11 @@ export default class MyPlanDetail extends Component {
         } else {
             this.save();
         }
+    }
+
+    goBack() {
+        this.props.navigator.pop();
+        this.props.reloadInfo();
     }
 
     goPersonSelector() {

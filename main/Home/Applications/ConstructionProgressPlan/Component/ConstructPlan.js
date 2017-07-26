@@ -200,6 +200,7 @@ export default class ConstructPlan extends Component {
             params: {
                 gczxId: this.props.gczxId,
                 cfxxId: this.props.cfxxId,
+                reloadInfo: () => this.reloadInfo(),
             }
         });
     }

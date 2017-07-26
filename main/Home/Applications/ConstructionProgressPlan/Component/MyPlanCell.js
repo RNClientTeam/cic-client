@@ -23,8 +23,9 @@ export default class MyPlanCell extends Component {
         return (
             <View style={styles.earlierStageListCell}>
                 <View style={styles.aboutProject}>
-                    <Text style={{color:'#216fd0',fontSize:width*0.04, }}
-                          numberOfLines={3}>{this.props.data.rwmc}</Text>
+                    <Text style={{color:'#216fd0',fontSize:width*0.04, width: width * 0.7}}>
+                        {this.props.data.rwmc}
+                    </Text>
                     <View style={styles.blank}/>
                     <View style={styles.stateView}>
                         <Text style={styles.stateText}>{this.props.data.rwztmc}</Text>
@@ -33,7 +34,7 @@ export default class MyPlanCell extends Component {
                 <View style={styles.aboutPrincipal}>
                     <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zrrmc}</Text>
                     <Text style={[{width: width * 0.5}, styles.textStyle]}>
-                        {this.props.data.jhkssj + (this.props.data.jhjssj ? ' ~ ' + this.props.data.jhjssj : '')}
+                        {this.props.data.jhkssj + (this.props.data.jhjssj ? ' - ' + this.props.data.jhjssj : '')}
                     </Text>
                     <View style={styles.blank}/>
                     <TouchableOpacity
@@ -65,9 +66,11 @@ const styles = StyleSheet.create({
     },
     aboutProject: {
         backgroundColor: '#fff',
-        height: width * 0.12,
+        minHeight: width * 0.12,
         paddingLeft: width * 0.02,
         paddingRight: width * 0.02,
+        paddingTop: width * 0.03,
+        paddingBottom: width * 0.03,
         flexDirection: 'row',
         alignItems: 'center'
     },

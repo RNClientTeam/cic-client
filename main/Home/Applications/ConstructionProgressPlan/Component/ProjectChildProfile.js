@@ -175,11 +175,12 @@ export default class ProjectChildProfile extends Component {
                                         multiline={true}
                                         numberOfLines={4}
                                         placeholder="请填写"
-                                        style={{ backgroundColor: 'white', height: 0.20 * width }}
+                                        style={styles.textInput}
                                         value={this.state.cbfw}
+                                        underlineColorAndroid="transparent"
                                         onChangeText={(value) => {
-                                        this.setState({cbfw: value});
-                                    }}
+                                            this.setState({cbfw: value});
+                                        }}
                                         editable={true}
                                     />
                                 </View>:
@@ -188,7 +189,8 @@ export default class ProjectChildProfile extends Component {
                                         multiline={true}
                                         numberOfLines={4}
                                         placeholder="请填写"
-                                        style={{ backgroundColor: 'white', height: 0.20 * width }}
+                                        underlineColorAndroid="transparent"
+                                        style={styles.textInput}
                                         value={this.state.cbfw}
                                         editable={false}
                                     />
@@ -313,4 +315,8 @@ const styles = StyleSheet.create({
     buttonText: {
         color: '#216fd0'
     },
+    textInput: {
+        backgroundColor: 'white',
+        height: 0.20 * width,
+    }
 });

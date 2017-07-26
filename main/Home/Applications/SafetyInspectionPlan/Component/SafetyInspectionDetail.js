@@ -13,6 +13,7 @@ import {
 import StatusBar from '../../../../Component/StatusBar.js';
 import EditSafetyCheck from './EditSafetyCheck.js';
 import toast from 'react-native-simple-toast';
+import NewCreateRecord from '../../SafetyInspectionRecord/Component/NewCreateRecord';
 
 const {width, height} = Dimensions.get('window');
 
@@ -78,13 +79,22 @@ export default class SafetyInspectionDetail extends Component {
         return (
             <View>
                 <View style={styles.footSeparator}/>
-                <TouchableOpacity style={styles.footerView} onPress={this.onPress.bind(this)}>
+                <TouchableOpacity
+                    style={styles.footerView}
+                    onPress={() => this.tianbao()}>
                     <Image source={require('../../../../../resource/imgs/home/applications/editBtn.png')}
                         style={{width:20, height:20, marginRight:5}}/>
                     <Text style={styles.keyText}>填报检查记录</Text>
                 </TouchableOpacity>
             </View>
         )
+    }
+
+    tianbao() {
+        this.props.navigator.push({
+            component: NewCreateRecord,
+            name: 'NewCreateRecord',
+        });
     }
 
     getDetail(id) {
