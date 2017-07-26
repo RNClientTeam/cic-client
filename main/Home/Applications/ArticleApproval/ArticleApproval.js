@@ -14,6 +14,8 @@ import {
 import StatusBar from '../../../Component/StatusBar'
 import SearchHeader from '../Component/SearchHeader'
 import ArticleList from './Component/ArticleList'
+import toast from 'react-native-simple-toast'
+import Loading from "../../../Component/Loading";
 
 const {width} = Dimensions.get('window');
 
@@ -21,7 +23,11 @@ export default class ArticleApproval extends Component {
     constructor(props){
         super(props);
         this.state={
-            isModalVisible:false
+            isModalVisible:false,
+            gwmc:'',
+            pageNum:1,
+            isLoading:false,
+            dataSource:[]
         }
     }
 
@@ -29,10 +35,63 @@ export default class ArticleApproval extends Component {
         return (
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="公文审批"/>
-                <SearchHeader/>
-                <ArticleList navigator={this.props.navigator}/>
+                <SearchHeader getData={this._getData.bind(this)} changeZxmc={(text)=>this.setState({gwmc:text})} />
+                <ArticleList
+                    reload={(resolve)=>{this._getData(1,resolve)}}
+                    dataSource={this.state.dataSource}
+                    loadMore={()=>{
+                        this._getData(this.state.pageNum+1)
+                    }}
+                    navigator={this.props.navigator}/>
+                {this.state.isLoading?<Loading/>:null}
             </View>
         )
+    }
+
+    componentDidMount() {
+        this._getData();
+    }
+
+    _getData(pageNum = 1,resolve=()=>{}){
+        this.setState({
+            pageNum:pageNum,
+            isLoading:true
+        });
+        axios.get('/gwgllc/list',{
+            params:{
+                userID:GLOBAL_USERID,
+                gwmc:this.state.gwmc,
+                pageNum:pageNum,
+                pageSize:10,
+                callID:true
+            }
+        }).then(data=>{
+            this.setState({
+                isLoading:false
+            });
+            resolve();
+            if(data.code === 1){
+                // if(pageNum === 1){
+                //     this.setState({
+                //         dataSource:data.data||[]
+                //     })
+                // }else{
+                //     this.setState({
+                //         dataSource:[...this.state.dataSource,...data.data]
+                //     })
+                // }
+            }else{
+                toast.show(data.message);
+                return false;
+            }
+        }).catch(err=>{
+            resolve();
+            this.setState({
+                isLoading:false
+            });
+            toast.show('服务端异常');
+            return false;
+        })
     }
 }
 

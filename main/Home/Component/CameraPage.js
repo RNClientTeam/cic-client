@@ -13,6 +13,8 @@ import Camera from 'react-native-camera';
 import QRCodeView from './QRCodeView.js';
 import CameraPageHeader from './CameraPageHeader.js';
 import CameraPageCode from './CameraPageCode.js';
+import UrlWebView from "../../Component/UrlWebView";
+import CodeTextView from "../../Component/CodeTextView";
 var {width, height} = Dimensions.get('window');
 export default class CameraPage extends Component{
     constructor(props) {
@@ -32,13 +34,23 @@ export default class CameraPage extends Component{
     onBarCodeRead(objData) {
         if (this.showCamera) {
             this.showCamera = false;
-            this.props.navigator.replace({
-                name: 'QRCodeView',
-                component: QRCodeView,
-                params: {
-                    downloadURL: objData.data
-                }
-            });
+            if(objData.data.indexOf('http')>0){
+                this.props.navigator.replace({
+                    name:"UrlWebView",
+                    component:UrlWebView,
+                    params:{
+                        url:objData.data
+                    }
+                })
+            }else{
+                this.props.navigator.replace({
+                    name:"CodeTextView",
+                    component:CodeTextView,
+                    params:{
+                        content:objData.data
+                    }
+                })
+            }
         }
     }
 
