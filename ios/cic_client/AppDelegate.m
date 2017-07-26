@@ -11,11 +11,13 @@
 #import "SplashScreen.h"
 #import <React/RCTRootView.h>
 #import <React/RCTBundleURLProvider.h>
+#import "RCTJpush.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [RCTJPush application:application didFinishLaunchingWithOptions:launchOptions];
   NSURL *jsCodeLocation;
 
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
@@ -35,6 +37,21 @@
   //修复启动白屏问题
   //[SplashScreen show];x
   return YES;
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+  [RCTJPush application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)notification
+{
+  [RCTJPush application:application didReceiveRemoteNotification:notification];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)notification fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+  [RCTJPush application:application didReceiveRemoteNotification:notification];
+  completionHandler(UIBackgroundFetchResultNewData);
 }
 
 @end

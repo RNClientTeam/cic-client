@@ -87,6 +87,10 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
+        manifestPlaceholders = [
+                JPush_APPID: "JPush的APPID",     //在此修改JPush的APPID
+                APP_CHANNEL: "应用渠道号"        //应用渠道号
+        ]
         applicationId "com.cic_client"
         minSdkVersion 16
         targetSdkVersion 22
@@ -136,6 +140,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-jpush')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-image-picker')
     compile project(':react-native-fileupload')

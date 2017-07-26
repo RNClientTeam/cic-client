@@ -23,10 +23,11 @@ export default class ChoiceDate extends Component{
         return(
             <View>
                 <DatePicker
-                    style={{width: 200}}
+                    style={{width: 200, backgroundColor:'white'}}
                     date={this.state.date || this.props.showDate}
                     mode={this.props.dateTime?"datetime":"date"}
                     placeholder="请选择>"
+                    disabled={this.props.disabled||false}
                     format={this.props.dateTime?"YYYY-MM-DD HH:mm:ss":"YYYY-MM-DD"}
                     minDate="2000-05-01"
                     maxDate="2116-06-01"
