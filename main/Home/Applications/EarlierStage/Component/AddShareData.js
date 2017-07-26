@@ -107,6 +107,7 @@ export default class AddShareData extends Component {
                                     placeholder='点击选择'
                                     value={this.state.shareRangeCN}
                                     editable={false}
+                                    underlineColorAndroid="transparent"
                                 />
                             </TouchableOpacity>
                         </View> : null}

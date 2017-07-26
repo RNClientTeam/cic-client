@@ -8,6 +8,7 @@ import android.os.Bundle;
 //import com.cboy.rn.splashscreen.SplashScreen;
 import com.cboy.rn.splashscreen.SplashScreen;
 import com.facebook.react.ReactActivity;
+import cn.reactnative.modules.jpush.JPushPackage;
 import com.yoloci.fileupload.FileUploadPackage;
 import com.facebook.soloader.SoLoader;
 

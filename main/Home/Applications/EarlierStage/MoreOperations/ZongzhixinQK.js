@@ -63,6 +63,7 @@ export default class ZongzhixinQK extends Component {
                                 <TextInput
                                     multiline={true}
                                     numberOfLines={4}
+                                    underlineColorAndroid="transparent"
                                     defaultValue={this.state.defaultValue}
                                     onChangeText={(text) => this.setState({wcqk: text})}
                                     style={{backgroundColor: '#eee', height: 0.28 * height, borderRadius: 10}}

@@ -37,11 +37,14 @@ const {width, height} = Dimensions.get('window');
 export default class ChoiceFileComponent extends Component {
     constructor(props) {
         super(props);
-        this.randomId = getRandomId();
         this.state = {
             jcfj: [],
             imageList: [],
-            choiceFileName: '所选文件名称'
+            choiceFileName: '所选文件名称',
+            businessModule:this.props.businessModule,
+            resourceId:this.props.resourceId,
+            isAttach:this.props.isAttach,
+            readOnly:this.props.readOnly
         }
     }
 
@@ -63,10 +66,10 @@ export default class ChoiceFileComponent extends Component {
         this.setState({isLoading: true});
         let reqData = [
             {name: 'userID', data: GLOBAL_USERID},
-            {name: 'files', data: RNFetchBlob.wrap(msg), filename: this.randomId + fileSuffix},
+            {name: 'files', data: RNFetchBlob.wrap(msg), filename: this.state.resourceId + fileSuffix},
             {name: 'businessModule', data: this.props.businessModule},
-            {name: 'isAttach', data: JSON.stringify(1)},
-            {name: 'resourceId', data: this.randomId},
+            {name: 'isAttach', data: JSON.stringify(this.state.isAttach)},
+            {name: 'resourceId', data: this.state.resourceId},
             {name: 'callID', data: JSON.stringify(getTimestamp())}
         ];
         uploadFile(baseUrl.baseUrl + '/sysfile/UploadHandler', reqData, (response) => {
@@ -167,6 +170,28 @@ export default class ChoiceFileComponent extends Component {
                 {this.state.isLoading ? <Loading/> : null}
             </View>
         );
+    }
+
+    _deleteFile(id){
+        axios.post('/sysfile/deleteHandler',{
+            userID:GLOBAL_USERID,
+            id:id,
+            callID:true
+        }).then(data=>{
+            console.log(data,'删除文件');
+        })
+    }
+
+    _checkDetail(id){
+        axios.get('/sysfile/detailHandler',{
+            params:{
+                userID:GLOBAL_USERID,
+                id:id,
+                callID:true
+            }
+        }).then(data=>{
+            console.log(data,'查看详情')
+        })
     }
 }
 

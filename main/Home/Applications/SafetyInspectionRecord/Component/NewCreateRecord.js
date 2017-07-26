@@ -19,6 +19,7 @@ import ChoiceDate from "../../../../Component/ChoiceDate.js";
 import ChoiceFileComponent from '../../Component/ChoiceFileComponent.js';
 import Toast from 'react-native-simple-toast';
 import Organization from '../../../../Organization/Organization.js';
+
 const {width, height} = Dimensions.get('window');
 import StatusBar from '../../../../Component/StatusBar.js';
 import ModalDropdown from 'react-native-modal-dropdown';
@@ -55,6 +56,7 @@ export default class NewCreateRecord extends Component {
             questionList: [],
             proList: [],
             choiceFileName: '所选文件名',
+            jcjlisAttach:'',
             wenti: ''
         }
     }
@@ -76,7 +78,7 @@ export default class NewCreateRecord extends Component {
         }).then((res) => {
             if (res.code === 1) {
                 this.setState({
-                    questionList:res.data.map((elem, index) => {
+                    questionList: res.data.map((elem, index) => {
                         return elem.name
                     }),
                     proList: res.data
@@ -99,6 +101,7 @@ export default class NewCreateRecord extends Component {
             }
         }).then((res) => {
             if (res.code === 1) {
+                console.log(res);
                 this.setState({
                     jcbm: res.data.jcbm,
                     fcsj: res.data.fcsj,
@@ -109,7 +112,7 @@ export default class NewCreateRecord extends Component {
                     zxmc: res.data.zxmc,
                     jcsj: res.data.jcsj,
                     jcrmc: res.data.jcrmc,
-                    wtlbmc: res.data.wtlbmc||'请选择>',
+                    wtlbmc: res.data.wtlbmc || '请选择>',
                     fcr: res.data.fcr,
                     jcr: res.data.jcr,
                     fcfj: res.data.fcfj,
@@ -118,10 +121,11 @@ export default class NewCreateRecord extends Component {
                     gczxId: res.data.gczxId,
                     jcfj: res.data.jcfj,
                     fcjg: res.data.fcjg,
-                    sfxczg: res.data.sfxczg==1?true:false,
+                    sfxczg: res.data.sfxczg == 1 ? true : false,
                     wtlb: res.data.wtlb,
                     businessModule: res.data.businessModule,
-                    fcjlisAttach: res.data.fcjlisAttach
+                    fcjlisAttach: res.data.fcjlisAttach,
+                    jcjlisAttach:res.data.jcjlisAttach
                 });
             } else {
                 Toash.show(res.message);
@@ -158,13 +162,13 @@ export default class NewCreateRecord extends Component {
                             options={this.state.questionList}
                             animated={true}
                             defaultValue={this.state.wtlbmc}
-                            style={{flex:1, alignItems:'flex-end'}}
-                            textStyle={{fontSize:14}}
+                            style={{flex: 1, alignItems: 'flex-end'}}
+                            textStyle={{fontSize: 14}}
                             onSelect={(a) => {
                                 this.setState({
                                     wenti: this.state.proList[a].code,
-                                    sfxczg: this.state.proList[a].code==='1'?false:this.state.sfxczg,
-                                    zgyq: this.state.proList[a].code==='1'?'':this.state.zgyq
+                                    sfxczg: this.state.proList[a].code === '1' ? false : this.state.sfxczg,
+                                    zgyq: this.state.proList[a].code === '1' ? '' : this.state.zgyq
                                 });
                             }}
                             showsVerticalScrollIndicator={false}/>
@@ -172,7 +176,9 @@ export default class NewCreateRecord extends Component {
                     <View style={styles.viewStyle}>
                         <Text style={styles.keyText}>检验时间</Text>
                         <ChoiceDate showDate={this.state.jcsj}
-                            changeDate={(date)=>{this.setState({jcsj:date})}}/>
+                                    changeDate={(date) => {
+                                        this.setState({jcsj: date})
+                                    }}/>
                     </View>
                     <TouchableHighlight onPress={this.getNewPerson.bind(this)} underlayColor="transparent">
                         <View style={styles.viewStyle}>
@@ -180,21 +186,26 @@ export default class NewCreateRecord extends Component {
                             <Text style={styles.valueText}>{this.state.jcrmc}</Text>
                         </View>
                     </TouchableHighlight>
-                    <ChoiceFileComponent getFileID={(theID) => {}}
+                    <ChoiceFileComponent
+                        getFileID={(theID) => {
+                        }}
                         businessModule={this.state.businessModule}
-                        isAttach={this.state.fcjlisAttach}/>
+                        resourceId={this.state.jcfj}
+                        isAttach={this.state.jcjlisAttach}/>
                     <View style={styles.footSeparator}></View>
                     <View style={styles.footIntor}>
                         <Text style={styles.keyText}>检查结果</Text>
                     </View>
                     <View style={styles.footInfo}>
                         <TextInput style={styles.textinputStyle}
-                            multiline={true}
-                            autoCapitalize="none"
-                            autoCorrect={false}
-                            onChangeText={(text) => {this.jianchaResult=text;}}
-                            underlineColorAndroid="transparent"
-                            placeholder=""/>
+                                   multiline={true}
+                                   autoCapitalize="none"
+                                   autoCorrect={false}
+                                   onChangeText={(text) => {
+                                       this.jianchaResult = text;
+                                   }}
+                                   underlineColorAndroid="transparent"
+                                   placeholder=""/>
                     </View>
                     {
                         this.state.wenti !== '1' &&
@@ -206,31 +217,35 @@ export default class NewCreateRecord extends Component {
                         this.state.wenti !== '1' &&
                         <View style={styles.footInfo}>
                             <TextInput style={styles.textinputStyle}
-                                multiline={true}
-                                defaultValue={this.state.zgyq||''}
-                                autoCapitalize="none"
-                                autoCorrect={false}
-                                onChangeText={(text) => {this.setState({zgyq:text})}}
-                                underlineColorAndroid="transparent"/>
+                                       multiline={true}
+                                       defaultValue={this.state.zgyq || ''}
+                                       autoCapitalize="none"
+                                       autoCorrect={false}
+                                       onChangeText={(text) => {
+                                           this.setState({zgyq: text})
+                                       }}
+                                       underlineColorAndroid="transparent"/>
                         </View>
                     }
                     {
                         this.state.wenti !== '1' &&
                         <View style={styles.viewStyle}>
                             <Text style={styles.keyText}>是否已现场整改</Text>
-                            <Switch onValueChange={(value) => {this.setState({sfxczg:value})}}
+                            <Switch onValueChange={(value) => {
+                                this.setState({sfxczg: value})
+                            }}
                                     value={this.state.sfxczg}/>
                         </View>
                     }
                 </ScrollView>
                 <View style={styles.bottomView}>
                     <TouchableHighlight underlayColor="transparent" onPress={this.saveAndCommit.bind(this)}>
-                        <View style={[styles.btnView, {backgroundColor:'#41cc85'}]}>
+                        <View style={[styles.btnView, {backgroundColor: '#41cc85'}]}>
                             <Text style={styles.btnText}>保存并提交</Text>
                         </View>
                     </TouchableHighlight>
                     <TouchableHighlight underlayColor="transparent" onPress={this.save.bind(this)}>
-                        <View style={[styles.btnView, {backgroundColor:'#216fd0'}]}>
+                        <View style={[styles.btnView, {backgroundColor: '#216fd0'}]}>
                             <Text style={styles.btnText}>保存</Text>
                         </View>
                     </TouchableHighlight>
@@ -283,7 +298,7 @@ export default class NewCreateRecord extends Component {
                 jcjg: this.jianchaResult,
                 zgyq: this.state.zgyq,
                 wtlb: this.state.wenti,
-                sfxczg: this.state.sfxczg?'1':'0',
+                sfxczg: this.state.sfxczg ? '1' : '0',
                 jcfj: this.state.jcfj,
                 fcfj: this.state.fcfj,
                 callID: true
@@ -338,7 +353,7 @@ export default class NewCreateRecord extends Component {
                 jcjg: this.jianchaResult,
                 zgyq: this.state.zgyq,
                 wtlb: this.state.wenti,
-                sfxczg: this.state.sfxczg?'1':'0',
+                sfxczg: this.state.sfxczg ? '1' : '0',
                 jcfj: this.state.jcfj,
                 fcfj: this.state.fcfj,
                 callID: true
@@ -367,13 +382,13 @@ const styles = StyleSheet.create({
         width: width,
         paddingHorizontal: 15,
         justifyContent: 'space-between',
-        backgroundColor:'#fff',
-        height: 0.0734*height,
+        backgroundColor: '#fff',
+        height: 0.0734 * height,
         marginBottom: 1
     },
     footSeparator: {
         width: width,
-        height: 0.0165*height,
+        height: 0.0165 * height,
         backgroundColor: '#f1f1f1'
     },
     footIntor: {
@@ -411,7 +426,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f1f1f1',
         borderRadius: 5,
         paddingLeft: 5,
-        fontSize:15
+        fontSize: 15
     },
     btnView: {
         height: 0.045 * height,
@@ -452,7 +467,7 @@ const styles = StyleSheet.create({
         height: 0.2 * width,
         width: 0.2 * width,
         marginRight: 0.03 * width,
-        marginTop: 0.04*width
+        marginTop: 0.04 * width
     },
     square: {
         height: 0.2 * width,
@@ -463,6 +478,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 0.03 * width,
-        marginTop: 0.04*width
+        marginTop: 0.04 * width
     }
 });

@@ -43,6 +43,7 @@ export default class RecordApproval extends Component {
                                     multiline = {true}
                                     numberOfLines = {4}
                                     placeholder="输入审批意见"
+                                    underlineColorAndroid="transparent"
                                     style={{backgroundColor: '#eee', height: 0.2*height, borderRadius: 10}}
                                 />
                             </View>

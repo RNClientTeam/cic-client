@@ -33,6 +33,7 @@ export default class ExamineAndApprove extends Component {
                         style={styles.textInputSty}
                         multiline={true}
                         autoCorrect={false}
+                        underlineColorAndroid="transparent"
                         autoCapitalize="none"
                         placeholder="输入审批意见"/>
                 </View>
