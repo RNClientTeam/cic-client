@@ -110,6 +110,7 @@ export default class DoubleCheckDetail extends Component {
                         <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>检验任务</Text>
                         <TextInput style={styles.contentText}
                             numberOfLines={1}
+                                   underlineColorAndroid="transparent"
                             editable={!this.props.check}
                             defaultValue={this.state.data.aqjcjhmc||''}
                             onChangeText={(text) => {
@@ -121,6 +122,7 @@ export default class DoubleCheckDetail extends Component {
                         <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>工程工号</Text>
                         <TextInput style={styles.contentText}
                             numberOfLines={1}
+                                   underlineColorAndroid="transparent"
                             editable={!this.props.check}
                             defaultValue={this.state.data.xmbh||''}
                             onChangeText={(text) => {
@@ -132,6 +134,7 @@ export default class DoubleCheckDetail extends Component {
                         <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>项目名称</Text>
                         <TextInput style={styles.contentText}
                             numberOfLines={1}
+                                   underlineColorAndroid="transparent"
                             editable={!this.props.check}
                             defaultValue={this.state.data.xmmc||''}
                             onChangeText={(text) => {
@@ -144,6 +147,7 @@ export default class DoubleCheckDetail extends Component {
                         <TextInput style={styles.contentText}
                             numberOfLines={1}
                             editable={!this.props.check}
+                                   underlineColorAndroid="transparent"
                             defaultValue={this.state.data.zxmc||''}
                             onChangeText={(text) => {
                                 this.state.data.zxmc = text;

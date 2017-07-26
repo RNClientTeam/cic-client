@@ -244,6 +244,7 @@ export default class DoubleCheckDetail extends Component {
                         <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>检验任务</Text>
                         <TextInput style={styles.contentText}
                             numberOfLines={1}
+                                   underlineColorAndroid="transparent"
                             editable={!this.props.check}
                             defaultValue={this.state.rwnr||''}
                             onChangeText={(text) => {
@@ -254,6 +255,7 @@ export default class DoubleCheckDetail extends Component {
                         <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>工程工号</Text>
                         <TextInput style={styles.contentText}
                             numberOfLines={1}
+                                   underlineColorAndroid="transparent"
                             editable={!this.props.check}
                             defaultValue={this.state.xmgh||''}
                             onChangeText={(text) => {
@@ -264,6 +266,7 @@ export default class DoubleCheckDetail extends Component {
                         <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>项目名称</Text>
                         <TextInput style={styles.contentText}
                             numberOfLines={1}
+                                   underlineColorAndroid="transparent"
                             editable={!this.props.check}
                             defaultValue={this.state.xmmc||''}
                             onChangeText={(text) => {
@@ -274,6 +277,7 @@ export default class DoubleCheckDetail extends Component {
                         <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>工程子项名称</Text>
                         <TextInput style={styles.contentText}
                             numberOfLines={1}
+                                   underlineColorAndroid="transparent"
                             editable={!this.props.check}
                             defaultValue={this.state.zxmc||''}
                             onChangeText={(text) => {

@@ -199,6 +199,7 @@ export default class ApplyForDelay extends Component{
                                 <TextInput
                                     multiline = {true}
                                     numberOfLines = {4}
+                                    underlineColorAndroid="transparent"
                                     placeholder={this.state.bgsm}
                                     onChangeText={(text) => {this.changeIntroduction = text;}}
                                     style={{backgroundColor: '#eee', height: 0.28*height, borderRadius: 10}}

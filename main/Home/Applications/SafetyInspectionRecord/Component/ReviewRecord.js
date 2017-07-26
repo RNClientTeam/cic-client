@@ -101,11 +101,13 @@ export default class ReviewRecord extends Component {
                 <TextInput style={styles.inpurResult}
                     placeholder="请填写"
                     numberOfLines={2}
+                           underlineColorAndroid="transparent"
                     defaultValue={this.state.fcjg}
                     multiline={true}
                     onChangeText={(text) => {
                         this.setState({fcjg: text});
-                    }}/>
+                    }}
+                />
 
                 <View style={styles.bottomView}>
                     <TouchableHighlight underlayColor="transparent" onPress={this.save.bind(this)}>

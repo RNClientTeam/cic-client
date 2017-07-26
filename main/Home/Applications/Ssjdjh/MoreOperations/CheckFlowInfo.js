@@ -107,6 +107,7 @@ export default class CheckFlowInfo extends Component{
                             <View>
                                 <TextInput
                                     multiline = {true}
+                                    underlineColorAndroid="transparent"
                                     numberOfLines = {4}
                                     onChangeText={(text) => {this.optionInfo = text;}}
                                     style={{backgroundColor: '#eee', height: 0.2*height, borderRadius: 10}}
