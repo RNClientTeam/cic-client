@@ -9,7 +9,8 @@ import {
     Dimensions,
     TouchableOpacity,
     Image,
-    Modal
+    Modal,
+    TouchableWithoutFeedback,
 } from 'react-native'
 import StatusBar from "../../../Component/StatusBar";
 import Calendar from "../Component/Calendar";
@@ -19,6 +20,7 @@ import QualityCheckFiltrate from "./Component/QualityCheckFiltrate";
 import QualityCheckModal from "./Component/QualityCheckModal";
 import toast from 'react-native-simple-toast';
 import Loading from "../../../Component/Loading";
+import AddOrEditQualityCheck from "./AddOrEditQualityCehck"
 
 const {width}  = Dimensions.get('window');
 
@@ -45,6 +47,13 @@ export default class QualityCheckPlan extends Component{
         return(
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="质量检查计划">
+                    {this.state.addZljcjh &&
+                        <TouchableWithoutFeedback
+                            onPress={()=> this.add()}>
+                            <Image style={{width: 0.04 * width, height: 0.04 * width,position:'absolute',right:width*0.12}}
+                                   source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
+                        </TouchableWithoutFeedback>
+                    }
                     <TouchableOpacity onPress={()=>{this.setState({filtrate:!this.state.filtrate})}}>
                         <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
@@ -156,8 +165,38 @@ export default class QualityCheckPlan extends Component{
     }
 
     componentDidMount() {
+        this.getAddAuthority();
         this.getCalendarData();
         this.getTask()
+    }
+
+    // 获取新增权限
+    getAddAuthority() {
+        axios.get('/psmZljcjh/operationAuthority4ZljcjhAdd',{
+            params:{
+                userID:GLOBAL_USERID,
+                callID:true
+            }
+        }).then(data=>{
+            if (data.addZljcjh) {
+                this.setState({
+                    addZljcjh: true,
+                })
+            }
+        }).catch(err=>{
+            toast.show('服务端异常');
+        })
+    };
+
+    // 跳转新增页面
+    add() {
+        this.props.navigator.push({
+            name: "AddOrEditQualityCheck",
+            component: AddOrEditQualityCheck,
+            params:{
+                flag:'add'
+            }
+        })
     }
 
     getCalendarData(){
