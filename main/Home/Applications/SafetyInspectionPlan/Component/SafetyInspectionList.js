@@ -1,6 +1,7 @@
 /**
  * Created by fan on 2017/05/16.
  */
+
 'use strict';
 import React, {Component} from 'react'
 import {
@@ -8,7 +9,8 @@ import {
     StyleSheet,
     Dimensions,
     ListView,
-    Text
+    Text,
+    Modal
 } from 'react-native'
 const {width} = Dimensions.get('window');
 
@@ -16,12 +18,14 @@ import {PullList} from 'react-native-pull';
 import LoadMore from "../../../../Component/LoadMore.js";
 import SafetyInspectionListCell from "./SafetyInspectionListCell.js";
 import Reload from "../../../../Component/Reload.js";
+import SafetyCheckPlanModal from "./SafetyCheckPlanModal";
 export default class SafetyInspectionList extends Component {
     constructor(props) {
         super(props);
         this.state = {
             hasMoreData: true,
             list: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
+            modalVisible:false
         }
     }
 
@@ -40,10 +44,35 @@ export default class SafetyInspectionList extends Component {
                         pageSize={10}
                         renderFooter={this.renderFooter.bind(this)}
                     />
+                    <Modal
+                        animationType={"slide"}
+                        transparent={true}
+                        visible={this.state.modalVisible}
+                        onRequestClose={() => {
+                            this.setState({modalVisible: !this.state.modalVisible})
+                        }}
+                        style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
+                    >
+                        <SafetyCheckPlanModal navigator={this.props.navigator}
+                                           closeModal={() => {
+                                               this.setState({modalVisible: false})
+                                           }}
+                                           auth={this.state.auth}
+                                           data={this.state.data}
+                                           reloadInfo={() => {
+                                               this.getData()
+                                           }}/>
+                    </Modal>
                 </View>
             )
         }
         return <View/>
+    }
+
+    _getAuthShowModal(){
+        this.setState({
+            modalVisible:true
+        })
     }
 
     onPullRelease(resolve) {
@@ -53,7 +82,9 @@ export default class SafetyInspectionList extends Component {
 
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
-            <SafetyInspectionListCell key={rowID} data={item} navigator={this.props.navigator}
+            <SafetyInspectionListCell
+                _getAuthShowModal={()=>this._getAuthShowModal()}
+                key={rowID} data={item} navigator={this.props.navigator}
                 setModalVisible={() => this.props.setModalVisible()}/>
         );
     }
