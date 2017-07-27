@@ -50,7 +50,7 @@ export default class SafetyInspectionListCell extends Component {
             component: SafetyInspectionDetail,
             name: 'SafetyInspectionDetail',
             params: {
-                id: this.props.data.aqjcjhId,
+                id: this.props.data.id,
                 gxzxmc: this.props.data.gxzxmc,
             }
         })
