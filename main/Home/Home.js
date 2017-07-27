@@ -195,7 +195,7 @@ export default class Home extends Component {
     }
 
     addPush() {
-        JPush.requestPermissions()
+        JPush.requestPermissions();
         this.pushlisteners = [
             JPush.addEventListener(JpushEventReceiveMessage, this.onReceiveMessage.bind(this)),
             JPush.addEventListener(JpushEventOpenMessage, this.onOpenMessage.bind(this)),
