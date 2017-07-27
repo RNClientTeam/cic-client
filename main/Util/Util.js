@@ -7,6 +7,14 @@ const allKeys = {
     'usernameAndPW': 'usernameAndPW'
 };
 
+export function padStart(num) {
+    if(parseInt(num)/10>=1){
+        return num
+    }else{
+        return '0'+num
+    }
+}
+
 //统一管理所有本地数据对应的键名，方便查看
 export function getKey(key) {
     return allKeys[key];

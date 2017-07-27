@@ -237,7 +237,6 @@ export default class ConstructPlan extends Component {
             }
         } );
     }
-
 }
 
 const styles = StyleSheet.create({

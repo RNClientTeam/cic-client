@@ -22,6 +22,7 @@ import QualityCheckModal from "./Component/QualityCheckModal";
 import QualityCheckRecordDetail from "./Component/QualityCheckRecordDetail.js";
 import Loading from "../../../Component/Loading";
 import toast from 'react-native-simple-toast';
+import {padStart} from '../../../Util/Util'
 const {width} = Dimensions.get('window');
 
 export default class QualityCheckRecord extends Component {
@@ -182,7 +183,7 @@ export default class QualityCheckRecord extends Component {
     }
 
     formatDate(year, month, day) {
-        return `${year}-${(month + '').padStart(2, '0')}-${(day + '').padStart(2, '0')}`
+        return `${year}-${padStart(month)}-${padStart(day)}`
     }
 
     loadMore() {
@@ -213,7 +214,7 @@ export default class QualityCheckRecord extends Component {
         axios.get('/psmZljcjl/calendar4Zljcjl', {
             params: {
                 userID: GLOBAL_USERID,
-                month: this.state.year + '-' + (this.state.month + 1).toString().padStart(2, 0),
+                month: this.state.year + '-' + padStart(this.state.month + 1),
                 type: type,
                 rwxz: this.state.rwxz,
                 rwzt: this.state.rwzt,
@@ -261,7 +262,7 @@ export default class QualityCheckRecord extends Component {
         axios.get('/psmZljcjl/list', {
             params: {
                 userID: GLOBAL_USERID,
-                date: `${this.state.year}-${(this.state.month + 1).toString().padStart(2, 0)}-${this.state.day.toString().padStart(2, 0)}`,
+                date: `${this.state.year}-${padStart(this.state.month + 1)}-${padStart(this.state.day)}`,
                 type: type,
                 rwxz: this.state.rwxz,
                 rwzt: this.state.rwzt,
@@ -276,42 +277,12 @@ export default class QualityCheckRecord extends Component {
                 isLoading: false
             });
             if (data.code == 1) {
-                // data = {
-                //     "code": 1,
-                //     "data": {
-                //         "total": 5,
-                //         "list": [
-                //             {
-                //                 "zxmc": "附属设施施工",
-                //                 "xmgh": "JZ_JY15011-16004",
-                //                 "xmmc": "规划九路电力沟道工程（注浆专业）",
-                //                 "cjsj": "2017-06-08 16:54:43",
-                //                 "jcsj": "2017-06-08 00:00:00",
-                //                 "RN": 1,
-                //                 "dqzt": 20,
-                //                 "rwxz": 5,
-                //                 "jcr": "刘栓",
-                //                 "id": "8a8181a25c85d8dc015c86e9ba0f0135",
-                //                 "gcjd": "设备厂验",
-                //                 "dqztmc": "审批中",
-                //                 "rwnr": "123",
-                //                 "nodeId": "0",
-                //                 "zxid": "8a8180d8573fd03c01574138cda03ded",
-                //                 "sfxczg": 0,
-                //                 "twzt": 100,
-                //                 "sfdb": "0",
-                //                 "cjr": "ZNDQ2053",
-                //                 "wtlb": "设备问题,施工安装问题"
-                //             }
-                //
-                //         ],
-                //     },
-                //     "message": "成功"
-                // };
-                if (data.data && data.data.list && data.data.list.length > 0) {
+                if (data.data && data.data.list) {
                     if (pageNum == 1) {
                         this.setState({
                             dataSource: data.data.list
+                        },function () {
+                            console.log(this.state.dataSource)
                         })
                     } else {
                         for (let i = 0; i < data.data.list.length; i++) {
@@ -321,10 +292,9 @@ export default class QualityCheckRecord extends Component {
                             dataSource: this.state.dataSource
                         })
                     }
-                    return true
                 } else {
-                    return false
                 }
+                return data.data.list.length>0
             } else {
                 toast.show(data.message);
                 return false

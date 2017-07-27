@@ -19,6 +19,7 @@ import ModalView from "./Component/ModalView.js";
 import {getCurrentMonS,getCurrentMonE} from '../../../Util/Util'
 import toast from 'react-native-simple-toast'
 import Loading from "../../../Component/Loading";
+import {padStart} from '../../../Util/Util'
 export default class SafetyInspectionRecord extends Component{
     constructor(props){
         super(props);
@@ -159,8 +160,9 @@ export default class SafetyInspectionRecord extends Component{
                 isLoading:false
             });
             if(data.code === 1){
+                console.log(data);
                 resolve();
-                if(data.data.data&&data.data.data.length>0){
+                if(data.data.data){
                     if(pageNum === 1){
                         this.setState({
                             dataSource:data.data.data
@@ -174,10 +176,8 @@ export default class SafetyInspectionRecord extends Component{
                         })
                     }
 
-                    return true;
-                } else {
-                    return false;
                 }
+                return data.data.length>0
             }else{
                 toast.show(data.message);
                 return false;

@@ -20,6 +20,7 @@ import NewProject from "./NewProject";
 const {width}  = Dimensions.get('window');
 import toast from 'react-native-simple-toast'
 import Loading from "../../../Component/Loading";
+import {padStart} from '../../../Util/Util'
 export default class ConstructPlan extends Component{
     constructor(props){
         super(props);
@@ -137,7 +138,7 @@ export default class ConstructPlan extends Component{
     }
 
     formatDate(year, month, day) {
-        return `${year}-${(month + '').padStart(2, '0')}-${(day + '').padStart(2, '0')}`
+        return `${year}-${padStart(month)}-${padStart(day)}`
     }
 
     componentDidMount() {
@@ -170,7 +171,7 @@ export default class ConstructPlan extends Component{
         axios.get('/psmSgrjh/calendar4rjh',{
             params:{
                 userID:GLOBAL_USERID,
-                month:this.state.year+'-'+(this.state.month + 1 + '').padStart(2, '0'),
+                month:this.state.year+'-'+padStart(this.state.month + 1),
                 zxid:this.state.zxid,
                 rwlx:this.state.rwlx,
                 lx:lx,
@@ -200,7 +201,7 @@ export default class ConstructPlan extends Component{
         axios.get('/psmSgrjh/list4Rjh',{
             params:{
                 userID:GLOBAL_USERID,
-                date:this.state.year+'-'+((this.state.month+1).toString().padStart(2,0))+'-'+(this.state.day.toString().padStart(2,0)),
+                date:this.state.year+'-'+padStart(this.state.month+1)+'-'+padStart(this.state.day),
                 zxid:this.state.zxid,
                 rwlx:0,
                 lx:lx,

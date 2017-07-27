@@ -31,8 +31,12 @@ export default class SafetyInspectionListCell extends Component {
                         <View style={{flexDirection: 'row', paddingBottom: 12}}>
                             <Text style={[{marginRight: 15}, styles.textStyle]}>{this.props.data.zrr}</Text>
                             <Text style={[{marginRight: 15}, styles.textStyle]}>{this.props.data.xmbh}</Text>
+                            <TouchableOpacity style={styles.editTouch}>
+                                <Image style={styles.editImg}
+                                       source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}/>
+                            </TouchableOpacity>
                         </View>
-                        <View>
+                        <View style={{width:width*0.7}}>
                             <Text style={styles.textStyle}>{this.props.data.jhkssj+'-'+this.props.data.jhjssj}</Text>
                         </View>
                     </View>
@@ -99,12 +103,16 @@ const styles = StyleSheet.create({
     stateText: {color: '#fff', fontSize: width * 0.03},
     editTouch: {
         position: 'absolute',
-        top: 22,
         right: 18,
+        padding:10,
+        alignItems:'center',
+        justifyContent:'center',
+        zIndex:3
     },
     editImg: {
         width: 22,
-        height: 25
-    }
+        height: 25,
+        marginBottom:4
+    },
 
 });

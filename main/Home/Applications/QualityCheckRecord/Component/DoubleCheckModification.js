@@ -150,8 +150,6 @@ export default class DoubleCheckModification extends Component {
                 //     ],
                 //     "message": "成功"
                 // };
-
-
                 if (data.data) {
                     this.setState({
                         dataSource: data.data

@@ -17,6 +17,7 @@ import ModalView from "./Component/ModalView.js";
 import toast from 'react-native-simple-toast';
 import Calendar from "../Component/Calendar";
 import QualityCheckPlanHeader from "./Component/QualityCheckPlanHeader";
+import {padStart} from '../../../Util/Util'
 
 const {width}  = Dimensions.get('window');
 export default class SafetyInspectionPlane extends Component{
@@ -218,7 +219,7 @@ export default class SafetyInspectionPlane extends Component{
     }
 
     formatDate(year, month, day) {
-        return `${year}-${(month + '').padStart(2, '0')}-${(day + '').padStart(2, '0')}`
+        return `${year}-${padStart(month)}-${padStart(day)}`
     }
 
     setToday() {
@@ -238,7 +239,7 @@ export default class SafetyInspectionPlane extends Component{
         axios.get('/psmAqjcjh/calendarStatus4Aqjcjh',{
             params:{
                 userID:GLOBAL_USERID,
-                month:this.state.year + '-' + (this.state.month + 1 + '').padStart(2, '0'),
+                month:this.state.year + '-' + padStart(this.state.month + 1),
                 callID:true
             }
         }).then(data=>{
