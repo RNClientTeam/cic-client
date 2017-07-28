@@ -17,6 +17,7 @@ import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
+import cn.reactnative.modules.jpush.JPushPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,7 +44,8 @@ public class MainApplication extends Application implements ReactApplication {
               new BarcodeScannerPackage(),
               new SplashScreenReactPackage(),
               new RNSpinkitPackage(),
-              new AnExampleReactPackage()
+              new AnExampleReactPackage(),
+              new JPushPackage()
       );
     }
 
