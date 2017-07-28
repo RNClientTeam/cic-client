@@ -20,42 +20,33 @@ export default class SafetyCheckPlanModal extends Component{
 
     componentDidMount() {
         let dataArr = [];
-        if (this.props.auth&&this.props.auth.addZljcjl) {
+        if (this.props.auth&&this.props.auth.addAqjcjh) {
             dataArr.push({
                 img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
                 name: '增加'
             });
-        } else if (this.props.auth&&this.props.auth.editZljcjl) {
+        } else if (this.props.auth&&this.props.auth.updateAqjcjh) {
             dataArr.push({
                 img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
                 name: '修改'
             });
-        } else if (this.props.auth&&this.props.auth.checkZljcjl) {
+        } else if (this.props.auth&&this.props.auth.effectAqjcjh) {
             dataArr.push({
                 img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
-                name: '审核'
+                name: '生效'
             });
-        } else if (this.props.auth&&this.props.auth.checkAndaddZgrw) {
+        } else if (this.props.auth&&this.props.auth.tbAqjcjl) {
             dataArr.push({
                 img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
-                name: '下发整改任务'
+                name: '填报'
             });
-        } else if (this.props.auth&&this.props.auth.tbZgwcqk) {
-            dataArr.push({
-                img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
-                name: '填报整改情况'
-            });
-        } else if (this.props.auth&&this.props.auth.tbFcjl) {
-            dataArr.push({
-                img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
-                name: '填报复查记录'
-            });
-        } else if (this.props.auth&&this.props.auth.deleteZljcjl) {
+        }else if (this.props.auth&&this.props.auth.deleteAqjcjh) {
             dataArr.push({
                 img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
                 name: '删除'
             });
         }
+
         this.setState({data: dataArr});
     }
 
