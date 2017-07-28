@@ -70,16 +70,17 @@ export default class ArticleApproval extends Component {
                 isLoading:false
             });
             resolve();
+            console.log(data);
             if(data.code === 1){
-                // if(pageNum === 1){
-                //     this.setState({
-                //         dataSource:data.data||[]
-                //     })
-                // }else{
-                //     this.setState({
-                //         dataSource:[...this.state.dataSource,...data.data]
-                //     })
-                // }
+                if(pageNum === 1){
+                    this.setState({
+                        dataSource:data.data.list||[]
+                    })
+                }else{
+                    this.setState({
+                        dataSource:[...this.state.dataSource,...data.data.list]
+                    })
+                }
             }else{
                 toast.show(data.message);
                 return false;

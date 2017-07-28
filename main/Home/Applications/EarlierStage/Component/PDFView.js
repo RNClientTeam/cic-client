@@ -39,7 +39,8 @@ export default class PDFView extends Component {
                 {
                     this.state.showPDF ?
                     (Platform.OS === 'ios' ?
-                    <WebView source={{uri:pdfDownloadURL}}
+                    <WebView
+                        source={{uri:pdfDownloadURL}}
                         automaticallyAdjustContentInsets={true}
                         scalesPageToFit={true}
                         style={styles.pdf}/> :
