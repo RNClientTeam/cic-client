@@ -18,6 +18,7 @@ import toast from 'react-native-simple-toast';
 import Calendar from "../Component/Calendar";
 import QualityCheckPlanHeader from "./Component/QualityCheckPlanHeader";
 import {padStart} from '../../../Util/Util'
+import SafetyCheckPlanModal from "./Component/SafetyCheckPlanModal";
 
 const {width}  = Dimensions.get('window');
 export default class SafetyInspectionPlane extends Component{
@@ -69,7 +70,23 @@ export default class SafetyInspectionPlane extends Component{
                     loadMore={() => this.loadMore()}
                     total={this.state.total}
                     reload={(resolve)=>this.getList(1,resolve)}
-                />
+                    setModalVisible={(id) => this.setModalVisible(id)}/>
+                <Modal
+                    animationType={"slide"}
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {this.setState({modalVisible: !this.state.modalVisible})}}
+                    style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
+                >
+                    <SafetyCheckPlanModal
+                        navigator={this.props.navigator}
+                        closeModal={() => {
+                            this.setState({modalVisible: false})
+                        }}
+                        id={this.state.id}
+                        authority={this.state.authority}
+                        reloadInfo={() => {this.getData()}} />
+                </Modal>
                 {this.state.isModalVisible &&
                     <ModalView
                         jhlx={this.state.jhlx}
@@ -182,6 +199,56 @@ export default class SafetyInspectionPlane extends Component{
         this.setState({
             pageNum,
         });
+    }
+
+    setModalVisible(id) {
+        this.getAuthority(id, () => {
+            this.setState(
+                {
+                    modalVisible: true,
+                    id,
+                }
+            );
+        });
+    }
+
+    getAuthority(id, callBack = () => {}) {
+        axios.get('/psmAqjcjh/getOperationAuthority4Aqjcjh', {
+            params: {
+                userID: GLOBAL_USERID,
+                aqjcjhId: id,
+                callID: true,
+            }
+        }).then(responseData => {
+            console.log('-------data', responseData);
+            responseData = {
+                "code": 1,
+                "data": {
+                    "addAqjcjh": true,
+                    "updateAqjcjh": true,
+                    "deleteAqjcjh": false,
+                    "effectAqjcjh": false,
+                    "tbAqjcjl": true
+                },
+                "message": "成功"
+            };
+            if (responseData.code === 1) {
+                const authority = responseData.data;
+                if (authority.addAqjcjh || authority.updateAqjcjh || authority.deleteAqjcjh || authority.tbAqjcjl) {
+                    this.setState({
+                        authority
+                    }, () => {
+                        callBack();
+                    });
+                } else {
+                    toast.show('没有操作权限!');
+                }
+            } else {
+                toast.show(responseData.message);
+            }
+        }).catch(() => {
+            toast.show('服务端异常!');
+        })
     }
 
     closeModal(type, jhlx, rwzt) {

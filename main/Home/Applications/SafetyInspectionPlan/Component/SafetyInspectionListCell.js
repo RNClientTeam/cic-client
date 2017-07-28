@@ -31,7 +31,7 @@ export default class SafetyInspectionListCell extends Component {
                         <View style={{flexDirection: 'row', paddingBottom: 12}}>
                             <Text style={[{marginRight: 15}, styles.textStyle]}>{this.props.data.zrr}</Text>
                             <Text style={[{marginRight: 15}, styles.textStyle]}>{this.props.data.xmbh}</Text>
-                            <TouchableOpacity style={styles.editTouch} onPress={()=>this.props._getAuthShowModal()}>
+                            <TouchableOpacity style={styles.editTouch} onPress={()=>this.props.setModalVisible()}>
                                 <Image style={styles.editImg}
                                        source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}/>
                             </TouchableOpacity>

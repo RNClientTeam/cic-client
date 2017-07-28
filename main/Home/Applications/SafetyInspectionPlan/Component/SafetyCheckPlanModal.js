@@ -18,37 +18,79 @@ export default class SafetyCheckPlanModal extends Component{
         }
     }
 
-    componentDidMount() {
-        let dataArr = [];
-        if (this.props.auth&&this.props.auth.addAqjcjh) {
-            dataArr.push({
-                img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
-                name: '增加'
-            });
-        } else if (this.props.auth&&this.props.auth.updateAqjcjh) {
-            dataArr.push({
-                img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
-                name: '修改'
-            });
-        } else if (this.props.auth&&this.props.auth.effectAqjcjh) {
-            dataArr.push({
-                img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
-                name: '生效'
-            });
-        } else if (this.props.auth&&this.props.auth.tbAqjcjl) {
-            dataArr.push({
-                img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
-                name: '填报'
-            });
-        }else if (this.props.auth&&this.props.auth.deleteAqjcjh) {
-            dataArr.push({
-                img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
-                name: '删除'
+    componentWillMount() {
+        this.assignAuthority(this.props.authority)
+    }
+
+    componentWillReceiveProps(props) {
+        this.assignAuthority(props.authority)
+    }
+
+    // componentDidMount() {
+    //     let dataArr = [];
+    //     if (this.props.auth&&this.props.auth.addAqjcjh) {
+    //         dataArr.push({
+    //             img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
+    //             name: '增加'
+    //         });
+    //     } else if (this.props.auth&&this.props.auth.updateAqjcjh) {
+    //         dataArr.push({
+    //             img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
+    //             name: '修改'
+    //         });
+    //     } else if (this.props.auth&&this.props.auth.effectAqjcjh) {
+    //         dataArr.push({
+    //             img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
+    //             name: '生效'
+    //         });
+    //     } else if (this.props.auth&&this.props.auth.tbAqjcjl) {
+    //         dataArr.push({
+    //             img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
+    //             name: '填报'
+    //         });
+    //     }else if (this.props.auth&&this.props.auth.deleteAqjcjh) {
+    //         dataArr.push({
+    //             img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
+    //             name: '删除'
+    //         });
+    //     }
+    //
+    //     this.setState({data: dataArr});
+    // }
+
+    assignAuthority(authority) {
+        console.log('-------data', authority);
+        let data = [];
+        // 新建
+        if (authority.addAqjcjh) {
+            data.push({
+                img:require('../../../../../resource/imgs/home/earlierStage/applyForDelay.png'),
+                name:'新建'
             });
         }
-
-        this.setState({data: dataArr});
+        if (authority.updateAqjcjh) { // 编辑
+            data.push({
+                img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
+                name:'编辑'
+            });
+        }
+        if (authority.effectAqjcjh) { // 生效
+            data.push({
+                img:require('../../../../../resource/imgs/home/applications/effectiveAction.png'),
+                name:'生效',
+            })
+        }
+        if (authority.deleteAqjcjh) { // 删除
+            data.push({
+                img:require('../../../../../resource/imgs/home/applications/stopAction.png'),
+                name:'删除',
+            })
+        }
+        this.setState({
+            data
+        });
     }
+
 
     render() {
         return (
@@ -67,7 +109,7 @@ export default class SafetyCheckPlanModal extends Component{
                     closeModal={()=>{this.props.closeModal()}}
                     navigator={this.props.navigator} key={i}
                     dataSource={this.state.data[i]}
-                    data={this.props.data}
+                    id={this.props.id}
                     reloadInfo={this.props.reloadInfo}/>
             )
         }
