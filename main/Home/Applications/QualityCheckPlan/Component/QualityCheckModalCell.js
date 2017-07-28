@@ -45,7 +45,10 @@ export default class QualityCheckModalCell extends Component {
                     jhrwId: this.props.jhrwId,
                 }
             })
-        }else if(this.props.dataSource.name === '检查计划编辑'){
+        }else if (this.props.dataSource.name === '生效') {
+            this.effect(this.props.jhrwId);
+        }
+        else if(this.props.dataSource.name === '删除'){
             this.delete(this.props.jhrwId);
         }
         this.props.closeModal()
@@ -70,6 +73,24 @@ export default class QualityCheckModalCell extends Component {
         })
     }
 
+    effect(jhrwId) {
+        axios.post('/psmZljcjh/updateRwzt', {
+            userID: GLOBAL_USERID,
+            jhrwId,
+            callID:true
+        }).then(data=>{
+            this.setState({
+                isLoading:false
+            });
+            if(data.code === 1){
+                toast.show('删除成功');
+            }else{
+                toast.show(data.message)
+            }
+        }).catch(err=>{
+            toast.show('服务端异常');
+        })
+    }
 }
 
 const styles = StyleSheet.create({

@@ -25,7 +25,7 @@ export default class SafetyCheckPlanModalCell extends Component {
     }
 
     skipPage(){
-        if (this.props.dataSource.name === '增加') {
+        if (this.props.dataSource.name === '新增') {
             this.props.navigator.push({
                 name: 'QualityDoubleCheckRecord',
                 component: QualityDoubleCheckRecord,
@@ -36,7 +36,7 @@ export default class SafetyCheckPlanModalCell extends Component {
                     reloadInfo: this.props.reloadInfo
                 }
             })
-        } else if (this.props.dataSource.name === '修改') {
+        } else if (this.props.dataSource.name === '编辑') {
             this.props.navigator.push({
                 name: 'QualityDoubleCheckRecord',
                 component: QualityDoubleCheckRecord,
