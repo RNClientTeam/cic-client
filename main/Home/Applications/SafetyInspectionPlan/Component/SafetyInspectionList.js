@@ -19,13 +19,17 @@ import LoadMore from "../../../../Component/LoadMore.js";
 import SafetyInspectionListCell from "./SafetyInspectionListCell.js";
 import Reload from "../../../../Component/Reload.js";
 import SafetyCheckPlanModal from "./SafetyCheckPlanModal";
+import toast from 'react-native-simple-toast'
 export default class SafetyInspectionList extends Component {
     constructor(props) {
         super(props);
         this.state = {
             hasMoreData: true,
             list: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
-            modalVisible:false
+            modalVisible:false,
+            auth: {
+                addZljcjl: true,
+            },
         }
     }
 
@@ -43,6 +47,7 @@ export default class SafetyInspectionList extends Component {
                         onEndReachedThreshold={60}
                         pageSize={10}
                         renderFooter={this.renderFooter.bind(this)}
+                        enableEmptySections={true}
                     />
                     <Modal
                         animationType={"slide"}
@@ -69,10 +74,38 @@ export default class SafetyInspectionList extends Component {
         return <View/>
     }
 
-    _getAuthShowModal(){
-        this.setState({
-            modalVisible:true
+    _getAuthShowModal(item){
+        axios.get('/psmAqjcjh/getOperationAuthority4Aqjcjh',{
+            params:{
+                userID:GLOBAL_USERID,
+                aqjcjhId:item.id,
+                callID:true
+            }
+        }).then(data=>{
+            if(data.code === 1){
+                data = {
+                    "code": 1,
+                    "data": {
+                        "effectAqjcjh": true,
+                        "deleteAqjcjh": true,
+                        "addAqjcjh": true,
+                        "updateAqjcjh": true,
+                        "tbAqjcjl": true
+                    },
+                    "message": "成功"
+                };
+                this.setState({
+                    modalVisible:true,
+                    auth:data.data
+                })
+            }else{
+                toast.show(data.message)
+            }
+            console.log(data)
+        }).catch(err=>{
+            toast.show('服务端异常');
         })
+
     }
 
     onPullRelease(resolve) {
@@ -83,7 +116,7 @@ export default class SafetyInspectionList extends Component {
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
             <SafetyInspectionListCell
-                _getAuthShowModal={()=>this._getAuthShowModal()}
+                _getAuthShowModal={()=>this._getAuthShowModal(item)}
                 key={rowID} data={item} navigator={this.props.navigator}
                 setModalVisible={() => this.props.setModalVisible()}/>
         );

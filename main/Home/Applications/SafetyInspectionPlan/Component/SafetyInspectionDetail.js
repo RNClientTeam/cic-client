@@ -24,20 +24,6 @@ export default class SafetyInspectionDetail extends Component {
         this.state = {
             dataSource: [],
         };
-        // this.state = {
-        //     dataSource: [
-        //         {name: this.props.data.aqjcjhmc, value:''},
-        //         {name: '项目编号', value: this.props.data.xmbh},
-        //         {name: '项目名称', value: this.props.data.xmmc},
-        //         {name: '工程子项名称', value: this.props.data.gxzxmc},
-        //         {name: '施工任务', value:'施工任务名称1'},
-        //         {name: '当前状态', value:'新建任务'},
-        //         {name: '计划开始时间', value: this.props.data.ksrq},
-        //         {name: '计划结束时间', value: this.props.data.jsrq},
-        //         {name: '责任人', value: this.prop.data.jcrmc},
-        //         {name: '创建时间', value:'2017/3/15'}
-        //     ]
-        // }
     }
 
     componentDidMount() {
@@ -52,6 +38,7 @@ export default class SafetyInspectionDetail extends Component {
                     renderRow={this.renderRow.bind(this)}
                     scrollEnabled={false}
                     renderFooter={this.renderFooter.bind(this)}
+                    enableEmptySections={true}
                     renderSeparator={(sectionID, rowID) => {
                         return (<View key={`${sectionID}-${rowID}`} style={styles.separatorView}/>)
                     }}/>
@@ -106,7 +93,6 @@ export default class SafetyInspectionDetail extends Component {
             }
         }).then( responseData => {
             if (responseData.code === 1) {
-                console.log('------------responseData', responseData);
                 let data = responseData.data;
                 this.setState({
                     dataSource: [

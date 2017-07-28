@@ -12,8 +12,9 @@ import {
 import LoadMore from "../../../../Component/LoadMore";
 import Reload from "../../../../Component/Reload";
 import QualityCheckPlanListCell from "./QualityCheckPlanListCell";
-const {width} = Dimensions.get('window');
 import {PullList} from 'react-native-pull';
+
+const {width} = Dimensions.get('window');
 
 export default class QualityCheckPlanList extends Component {
 
@@ -26,21 +27,24 @@ export default class QualityCheckPlanList extends Component {
     }
 
     render() {
-        return (
-            <View style={styles.container}>
-                <PullList
-                    onPullRelease={this.onPullRelease.bind(this)}
-                    topIndicatorRender={this.topIndicatorRender.bind(this)}
-                    topIndicatorHeight={60}
-                    dataSource={this.state.list.cloneWithRows(this.props.dataSource)}
-                    renderRow={this.renderRow.bind(this)}
-                    onEndReached={this.loadMore.bind(this)}
-                    onEndReachedThreshold={60}
-                    renderFooter={this.renderFooter.bind(this)}
-                    enableEmptySections={true}
-                />
-            </View>
-        )
+        if (this.props.dataSource.length) {
+            return (
+                <View style={styles.container}>
+                    <PullList
+                        onPullRelease={this.onPullRelease.bind(this)}
+                        topIndicatorRender={this.topIndicatorRender.bind(this)}
+                        topIndicatorHeight={60}
+                        dataSource={this.state.list.cloneWithRows(this.props.dataSource)}
+                        renderRow={this.renderRow.bind(this)}
+                        onEndReached={this.loadMore.bind(this)}
+                        onEndReachedThreshold={60}
+                        renderFooter={this.renderFooter.bind(this)}
+                        enableEmptySections={true}
+                    />
+                </View>
+            )
+        }
+        return <View/>
     }
 
     onPullRelease(resolve) {
