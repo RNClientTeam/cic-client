@@ -88,6 +88,7 @@ export default class QualityCheckPlan extends Component{
                     <QualityCheckModal
                         navigator={this.props.navigator}
                         jhrwId={this.state.jhrwId}
+                        authority={this.state.authority}
                         closeModal={() => {this.setState({modalVisible: false})
                     }}/>
                 </Modal>
@@ -103,13 +104,52 @@ export default class QualityCheckPlan extends Component{
     }
 
     setModalVisible(jhrwId) {
-        console.log('------data', jhrwId);
-        this.setState(
-            {
-                modalVisible: true,
-                jhrwId
+        this.getAuthority(jhrwId, () => {
+            this.setState(
+                {
+                    modalVisible: true,
+                    jhrwId
+                }
+            );
+        });
+    }
+
+    getAuthority(id, callBack = () => {}) {
+        axios.get('/psmZljcjh/getOperationAuthority4Zljcjh', {
+            params: {
+                userID: GLOBAL_USERID,
+                zlcjhId: id,
+                callID: true,
             }
-        );
+        }).then(responseData => {
+            console.log('-------data', responseData);
+            // responseData = {
+            //     "code": 1,
+            //     "data": {
+            //         "addZljcjh": false,
+            //         "updateZljcjh": true,
+            //         "deleteZljcjh": false,
+            //         "effectZljcjh": false,
+            //         "tbZljcjl ": true
+            //     },
+            //     "message": "成功"
+            // };
+            if (responseData.code === 1) {
+                const authority = responseData.data;
+                if (authority.addZljcjh || authority.updateZljcjh || authority.deleteZljcjh || authority.effectZljcjh) {
+                    this.setState({
+                        authority
+                    });
+                    callBack();
+                } else {
+                    toast.show('没有操作权限!');
+                }
+            } else {
+                toast.show(responseData.message);
+            }
+        }).catch(() => {
+            toast.show('服务端异常!');
+        })
     }
 
     //过滤
@@ -217,7 +257,7 @@ export default class QualityCheckPlan extends Component{
             }else{
                 toast.show(data.message)
             }
-        }).catch(err=>{
+        }).catch(() => {
             toast.show('服务端异常');
         })
     }
@@ -249,27 +289,26 @@ export default class QualityCheckPlan extends Component{
         }).then(data=>{
             console.log('-----getTask', data);
             this.setState({isLoading:false});
+            resolve();
             if(data.code ===1){
-                resolve();
-                if(data.data && data.data.total > 0){
-                    if(pageNum===1){
-                        this.setState({
-                            dataSource:data.data.list
-                        })
-                    }else{
-                        for(let i = 0;i<data.data.list.length;i++){
-                            this.state.dataSource.push(data.data.list[i]);
-                        }
-                        this.setState({
-                            dataSource:this.state.dataSource
-                        })
-                    }
-                    return true
+                if(pageNum===1){
+                    this.setState({
+                        dataSource:data.data.list
+                    })
                 }else{
-                    return false
+                    for(let i = 0;i<data.data.list.length;i++){
+                        this.state.dataSource.push(data.data.list[i]);
+                    }
+                    this.setState({
+                        dataSource:this.state.dataSource
+                    })
                 }
+                return data.data.list.length > 0
+            } else {
+                toast.show(data.message);
+                return false
             }
-        }).catch(err=>{
+        }).catch(()=>{
             this.setState({isLoading:false});
             toast.show('服务端异常');
         })

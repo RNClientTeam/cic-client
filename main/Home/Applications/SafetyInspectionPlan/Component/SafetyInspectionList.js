@@ -25,7 +25,10 @@ export default class SafetyInspectionList extends Component {
         this.state = {
             hasMoreData: true,
             list: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
-            modalVisible:false
+            modalVisible:false,
+            auth: {
+                addZljcjl: true,
+            },
         }
     }
 
