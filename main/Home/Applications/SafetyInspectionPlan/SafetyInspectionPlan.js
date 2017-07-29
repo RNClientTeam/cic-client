@@ -8,6 +8,7 @@ import {
     Dimensions,
     Image,
     TouchableOpacity,
+    TouchableWithoutFeedback,
     Text,
     Modal
 } from 'react-native'
@@ -18,6 +19,8 @@ import toast from 'react-native-simple-toast';
 import Calendar from "../Component/Calendar";
 import QualityCheckPlanHeader from "./Component/QualityCheckPlanHeader";
 import {padStart} from '../../../Util/Util'
+import SafetyCheckPlanModal from "./Component/SafetyCheckPlanModal";
+import EditSafetyCheck from './Component/EditSafetyCheck';
 
 const {width}  = Dimensions.get('window');
 export default class SafetyInspectionPlane extends Component{
@@ -48,6 +51,13 @@ export default class SafetyInspectionPlane extends Component{
         return(
             <View style={styles.earlierStage}>
                 <StatusBar navigator={this.props.navigator} title="安全检查计划">
+                    {this.state.addAqjcjh &&
+                        <TouchableWithoutFeedback
+                            onPress={()=> this.add()}>
+                            <Image style={{width: 0.04 * width, height: 0.04 * width,position:'absolute',right:width*0.12}}
+                                   source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
+                        </TouchableWithoutFeedback>
+                    }
                     <TouchableOpacity onPress={()=>{this.setState({isModalVisible:!this.state.isModalVisible})}}>
                         <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
@@ -69,7 +79,23 @@ export default class SafetyInspectionPlane extends Component{
                     loadMore={() => this.loadMore()}
                     total={this.state.total}
                     reload={(resolve)=>this.getList(1,resolve)}
-                />
+                    setModalVisible={(id) => this.setModalVisible(id)}/>
+                <Modal
+                    animationType={"slide"}
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {this.setState({modalVisible: !this.state.modalVisible})}}
+                    style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
+                >
+                    <SafetyCheckPlanModal
+                        navigator={this.props.navigator}
+                        closeModal={() => {
+                            this.setState({modalVisible: false})
+                        }}
+                        id={this.state.id}
+                        authority={this.state.authority}
+                        reloadInfo={() => this.getList()} />
+                </Modal>
                 {this.state.isModalVisible &&
                     <ModalView
                         jhlx={this.state.jhlx}
@@ -184,6 +210,56 @@ export default class SafetyInspectionPlane extends Component{
         });
     }
 
+    setModalVisible(id) {
+        this.getAuthority(id, () => {
+            this.setState(
+                {
+                    modalVisible: true,
+                    id,
+                }
+            );
+        });
+    }
+
+    getAuthority(id, callBack = () => {}) {
+        axios.get('/psmAqjcjh/getOperationAuthority4Aqjcjh', {
+            params: {
+                userID: GLOBAL_USERID,
+                aqjcjhId: id,
+                callID: true,
+            }
+        }).then(responseData => {
+            console.log('-------data', responseData);
+            responseData = {
+                "code": 1,
+                "data": {
+                    "addAqjcjh": true,
+                    "updateAqjcjh": true,
+                    "deleteAqjcjh": false,
+                    "effectAqjcjh": false,
+                    "tbAqjcjl": true
+                },
+                "message": "成功"
+            };
+            if (responseData.code === 1) {
+                const authority = responseData.data;
+                if (authority.addAqjcjh || authority.updateAqjcjh || authority.deleteAqjcjh || authority.tbAqjcjl) {
+                    this.setState({
+                        authority
+                    }, () => {
+                        callBack();
+                    });
+                } else {
+                    toast.show('没有操作权限!');
+                }
+            } else {
+                toast.show(responseData.message);
+            }
+        }).catch(() => {
+            toast.show('服务端异常!');
+        })
+    }
+
     closeModal(type, jhlx, rwzt) {
         this.setState({isModalVisible:false});
         if (type === 1) {
@@ -253,6 +329,17 @@ export default class SafetyInspectionPlane extends Component{
             }
         }).catch(err=>{
             toast.show('服务端异常');
+        })
+    }
+
+    // 跳转到新增页面
+    add() {
+        this.props.navigator.push({
+            name: 'EditSafetyCheck',
+            component: EditSafetyCheck,
+            params: {
+                reloadInfo: () => this.getList(),
+            }
         })
     }
 }

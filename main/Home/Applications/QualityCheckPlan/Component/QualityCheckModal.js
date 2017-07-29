@@ -69,17 +69,22 @@ export default class QualityCheckModal extends Component{
         //     "message": "成功"
         // };
         let data = [];
-        // 新建
         if (authority.addZljcjh) {
             data.push({
                 img:require('../../../../../resource/imgs/home/earlierStage/applyForDelay.png'),
-                name:'检查计划新建'
+                name:'新建'
             });
         }
         if (authority.updateZljcjh) { // 编辑
             data.push({
                 img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
-                name:'检查计划编辑'
+                name:'编辑'
+            });
+        }
+        if (authority.effectZljcjh) { // 生效
+            data.push({
+                img:require('../../../../../resource/imgs/home/applications/effectiveAction.png'),
+                name:'生效'
             });
         }
         if (authority.deleteZljcjh) { // 删除
