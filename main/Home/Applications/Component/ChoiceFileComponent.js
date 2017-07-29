@@ -48,10 +48,13 @@ export default class ChoiceFileComponent extends Component {
     }
 
     choiceFile() {
+        if (this.props.readOnly) return;
         if (Platform.OS === 'android') {
             NativeModules.MyRN.scan((msg) => {
                 if (msg === '没有选择文件') {
                     Toast.show(msg);
+                } else if (msg.endsWith('.png') || msg.endsWith('.jpg') || msg.endsWith('.jpeg')){
+                    Toast.show('请在下面选择图片');
                 } else {
                     this.uploadFileFun(msg);
                 }
@@ -101,6 +104,7 @@ export default class ChoiceFileComponent extends Component {
     }
 
     choiceImage() {
+        if (this.props.readOnly) return;
         ImagePicker.showImagePicker(photoOptions,(response) =>{
             if (response.uri) {
                 this.uploadFileFun(response.uri, true);
