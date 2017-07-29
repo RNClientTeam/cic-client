@@ -17,12 +17,13 @@ import KeySelect from "../../../Component/KeySelect";
 import KeyValueRight from "../../../Component/KeyValueRight";
 import KeyTime from "../../../Component/KeyTime";
 import ChooseProject from "./Component/ChooseProject";
-const {width} = Dimensions.get('window');
 import ModalDropdown from 'react-native-modal-dropdown';
 import toast from 'react-native-simple-toast'
 import Loading from "../../../Component/Loading";
 import {getCurrentDate, getCurrentMonE} from '../../../Util/Util'
 import Organization from "../../../Organization/Organization";
+const {width} = Dimensions.get('window');
+
 export default class AddOrEditQualityCheck extends Component {
     constructor(props) {
         super(props);
@@ -36,7 +37,6 @@ export default class AddOrEditQualityCheck extends Component {
             zrbm: '',
             jhkssj: getCurrentDate(),
             jhjssj: getCurrentMonE(),
-
             rwxzCn: [],
             rwxzCode: [],
             twztCn: [],
@@ -45,7 +45,6 @@ export default class AddOrEditQualityCheck extends Component {
             twztmc: '请选择任务状态',
             xmmc: '',
             zxmc: "",
-
             isLoading: false
         };
 
@@ -107,7 +106,7 @@ export default class AddOrEditQualityCheck extends Component {
                                    source={require('../../../../resource/imgs/home/applications/triangle.png')}/>
                         </View>
                     </View>
-                    <KeySelect propKey="负责人" choiceInfo={this.choicePeople.bind(this)} value={this.state.zrrmc}/>
+                    <KeySelect propKey="责任人" choiceInfo={this.choicePeople.bind(this)} value={this.state.zrrmc}/>
                     <KeyTime propKey="计划开始时间" onlyDate={true} showDate={this.state.jhkssj}
                              changeDate={(date) => this.setState({jhkssj: date})}/>
                     <KeyTime propKey="计划结束时间" onlyDate={true} showDate={this.state.jhjssj}

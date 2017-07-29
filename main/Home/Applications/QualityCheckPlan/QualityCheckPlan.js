@@ -40,7 +40,7 @@ export default class QualityCheckPlan extends Component{
             rwxzid:'all',
             rwztid:'all',
             isLoading:false,
-            dataSource:[]
+            dataSource:[],
         }
     }
     render(){

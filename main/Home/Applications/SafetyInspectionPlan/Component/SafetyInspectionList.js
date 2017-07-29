@@ -96,7 +96,6 @@ export default class SafetyInspectionList extends Component {
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
             <SafetyInspectionListCell
-
                 key={rowID} data={item} navigator={this.props.navigator}
                 setModalVisible={() => this.props.setModalVisible(item.id)}/>
         );
