@@ -130,7 +130,7 @@ export default class NewCreateRecord extends Component {
                 Toash.show(res.message);
             }
         }).catch((error) => {
-
+            Toast.show('服务端异常');
         });
     }
 

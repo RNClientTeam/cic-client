@@ -10,10 +10,18 @@ import {
     ScrollView
 } from 'react-native'
 import StatusBar from '../../../../Component/StatusBar'
+import KeyValueLeft from "../../../../Component/KeyValueLeft";
 
 const {width} = Dimensions.get('window');
 
 export default class ArticleDetail extends Component {
+    // constructor(props){
+    //     super(props);
+    //     this.state={
+    //         gwlb:'',
+    //         gwzyx:''
+    //     }
+    // }
     render() {
         return (
             <View style={styles.container}>
@@ -21,86 +29,20 @@ export default class ArticleDetail extends Component {
                 <ScrollView>
                     <View style={styles.row}>
                         <Text style={[styles.bold]}>
-                            标题标题
+                            {this.props.data.gwmc}
                         </Text>
                     </View>
-                    <View style={styles.row}>
-                        <Text style={styles.labelColor}>
-                            公文类别
-                        </Text>
-                        <View style={styles.verticalPadding}/>
-                        <Text>通告</Text>
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.labelColor}>
-                            公文重要性
-                        </Text>
-                        <View style={styles.verticalPadding}/>
-                        <Text>一般公文</Text>
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.labelColor}>
-                            公文性质
-                        </Text>
-                        <View style={styles.verticalPadding}/>
-                        <Text>集团公文</Text>
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.labelColor}>
-                            拟稿部门
-                        </Text>
-                        <View style={styles.verticalPadding}/>
-                        <Text>配电技术部</Text>
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.labelColor}>
-                            拟发时间
-                        </Text>
-                        <View style={styles.verticalPadding}/>
-                        <Text>2017/05/10</Text>
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.labelColor}>
-                            时限
-                        </Text>
-                        <View style={styles.verticalPadding}/>
-                        <Text>普通件</Text>
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.labelColor}>
-                            密级
-                        </Text>
-                        <View style={styles.verticalPadding}/>
-                        <Text>普通</Text>
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.labelColor}>
-                            是否发布
-                        </Text>
-                        <View style={styles.verticalPadding}/>
-                        <Text>发布</Text>
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.labelColor}>
-                            印章名称
-                        </Text>
-                        <View style={styles.verticalPadding}/>
-                        <Text>九州恒通</Text>
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.labelColor}>
-                            印章数量
-                        </Text>
-                        <View style={styles.verticalPadding}/>
-                        <Text>1</Text>
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.labelColor}>
-                            发放范围
-                        </Text>
-                        <View style={styles.verticalPadding}/>
-                        <Text>全部</Text>
-                    </View>
+                    <KeyValueLeft propsKey="公文类别" propsValue={this.props.data.gwlb}/>
+                    <KeyValueLeft propsKey="公文重要性" propsValue={this.props.data.gwzyx}/>
+                    <KeyValueLeft propsKey="公文性质" propsValue={this.props.data.gwxz}/>
+                    <KeyValueLeft propsKey="拟稿部门" propsValue={this.props.data.bmmc}/>
+                    <KeyValueLeft propsKey="拟发时间" propsValue={this.props.data.cjsj}/>
+                    <KeyValueLeft propsKey="时限" propsValue={this.props.data.gwsx}/>
+                    <KeyValueLeft propsKey="密级" propsValue={this.props.data.gwmj}/>
+                    <KeyValueLeft propsKey="是否发布" propsValue={this.props.data.sffb}/>
+                    <KeyValueLeft propsKey="印章名称" propsValue={this.props.data.yzmc}/>
+                    <KeyValueLeft propsKey="印章数量" propsValue={this.props.data.yzsl}/>
+                    <KeyValueLeft propsKey="发放范围" propsValue={this.props.data.fwtype}/>
                     <View style={styles.horizonPadding}/>
                     <View style={styles.row}>
                         <Text style={[styles.bold]}>
@@ -108,7 +50,7 @@ export default class ArticleDetail extends Component {
                         </Text>
                     </View>
                     <View style={styles.textArea}>
-                        <Text>公文内容公文内容公文内容公文内容公文内容公文内容公文内容</Text>
+                        <Text>{this.props.data.nr}</Text>
                     </View>
                 </ScrollView>
             </View>
