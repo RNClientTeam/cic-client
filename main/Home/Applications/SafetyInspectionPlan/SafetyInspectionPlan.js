@@ -8,6 +8,7 @@ import {
     Dimensions,
     Image,
     TouchableOpacity,
+    TouchableWithoutFeedback,
     Text,
     Modal
 } from 'react-native'
@@ -19,6 +20,7 @@ import Calendar from "../Component/Calendar";
 import QualityCheckPlanHeader from "./Component/QualityCheckPlanHeader";
 import {padStart} from '../../../Util/Util'
 import SafetyCheckPlanModal from "./Component/SafetyCheckPlanModal";
+import EditSafetyCheck from './Component/EditSafetyCheck';
 
 const {width}  = Dimensions.get('window');
 export default class SafetyInspectionPlane extends Component{
@@ -49,6 +51,13 @@ export default class SafetyInspectionPlane extends Component{
         return(
             <View style={styles.earlierStage}>
                 <StatusBar navigator={this.props.navigator} title="安全检查计划">
+                    {this.state.addAqjcjh &&
+                        <TouchableWithoutFeedback
+                            onPress={()=> this.add()}>
+                            <Image style={{width: 0.04 * width, height: 0.04 * width,position:'absolute',right:width*0.12}}
+                                   source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
+                        </TouchableWithoutFeedback>
+                    }
                     <TouchableOpacity onPress={()=>{this.setState({isModalVisible:!this.state.isModalVisible})}}>
                         <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
@@ -85,7 +94,7 @@ export default class SafetyInspectionPlane extends Component{
                         }}
                         id={this.state.id}
                         authority={this.state.authority}
-                        reloadInfo={() => {this.getData()}} />
+                        reloadInfo={() => this.getList()} />
                 </Modal>
                 {this.state.isModalVisible &&
                     <ModalView
@@ -320,6 +329,17 @@ export default class SafetyInspectionPlane extends Component{
             }
         }).catch(err=>{
             toast.show('服务端异常');
+        })
+    }
+
+    // 跳转到新增页面
+    add() {
+        this.props.navigator.push({
+            name: 'EditSafetyCheck',
+            component: EditSafetyCheck,
+            params: {
+                reloadInfo: () => this.getList(),
+            }
         })
     }
 }

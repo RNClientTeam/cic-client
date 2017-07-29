@@ -65,7 +65,7 @@ export default class SafetyCheckPlanModal extends Component{
         if (authority.addAqjcjh) {
             data.push({
                 img:require('../../../../../resource/imgs/home/earlierStage/applyForDelay.png'),
-                name:'新建'
+                name:'新增'
             });
         }
         if (authority.updateAqjcjh) { // 编辑
