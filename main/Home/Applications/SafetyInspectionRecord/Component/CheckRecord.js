@@ -192,9 +192,10 @@ export default class DoubleCheckDetail extends Component {
                         </View>
                     </TouchableOpacity>
                     <View style={styles.divide}/>
-                    <ChoiceFileComponent getFileID={(theID) => {}}
+                    <ChoiceFileComponent
                         businessModule={this.state.data.businessModule}
-                        isAttach={this.state.data.fcjlisAttach}/>
+                        resourceId={this.state.data.jcfj}
+                        isAttach={this.state.data.jcfjisAttach}/>
                     <View style={styles.divide}/>
                     <View style={styles.bottomRow}>
                         <Text style={styles.labelColor}>检查结果</Text>

@@ -25,7 +25,7 @@ import Loading from "../../../../Component/Loading";
 import KeySelect from "../../../../Component/KeySelect";
 import Organization from "../../../../Organization/Organization";
 import KeyTime from "../../../../Component/KeyTime";
-import {getCurrentDate} from '../../../../Util/Util'
+import {getCurrentDate,getRandomId} from '../../../../Util/Util'
 import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'
 import ChoiceFileComponent from "../../Component/ChoiceFileComponent";
 import CheckFlowInfo from "../../SafetyInspectionRecord/Component/CheckFlowInfo";
@@ -46,6 +46,7 @@ export default class AddModification extends Component {
             sjwcsjt: getCurrentDate(),
             zgyq: '',
             zcjg: '',
+            id:getRandomId()
         }
     }
 
@@ -112,7 +113,11 @@ export default class AddModification extends Component {
                         onTextChange={(text) => this.setState({zcjg: text})}
                         label="检查结果"/>
                     <View style={styles.divide}/>
-                    <ChoiceFileComponent readOnlye={this.props.type === '查看详情'} businessModule="zljcjl"/>
+                    <ChoiceFileComponent
+                        readOnlye={this.props.type === '查看详情'}
+                        isAttch='1'
+                        resourceId={this.state.id}
+                        businessModule="zgrw"/>
                 </ScrollView>
                 {
                     this.props.type === '查看详情' ? null :
@@ -210,7 +215,8 @@ export default class AddModification extends Component {
                         sjwcsjt: data.sjwcsj,
                         zgyq: data.zgyq,
                         zcjg: data.zcjg,
-                        zgzrbm: data.zgzrbm
+                        zgzrbm: data.zgzrbm,
+                        id:data.id
                     })
                 } else {
                     toast.show(data.message)
@@ -234,7 +240,7 @@ export default class AddModification extends Component {
                 //修改
                 axios.post('/psmZljcjl/zgrwEdit',{
                     userID: GLOBAL_USERID,
-                    id:this.props.id,
+                    id:this.state.id,
                     zljcjlId:this.props.zljcjlId,
                     nodeId:this.props.nodeId,
                     wtlb:this.state.wtlb,
@@ -276,7 +282,7 @@ export default class AddModification extends Component {
             }else{
                 axios.post('/psmZljcjl/zgrwSave', {
                     userID: GLOBAL_USERID,
-                    zljcjlId: this.props.id,
+                    zljcjlId: this.state.id,
                     nodeId: this.props.nodeId,
                     wtlb: this.state.wtlb,
                     zgyq: this.state.zgyq,
@@ -285,7 +291,8 @@ export default class AddModification extends Component {
                     zgwcsjt: this.state.zgwcsjt,
                     sjwcsjt: this.state.sjwcsjt,
                     zcjg: this.state.zcjg,
-                    callID: true
+                    callID: true,
+                    id:this.state.id
                 }).then(data => {
                     if (data.code === 1) {
                         toast.show('提交成功');
