@@ -101,7 +101,6 @@ export default class NewCreateRecord extends Component {
             }
         }).then((res) => {
             if (res.code === 1) {
-                console.log(res);
                 this.setState({
                     jcbm: res.data.jcbm,
                     fcsj: res.data.fcsj,

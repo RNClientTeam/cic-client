@@ -373,9 +373,9 @@
 				7DEDA4CA1F28F0DD006A3A3E /* libz.tbd in Frameworks */,
 				7DEDA4C81F28F0BA006A3A3E /* libRNFetchBlob.a in Frameworks */,
 				7DEDA4C71F28F0B3006A3A3E /* libRCTJPush.a in Frameworks */,
+				FA0ECE8D1EB330F1003D4238 /* libRCTWebSocket.a in Frameworks */,
 				7DBB255E1EBDD2BE00140EB3 /* libRNImagePicker.a in Frameworks */,
 				7D305CE61EBA1E950088C329 /* libLRDRCTSimpleToast.a in Frameworks */,
-				FA0ECE8D1EB330F1003D4238 /* libRCTWebSocket.a in Frameworks */,
 				FA0ECE8C1EB330D2003D4238 /* libRNPDFView.a in Frameworks */,
 				FA0ECE0C1EB313D9003D4238 /* libRNFS.a in Frameworks */,
 				FAFB3C971EB0AB5200CCFE21 /* libRNSpinkit.a in Frameworks */,
@@ -791,6 +791,8 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = 7EARH3U976;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 1;
@@ -1362,9 +1364,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7EARH3U976;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios/**",
@@ -1388,7 +1392,9 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.cic-client";
 				PRODUCT_NAME = cic_client;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1397,8 +1403,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7EARH3U976;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios/**",
@@ -1422,7 +1429,9 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.cic-client";
 				PRODUCT_NAME = cic_client;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
