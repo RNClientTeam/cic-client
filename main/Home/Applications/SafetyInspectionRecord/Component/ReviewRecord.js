@@ -30,7 +30,9 @@ export default class ReviewRecord extends Component {
             fcsj: '',
             fcjg: '',
             fcfj: '',
-            aqjcjhId: ''
+            aqjcjhId: '',
+            isAttach:'',
+            businessModule:""
         }
     }
 
@@ -49,7 +51,9 @@ export default class ReviewRecord extends Component {
                     fcsj: res.data.fcsj,
                     fcjg: res.data.fcjg,
                     fcfj: res.data.fcfj,
-                    aqjcjhId: res.data.aqjcjhId
+                    aqjcjhId: res.data.aqjcjhId,
+                    isAttach:res.data.fcfjisAttach,
+                    businessModule:res.data.businessModule
                 })
             } else {
                 Toast.show(res.message);
@@ -93,7 +97,10 @@ export default class ReviewRecord extends Component {
                     </View>
                 </TouchableOpacity>
 
-                <ChoiceFileComponent businessModule='aqjcjl'/>
+                <ChoiceFileComponent
+                    resourceId={this.state.fcfj}
+                    isAttach={this.state.isAttach}
+                    businessModule='aqjcjl'/>
 
                 <View style={styles.viewStyle}>
                     <Text style={styles.keyText}>整改复查结果</Text>

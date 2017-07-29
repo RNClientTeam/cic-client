@@ -40,7 +40,7 @@ import KeyTime from "../../../../Component/KeyTime";
 import LabelTextArea from "../../../../Component/LabelTextArea";
 import ModalDropdown from 'react-native-modal-dropdown';
 import ChoiceFileComponent from '../../Component/ChoiceFileComponent.js';;
-import {getRandomId, getTimestamp, uploadFile} from '../../../../Util/Util.js';
+import {getRandomId} from '../../../../Util/Util.js';
 const selectImg = [
     require('../../../../../resource/imgs/home/constuctPlan/choiced.png'),
     require('../../../../../resource/imgs/home/constuctPlan/unchoiced.png')
@@ -71,7 +71,7 @@ export default class QualityCheckRecordDetail extends Component {
             jcr: '请选择>',  //检查人
             jcrID: '',      //检查人的id
             jcsj: '',       //检查时间
-            jcfj: [],       //附件ID
+            jcfj: getRandomId(),       //附件ID
             rwnr: '',       //任务内容
             gczxid: '',     //工程子项ID
             xmgh: '',       //项目工号
@@ -260,9 +260,9 @@ export default class QualityCheckRecordDetail extends Component {
                         </View>
                     </View>
                     <ChoiceFileComponent
-                        getFileID={(theId) => {}}
+                        resourceId={this.state.jcfj}
                         businessModule='zljcjl'
-                        isAttach={this.state.isFinished}/>
+                        isAttach={1}/>
                     <LabelTextArea label="检查结果" inputResult={this.inputCheckResult.bind(this)}/>
                     {
                         this.state.showBottom &&
@@ -316,7 +316,6 @@ export default class QualityCheckRecordDetail extends Component {
             }
         });
         let wtlb = tempWtlb.join(',');
-        let jcfj = this.state.jcfj.join(',');
         if (this.state.jianyanRW === '请选择>') {
             Toast.show('请选择检验任务');
         } else if (this.gcjd.length === 0) {
@@ -327,8 +326,6 @@ export default class QualityCheckRecordDetail extends Component {
             Toast.show('请选择检查人');
         } else if (wtlb.length === 0) {
             Toast.show('请选择问题类别');
-        } else if (jcfj.length === 0) {
-            Toast.show('请选择附件');
         } else if (this.checkResult.length === 0) {
             Toast.show('请填写检查结果');
         } else if (this.changeResult.length === 0 && this.state.showBottom) {
@@ -343,7 +340,7 @@ export default class QualityCheckRecordDetail extends Component {
                 jcr: this.state.jcrID,
                 jcsj: this.state.jcsj,
                 jcjg: this.checkResult,
-                jcfj: jcfj,
+                jcfj: this.state.jcfj,
                 zgyq: this.changeResult,
                 sfxczg: this.state.isFinished?'1':'0',
                 rwnr: this.state.rwnr,

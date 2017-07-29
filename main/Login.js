@@ -150,7 +150,7 @@ export default class Login extends Component {
                 'Accept':'application/json;charset=UTF-8'
             }
         })
-        .then((response) => {console.log(response);return response.json()})
+        .then((response) => {return response.json()})
         .then((responseData) => {
             if (responseData.code === 1) {
                 //登录成功

@@ -27,6 +27,7 @@ import ChoiceFileComponent from "../../Component/ChoiceFileComponent";
 import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'
 import CheckFlowInfo from "./CheckFlowInfo";
 import KeyValueRight from "../../../../Component/KeyValueRight";
+import {getRandomId} from '../../../../Util/Util'
 
 export default class AccomplishProgress extends Component {
     constructor(props) {
@@ -46,7 +47,7 @@ export default class AccomplishProgress extends Component {
             zgyq: '',
             zcjg: '',
             aqjcjlId: '',
-            id: ''
+            id: getRandomId()
         };
     }
 
@@ -134,9 +135,12 @@ export default class AccomplishProgress extends Component {
                     }
 
                     <View style={{height: 10}}/>
-                    <ChoiceFileComponent getFileID={(ids) => {
-                        alert(ids)
-                    }}/>
+                    <ChoiceFileComponent
+                        businessModule="aqzgrw"
+                        resourceId={this.state.id}
+                        isAttach="1"
+                        readOnly={this.props.readOnly}
+                    />
                 </ScrollView>
                 {
                     this.props.readOnly ?
@@ -186,7 +190,7 @@ export default class AccomplishProgress extends Component {
                 this.showLoading();
                 axios.post('psmAqjcjh/saveZgrw', {
                     userID: GLOBAL_USERID,
-                    id: '',
+                    id: this.state.id,
                     aqjcjlId: this.props.aqjcjlId,
                     wtlb: this.state.wtlb,
                     zgyq: this.state.zgyq,

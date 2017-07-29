@@ -24,7 +24,7 @@ import FetchUrl from '../Util/service.json'
 import Loading from "../Component/Loading";
 import axios from 'axios'
 import toast from 'react-native-simple-toast'
-// import JPush , {JpushEventReceiveMessage, JpushEventOpenMessage} from 'react-native-jpush'
+import JPush , {JpushEventReceiveMessage, JpushEventOpenMessage} from 'react-native-jpush'
 export default class Home extends Component {
     constructor(props) {
         super(props);
@@ -109,7 +109,7 @@ export default class Home extends Component {
 
     componentDidMount() {
         //添加推送相关
-        // this.addPush();
+        this.addPush();
         global.axios = axios;
         axios.defaults.baseURL = FetchUrl.baseUrl;
         axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -194,29 +194,29 @@ export default class Home extends Component {
         })
     }
 
-    // addPush() {
-    //     JPush.requestPermissions();
-    //     this.pushlisteners = [
-    //         JPush.addEventListener(JpushEventReceiveMessage, this.onReceiveMessage.bind(this)),
-    //         JPush.addEventListener(JpushEventOpenMessage, this.onOpenMessage.bind(this)),
-    //     ];
-    // }
+    addPush() {
+        JPush.requestPermissions();
+        this.pushlisteners = [
+            JPush.addEventListener(JpushEventReceiveMessage, this.onReceiveMessage.bind(this)),
+            JPush.addEventListener(JpushEventOpenMessage, this.onOpenMessage.bind(this)),
+        ];
+    }
 
     onReceiveMessage(message) {
-        alert(message);
+        console.log(message);
     }
 
     onOpenMessage(message) {
-        alert(message);
+        console.log(message);
     }
 
     componentWillUnmount() {
         axios.interceptors.request.eject(this.reqInterceptor);
         axios.interceptors.response.eject(this.resInterceptor);
         //移除推送的监听
-    //     this.pushlisteners.forEach(listener=> {
-    //         JPush.removeEventListener(listener);
-    //     });
+        this.pushlisteners.forEach(listener=> {
+            JPush.removeEventListener(listener);
+        });
     }
 
 }

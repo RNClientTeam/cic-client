@@ -88,8 +88,8 @@ android {
 
     defaultConfig {
         manifestPlaceholders = [
-                JPush_APPID: "JPush的APPID",     //在此修改JPush的APPID
-                APP_CHANNEL: "应用渠道号"        //应用渠道号
+                JPush_APPID: "ef9c2bcf90e00172cc2c5490",     //在此修改JPush的APPID
+                APP_CHANNEL: "app_channel"        //应用渠道号
         ]
         applicationId "com.cic_client"
         minSdkVersion 16

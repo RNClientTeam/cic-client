@@ -10,6 +10,7 @@ import {
     TouchableOpacity,
     Text
 } from 'react-native'
+import ArticleDetail from "./ArticleDetail";
 
 const {width} = Dimensions.get('window');
 
@@ -18,39 +19,55 @@ export default class ArticleCell extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <View style={styles.upper}>
-                    <View style={styles.row}>
-                        <Text style={[styles.titleColor]}>{this.props.data.title}</Text>
+                <TouchableOpacity onPress={this._skipToDetail.bind(this)}>
+                    <View style={styles.upper}>
+                        <View style={styles.row}>
+                            <Text style={[styles.titleColor]}>{this.props.data.gwmc}</Text>
+                            <View style={styles.blank}/>
+                            <View style={styles.priority}>
+                                <Text style={[styles.white, styles.smallFont]}>{this.props.data.gwmj}</Text>
+                            </View>
+                        </View>
+                        <View style={styles.row}>
+                            <Text>{this.props.data.gwxz}-{this.props.data.gwzyx}-{this.props.data.gwl}</Text>
+                        </View>
+                    </View>
+                    <View style={styles.lower}>
+                        <View>
+                            <View style={styles.row}>
+                                <Text style={[styles.smallFont, styles.textColor]}>创建部门:</Text>
+                                <View style={styles.padding}/>
+                                <Text style={[styles.smallFont, styles.textColor]}>{this.props.data.bmmc}</Text>
+                            </View>
+                            <View style={styles.row}>
+                                <Text style={[styles.smallFont, styles.textColor]}>创建时间:</Text>
+                                <View style={styles.padding}/>
+                                <Text style={[styles.smallFont, styles.textColor]}>{this.props.data.cjsj}</Text>
+                            </View>
+                        </View>
                         <View style={styles.blank}/>
-                        <View style={styles.priority}>
-                            <Text style={[styles.white, styles.smallFont]}>{this.props.data.priority}</Text>
-                        </View>
+                        <TouchableOpacity onPress={() => {
+                            this.props.setModalVisible(this.props.data)
+                        }} style={styles.editTouch}>
+                            <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}
+                                   style={styles.editImg} resizeMode="contain"/>
+                        </TouchableOpacity>
                     </View>
-                    <View style={styles.row}>
-                        <Text>{this.props.data.type}</Text>
-                    </View>
-                </View>
-                <View style={styles.lower}>
-                    <View>
-                        <View style={styles.row}>
-                            <Text style={[styles.smallFont, styles.textColor]}>创建部门:</Text>
-                            <View style={styles.padding}/>
-                            <Text style={[styles.smallFont, styles.textColor]}>{this.props.data.department}</Text>
-                        </View>
-                        <View style={styles.row}>
-                            <Text style={[styles.smallFont, styles.textColor]}>创建时间:</Text>
-                            <View style={styles.padding}/>
-                            <Text style={[styles.smallFont, styles.textColor]}>{this.props.data.date}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.blank}/>
-                    <TouchableOpacity onPress={()=>{this.props.setModalVisible()}} style={styles.editTouch}>
-                        <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}
-                               style={styles.editImg} resizeMode="contain"/>
-                    </TouchableOpacity>
-                </View>
+                </TouchableOpacity>
+
             </View>
         )
+    }
+
+    _skipToDetail() {
+        this.props.navigator.push({
+            name: "ArticleDetail",
+            component: ArticleDetail,
+            params: {
+                id: this.props.data.id,
+                data:this.props.data
+            }
+        })
     }
 }
 

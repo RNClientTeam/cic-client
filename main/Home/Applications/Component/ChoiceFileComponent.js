@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 
 const photoOptions = {
-    title:'更换头像',
+    title:'选择文件',
     cancelButtonTitle:'取消',
     takePhotoButtonTitle:'拍照',
     chooseFromLibraryButtonTitle:'从本地相册选取',
@@ -37,13 +37,12 @@ const {width, height} = Dimensions.get('window');
 export default class ChoiceFileComponent extends Component {
     constructor(props) {
         super(props);
+        this.imageId = [];
         this.state = {
             jcfj: [],
             imageList: [],
             choiceFileName: '所选文件名称',
             businessModule:this.props.businessModule,
-            resourceId:this.props.resourceId,
-            isAttach:this.props.isAttach,
             readOnly:this.props.readOnly
         }
     }
@@ -51,8 +50,10 @@ export default class ChoiceFileComponent extends Component {
     choiceFile() {
         if (Platform.OS === 'android') {
             NativeModules.MyRN.scan((msg) => {
-                if (mes) {
-                    this.uploadFileFun(msg, '.pdf');
+                if (msg === '没有选择文件') {
+                    Toast.show(msg);
+                } else {
+                    this.uploadFileFun(msg);
                 }
             }, (result) => {
                 Toast.show('上传出错');
@@ -62,18 +63,17 @@ export default class ChoiceFileComponent extends Component {
         }
     }
 
-    uploadFileFun(msg, fileSuffix, choiceImg) {
-        this.setState({isLoading: true});
+    uploadFileFun(msg, choiceImg) {
+        let tempArr = msg.split('/');
         let reqData = [
             {name: 'userID', data: GLOBAL_USERID},
-            {name: 'files', data: RNFetchBlob.wrap(msg), filename: this.state.resourceId + fileSuffix},
+            {name: 'files', data: RNFetchBlob.wrap(msg), filename: tempArr[tempArr.length-1]},
             {name: 'businessModule', data: this.props.businessModule},
-            {name: 'isAttach', data: JSON.stringify(this.state.isAttach)},
-            {name: 'resourceId', data: this.state.resourceId},
+            {name: 'isAttach', data: this.props.isAttach},
+            {name: 'resourceId', data: this.props.resourceId},
             {name: 'callID', data: JSON.stringify(getTimestamp())}
         ];
         uploadFile(baseUrl.baseUrl + '/sysfile/UploadHandler', reqData, (response) => {
-            this.setState({isLoading: false});
             if (response.code === 1) {
                 Toast.show('文件上传成功');
                 this.state.jcfj.push(response.data.id);
@@ -84,33 +84,26 @@ export default class ChoiceFileComponent extends Component {
                     this.setState({
                         imageList: this.state.imageList,
                         jcfj: this.state.jcfj
-                    }, () => {
-                        this.props.getFileID(this.state.jcfj.join(','));
                     });
                 } else {
-                    let tempArr = msg.split('/');
                     //android选择附件
                     this.setState({
                         jcfj: this.state.jcfj,
                         choiceFileName: tempArr[tempArr.length-1]
-                    }, () => {
-                        this.props.getFileID(this.state.jcfj.join(','));
                     });
                 }
-
             } else {
                 Toast.show('文件上传失败，请重试');
             }
         }, (response) => {
-            Toast.show('ERROR');
-            this.setState({isLoading: false});
+            Toast.show('文件上传失败');
         });
     }
 
     choiceImage() {
         ImagePicker.showImagePicker(photoOptions,(response) =>{
             if (response.uri) {
-                this.uploadFileFun(response.uri, '.jpg', true);
+                this.uploadFileFun(response.uri, true);
             }
         });
     }
@@ -140,7 +133,7 @@ export default class ChoiceFileComponent extends Component {
         if (result !== -1) {
             this.state.jcfj.splice(result, 1);
             this.setState({jcfj: this.state.jcfj}, () => {
-                this.props.getFileID(this.state.jcfj.join(','));
+                // this.props.getFileID(this.state.jcfj.join(','));
             });
         }
     }
@@ -167,7 +160,6 @@ export default class ChoiceFileComponent extends Component {
                         </TouchableOpacity>
                     </View>
                 </View>
-                {this.state.isLoading ? <Loading/> : null}
             </View>
         );
     }
