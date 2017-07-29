@@ -95,7 +95,10 @@ export default class DoubleCheckRecord extends Component {
                     value={this.state.fcjg}
                     onTextChange={(text) => {this.setState({fcjg:text});}}/>
                 <View style={styles.divide}/>
-                <ChoiceFileComponent businessModule='zljcjl'/>
+                <ChoiceFileComponent
+                    isAttach="0"
+                    resourceId={this.state.fcfj}
+                    businessModule='zljcjl'/>
                 <View style={styles.bottomView}>
                     <TouchableOpacity onPress={this.save.bind(this)}>
                         <View style={[styles.btnView, {backgroundColor:'#216fd0'}]}>

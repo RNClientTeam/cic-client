@@ -54,7 +54,6 @@ export default class DoubleCheckDetail extends Component {
             zgfj: '',
             zzjg: '',
             jcfj: '',
-            jcr: '',
             jcbmmc: '',
             cjbm: '',
             cjrmc: '',
@@ -102,7 +101,6 @@ export default class DoubleCheckDetail extends Component {
                     zgfj: data.data.zgfj,
                     zzjg: data.data.zzjg,
                     jcfj: data.data.jcfj,
-                    jcr: data.data.jcr,
                     jcbmmc: data.data.jcbmmc,
                     cjbm: data.data.cjbm,
                     cjrmc: data.data.cjrmc,
@@ -329,7 +327,8 @@ export default class DoubleCheckDetail extends Component {
 
                     <View style={styles.divide}/>
                     <ChoiceFileComponent
-                        getFileID={(theID) => {}}
+                        resourceId={this.state.jcfj}
+                        isAttach="1"
                         businessModule='zljcjl'/>
                     <LabelTextArea label="检查结果"
                         onTextChange={(text)=>{this.setState({jcjg:text})}}
