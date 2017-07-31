@@ -53,8 +53,6 @@ export default class ChoiceFileComponent extends Component {
             NativeModules.MyRN.scan((msg) => {
                 if (msg === '没有选择文件') {
                     Toast.show(msg);
-                } else if (msg.endsWith('.png') || msg.endsWith('.jpg') || msg.endsWith('.jpeg')){
-                    Toast.show('请在下面选择图片');
                 } else {
                     this.uploadFileFun(msg);
                 }
