@@ -1,4 +1,6 @@
 package com.cic_client;
+import android.support.annotation.StyleRes;
+
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
@@ -10,10 +12,21 @@ import java.util.Collections;
 import java.util.List;
 
 public class AnExampleReactPackage implements ReactPackage {
+    public static final int DEFAULT_EXPLAINING_PERMISSION_DIALIOG_THEME = R.style.DefaultExplainingPermissionsTheme;
+    private @StyleRes final int dialogThemeId;
+    public AnExampleReactPackage()
+    {
+        this.dialogThemeId = DEFAULT_EXPLAINING_PERMISSION_DIALIOG_THEME;
+    }
+    public AnExampleReactPackage(@StyleRes final int dialogThemeId)
+    {
+        this.dialogThemeId = dialogThemeId;
+    }
+
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         List<NativeModule> modoules = new ArrayList<>();
-        modoules.add(new MyRN(reactContext));
+        modoules.add(new MyRN(reactContext,dialogThemeId));
         return modoules;
     }
 
