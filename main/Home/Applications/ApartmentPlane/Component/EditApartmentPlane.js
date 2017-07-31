@@ -204,7 +204,7 @@ export default class EditApartmentPlane extends Component {
         }else if(this.state.wcbz===''){
             toast.show('请填写完成标准')
         }else{
-            axios.post('/psmBmjh/save',{
+            axios.post('/psmBmjh/edit',{
                 userID:GLOBAL_USERID,
                 jhrwId:this.state.jhrwId,
                 xmbh:this.state.xmbh,
@@ -215,7 +215,8 @@ export default class EditApartmentPlane extends Component {
                 jhkssj:this.state.jhkssj,
                 jhjssj:this.state.jhjssj,
                 wcbz:this.state.wcbz,
-                callID:true
+                callID:true,
+                jhId:this.props.id
             }).then(data=>{
                 if(data.code === 1){
                     toast.show(data.message);
