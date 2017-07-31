@@ -44,7 +44,7 @@ export default class ChoosePro extends Component {
         return (
             <TouchableHighlight onPress={this._clickItem.bind(this, rowData)} underlayColor="#e8e8e8">
                 <View style={styles.itemView}>
-                    <Text style={styles.textNum}>{rowData.id}</Text>
+                    <Text style={styles.textNum}>{rowData.xmgh}</Text>
                     <Text style={styles.textInfo}>{rowData.xmmc}</Text>
                 </View>
             </TouchableHighlight>

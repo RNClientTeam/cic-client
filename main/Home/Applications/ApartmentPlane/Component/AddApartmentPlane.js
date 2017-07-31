@@ -69,7 +69,7 @@ export default class AddApartmentPlane extends Component {
                             return (<View key={`${sectionID}-${rowID}`} style={styles.separatorView}/>)
                         }}/>
                     <KeyTime onlyDate={true} propKey="计划开始时间" showDate={this.state.jhkssj} changeDate={(date)=>this.setState({jhkssj:date})}/>
-                    <KeyTime onlyDate={true} propKey="计划结束结束时间" showDate={this.state.jhjssj} changeDate={(date)=>this.setState({jhjssj:date})}/>
+                    <KeyTime onlyDate={true} propKey="计划结束时间" showDate={this.state.jhjssj} changeDate={(date)=>this.setState({jhjssj:date})}/>
                     <TouchableHighlight underlayColor="transparent" onPress={this.choiceZrbm.bind(this)}>
                         <View style={[styles.viewStyle, {height:0.0735*height,marginBottom:1}]}>
                             <Text style={styles.keyText}>责任部门</Text>
@@ -203,6 +203,14 @@ export default class AddApartmentPlane extends Component {
             toast.show('请填写计划名称')
         }else if(this.state.wcbz===''){
             toast.show('请填写完成标准')
+        }else if(this.state.jhkssj===''){
+            toast.show('请填写计划开始时间')
+        }else if(this.state.jhjssj===''){
+            toast.show('请填写计划结束时间')
+        }else if(this.state.zrr===''){
+            toast.show('请选择责任人')
+        }else if(this.state.zrbm===''){
+            toast.show('请选择责任部门')
         }else{
             axios.post('/psmBmjh/save',{
                 userID:GLOBAL_USERID,

@@ -89,7 +89,6 @@ export default class ConstructPlan extends Component {
             }
         }).then(responseData => {
             if (responseData.code === 1 ) {
-                console.log(responseData,'all')
                 if (responseData.data && responseData.data.data) {
                     let resultData = responseData.data.data;
                     if (resultData.length) {

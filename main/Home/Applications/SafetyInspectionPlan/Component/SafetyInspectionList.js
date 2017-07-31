@@ -12,14 +12,13 @@ import {
     Text,
     Modal
 } from 'react-native'
-const {width} = Dimensions.get('window');
-
 import {PullList} from 'react-native-pull';
 import LoadMore from "../../../../Component/LoadMore.js";
 import SafetyInspectionListCell from "./SafetyInspectionListCell.js";
 import Reload from "../../../../Component/Reload.js";
-import SafetyCheckPlanModal from "./SafetyCheckPlanModal";
 import toast from 'react-native-simple-toast'
+
+const {width} = Dimensions.get('window');
 export default class SafetyInspectionList extends Component {
     constructor(props) {
         super(props);
@@ -49,64 +48,45 @@ export default class SafetyInspectionList extends Component {
                         renderFooter={this.renderFooter.bind(this)}
                         enableEmptySections={true}
                     />
-                    <Modal
-                        animationType={"slide"}
-                        transparent={true}
-                        visible={this.state.modalVisible}
-                        onRequestClose={() => {
-                            this.setState({modalVisible: !this.state.modalVisible})
-                        }}
-                        style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
-                    >
-                        <SafetyCheckPlanModal navigator={this.props.navigator}
-                                           closeModal={() => {
-                                               this.setState({modalVisible: false})
-                                           }}
-                                           auth={this.state.auth}
-                                           data={this.state.data}
-                                           reloadInfo={() => {
-                                               this.getData()
-                                           }}/>
-                    </Modal>
                 </View>
             )
         }
         return <View/>
     }
 
-    _getAuthShowModal(item){
-        axios.get('/psmAqjcjh/getOperationAuthority4Aqjcjh',{
-            params:{
-                userID:GLOBAL_USERID,
-                aqjcjhId:item.id,
-                callID:true
-            }
-        }).then(data=>{
-            if(data.code === 1){
-                data = {
-                    "code": 1,
-                    "data": {
-                        "effectAqjcjh": true,
-                        "deleteAqjcjh": true,
-                        "addAqjcjh": true,
-                        "updateAqjcjh": true,
-                        "tbAqjcjl": true
-                    },
-                    "message": "成功"
-                };
-                this.setState({
-                    modalVisible:true,
-                    auth:data.data
-                })
-            }else{
-                toast.show(data.message)
-            }
-            console.log(data)
-        }).catch(err=>{
-            toast.show('服务端异常');
-        })
-
-    }
+    // _getAuthShowModal(item){
+    //     axios.get('/psmAqjcjh/getOperationAuthority4Aqjcjh',{
+    //         params:{
+    //             userID:GLOBAL_USERID,
+    //             aqjcjhId:item.id,
+    //             callID:true
+    //         }
+    //     }).then(data=>{
+    //         if(data.code === 1){
+    //             data = {
+    //                 "code": 1,
+    //                 "data": {
+    //                     "effectAqjcjh": true,
+    //                     "deleteAqjcjh": true,
+    //                     "addAqjcjh": true,
+    //                     "updateAqjcjh": true,
+    //                     "tbAqjcjl": true
+    //                 },
+    //                 "message": "成功"
+    //             };
+    //             this.setState({
+    //                 modalVisible:true,
+    //                 auth:data.data
+    //             })
+    //         }else{
+    //             toast.show(data.message)
+    //         }
+    //         console.log(data)
+    //     }).catch(err=>{
+    //         toast.show('服务端异常');
+    //     })
+    //
+    // }
 
     onPullRelease(resolve) {
         //do refresh
@@ -116,9 +96,8 @@ export default class SafetyInspectionList extends Component {
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
             <SafetyInspectionListCell
-                _getAuthShowModal={()=>this._getAuthShowModal(item)}
                 key={rowID} data={item} navigator={this.props.navigator}
-                setModalVisible={() => this.props.setModalVisible()}/>
+                setModalVisible={() => this.props.setModalVisible(item.id)}/>
         );
     }
 
