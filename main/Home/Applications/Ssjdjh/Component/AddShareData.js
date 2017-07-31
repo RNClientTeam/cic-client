@@ -243,13 +243,12 @@ export default class AddShareData extends Component {
         // if(this.state.uploadSuccess){
             let data = {
                 userID: GLOBAL_USERID,
-                fjid: this.state.fjid,
                 bsid: this.state.bsid,
                 zlfl: this.state.zlfl,
                 gxfs: this.state.gxfs,
                 gzfw: this.state.shareRangeEN,
                 zlms: this.state.zlms,
-                resourceId: this.state.randomId,
+                fjid: this.state.randomId,
                 callID: true
             };
             if (data.zlfl === '') {
@@ -274,7 +273,6 @@ export default class AddShareData extends Component {
                         }
                     })
                     .catch(err => {
-                        console.log(err)
                         if(err){
                             toast.show('服务端异常');
                         }
