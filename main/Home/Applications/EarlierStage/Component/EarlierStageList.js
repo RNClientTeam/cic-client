@@ -47,7 +47,10 @@ export default class EarlierStageList extends Component {
 
     onPullRelease(resolve) {
         //do refresh
-        this.props.refresh(()=>{resolve()})
+        this.props.refresh(()=>{resolve()});
+        this.setState({
+            hasMoreData:true
+        })
     }
 
     renderRow(item, sectionID, rowID, highlightRow) {

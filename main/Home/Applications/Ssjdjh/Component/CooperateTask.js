@@ -46,12 +46,16 @@ export default class CooperateTask extends Component {
                 callID: true
             }
         }).then((responseData) => {
-            this.setState({
-                list: this.state.list.concat(responseData.data.data),
-                hasMoreData: responseData.data.data.length === 0 ? false : true
-            }, () => {
-                resolve && resolve();
-            });
+            if (responseData.code === 1) {
+                this.setState({
+                    list: this.state.list.concat(responseData.data.data),
+                    hasMoreData: responseData.data.data.length === 0 ? false : true
+                }, () => {
+                    resolve && resolve();
+                });
+            } else {
+                Toast.show(responseData.message);
+            }
         }).catch((error) => {
             Toast.show('服务端连接错误！')
         });

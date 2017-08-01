@@ -161,7 +161,7 @@ export default class FillProgress extends Component {
                    let that = this;
                    setTimeout(function () {
                        that.props.navigator.pop();
-                       this.props.reload();
+                       that.props.reload();
                    })
                 }else{
                     toast.show(data.message);

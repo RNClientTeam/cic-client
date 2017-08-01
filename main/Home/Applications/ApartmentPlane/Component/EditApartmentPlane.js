@@ -203,8 +203,18 @@ export default class EditApartmentPlane extends Component {
             toast.show('请填写计划名称')
         }else if(this.state.wcbz===''){
             toast.show('请填写完成标准')
+        }else if(this.state.jhkssj===''){
+            toast.show('请填写计划开始时间')
+        }else if(this.state.jhjssj===''){
+            toast.show('请填写计划结束时间')
+        }else if(this.state.zrr===''){
+            toast.show('请选择责任人')
+        }else if(this.state.zrbm===''){
+            toast.show('请选择责任部门')
+        }else if(this.state.jhrwId===''){
+            toast.show('所属计划任务未填写')
         }else{
-            axios.post('/psmBmjh/save',{
+            axios.post('/psmBmjh/edit',{
                 userID:GLOBAL_USERID,
                 jhrwId:this.state.jhrwId,
                 xmbh:this.state.xmbh,
@@ -215,7 +225,8 @@ export default class EditApartmentPlane extends Component {
                 jhkssj:this.state.jhkssj,
                 jhjssj:this.state.jhjssj,
                 wcbz:this.state.wcbz,
-                callID:true
+                callID:true,
+                jhId:this.props.id
             }).then(data=>{
                 if(data.code === 1){
                     toast.show(data.message);

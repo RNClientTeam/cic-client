@@ -211,6 +211,8 @@ export default class AddApartmentPlane extends Component {
             toast.show('请选择责任人')
         }else if(this.state.zrbm===''){
             toast.show('请选择责任部门')
+        }else if(this.state.jhrwId===''){
+            toast.show('所属计划任务未填写')
         }else{
             axios.post('/psmBmjh/save',{
                 userID:GLOBAL_USERID,
@@ -247,7 +249,7 @@ export default class AddApartmentPlane extends Component {
         }).then(data=>{
             this.setState({
                 zrrmc: data.userName,
-                zrr: data.userId,
+                zrr: data.userID,
                 zrbmmc: data.deptName,
                 zrbm: data.deptID
             })

@@ -115,7 +115,7 @@ export default class AddShareData extends Component {
                         <Text style={styles.keyStyle}>上传附件</Text>
                         <TouchableHighlight style={{paddingLeft: 50}} underlayColor='transparent' onPress={this.choiceFile.bind(this)}>
                             <Image style={styles.accessory}
-                                   source={this.state.uploadSuccess?require('../../../../../resource/imgs/home/earlierStage/pdf.png'):require('../../../../../resource/imgs/home/earlierStage/accessory.png')}/>
+                                   source={this.state.uploadSuccess?require('../../../../../resource/imgs/home/earlierStage/fj.png'):require('../../../../../resource/imgs/home/earlierStage/accessory.png')}/>
                         </TouchableHighlight>
                     </View>
                     <View style={[styles.keyValue, {borderBottomWidth: 0}]}>
@@ -125,7 +125,6 @@ export default class AddShareData extends Component {
                         <TextInput
                             style={styles.textInput}
                             multiline={true}
-                            autoFocus={true}
                             placeholder='请填写备注信息'
                             onChangeText={(remark) => this.setState({zlms: remark})}
                             underlineColorAndroid="transparent"
@@ -240,16 +239,15 @@ export default class AddShareData extends Component {
     }
 
     submit() {
-        // if(this.state.uploadSuccess){
+        if(this.state.uploadSuccess){
             let data = {
                 userID: GLOBAL_USERID,
-                fjid: this.state.fjid,
                 bsid: this.state.bsid,
                 zlfl: this.state.zlfl,
                 gxfs: this.state.gxfs,
                 gzfw: this.state.shareRangeEN,
                 zlms: this.state.zlms,
-                resourceId: this.state.randomId,
+                fjid: this.state.randomId,
                 callID: true
             };
             if (data.zlfl === '') {
@@ -274,15 +272,14 @@ export default class AddShareData extends Component {
                         }
                     })
                     .catch(err => {
-                        console.log(err)
                         if(err){
                             toast.show('服务端异常');
                         }
                     })
             }
-        // }else{
-        //     toast.show('请先上传共享文件');
-        // }
+        }else{
+            toast.show('请先上传共享文件');
+        }
     }
 }
 

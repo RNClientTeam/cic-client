@@ -48,6 +48,7 @@ export default class ChoiceFileComponent extends Component {
     }
 
     choiceFile() {
+        if (this.props.readOnly) return;
         if (Platform.OS === 'android') {
 			  NativeModules.MyRN.scan( (response) => {
             console.log('Response = ', response);
