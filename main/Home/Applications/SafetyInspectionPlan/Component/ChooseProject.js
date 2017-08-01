@@ -55,7 +55,7 @@ export default class ChooseProject extends Component {
         return (
             <TouchableHighlight onPress={() => this._clickItem(rowData)} underlayColor="#e8e8e8">
                 <View style={styles.itemView}>
-                    <Text style={styles.textNum}>{rowData.xmgh}</Text>
+                    <Text style={styles.textNum}>{rowData.xmbh}</Text>
                     <Text style={styles.textInfo}>{rowData.xmmc}</Text>
                 </View>
             </TouchableHighlight>
@@ -63,7 +63,9 @@ export default class ChooseProject extends Component {
     }
 
     _clickItem(rowData) {
-        () => this.props.addProject(rowData.xmmc, rowData.gczxId, rowData.sgrwId);
+        this.props.addProject(rowData.xmbh, rowData.xmmc, rowData.gczxmc, rowData.sgrwmc,
+            rowData.gczxId, rowData.sgrwId);
+        this.props.navigator.pop();
     }
 
     componentDidMount() {
@@ -83,17 +85,49 @@ export default class ChooseProject extends Component {
                 jssj: this.props.jssj,
                 callID: true,
             }
-        }).then(data => {
-            console.log(data);
+        }).then(responseData => {
+            console.log(responseData);
             this.setState({
                 isLoading: false
             });
-            if (data.code === 1) {
+            responseData = {
+                "code": 1,
+                "data": {
+                    "total": 139,
+                    "data": [
+                        {
+                            "sgrwjssj": "2016-09-10",
+                            "gczxmc": "总配至分配的电缆敷设",
+                            "xmmc": "北大国际医院变配电工程",
+                            "gczxId": "8a8180d856b8094b0156ea7109ae5931",
+                            "xmbh": "CX_ZY15012-15008",
+                            "sgrwkssj": "2016-09-10",
+                            "sgrwId": "8a8180d85702071c015705458e0d69e5",
+                            "RN": 1,
+                            "sgrwmc": "有限空间安全手续施工现场转交工程部"
+                        },
+                        {
+                            "sgrwjssj": "2016-09-11",
+                            "gczxmc": "总配至分配的电缆敷设",
+                            "xmmc": "北大国际医院变配电工程",
+                            "gczxId": "8a8180d856b8094b0156ea7109ae5931",
+                            "xmbh": "CX_ZY15012-15008",
+                            "sgrwkssj": "2016-09-11",
+                            "sgrwId": "8a8180d85702071c015705458e1c69e8",
+                            "RN": 2,
+                            "sgrwmc": "电缆到达现场，并确定是否强检及取样"
+                        }
+                    ]
+                },
+                "message": "成功"
+            };
+
+            if (responseData.code === 1) {
                 this.setState({
-                    dataSource: data.data && data.data.list ? data.data.list : []
+                    dataSource: responseData.data && responseData.data.data ? responseData.data.data : []
                 })
             } else {
-                toast.show(data.message)
+                toast.show(responseData.message)
             }
         }).catch(err => {
             this.setState({

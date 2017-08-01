@@ -125,7 +125,6 @@ export default class AddShareData extends Component {
                         <TextInput
                             style={styles.textInput}
                             multiline={true}
-                            autoFocus={true}
                             placeholder='请填写备注信息'
                             onChangeText={(remark) => this.setState({zlms: remark})}
                             underlineColorAndroid="transparent"
@@ -240,7 +239,7 @@ export default class AddShareData extends Component {
     }
 
     submit() {
-        // if(this.state.uploadSuccess){
+        if(this.state.uploadSuccess){
             let data = {
                 userID: GLOBAL_USERID,
                 bsid: this.state.bsid,
@@ -278,9 +277,9 @@ export default class AddShareData extends Component {
                         }
                     })
             }
-        // }else{
-        //     toast.show('请先上传共享文件');
-        // }
+        }else{
+            toast.show('请先上传共享文件');
+        }
     }
 }
 
