@@ -69,7 +69,8 @@ export default class EarlierStageList extends Component {
             count:item.count,
             jhxxId:item.jhxxId,
             isTodo:item.isTodo,
-            gczxId:item.gczxId
+            gczxId:item.gczxId,
+            zxmc: item.zxmc
         };
         if(item.jhkssj&&item.jhjssj){
             temp.sjd = item.jhkssj+'／'+item.jhjssj

@@ -37,17 +37,21 @@ export default class ShareData extends Component{
         axios.get('/psmGxzl/list', {
             params: {
                 userID: GLOBAL_USERID,
-                bsid: this.props.gczxId,
+                bsid: this.props.jhxxId,
                 callID: getTimestamp()
             }
         }).then((responseData) => {
-            this.setState({
-                list: this.state.list.concat(responseData.data),
-                hasMoreData: responseData.data.length === 0 ? false : true
-            }, () => {
-                resolve && resolve();
-                // !this.state.hasMoreData && Toast.show('没有更多数据');
-            });
+            if (responseData.code === 1) {
+                this.setState({
+                    list: this.state.list.concat(responseData.data),
+                    hasMoreData: responseData.data.length === 0 ? false : true
+                }, () => {
+                    resolve && resolve();
+                    // !this.state.hasMoreData && Toast.show('没有更多数据');
+                });
+            } else {
+                Toast.show(responseData.message);
+            }
         }).catch((error) => {
             Toast.show('服务端连接错误！')
         });

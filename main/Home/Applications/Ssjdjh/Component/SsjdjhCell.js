@@ -41,7 +41,6 @@ export default class SsjdjhCell extends Component {
         }else if(this.state.dierwei === 5){
             second = require('../../../../../resource/imgs/home/25.png')
         }
-
         return (
             <View>
                 <TouchableOpacity style={styles.earlierStageListCell} onPress={this.skipPage.bind(this)}>
@@ -62,7 +61,7 @@ export default class SsjdjhCell extends Component {
                                     ) : <View/>}
                         </View>
                         <View style={styles.projectName}>
-                            <Text style={{width:width*0.85,lineHeight:parseInt(width*0.05)}}>{this.props.data.xmmc}</Text>
+                            <Text style={{width:width*0.85,lineHeight:parseInt(width*0.05)}}>{this.props.data.xmmc} - {this.props.data.zxmc}</Text>
                             <View style={{flexDirection: 'row', alignItems: 'center'}}>
                                 <Text>{this.props.data.count}</Text>
                                 <Text style={{color: '#999', fontSize: width * 0.05}}> > </Text>
