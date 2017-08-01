@@ -125,7 +125,6 @@ export default class AddShareData extends Component {
                         <TextInput
                             style={styles.textInput}
                             multiline={true}
-                            autoFocus={true}
                             placeholder='请填写备注信息'
                             onChangeText={(remark) => this.setState({zlms: remark})}
                             underlineColorAndroid="transparent"

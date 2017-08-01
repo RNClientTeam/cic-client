@@ -122,7 +122,6 @@ export default class AddShareData extends Component {
                         <TextInput
                             style={styles.textInput}
                             multiline={true}
-                            autoFocus={true}
                             placeholder='请填写备注信息'
                             onChangeText={(remark) => this.setState({zlms: remark})}
                             underlineColorAndroid="transparent"
@@ -252,13 +251,12 @@ export default class AddShareData extends Component {
         if(this.state.uploadSuccess){
             let data = {
                 userID: GLOBAL_USERID,
-                fjid: this.state.fjid,
+                fjid: this.state.randomId,
                 bsid: this.state.bsid,
                 zlfl: this.state.zlfl,
                 gxfs: this.state.gxfs,
                 gzfw: this.state.shareRangeEN,
                 zlms: this.state.zlms,
-                resourceId: this.state.randomId,
                 callID: true
             };
             if (data.zlfl === '') {

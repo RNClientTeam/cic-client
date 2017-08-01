@@ -247,7 +247,7 @@ export default class AddApartmentPlane extends Component {
         }).then(data=>{
             this.setState({
                 zrrmc: data.userName,
-                zrr: data.userId,
+                zrr: data.userID,
                 zrbmmc: data.deptName,
                 zrbm: data.deptID
             })
