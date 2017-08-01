@@ -40,7 +40,9 @@ export default class MoreActionsModal extends Component {
             component: MyPlanDetail,
             name: 'MyPlanDetail',
             params:{
-                reloadInfo:this.props.reloadInfo
+                reloadInfo:this.props.reloadInfo,
+                gczxId: this.props.gczxId,
+                cfxxId: this.props.cfxxId,
             }
         });
     }

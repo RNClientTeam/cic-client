@@ -43,9 +43,13 @@ export default class EditSafetyCheck extends Component {
         }
     }
 
-    addProject(xmmc, gczxId, sgrwId) {
+    addProject(xmbh, xmmc, gczxmc, sgrwmc, gczxId, sgrwId) {
+        console.log('-----------', xmbh, xmmc);
         this.setState({
+            xmbh,
             xmmc,
+            gczxmc,
+            sgrwmc,
             gczxId,
             sgrwId,
         })
@@ -60,9 +64,11 @@ export default class EditSafetyCheck extends Component {
             component: ChooseProject,
             name: 'ChooseProject',
             params: {
-                addProject: (xmmc, gczxId, sgrwId) => this.addProject(xmmc, gczxId, sgrwId),
+                addProject: (xmbh, xmmc, gczxmc, sgrwmc, gczxId, sgrwId) =>
+                    this.addProject(xmbh, xmmc, gczxmc, sgrwmc, gczxId, sgrwId),
                 kssj: this.formatDate(this.state.jhkssj),
                 jssj: this.formatDate(this.state.jhjssj),
+                // addProject: this.addProject.bind(this),
             }
 
         })
@@ -98,7 +104,7 @@ export default class EditSafetyCheck extends Component {
             jhjssj: this.state.jhjssj,
             callID: true,
         };
-        axios.post('', data)
+        axios.post('/psmAqjcjh/saveAqjcjh', data)
             .then(data => {
                 if (data.code === 1) {
                     Toast.show('保存成功!');
@@ -128,13 +134,16 @@ export default class EditSafetyCheck extends Component {
         return (
             <View style={styles.flex}>
                 <StatusBar title={this.state.title} navigator={this.props.navigator}/>
-                <KeyValueRight propKey="安全检查计划名称" defaultValue={this.state.aqjcjhmc}/>
-                <KeySelect choiceInfo={() => this.choiceInfo()} value={this.state.xmmc || "请选择"} propKey="项目名称"/>
-                <KeySelect propKey="责任人" choiceInfo={this.choicePeople.bind(this)} value={this.state.zrrmc}/>
+                <KeyValueRight propKey="安全检查计划名称" value={this.state.aqjcjhmc} />
+                <KeyValueRight propKey="项目编号" readOnly={true} defaultValue={this.state.xmbh}/>
+                <KeySelect propKey="项目名称" choiceInfo={() => this.choiceInfo()} value={this.state.xmmc || "请选择"} />
+                <KeyValueRight propKey="工程子项名称" readOnly={true} defaultValue={this.state.gczxmc}/>
+                <KeyValueRight propKey="施工任务" readOnly={true} defaultValue={this.state.sgrwmc}/>
                 <KeyTime propKey="计划开始时间" onlyDate={true} showDate={this.state.jhkssj}
                          changeDate={(date) => this.setState({jhkssj: date})}/>
                 <KeyTime propKey="计划结束时间" onlyDate={true} showDate={this.state.jhjssj}
                          changeDate={(date) => this.setState({jhjssj: date})}/>
+                <KeySelect propKey="责任人" choiceInfo={this.choicePeople.bind(this)} value={this.state.zrrmc}/>
                 {
                     this.props.id &&
                     <KeyValueRight propKey="创建时间" readOnly={true} defaultValue={this.state.cjsj}/>

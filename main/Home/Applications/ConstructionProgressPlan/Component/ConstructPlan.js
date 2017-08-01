@@ -172,6 +172,8 @@ export default class ConstructPlan extends Component {
                     <MoreActionsModal navigator={this.props.navigator}
                                       reloadInfo={()=>this.reloadInfo()}
                                       rwid={this.state.rwid}
+                                      gczxId={this.props.gczxId}
+                                      cfxxId={this.props.cfxxId}
                                       authority={this.state.authority}
                                       closeModal={() => {this.setState({modalVisible: false})}}/>
                 </Modal>
