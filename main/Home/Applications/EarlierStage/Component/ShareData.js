@@ -37,10 +37,11 @@ export default class ShareData extends Component{
         axios.get('/psmGxzl/list', {
             params: {
                 userID: GLOBAL_USERID,
-                bsid: this.props.xmbh,
+                bsid: this.props.jhxxId,
                 callID: getTimestamp()
             }
         }).then((responseData) => {
+            console.log(responseData);
             this.setState({
                 list: this.state.list.concat(responseData.data),
                 hasMoreData: responseData.data.length === 0 ? false : true
@@ -56,7 +57,7 @@ export default class ShareData extends Component{
     render(){
         return(
             <View style={styles.container}>
-                <PullList
+                <ListView
                     onPullRelease={this.onPullRelease.bind(this)}
                     topIndicatorRender={this.topIndicatorRender.bind(this)}
                     topIndicatorHeight={60}

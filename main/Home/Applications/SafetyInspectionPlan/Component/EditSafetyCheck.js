@@ -68,9 +68,7 @@ export default class EditSafetyCheck extends Component {
                     this.addProject(xmbh, xmmc, gczxmc, sgrwmc, gczxId, sgrwId),
                 kssj: this.formatDate(this.state.jhkssj),
                 jssj: this.formatDate(this.state.jhjssj),
-                // addProject: this.addProject.bind(this),
             }
-
         })
     }
 

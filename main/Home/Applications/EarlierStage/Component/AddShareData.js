@@ -191,7 +191,7 @@ export default class AddShareData extends Component {
                             userID: GLOBAL_USERID,
                             files: msg,
                             businessModule: 'qiandao',
-                            resourceId: this.state.randomId,
+                            fjId: this.state.randomId,
                             isAttach: 1,
                             callID: getTimestamp()
                         };
@@ -255,13 +255,12 @@ export default class AddShareData extends Component {
         if(this.state.uploadSuccess){
             let data = {
                 userID: GLOBAL_USERID,
-                fjid: this.state.fjid,
+                fjid: this.state.randomId,
                 bsid: this.state.bsid,
                 zlfl: this.state.zlfl,
                 gxfs: this.state.gxfs,
                 gzfw: this.state.shareRangeEN,
                 zlms: this.state.zlms,
-                resourceId: this.state.randomId,
                 callID: true
             };
             if (data.zlfl === '') {

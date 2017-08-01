@@ -31,28 +31,28 @@ public class MainActivity extends ReactActivity {
     protected String getMainComponentName() {
         return "cic_client";
     }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK){
-            try {
-                if (resultCode == RESULT_OK ) {
-                    Uri uri = data.getData();
-                    String url = FileUtils2.getPath(this,uri);
-                    String url2 = url.trim();
-                    if (url2 != null && !url2.equals("") ) {
-                        mQueue.add(url2);
-                    } else {
-                        mQueue.add("请选择合适的pdf格式文件");
-                    }
-                } else {
-                    mQueue.add("请选择合适的pdf格式文件");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }else{
-            mQueue.add("没有选择文件");
-        }
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == Activity.RESULT_OK){
+//            try {
+//                if (resultCode == RESULT_OK ) {
+//                    Uri uri = data.getData();
+//                    String url = FileUtils2.getPath(this,uri);
+//                    String url2 = url.trim();
+//                    if (url2 != null && !url2.equals("") ) {
+//                        mQueue.add(url2);
+//                    } else {
+//                        mQueue.add("请选择合适的pdf格式文件");
+//                    }
+//                } else {
+//                    mQueue.add("请选择合适的pdf格式文件");
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }else{
+//            mQueue.add("没有选择文件");
+//        }
+//    }
 }

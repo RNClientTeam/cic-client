@@ -6,16 +6,20 @@ import {
     Text,
     TouchableOpacity,
     Dimensions,
-    TextInput
+    TextInput,
+    TouchableHighlight,
+    Image,
+    NativeModules
 } from 'react-native';
-
+const Platform = require('Platform');
 const {width, height} = Dimensions.get('window');
 import StatusBar from '../../../../Component/StatusBar.js';
 import KeyTime from "../../../../Component/KeyTime";
 import KeyPercentage from "../../../../Component/KeyPercentage";
 import Loading from "../../../../Component/Loading";
 import toast from 'react-native-simple-toast'
-
+import {getTimestamp,uploadFile} from '../../../../Util/Util'
+import baseUrl from '../../../../Util/service.json'
 export default class FillProgress extends Component {
     constructor(props){
         super(props);
@@ -41,7 +45,13 @@ export default class FillProgress extends Component {
                 {parseInt(this.state.wcbl)==100?
                     <KeyTime propKey="实际完成时间" showDate={this.state.sjwcsj} changeDate={(date)=>this.setState({sjwcsj:date})}/>
                 :null}
-
+                <View style={styles.keyValue}>
+                    <Text style={styles.keyStyle}>上传附件</Text>
+                    <TouchableHighlight style={{paddingLeft: 50}} underlayColor='transparent' onPress={this.choiceFile.bind(this)}>
+                        <Image style={styles.accessory}
+                               source={this.state.uploadSuccess?require('../../../../../resource/imgs/home/earlierStage/pdf.png'):require('../../../../../resource/imgs/home/earlierStage/accessory.png')}/>
+                    </TouchableHighlight>
+                </View>
                 <View style={styles.lastItem}>
                     <Text style={styles.textKeySty}>当前完成情况*</Text>
                     <TextInput
@@ -69,6 +79,64 @@ export default class FillProgress extends Component {
         );
     }
 
+    showLoading(){
+        this.setState({isLoading:true})
+    }
+
+    hideLoading(){
+        this.setState({isLoading:false})
+    }
+
+    choiceFile() {
+        if (Platform.OS === 'android') {
+            NativeModules.MyRN.scan((msg) => {
+                    if (msg === '没有选择文件') {
+                        return
+                    } else {
+                        this.showLoading();
+                        let data = {
+                            userID: GLOBAL_USERID,
+                            files: msg,
+                            businessModule: 'gzjhjzqk',
+                            resourceId: this.props.id,
+                            isAttach: 1,
+                            callID: getTimestamp()
+                        };
+                        let reqData = [
+                            {name: 'userID', data: GLOBAL_USERID},
+                            {name: 'files', data: RNFetchBlob.wrap(msg), filename: this.state.randomId + '.pdf'},
+                            {name: 'businessModule', data: 'gxzl'},
+                            {name: 'isAttach', data: JSON.stringify(1)},
+                            {name: 'resourceId', data: this.state.randomId},
+                            {name: 'callID', data: JSON.stringify(data.callID)}
+                        ];
+                        uploadFile(baseUrl.baseUrl + '/sysfile/UploadHandler', reqData, (response) => {
+                            this.hideLoading();
+                            if (response.code === 1) {
+                                toast.show('文件上传成功');
+                                this.setState({
+                                    uploadSuccess:true
+                                });
+                            } else {
+                                this.setState({
+                                    uploadSuccess:false
+                                });
+                                toast.show('文件上传失败，请重试');
+                            }
+                        }, (response) => {
+                            this.hideLoading();
+                            console.log(response, 'err')
+                        });
+                    }
+                },
+                (result) => {
+                    toast.show('JS界面:错误信息为:' + result);
+                });
+        } else {
+            toast.show('iOS系统不支持文件上传操作');
+        }
+    }
+
     clickBtn() {
         if(this.state.wcbl===''){
             toast.show('请填写完成比例');
@@ -77,9 +145,7 @@ export default class FillProgress extends Component {
         }else if(parseInt(this.state.wcbl)===100&&this.state.sjwcsj===''){
             toast.show('请填写完成时间')
         }else{
-            this.setState({
-                isLoading:true
-            });
+            this.showLoading();
             axios.post('/psmBmjh/updateJzqk',{
                 userID:GLOBAL_USERID,
                 jhid:this.props.id,
@@ -89,9 +155,7 @@ export default class FillProgress extends Component {
                 sjwcsj:this.state.sjwcsj,
                 callID:true
             }).then(data=>{
-                this.setState({
-                    isLoading:false
-                });
+                this.hideLoading();
                 if(data.code === 1){
                    toast.show('提交成功');
                    let that = this;
@@ -124,7 +188,6 @@ export default class FillProgress extends Component {
             });
             if(data.code === 1){
                 data = data.data;
-                console.log(data)
                 this.setState({
                     jhmc:data.jhmc,
                     sjqdsj:data.sjqdsj||data.qdsj,
@@ -145,6 +208,26 @@ const styles = StyleSheet.create({
     flex: {
         flex: 1,
         backgroundColor: '#f2f2f2'
+    },
+    accessory: {
+        width: width * 0.05,
+        height: width * 0.05,
+        marginRight: width * 0.02
+    },
+    keyStyle: {
+        marginLeft: width * 0.02,
+        fontSize: width * 0.036,
+        color: '#5476a1'
+    },
+    keyValue: {
+        backgroundColor: '#fff',
+        width: width,
+        height: width * 0.12,
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        borderBottomWidth: 1,
+        borderBottomColor: '#ddd'
     },
     itemView: {
         flexDirection: 'row',
