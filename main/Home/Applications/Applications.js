@@ -190,7 +190,7 @@ export default class Applications extends Component {
         }else if(item.title === '工程子项拆分') {
             this.props.navigator.push({
                 component: ProjectSubitemSplit,
-                name: 'EarlierStage'
+                name: 'ProjectSubitemSplit'
             });
         }else if(item.title === '工程范围交接') {
             this.props.navigator.push({

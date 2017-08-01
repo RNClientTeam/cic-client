@@ -53,6 +53,8 @@ export default class CooperateTask extends Component {
                 }, () => {
                     resolve && resolve();
                 });
+            } else {
+                Toast.show(responseData.message);
             }
         }).catch((error) => {
             Toast.show('服务端连接错误！')

@@ -44,7 +44,7 @@ export default class CheckFlowInfo extends Component{
         axios.post('/workFlow/preSubmit', {
             userID: GLOBAL_USERID,
             resID: this.props.resID,
-            wfName: 'jdjhphrwyqbg',
+            wfName: 'sgjdjhbz',
             callID: true
         }).then((responseData) => {
             if (responseData.code === 1) {
@@ -140,7 +140,7 @@ export default class CheckFlowInfo extends Component{
         axios.post('/workFlow/submit', {
             userID: GLOBAL_USERID,
             resID: this.props.resID,
-            wfName: 'jdjhphrwyqbg',
+            wfName: 'sgjdjhbz',
             entityID: this.state.entry_id,
             stepID: this.state.stepID,
             actionID: this.state.actionID,

@@ -209,7 +209,7 @@ export default class AccomplishProgress extends Component {
                                 resID: data.data,
                                 reloadInfo: this._reloadInfo.bind(this),
                                 // TODO
-                                wfName: 'jdjhaqjdjl',
+                                wfName: 'jdjhaqjcjl',
                                 name:'RectifyTask'
                             }
                         })

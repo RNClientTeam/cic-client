@@ -43,11 +43,11 @@ export default class CheckFlowInfo extends Component{
 
     fetchData() {
         if (this.props.from && this.props.from === 'turnover') {
-            this.wfName = 'jdjhzxrybg'
+            this.wfName = 'jdjhssjhrybg'
         } else if (this.props.tag === '配合任务') {
-            this.wfName = 'jdjhphrwyqbg';
+            this.wfName = 'jdjhssjhphrw';
         } else {
-            this.wfName = 'jdjhzxsjbg';
+            this.wfName = 'jdjhssjhyqbd';
         }
         axios.post('/workFlow/preSubmit', {
             userID: GLOBAL_USERID,
