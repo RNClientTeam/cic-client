@@ -48,19 +48,24 @@ export default class ChoiceFileComponent extends Component {
     }
 
     choiceFile() {
-        if (Platform.OS === 'android') {
-            NativeModules.MyRN.scan((msg) => {
-                if (msg === '没有选择文件') {
-                    Toast.show(msg);
-                } else {
-                    this.uploadFileFun(msg);
-                }
-            }, (result) => {
-                Toast.show('上传出错');
-            });
-        } else {
-            Toast.show('iOS系统不支持文件上传操作');
-        }
+        NativeModules.MyRN.showImagePicker(photoOptions, (msg) => {
+            
+        });
+        // if (this.props.readOnly) return;
+        // if (Platform.OS === 'android') {
+        //     NativeModules.MyRN.scan((msg) => {
+        //         alert(JSON.stringify(msg));
+        //         // if (msg === '没有选择文件') {
+        //         //     Toast.show(msg);
+        //         // } else {
+        //         //     this.uploadFileFun(msg);
+        //         // }
+        //     }, (result) => {
+        //         Toast.show('上传出错');
+        //     });
+        // } else {
+        //     Toast.show('iOS系统不支持文件上传操作');
+        // }
     }
 
     uploadFileFun(msg, choiceImg) {
@@ -101,6 +106,7 @@ export default class ChoiceFileComponent extends Component {
     }
 
     choiceImage() {
+        if (this.props.readOnly) return;
         ImagePicker.showImagePicker(photoOptions,(response) =>{
             if (response.uri) {
                 this.uploadFileFun(response.uri, true);
