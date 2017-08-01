@@ -140,18 +140,18 @@ export default class MyPlan extends Component {
             if (res.code === 1) {
                 let showToast = true;
                 for (var key in res.data) {
-                    if (res.data[key]) {
+                    if (res.data[key] && showToast) {
                         showToast = false;
-                        this.setState({
-                            modalVisible: true,
-                            auth: res.data,
-                            sgrwId: sgrwId
-                        });
-                        return;
                     }
                 }
                 if (showToast) {
                     Toast.show('您没有相关权限');
+                } else {
+                    this.setState({
+                        modalVisible: true,
+                        auth: res.data,
+                        sgrwId: sgrwId
+                    });
                 }
             } else {
                 Toast.show(res.message);
