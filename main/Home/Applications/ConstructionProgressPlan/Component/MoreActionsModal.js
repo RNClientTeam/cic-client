@@ -98,15 +98,16 @@ export default class MoreActionsModal extends Component {
         console.log(authority)
         // 有创建权限
         if (authority) {
-            if (authority.addSgrw) {
-                actionList.push(
-                    {
-                        img: require('../../../../../resource/imgs/home/applications/createItem.png'),
-                        name: '新建',
-                        action: () => this.create()
-                    }
-                );
-            } else if (authority.updateSgrw) {
+            // if (authority.addSgrw) {
+            //     actionList.push(
+            //         {
+            //             img: require('../../../../../resource/imgs/home/applications/createItem.png'),
+            //             name: '新建',
+            //             action: () => this.create()
+            //         }
+            //     );
+            // }
+            if (authority.updateSgrw) {
                 actionList.push(
                     {
                         img: require('../../../../../resource/imgs/home/applications/modification.png'),
@@ -114,7 +115,8 @@ export default class MoreActionsModal extends Component {
                         action: () => this.update(this.props.rwid)
                     }
                 );
-            } else if (authority.submit) {
+            }
+            if (authority.submit) {
                 actionList.push(
                     {
                         img: require('../../../../../resource/imgs/home/applications/approvalIcon.png'),
@@ -122,7 +124,8 @@ export default class MoreActionsModal extends Component {
                         action: () => this.approval(this.props.rwid)
                     }
                 );            
-            } else if (authority.effectSgrw) {
+            }
+            if (authority.effectSgrw) {
                 actionList.push(
                     {
                         img: require('../../../../../resource/imgs/home/applications/effectiveAction.png'),
@@ -130,7 +133,8 @@ export default class MoreActionsModal extends Component {
                         action: () => this.effect(this.props.rwid)
                     }
                 );
-            } else if (authority.deleteSgrw) {
+            }
+            if (authority.deleteSgrw) {
                 actionList.push(
                     {
                         img: require('../../../../../resource/imgs/home/applications/stopAction.png'),

@@ -37,6 +37,7 @@ export default class ConstructPlan extends Component {
     }
     componentDidMount() {
         this.reloadInfo();
+        this.getAddAuthority(this.props.gczxId);
     }
 
     getMyTask(pageNum = 1, pageSize = 10, rwlx = 100, callback = () => {}) {
@@ -176,15 +177,17 @@ export default class ConstructPlan extends Component {
                                       authority={this.state.authority}
                                       closeModal={() => {this.setState({modalVisible: false})}}/>
                 </Modal>
-                <TouchableOpacity onPress={() => this.create()}>
-                    <View style={styles.button}>
-                        <Image
-                            source={require('../../../../../resource/imgs/home/earlierStage/addData.png')}
-                            style={{height: 0.05 * width, width: 0.05 * width, marginRight: 0.02 * width}}
-                        />
-                        <Text style={styles.buttonText}>新建计划</Text>
-                    </View>
-                </TouchableOpacity>
+                {this.state.addSgrw &&
+                    <TouchableOpacity onPress={() => this.create()}>
+                        <View style={styles.button}>
+                            <Image
+                                source={require('../../../../../resource/imgs/home/earlierStage/addData.png')}
+                                style={{height: 0.05 * width, width: 0.05 * width, marginRight: 0.02 * width}}
+                            />
+                            <Text style={styles.buttonText}>新建计划</Text>
+                        </View>
+                    </TouchableOpacity>
+                }
             </View>
         )
     }
@@ -223,12 +226,47 @@ export default class ConstructPlan extends Component {
                 callID: true,
             }
         }).then(responseData => {
+            console.log('-------', responseData);
             if (responseData.code === 1) {
-                this.setState({
-                    authority: responseData.data,
-                    modalVisible: true,
-                    rwid,
-                })
+                if (responseData.data.effectSgrw ||
+                    responseData.data.deleteSgrw ||
+                    responseData.data.submit ||
+                    responseData.data.updateSgrw) {
+                    this.setState({
+                        authority: responseData.data,
+                        modalVisible: true,
+                        rwid,
+                    });
+                } else {
+                    Toast.show('没有相关权限!');
+                }
+            } else {
+                Toast.show(responseData.data);
+            }
+        }).catch( error => {
+            if (error) {
+                Toast.show('服务端异常');
+            }
+        } );
+    }
+
+    getAddAuthority(gczxId) {
+        axios.get('/psmSgjdjh/operationAuthority4bz', {
+            params: {
+                userID: GLOBAL_USERID,
+                gczxId: gczxId,
+                sgrwId: '',
+                belongTo: 2, // 2,'施工计划'
+                callID: true,
+            }
+        }).then(responseData => {
+            console.log('-------', responseData);
+            if (responseData.code === 1) {
+                if (responseData.data.addSgrw) {
+                    this.setState({
+                        addSgrw: true,
+                    })
+                }
             } else {
                 Toast.show(responseData.data);
             }
