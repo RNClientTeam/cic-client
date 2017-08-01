@@ -34,7 +34,7 @@ export default class ApartmentPlaneListCell extends Component {
                         <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zrrmc}</Text>
                         <Text style={[{width: width * 0.3}, styles.textStyle]}>{this.props.data.zrbmmc}</Text>
                         <Text style={[{width: width * 0.4,marginLeft: 4}, styles.textStyle]}>{this.props.data.wcbl?this.props.data.wcbl+'%':"0%"}</Text>
-                        <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.qdsj+' ~ ' +this.props.data.wcsj}</Text>
+                        <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.qdsj+' / ' +this.props.data.wcsj}</Text>
                         <TouchableOpacity onPress={()=>{this.props.setModalVisible(this.props.data.id);this.props.getOperatingItem(this.props.data)}} style={styles.editTouch}>
                             <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}
                                 style={styles.editImg} resizeMode="contain"/>
@@ -66,9 +66,9 @@ const styles = StyleSheet.create({
     },
     aboutProject: {
         backgroundColor: '#fff',
-        height: width * 0.2,
         paddingLeft: width * 0.01,
-        paddingRight: width * 0.01
+        paddingRight: width * 0.01,
+        paddingBottom:width*0.01
     },
     aboutPrincipal: {
         backgroundColor: '#f6f9fa',
@@ -86,7 +86,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     projectName: {
-        height: width * 0.1,
         lineHeight: 21
     },
     textStyle: {

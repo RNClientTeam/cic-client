@@ -50,7 +50,7 @@ export default class ChoosePlane extends Component {
     }
     _clickItem(rowData) {
         for (var i = 0; i < this.props.navigator.getCurrentRoutes().length; i++) {
-            if (this.props.navigator.getCurrentRoutes()[i].name === 'AddApartmentPlane') {
+            if (this.props.navigator.getCurrentRoutes()[i].name === 'AddApartmentPlane'||this.props.navigator.getCurrentRoutes()[i].name === 'EditApartmentPlane') {
                 let popRoute = this.props.navigator.getCurrentRoutes()[i];
                 this.props.navigator.popToRoute(popRoute);
                 this.props.addPlane(rowData.id, rowData.rwmc, this.props.xmid,this.props.xmmc,rowData.ly,rowData.lymc);
