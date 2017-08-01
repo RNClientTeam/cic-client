@@ -18,6 +18,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.util.Patterns;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
@@ -142,6 +143,40 @@ public class MyRN extends ReactContextBaseJavaModule
     @Override
     public String getName() {
         return "MyRN";
+    }
+    @ReactMethod
+    public void scan( final Callback callback) {
+        Activity currentActivity = getCurrentActivity();
+
+        if (currentActivity == null)
+        {
+            responseHelper.invokeError(callback, "can't find current Activity");
+            return;
+        }else{
+            Toast.makeText(getCurrentActivity(),"添加附件",Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");//设置类型，我这里是任意类型，任意后缀的可以这样写。
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            int requestCode;
+            requestCode = REQUEST_LAUNCH_IMAGE_LIBRARY;
+            if (intent.resolveActivity(reactContext.getPackageManager()) == null)
+            {
+                responseHelper.invokeError(callback, "Cannot launch photo library");
+                return;
+            }
+
+            this.callback = callback;
+
+            try
+            {
+                currentActivity.startActivityForResult(intent, requestCode);
+            }
+            catch (ActivityNotFoundException e)
+            {
+                e.printStackTrace();
+                responseHelper.invokeError(callback, "Cannot launch photo library");
+            }
+        }
     }
     @ReactMethod
     public void myShowFile( final Callback callback) {
@@ -353,7 +388,7 @@ public class MyRN extends ReactContextBaseJavaModule
 
         try
         {
-            currentActivity.startActivityForResult(libraryIntent, requestCode);
+            currentActivity.startActivityForResult(libraryIntent, 13999);
         }
         catch (ActivityNotFoundException e)
         {
@@ -384,6 +419,32 @@ public class MyRN extends ReactContextBaseJavaModule
         Uri uri = null;
         switch (requestCode)
         {
+            case 13009:
+                Log.d("文件路径--","13009");
+                uri = data.getData();
+                String realPath2 = getRealPathFromURI(uri);
+                final boolean isUrl2 = !TextUtils.isEmpty(realPath2) &&
+                        Patterns.WEB_URL.matcher(realPath2).matches();
+                if (realPath2 == null || isUrl2)
+                {
+                    try
+                    {
+                        File file = createFileFromURI(uri);
+                        realPath2 = file.getAbsolutePath();
+                        uri = Uri.fromFile(file);
+                    }
+                    catch (Exception e)
+                    {
+                        // image not in cache
+                        responseHelper.putString("error", "Could not read photo");
+                        responseHelper.putString("uri", uri.toString());
+                        responseHelper.invokeResponse(callback);
+                        callback = null;
+                        return;
+                    }
+                }
+                imageConfig = imageConfig.withOriginalFile(new File(realPath2));
+                break;
             case REQUEST_LAUNCH_IMAGE_CAPTURE:
                 uri = cameraCaptureURI;
                 break;

@@ -49,15 +49,9 @@ export default class ChoiceFileComponent extends Component {
 
     choiceFile() {
         if (Platform.OS === 'android') {
-            NativeModules.MyRN.scan((msg) => {
-                if (msg === '没有选择文件') {
-                    Toast.show(msg);
-                } else {
-                    this.uploadFileFun(msg);
-                }
-            }, (result) => {
-                Toast.show('上传出错');
-            });
+			  NativeModules.MyRN.scan( (response) => {
+            console.log('Response = ', response);
+        });
         } else {
             Toast.show('iOS系统不支持文件上传操作');
         }
