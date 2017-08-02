@@ -11,8 +11,6 @@ import {
     ListView
 } from 'react-native'
 const {width}  = Dimensions.get('window');
-import {PullList} from 'react-native-pull';
-import LoadMore from "../../../../Component/LoadMore"
 import Reload from "../../../../Component/Reload"
 import ShareDataCell from "./ShareDataCell";
 import AddData from './AddData'
@@ -65,10 +63,8 @@ export default class ShareData extends Component{
                     pageSize={5}
                     initialListSize={5}
                     renderRow={this.renderRow.bind(this)}
-                    onEndReached={this.loadMore.bind(this)}
                     onEndReachedThreshold={60}
                     enableEmptySections={true}
-                    renderFooter={this.renderFooter.bind(this)}
                 />
                 <AddData jhxxId={this.props.jhxxId} navigator={this.props.navigator}/>
             </View>
@@ -87,15 +83,9 @@ export default class ShareData extends Component{
         );
     }
 
-    renderFooter (){
-        return (this.state.hasMoreData && this.state.list.length !== 0? <LoadMore />: null)
-    }
 
     topIndicatorRender(pulling, pullok, pullrelease) {
         return (<Reload/>);
-    }
-    loadMore(){
-        this.state.hasMoreData && this.getDataFromNet(++this.pageNum);
     }
 }
 

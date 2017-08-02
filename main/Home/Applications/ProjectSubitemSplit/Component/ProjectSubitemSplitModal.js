@@ -26,7 +26,7 @@ export default class ProjectSubitemSplitModal extends Component{
             endDate:this.props.eDate,
             isSplit:this.props.cfzt,
             options:['我的','所有'],
-            choiceOption:'我的'
+            choiceOption:this.props.jhlx
         }
     }
 

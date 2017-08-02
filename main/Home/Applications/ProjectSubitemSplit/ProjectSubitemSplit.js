@@ -60,6 +60,7 @@ export default class ProjectSubitemSplit extends Component {
                         sDate={this.state.sDate}
                         eDate={this.state.eDate}
                         cfzt={this.state.cfzt}
+                        jhlx={this.state.jhlx}
                         getDataFromNet={(sDate,eData,isSplit,mine) => this.changeFilter(sDate,eData,isSplit,mine)}
                         closeModal={() => this.setState({isModalVisible: false})}/> :
                     <View/>}
