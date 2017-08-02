@@ -50,9 +50,13 @@ export default class ChoiceFileComponent extends Component {
     choiceFile() {
         if (this.props.readOnly) return;
         if (Platform.OS === 'android') {
-			  NativeModules.MyRN.scan( (response) => {
-            console.log('Response = ', response);
-        });
+			NativeModules.MyRN.scan((response) => {
+                if (response.didCancel) {
+                    Toast.show('取消附件上传');
+                } else {
+                    this.uploadFileFun(response.path);
+                }
+            });
         } else {
             Toast.show('iOS系统不支持文件上传操作');
         }
