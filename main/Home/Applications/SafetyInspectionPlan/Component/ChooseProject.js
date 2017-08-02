@@ -64,7 +64,7 @@ export default class ChooseProject extends Component {
 
     _clickItem(rowData) {
         this.props.addProject(rowData.xmbh, rowData.xmmc, rowData.gczxmc, rowData.sgrwmc,
-            rowData.gczxId, rowData.sgrwId);
+            rowData.gczxId, rowData.sgrwId, rowData.cfxxId);
         this.props.navigator.pop();
     }
 
