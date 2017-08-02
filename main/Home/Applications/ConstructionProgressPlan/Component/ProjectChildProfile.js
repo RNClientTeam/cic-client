@@ -31,7 +31,7 @@ export default class ProjectChildProfile extends Component {
     }
     componentDidMount() {
         this.getGCZYGK();
-        this.getAuthority('1111');
+        this.getAuthority();
     }
     // 获取工程子项概况
     getGCZYGK() {

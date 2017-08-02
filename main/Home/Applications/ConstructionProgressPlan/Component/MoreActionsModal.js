@@ -73,7 +73,12 @@ export default class MoreActionsModal extends Component {
             }
         }).catch(err=>{
             toast.show('服务端异常');
-        })
+        });
+        this.props.closeModal();
+    }
+
+    approval(rwid) {
+        this.props.closeModal();
     }
 
     effect(rwid) {
@@ -89,13 +94,14 @@ export default class MoreActionsModal extends Component {
             }
         }).catch(err=>{
             toast.show('服务端异常');
-        })
+        });
+        this.props.closeModal();
     }
 
     componentDidMount() {
         let actionList = [];
         const authority = this.props.authority;
-        console.log(authority)
+        console.log(authority);
         // 有创建权限
         if (authority) {
             // if (authority.addSgrw) {

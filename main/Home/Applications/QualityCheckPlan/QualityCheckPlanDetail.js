@@ -96,7 +96,6 @@ export default class QualityCheckPlanDetail extends Component {
         axios.get('/psmZljcjh/getOperationAuthority4Zljcjh', {
             params: {
                 userID: GLOBAL_USERID,
-                //to do
                 zlcjhId: id,
                 callID: true,
             }
