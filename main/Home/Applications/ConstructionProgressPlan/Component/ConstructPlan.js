@@ -33,7 +33,6 @@ export default class ConstructPlan extends Component {
             allTask:[],
             totalMy:0,
             totalAll:0,
-            addSgrw: true,
         };
     }
     componentDidMount() {
