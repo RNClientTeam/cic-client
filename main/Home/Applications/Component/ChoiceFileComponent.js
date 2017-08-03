@@ -188,7 +188,7 @@ export default class ChoiceFileComponent extends Component {
     }
 
     componentDidMount(){
-        this._getFileList();
+        // this._getFileList();
     }
 
     _getFileList(){
@@ -208,7 +208,7 @@ export default class ChoiceFileComponent extends Component {
             }else{
                 Toast.show(data.message)
             }
-        }).cancel(err=>{
+        }).cache(err=>{
             Toast.show('服务端异常');
         })
     }
