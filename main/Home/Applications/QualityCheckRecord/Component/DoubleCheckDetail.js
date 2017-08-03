@@ -329,6 +329,7 @@ export default class DoubleCheckDetail extends Component {
                     <ChoiceFileComponent
                         resourceId={this.state.jcfj}
                         isAttach="1"
+                        readOnly={this.props.fromList||this.props.check}
                         businessModule='zljcjl'/>
                     <LabelTextArea label="检查结果"
                         onTextChange={(text)=>{this.setState({jcjg:text})}}

@@ -195,6 +195,7 @@ export default class DoubleCheckDetail extends Component {
                     <ChoiceFileComponent
                         businessModule={this.state.data.businessModule}
                         resourceId={this.state.data.jcfj}
+                        readOnly={this.props.fromList||this.props.check}
                         isAttach={this.state.data.jcfjisAttach}/>
                     <View style={styles.divide}/>
                     <View style={styles.bottomRow}>

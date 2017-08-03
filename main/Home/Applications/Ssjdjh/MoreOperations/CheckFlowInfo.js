@@ -45,7 +45,7 @@ export default class CheckFlowInfo extends Component{
         if (this.props.from && this.props.from === 'turnover') {
             this.wfName = 'jdjhssjhrybg'
         } else if (this.props.tag === '配合任务') {
-            this.wfName = 'jdjhssjhphrw';
+            this.wfName = 'jdjhssjhphrwyqbg';
         } else {
             this.wfName = 'jdjhssjhyqbd';
         }

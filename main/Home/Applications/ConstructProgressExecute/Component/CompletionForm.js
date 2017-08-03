@@ -24,7 +24,8 @@ export default class CompletionForm extends Component {
         this.inputInfo = '';
         this.state = {
             startTime: '',
-            endTime: ''
+            endTime: '',
+            showEndTime: false
         }
     }
 
@@ -43,7 +44,14 @@ export default class CompletionForm extends Component {
                             <View>
                                 <TextInput style={styles.input}
                                     underlineColorAndroid="transparent"
-                                    onChangeText={(value) => {this.inputPercent=value}}/>
+                                    onChangeText={(value) => {
+                                        this.inputPercent=value;
+                                        if (value == 100 ){
+                                            this.setState({showEndTime: true});
+                                        } else if (this.state.showEndTime) {
+                                            this.setState({showEndTime: false});
+                                        }
+                                    }}/>
                             </View>
                             <View style={{flex: 0.1}}/>
                             <Text style={[styles.textColor]}>%</Text>
@@ -53,11 +61,14 @@ export default class CompletionForm extends Component {
                             <View style={styles.blank}/>
                             <ChoiceDate showDate={this.state.startTime} changeDate={(date)=>{this.setState({startTime:date})}}/>
                         </View>
-                        <View style={styles.row}>
-                            <Text style={[styles.labelColor]}>实际完成时间</Text>
-                            <View style={styles.blank}/>
-                            <ChoiceDate showDate={this.state.endTime} changeDate={(date)=>{this.setState({endTime:date})}}/>
-                        </View>
+                        {
+                            this.state.showEndTime &&
+                            <View style={styles.row}>
+                                <Text style={[styles.labelColor]}>实际完成时间</Text>
+                                <View style={styles.blank}/>
+                                <ChoiceDate showDate={this.state.endTime} changeDate={(date)=>{this.setState({endTime:date})}}/>
+                            </View>
+                        }
                         <View style={styles.textArea}>
                             <Text style={styles.labelColor}>当前完成情况*</Text>
                             <TextInput
@@ -85,7 +96,7 @@ export default class CompletionForm extends Component {
             Toast.show('请输入0~100的整数');
         } else if (this.state.startTime.length === 0) {
             Toast.show('请选择实际开始时间');
-        } else if (this.state.endTime.length === 0) {
+        } else if (this.state.endTime.length === 0 && this.state.showEndTime) {
             Toast.show('请选择实际结束时间');
         } else if (this.inputInfo.length === 0) {
             Toast.show('请输入完成情况');
@@ -94,12 +105,13 @@ export default class CompletionForm extends Component {
                 userID: GLOBAL_USERID,
                 gczxId: this.props.gczxId,
                 id: this.props.rwid,
-                wcqk: this.state.inputInfo,
-                wcbl: this.state.inputPercent,
+                wcqk: this.inputInfo,
+                wcbl: this.inputPercent,
                 sjkssj: this.state.startTime,
                 sjjssj: this.state.endTime,
                 callID: true
             }).then((res) => {
+                console.log(res);
                 if (res.code === 1) {
                     Toast.show('提交成功');
                     const self = this;
@@ -112,7 +124,7 @@ export default class CompletionForm extends Component {
                     Toast.show(res.message);
                 }
             }).catch((error) => {
-
+                console.log(error);
             });
         }
     }
@@ -145,7 +157,8 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 1,
         borderColor: '#216fd0',
-        textAlign: 'center'
+        textAlign: 'center',
+        padding: 0
     },
     button: {
         backgroundColor: '#216fd0',
