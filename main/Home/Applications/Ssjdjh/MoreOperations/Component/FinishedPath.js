@@ -86,7 +86,8 @@ export default class FinishedPath extends Component{
         axios.get(reqURL,{
             params:params
         }).then(data=>{
-            if(data.message === '成功'){
+            console.log(data);
+            if(data.code === 1 && data.data && data.data.length!==0){
                 this.setState({
                     dataSource:data.data
                 });

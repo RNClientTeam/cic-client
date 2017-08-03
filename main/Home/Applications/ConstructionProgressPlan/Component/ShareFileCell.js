@@ -50,7 +50,10 @@ export default class ShareFileCell extends Component {
     skipToPage(){
         this.props.navigator.push({
             name:'PdfView',
-            component:PDFView
+            component:PDFView,
+            params:{
+                id:this.props.dataSource.fjid
+            }
         })
     }
 }

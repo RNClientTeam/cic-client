@@ -50,10 +50,11 @@ export default class ApplyForDelay extends Component{
         axios.get('/psmSgjdjh/yqbg', {
             params: {
                 userID: GLOBAL_USERID,
-                id: this.props.rwId,
+                id: this.props.rwid,
                 callID: true
             }
         }).then((responseData) => {
+            console.log(responseData);
             if (responseData.code === 1) {
                 //获取变更原因列表
                 this.exchangeReason(responseData.data);
@@ -108,14 +109,11 @@ export default class ApplyForDelay extends Component{
                             <View style={styles.blank}/>
                             <Text>{this.state.planName}</Text>
                         </View>
-                        {
-                            this.props.tag !== '配合任务' &&
-                            <View style={styles.cell}>
-                                <Text style={styles.label}>计划开始时间</Text>
-                                <View style={styles.blank}/>
-                                <Text>{this.state.startTime}</Text>
-                            </View>
-                        }
+                        <View style={styles.cell}>
+                            <Text style={styles.label}>计划开始时间</Text>
+                            <View style={styles.blank}/>
+                            <Text>{this.state.startTime}</Text>
+                        </View>
                         <View style={styles.cell}>
                             <Text style={styles.label}>计划结束时间</Text>
                             <View style={styles.blank}/>
@@ -170,14 +168,11 @@ export default class ApplyForDelay extends Component{
                             </View>
                         }
 
-                        {
-                            this.props.tag !== "配合任务" &&
-                            <View style={styles.cell}>
-                                <Text style={styles.label}>变更开始时间</Text>
-                                <View style={styles.blank}/>
-                                <ChoiceDate showDate={this.state.changeStartTime} changeDate={(date)=>{this.setState({changeStartTime:date});}}/>
-                            </View>
-                        }
+                        <View style={styles.cell}>
+                            <Text style={styles.label}>变更开始时间</Text>
+                            <View style={styles.blank}/>
+                            <ChoiceDate showDate={this.state.changeStartTime} changeDate={(date)=>{this.setState({changeStartTime:date});}}/>
+                        </View>
 
                         <View style={styles.cell}>
                             <Text style={styles.label}>变更结束时间</Text>
@@ -252,7 +247,7 @@ export default class ApplyForDelay extends Component{
             Toast.show('请选择变更原因');
             return;
         }
-        if (this.props.tag !== "配合任务" && this.state.changeStartTime.length === 0) {
+        if (this.state.changeStartTime.length === 0) {
             Toast.show('请选择变更开始时间');
             return;
         }
@@ -276,23 +271,28 @@ export default class ApplyForDelay extends Component{
             bgyy: this.state.bgyy,
             bgsm: this.changeIntroduction || this.state.bgsm,
             bgyybc: this.state.bgyybc,
-            callID: getTimestamp()
+            callID: true
         }).then((responseData) => {
             if (responseData.code === 1) {
                 this.props.exchangeRwid(responseData.data);
-                Toast.show('提交申请成功');
-                const self = this;
-                let timer = setTimeout(() => {
-                    self.props.navigator.push({
-                        name: 'CheckFlowInfo',
-                        component: CheckFlowInfo,
-                        params: {
-                            resID: responseData.data,
-                            reloadInfo: this.props.reloadInfo
-                        }
-                    });
-                    clearTimeout(timer);
-                }, 1500);
+                if (responseData.data.isTurnto) {
+                    Toast.show('提交申请成功');
+                    const self = this;
+                    let timer = setTimeout(() => {
+                        self.props.navigator.push({
+                            name: 'CheckFlowInfo',
+                            component: CheckFlowInfo,
+                            params: {
+                                resID: responseData.data.yqbgId,
+                                reloadInfo: this.props.reloadInfo
+                            }
+                        });
+                        clearTimeout(timer);
+                    }, 1500);
+                } else {
+                    this.props.navigator.pop();
+                    this.props.reloadInfo();
+                }
             } else {
                 Toast.show(responseData.message);
             }

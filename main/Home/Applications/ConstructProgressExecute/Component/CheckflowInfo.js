@@ -44,7 +44,7 @@ export default class CheckFlowInfo extends Component{
         axios.post('/workFlow/preSubmit', {
             userID: GLOBAL_USERID,
             resID: this.props.resID,
-            wfName: 'sgjdjhbz',
+            wfName: 'sgphrwyqbg',
             callID: true
         }).then((responseData) => {
             if (responseData.code === 1) {
@@ -61,6 +61,8 @@ export default class CheckFlowInfo extends Component{
                     stepName: res.stepName,
                     wfName: res.wfName
                 });
+            } else {
+                Toast.show(responseData.message);
             }
         }).catch((error) => {
 

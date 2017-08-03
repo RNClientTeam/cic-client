@@ -50,7 +50,8 @@ export default class MoreOperationsCell extends Component {
         }else if(this.props.dataSource.name === '流程信息查看'){
             this.props.navigator.push({
                 name:'checkFlowInfo',
-                component:CheckFlowInfo
+                component:CheckFlowInfo,
+                rwid: this.props.rwid,
             });
         }else if(this.props.dataSource.name === '人员变更'){
             this.props.navigator.push({

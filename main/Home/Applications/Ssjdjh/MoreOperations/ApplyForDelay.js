@@ -86,7 +86,9 @@ export default class ApplyForDelay extends Component{
                     reasonList: this.state.reasonList,
                     allReason: responseData.data,
                     bgsm: res.bgsm||'',
-                    bgyy: res.bgyy||''
+                    bgyy: res.bgyy||'',
+                    changeStartTime: res.xjhkssj,
+                    changeEndTime: res.xjhjssj
                 });
             }
         }).catch((error) => {

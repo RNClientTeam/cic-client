@@ -42,6 +42,7 @@ export default class CompletionForm extends Component {
                             <View style={styles.blank}/>
                             <View>
                                 <TextInput style={styles.input}
+                                    underlineColorAndroid="transparent"
                                     onChangeText={(value) => {this.inputPercent=value}}/>
                             </View>
                             <View style={{flex: 0.1}}/>
@@ -64,6 +65,7 @@ export default class CompletionForm extends Component {
                                     backgroundColor: '#f2f2f2', borderRadius: 5,
                                     marginTop: 0.02 * width}}
                                     multiline = {true}
+                                    underlineColorAndroid="transparent"
                                     onChangeText={(value) => {this.inputInfo = value;}}
                                     placeholder="在此输入"/>
                         </View>

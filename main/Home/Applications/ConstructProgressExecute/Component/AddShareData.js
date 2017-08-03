@@ -179,25 +179,17 @@ export default class AddShareData extends Component {
     choiceFile() {
         if (Platform.OS === 'android') {
             NativeModules.MyRN.scan((msg) => {
-                    if (msg === '请选择合适的pdf格式文件') {
-                        toast.show('请选择pdf文件');
+                    if (msg.didCancel) {
+                        toast.show('已取消选择');
                     } else {
                         this.showLoading();
-                        let data = {
-                            userID: GLOBAL_USERID,
-                            files: msg,
-                            businessModule: 'qiandao',
-                            resourceId: this.state.randomId,
-                            isAttach: 1,
-                            callID: getTimestamp()
-                        };
                         let reqData = [
                             {name: 'userID', data: GLOBAL_USERID},
-                            {name: 'files', data: RNFetchBlob.wrap(msg), filename: this.state.randomId + '.pdf'},
+                            {name: 'files', data: RNFetchBlob.wrap(msg.path), filename: msg.fileName},
                             {name: 'businessModule', data: 'gxzl'},
                             {name: 'isAttach', data: JSON.stringify(1)},
                             {name: 'resourceId', data: this.state.randomId},
-                            {name: 'callID', data: JSON.stringify(data.callID)}
+                            {name: 'callID', data: JSON.stringify(getTimestamp())}
                         ];
                         uploadFile(baseUrl.baseUrl + '/sysfile/UploadHandler', reqData, (response) => {
                             this.hideLoading();
@@ -217,9 +209,6 @@ export default class AddShareData extends Component {
                             console.log(response, 'err')
                         });
                     }
-                },
-                (result) => {
-                    toast.show('JS界面:错误信息为:' + result);
                 });
         } else {
             toast.show('iOS系统不支持文件上传操作');

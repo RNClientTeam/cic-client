@@ -182,11 +182,13 @@ export default class AddShareData extends Component {
     choiceFile() {
         if (Platform.OS === 'android') {
             NativeModules.MyRN.scan((msg) => {
-                if (msg) {
+                if (msg.didCancel) {
+                    toast.show('已取消选择');
+                } else {
                     this.showLoading();
                     let reqData = [
                         {name: 'userID', data: GLOBAL_USERID},
-                        {name: 'files', data: RNFetchBlob.wrap(msg), filename: this.state.randomId + '.pdf'},
+                        {name: 'files', data: RNFetchBlob.wrap(msg.path), filename: msg.fileName},
                         {name: 'businessModule', data: 'gxzl'},
                         {name: 'isAttach', data: JSON.stringify(1)},
                         {name: 'resourceId', data: this.state.randomId},
@@ -209,8 +211,6 @@ export default class AddShareData extends Component {
                         this.hideLoading();
                     });
                 }
-            },(result) => {
-                    toast.show('JS界面:错误信息为:' + result);
             });
         } else {
             toast.show('iOS系统不支持文件上传操作');

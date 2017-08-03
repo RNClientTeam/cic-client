@@ -33,6 +33,7 @@ import RNFetchBlob from 'react-native-fetch-blob';
 import baseUrl from '../../../Util/service.json';
 import {getRandomId, getTimestamp, uploadFile} from '../../../Util/Util.js';
 const {width, height} = Dimensions.get('window');
+const imgEXT = ['png','jpg','gif','jpeg','bmp'];
 
 export default class ChoiceFileComponent extends Component {
     constructor(props) {
@@ -43,16 +44,21 @@ export default class ChoiceFileComponent extends Component {
             imageList: [],
             choiceFileName: '所选文件名称',
             businessModule:this.props.businessModule,
-            readOnly:this.props.readOnly
+            readOnly:this.props.readOnly,
+            fileList:[]
         }
     }
 
     choiceFile() {
         if (this.props.readOnly) return;
         if (Platform.OS === 'android') {
-			  NativeModules.MyRN.scan( (response) => {
-            console.log('Response = ', response);
-        });
+			NativeModules.MyRN.scan((response) => {
+                if (response.didCancel) {
+                    Toast.show('取消附件上传');
+                } else {
+                    this.uploadFileFun(response.path);
+                }
+            });
         } else {
             Toast.show('iOS系统不支持文件上传操作');
         }
@@ -178,6 +184,32 @@ export default class ChoiceFileComponent extends Component {
             }
         }).then(data=>{
             console.log(data,'查看详情')
+        })
+    }
+
+    componentDidMount(){
+        // this._getFileList();
+    }
+
+    _getFileList(){
+        axios.get('sysfile/filelist',{
+            params:{
+                userID:GLOBAL_USERID,
+                businessModule:this.props.businessModule,
+                resourceId:this.props.resourceId,
+                isAttach:this.props.isAttach,
+                callID:true
+            }
+        }).then(data=>{
+            if(data.code === 1){
+                this.setState({
+                    fileList:data.data
+                })
+            }else{
+                Toast.show(data.message)
+            }
+        }).cache(err=>{
+            Toast.show('服务端异常');
         })
     }
 }

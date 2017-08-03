@@ -51,7 +51,6 @@ export default class MyPlan extends Component {
                 callID: true
             }
         }).then((responseData) => {
-            console.log(responseData);
             if (responseData.code === 1) {
                 this.setState({
                     list: this.state.list.concat(responseData.data.data),
@@ -61,7 +60,6 @@ export default class MyPlan extends Component {
                 });
             }
         }).catch((error) => {
-            console.log(error);
             resolve && resolve();
         });
     }
@@ -91,7 +89,7 @@ export default class MyPlan extends Component {
                             closeModal={() => {this.setState({modalVisible: false})}}
                             auth={this.state.auth} sgrwId={this.state.sgrwId}
                             gczxId={this.props.rowData.gczxId}
-                            exchangeSgrwId={this.exchangeSgrwId.bind(this)}
+                            exchangeRwid={this.exchangeSgrwId.bind(this)}
                             reloadInfo={this.onPullRelease.bind(this,null)}/>
                     </Modal>
                 }

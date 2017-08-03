@@ -83,8 +83,8 @@ export default class General extends Component {
                 data = data.data;
                 this.setState({
                     dataSource: [
-                        {key:'关联设计项目', value:data.zxmc},
-                        {key:'所属部门', value:data.zrbm},
+                        {key:'工程子项名称', value:data.zxmc},
+                        {key:'责任部门', value:data.zrbm},
                         {key:'责任人', value:data.zrr},
                         {key:'意向送电时间', value:data.yxsdsj},
                         {key:'最晚送电时间', value:data.zwsdsj},
