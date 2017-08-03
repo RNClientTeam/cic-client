@@ -57,7 +57,7 @@ export default class PDFView extends Component {
                         <View style={styles.flex}>
                             <Image source={require('../../../../../resource/imgs/home/earlierStage/pdfImg.png')}
                                    style={styles.pdfImgSty}/>
-                            <Text onPress={() => this.test()} style={styles.textSty}>{this.state.fileName}</Text>
+                            <Text  style={styles.textSty}>{this.state.fileName}</Text>
                             <TouchableOpacity onPress={this.downAndPreview.bind(this)}>
                                 <View style={styles.downloadView}>
                                     <Text style={styles.downloadText}>下载并预览</Text>
@@ -73,64 +73,26 @@ export default class PDFView extends Component {
         );
     }
 
-    test() {
-        Linking.canOpenURL('http://blog.csdn.net/pz789as/article/details/53021283')
-            .then(support => {
-                console.log(support);
-                if (!support) {
-                    alert('Can\'t handle url: ' + url)
-                } else {
-                    return Linking.openURL('http://blog.csdn.net/pz789as/article/details/53021283');
-                }
-            }).catch((err) => {
-            console.log('An error occurred', err);
-            alert('err')
-        });
-    }
-
     downAndPreview() {
-        // this.setState({loading: true});
-        let url = 'http://was.jzfyjt.com:9092/service/sysfile/getFile?id=FFA24F76BE724A9552EC4AF69C5BB518&isdown=1&callID=&sign=';
+        let url = `${baseUrl}/sysfile/getFile?id=${this.props.id}&isdown=1&callID=&sign=`;
         Linking.canOpenURL(url)
             .then(support => {
                 console.log(support);
                 if (!support) {
-                    alert('Can\'t handle url: ' + url)
+                    toast.show('未能打开附件链接')
                 } else {
                     return Linking.openURL(url);
                 }
             }).catch((err) => {
             console.log('An error occurred', err);
-            alert('err')
         });
-        // axios.get('/sysfile/getFile', {
-        //     params: {
-        //         id: 'A4737A9C9E9B05E71B38FBEE827BB0AC',
-        //         isdown: '0',
-        //         callID: true
-        //     }
-        // }).then(data => {
-        //     console.log(data)
-        // });
-        // const options = {
-        //     fromUrl: pdfDownloadURL,
-        //     toFile: this.pdfPath
-        // };
-        // RNFS.downloadFile(options).promise.then(res => {
-        //     this.setState({
-        //         showPDF: true,
-        //         loading: false
-        //     });
-        // }).catch(err => {
-        //
-        // });
     }
 
     componentDidMount(){
         axios.get('/sysfile/detailHandler',{
             params:{
                 userID:GLOBAL_USERID,
-                id:'FFA24F76BE724A9552EC4AF69C5BB518',
+                id:this.props.id,
                 callID:true
             }
         }).then(data=>{

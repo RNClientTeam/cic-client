@@ -486,23 +486,22 @@ export default class AddOrEditQualityCheck extends Component {
         axios.get('/psmZljcjh/getOperationAuthority4Zljcjh', {
             params: {
                 userID: GLOBAL_USERID,
-                //to do
-                zlcjhId: 'ddddd',
+                zlcjhId: id,
                 callID: true,
             }
         }).then(responseData => {
             console.log('-------data', responseData);
-            responseData = {
-                "code": 1,
-                "data": {
-                    "addZljcjh": false,
-                    "updateZljcjh": true,
-                    "deleteZljcjh": false,
-                    "effectZljcjh": true,
-                    "tbZljcjl": true,
-                },
-                "message": "成功"
-            };
+            // responseData = {
+            //     "code": 1,
+            //     "data": {
+            //         "addZljcjh": false,
+            //         "updateZljcjh": true,
+            //         "deleteZljcjh": false,
+            //         "effectZljcjh": true,
+            //         "tbZljcjl": true,
+            //     },
+            //     "message": "成功"
+            // };
             // 生效按钮
             this.setState({
                 effectZljcjh: responseData.data.effectZljcjh

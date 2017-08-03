@@ -27,7 +27,7 @@ export default class QualityCheckModalCell extends Component {
     }
 
     skipPage(){
-        if(this.props.dataSource.name === '检查计划新建'){
+        if(this.props.dataSource.name === '新建'){
             this.props.navigator.push({
                 name: "AddOrEditQualityCheck",
                 component: AddOrEditQualityCheck,
@@ -36,7 +36,7 @@ export default class QualityCheckModalCell extends Component {
                 }
             })
 
-        }else if(this.props.dataSource.name === '检查计划编辑'){
+        }else if(this.props.dataSource.name === '编辑'){
             this.props.navigator.push({
                 name:"AddOrEditQualityCheck",
                 component:AddOrEditQualityCheck,
@@ -83,7 +83,7 @@ export default class QualityCheckModalCell extends Component {
                 isLoading:false
             });
             if(data.code === 1){
-                toast.show('删除成功');
+                toast.show('生效成功');
             }else{
                 toast.show(data.message)
             }

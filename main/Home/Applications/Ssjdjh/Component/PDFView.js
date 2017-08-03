@@ -9,7 +9,8 @@ import {
     Dimensions,
     WebView,
     Platform,
-    ScrollView
+    ScrollView,
+    Linking
 } from 'react-native';
 
 var {width, height} = Dimensions.get('window');
@@ -17,6 +18,8 @@ import StatusBar from '../../../../Component/StatusBar.js';
 import PDF from 'react-native-pdf-view';
 import Loading from '../../../../Component/Loading.js';
 import RNFS from 'react-native-fs';
+import {baseUrl} from '../../../../Util/service.json'
+import toast from 'react-native-simple-toast'
 const pdfDownloadURL = 'http://was.jzfyjt.com:9092/docs/test.pdf';
 
 export default class PDFView extends Component {
@@ -27,7 +30,8 @@ export default class PDFView extends Component {
         this.state = {
             showPDF: false,
             loading: false,
-            isPdfDownload: false
+            isPdfDownload: false,
+            fileName:''
         }
     }
     render() {
@@ -49,8 +53,7 @@ export default class PDFView extends Component {
                     <View style={styles.flex}>
                         <Image source={require('../../../../../resource/imgs/home/earlierStage/pdfImg.png')}
                             style={styles.pdfImgSty}/>
-                        <Text style={styles.textSty}>施工手册.pdf</Text>
-                        <Text style={styles.pdfSize}>186k</Text>
+                        <Text style={styles.textSty}>{this.state.fileName}</Text>
                         <TouchableOpacity onPress={this.downAndPreview.bind(this)}>
                             <View style={styles.downloadView}>
                                 <Text style={styles.downloadText}>下载并预览</Text>
@@ -67,19 +70,35 @@ export default class PDFView extends Component {
     }
 
     downAndPreview() {
-        this.setState({loading:true});
-        const options = {
-            fromUrl: pdfDownloadURL,
-            toFile: this.pdfPath
-        };
-        RNFS.downloadFile(options).promise.then(res => {
-            this.setState({
-                showPDF: true,
-                loading: false
-            });
-        }).catch(err => {
-
+        let url = `${baseUrl}/sysfile/getFile?id=${this.props.id}&isdown=1&callID=&sign=`;
+        Linking.canOpenURL(url)
+            .then(support => {
+                console.log(support);
+                if (!support) {
+                    toast.show('未能打开附件链接')
+                } else {
+                    return Linking.openURL(url);
+                }
+            }).catch((err) => {
+            console.log('An error occurred', err);
         });
+    }
+    componentDidMount(){
+        axios.get('/sysfile/detailHandler',{
+            params:{
+                userID:GLOBAL_USERID,
+                id:this.props.id,
+                callID:true
+            }
+        }).then(data=>{
+            if(data.code === 1){
+                this.setState({
+                    fileName:data.fileName
+                })
+            }else{
+                toast.show(data.message)
+            }
+        })
     }
 
     componentWillUnmount() {

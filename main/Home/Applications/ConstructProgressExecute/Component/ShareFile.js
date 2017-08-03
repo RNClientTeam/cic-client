@@ -49,9 +49,7 @@ export default class ShareFile extends Component {
     render(){
         return(
             <View style={styles.container}>
-                <PullList
-                    onPullRelease={this.onPullRelease.bind(this)}
-                    topIndicatorRender={this.topIndicatorRender.bind(this)}
+                <ListView
                     topIndicatorHeight={60}
                     enableEmptySections={true}
                     dataSource={this.ds.cloneWithRows(this.state.list)}
@@ -62,18 +60,11 @@ export default class ShareFile extends Component {
         )
     }
 
-    onPullRelease(resolve) {
-        this.fetchData(resolve);
-    }
 
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
             <ShareFileCell navigator={this.props.navigator} key={rowID} dataSource={item}/>
         );
-    }
-
-    topIndicatorRender(pulling, pullok, pullrelease) {
-        return (<Reload/>);
     }
 }
 

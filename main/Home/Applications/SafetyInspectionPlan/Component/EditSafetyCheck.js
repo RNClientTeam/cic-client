@@ -52,6 +52,7 @@ export default class EditSafetyCheck extends Component {
             sgrwmc,
             gczxId,
             sgrwId,
+            cfxxId,
         })
     }
 
@@ -64,8 +65,8 @@ export default class EditSafetyCheck extends Component {
             component: ChooseProject,
             name: 'ChooseProject',
             params: {
-                addProject: (xmbh, xmmc, gczxmc, sgrwmc, gczxId, sgrwId) =>
-                    this.addProject(xmbh, xmmc, gczxmc, sgrwmc, gczxId, sgrwId),
+                addProject: (xmbh, xmmc, gczxmc, sgrwmc, gczxId, sgrwId, cfxxId) =>
+                    this.addProject(xmbh, xmmc, gczxmc, sgrwmc, gczxId, sgrwId, cfxxId),
                 kssj: this.formatDate(this.state.jhkssj),
                 jssj: this.formatDate(this.state.jhjssj),
             }
@@ -92,7 +93,7 @@ export default class EditSafetyCheck extends Component {
         const data = {
             userID: GLOBAL_USERID,
             id: id,
-            cfxxId: '',
+            cfxxId: this.state.cfxxId,
             gczxId: this.state.gczxId,
             sgrwId:	this.state.sgrwId,
             aqjcjhmc: this.state.aqjcjhmc,

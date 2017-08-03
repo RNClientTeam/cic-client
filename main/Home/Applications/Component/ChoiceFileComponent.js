@@ -33,6 +33,7 @@ import RNFetchBlob from 'react-native-fetch-blob';
 import baseUrl from '../../../Util/service.json';
 import {getRandomId, getTimestamp, uploadFile} from '../../../Util/Util.js';
 const {width, height} = Dimensions.get('window');
+const imgEXT = ['png','jpg','gif','jpeg','bmp'];
 
 export default class ChoiceFileComponent extends Component {
     constructor(props) {
@@ -43,7 +44,8 @@ export default class ChoiceFileComponent extends Component {
             imageList: [],
             choiceFileName: '所选文件名称',
             businessModule:this.props.businessModule,
-            readOnly:this.props.readOnly
+            readOnly:this.props.readOnly,
+            fileList:[]
         }
     }
 
@@ -182,6 +184,32 @@ export default class ChoiceFileComponent extends Component {
             }
         }).then(data=>{
             console.log(data,'查看详情')
+        })
+    }
+
+    componentDidMount(){
+        this._getFileList();
+    }
+
+    _getFileList(){
+        axios.get('sysfile/filelist',{
+            params:{
+                userID:GLOBAL_USERID,
+                businessModule:this.props.businessModule,
+                resourceId:this.props.resourceId,
+                isAttach:this.props.isAttach,
+                callID:true
+            }
+        }).then(data=>{
+            if(data.code === 1){
+                this.setState({
+                    fileList:data.data
+                })
+            }else{
+                Toast.show(data.message)
+            }
+        }).cancel(err=>{
+            Toast.show('服务端异常');
         })
     }
 }
