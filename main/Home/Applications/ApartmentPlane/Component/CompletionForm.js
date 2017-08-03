@@ -18,15 +18,15 @@ import toast from 'react-native-simple-toast'
 import KeyValueRight from "../../../../Component/KeyValueRight";
 
 export default class CompletionForm extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={
-            isLoading:false,
-            jhmc:'',
-            wcbl:'',
-            sjqdsj:'',
-            sjwcsj:'',
-            wcbz:'',
+        this.state = {
+            isLoading: false,
+            jhmc: '',
+            wcbl: '',
+            sjqdsj: '',
+            sjwcsj: '',
+            wcbz: '',
         }
     }
 
@@ -35,13 +35,15 @@ export default class CompletionForm extends Component {
             <View style={styles.flex}>
                 <StatusBar title="确认完成" navigator={this.props.navigator}/>
                 <View style={styles.itemView}>
-                    <Text style={{fontSize:15,fontWeight:'500'}}>部门工作计划1</Text>
+                    <Text style={{fontSize: 15, fontWeight: '500'}}>部门工作计划1</Text>
                 </View>
-                <KeyPercentage readOnly={true} propKey="当前进度" value={this.state.wcbl} textChange={(value)=>this.setState({wcbl:value})}/>
+                <KeyPercentage readOnly={true} propKey="当前进度" value={this.state.wcbl}
+                               textChange={(value) => this.setState({wcbl: value})}/>
                 <KeyValueRight propKey="实际开始时间" defaultValue={this.state.sjqdsj} readOnly={true}/>
-                {parseInt(this.state.wcbl)==100?
-                    <KeyTime propKey="实际完成时间" showDate={this.state.sjwcsj} changeDate={(date)=>this.setState({sjwcsj:date})}/>
-                    :null}
+                {parseInt(this.state.wcbl) == 100 ?
+                    <KeyTime propKey="实际完成时间" showDate={this.state.sjwcsj}
+                             changeDate={(date) => this.setState({sjwcsj: date})}/>
+                    : null}
 
                 <View style={styles.lastItem}>
                     <Text style={styles.textKeySty}>当前完成情况*</Text>
@@ -50,9 +52,9 @@ export default class CompletionForm extends Component {
                         style={styles.textInput}
                         placeholder="在此输入"
                         multiline={true}
-                        onChangeText={(value)=>{
+                        onChangeText={(value) => {
                             this.setState({
-                                wcbz:value
+                                wcbz: value
                             })
                         }}
                         value={this.state.wcbz}
@@ -60,52 +62,56 @@ export default class CompletionForm extends Component {
                         autoCapitalize="none"
                         autoCorrect={false}/>
                 </View>
+                {
+                    parseInt(this.state.wcbl) === 100 ?
+                        <TouchableOpacity style={styles.btnView} onPress={this.clickBtn.bind(this)}>
+                            <Text style={{fontSize: 15, color: '#fff'}}>
+                                确认提交
+                            </Text>
+                        </TouchableOpacity> : null
+                }
 
-                <TouchableOpacity style={styles.btnView} onPress={this.clickBtn.bind(this)}>
-                    <Text style={{fontSize:15,color:'#fff'}}>
-                        确认提交
-                    </Text>
-                </TouchableOpacity>
-                {this.state.isLoading?<Loading/>:null}
+                {this.state.isLoading ? <Loading/> : null}
             </View>
         );
     }
+
     clickBtn() {
-        if(parseInt(this.state.wcbl)===100){
-            if(this.state.wcbl===''){
+        if (parseInt(this.state.wcbl) === 100) {
+            if (this.state.wcbl === '') {
                 toast.show('请填写完成比例');
-            }else if(this.state.sjqdsj===''){
+            } else if (this.state.sjqdsj === '') {
                 toast.show('请填写开始时间')
-            }else if(parseInt(this.state.wcbl)===100&&this.state.sjwcsj===''){
+            } else if (parseInt(this.state.wcbl) === 100 && this.state.sjwcsj === '') {
                 toast.show('请填写完成时间')
-            }else{
+            } else {
                 this.setState({
-                    isLoading:true
+                    isLoading: true
                 });
-                axios.post('/psmBmjh/updateQrwc',{
-                    userID:GLOBAL_USERID,
-                    jhid:this.props.id,
-                    sjwcsj:this.state.sjwcsj,
-                    callID:true
-                }).then(data=>{
+                axios.post('/psmBmjh/updateQrwc', {
+                    userID: GLOBAL_USERID,
+                    jhid: this.props.id,
+                    sjwcsj: this.state.sjwcsj,
+                    callID: true
+                }).then(data => {
                     this.setState({
-                        isLoading:false
+                        isLoading: false
                     });
-                    if(data.code === 1){
+                    if (data.code === 1) {
                         toast.show('提交成功');
                         let that = this;
                         setTimeout(function () {
                             that.props.navigator.pop();
                             this.props.reload();
                         })
-                    }else{
+                    } else {
                         toast.show(data.message);
                     }
-                }).catch(err=>{
+                }).catch(err => {
                     toast.show('服务端异常');
                 })
             }
-        }else{
+        } else {
             toast.show('完成比例不是100%，不可确认完成');
         }
 
@@ -113,31 +119,31 @@ export default class CompletionForm extends Component {
 
     componentDidMount() {
         this.setState({
-            isLoading:true
+            isLoading: true
         });
-        axios.get('/psmBmjh/detail',{
-            params:{
-                jhId:this.props.id,
-                userID:GLOBAL_USERID,
-                callID:true
+        axios.get('/psmBmjh/detail', {
+            params: {
+                jhId: this.props.id,
+                userID: GLOBAL_USERID,
+                callID: true
             }
-        }).then(data=>{
+        }).then(data => {
             this.setState({
-                isLoading:false
+                isLoading: false
             });
-            if(data.code === 1){
+            if (data.code === 1) {
                 data = data.data;
                 this.setState({
-                    jhmc:data.jhmc,
-                    sjqdsj:data.sjqdsj||data.qdsj,
-                    sjwcsj:data.sjwcsj||data.wcsj,
-                    wcbl:data.wcbl+'',
-                    wcbz:data.wcbz
+                    jhmc: data.jhmc,
+                    sjqdsj: data.sjqdsj || data.qdsj,
+                    sjwcsj: data.sjwcsj || data.wcsj,
+                    wcbl: data.wcbl + '',
+                    wcbz: data.wcbz
                 })
-            }else{
+            } else {
                 toast.show(data.message)
             }
-        }).catch(err=>{
+        }).catch(err => {
             toast.show('服务端异常');
         })
     }
@@ -153,8 +159,8 @@ const styles = StyleSheet.create({
         width: width,
         height: 0.0735 * height,
         alignItems: 'center',
-        paddingLeft:width*0.02,
-        backgroundColor:'#fff',
+        paddingLeft: width * 0.02,
+        backgroundColor: '#fff',
         justifyContent: 'space-between',
         marginBottom: 1
     },
@@ -181,7 +187,7 @@ const styles = StyleSheet.create({
         width: width,
         height: 0.27 * height,
         backgroundColor: '#fff',
-        paddingLeft:width*0.02,
+        paddingLeft: width * 0.02,
         paddingTop: 16,
         paddingBottom: 28,
         justifyContent: 'space-between'

@@ -1,6 +1,7 @@
 /**
  * Created by Nealyang on 2017/4/30.
  */
+
 'use strict';
 import React, {Component} from 'react'
 import {
@@ -18,6 +19,7 @@ import LoadMore from "../../../../Component/LoadMore";
 import CooperateTaskCell from "./CooperateTaskCell";
 import Reload from "../../../../Component/Reload";
 import Toast from 'react-native-simple-toast'
+import EarlierStageListCell from "../../Component/ApplicationListCell";
 export default class EarlierStageList extends Component {
     constructor(props) {
         super(props);
@@ -41,6 +43,7 @@ export default class EarlierStageList extends Component {
                     renderFooter={this.renderFooter.bind(this)}
                     enableEmptySections={true}
                 />
+                <EarlierStageListCell/>
             </View>
         )
     }

@@ -35,6 +35,7 @@ export default class ApartmentPlane extends Component{
             eDate:getCurrentMonE(),
             pageNum:1,
             rwzt:'请选择任务状态',
+            rwztmc:'请选择任务状态',
             dataList:[],
             operatingItem:{},
             authList:[],
@@ -58,7 +59,7 @@ export default class ApartmentPlane extends Component{
                     <TouchableWithoutFeedback
                         onPress={()=>{this.addBtn()}}
                     >
-                        <Image style={{width: 0.04 * width, height: 0.04 * width,position:'absolute',right:width*0.12}}
+                        <Image style={{width: 0.045 * width, height: 0.045 * width,position:'absolute',right:width*0.15}}
                                source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
                     </TouchableWithoutFeedback>
                     <TouchableOpacity
@@ -80,12 +81,14 @@ export default class ApartmentPlane extends Component{
                 {this.state.isModalVisible &&
                     <ApartmentListModalView
                         rwzt={this.state.rwzt}
+                        rwztmc={this.state.rwztmc}
                         sDate={this.state.sDate}
                         eDate={this.state.eDate}
                         isModalVisible={this.state.isModalVisible}
-                        changeFilter={(sDate,eDate,rwzt)=>this.changeFilter(sDate,eDate,rwzt)}
+                        changeFilter={(sDate,eDate,rwzt,rwztmc)=>this.changeFilter(sDate,eDate,rwzt,rwztmc)}
                         choiceRwzt={(rwzt)=>this.setState({rwzt:rwzt})}
-                        closeModal={()=>this.setState({isModalVisible:false})} />}
+                        closeModal={()=>this.setState({isModalVisible:false})}
+                    />}
                 {
                     this.state.modalVisible &&
                     <Modal
@@ -119,11 +122,12 @@ export default class ApartmentPlane extends Component{
         })
     }
 
-    changeFilter(sDate,eDate,rwzt){
+    changeFilter(sDate,eDate,rwzt,rwztmc){
         this.setState({
             sDate:sDate,
             eDate:eDate,
-            rwzt:rwzt
+            rwzt:rwzt,
+            rwztmc:rwztmc
         },function () {
             this.getDataFromNet();
         })

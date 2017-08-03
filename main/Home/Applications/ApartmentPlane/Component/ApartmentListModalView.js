@@ -24,7 +24,8 @@ export default class ApartmentListModalView extends Component {
             endDate: this.props.eDate,
             options:[],
             ids:[],
-            rwzt:''
+            rwzt:'',
+            rwztmc:this.props.rwztmc
         }
     }
 
@@ -54,13 +55,14 @@ export default class ApartmentListModalView extends Component {
                         <ModalDropdown
                             options={this.state.options}
                             animated={true}
-                            defaultValue={this.props.rwzt}
+                            defaultValue={this.props.rwztmc}
                             style={styles.modalDropDown}
                             textStyle={styles.modalDropDownText}
                             dropdownStyle={styles.dropdownStyle}
                             onSelect={(a) => {
                                 this.setState({
-                                    rwzt:this.state.ids[a]
+                                    rwzt:this.state.ids[a],
+                                    rwztmc:this.state.options[a]
                                 })
                             }}
                             showsVerticalScrollIndicator={false}
@@ -71,11 +73,11 @@ export default class ApartmentListModalView extends Component {
                 </View>
                 <View style={styles.buttonView}>
                     <TouchableOpacity style={[styles.clickButton, {backgroundColor: '#dbdada'}]}
-                                      onPress={() => this.props.closeModal()}>
+                                      onPress={() => {this.props.closeModal();this.props.changeFilter(getCurrentMonS(),getCurrentMonE(),'all','请选择任务状态')}}>
                         <Text>重置</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.clickButton, {backgroundColor: '#216fd0'}]}
-                                      onPress={() => {this.props.closeModal();this.props.changeFilter(this.state.startDate,this.state.endDate,this.state.rwzt)}}>
+                                      onPress={() => {this.props.closeModal();this.props.changeFilter(this.state.startDate,this.state.endDate,this.state.rwzt,this.state.rwztmc)}}>
                         <Text style={{color: '#fff'}}>确定</Text>
                     </TouchableOpacity>
                 </View>
@@ -91,7 +93,6 @@ export default class ApartmentListModalView extends Component {
                 callID:true
             }
         }).then(data=>{
-            console.log(data)
             if(data.code === 1){
                 for(let i = 0;i<data.data.length;i++){
                     this.state.options.push(data.data[i].name);

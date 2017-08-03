@@ -9,7 +9,6 @@ import {
     Dimensions,
     WebView,
     Platform,
-    ScrollView,
     Linking
 } from 'react-native';
 

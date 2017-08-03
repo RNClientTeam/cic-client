@@ -96,13 +96,13 @@ export default class AddApartmentPlane extends Component {
                                        onChangeText={(text)=>this.setState({wcbz:text})}
                                        placeholder="请填写"/>
                         </View>
-                        <TouchableHighlight onPress={this.createPlane.bind(this)} underlayColor="transparent">
-                            <View style={styles.btnView}>
-                                <Text style={styles.btnText}>创建</Text>
-                            </View>
-                        </TouchableHighlight>
                     </View>
                 </ScrollView>
+                <TouchableHighlight onPress={this.createPlane.bind(this)} underlayColor="transparent">
+                    <View style={styles.btnView}>
+                        <Text style={styles.btnText}>创建</Text>
+                    </View>
+                </TouchableHighlight>
             </View>
         );
     }
@@ -284,7 +284,8 @@ export default class AddApartmentPlane extends Component {
 const styles = StyleSheet.create({
     flex: {
         flex: 1,
-        backgroundColor: '#f1f1f1'
+        backgroundColor: '#f1f1f1',
+        paddingBottom:10
     },
     viewStyle: {
         flexDirection: 'row',

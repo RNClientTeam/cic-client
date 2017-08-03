@@ -30,7 +30,7 @@ export default class UrlWebView extends Component{
                     source={{uri: this.props.url}}
                     onLoadEnd={this._onLoadEnd.bind(this)}
                 />
-                {this.state.showLoading?<Loading/>:null}
+                {this.state.showLoading&&<Loading/>}
             </View>
         )
     }
@@ -40,6 +40,7 @@ export default class UrlWebView extends Component{
             showLoading:false
         })
     }
+
 }
 
 const styles = StyleSheet.create({

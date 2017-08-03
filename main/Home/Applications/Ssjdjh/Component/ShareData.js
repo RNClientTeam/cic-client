@@ -60,9 +60,7 @@ export default class ShareData extends Component{
     render(){
         return(
             <View style={styles.container}>
-                <PullList
-                    onPullRelease={this.onPullRelease.bind(this)}
-                    topIndicatorRender={this.topIndicatorRender.bind(this)}
+                <ListView
                     topIndicatorHeight={60}
                     dataSource={this.ds.cloneWithRows(this.state.list)}
                     pageSize={5}
@@ -76,22 +74,12 @@ export default class ShareData extends Component{
         )
     }
 
-    onPullRelease(resolve) {
-        this.state.list = [];
-        this.pageNum = 1;
-        this.getDataFromNet(1, resolve);
-    }
-
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
             <ShareDataCell navigator={this.props.navigator} key={rowID} dataSource={item}/>
         );
     }
 
-
-    topIndicatorRender(pulling, pullok, pullrelease) {
-        return (<Reload/>);
-    }
 }
 
 const styles = StyleSheet.create({

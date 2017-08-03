@@ -20,6 +20,7 @@ import Loading from "../../../../Component/Loading";
 import toast from 'react-native-simple-toast'
 import {getTimestamp,uploadFile} from '../../../../Util/Util'
 import baseUrl from '../../../../Util/service.json'
+import RNFetchBlob from 'react-native-fetch-blob'
 export default class FillProgress extends Component {
     constructor(props){
         super(props);
