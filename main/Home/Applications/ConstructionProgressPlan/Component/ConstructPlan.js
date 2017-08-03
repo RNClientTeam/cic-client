@@ -32,7 +32,7 @@ export default class ConstructPlan extends Component {
             myTask: [],
             allTask:[],
             totalMy:0,
-            totalAll:0
+            totalAll:0,
         };
     }
     componentDidMount() {

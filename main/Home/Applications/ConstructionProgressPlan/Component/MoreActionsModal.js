@@ -87,7 +87,7 @@ export default class MoreActionsModal extends Component {
             id: rwid,
         }).then((data) => {
             if(data.code === 1){
-                toast.show('删除成功');
+                toast.show('生效成功');
                 this.props.reloadInfo();
             }else{
                 toast.show(data.message)
