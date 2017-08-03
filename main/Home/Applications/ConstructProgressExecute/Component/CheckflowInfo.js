@@ -47,6 +47,7 @@ export default class CheckFlowInfo extends Component{
             wfName: 'sgphrwyqbg',
             callID: true
         }).then((responseData) => {
+            console.log(responseData);
             if (responseData.code === 1) {
                 let res = responseData.data;
                 res.options.forEach((elem, index) => {

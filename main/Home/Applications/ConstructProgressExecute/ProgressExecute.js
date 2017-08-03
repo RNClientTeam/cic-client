@@ -117,7 +117,7 @@ export default class ProgressPlan extends Component {
                         <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
-                <SearchHeader changeZxmc={this.getKeyWord.bind(this)} getData={this.searchData.bind(this)}/>
+                <SearchHeader changeZxmc={this.getKeyWord.bind(this)} getData={this.searchData.bind(this)} placeholder="请输入责任人"/>
                 <ProgressExecuteList navigator={this.props.navigator}
                     dataSource={this.state.dataSource}
                     hasMoreData={this.state.hasMoreData}
