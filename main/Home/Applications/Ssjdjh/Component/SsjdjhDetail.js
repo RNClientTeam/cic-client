@@ -28,7 +28,7 @@ export default class SsjdjhDetail extends Component {
     render() {
         return (
             <View style={styles.flex}>
-                <StatusBar title="实施进度计划" navigator={this.props.navigator}/>
+                <StatusBar title="实施进度计划执行" navigator={this.props.navigator}/>
                 <Image style={styles.bgImage}
                     source={require('../../../../../resource/imgs/home/earlierStage/backgroundImg.png')}>
                     <Text style={styles.number}>{this.props.xmbh}</Text>

@@ -90,7 +90,7 @@ export default class PDFView extends Component {
 
     downAndPreview() {
         // this.setState({loading: true});
-        let url = 'http://10.1.0.80:9092/service/sysfile/getFile?id=FFA24F76BE724A9552EC4AF69C5BB518&isdown=1&callID=&sign=';
+        let url = 'http://was.jzfyjt.com:9092/service/sysfile/getFile?id=FFA24F76BE724A9552EC4AF69C5BB518&isdown=1&callID=&sign=';
         Linking.canOpenURL(url)
             .then(support => {
                 console.log(support);
