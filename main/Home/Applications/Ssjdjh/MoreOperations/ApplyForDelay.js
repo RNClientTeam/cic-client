@@ -232,7 +232,8 @@ export default class ApplyForDelay extends Component{
                         params: {
                             resID: responseData.data,
                             tag: self.props.tag ? self.props.tag : '',
-                            reloadInfo: this.props.reloadInfo
+                            reloadInfo: this.props.reloadInfo,
+                            wfName: this.props.wfName
                         }
                     });
                     clearTimeout(timer);

@@ -182,7 +182,7 @@ export default class Turnover extends Component{
             params: {
                 getInfo: this.getInfo.bind(this)
             }
-        })
+        });
     }
 
     getInfo(bmid, name, id) {
@@ -274,7 +274,8 @@ export default class Turnover extends Component{
                             resID: responseData.data,
                             tag: self.props.tag,
                             from: 'turnover',
-                            reloadInfo: this.props.reloadInfo
+                            reloadInfo: this.props.reloadInfo,
+                            wfName: this.props.wfName
                         }
                     });
                     clearTimeout(timer);

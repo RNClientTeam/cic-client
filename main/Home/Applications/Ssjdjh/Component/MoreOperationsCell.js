@@ -44,16 +44,11 @@ export default class MoreOperationsCell extends Component {
                     jhxxId:this.props.jhxxId,
                     tag: this.props.tag ? this.props.tag : '',
                     reloadInfo:this.props.reloadInfo,
-                    exchangeRwid:this.props.exchangeRwid
+                    exchangeRwid:this.props.exchangeRwid,
+                    wfName: this.props.tag === '进度计划' ? 'jdjhssjhyqbd' : 'jdjhssjhphrwyqbg'
                 }
             });
-        }else if(this.props.dataSource.name === '流程信息查看'){
-            this.props.navigator.push({
-                name:'checkFlowInfo',
-                component:CheckFlowInfo,
-                rwid: this.props.rwid,
-            });
-        }else if(this.props.dataSource.name === '人员变更'){
+        } else if(this.props.dataSource.name === '人员变更') {
             this.props.navigator.push({
                 name:'turnover',
                 component:Turnover,
@@ -64,7 +59,8 @@ export default class MoreOperationsCell extends Component {
                     eDate:this.props.eDate,
                     reloadInfo:this.props.reloadInfo,
                     exchangeRwid:this.props.exchangeRwid,
-                    tag: this.props.tag ? this.props.tag : ''
+                    tag: this.props.tag ? this.props.tag : '',
+                    wfName: 'jdjhssjhrybg'
                 }
             });
         }else if(this.props.dataSource.name === '填报完成情况'){
@@ -122,8 +118,7 @@ export default class MoreOperationsCell extends Component {
                 component:FinishedPath,
                 params:{
                     rwid:this.props.rwid,
-                    tag:this.props.tag,
-                    wfName: 'jdjhssjhphrw'
+                    tag:this.props.tag
                 }
             });
         }
