@@ -273,6 +273,7 @@ export default class ApplyForDelay extends Component{
             bgyybc: this.state.bgyybc,
             callID: true
         }).then((responseData) => {
+            console.log(responseData);
             if (responseData.code === 1) {
                 this.props.exchangeRwid(responseData.data);
                 if (responseData.data.isTurnto) {

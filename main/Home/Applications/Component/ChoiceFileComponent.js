@@ -10,7 +10,8 @@ import {
     Dimensions,
     Platform,
     Image,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
+    Linking
 } from 'react-native';
 
 const photoOptions = {
@@ -42,25 +43,39 @@ export default class ChoiceFileComponent extends Component {
         this.state = {
             jcfj: [],
             imageList: [],
+            fileList: [],
             choiceFileName: '所选文件名称',
             businessModule:this.props.businessModule,
             readOnly:this.props.readOnly,
-            fileList:[]
+            hasFile: false
         }
     }
 
     choiceFile() {
-        if (this.props.readOnly) return;
-        if (Platform.OS === 'android') {
-			NativeModules.MyRN.scan((response) => {
-                if (response.didCancel) {
-                    Toast.show('取消附件上传');
-                } else {
-                    this.uploadFileFun(response.path);
-                }
-            });
+        if (this.state.fileList.length !== 0) {
+            Linking.canOpenURL(this.state.fileList[0].uri)
+                .then(support => {
+                    if (!support) {
+                        toast.show('未能打开附件链接')
+                    } else {
+                        return Linking.openURL(this.state.fileList[0].uri);
+                    }
+                }).catch((err) => {
+                    console.log('An error occurred', err);
+                });
         } else {
-            Toast.show('iOS系统不支持文件上传操作');
+            if (this.props.readOnly) return;
+            if (Platform.OS === 'android') {
+    			NativeModules.MyRN.scan((response) => {
+                    if (response.didCancel) {
+                        Toast.show('取消附件上传');
+                    } else {
+                        this.uploadFileFun(response.path);
+                    }
+                });
+            } else {
+                Toast.show('iOS系统不支持文件上传操作');
+            }
         }
     }
 
@@ -102,6 +117,7 @@ export default class ChoiceFileComponent extends Component {
     }
 
     choiceImage() {
+        if (this.props.readOnly || this.state.hasFile) return;
         ImagePicker.showImagePicker(photoOptions,(response) =>{
             if (response.uri) {
                 this.uploadFileFun(response.uri, true);
@@ -188,7 +204,10 @@ export default class ChoiceFileComponent extends Component {
     }
 
     componentDidMount(){
-        // this._getFileList();
+        let tempTimer = setTimeout(() => {
+            this._getFileList();
+            clearTimeout(tempTimer);
+        }, 500);
     }
 
     _getFileList(){
@@ -201,14 +220,30 @@ export default class ChoiceFileComponent extends Component {
                 callID:true
             }
         }).then(data=>{
+            console.log(data);
             if(data.code === 1){
+                data.data.forEach((elem, index) => {
+                    let findRes = imgEXT.findIndex((ele, m) => {
+                        return elem.fileExtension === ele;
+                    });
+                    if (findRes !== -1) {
+                        console.log(`${baseUrl.baseUrl}/sysfile/getFile?id=${elem.id}&isdown=1&callID=&sign=`);
+                        //图片
+                        this.state.imageList.push({uri:`${baseUrl.baseUrl}/sysfile/getFile?id=${elem.id}&isdown=1&callID=&sign=`});
+                    } else {
+                        this.state.fileList.push({uri:`${baseUrl.baseUrl}/sysfile/getFile?id=${elem.id}&isdown=1&callID=&sign=`});
+                    }
+                });
                 this.setState({
-                    fileList:data.data
-                })
+                    imageList: this.state.imageList,
+                    fileList: this.state.fileList,
+                    hasFile: this.state.imageList.length !== 0 ? true : false
+                });
             }else{
-                Toast.show(data.message)
+                Toast.show(data.message);
             }
-        }).cache(err=>{
+        }).catch(err=>{
+            console.log(err);
             Toast.show('服务端异常');
         })
     }

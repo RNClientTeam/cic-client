@@ -160,7 +160,6 @@ export default class SafetyInspectionRecord extends Component{
                 isLoading:false
             });
             if(data.code === 1){
-                console.log(data);
                 resolve();
                 if(data.data.data){
                     if(pageNum === 1){
