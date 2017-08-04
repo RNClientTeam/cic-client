@@ -47,8 +47,7 @@ export default class SsjdjhCell extends Component {
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
                             <View style={styles.iconView}>
-                                {this.state.diyiwei===0?null:<Image style={styles.iconImg} source={first}/>}
-                                {this.state.dierwei === 0?null:<Image style={styles.iconImg} source={second}/>}
+                                <Text style={{color: '#216fd0', fontSize: width * 0.045}}>{this.props.data.xmbh}</Text>
                             </View>
                             {this.props.data.state ?
                                     (this.props.stateBg ?
