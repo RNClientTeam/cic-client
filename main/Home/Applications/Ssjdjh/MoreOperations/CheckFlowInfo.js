@@ -24,7 +24,6 @@ const {width, height}  = Dimensions.get('window');
 export default class CheckFlowInfo extends Component{
     constructor(props) {
         super(props);
-        this.wfName = '';
         this.optionInfo = '';
         this.state = {
             optionListName: [],
@@ -32,8 +31,7 @@ export default class CheckFlowInfo extends Component{
             actionID: '',
             entry_id: '',
             stepID: '',
-            stepName: '',
-            wfName: ''
+            stepName: ''
         }
     }
 
@@ -42,17 +40,10 @@ export default class CheckFlowInfo extends Component{
     }
 
     fetchData() {
-        if (this.props.from && this.props.from === 'turnover') {
-            this.wfName = 'jdjhssjhrybg'
-        } else if (this.props.tag === '配合任务') {
-            this.wfName = 'jdjhssjhphrwyqbg';
-        } else {
-            this.wfName = 'jdjhssjhyqbd';
-        }
         axios.post('/workFlow/preSubmit', {
             userID: GLOBAL_USERID,
             resID: this.props.resID,
-            wfName: this.wfName,
+            wfName: this.props.wfName,
             callID: true
         }).then((responseData) => {
             if (responseData.code === 1) {
@@ -66,8 +57,7 @@ export default class CheckFlowInfo extends Component{
                     optionListID: this.state.optionListID,
                     entry_id: res.entry_id,
                     stepID: res.stepID,
-                    stepName: res.stepName,
-                    wfName: res.wfName
+                    stepName: res.stepName
                 });
             }
         }).catch((error) => {
@@ -149,7 +139,7 @@ export default class CheckFlowInfo extends Component{
         axios.post('/workFlow/submit', {
             userID: GLOBAL_USERID,
             resID: this.props.resID,
-            wfName: this.wfName,
+            wfName: this.props.wfName,
             entityID: this.state.entry_id,
             stepID: this.state.stepID,
             actionID: this.state.actionID,
@@ -187,7 +177,7 @@ export default class CheckFlowInfo extends Component{
             name: 'finishedPath',
             component: FinishedPath,
             params: {
-                wfName: this.state.wfName,
+                wfName: this.props.wfName,
                 resID: this.props.resID,
                 fromCheckFlowInfo: true,
                 from: this.props.from

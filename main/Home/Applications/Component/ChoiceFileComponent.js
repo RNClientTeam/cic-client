@@ -220,16 +220,14 @@ export default class ChoiceFileComponent extends Component {
                 callID:true
             }
         }).then(data=>{
-            console.log(data);
             if(data.code === 1){
                 data.data.forEach((elem, index) => {
                     let findRes = imgEXT.findIndex((ele, m) => {
                         return elem.fileExtension === ele;
                     });
                     if (findRes !== -1) {
-                        console.log(`${baseUrl.baseUrl}/sysfile/getFile?id=${elem.id}&isdown=1&callID=&sign=`);
                         //图片
-                        this.state.imageList.push({uri:`${baseUrl.baseUrl}/sysfile/getFile?id=${elem.id}&isdown=1&callID=&sign=`});
+                        this.state.imageList.push({uri:`${baseUrl.baseUrl}/sysfile/getFile?id=${elem.id}&isdown=0&callID=&sign=`});
                     } else {
                         this.state.fileList.push({uri:`${baseUrl.baseUrl}/sysfile/getFile?id=${elem.id}&isdown=1&callID=&sign=`});
                     }
@@ -243,7 +241,6 @@ export default class ChoiceFileComponent extends Component {
                 Toast.show(data.message);
             }
         }).catch(err=>{
-            console.log(err);
             Toast.show('服务端异常');
         })
     }
