@@ -31,6 +31,7 @@ export default class FillProgress extends Component {
             sjqdsj:'',
             sjwcsj:'',
             wcbz:'',
+            jzqkID:''
         }
     }
 
@@ -42,7 +43,7 @@ export default class FillProgress extends Component {
                     <Text style={{fontSize:15,fontWeight:'500'}}>{this.props.jhmc}</Text>
                 </View>
                 <KeyPercentage propKey="当前进度比例*" value={this.state.wcbl} textChange={(value)=>this.setState({wcbl:value})}/>
-                <KeyTime propKey="实际开始时间" showDate={this.state.sjqdsj} changeDate={(date)=>this.setState({sjqdsj:date})}/>
+                <KeyTime propKey="实际开始时间"  showDate={this.state.sjqdsj} changeDate={(date)=>this.setState({sjqdsj:date})}/>
                 {parseInt(this.state.wcbl)==100?
                     <KeyTime propKey="实际完成时间" showDate={this.state.sjwcsj} changeDate={(date)=>this.setState({sjwcsj:date})}/>
                 :null}
@@ -98,9 +99,9 @@ export default class FillProgress extends Component {
                         let reqData = [
                             {name: 'userID', data: GLOBAL_USERID},
                             {name: 'files', data: RNFetchBlob.wrap(msg.path), filename: msg.fileName},
-                            {name: 'businessModule', data: 'gxzl'},
+                            {name: 'businessModule', data: 'bmjhJzqk'},
                             {name: 'isAttach', data: JSON.stringify(1)},
-                            {name: 'resourceId', data: this.state.randomId},
+                            {name: 'resourceId', data: this.state.jzqkID},
                             {name: 'callID', data: JSON.stringify(getTimestamp())}
                         ];
                         uploadFile(baseUrl.baseUrl + '/sysfile/UploadHandler', reqData, (response) => {
@@ -142,6 +143,7 @@ export default class FillProgress extends Component {
                 wcbl:this.state.wcbl,
                 sjqdsj:this.state.sjqdsj,
                 sjwcsj:this.state.sjwcsj,
+                jzqkID:this.state.jzqkID,
                 callID:true
             }).then(data=>{
                 this.hideLoading();
@@ -165,7 +167,7 @@ export default class FillProgress extends Component {
         this.setState({
             isLoading:true
         });
-        axios.get('/psmBmjh/detail',{
+        axios.get('/psmBmjh/initJzqk',{
             params:{
                 jhId:this.props.id,
                 userID:GLOBAL_USERID,
@@ -177,12 +179,14 @@ export default class FillProgress extends Component {
             });
             if(data.code === 1){
                 data = data.data;
+                console.log(data);
                 this.setState({
                     jhmc:data.jhmc,
                     sjqdsj:data.sjqdsj||data.qdsj,
                     sjwcsj:data.sjwcsj||data.wcsj,
                     wcbl:data.wcbl+'',
-                    wcbz:data.wcbz
+                    wcbz:data.wcbz,
+                    jzqkID:data.jzqkID
                 })
             }else{
                 toast.show(data.message)
