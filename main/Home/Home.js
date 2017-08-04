@@ -25,6 +25,7 @@ import Loading from "../Component/Loading";
 import axios from 'axios'
 import toast from 'react-native-simple-toast'
 import JPush , {JpushEventReceiveMessage, JpushEventOpenMessage} from 'react-native-jpush'
+import JGNotification from "./Applications/Component/JGNotification";
 export default class Home extends Component {
     constructor(props) {
         super(props);
@@ -37,7 +38,10 @@ export default class Home extends Component {
             badges: {
                 todo: 0,
                 remind: 0
-            }
+            },
+            showNotification:false,
+            notificationTitle:'通知标题',
+            notificationContent:'通知的内容'
         }
     }
 
@@ -66,9 +70,26 @@ export default class Home extends Component {
                         <Notification dataSource={this.state.msgList.data} navigator={this.props.navigator}/>
                     </View>
                 </ScrollView>
+                {this.state.showNotification&&<JGNotification
+                    title={this.state.notificationTitle}
+                    content={this.state.notificationContent}
+                    hideNotification={this._hideNotification.bind(this)}/>}
                 {this.state.isLoading ? <Loading/> : null}
             </View>
         );
+    }
+
+    _showNotification(){
+        this.setState({
+            showNotification:true,
+            notificationTitle:'通知标题',
+            notificationContent:'通知的内容'
+        })
+    }
+    _hideNotification(){
+        this.setState({
+            showNotification:false
+        })
     }
 
 
