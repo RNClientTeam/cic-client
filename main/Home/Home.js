@@ -194,11 +194,11 @@ export default class Home extends Component {
     }
 
     onReceiveMessage(message) {
-        console.log(message);
+        alert(JSON.stringify(message));
     }
 
     onOpenMessage(message) {
-        console.log(message);
+        alert(JSON.stringify(message));
     }
 
     componentWillUnmount() {
