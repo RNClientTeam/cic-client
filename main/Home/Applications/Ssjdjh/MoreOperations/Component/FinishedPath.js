@@ -83,9 +83,11 @@ export default class FinishedPath extends Component{
         if(this.props.tag==='进度计划'){
             params.groupWfName = 'ssjdjh-zx-zrw'
         }
+        console.log(params);
         axios.get(reqURL,{
             params:params
         }).then(data=>{
+            console.log(data);
             if(data.code === 1 && data.data && data.data.length!==0){
                 this.setState({
                     dataSource:data.data

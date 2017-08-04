@@ -207,6 +207,7 @@ export default class Home extends Component {
         ];
     }
 
+    //app内部接收到推送
     onReceiveMessage(message) {
         if (Platform.OS === 'android') {
             this.showNoti(message);
@@ -228,6 +229,7 @@ export default class Home extends Component {
         }
     }
 
+    //从通知栏打开推送
     onOpenMessage(message) {
         if (Platform.OS === 'android') {
             this.showNoti(message);
