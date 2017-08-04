@@ -101,7 +101,7 @@ export default class CompletionForm extends Component {
         } else if (this.inputInfo.length === 0) {
             Toast.show('请输入完成情况');
         } else {
-            axios.post('/psmSgJdjh/addSgrwWcqk', {
+            axios.post('/psmSgjdjh/addSgrwWcqk', {
                 userID: GLOBAL_USERID,
                 gczxId: this.props.gczxId,
                 id: this.props.rwid,

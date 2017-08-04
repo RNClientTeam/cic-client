@@ -222,7 +222,9 @@ export default class Home extends Component {
         if (extra.type == 2) {
             axios.get('/msg/getAction',{
                 params:{
-                    id:extra.id
+                    msgID:extra.id,
+                    userID:GLOBAL_USERID,
+                    callID:true
                 }
             }).then(data=>{
                 if(data.code === 1){
