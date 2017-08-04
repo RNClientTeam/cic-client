@@ -39,7 +39,8 @@ export default class MoreOperationsCell extends Component {
                 name: 'CompletionForm',
                 params: {
                     id: this.props.operatingItem.id,
-                    reload: this.props.reload
+                    reload: this.props.reload,
+                    jhmc:this.props.operatingItem.jhmc
                 }
             });
             this.props.closeModal();

@@ -32,7 +32,8 @@ export default class ArticleDetail extends Component {
             yzsl: '',
             fwtype: '',
             nr: '',
-            id: ''
+            id: '',
+            gwmc:''
         }
     }
 
@@ -43,7 +44,7 @@ export default class ArticleDetail extends Component {
                 <ScrollView>
                     <View style={styles.row}>
                         <Text style={[styles.bold]}>
-                            {this.props.data.gwmc}
+                            {this.state.gwmc}
                         </Text>
                     </View>
                     <KeyValueLeft propsKey="公文类别" propsValue={this.state.gwlb}/>
@@ -98,7 +99,8 @@ export default class ArticleDetail extends Component {
                     yzsl: data.data.yzsl,
                     fwtype: data.data.fwtype,
                     nr: data.data.nr,
-                    id: data.data.id
+                    id: data.data.id,
+                    gwmc:data.data.gwmc
                 })
             } else {
                 toast.show(data.message)

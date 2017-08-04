@@ -34,15 +34,12 @@ export default class CompletionForm extends Component {
         return (
             <View style={styles.flex}>
                 <StatusBar title="确认完成" navigator={this.props.navigator}/>
-                <View style={styles.itemView}>
-                    <Text style={{fontSize: 15, fontWeight: '500'}}>部门工作计划1</Text>
-                </View>
+                <KeyValueRight propKey="工作计划名称" readOnly={true} defaultValue={this.props.jhmc}/>
                 <KeyPercentage readOnly={true} propKey="当前进度" value={this.state.wcbl}
                                textChange={(value) => this.setState({wcbl: value})}/>
                 <KeyValueRight propKey="实际开始时间" defaultValue={this.state.sjqdsj} readOnly={true}/>
                 {parseInt(this.state.wcbl) == 100 ?
-                    <KeyTime propKey="实际完成时间" showDate={this.state.sjwcsj}
-                             changeDate={(date) => this.setState({sjwcsj: date})}/>
+                    <KeyValueRight propKey="实际完成时间" defaultValue={this.state.sjwcsj} readOnly={true}/>
                     : null}
 
                 <View style={styles.lastItem}>
@@ -108,6 +105,9 @@ export default class CompletionForm extends Component {
                         toast.show(data.message);
                     }
                 }).catch(err => {
+                    this.setState({
+                        isLoading: false
+                    });
                     toast.show('服务端异常');
                 })
             }

@@ -21,6 +21,7 @@ import toast from 'react-native-simple-toast'
 import {getTimestamp,uploadFile} from '../../../../Util/Util'
 import baseUrl from '../../../../Util/service.json'
 import RNFetchBlob from 'react-native-fetch-blob'
+import KeyValueRight from "../../../../Component/KeyValueRight";
 export default class FillProgress extends Component {
     constructor(props){
         super(props);
@@ -39,9 +40,7 @@ export default class FillProgress extends Component {
         return (
             <View style={styles.flex}>
                 <StatusBar title="填报进展" navigator={this.props.navigator}/>
-                <View style={styles.itemView}>
-                    <Text style={{fontSize:15,fontWeight:'500'}}>{this.props.jhmc}</Text>
-                </View>
+                <KeyValueRight propKey="工作计划名称" readOnly={true} defaultValue={this.props.jhmc}/>
                 <KeyPercentage propKey="当前进度比例*" value={this.state.wcbl} textChange={(value)=>this.setState({wcbl:value})}/>
                 <KeyTime propKey="实际开始时间"  showDate={this.state.sjqdsj} changeDate={(date)=>this.setState({sjqdsj:date})}/>
                 {parseInt(this.state.wcbl)==100?
