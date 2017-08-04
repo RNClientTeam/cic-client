@@ -235,7 +235,7 @@ export default class Home extends Component {
                         }
                     })
                 }
-            }).cancel(err=>{
+            }).catch(err=>{
                 toast.show('推送服务异常')
             })
         } else {
