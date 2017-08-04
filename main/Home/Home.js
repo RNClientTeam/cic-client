@@ -226,7 +226,6 @@ export default class Home extends Component {
                     callID:true
                 }
             }).then(data=>{
-                alert(JSON.stringify(data))
                 if(data.code === 1){
                     this.props.navigator.push({
                         name:"ArticleDetail",

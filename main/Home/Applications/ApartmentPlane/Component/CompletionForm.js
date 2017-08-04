@@ -105,6 +105,9 @@ export default class CompletionForm extends Component {
                         toast.show(data.message);
                     }
                 }).catch(err => {
+                    this.setState({
+                        isLoading: false
+                    });
                     toast.show('服务端异常');
                 })
             }
