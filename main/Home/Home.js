@@ -114,8 +114,6 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
-        //添加推送相关
-        this.addPush();
         global.axios = axios;
         axios.defaults.baseURL = FetchUrl.baseUrl;
         axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -197,7 +195,9 @@ export default class Home extends Component {
                     isLoading: false
                 })
             })
-        })
+        });
+        //添加推送相关
+        this.addPush();
     }
 
     addPush() {
@@ -225,7 +225,6 @@ export default class Home extends Component {
                     id:extra.id
                 }
             }).then(data=>{
-                alert(JSON.stringify(data))
                 if(data.code === 1){
                     this.props.navigator.push({
                         name:"ArticleDetail",
@@ -236,7 +235,7 @@ export default class Home extends Component {
                         }
                     })
                 }
-            }).cancel(err=>{
+            }).catch(err=>{
                 toast.show('推送服务异常')
             })
         } else {
