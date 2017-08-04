@@ -43,7 +43,6 @@ export default class EarlierStageList extends Component {
                     renderFooter={this.renderFooter.bind(this)}
                     enableEmptySections={true}
                 />
-                <EarlierStageListCell/>
             </View>
         )
     }
@@ -81,7 +80,7 @@ export default class EarlierStageList extends Component {
             temp.sjd = item.sDate+'／'+item.eDate
         }
         return (
-            <ApplicationListCellWithIcon stateBg={stateBg} key={rowID} navigator={this.props.navigator} data={temp} target="EarlierStageDetail"/>
+            <EarlierStageListCell stateBg={stateBg} key={rowID} navigator={this.props.navigator} data={temp} target="EarlierStageDetail"/>
         );
     }
 
