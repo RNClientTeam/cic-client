@@ -79,13 +79,6 @@ export default class Home extends Component {
         );
     }
 
-    _showNotification(){
-        this.setState({
-            showNotification:true,
-            notificationTitle:'通知标题',
-            notificationContent:'通知的内容'
-        })
-    }
     _hideNotification(){
         this.setState({
             showNotification:false
@@ -215,11 +208,32 @@ export default class Home extends Component {
     }
 
     onReceiveMessage(message) {
-        alert(JSON.stringify(message));
+        if (Platform.OS === 'android') {
+            this.showNoti(message);
+        } else {
+            alert('iOS推送等待完成');
+        }
+    }
+
+    showNoti(message) {
+        let extra = JSON.parse(message._data['cn.jpush.android.EXTRA']);
+        if (extra.type == 2) {
+            alert('跳转到公文审批页面');
+        } else {
+            this.setState({
+                showNotification:true,
+                notificationTitle:message._data['cn.jpush.android.NOTIFICATION_CONTENT_TITLE'],
+                notificationContent:message._data['cn.jpush.android.ALERT']
+            });
+        }
     }
 
     onOpenMessage(message) {
-        alert(JSON.stringify(message));
+        if (Platform.OS === 'android') {
+            this.showNoti(message);
+        } else {
+            alert('iOS推送等待完成');
+        }
     }
 
     componentWillUnmount() {
