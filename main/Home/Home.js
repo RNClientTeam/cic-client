@@ -26,6 +26,7 @@ import axios from 'axios'
 import toast from 'react-native-simple-toast'
 import JPush , {JpushEventReceiveMessage, JpushEventOpenMessage} from 'react-native-jpush'
 import JGNotification from "./Applications/Component/JGNotification";
+import ArticleDetail from "./Applications/ArticleApproval/Component/ArticleDetail";
 export default class Home extends Component {
     constructor(props) {
         super(props);
@@ -218,7 +219,25 @@ export default class Home extends Component {
     showNoti(message) {
         let extra = JSON.parse(message._data['cn.jpush.android.EXTRA']);
         if (extra.type == 2) {
-            alert('跳转到公文审批页面');
+            axios.get('/msg/getAction',{
+                params:{
+                    id:extra.id
+                }
+            }).then(data=>{
+                alert(JSON.stringify(data))
+                if(data.code === 1){
+                    this.props.navigator.push({
+                        name:"ArticleDetail",
+                        component:ArticleDetail,
+                        params:{
+                            tag:'jpush',
+                            id:data.data.params.id
+                        }
+                    })
+                }
+            }).cancel(err=>{
+                toast.show('推送服务异常')
+            })
         } else {
             this.setState({
                 showNotification:true,
