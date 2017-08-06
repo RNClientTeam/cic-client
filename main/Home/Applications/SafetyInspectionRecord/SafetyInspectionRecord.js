@@ -42,15 +42,7 @@ export default class SafetyInspectionRecord extends Component{
         return(
             <View style={styles.earlierStage}>
                 <StatusBar navigator={this.props.navigator} title="安全检查记录">
-                    <TouchableWithoutFeedback
-                        onPress={()=>{this.addBtn()}}
-                    >
-                        <Image style={{width: 0.04 * width, height: 0.04 * width,position:'absolute',right:width*0.12}}
-                               source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
-                    </TouchableWithoutFeedback>
-                    <TouchableOpacity
-                        onPress={()=>{this.setState({isModalVisible:!this.state.isModalVisible})}}
-                    >
+                    <TouchableOpacity onPress={()=>{this.setState({isModalVisible:!this.state.isModalVisible})}}>
                         <Image style={styles.filtrate}
                                source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
@@ -189,15 +181,15 @@ export default class SafetyInspectionRecord extends Component{
         })
     }
 
-    addBtn() {
-        this.props.navigator.push({
-            component: NewCreateRecord,
-            name: 'NewCreateRecord',
-            params: {
-                reloadInfo: this._getData.bind(this, 1)
-            }
-        });
-    }
+    // addBtn() {
+    //     this.props.navigator.push({
+    //         component: NewCreateRecord,
+    //         name: 'NewCreateRecord',
+    //         params: {
+    //             reloadInfo: this._getData.bind(this, 1)
+    //         }
+    //     });
+    // }
 
 }
 

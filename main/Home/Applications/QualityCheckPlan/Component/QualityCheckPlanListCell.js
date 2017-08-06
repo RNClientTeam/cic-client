@@ -20,13 +20,13 @@ export default class QualityCheckPlanListCell extends Component {
             <TouchableOpacity style={styles.container} onPress={this.skipToDetail.bind(this)}>
                 <View style={styles.topView}>
                     <View style={styles.topTopView}>
-                        <Text style={styles.projectNameStyle}>{this.props.data.zxmc}</Text>
+                        <Text style={styles.projectNameStyle}>{this.props.data.rwnr}</Text>
                         <View style={[styles.stateView, {backgroundColor: this.props.bgC}]}>
                             <Text style={styles.stateStyle}>{this.props.data.twztmc}</Text>
                         </View>
                     </View>
-                    <Text style={styles.topTaskStyle}>
-                        {this.props.data.xmmc}
+                    <Text style={styles.topTaskStyle} numberOfLines={2}>
+                        {this.props.data.xmmc} - {this.props.data.zxmc}
                     </Text>
                 </View>
                 <View style={styles.bottomView}>

@@ -227,7 +227,6 @@ export default class Home extends Component {
                     callID:true
                 }
             }).then(data=>{
-                console.log(data);
                 if(data.code === 1){
                     this.props.navigator.push({
                         name:"ArticleDetail",
@@ -241,7 +240,6 @@ export default class Home extends Component {
                     toast.show(data.message);
                 }
             }).catch(err=>{
-                console.log(err);
                 toast.show('推送服务异常')
             })
         } else {

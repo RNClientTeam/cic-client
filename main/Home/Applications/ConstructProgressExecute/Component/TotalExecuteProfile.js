@@ -32,6 +32,7 @@ export default class TotalExecuteProfile extends Component {
                         <View style={styles.blank}/>
                         <View>
                             <TextInput style={styles.input}
+                                       underlineColorAndroid="transparent"
                                 onChangeText={(value) => this.inputJdbl = value}/>
                         </View>
                         <Text style={[styles.textColor, styles.leftMargin]}>%</Text>
@@ -43,6 +44,7 @@ export default class TotalExecuteProfile extends Component {
                         <TextInput style={{height: 0.2 * width}}
                                    multiline = {true}
                                    placeholder="请输入"
+                                   underlineColorAndroid="transparent"
                                    onChangeText={(text) => this.inputInfo = text}/>
                     </View>
                 </View>
@@ -59,7 +61,7 @@ export default class TotalExecuteProfile extends Component {
     submit() {
         if (this.inputJdbl.length === 0) {
             Toast.show('请输入进度比例');
-        } else if (parseInt(this.inputJdbl)<0||parseInt(this.inputJdbl)>100||parseInt(this.inputJdbl)!==parseFloat(this.inputJdbl)) {
+        } else if (!(/^\d+$/.test(this.inputJdbl)) || parseInt(this.inputJdbl)<0||parseInt(this.inputJdbl)>100||parseInt(this.inputJdbl)!==parseFloat(this.inputJdbl)) {
             Toast.show('请输入0~100的整数');
         } else if (this.inputInfo.length === 0) {
             Toast.show('请输入完成情况');

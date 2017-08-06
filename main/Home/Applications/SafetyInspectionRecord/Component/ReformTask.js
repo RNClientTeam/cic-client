@@ -67,8 +67,8 @@ export default class ReformTask extends Component {
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
             <ReformTaskCell showAuthList={this.showAuthList.bind(this, item)} key={rowID} data={item}
-                            navigator={this.props.navigator}
-                            setModalVisible={() => this.props.setModalVisible()}/>
+                navigator={this.props.navigator} tbzgqk={this.props.tbzgqk}
+                checkAndZgrw={this.props.checkAndZgrw} fromList={this.props.fromList}/>
         );
     }
 
@@ -76,28 +76,30 @@ export default class ReformTask extends Component {
      * 权限操作
      */
     showAuthList(item) {
-        axios.get('/psmAqjcjh/getsubOperationAuthority4Aqjcjl', {
-            params: {
-                userID: GLOBAL_USERID,
-                stepId: this.props.item.stepId,
-                isTodo: this.props.item.isTodo,
-                zgrwId: item.id,
-                callID: true
-            }
-        }).then(data => {
-            if (data.code === 1) {
-                console.log(data);
-                this.setState({
-                    modalVisible: true,
-                    modalAuth:data.data,
-                    operateItem:item
-                });
-            } else {
-                toast.show(data.message);
-            }
-        }).catch(err => {
-            toast.show('服务端异常');
-        });
+        if (this.props.fromList || this.props.tbzgqk || this.props.checkAndZgrw) {
+            axios.get('/psmAqjcjh/getsubOperationAuthority4Aqjcjl', {
+                params: {
+                    userID: GLOBAL_USERID,
+                    stepId: this.props.item.stepId,
+                    isTodo: this.props.item.isTodo,
+                    zgrwId: item.id,
+                    callID: true
+                }
+            }).then(data => {
+                if (data.code === 1) {
+                    console.log(data);
+                    this.setState({
+                        modalVisible: true,
+                        modalAuth:data.data,
+                        operateItem:item
+                    });
+                } else {
+                    toast.show(data.message);
+                }
+            }).catch(err => {
+                toast.show('服务端异常');
+            });
+        }
     }
 
     componentDidMount() {
@@ -116,7 +118,6 @@ export default class ReformTask extends Component {
                 callID: true
             }
         }).then(data => {
-            console.log(data);
             if (data.code === 1) {
                 this.setState({
                     dataSource: data.data

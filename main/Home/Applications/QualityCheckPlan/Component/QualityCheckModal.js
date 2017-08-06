@@ -56,18 +56,6 @@ export default class QualityCheckModal extends Component{
     };
 
     assignAuthority(authority) {
-        console.log('-------data', authority);
-        // responseData = {
-        //     "code": 1,
-        //     "data": {
-        //         "addZljcjh": false,
-        //         "updateZljcjh": true,
-        //         "deleteZljcjh": false,
-        //         "effectZljcjh": false,
-        //         "tbZljcjl ": true
-        //     },
-        //     "message": "成功"
-        // };
         let data = [];
         if (authority.addZljcjh) {
             data.push({

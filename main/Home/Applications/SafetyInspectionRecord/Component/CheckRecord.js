@@ -9,7 +9,8 @@ import {
     TouchableOpacity,
     TextInput,
     TouchableHighlight,
-    Switch
+    Switch,
+    TouchableWithoutFeedback
 } from 'react-native';
 import ChoiceDate from "../../../../Component/ChoiceDate.js";
 import Loading from "../../../../Component/Loading.js";
@@ -19,6 +20,7 @@ import KeyValueLeft from './KeyValueLeft.js';
 import ModalDropdown from 'react-native-modal-dropdown';
 import Organization from '../../../../Organization/Organization.js';
 import ChoiceFileComponent from '../../Component/ChoiceFileComponent.js';
+import SelectedPage from './SelectedPage.js';
 export default class DoubleCheckDetail extends Component {
     constructor(props) {
         super(props);
@@ -65,7 +67,7 @@ export default class DoubleCheckDetail extends Component {
         axios.get('/psmAqjcjh/init4Aqjcjl', {
             params: {
                 userID: GLOBAL_USERID,
-                id: this.props.data.id,
+                id: this.props.add ? '' : this.props.data.id,
                 callID: true
             }
         }).then((res) => {
@@ -84,7 +86,7 @@ export default class DoubleCheckDetail extends Component {
     }
 
     gotoOrganization() {
-        if (this.props.check||this.props.fromList) return;
+        if (!this.props.add&!this.props.edit) return;
         this.props.navigator.push({
             name: 'Organization',
             component: Organization,
@@ -101,66 +103,62 @@ export default class DoubleCheckDetail extends Component {
         this.setState({data:data});
     }
 
+    //选择任务
+    gotoSele() {
+        if (this.props.add || this.props.edit) {
+            this.props.navigator.push({
+                name: 'SelectedPage',
+                component: SelectedPage,
+                params: {
+                    getSelInfo: this.getSelInfo.bind(this)
+                }
+            });
+        }
+    }
+
+    getSelInfo(rowData) {
+
+    }
+
     render() {
         return (
             <View>
                 <ScrollView>
                     <View style={styles.divide}/>
-                    <View style={styles.keyValue}>
-                        <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>检验任务</Text>
-                        <TextInput style={styles.contentText}
-                            numberOfLines={1}
-                            underlineColorAndroid="transparent"
-                            editable={!this.props.check&&!this.props.fromList}
-                            defaultValue={this.state.data.aqjcjhmc||''}
-                            onChangeText={(text) => {
-                                this.state.data.aqjcjhmc = text;
-                                this.setState({data:this.state.data});
-                            }}/>
-                    </View>
+                    <TouchableWithoutFeedback onPress={this.gotoSele.bind(this)}>
+                        <View style={styles.keyValue}>
+                            <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>检验任务</Text>
+                            <Text style={styles.contentText} numberOfLines={2}>
+                                {this.state.data.aqjcjhmc||'请选择>'}
+                            </Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+
                     <View style={styles.keyValue}>
                         <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>工程工号</Text>
-                        <TextInput style={styles.contentText}
-                            numberOfLines={1}
-                            underlineColorAndroid="transparent"
-                            editable={!this.props.check&&!this.props.fromList}
-                            defaultValue={this.state.data.xmbh||''}
-                            onChangeText={(text) => {
-                                this.state.data.xmbh = text;
-                                this.setState({data:this.state.data});
-                            }}/>
+                        <Text style={styles.contentText} numberOfLines={2}>
+                            {this.state.data.xmbh||'请选择>'}
+                        </Text>
                     </View>
                     <View style={styles.keyValue}>
                         <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>项目名称</Text>
-                        <TextInput style={styles.contentText}
-                            numberOfLines={1}
-                            underlineColorAndroid="transparent"
-                            editable={!this.props.check&&!this.props.fromList}
-                            defaultValue={this.state.data.xmmc||''}
-                            onChangeText={(text) => {
-                                this.state.data.xmmc = text;
-                                this.setState({data:this.state.data});
-                            }}/>
+                        <Text style={styles.contentText} numberOfLines={2}>
+                            {this.state.data.xmmc||'请选择>'}
+                        </Text>
                     </View>
                     <View style={styles.keyValue}>
                         <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>工程子项名称</Text>
-                        <TextInput style={styles.contentText}
-                            numberOfLines={1}
-                            editable={!this.props.check&&!this.props.fromList}
-                            underlineColorAndroid="transparent"
-                            defaultValue={this.state.data.zxmc||''}
-                            onChangeText={(text) => {
-                                this.state.data.zxmc = text;
-                                this.setState({data:this.state.data});
-                            }}/>
+                        <Text style={styles.contentText} numberOfLines={2}>
+                            {this.state.data.zxmc||'请选择>'}
+                        </Text>
                     </View>
                     <View style={styles.keyValue}>
                         <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>问题类别</Text>
                         <ModalDropdown
                             options={this.state.questionList}
                             animated={true}
-                            disabled={this.props.check||this.props.fromList}
-                            defaultValue={this.state.questionList[this.state.data.wtlb]||''}
+                            disabled={!this.props.add&&!this.props.edit}
+                            defaultValue={this.state.data.wtlb?this.state.questionList[this.state.data.wtlb]:this.state.questionList[0]}
                             style={{flex:1, alignItems:'flex-end'}}
                             textStyle={{fontSize:14}}
                             onSelect={(a) => {
@@ -178,7 +176,7 @@ export default class DoubleCheckDetail extends Component {
                             (this.props.check||this.props.fromList) ?
                             <Text style={{fontSize:14}}>{this.state.data.jcsj||''}</Text> :
                             <ChoiceDate showDate={this.state.data.jcsj||''}
-                                disabled={this.props.check||this.props.fromList}
+                                disabled={!this.props.edit&&!this.props.add}
                                 changeDate={(date)=>{
                                     this.state.data.jcsj = date;
                                     this.setState({data:this.state.data});
@@ -195,8 +193,8 @@ export default class DoubleCheckDetail extends Component {
                     <ChoiceFileComponent
                         businessModule={this.state.data.businessModule}
                         resourceId={this.state.data.jcfj}
-                        readOnly={this.props.fromList||this.props.check}
-                        isAttach={this.state.data.jcfjisAttach}/>
+                        readOnly={!this.props.edit&&!this.props.add}
+                        isAttach={this.props.fromList?his.state.data.jcfjisAttach:this.state.data.jcjlisAttach}/>
                     <View style={styles.divide}/>
                     <View style={styles.bottomRow}>
                         <Text style={styles.labelColor}>检查结果</Text>
@@ -204,7 +202,7 @@ export default class DoubleCheckDetail extends Component {
                     <View style={styles.textContent}>
                         <TextInput style={styles.textinputStyle}
                             multiline={true}
-                            editable={!this.props.check&&!this.props.fromList}
+                            editable={(this.props.add||this.props.edit)?true:false}
                             defaultValue={this.state.data.fcjg}
                             autoCapitalize="none"
                             autoCorrect={false}
@@ -222,7 +220,7 @@ export default class DoubleCheckDetail extends Component {
                         <View style={styles.textContent}>
                             <TextInput style={styles.textinputStyle}
                                 multiline={true}
-                                editable={!this.props.fromList}
+                                editable={(this.props.check||this.props.add||this.props.edit)?true:false}
                                 defaultValue={this.state.data.zgyq||''}
                                 autoCapitalize="none"
                                 autoCorrect={false}
@@ -235,7 +233,7 @@ export default class DoubleCheckDetail extends Component {
                         <View style={styles.keyValue}>
                             <Text style={[styles.labelColor,{marginLeft:width*0.02}]}>是否已现场整改</Text>
                             <Switch onValueChange={(value) => {
-                                    if (this.props.fromList) return;
+                                    if (!this.props.add&&!this.props.edit) return;
                                     this.setState({isFinished:value});
                                 }}
                                 value={this.state.isFinished}/>
@@ -243,7 +241,7 @@ export default class DoubleCheckDetail extends Component {
                     }
 
                     {
-                        !this.props.fromList &&
+                        (this.props.check||this.props.add||this.props.edit) &&
                         <View style={styles.bottomView}>
                             <TouchableHighlight underlayColor="transparent" onPress={this.saveAndCommit.bind(this)}>
                                 <View style={[styles.btnView, {backgroundColor:'#41cc85'}]}>

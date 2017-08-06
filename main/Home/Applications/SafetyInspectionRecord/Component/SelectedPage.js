@@ -13,9 +13,10 @@ const {width, height} = Dimensions.get('window');
 import StatusBar from '../../../../Component/StatusBar.js';
 import Loading from "../../../../Component/Loading.js";
 import toast from 'react-native-simple-toast';
-export default class SelectedRenwuJD extends Component {
+export default class SelectedPage extends Component {
     constructor(props) {
         super(props);
+        this.pageNum = 1;
         this.ds = new ListView.DataSource({rowHasChanged:(r1, r2) => r1 !== r2});
         this.state = {
             isLoading:false,
@@ -29,8 +30,8 @@ export default class SelectedRenwuJD extends Component {
                 <ListView
                     dataSource={this.ds.cloneWithRows(this.state.dataSource)}
                     renderRow={this._renderRow.bind(this)}
-                    scrollEnabled={true}
                     enableEmptySections={true}
+                    onEndReached={this.loadMore.bind(this)}
                     renderSeparator={(sectionID, rowID) => {
                         return (<View key={`${sectionID}-${rowID}`} style={styles.separatorView}/>)
                     }}/>
@@ -42,10 +43,8 @@ export default class SelectedRenwuJD extends Component {
         return (
             <TouchableHighlight onPress={this._clickItem.bind(this, rowData)} underlayColor="#e8e8e8">
                 <View style={styles.itemView}>
-                    <Text style={[styles.textSty, {color:'#5476a1'}]} numberOfLines={2}>{rowData.xmgh}</Text>
-                    <Text style={styles.textSty} numberOfLines={2}>{rowData.xmmc}</Text>
-                    <Text style={styles.textSty} numberOfLines={2}>{rowData.zxmc}</Text>
-                    <Text style={styles.textSty} numberOfLines={2}>{rowData.rwnr}</Text>
+                    <Text style={[styles.textSty, {color:'#5476a1'}]} numberOfLines={1}>{rowData.xmbh}</Text>
+                    <Text style={styles.textSty} numberOfLines={1}>{rowData.xmmc}</Text>
                 </View>
             </TouchableHighlight>
         );
@@ -53,30 +52,36 @@ export default class SelectedRenwuJD extends Component {
 
     _clickItem(rowData) {
         this.props.navigator.pop();
-        this.props.getFirstInfo(rowData);
+        this.props.getSelInfo(rowData);
     }
 
     componentDidMount() {
-        this.getDataFromNet();
+        this.getDataFromNet(1);
     }
 
-    getDataFromNet(){
-        axios.get('/psmZljcjl/rwjdxz', {
-            params: {
-                userID: GLOBAL_USERID,
-                callID: true
-            }
-        }).then((res) => {
-            if (res.code === 1) {
-                if (res.data.list) {
-                    this.setState({dataSource: res.data.list});
-                }
-           } else {
-               toast.show(res.message);
-           }
-        }).then((error) => {
+    loadMore() {
+        // this.getDataFromNet(++this.pageNum);
+    }
 
-        });
+    getDataFromNet(pageNum){
+        // axios.get('/psmAqjcjh/aqjcjhSelect4Aqjcjl', {
+        //     params: {
+        //         userID: GLOBAL_USERID,
+        //         pageNum: pageNum,
+        //         pageSize: 10,
+        //         callID: true
+        //     }
+        // }).then((res) => {
+        //     if (res.code === 1) {
+        //         if (res.data.data) {
+        //             this.setState({dataSource: res.data.data});
+        //         }
+        //    } else {
+        //        toast.show(res.message);
+        //    }
+        // }).then((error) => {
+        //
+        // });
     }
 }
 
@@ -87,19 +92,21 @@ const styles = StyleSheet.create({
     },
     itemView: {
         width: width,
-        paddingHorizontal: 10,
+        height: 0.08 * height,
+        justifyContent: 'space-between',
+        paddingLeft: 20,
         backgroundColor:'#fff',
         marginBottom: 1,
-        paddingVertical: 5
+        paddingVertical: 5,
+        alignItems:'center'
     },
     textSty: {
         fontSize: 15,
-        color: '#3d3d3d',
-        lineHeight: 19
+        color: '#3d3d3d'
     },
     separatorView: {
         width: width,
-        height: 8,
+        height: 5,
         backgroundColor: '#f1f1f1'
     },
 });

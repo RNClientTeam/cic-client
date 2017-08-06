@@ -69,37 +69,29 @@ export default class DoubleCheckModification extends Component {
      *整改任务权限
      */
     _getAuth(zgrwId){
-        axios.get('/psmZljcjl/getOperationAuthority4ZljcjlZgrw',{
-            params:{
-                userID:GLOBAL_USERID,
-                stepId:this.props.data.nodeId,
-                isTodo:this.props.data.sfdb,
-                zgrwId:zgrwId,
-                callID:true
-            }
-        }).then(data=>{
-            console.log(data);
-            if(data.code === 1){
-                // data = {
-                //     "code": 1,
-                //     "data": {
-                //         "tbzgqk": true,
-                //         "editzgrw": true
-                //     },
-                //     "message": "成功"
-                // };
-                this.setState({
-                    modalVisible: true,
-                    auth:data.data,
-                    operateItemId:zgrwId
-                })
-            }else{
-                toast.show(data.message)
-            }
-
-        }).catch(err=>{
-            toast.show('服务端异常');
-        })
+        if (this.props.fromList || this.props.tbzgqk || this.props.checkAndZgrw) {
+            axios.get('/psmZljcjl/getOperationAuthority4ZljcjlZgrw',{
+                params:{
+                    userID:GLOBAL_USERID,
+                    stepId:this.props.data.nodeId,
+                    isTodo:this.props.data.sfdb,
+                    zgrwId:zgrwId,
+                    callID:true
+                }
+            }).then(data=>{
+                if(data.code === 1){
+                    this.setState({
+                        modalVisible: true,
+                        auth:data.data,
+                        operateItemId:zgrwId
+                    })
+                }else{
+                    toast.show(data.message)
+                }
+            }).catch(err=>{
+                toast.show('服务端异常');
+            });
+        }
     }
 
     renderRow(item, sectionID, rowID, highlightRow) {
@@ -107,6 +99,9 @@ export default class DoubleCheckModification extends Component {
             <ModificationTaskCell
                 key={rowID}
                 data={item}
+                fromList={this.props.fromList}
+                tbzgqk={this.props.tbzgqk}
+                checkAndZgrw={this.props.checkAndZgrw}
                 setModalVisible={(zgrwId) => {this._getAuth(zgrwId)}}
                 navigator={this.props.navigator}/>
         );
@@ -130,26 +125,6 @@ export default class DoubleCheckModification extends Component {
             }
         }).then(data => {
             if (data.code === 1) {
-                // data = {
-                //     "code": 1,
-                //     "data": [{
-                //         "id": "8a8180d85b293d36015b3cb1ae032a89",
-                //         "zljcjlId": "8a8180d85b0561b0015b0d47610c1b14",
-                //         "wtlb": "3",
-                //         "zgyq": "线路综合班按照规范要求进行整改，工程部技术员、技术部工程师复验。",
-                //         "zgzrbmmc": "配网工程部",
-                //         "zgzrbm": "00000004e00138c242a0d9",
-                //         "zgzrrmc": "李建春(配网工程部经理)",
-                //         "zgzrr": "000000092001470309c4c",
-                //         "wtlbmc": "严重问题",
-                //         "zgwcsj": "2017-04-10",
-                //         "sjwcsj": "2017-03-27",
-                //         "zcjg": "已整改完成。",
-                //         "dqztmc": "整改完成",
-                //         "dqzt": "100"}
-                //     ],
-                //     "message": "成功"
-                // };
                 if (data.data) {
                     this.setState({
                         dataSource: data.data

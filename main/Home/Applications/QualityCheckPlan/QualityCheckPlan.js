@@ -122,18 +122,6 @@ export default class QualityCheckPlan extends Component{
                 callID: true,
             }
         }).then(responseData => {
-            console.log('-------data', responseData);
-            // responseData = {
-            //     "code": 1,
-            //     "data": {
-            //         "addZljcjh": false,
-            //         "updateZljcjh": true,
-            //         "deleteZljcjh": false,
-            //         "effectZljcjh": false,
-            //         "tbZljcjl ": true
-            //     },
-            //     "message": "成功"
-            // };
             if (responseData.code === 1) {
                 const authority = responseData.data;
                 if (authority.addZljcjh || authority.updateZljcjh || authority.deleteZljcjh || authority.effectZljcjh) {
@@ -147,7 +135,7 @@ export default class QualityCheckPlan extends Component{
             } else {
                 toast.show(responseData.message);
             }
-        }).catch(() => {
+        }).catch((err) => {
             toast.show('服务端异常!');
         })
     }
@@ -249,7 +237,6 @@ export default class QualityCheckPlan extends Component{
                 callID:true
             }
         }).then(data=>{
-            console.log('-----getCalendarData', data);
             if(data.code === 1){
                 this.setState({
                     calendarState:data.data.list
@@ -261,7 +248,7 @@ export default class QualityCheckPlan extends Component{
             toast.show('服务端异常');
         })
     }
-    
+
     loadMore(){
         this.setState({
             pageNum:this.state.pageNum+1
@@ -273,7 +260,7 @@ export default class QualityCheckPlan extends Component{
     formatDate(year, month, day) {
         return `${year}-${padStart(month)}-${padStart(day)}`
     }
-    
+
     getTask(pageNum=1,resolve=()=>{}) {
         this.setState({isLoading:true});
         axios.get('/psmZljcjh/list',{
@@ -287,7 +274,6 @@ export default class QualityCheckPlan extends Component{
                 callID:true
             }
         }).then(data=>{
-            console.log('-----getTask', data);
             this.setState({isLoading:false});
             resolve();
             if(data.code ===1){

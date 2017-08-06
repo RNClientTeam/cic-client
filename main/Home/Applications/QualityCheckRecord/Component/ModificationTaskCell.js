@@ -42,14 +42,16 @@ export default class ModificationTaskCell extends Component {
     }
 
     skipToDetail(){
-        this.props.navigator.push({
-            name:"AddModification",
-            component:AddModification,
-            params:{
-                id:this.props.data.id,
-                type:'查看详情'
-            }
-        })
+        if (this.props.fromList || this.props.tbzgqk || this.props.checkAndZgrw) {
+            this.props.navigator.push({
+                name:"AddModification",
+                component:AddModification,
+                params:{
+                    id:this.props.data.id,
+                    type:'查看详情'
+                }
+            });
+        }
     }
 
     editBtn(id) {

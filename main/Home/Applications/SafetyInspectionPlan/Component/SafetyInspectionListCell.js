@@ -15,6 +15,7 @@ const {width} = Dimensions.get('window');
 import SafetyInspectionDetail from './SafetyInspectionDetail.js';
 export default class SafetyInspectionListCell extends Component {
     render() {
+        console.log(this.props.data);
         return (
             <View>
                 <TouchableOpacity style={styles.earlierStageListCell} onPress={this.skipPage.bind(this)}>
@@ -25,7 +26,7 @@ export default class SafetyInspectionListCell extends Component {
                                 <Text style={styles.stateText}>{this.props.data.ztmc}</Text>
                             </View>
                         </View>
-                        <Text style={styles.projectName} numberOfLines={0}>{this.props.data.xmmc}</Text>
+                        <Text style={styles.projectName} numberOfLines={0}>{this.props.data.xmmc} - {this.props.data.gczxmc}</Text>
                     </View>
                     <View style={styles.aboutPrincipal}>
                         <View style={{flexDirection: 'row', paddingBottom: 12}}>
@@ -37,7 +38,7 @@ export default class SafetyInspectionListCell extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style={{width:width*0.7}}>
-                            <Text style={styles.textStyle}>{this.props.data.jhkssj+'-'+this.props.data.jhjssj}</Text>
+                            <Text style={styles.textStyle}>{this.props.data.jhkssj+'/'+this.props.data.jhjssj}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>

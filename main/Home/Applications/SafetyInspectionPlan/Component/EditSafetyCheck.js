@@ -36,15 +36,45 @@ export default class EditSafetyCheck extends Component {
             ztmc: '',
             aqjcjhmc: '',
             zxmc: '',
-            jhkssj: new Date(),
-            jhjssj: new Date(),
+            jhkssj: this.formatDate(new Date()),
+            jhjssj: this.formatDate(new Date()),
             cjsj: '',
-            isLoading: false
+            isLoading: false,
+            xmbh: ''
         }
     }
 
-    addProject(xmbh, xmmc, gczxmc, sgrwmc, gczxId, sgrwId) {
-        console.log('-----------', xmbh, xmmc);
+    componentDidMount() {
+        //编辑-初始化
+        if (this.props.id) {
+            axios.get('/psmAqjcjh/aqjcjhDetail', {
+                params: {
+                    userID: GLOBAL_USERID,
+                    id: this.props.id,
+                    callID: true
+                }
+            }).then((res) => {
+                if (res.code === 1) {
+                    this.setState({
+                        aqjcjhmc: res.data.aqjcjhmc,
+                        xmbh: res.data.xmbh,
+                        xmmc: res.data.xmmc,
+                        gczxmc: res.data.zxmc,
+                        sgrwmc: res.data.sgrwmc,
+                        jhkssj: res.data.jhkssj,
+                        jhjssj: res.data.jhjssj,
+                        zrrmc: res.data.zrrmc
+                    });
+                } else {
+                    Toast.show(res.message);
+                }
+            }).catch((err) => {
+                Toast.show('服务端异常');
+            });
+        }
+    }
+
+    addProject(xmbh, xmmc, gczxmc, sgrwmc, gczxId, sgrwId, cfxxId) {
         this.setState({
             xmbh,
             xmmc,
@@ -66,9 +96,7 @@ export default class EditSafetyCheck extends Component {
             name: 'ChooseProject',
             params: {
                 addProject: (xmbh, xmmc, gczxmc, sgrwmc, gczxId, sgrwId, cfxxId) =>
-                    this.addProject(xmbh, xmmc, gczxmc, sgrwmc, gczxId, sgrwId, cfxxId),
-                kssj: this.formatDate(this.state.jhkssj),
-                jssj: this.formatDate(this.state.jhjssj),
+                    this.addProject(xmbh, xmmc, gczxmc, sgrwmc, gczxId, sgrwId, cfxxId)
             }
         })
     }

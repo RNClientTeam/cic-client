@@ -50,7 +50,7 @@ export default class SafetyInspectionDetail extends Component {
         return (
             <View style={styles.viewStyle}>
                 <Text style={[styles.keyText,rowID==0&&{fontSize:16,color:'black',fontWeight:'400'}, {width: width * 0.4}]}>{rowData.name}</Text>
-                <Text style={styles.valueText}>{rowData.value}</Text>
+                <Text style={styles.valueText} numberOfLines={2}>{rowData.value}</Text>
             </View>
         );
     }
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: width,
         height: 0.0779*height,
-        paddingLeft: 15,
+        paddingHorizontal: 10,
         backgroundColor:'#fff'
     },
     footSeparator: {
@@ -155,6 +155,7 @@ const styles = StyleSheet.create({
     },
     valueText: {
         fontSize: 15,
-        color: '#999'
+        color: '#999',
+        width: width * 0.6 - 20
     }
 });

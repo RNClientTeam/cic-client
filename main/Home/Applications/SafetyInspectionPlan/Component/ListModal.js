@@ -11,20 +11,16 @@ import {
     Image,
     TouchableOpacity
 } from 'react-native'
-import {getCurrentMonS,getCurrentMonE} from '../../../../Util/Util'
-import ChoiceDate from "../../../../Component/ChoiceDate";
+import ChoiceDate from "../../../../Component/ChoiceDate.js";
 const {width, height} = Dimensions.get('window');
 const Platform = require('Platform');
 import ModalDropdown from 'react-native-modal-dropdown';
-export default class EarlierStageListModalView extends Component {
+export default class ListModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
             startDate: this.props.sDate,
-            endDate: this.props.eDate,
-            options:['全部','我参与的','我审核的','我的计划','我的待办'],
-            jhlx:this.props.jhlx,
-            ids:[]
+            endDate: this.props.eDate
         }
     }
 
@@ -48,34 +44,13 @@ export default class EarlierStageListModalView extends Component {
                                source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
                     </View>
                 </View>
-                <View style={styles.containerStyle}>
-                    <Text style={styles.nameStyle}>任务状态</Text>
-                    <View style={styles.indicateView}>
-                        <ModalDropdown
-                            options={this.state.options}
-                            animated={true}
-                            defaultValue={this.state.jhlx}
-                            style={styles.modalDropDown}
-                            textStyle={styles.modalDropDownText}
-                            dropdownStyle={styles.dropdownStyle}
-                            onSelect={(a) => {
-                                this.setState({
-                                    jhlx:this.state.options[a]
-                                })
-                            }}
-                            showsVerticalScrollIndicator={false}
-                        />
-                        <Image style={styles.indicateImage}
-                               source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
-                    </View>
-                </View>
                 <View style={styles.buttonView}>
                     <TouchableOpacity style={[styles.clickButton, {backgroundColor: '#dbdada'}]}
                                       onPress={() => this.props.closeModal()}>
                         <Text>重置</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.clickButton, {backgroundColor: '#216fd0'}]}
-                                      onPress={() => {this.props.closeModal();this.props.changeFilter(this.state.startDate,this.state.endDate,this.state.jhlx)}}>
+                                      onPress={() => {this.props.closeModal();this.props.changeFilter(this.state.startDate,this.state.endDate)}}>
                         <Text style={{color: '#fff'}}>确定</Text>
                     </TouchableOpacity>
                 </View>
@@ -115,14 +90,6 @@ const styles = StyleSheet.create({
         width: width * 0.02,
         height: width * 0.02,
         marginLeft: width * 0.02
-    },
-    modalDropDownText: {
-        fontSize: width * 0.035,
-    },
-    dropdownStyle: {
-        width: width * 0.55,
-        alignItems: 'center',
-        justifyContent: 'center',
     },
     buttonView: {
         height: width * 0.3,

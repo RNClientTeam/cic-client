@@ -144,7 +144,7 @@ export default class MoreOperation extends Component {
                 name: 'RectifyTask',
                 component:RectifyTask,
                 params: {
-                    fcjf: true,
+                    fcjl: true,
                     initialPage: 2,
                     data: this.props.data
                 }

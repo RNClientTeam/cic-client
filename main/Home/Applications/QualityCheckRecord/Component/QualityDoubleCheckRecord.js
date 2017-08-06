@@ -54,6 +54,8 @@ export default class QualityDoubleCheckRecord extends Component {
                         data={this.props.data}
                         tabLabel="检查记录"
                         check={this.props.check}
+                        add={this.props.add}
+                        edit={this.props.edit}
                         navigator={this.props.navigator}
                         fromList={this.props.fromList}
                         reloadInfo={this.props.reloadInfo}/>
@@ -61,12 +63,17 @@ export default class QualityDoubleCheckRecord extends Component {
                         id={this.props.data.id}
                         nodeId={this.props.data.nodeId}
                         data={this.props.data}
+                        checkAndZgrw={this.props.checkAndZgrw}
+                        tbzgqk={this.props.tbzgqk}
+                        fromList={this.props.fromList}
                         tabLabel="整改任务"
                         navigator={this.props.navigator}/>
                     <DoubleCheckRecord
                         tabLabel="复查"
+                        fcjl={this.props.fcjl}
                         navigator={this.props.navigator}
                         data={this.props.data}
+                        fromList={this.props.fromList}
                         reloadInfo={this.props.reloadInfo}/>
                 </ScrollableTabView>
             </View>
@@ -85,24 +92,26 @@ export default class QualityDoubleCheckRecord extends Component {
     }
 
     componentDidMount() {
-        axios.get('/psmZljcjl/getOperationAuthority4Zljcjl',{
-            params:{
-                userID:GLOBAL_USERID,
-                stepId:this.props.data.nodeId,
-                isTodo:this.props.data.sfdb,
-                callID:true
-            }
-        }).then(data=>{
-            if(data.code === 1){
-                this.setState({
-                    canAdd:data.data.checkAndaddZgrw
-                })
-            }else{
-                toast.show(data.message)
-            }
-        }).catch(err=>{
-            toast.show('服务端异常');
-        })
+        if (this.props.fromList || this.props.tbzgqk || this.props.checkAndZgrw) {
+            axios.get('/psmZljcjl/getOperationAuthority4Zljcjl',{
+                params:{
+                    userID:GLOBAL_USERID,
+                    stepId:this.props.data.nodeId,
+                    isTodo:this.props.data.sfdb,
+                    callID:true
+                }
+            }).then(data=>{
+                if(data.code === 1){
+                    this.setState({
+                        canAdd:data.data.checkAndaddZgrw
+                    })
+                }else{
+                    toast.show(data.message)
+                }
+            }).catch(err=>{
+                toast.show('服务端异常');
+            });
+        }
     }
 }
 

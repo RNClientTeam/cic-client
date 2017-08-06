@@ -50,32 +50,48 @@ export default class RectifyTask extends Component {
                     tabBarActiveTextColor='#51a5f0'
                     tabBarInactiveTextColor='#3d3d3d'
                     tabBarBackgroundColor="#fff">
-                    <CheckRecord tabLabel='检查记录' navigator={this.props.navigator} data={this.props.data} fromList={this.props.fromList}/>
-                    <ReformTask tabLabel='整改任务' navigator={this.props.navigator} item={this.props.data}/>
-                    <ReviewRecord tabLabel="复查记录" navigator={this.props.navigator} data={this.props.data}/>
+                    <CheckRecord tabLabel='检查记录'
+                        navigator={this.props.navigator}
+                        data={this.props.data}
+                        fromList={this.props.fromList}
+                        add={this.props.add}
+                        edit={this.props.edit}/>
+                    <ReformTask tabLabel='整改任务'
+                        navigator={this.props.navigator}
+                        item={this.props.data}
+                        tbzgqk={this.props.tbzgqk}
+                        fromList={this.props.fromList}
+                        checkAndZgrw={this.props.checkAndZgrw}/>
+                    <ReviewRecord tabLabel="复查记录"
+                        navigator={this.props.navigator}
+                        data={this.props.data}
+                        fromList={this.props.fromList}
+                        fcjl={this.props.fcjl}/>
                 </ScrollableTabView>
             </View>
         );
     }
 
     componentDidMount() {
-        axios.get('/psmAqjcjh/operationAuthority4add',{
-            params:{
-                userID:GLOBAL_USERID,
-                type:'addAqjcjl',
-                callID:true
-            }
-        }).then(data=>{
-            if(data.code === 1){
-                this.setState({
-                    canAdd:data.data.addAqjcjl
-                })
-            }else{
-                toast.show(data.message);
-            }
-        }).catch(err=>{
-            toast.show('服务端异常');
-        })
+        if (this.props.fromList || this.props.tbzgqk || this.props.checkAndZgrw) {
+            axios.get('/psmAqjcjh/operationAuthority4add',{
+                params:{
+                    userID:GLOBAL_USERID,
+                    type:'addAqjcjl',
+                    callID:true
+                }
+            }).then(data=>{
+                if(data.code === 1){
+                    this.setState({
+                        canAdd:data.data.addAqjcjl
+                    })
+                }else{
+                    toast.show(data.message);
+                }
+            }).catch(err=>{
+                toast.show('服务端异常');
+            });
+        }
     }
 
     addModification() {

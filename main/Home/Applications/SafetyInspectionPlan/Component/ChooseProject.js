@@ -6,57 +6,86 @@ import {
     Text,
     TouchableHighlight,
     ListView,
-    Dimensions
+    Dimensions,
+    TouchableOpacity,
+    Image
 } from 'react-native';
 import StatusBar from '../../../../Component/StatusBar.js';
 import toast from 'react-native-simple-toast'
 import Loading from "../../../../Component/Loading";
-
+import ListModal from './ListModal.js';
+import {getCurrentMonS, getCurrentMonE} from '../../../../Util/Util.js';
 const {width, height} = Dimensions.get('window');
 
 export default class ChooseProject extends Component {
     constructor(props) {
         super(props);
+        this.pageNum = 1;
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             dataSource: [],
             isLoading: false,
+            kssj: getCurrentMonS(),
+            jssj: getCurrentMonE(),
+            isModalVisible: false
         }
     }
 
     render() {
-        if (this.state.dataSource.length) {
-            return (
-                <View style={styles.flex}>
-                    <StatusBar title="选择项目" navigator={this.props.navigator}/>
-                    <ListView
-                        dataSource={this.ds.cloneWithRows(this.state.dataSource)}
-                        renderRow={this._renderRow.bind(this)}
-                        scrollEnabled={true}
-                        enableEmptySections={true}
-                        renderSeparator={(sectionID, rowID) => {
-                            return (<View key={`${sectionID}-${rowID}`} style={styles.separatorView}/>)
-                        }}
-                        onEndReached={this.loadMore.bind(this)}
-                        onEndReachedThreshold={60}
-                    />
-                    {this.state.isLoading ? <Loading/> : null}
-                </View>
-            );
-        }
         return (
             <View style={styles.flex}>
-                <StatusBar title="选择项目" navigator={this.props.navigator}/>
+                <StatusBar title="选择项目" navigator={this.props.navigator}>
+                    <TouchableOpacity onPress={() => {this.setState({isModalVisible: !this.state.isModalVisible})}}>
+                        <Image style={styles.filtrate}
+                               source={require('../../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
+                    </TouchableOpacity>
+                </StatusBar>
+                <ListView
+                    dataSource={this.ds.cloneWithRows(this.state.dataSource)}
+                    renderRow={this._renderRow.bind(this)}
+                    scrollEnabled={true}
+                    enableEmptySections={true}
+                    renderSeparator={(sectionID, rowID) => {
+                        return (<View key={`${sectionID}-${rowID}`} style={styles.separatorView}/>)
+                    }}
+                    onEndReached={this.loadMore.bind(this)}
+                    onEndReachedThreshold={60}
+                />
+                {this.state.isModalVisible ?
+                    <ListModal
+                        changeFilter={(sDate, eDate, lx) => {
+                            this.filter(sDate, eDate, lx)
+                        }}
+                        isModalVisible={this.state.isModalVisible}
+                        jhlx={this.state.jhlx}
+                        eDate={this.state.kssj}
+                        sDate={this.state.jssj}
+                        closeModal={() => this.setState({isModalVisible: false})}/> :
+                    <View/>}
+                {this.state.isLoading ? <Loading/> : null}
             </View>
-        )
+        );
+    }
+
+    filter(sDate, eDate) {
+        this.setState({
+            kssj: sDate,
+            jssj: eDate
+        }, () => {
+            this.state.dataSource = [];
+            this.pageNum = 1;
+            this.getData(1);
+        })
     }
 
     _renderRow(rowData) {
         return (
             <TouchableHighlight onPress={() => this._clickItem(rowData)} underlayColor="#e8e8e8">
                 <View style={styles.itemView}>
-                    <Text style={styles.textNum}>{rowData.xmbh}</Text>
-                    <Text style={styles.textInfo}>{rowData.xmmc}</Text>
+                    <Text style={styles.textNum} numberOfLines={2}>{rowData.xmbh}</Text>
+                    <Text style={styles.textInfo} numberOfLines={2}>{rowData.xmmc}</Text>
+                    <Text style={styles.textInfo} numberOfLines={2}>{rowData.gczxmc}</Text>
+                    <Text style={styles.textInfo} numberOfLines={2}>{rowData.sgrwmc}</Text>
                 </View>
             </TouchableHighlight>
         );
@@ -69,62 +98,29 @@ export default class ChooseProject extends Component {
     }
 
     componentDidMount() {
-        this.getData();
+        this.getData(1);
     }
 
-    getData(pageNum = 1) {
+    getData(pageNum) {
         this.setState({
             isLoading: true
         });
         axios.get('/psmAqjcjh/sgrwSelect4Aqjcjh', {
             params: {
                 userID: GLOBAL_USERID,
-                pageNum,
+                pageNum: pageNum,
                 pageSize: 10,
-                kssj: this.props.kssj,
-                jssj: this.props.jssj,
+                kssj: this.state.kssj,
+                jssj: this.state.jssj,
                 callID: true,
             }
         }).then(responseData => {
-            console.log(responseData);
             this.setState({
                 isLoading: false
             });
-            responseData = {
-                "code": 1,
-                "data": {
-                    "total": 139,
-                    "data": [
-                        {
-                            "sgrwjssj": "2016-09-10",
-                            "gczxmc": "总配至分配的电缆敷设",
-                            "xmmc": "北大国际医院变配电工程",
-                            "gczxId": "8a8180d856b8094b0156ea7109ae5931",
-                            "xmbh": "CX_ZY15012-15008",
-                            "sgrwkssj": "2016-09-10",
-                            "sgrwId": "8a8180d85702071c015705458e0d69e5",
-                            "RN": 1,
-                            "sgrwmc": "有限空间安全手续施工现场转交工程部"
-                        },
-                        {
-                            "sgrwjssj": "2016-09-11",
-                            "gczxmc": "总配至分配的电缆敷设",
-                            "xmmc": "北大国际医院变配电工程",
-                            "gczxId": "8a8180d856b8094b0156ea7109ae5931",
-                            "xmbh": "CX_ZY15012-15008",
-                            "sgrwkssj": "2016-09-11",
-                            "sgrwId": "8a8180d85702071c015705458e1c69e8",
-                            "RN": 2,
-                            "sgrwmc": "电缆到达现场，并确定是否强检及取样"
-                        }
-                    ]
-                },
-                "message": "成功"
-            };
-
             if (responseData.code === 1) {
                 this.setState({
-                    dataSource: responseData.data && responseData.data.data ? responseData.data.data : []
+                    dataSource: this.state.dataSource.concat(responseData.data.data)
                 })
             } else {
                 toast.show(responseData.message)
@@ -138,11 +134,7 @@ export default class ChooseProject extends Component {
     }
 
     loadMore() {
-        let pageNum = ++this.state.pageNum;
-        this.getData(pageNum);
-        this.setState({
-            pageNum,
-        });
+        this.getData(++this.pageNum);
     }
 }
 
@@ -153,23 +145,27 @@ const styles = StyleSheet.create({
     },
     itemView: {
         width: width,
-        height: 0.132 * height,
-        justifyContent: 'space-between',
-        paddingLeft: 20,
+        paddingHorizontal: 10,
         backgroundColor: '#fff',
-        paddingVertical: 0.0315 * height
+        paddingVertical: 8
     },
     textNum: {
         fontSize: 15,
-        color: '#216fd0'
+        color: '#216fd0',
+        lineHeight: 19
     },
     textInfo: {
         fontSize: 15,
-        color: '#3d3d3d'
+        color: '#3d3d3d',
+        lineHeight: 19
     },
     separatorView: {
         width: width,
-        height: 1,
+        height: 8,
         backgroundColor: '#f1f1f1'
     },
+    filtrate: {
+        width: width * 0.045,
+        height: width * 0.045
+    }
 });

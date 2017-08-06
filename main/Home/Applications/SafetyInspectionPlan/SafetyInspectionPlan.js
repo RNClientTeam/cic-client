@@ -126,55 +126,7 @@ export default class SafetyInspectionPlane extends Component{
                 callID: true,
             }
         }).then(responseData => {
-            console.log('data-------', responseData);
             callBack();
-            if (pageNum === 1) {
-                responseData = {
-                    "code": 1,
-                    "data": {
-                        "total": 2,
-                        "data": [
-                            {
-                                "jhjssj": "2017-03-29",
-                                "count": 0,
-                                "aqjcjhmc": "现场检查",
-                                "xmmc": "北京化工大学昌平新校区永久用电",
-                                "RN": 1,
-                                "isTodo": 0,
-                                "sgrwmc": "高低压设备进场",
-                                "zrbm": "安全管理部",
-                                "id": "8a8180d85b0561b0015b0d83d0cd375b",
-                                "jhkssj": "2017-03-28",
-                                "gczxmc": "2-2分配配电工程",
-                                "zrr": "时永强",
-                                "gczxId": "8a8180d857adaa600157b282e9dd70d2",
-                                "zt": 100,
-                                "ztmc": "已生效",
-                                "xmbh": "CX_DS14136-16080"
-                            },
-                            {
-                                "jhjssj": "2017-03-28",
-                                "count": 0,
-                                "aqjcjhmc": "现场检查",
-                                "xmmc": "友谊医院配电室改造项目",
-                                "RN": 2,
-                                "isTodo": 0,
-                                "sgrwmc": "配电室二楼重新装修",
-                                "zrbm": "安全管理部",
-                                "id": "8a8180d85b0561b0015b0d870deb38a3",
-                                "jhkssj": "2017-03-28",
-                                "gczxmc": "新建机房及配电室装修",
-                                "zrr": "宗永进",
-                                "gczxId": "8a8180d858bb00d30158bef9775b74ec",
-                                "zt": 100,
-                                "ztmc": "已生效",
-                                "xmbh": "CX_DS15128-16085"
-                            }
-                        ]
-                    },
-                    "message": "成功"
-                }
-            }
             this.setState({
                 isLoading: false
             });
@@ -229,18 +181,6 @@ export default class SafetyInspectionPlane extends Component{
                 callID: true,
             }
         }).then(responseData => {
-            console.log('-------data', responseData);
-            responseData = {
-                "code": 1,
-                "data": {
-                    "addAqjcjh": true,
-                    "updateAqjcjh": true,
-                    "deleteAqjcjh": false,
-                    "effectAqjcjh": false,
-                    "tbAqjcjl": true
-                },
-                "message": "成功"
-            };
             if (responseData.code === 1) {
                 const authority = responseData.data;
                 if (authority.addAqjcjh || authority.updateAqjcjh || authority.deleteAqjcjh || authority.tbAqjcjl) {

@@ -106,6 +106,7 @@ export default class AddShareData extends Component {
                                     style={[styles.inputStyle, {textAlign: 'right'}]}
                                     placeholder='点击选择'
                                     value={this.state.shareRangeCN}
+                                    underlineColorAndroid="transparent"
                                     editable={false}
                                 />
                             </TouchableOpacity>

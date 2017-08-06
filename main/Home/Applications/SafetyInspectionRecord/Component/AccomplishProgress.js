@@ -279,7 +279,6 @@ export default class AccomplishProgress extends Component {
             } else {
                 toast.show(data.message)
             }
-            console.log(data);
         }).catch(err => {
             this.hideLoading();
             toast.show('服务端异常');

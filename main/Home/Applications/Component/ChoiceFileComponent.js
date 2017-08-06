@@ -141,6 +141,7 @@ export default class ChoiceFileComponent extends Component {
     }
 
     delImg(index) {
+        if (this.props.readOnly) return;
         this.state.imageList.splice(index, 1);
         this.setState({imageList:this.state.imageList});
         let delImgId = this.imageId[index];
@@ -207,7 +208,7 @@ export default class ChoiceFileComponent extends Component {
         let tempTimer = setTimeout(() => {
             this._getFileList();
             clearTimeout(tempTimer);
-        }, 500);
+        }, 1000);
     }
 
     _getFileList(){

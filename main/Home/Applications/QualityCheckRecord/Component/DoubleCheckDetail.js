@@ -12,7 +12,8 @@ import {
     TouchableOpacity,
     TextInput,
     Switch,
-    TouchableHighlight
+    TouchableHighlight,
+    TouchableWithoutFeedback
 } from 'react-native';
 const selectImg = [
     require('../../../../../resource/imgs/home/constuctPlan/choiced.png'),
@@ -24,8 +25,10 @@ import Organization from '../../../../Organization/Organization.js';
 import KeyValueLeft from "../../../../Component/KeyValueLeft"
 import LabelTextArea from "../../../../Component/LabelTextArea"
 import Loading from "../../../../Component/Loading";
-import toast from 'react-native-simple-toast'
+import toast from 'react-native-simple-toast';
+import {getRandomId} from '../../../../Util/Util.js';
 import ChoiceFileComponent from '../../Component/ChoiceFileComponent.js';
+import SelectedRenwuJD from './SelectedRenwuJD.js';
 const {width, height} = Dimensions.get('window');
 
 export default class DoubleCheckDetail extends Component {
@@ -73,7 +76,7 @@ export default class DoubleCheckDetail extends Component {
         axios.get('/psmZljcjl/detail', {
             params: {
                 userID: GLOBAL_USERID,
-                id: this.props.data.id,
+                id: this.props.add?'':this.props.data.id,
                 callID: true
             }
         }).then(data => {
@@ -89,7 +92,7 @@ export default class DoubleCheckDetail extends Component {
                     jcr: data.data.jcr,
                     jcrmc: data.data.jcrmc,
                     id: data.data.id,
-                    gcjd: data.data.gcjd,
+                    gcjd: data.data.gcjd||1,
                     rwnr: data.data.rwnr,
                     zxid: data.data.zxid,
                     sfxczg: data.data.sfxczg,
@@ -100,7 +103,7 @@ export default class DoubleCheckDetail extends Component {
                     jcjg: data.data.jcjg,
                     zgfj: data.data.zgfj,
                     zzjg: data.data.zzjg,
-                    jcfj: data.data.jcfj,
+                    jcfj: data.data.jcfj||getRandomId(),
                     jcbmmc: data.data.jcbmmc,
                     cjbm: data.data.cjbm,
                     cjrmc: data.data.cjrmc,
@@ -117,14 +120,15 @@ export default class DoubleCheckDetail extends Component {
     }
 
     gotoOrganization() {
-        if (this.props.check) return;
-        this.props.navigator.push({
-            name: 'Organization',
-            component: Organization,
-            params: {
-                getInfo: this.getInfo.bind(this)
-            }
-        })
+        if (this.props.add || this.props.edit) {
+            this.props.navigator.push({
+                name: 'Organization',
+                component: Organization,
+                params: {
+                    getInfo: this.getInfo.bind(this)
+                }
+            });
+        }
     }
 
     //获取检验人：部门id  姓名  id
@@ -200,38 +204,62 @@ export default class DoubleCheckDetail extends Component {
 
     //选择问题
     proBtn(elem, index) {
-        if (this.props.fromList) return;
-        if (elem.name === '正常') {
-            let tempList = this.state.selList.concat();
-            this.state.selList = [];
-            tempList.forEach((elem, i) => {
-                if (i === index) {
-                    this.state.selList.push(true);
-                } else {
-                    this.state.selList.push(false);
+        if (this.props.add || this.props.eidt) {
+            if (elem.name === '正常') {
+                let tempList = this.state.selList.concat();
+                this.state.selList = [];
+                tempList.forEach((elem, i) => {
+                    if (i === index) {
+                        this.state.selList.push(true);
+                    } else {
+                        this.state.selList.push(false);
+                    }
+                });
+                this.setState({
+                    selList:this.state.selList,
+                    wtlb: '1',
+                    sfxczg: false,
+                    zgyq: ''
+                });
+            } else {
+                this.state.selList.splice(0,1,false);
+                let tempSel = !this.state.selList[index];
+                this.state.selList.splice(index,1,tempSel);
+                let tempWtlb = [];
+                this.state.selList.forEach((elem, index) => {
+                    if (elem) {
+                        tempWtlb.push(this.state.questionList[index].code);
+                    }
+                });
+                this.setState({
+                    selList:this.state.selList,
+                    wtlb: tempWtlb.join(',')
+                });
+            }
+        }
+    }
+
+    onPress() {
+        if (this.props.edit || this.props.add) {
+            this.props.navigator.push({
+                name: 'SelectedRenwuJD',
+                component: SelectedRenwuJD,
+                params: {
+                    getFirstInfo: this.getFirstInfo.bind(this)
                 }
-            });
-            this.setState({
-                selList:this.state.selList,
-                wtlb: '1',
-                sfxczg: false,
-                zgyq: ''
-            });
-        } else {
-            this.state.selList.splice(0,1,false);
-            let tempSel = !this.state.selList[index];
-            this.state.selList.splice(index,1,tempSel);
-            let tempWtlb = [];
-            this.state.selList.forEach((elem, index) => {
-                if (elem) {
-                    tempWtlb.push(this.state.questionList[index].code);
-                }
-            });
-            this.setState({
-                selList:this.state.selList,
-                wtlb: tempWtlb.join(',')
             });
         }
+    }
+
+    getFirstInfo(rowData) {
+        this.setState({
+            rwnr: rowData.rwnr,
+            xmgh: rowData.xmgh,
+            xmmc: rowData.xmmc,
+            zxmc: rowData.zxmc,
+            gczxid: rowData.zxid,
+            rwnrid: rowData.rwid
+        });
     }
 
     render() {
@@ -239,57 +267,40 @@ export default class DoubleCheckDetail extends Component {
             <View>
                 <ScrollView>
                     <View style={styles.divide}/>
-                    <View style={styles.keyValue}>
-                        <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>检验任务</Text>
-                        <TextInput style={styles.contentText}
-                            numberOfLines={1}
-                            underlineColorAndroid="transparent"
-                            editable={!this.props.check&&!this.props.fromList}
-                            defaultValue={this.state.rwnr||''}
-                            onChangeText={(text) => {
-                                this.setState({rwnr:text});
-                            }}/>
-                    </View>
+                    <TouchableWithoutFeedback onPress={this.onPress.bind(this)}>
+                        <View style={styles.keyValue}>
+                            <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>检验任务</Text>
+                            <Text style={styles.contentText}>
+                                {this.state.rwnr||'请选择'} >
+                            </Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+
                     <View style={styles.keyValue}>
                         <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>工程工号</Text>
-                        <TextInput style={styles.contentText}
-                            numberOfLines={1}
-                            underlineColorAndroid="transparent"
-                            editable={!this.props.check&&!this.props.fromList}
-                            defaultValue={this.state.xmgh||''}
-                            onChangeText={(text) => {
-                                this.setState({xmgh:text});
-                            }}/>
+                        <Text style={styles.contentText}>
+                            {this.state.xmgh}
+                        </Text>
                     </View>
                     <View style={styles.keyValue}>
                         <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>项目名称</Text>
-                        <TextInput style={styles.contentText}
-                            numberOfLines={1}
-                            underlineColorAndroid="transparent"
-                            editable={!this.props.check&&!this.props.fromList}
-                            defaultValue={this.state.xmmc||''}
-                            onChangeText={(text) => {
-                                this.setState({xmmc:text});
-                            }}/>
+                        <Text style={styles.contentText}>
+                            {this.state.xmmc}
+                        </Text>
                     </View>
                     <View style={styles.keyValue}>
                         <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>工程子项名称</Text>
-                        <TextInput style={styles.contentText}
-                            numberOfLines={1}
-                            underlineColorAndroid="transparent"
-                            editable={!this.props.check&&!this.props.fromList}
-                            defaultValue={this.state.zxmc||''}
-                            onChangeText={(text) => {
-                                this.setState({zxmc:text});
-                            }}/>
+                        <Text style={styles.contentText}>
+                            {this.state.zxmc}
+                        </Text>
                     </View>
                     <View style={styles.keyValue}>
                         <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>工程节点</Text>
                         <ModalDropdown
                             options={this.state.reasonListText}
                             animated={true}
-                            disabled={this.props.check||this.props.fromList}
-                            defaultValue={this.state.reasonListText[this.state.gcjd-1]||''}
+                            disabled={!this.props.add&&!this.props.edit}
+                            defaultValue={this.state.reasonListText[this.state.gcjd-1]}
                             style={{flex:1, alignItems:'flex-end'}}
                             textStyle={{fontSize:14}}
                             onSelect={(a) => {
@@ -302,10 +313,9 @@ export default class DoubleCheckDetail extends Component {
                     <View style={styles.keyValue}>
                         <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>检验时间</Text>
                         {
-                            (this.props.check||this.props.fromList) ?
+                            (!this.props.add&&!this.props.edit) ?
                             <Text style={{fontSize:14}}>{this.state.jcsj||''}</Text> :
                             <ChoiceDate showDate={this.state.jcsj||''}
-                                disabled={this.props.check||this.props.fromList}
                                 changeDate={(date)=>{
                                     this.setState({jcsj:date});
                                 }}/>
@@ -329,12 +339,12 @@ export default class DoubleCheckDetail extends Component {
                     <ChoiceFileComponent
                         resourceId={this.state.jcfj}
                         isAttach="1"
-                        readOnly={this.props.fromList||this.props.check}
+                        readOnly={!this.props.add&&!this.props.edit}
                         businessModule='zljcjl'/>
                     <LabelTextArea label="检查结果"
                         onTextChange={(text)=>{this.setState({jcjg:text})}}
                         value={this.state.jcjg}
-                        readOnly={this.props.check&&this.props.fromList}/>
+                        readOnly={!this.props.add&&!this.props.edit}/>
                     {
                         this.state.wtlb !== '1' &&
                         <View style={styles.bottomRow}>
@@ -346,7 +356,7 @@ export default class DoubleCheckDetail extends Component {
                         <View style={styles.textContent}>
                             <TextInput style={styles.textinputStyle}
                                 multiline={true}
-                                editable={!this.props.fromList}
+                                editable={this.props.check||this.props.add||this.props.edit}
                                 defaultValue={this.state.zgyq}
                                 placeholder="请填写"
                                 autoCapitalize="none"
@@ -360,14 +370,15 @@ export default class DoubleCheckDetail extends Component {
                         <View style={styles.keyValue}>
                             <Text style={[styles.labelColor,{marginLeft:width*0.02}]}>是否已现场整改</Text>
                             <Switch onValueChange={(value) => {
-                                    if (this.props.fromList) return;
+                                if(this.props.add||this.props.edit) {
                                     this.setState({sfxczg:value?1:0});
-                                }}
-                                value={this.state.sfxczg==0?false:true}/>
+                                }
+                            }}
+                            value={this.state.sfxczg==0?false:true}/>
                         </View>
                     }
                     {
-                        !this.props.fromList &&
+                        (this.props.edit||this.props.add||this.props.check) &&
                         <View style={styles.bottomView}>
                             <TouchableHighlight underlayColor="transparent" onPress={this.save.bind(this)}>
                                 <View style={[styles.btnView, {backgroundColor:'#216fd0'}]}>
@@ -424,10 +435,10 @@ export default class DoubleCheckDetail extends Component {
                 this.props.reloadInfo();
                 this.props.navigator.pop();
             } else {
-                toast.show(res.messa);
+                toast.show(res.message);
             }
         }).catch((error) => {
-
+            toast.show('服务端异常');
         });
     }
 }

@@ -19,6 +19,7 @@ import ChoiceFileComponent from '../../Component/ChoiceFileComponent.js';
 import Organization from '../../../../Organization/Organization.js';
 import ChoiceDate from "../../../../Component/ChoiceDate.js";
 import Toast from 'react-native-simple-toast';
+import {getRandomId} from '../../../../Util/Util.js';
 const {width, height} = Dimensions.get('window');
 
 export default class DoubleCheckRecord extends Component {
@@ -39,7 +40,7 @@ export default class DoubleCheckRecord extends Component {
         axios.get('/psmZljcjl/detail', {
             params: {
                 userID: GLOBAL_USERID,
-                id: this.props.data.id,
+                id: this.props.fromList?his.props.data.id:'',
                 callID: true
             }
         }).then((res) => {
@@ -49,7 +50,7 @@ export default class DoubleCheckRecord extends Component {
                     fcr: res.data.fcr,
                     fcrmc: res.data.fcrmc,
                     fcjg: res.data.fcjg,
-                    fcfj: res.data.fcfj,
+                    fcfj: res.data.fcfj||getRandomId(),
                     id: res.data.id
                 });
             }
@@ -59,13 +60,15 @@ export default class DoubleCheckRecord extends Component {
     }
 
     gotoOrganization() {
-        this.props.navigator.push({
-            name: 'Organization',
-            component: Organization,
-            params: {
-                getInfo: this.getInfo.bind(this)
-            }
-        })
+        if (this.props.fcjl || this.props.fromList) {
+            this.props.navigator.push({
+                name: 'Organization',
+                component: Organization,
+                params: {
+                    getInfo: this.getInfo.bind(this)
+                }
+            });
+        }
     }
 
     //获取检验人：部门id  姓名  id
@@ -83,6 +86,7 @@ export default class DoubleCheckRecord extends Component {
                 <View style={styles.keyValue}>
                     <Text style={styles.textStyle} numberOfLines={1}>复查时间</Text>
                     <ChoiceDate showDate={this.state.fcsj||''}
+                        disabled={!this.props.fromList&&!this.props.fcjl}
                         changeDate={(date)=>{this.setState({fcsj:date});}}/>
                 </View>
                 <TouchableOpacity onPress={this.gotoOrganization.bind(this)}>
@@ -93,19 +97,24 @@ export default class DoubleCheckRecord extends Component {
                 </TouchableOpacity>
                 <LabelTextArea label="整改复查结果"
                     value={this.state.fcjg}
+                    editable={this.props.fromList||this.props.fcjl}
                     onTextChange={(text) => {this.setState({fcjg:text});}}/>
                 <View style={styles.divide}/>
                 <ChoiceFileComponent
+                    readOnly={!this.props.fromList&&!this.props.fcjl}
                     isAttach="0"
                     resourceId={this.state.fcfj}
                     businessModule='zljcjl'/>
-                <View style={styles.bottomView}>
-                    <TouchableOpacity onPress={this.save.bind(this)}>
-                        <View style={[styles.btnView, {backgroundColor:'#216fd0'}]}>
-                            <Text style={styles.btnText}>保存</Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
+                {
+                    (this.props.fromList || this.props.fcjl) &&
+                    <View style={styles.bottomView}>
+                        <TouchableOpacity onPress={this.save.bind(this)}>
+                            <View style={[styles.btnView, {backgroundColor:'#216fd0'}]}>
+                                <Text style={styles.btnText}>保存</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                }                
             </ScrollView>
         )
     }

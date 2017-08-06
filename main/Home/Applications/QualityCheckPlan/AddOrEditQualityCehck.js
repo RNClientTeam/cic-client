@@ -165,10 +165,11 @@ export default class AddOrEditQualityCheck extends Component {
         })
     }
 
-    addProject(xmmc, xmgh, zxmc, gczxId) {
+    addProject(xmmc, xmgh, cfxxId, zxmc, gczxId) {
         this.setState({
             xmmc,
             gczxId,
+            cfxxId,
             zxmc,
             xmgh,
         })
@@ -187,9 +188,6 @@ export default class AddOrEditQualityCheck extends Component {
 
     //创建
     addPlan() {
-        this.setState({
-            isLoading:true
-        });
         if (this.state.xmmc==='') {
             toast.show('请选择项目')
         } else if (this.state.rwxz==='') {
@@ -202,6 +200,9 @@ export default class AddOrEditQualityCheck extends Component {
         else if (this.state.rwnr==='') {
             toast.show('请填写检查任务')
         } else {
+            this.setState({
+                isLoading:true
+            });
             axios.post('/psmZljcjh/save', {
                 userID: GLOBAL_USERID,
                 cfxxId: this.state.cfxxId,
@@ -218,6 +219,7 @@ export default class AddOrEditQualityCheck extends Component {
                 this.setState({
                     isLoading:false
                 });
+                console.log(data);
                 if(data.code === 1){
                     toast.show('创建成功');
                     let that = this;
@@ -338,32 +340,6 @@ export default class AddOrEditQualityCheck extends Component {
             this.setState({
                 isLoading: false
             });
-            // responseData = {
-            //     code: 1,
-            //     data: {
-            //         "zxmc": "施家胡同配电子项",
-            //         "rn": 1,
-            //         "cfxxId": "8a8180d856ec904a0156fe2e64806ea5",
-            //         "twztmc": "已生效",
-            //         "xmgh": "JZ_DS16065-16042",
-            //         "xmmc": "大栅栏廊坊二条等4条街架空线入地工程",
-            //         "cjbm": "00000004e00138c242a0d9",
-            //         "zrrmc": "赵春华",
-            //         "jhjssjt": "2016-12-26 00:00:00",
-            //         "jhkssjt": "2016-12-26 00:00:00",
-            //         "rwxz": 6,
-            //         "zrbm": "00000004e00138c242a0d9",
-            //         "id": "8a8180d858fa588c015914da35f029f4",
-            //         "rwnr": "送电",
-            //         "rwxzmc": "专工验收",
-            //         "zrr": "ZNDQ2008",
-            //         "gczxId": "8a8180d856ec904a0156fe35fc8870c3",
-            //         "twzt": 100,
-            //         "ssbmmc": "配网工程部",
-            //         "cjsjt": "2016-12-19 10:12:41",
-            //         "cjr": "ZNDQ2003"
-            //     }
-            // };
             if (responseData.code === 1) {
                 this.setState({
                     xmmc: responseData.data.xmmc,

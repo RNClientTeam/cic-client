@@ -40,7 +40,7 @@ export default class ReviewRecord extends Component {
         axios.get('/psmAqjcjh/init4Aqjcjl', {
             params: {
                 userID: GLOBAL_USERID,
-                id: this.props.data.id,
+                id: this.props.fromList?this.props.data.id:'',
                 callID: true
             }
         }).then((res) => {
@@ -52,9 +52,9 @@ export default class ReviewRecord extends Component {
                     fcjg: res.data.fcjg,
                     fcfj: res.data.fcfj,
                     aqjcjhId: res.data.aqjcjhId,
-                    isAttach:res.data.fcfjisAttach,
+                    isAttach:this.props.fromList?res.data.fcfjisAttach:res.data.fcjlisAttach,
                     businessModule:res.data.businessModule
-                })
+                });
             } else {
                 Toast.show(res.message);
             }
@@ -64,13 +64,15 @@ export default class ReviewRecord extends Component {
     }
 
     selPerson() {
-        this.props.navigator.push({
-            name: 'Organization',
-            component: Organization,
-            params: {
-                getInfo: this.getInfo.bind(this)
-            }
-        })
+        if(this.props.fcjl) {
+            this.props.navigator.push({
+                name: 'Organization',
+                component: Organization,
+                params: {
+                    getInfo: this.getInfo.bind(this)
+                }
+            });
+        }
     }
 
     getInfo(bmid, name, id) {
@@ -85,9 +87,12 @@ export default class ReviewRecord extends Component {
             <View style={styles.flex}>
                 <View style={styles.viewStyle}>
                     <Text style={styles.keyText}>复查时间</Text>
-                    <ChoiceDate
-                        showDate={this.state.fcsj}
-                        changeDate={(date)=>{this.setState({fcsj:date});}}/>
+                    {
+                        this.props.fcjl ?
+                        <ChoiceDate showDate={this.state.fcsj}
+                            changeDate={(date)=>{this.setState({fcsj:date});}}/> :
+                        <Text style={styles.valueText}>{this.state.fcsj}</Text>
+                    }
                 </View>
 
                 <TouchableOpacity onPress={this.selPerson.bind(this)}>
@@ -98,6 +103,7 @@ export default class ReviewRecord extends Component {
                 </TouchableOpacity>
 
                 <ChoiceFileComponent
+                    readOnly={this.props.fcjl?false:true}
                     resourceId={this.state.fcfj}
                     isAttach={this.state.isAttach}
                     businessModule='aqjcjl'/>
@@ -108,21 +114,26 @@ export default class ReviewRecord extends Component {
                 <TextInput style={styles.inpurResult}
                     placeholder="请填写"
                     numberOfLines={2}
-                           underlineColorAndroid="transparent"
+                    editable={this.props.fcjl?ture:false}
+                    underlineColorAndroid="transparent"
                     defaultValue={this.state.fcjg}
                     multiline={true}
                     onChangeText={(text) => {
-                        this.setState({fcjg: text});
+                        if (this.props.fcjl) {
+                            this.setState({fcjg: text});
+                        }
                     }}
                 />
-
-                <View style={styles.bottomView}>
-                    <TouchableHighlight underlayColor="transparent" onPress={this.save.bind(this)}>
-                        <View style={[styles.btnView, {backgroundColor:'#216fd0'}]}>
-                            <Text style={styles.btnText}>保存</Text>
-                        </View>
-                    </TouchableHighlight>
-                </View>
+                {
+                    this.props.fcjl &&
+                    <View style={styles.bottomView}>
+                        <TouchableHighlight underlayColor="transparent" onPress={this.save.bind(this)}>
+                            <View style={[styles.btnView, {backgroundColor:'#216fd0'}]}>
+                                <Text style={styles.btnText}>保存</Text>
+                            </View>
+                        </TouchableHighlight>
+                    </View>
+                }
             </View>
 
         );

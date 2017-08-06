@@ -40,15 +40,17 @@ export default class ReformTaskCell extends Component {
     }
 
     skipPage() {
-        this.props.navigator.push({
-            component: AccomplishProgress,
-            name: 'AccomplishProgress',
-            params:{
-                readOnly:true,
-                id:this.props.data.id,
-                type:'查看详情'
-            }
-        });
+        if (this.props.tbzgqk||this.props.checkAndZgrw||this.props.fromList) {
+            this.props.navigator.push({
+                component: AccomplishProgress,
+                name: 'AccomplishProgress',
+                params:{
+                    readOnly:true,
+                    id:this.props.data.id,
+                    type:'查看详情'
+                }
+            });
+        }
     }
 
     editBtn(){
