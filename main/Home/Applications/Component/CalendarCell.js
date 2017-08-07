@@ -31,6 +31,10 @@ export default class CalendarCell extends Component {
         )
     }
 
+    componentWillReceiveProps(props) {
+        // console.log(props.hasPlan,props.hasPlan)
+    }
+
 }
 
 const styles = StyleSheet.create({
