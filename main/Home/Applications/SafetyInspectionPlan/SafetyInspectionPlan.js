@@ -206,14 +206,14 @@ export default class SafetyInspectionPlane extends Component{
             this.setState({
                 jhlx,
                 rwzt
+            }, () => {
+                this.getList();
             });
         }
-        this.getList();
     }
 
     // 点击某一天
     changeDay(day){
-        console.log('------day', day);
         this.setState({
             day: day,
         },function () {
@@ -259,7 +259,6 @@ export default class SafetyInspectionPlane extends Component{
                 callID:true
             }
         }).then(data=>{
-            console.log('-----getCalendarData', data);
             if(data.code === 1){
                 this.setState({
                     calendarState:data.data.list

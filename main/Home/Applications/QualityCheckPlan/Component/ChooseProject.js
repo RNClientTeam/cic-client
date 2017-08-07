@@ -90,7 +90,6 @@ export default class ChooseProject extends Component {
                 xmmc: this.state.xmmc
             }
         }).then(data => {
-            console.log(data)
             this.setState({
                 isLoading: false
             });

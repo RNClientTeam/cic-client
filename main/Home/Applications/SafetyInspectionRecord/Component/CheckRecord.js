@@ -74,7 +74,8 @@ export default class DoubleCheckDetail extends Component {
             if (res.code === 1) {
                 this.setState({
                     data: res.data,
-                    isLoading: false
+                    isLoading: false,
+                    wenti: res.data.wtlb
                 });
             } else {
                 this.setState({isLoading:false});
@@ -117,7 +118,13 @@ export default class DoubleCheckDetail extends Component {
     }
 
     getSelInfo(rowData) {
-
+        this.state.data.aqjcjhmc = rowData.aqjcjhmc;
+        this.state.data.xmbh = rowData.xmbh;
+        this.state.data.xmmc = rowData.xmmc;
+        this.state.data.zxmc = rowData.gczxmc;
+        this.state.data.aqjcjhId = rowData.aqjcjhId;
+        this.state.data.gczxId = rowData.gczxId;
+        this.setState({data: this.state.data});
     }
 
     render() {
@@ -158,7 +165,7 @@ export default class DoubleCheckDetail extends Component {
                             options={this.state.questionList}
                             animated={true}
                             disabled={!this.props.add&&!this.props.edit}
-                            defaultValue={this.state.data.wtlb?this.state.questionList[this.state.data.wtlb]:this.state.questionList[0]}
+                            defaultValue={this.state.data.wtlb?this.state.questionList[this.state.data.wtlb-1]:'请选择>'}
                             style={{flex:1, alignItems:'flex-end'}}
                             textStyle={{fontSize:14}}
                             onSelect={(a) => {
@@ -194,7 +201,7 @@ export default class DoubleCheckDetail extends Component {
                         businessModule={this.state.data.businessModule}
                         resourceId={this.state.data.jcfj}
                         readOnly={!this.props.edit&&!this.props.add}
-                        isAttach={this.props.fromList?his.state.data.jcfjisAttach:this.state.data.jcjlisAttach}/>
+                        isAttach={this.props.fromList?this.state.data.jcfjisAttach:this.state.data.jcjlisAttach}/>
                     <View style={styles.divide}/>
                     <View style={styles.bottomRow}>
                         <Text style={styles.labelColor}>检查结果</Text>
@@ -263,64 +270,92 @@ export default class DoubleCheckDetail extends Component {
 
     //提交并保存
     saveAndCommit() {
-        axios.post('/psmAqjcjh/saveAndsumbitAqjcjl', {
-            userID: GLOBAL_USERID,
-            id: this.state.data.id,
-            aqjcjhId: this.state.data.aqjcjhId,
-            aqjcjhmc: this.state.data.aqjcjhmc,
-            gczxId: this.state.data.gczxId,
-            xmbh: this.state.data.xmbh,
-            jcr: this.state.data.jcr,
-            jcbm: this.state.data.jcbm,
-            jcsj: this.state.data.jcsj,
-            jcjg: this.jianchaResult,
-            zgyq: this.zgyq,
-            wtlb: this.state.wenti,
-            sfxczg: this.state.data.sfxczg,
-            jcfj: this.state.data.jcfj,
-            fcfj: this.state.data.fcfj,
-            callID: true
-        }).then((res) => {
-            if (res.code === 1) {
-                Toast.show('保存成功');
-                this.props.navigator.pop();
-            } else {
-                Toast.show(res.message);
-            }
-        }).catch((error) => {
+        let data = this.state.data;
+        if (data.aqjcjhmc.length === 0 || data.xmbh.length === 0) {
+            Toast.show('请选择任务');
+        } else if (this.state.wenti.length === 0) {
+            Toast.show('请选择问题类别');
+        } else if (data.jcsj.length === 0) {
+            Toast.show('请选择检查时间');
+        } else if (this.jianchaResult.length === 0) {
+            Toast.show('请填写检查结果');
+        } else if (this.state.wenti != '1' && this.zgyq.length === 0) {
+            Toast.show('请填写整改要求');
+        } else {
+            axios.post('/psmAqjcjh/saveAndsumbitAqjcjl', {
+                userID: GLOBAL_USERID,
+                id: this.state.data.id,
+                aqjcjhId: this.state.data.aqjcjhId,
+                aqjcjhmc: this.state.data.aqjcjhmc,
+                gczxId: this.state.data.gczxId,
+                xmbh: this.state.data.xmbh,
+                jcr: this.state.data.jcr,
+                jcbm: this.state.data.jcbm,
+                jcsj: this.state.data.jcsj,
+                jcjg: this.jianchaResult,
+                zgyq: this.zgyq,
+                wtlb: this.state.wenti,
+                sfxczg: this.state.isFinished,
+                jcfj: this.state.data.jcfj,
+                fcfj: this.state.data.fcfj,
+                callID: true
+            }).then((res) => {
+                console.log(res);
+                if (res.code === 1) {
+                    Toast.show('保存成功');
+                    this.props.navigator.pop();
+                } else {
+                    Toast.show(res.message);
+                }
+            }).catch((error) => {
 
-        });
+            });
+        }
     }
 
     //提交
     save() {
-        axios.post('/psmAqjcjh/saveAqjcjl', {
-            userID: GLOBAL_USERID,
-            id: this.state.data.id,
-            aqjcjhId: this.state.data.aqjcjhId,
-            aqjcjhmc: this.state.data.aqjcjhmc,
-            gczxId: this.state.data.gczxId,
-            xmbh: this.state.data.xmbh,
-            jcr: this.state.data.jcr,
-            jcbm: this.state.data.jcbm,
-            jcsj: this.state.data.jcsj,
-            jcjg: this.jianchaResult,
-            zgyq: this.zgyq,
-            wtlb: this.state.wenti,
-            sfxczg: this.state.data.sfxczg,
-            jcfj: this.state.data.jcfj,
-            fcfj: this.state.data.fcfj,
-            callID: true
-        }).then((res) => {
-            if (res.code === 1) {
-                Toast.show('保存成功');
-                this.props.navigator.pop();
-            } else {
-                Toast.show(res.message);
-            }
-        }).catch((error) => {
+        let data = this.state.data;
+        if (data.aqjcjhmc.length === 0 || data.xmbh.length === 0) {
+            Toast.show('请选择任务');
+        } else if (this.state.wenti.length === 0) {
+            Toast.show('请选择问题类别');
+        } else if (data.jcsj.length === 0) {
+            Toast.show('请选择检查时间');
+        } else if (this.jianchaResult.length === 0) {
+            Toast.show('请填写检查结果');
+        } else if (this.state.wenti != '1' && this.zgyq.length === 0) {
+            Toast.show('请填写整改要求');
+        } else {
+            axios.post('/psmAqjcjh/saveAqjcjl', {
+                userID: GLOBAL_USERID,
+                id: this.state.data.id,
+                aqjcjhId: this.state.data.aqjcjhId,
+                aqjcjhmc: this.state.data.aqjcjhmc,
+                gczxId: this.state.data.gczxId,
+                xmbh: this.state.data.xmbh,
+                jcr: this.state.data.JCR,
+                jcbm: this.state.data.jcbm,
+                jcsj: this.state.data.jcsj,
+                jcjg: this.jianchaResult,
+                zgyq: this.zgyq,
+                wtlb: this.state.wenti,
+                sfxczg: this.state.isFinished,
+                jcfj: this.state.data.jcfj,
+                fcfj: this.state.data.fcfj,
+                callID: true
+            }).then((res) => {
+                console.log(res);
+                if (res.code === 1) {
+                    Toast.show('保存成功');
+                    this.props.navigator.pop();
+                } else {
+                    Toast.show(res.message);
+                }
+            }).catch((error) => {
 
-        });
+            });
+        }
     }
 }
 

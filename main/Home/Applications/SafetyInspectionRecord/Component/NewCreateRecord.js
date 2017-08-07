@@ -140,7 +140,7 @@ export default class NewCreateRecord extends Component {
                 <StatusBar title="项目安全检查记录" navigator={this.props.navigator}/>
                 <ScrollView>
                     <View style={styles.viewStyle}>
-                        <Text style={styles.keyText}>检查任务</Text>
+                        <Text style={styles.keyText}>检验任务</Text>
                         <Text style={styles.valueText}>{this.state.aqjcjhmc}</Text>
                     </View>
                     <View style={styles.viewStyle}>
@@ -167,7 +167,8 @@ export default class NewCreateRecord extends Component {
                                 this.setState({
                                     wenti: this.state.proList[a].code,
                                     sfxczg: this.state.proList[a].code === '1' ? false : this.state.sfxczg,
-                                    zgyq: this.state.proList[a].code === '1' ? '' : this.state.zgyq
+                                    zgyq: this.state.proList[a].code === '1' ? '' : this.state.zgyq,
+                                    wtlbmc: this.state.proList[a].name
                                 });
                             }}
                             showsVerticalScrollIndicator={false}/>
@@ -276,7 +277,7 @@ export default class NewCreateRecord extends Component {
     //保存并提交
     saveAndCommit() {
         if (this.state.wtlbmc === '请选择>') {
-            Toast.show('请选择问题类比');
+            Toast.show('请选择问题类别');
         } else if (this.state.jcsj.length === 0) {
             Toast.show('请选择检查时间');
         } else if (this.state.jcrmc.length) {

@@ -58,8 +58,8 @@ export default class ChooseProject extends Component {
                         }}
                         isModalVisible={this.state.isModalVisible}
                         jhlx={this.state.jhlx}
-                        eDate={this.state.kssj}
-                        sDate={this.state.jssj}
+                        sDate={this.state.kssj}
+                        eDate={this.state.jssj}
                         closeModal={() => this.setState({isModalVisible: false})}/> :
                     <View/>}
                 {this.state.isLoading ? <Loading/> : null}

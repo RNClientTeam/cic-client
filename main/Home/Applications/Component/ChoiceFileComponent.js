@@ -45,8 +45,6 @@ export default class ChoiceFileComponent extends Component {
             imageList: [],
             fileList: [],
             choiceFileName: '所选文件名称',
-            businessModule:this.props.businessModule,
-            readOnly:this.props.readOnly,
             hasFile: false
         }
     }
