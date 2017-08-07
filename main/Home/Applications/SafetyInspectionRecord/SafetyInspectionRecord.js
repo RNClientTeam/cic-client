@@ -142,7 +142,7 @@ export default class SafetyInspectionRecord extends Component{
                 ksrq:this.state.ksrq,
                 jsrq:this.state.jsrq,
                 jhlx:jhlx,
-                keywords:'',
+                keywords:this.state.keywords,
                 pageNum:pageNum,
                 pageSize:10,
                 callID:true

@@ -44,7 +44,9 @@ export default class SelectedPage extends Component {
             <TouchableHighlight onPress={this._clickItem.bind(this, rowData)} underlayColor="#e8e8e8">
                 <View style={styles.itemView}>
                     <Text style={[styles.textSty, {color:'#5476a1'}]} numberOfLines={1}>{rowData.xmbh}</Text>
-                    <Text style={styles.textSty} numberOfLines={1}>{rowData.xmmc}</Text>
+                    <Text style={styles.textSty} numberOfLines={2}>{rowData.xmmc}</Text>
+                    <Text style={styles.textSty} numberOfLines={2}>{rowData.gczxmc}</Text>
+                    <Text style={styles.textSty} numberOfLines={2}>{rowData.aqjcjhmc}</Text>
                 </View>
             </TouchableHighlight>
         );
@@ -60,28 +62,28 @@ export default class SelectedPage extends Component {
     }
 
     loadMore() {
-        // this.getDataFromNet(++this.pageNum);
+        this.getDataFromNet(++this.pageNum);
     }
 
     getDataFromNet(pageNum){
-        // axios.get('/psmAqjcjh/aqjcjhSelect4Aqjcjl', {
-        //     params: {
-        //         userID: GLOBAL_USERID,
-        //         pageNum: pageNum,
-        //         pageSize: 10,
-        //         callID: true
-        //     }
-        // }).then((res) => {
-        //     if (res.code === 1) {
-        //         if (res.data.data) {
-        //             this.setState({dataSource: res.data.data});
-        //         }
-        //    } else {
-        //        toast.show(res.message);
-        //    }
-        // }).then((error) => {
-        //
-        // });
+        axios.get('/psmAqjcjh/aqjcjhSelect4Aqjcjl', {
+            params: {
+                userID: GLOBAL_USERID,
+                pageNum: pageNum,
+                pageSize: 10,
+                callID: true
+            }
+        }).then((res) => {
+            if (res.code === 1) {
+                if (res.data.data) {
+                    this.setState({dataSource: this.state.dataSource.concat(res.data.data)});
+                }
+           } else {
+               toast.show(res.message);
+           }
+       }).catch((error) => {
+            toast.show('服务端异常');
+        });
     }
 }
 
@@ -92,21 +94,18 @@ const styles = StyleSheet.create({
     },
     itemView: {
         width: width,
-        height: 0.08 * height,
-        justifyContent: 'space-between',
-        paddingLeft: 20,
+        paddingHorizontal: 10,
         backgroundColor:'#fff',
-        marginBottom: 1,
-        paddingVertical: 5,
-        alignItems:'center'
+        paddingVertical: 8,
     },
     textSty: {
         fontSize: 15,
-        color: '#3d3d3d'
+        color: '#3d3d3d',
+        lineHeight: 19
     },
     separatorView: {
         width: width,
-        height: 5,
+        height: 8,
         backgroundColor: '#f1f1f1'
     },
 });

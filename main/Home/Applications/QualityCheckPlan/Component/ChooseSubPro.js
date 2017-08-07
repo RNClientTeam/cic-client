@@ -44,7 +44,7 @@ export default class ChooseSubPro extends Component {
             <TouchableHighlight onPress={this._clickItem.bind(this, rowData)} underlayColor="#e8e8e8">
                 <View style={styles.itemView}>
                     <Text style={styles.textNum}>{rowData.zxmc}</Text>
-                    <Text style={styles.textInfo}>{rowData.gczxId}</Text>
+                    <Text style={styles.textInfo}>{this.props.dataSource.xmgh}</Text>
                 </View>
             </TouchableHighlight>
         );

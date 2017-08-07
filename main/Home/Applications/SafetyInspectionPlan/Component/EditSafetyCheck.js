@@ -54,6 +54,7 @@ export default class EditSafetyCheck extends Component {
                     callID: true
                 }
             }).then((res) => {
+                console.log(res);
                 if (res.code === 1) {
                     this.setState({
                         aqjcjhmc: res.data.aqjcjhmc,
@@ -63,7 +64,8 @@ export default class EditSafetyCheck extends Component {
                         sgrwmc: res.data.sgrwmc,
                         jhkssj: res.data.jhkssj,
                         jhjssj: res.data.jhjssj,
-                        zrrmc: res.data.zrrmc
+                        zrrmc: res.data.zrrmc,
+                        cjsj: res.data.cjsj
                     });
                 } else {
                     Toast.show(res.message);
@@ -161,7 +163,7 @@ export default class EditSafetyCheck extends Component {
         return (
             <View style={styles.flex}>
                 <StatusBar title={this.state.title} navigator={this.props.navigator}/>
-                <KeyValueRight propKey="安全检查计划名称" value={this.state.aqjcjhmc} />
+                <KeyValueRight propKey="安全检查计划名称" defaultValue={this.state.aqjcjhmc} txtChange={(text)=>{this.setState({aqjcjhmc:text});}}/>
                 <KeyValueRight propKey="项目编号" readOnly={true} defaultValue={this.state.xmbh}/>
                 <KeySelect propKey="项目名称" choiceInfo={() => this.choiceInfo()} value={this.state.xmmc || "请选择"} />
                 <KeyValueRight propKey="工程子项名称" readOnly={true} defaultValue={this.state.gczxmc}/>

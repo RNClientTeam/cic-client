@@ -219,7 +219,6 @@ export default class AddOrEditQualityCheck extends Component {
                 this.setState({
                     isLoading:false
                 });
-                console.log(data);
                 if(data.code === 1){
                     toast.show('创建成功');
                     let that = this;
@@ -466,18 +465,6 @@ export default class AddOrEditQualityCheck extends Component {
                 callID: true,
             }
         }).then(responseData => {
-            console.log('-------data', responseData);
-            // responseData = {
-            //     "code": 1,
-            //     "data": {
-            //         "addZljcjh": false,
-            //         "updateZljcjh": true,
-            //         "deleteZljcjh": false,
-            //         "effectZljcjh": true,
-            //         "tbZljcjl": true,
-            //     },
-            //     "message": "成功"
-            // };
             // 生效按钮
             this.setState({
                 effectZljcjh: responseData.data.effectZljcjh

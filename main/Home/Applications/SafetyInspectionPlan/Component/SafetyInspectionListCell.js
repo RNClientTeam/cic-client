@@ -15,16 +15,13 @@ const {width} = Dimensions.get('window');
 import SafetyInspectionDetail from './SafetyInspectionDetail.js';
 export default class SafetyInspectionListCell extends Component {
     render() {
-        console.log(this.props.data);
         return (
             <View>
                 <TouchableOpacity style={styles.earlierStageListCell} onPress={this.skipPage.bind(this)}>
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
                             <Text style={{color:'#216fd0',fontSize:width*0.045}} numberOfLines={1}>{this.props.data.aqjcjhmc}</Text>
-                            <View style={styles.stateView}>
-                                <Text style={styles.stateText}>{this.props.data.ztmc}</Text>
-                            </View>
+                            <Text style={styles.stateText}>{this.props.data.ztmc}</Text>
                         </View>
                         <Text style={styles.projectName} numberOfLines={0}>{this.props.data.xmmc} - {this.props.data.gczxmc}</Text>
                     </View>
@@ -93,15 +90,14 @@ const styles = StyleSheet.create({
         color:'#4f74a3',
         fontSize: 14
     },
-    stateView: {
-        backgroundColor: '#fe9a25',
-        width:width*0.12,
-        height:width*0.05,
+    stateText: {
+        color: '#fff',
+        fontSize: width * 0.03,
+        padding: 3,
         borderRadius:3,
-        justifyContent:'center',
-        alignItems:'center'
+        overflow:'hidden',
+        backgroundColor: '#fe9a25',
     },
-    stateText: {color: '#fff', fontSize: width * 0.03},
     editTouch: {
         position: 'absolute',
         right: 18,
