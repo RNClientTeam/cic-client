@@ -45,6 +45,7 @@ export default class SafetyInspectionPlane extends Component{
     componentDidMount() {
         this.getCalendarData();
         this.getList();
+        this.getAddAuth();
     }
 
     render(){
@@ -173,6 +174,32 @@ export default class SafetyInspectionPlane extends Component{
         });
     }
 
+    getAddAuth() {
+        axios.get('/psmAqjcjh/getOperationAuthority4Aqjcjh', {
+            params: {
+                userID: GLOBAL_USERID,
+                aqjcjhId: '',
+                callID: true,
+            }
+        }).then(responseData => {
+            if (responseData.code === 1) {
+                const authority = responseData.data;
+                if (authority && authority.addAqjcjh) {
+                    this.setState({
+                        addAqjcjh: true,
+                    });
+                }
+                this.setState({
+                    addAqjcjh: true,
+                });
+            } else {
+                toast.show(responseData.message);
+            }
+        }).catch(() => {
+            toast.show('服务端异常!');
+        })
+    }
+
     getAuthority(id, callBack = () => {}) {
         axios.get('/psmAqjcjh/getOperationAuthority4Aqjcjh', {
             params: {
@@ -183,7 +210,7 @@ export default class SafetyInspectionPlane extends Component{
         }).then(responseData => {
             if (responseData.code === 1) {
                 const authority = responseData.data;
-                if (authority.addAqjcjh || authority.updateAqjcjh || authority.deleteAqjcjh || authority.tbAqjcjl) {
+                if (authority.updateAqjcjh || authority.deleteAqjcjh || authority.effectAqjcjh) {
                     this.setState({
                         authority
                     }, () => {
