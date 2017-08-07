@@ -15,7 +15,6 @@ const {width} = Dimensions.get('window');
 import SafetyInspectionDetail from './SafetyInspectionDetail.js';
 export default class SafetyInspectionListCell extends Component {
     render() {
-        console.log(this.props.data);
         return (
             <View>
                 <TouchableOpacity style={styles.earlierStageListCell} onPress={this.skipPage.bind(this)}>
