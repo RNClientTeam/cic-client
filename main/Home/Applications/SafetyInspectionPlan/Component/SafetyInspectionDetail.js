@@ -109,6 +109,8 @@ export default class SafetyInspectionDetail extends Component {
                     aqjcjhId: this.props.id
                 }
             });
+        } else {
+            toast.show('没有相关权限!');
         }
     }
 

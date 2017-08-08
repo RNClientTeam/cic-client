@@ -70,7 +70,7 @@ export default class ModalView extends Component {
                         <ModalDropdown
                             options={this.state.rwztmcList}
                             animated={true}
-                            defaultValue={this.state.rwztmc}
+                            defaultValue={this.state.rwztmc || '请选择'}
                             style={styles.modalDropDown}
                             textStyle={styles.modalDropDownText}
                             dropdownStyle={styles.dropdownStyle}
