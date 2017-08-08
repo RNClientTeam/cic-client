@@ -62,7 +62,6 @@ export default class QualityCheckRecordDetail extends Component {
             selList: [],
             questionList: [],
             defaultGcjd: '请选择>',
-            jianyanRW: '请选择>',
             reasonList: [],
             reasonListText: [],
             showBottom: true,
@@ -72,7 +71,7 @@ export default class QualityCheckRecordDetail extends Component {
             jcrID: '',      //检查人的id
             jcsj: '',       //检查时间
             jcfj: getRandomId(),       //附件ID
-            rwnr: '',       //任务内容
+            rwnr: '请选择>',       //任务内容
             gczxid: '',     //工程子项ID
             xmgh: '',       //项目工号
             xmmc: '',       //项目名称
@@ -81,10 +80,31 @@ export default class QualityCheckRecordDetail extends Component {
     }
 
     componentDidMount() {
+        //初始化
+        this.initData();
         //获取问题类别
         this.getQuestionType();
         //获取工程节点
         this.getNodeList();
+    }
+
+    initData() {
+        axios.get('/psmZljcjl/detail', {
+            params: {
+                userID: GLOBAL_USERID,
+                id: '',
+                callID: true
+            }
+        }).then((res) => {
+            console.log(res);
+            if (res.code === 1) {
+
+            } else {
+                Toast.show(res.message);
+            }
+        }).catch((error) => {
+            Toast.show('服务端异常');
+        })
     }
 
     getFirstInfo(rowData) {
@@ -227,7 +247,7 @@ export default class QualityCheckRecordDetail extends Component {
                     <TouchableOpacity onPress={this.onPress.bind(this)}>
                         <View style={styles.cell}>
                             <Text style={{color:'#5476a1'}}>检验任务</Text>
-                            <Text>{this.state.jianyanRW}</Text>
+                            <Text>{this.state.rwnr}</Text>
                         </View>
                     </TouchableOpacity>
                     <KeyValueRight propKey="工程工号" readOnly={true} defaultValue={this.state.xmgh}/>
@@ -316,7 +336,7 @@ export default class QualityCheckRecordDetail extends Component {
             }
         });
         let wtlb = tempWtlb.join(',');
-        if (this.state.jianyanRW === '请选择>') {
+        if (this.state.rwnr === '请选择>') {
             Toast.show('请选择检验任务');
         } else if (this.gcjd.length === 0) {
             Toast.show('请选择工程节点');
@@ -346,15 +366,20 @@ export default class QualityCheckRecordDetail extends Component {
                 rwnr: this.state.rwnr,
                 gczxid: this.state.gczxid,
                 xmgh: this.state.xmgh,
+                cjbm: '',
+                cjsj: '',
                 callID: true
             }).then((data) => {
+                console.log(data)
                 if (data.code === 1) {
                     Toast.show('保存成功');
+                    this.props.navigator.pop();
                 } else {
                     Toast.show(data.message);
                 }
             }).catch((error) => {
-
+                console.log(error);
+                Toast.show('服务端异常');
             });
         }
     }
