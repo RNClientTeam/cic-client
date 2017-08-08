@@ -27,16 +27,17 @@ export default class QualityCheckModalCell extends Component {
     }
 
     skipPage(){
-        if(this.props.dataSource.name === '新建'){
-            this.props.navigator.push({
-                name: "AddOrEditQualityCheck",
-                component: AddOrEditQualityCheck,
-                params:{
-                    flag:'add'
-                }
-            })
-
-        }else if(this.props.dataSource.name === '编辑'){
+        // if(this.props.dataSource.name === '新建'){
+        //     this.props.navigator.push({
+        //         name: "AddOrEditQualityCheck",
+        //         component: AddOrEditQualityCheck,
+        //         params:{
+        //             flag:'add'
+        //         }
+        //     })
+        //
+        // }else
+        if(this.props.dataSource.name === '编辑'){
             this.props.navigator.push({
                 name:"AddOrEditQualityCheck",
                 component:AddOrEditQualityCheck,

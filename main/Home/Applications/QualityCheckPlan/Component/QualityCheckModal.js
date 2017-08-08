@@ -57,12 +57,12 @@ export default class QualityCheckModal extends Component{
 
     assignAuthority(authority) {
         let data = [];
-        if (authority.addZljcjh) {
-            data.push({
-                img:require('../../../../../resource/imgs/home/earlierStage/applyForDelay.png'),
-                name:'新建'
-            });
-        }
+        // if (authority.addZljcjh) {
+        //     data.push({
+        //         img:require('../../../../../resource/imgs/home/earlierStage/applyForDelay.png'),
+        //         name:'新建'
+        //     });
+        // }
         if (authority.updateZljcjh) { // 编辑
             data.push({
                 img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
