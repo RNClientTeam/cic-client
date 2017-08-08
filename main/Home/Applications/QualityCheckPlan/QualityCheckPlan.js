@@ -89,6 +89,7 @@ export default class QualityCheckPlan extends Component{
                         navigator={this.props.navigator}
                         jhrwId={this.state.jhrwId}
                         authority={this.state.authority}
+                        reloadInfo={() => this.getTask()}
                         closeModal={() => {this.setState({modalVisible: false})
                     }}/>
                 </Modal>

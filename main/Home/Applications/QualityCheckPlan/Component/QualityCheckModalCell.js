@@ -66,6 +66,7 @@ export default class QualityCheckModalCell extends Component {
             });
             if(data.code === 1){
                 toast.show('删除成功');
+                this.props.reloadInfo();
             }else{
                 toast.show(data.message)
             }
@@ -85,6 +86,7 @@ export default class QualityCheckModalCell extends Component {
             });
             if(data.code === 1){
                 toast.show('生效成功');
+                this.props.reloadInfo();
             }else{
                 toast.show(data.message)
             }
