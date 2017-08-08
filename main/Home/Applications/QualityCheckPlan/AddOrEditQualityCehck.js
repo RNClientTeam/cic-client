@@ -35,8 +35,8 @@ export default class AddOrEditQualityCheck extends Component {
             rwnr: '',
             zrr: '',
             zrbm: '',
-            jhkssj: getCurrentDate(),
-            jhjssj: getCurrentMonE(),
+            jhkssj: '',
+            jhjssj: '',
             rwxzCn: [],
             rwxzCode: [],
             twztCn: [],
@@ -337,6 +337,7 @@ export default class AddOrEditQualityCheck extends Component {
                 callID: true,
             }
         }).then(responseData => {
+            console.log(responseData);
             this.setState({
                 isLoading: false
             });
@@ -349,8 +350,8 @@ export default class AddOrEditQualityCheck extends Component {
                     rwxzmc: responseData.data.rwxzmc,
                     twztmc: responseData.data.twztmc,
                     zrrmc: responseData.data.zrrmc,
-                    jhkssjt: responseData.data.jhkssjt,
-                    jhjssjt: responseData.data.jhkssjt,
+                    jhkssj: responseData.data.jhkssjt,
+                    jhjssj: responseData.data.jhjssjt,
                 })
             } else {
                 toast.show(responseData.message)

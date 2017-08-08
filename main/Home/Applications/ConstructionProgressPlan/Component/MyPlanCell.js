@@ -47,13 +47,6 @@ export default class MyPlanCell extends Component {
             </View>
         )
     }
-
-    // skipPage() {
-    //     this.props.navigator.push({
-    //         component: MyPlanDetail,
-    //         name: 'MyPlanDetail'
-    //     });
-    // }
 }
 
 const styles = StyleSheet.create({

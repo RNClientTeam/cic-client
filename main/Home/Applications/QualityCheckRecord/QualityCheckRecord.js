@@ -125,7 +125,10 @@ export default class QualityCheckRecord extends Component {
     addBtn() {
         this.props.navigator.push({
             component: QualityCheckRecordDetail,
-            name: 'QualityCheckRecordDetail'
+            name: 'QualityCheckRecordDetail',
+            params: {
+                reloadInfo: this.getData.bind(this)
+            }
         });
     }
 

@@ -61,7 +61,6 @@ export default class MoreActionsModal extends Component {
     }
 
     delete(rwid) {
-        console.log('rwid', this.props.rwid);
         axios.post('/psmSgjdjh/deleteSgjhJhrw', {
             userID: GLOBAL_USERID,
             id: rwid,
@@ -85,6 +84,7 @@ export default class MoreActionsModal extends Component {
             params:{
                 resID: rwid,
                 wfName:'sgjdjhbz',
+                name: 'ProgressPlanDetail'
             }
         });
         this.props.closeModal();
@@ -113,15 +113,6 @@ export default class MoreActionsModal extends Component {
         console.log(authority);
         // 有创建权限
         if (authority) {
-            // if (authority.addSgrw) {
-            //     actionList.push(
-            //         {
-            //             img: require('../../../../../resource/imgs/home/applications/createItem.png'),
-            //             name: '新建',
-            //             action: () => this.create()
-            //         }
-            //     );
-            // }
             if (authority.updateSgrw) {
                 actionList.push(
                     {
@@ -138,7 +129,7 @@ export default class MoreActionsModal extends Component {
                         name: '提交审核',
                         action: () => this.approval(this.props.rwid)
                     }
-                );            
+                );
             }
             if (authority.effectSgrw) {
                 actionList.push(
@@ -156,11 +147,11 @@ export default class MoreActionsModal extends Component {
                         name: '删除',
                         action: () => this.delete(this.props.rwid)
                     }
-                );            
+                );
             }
             this.setState({
                 actionList: actionList
-            });           
+            });
         }
     }
 
