@@ -13,6 +13,7 @@ import {
 } from 'react-native'
 import toast from 'react-native-simple-toast'
 import MyPlanDetail from './MyPlanDetail'
+import CheckFlowInfo  from '../../SafetyInspectionRecord/Component/CheckFlowInfo'
 
 const {width} = Dimensions.get('window');
 
@@ -78,6 +79,14 @@ export default class MoreActionsModal extends Component {
     }
 
     approval(rwid) {
+        this.props.navigator.push({
+            name: "CheckFlowInfo",
+            component: CheckFlowInfo,
+            params:{
+                resID: rwid,
+                wfName:'sgjdjhbz',
+            }
+        });
         this.props.closeModal();
     }
 

@@ -202,7 +202,7 @@ export default class SafetyInspectionPlane extends Component{
         }).then(responseData => {
             if (responseData.code === 1) {
                 const authority = responseData.data;
-                if (authority.addAqjcjh || authority.updateAqjcjh || authority.deleteAqjcjh || authority.tbAqjcjl) {
+                if (authority.updateAqjcjh || authority.deleteAqjcjh || authority.effectAqjcjh) {
                     this.setState({
                         authority
                     }, () => {

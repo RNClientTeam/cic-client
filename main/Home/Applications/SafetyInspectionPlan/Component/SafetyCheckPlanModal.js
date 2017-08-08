@@ -62,25 +62,29 @@ export default class SafetyCheckPlanModal extends Component{
         console.log('-------data', authority);
         let data = [];
         // 新建
-        if (authority.addAqjcjh) {
-            data.push({
-                img:require('../../../../../resource/imgs/home/earlierStage/applyForDelay.png'),
-                name:'新增'
-            });
-        }
-        if (authority.updateAqjcjh) { // 编辑
+        // if (authority.addAqjcjh) {
+        //     data.push({
+        //         img:require('../../../../../resource/imgs/home/earlierStage/applyForDelay.png'),
+        //         name:'新增'
+        //     });
+        // }
+
+        // 编辑
+        if (authority.updateAqjcjh) {
             data.push({
                 img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
                 name:'编辑'
             });
         }
-        if (authority.effectAqjcjh) { // 生效
+        // 生效
+        if (authority.effectAqjcjh) {
             data.push({
                 img:require('../../../../../resource/imgs/home/applications/effectiveAction.png'),
                 name:'生效',
             })
         }
-        if (authority.deleteAqjcjh) { // 删除
+        // 删除
+        if (authority.deleteAqjcjh) {
             data.push({
                 img:require('../../../../../resource/imgs/home/applications/stopAction.png'),
                 name:'删除',

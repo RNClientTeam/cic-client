@@ -24,7 +24,7 @@ export default class ApartmentListModalView extends Component {
             endDate: this.props.eDate,
             options:[],
             ids:[],
-            rwzt:'',
+            rwzt:this.props.rwzt,
             rwztmc:this.props.rwztmc
         }
     }
@@ -105,6 +105,8 @@ export default class ApartmentListModalView extends Component {
             }
         })
     }
+
+
 
 }
 

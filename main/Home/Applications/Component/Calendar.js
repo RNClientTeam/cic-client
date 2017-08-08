@@ -52,7 +52,7 @@ export default class Calendar extends Component{
                 <CalendarCell
                     checkThisDay={this.choiceData.bind(this,renderCalendarArr[i])}
                     hasPlan={this.hasTask(renderCalendarArr[i])}
-                    beenSelected={this.state.selectDate === renderCalendarArr[i]}
+                    beenSelected={this.state.selectDate == renderCalendarArr[i]}
                     date={renderCalendarArr[i]}
                     key={i}/>
             )
@@ -62,10 +62,9 @@ export default class Calendar extends Component{
 
     hasTask(index){
         let result = false;
-        for(let i = 0;i<this.props.data&&this.props.data.length;i++){
-            if(parseInt(this.props.data[i].day)===index){
-                result =  this.props.data[i].yrw === 1;
-                break;
+        for(let i = 0;i<(this.props.data&&this.props.data.length);i++){
+            if(parseInt(this.props.data[i].day)==index){
+                return this.props.data[i].rwcount> 0;
             }
         }
         return result;
