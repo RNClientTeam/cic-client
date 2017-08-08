@@ -36,8 +36,8 @@ export default class EditSafetyCheck extends Component {
             ztmc: '',
             aqjcjhmc: '',
             zxmc: '',
-            jhkssj: this.formatDate(new Date()),
-            jhjssj: this.formatDate(new Date()),
+            jhkssj: '',
+            jhjssj: '',
             cjsj: '',
             isLoading: false,
             xmbh: ''
@@ -54,7 +54,6 @@ export default class EditSafetyCheck extends Component {
                     callID: true
                 }
             }).then((res) => {
-                console.log(res);
                 if (res.code === 1) {
                     this.setState({
                         aqjcjhmc: res.data.aqjcjhmc,
@@ -150,7 +149,20 @@ export default class EditSafetyCheck extends Component {
     }
 
     submit() {
-        this.save(this.props.id);
+        if (this.state.aqjcjhmc.length === 0) {
+            Toast.show('请填写检查计划名称');
+        } else if (this.state.xmbh.length === 0 || this.state.xmmc.length === 0
+            || this.state.gczxmc.length === 0 || this.state.gczxmc.length === 0) {
+            Toast.show('请选择项目');
+        } else if (this.satte.jhkssj.length === 0) {
+            Toast.show('请选择计划开始时间');
+        } else if (this.state.jhjssj.length === 0) {
+            Toast.show('请选择计划结束时间');
+        } else if (this.state.zrrmc.length === 0) {
+            Toast.show('请选择责任人');
+        } else {
+            this.save(this.props.id);
+        }
     }
 
     goBack() {

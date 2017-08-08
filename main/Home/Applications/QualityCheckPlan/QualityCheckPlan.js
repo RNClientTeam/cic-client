@@ -50,7 +50,7 @@ export default class QualityCheckPlan extends Component{
                     {this.state.addZljcjh &&
                         <TouchableWithoutFeedback
                             onPress={()=> this.add()}>
-                            <Image style={{width: 0.04 * width, height: 0.04 * width,position:'absolute',right:width*0.12}}
+                            <Image style={{width: 0.04 * width, height: 0.04 * width,position:'absolute',right:width*0.15}}
                                    source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
                         </TouchableWithoutFeedback>
                     }
@@ -97,7 +97,7 @@ export default class QualityCheckPlan extends Component{
                     rwxzId={this.state.rwxzid}
                     rwzt={this.state.rwzt}
                     rwxz={this.state.rwxz}
-                    closeFiltrate={(type,zt,xz,ztCode,xzCode)=>this.filterData(type,zt,xz,ztCode,xzCode)}/>:null}
+                    closeFiltrate={(zt,xz,ztCode,xzCode)=>this.filterData(zt,xz,ztCode,xzCode)}/>:null}
                 {this.state.isLoading?<Loading/>:null}
             </View>
         )
@@ -141,19 +141,17 @@ export default class QualityCheckPlan extends Component{
     }
 
     //过滤
-    filterData(type,zt,xz,ztCode,xzCode){
+    filterData(zt,xz,ztCode,xzCode){
         this.setState({filtrate:false});
-        if(type === 1){
-            this.setState({
-                rwzt:zt,
-                rwxz:xz,
-                rwztid:ztCode,
-                rwxzid:xzCode
-            },function () {
-                this.getTask();
-                this.getCalendarData();
-            })
-        }
+        this.setState({
+            rwzt:zt,
+            rwxz:xz,
+            rwztid:ztCode,
+            rwxzid:xzCode
+        },function () {
+            this.getTask();
+            this.getCalendarData();
+        })
     }
 
     // 选择日期
@@ -206,7 +204,7 @@ export default class QualityCheckPlan extends Component{
                 callID:true
             }
         }).then(data=>{
-            if (data.addZljcjh) {
+            if (data.data.addZljcjh) {
                 this.setState({
                     addZljcjh: true,
                 })

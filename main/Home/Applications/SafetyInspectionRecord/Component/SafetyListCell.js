@@ -24,7 +24,7 @@ export default class SafetyInspectionListCell extends Component {
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
                             <Text style={{color:'#216fd0',fontSize:width*0.045}} numberOfLines={1}>{this.props.data.zxmc}</Text>
-                            <View style={styles.stateView}>
+                            <View style={[styles.stateView, (this.props.data.ztmc==='新建'||this.props.data.ztmc==='新建任务')&&{backgroundColor:'#18d0ca'}]}>
                                 <Text style={styles.stateText} numberOfLines={1}>{this.props.data.ztmc}</Text>
                             </View>
                         </View>

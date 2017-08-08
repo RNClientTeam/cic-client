@@ -80,11 +80,11 @@ export default class QualityCheckFiltrate extends Component {
                 </View>
                 <View style={styles.buttonView}>
                     <TouchableOpacity style={[styles.clickButton, {backgroundColor: '#dbdada'}]}
-                                      onPress={() => this.props.closeFiltrate(2,'请选择任务状态','请选择任务性质','all', 'all')}>
+                                      onPress={() => this.props.closeFiltrate('请选择任务状态','请选择任务性质','all', 'all')}>
                         <Text>重置</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.clickButton, {backgroundColor: '#216fd0'}]}
-                                      onPress={() => this.props.closeFiltrate(1,this.state.rwzt,this.state.rwxz,this.state.rwztCode,this.state.rwxzCode)}>
+                                      onPress={() => this.props.closeFiltrate(this.state.rwzt,this.state.rwxz,this.state.rwztCode,this.state.rwxzCode)}>
                         <Text style={{color: '#fff'}}>确定</Text>
                     </TouchableOpacity>
                 </View>

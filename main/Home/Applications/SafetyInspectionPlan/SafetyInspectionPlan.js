@@ -38,6 +38,7 @@ export default class SafetyInspectionPlane extends Component{
             jhlx: 300,
             rwzt: 0,
             pageNum: 1,
+            canAdd: false,
             date: this.formatDate(this.date.getFullYear(), this.date.getMonth() + 1, this.date.getDate()),
         }
     }
@@ -45,16 +46,34 @@ export default class SafetyInspectionPlane extends Component{
     componentDidMount() {
         this.getCalendarData();
         this.getList();
+        //增加按钮权限控制
+        axios.get('/psmAqjcjh/operationAuthority4add',{
+            params:{
+                userID:GLOBAL_USERID,
+                type:'addAqjcjh',
+                callID:true
+            }
+        }).then(data=>{
+            if(data.code === 1){
+                this.setState({
+                    canAdd:data.data.addAqjcjh
+                })
+            }else{
+                toast.show(data.message);
+            }
+        }).catch(err=>{
+            toast.show('服务端异常');
+        });
     }
 
     render(){
         return(
             <View style={styles.earlierStage}>
                 <StatusBar navigator={this.props.navigator} title="安全检查计划">
-                    {this.state.addAqjcjh &&
+                    {this.state.canAdd &&
                         <TouchableWithoutFeedback
                             onPress={()=> this.add()}>
-                            <Image style={{width: 0.04 * width, height: 0.04 * width,position:'absolute',right:width*0.12}}
+                            <Image style={{width: 0.04 * width, height: 0.04 * width,position:'absolute',right:width*0.15}}
                                    source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
                         </TouchableWithoutFeedback>
                     }

@@ -31,7 +31,7 @@ export default class AddOrEditQualityCheck extends Component {
             cfxxId: '',
             gczxId: "",
             rwxz: '',
-            twzt: '',
+            twzt: props.flag==='add'?'0':'',
             rwnr: '',
             zrr: '',
             zrbm: '',
@@ -42,7 +42,7 @@ export default class AddOrEditQualityCheck extends Component {
             twztCn: [],
             twztCode: [],
             rwxzmc: '请选择任务性质',
-            twztmc: '请选择任务状态',
+            twztmc: props.flag==='add'?'新建任务':'请选择任务状态',
             xmmc: '',
             zxmc: "",
             isLoading: false
@@ -90,6 +90,7 @@ export default class AddOrEditQualityCheck extends Component {
                             <ModalDropdown
                                 options={this.state.twztCn}
                                 animated={true}
+                                disabled={this.props.flag==='add'?true:false}
                                 defaultValue={this.state.twztmc}
                                 style={styles.modalDropDown}
                                 textStyle={styles.modalDropDownText}
@@ -98,7 +99,7 @@ export default class AddOrEditQualityCheck extends Component {
                                     this.setState({
                                         twzt: this.state.twztCode[a],
                                         twztmc: this.state.twztCn[a]
-                                    })
+                                    });
                                 }}
                                 showsVerticalScrollIndicator={false}
                             />

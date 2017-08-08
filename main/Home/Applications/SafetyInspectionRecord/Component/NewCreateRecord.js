@@ -62,7 +62,11 @@ export default class NewCreateRecord extends Component {
     }
 
     componentDidMount() {
-        this.initData();
+        if (this.props.fromDetail) {
+            this.anotherInit();
+        } else {
+            this.initData();
+        }
         //获取问题类别
         this.getQuestionType();
     }
@@ -89,6 +93,49 @@ export default class NewCreateRecord extends Component {
         }).catch((error) => {
 
         });
+    }
+
+    //初始化数据
+    anotherInit() {
+        axios.get('/psmAqjcjh/init4Aqjcjl2', {
+            params: {
+                userID: GLOBAL_USERID,
+                aqjcjhId: this.props.aqjcjhId,
+                callID: true
+            }
+        }).then((res) => {
+            if (res.code === 1) {
+                this.setState({
+                    jcbm: res.data.jcbm,
+                    fcsj: res.data.fcsj,
+                    aqjcjhmc: res.data.aqjcjhmc,
+                    aqjcjhId: res.data.aqjcjhId,
+                    xmbh: res.data.xmbh,
+                    xmmc: res.data.xmmc,
+                    zxmc: res.data.zxmc,
+                    jcsj: res.data.jcsj,
+                    jcrmc: res.data.jcrmc,
+                    wtlbmc: res.data.wtlbmc || '请选择>',
+                    fcr: res.data.fcr,
+                    jcr: res.data.jcr,
+                    fcfj: res.data.fcfj,
+                    id: res.data.id,
+                    fcrmc: res.data.fcrmc,
+                    gczxId: res.data.gczxId,
+                    jcfj: res.data.jcfj,
+                    fcjg: res.data.fcjg,
+                    sfxczg: res.data.sfxczg == 1 ? true : false,
+                    wtlb: res.data.wtlb,
+                    businessModule: res.data.businessModule,
+                    fcjlisAttach: res.data.fcjlisAttach,
+                    jcjlisAttach:res.data.jcjlisAttach
+                });
+            } else {
+                Toast.show(res.message);
+            }
+        }).catch((error) => {
+            Toast.show('服务端异常');
+        })
     }
 
     //初始化数据

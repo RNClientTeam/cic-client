@@ -19,7 +19,7 @@ import ModalView from "./Component/ModalView.js";
 import {getCurrentMonS,getCurrentMonE} from '../../../Util/Util'
 import toast from 'react-native-simple-toast'
 import Loading from "../../../Component/Loading";
-import {padStart} from '../../../Util/Util'
+import {padStart} from '../../../Util/Util.js';
 export default class SafetyInspectionRecord extends Component{
     constructor(props){
         super(props);
@@ -34,7 +34,8 @@ export default class SafetyInspectionRecord extends Component{
             isLoading:false,
             dataSource:[],
             auth: {},
-            data: {}
+            data: {},
+            canAdd: false
         }
     }
 
@@ -42,6 +43,13 @@ export default class SafetyInspectionRecord extends Component{
         return(
             <View style={styles.earlierStage}>
                 <StatusBar navigator={this.props.navigator} title="安全检查记录">
+                    {this.state.canAdd &&
+                        <TouchableWithoutFeedback onPress={this.addBtn.bind(this)}>
+                            <Image style={{width: 0.045 * width, height: 0.045 * width,position:'absolute',right:width*0.16}}
+                                   source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
+                        </TouchableWithoutFeedback>
+                    }
+
                     <TouchableOpacity onPress={()=>{this.setState({isModalVisible:!this.state.isModalVisible})}}>
                         <Image style={styles.filtrate}
                                source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
@@ -124,6 +132,24 @@ export default class SafetyInspectionRecord extends Component{
 
     componentDidMount() {
         this._getData(1);
+        //增加按钮权限控制
+        axios.get('/psmAqjcjh/operationAuthority4add',{
+            params:{
+                userID:GLOBAL_USERID,
+                type:'addAqjcjl',
+                callID:true
+            }
+        }).then(data=>{
+            if(data.code === 1){
+                this.setState({
+                    canAdd:data.data.addAqjcjl
+                })
+            }else{
+                toast.show(data.message);
+            }
+        }).catch(err=>{
+            toast.show('服务端异常');
+        });
     }
 
     _getData(pageNum,resolve=()=>{}){
@@ -181,15 +207,15 @@ export default class SafetyInspectionRecord extends Component{
         })
     }
 
-    // addBtn() {
-    //     this.props.navigator.push({
-    //         component: NewCreateRecord,
-    //         name: 'NewCreateRecord',
-    //         params: {
-    //             reloadInfo: this._getData.bind(this, 1)
-    //         }
-    //     });
-    // }
+    addBtn() {
+        this.props.navigator.push({
+            component: NewCreateRecord,
+            name: 'NewCreateRecord',
+            params: {
+                reloadInfo: this._getData.bind(this, 1)
+            }
+        });
+    }
 
 }
 

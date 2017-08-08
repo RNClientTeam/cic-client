@@ -21,7 +21,8 @@ import QualityCheckRecordFiltrate from "./Component/QualityCheckRecordFiltrate";
 import QualityCheckModal from "./Component/QualityCheckModal";
 import Loading from "../../../Component/Loading";
 import toast from 'react-native-simple-toast';
-import {padStart} from '../../../Util/Util'
+import {padStart} from '../../../Util/Util';
+import QualityCheckRecordDetail from './Component/QualityCheckRecordDetail.js';
 const {width} = Dimensions.get('window');
 
 export default class QualityCheckRecord extends Component {
@@ -52,6 +53,10 @@ export default class QualityCheckRecord extends Component {
         return (
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="质量检查记录">
+                    <TouchableWithoutFeedback onPress={this.addBtn.bind(this)}>
+                        <Image style={{width: 0.045 * width, height: 0.045 * width,position:'absolute',right:width*0.16}}
+                               source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
+                    </TouchableWithoutFeedback>
                     <TouchableOpacity onPress={() => {this.setState({filtrate: !this.state.filtrate})}}>
                         <Image style={styles.filtrate}
                                source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
@@ -115,6 +120,13 @@ export default class QualityCheckRecord extends Component {
                 {this.state.isLoading ? <Loading/> : null}
             </View>
         )
+    }
+
+    addBtn() {
+        this.props.navigator.push({
+            component: QualityCheckRecordDetail,
+            name: 'QualityCheckRecordDetail'
+        });
     }
 
     //过滤

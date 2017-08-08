@@ -23,12 +23,34 @@ export default class SafetyInspectionDetail extends Component {
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             dataSource: [],
+            add: false
         };
     }
 
     componentDidMount() {
         this.getDetail(this.props.id);
+        //获取填报检查记录权限
+        this.canCreate();
     }
+
+    canCreate() {
+        axios.get('/psmAqjcjh/operation4Aqjcjladd2', {
+            params: {
+                userID: GLOBAL_USERID,
+                aqjcjhId: this.props.id,
+                callID: true
+            }
+        }).then(res => {
+            if (res.code === 1) {
+                this.setState({add:res.data.add});
+            } else {
+                toast.show(res.message);
+            }
+        }).catch(error => {
+            toast.show('服务端异常');
+        });
+    }
+
     render() {
         return (
             <View style={styles.flex}>
@@ -78,10 +100,16 @@ export default class SafetyInspectionDetail extends Component {
     }
 
     tianbao() {
-        this.props.navigator.push({
-            component: NewCreateRecord,
-            name: 'NewCreateRecord',
-        });
+        if (this.state.add) {
+            this.props.navigator.push({
+                component: NewCreateRecord,
+                name: 'NewCreateRecord',
+                params: {
+                    fromDetail: true,
+                    aqjcjhId: this.props.id
+                }
+            });
+        }
     }
 
     getDetail(id) {

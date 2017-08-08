@@ -149,7 +149,6 @@ export default class ProgressPlan extends Component {
                 return false
             }
         }).catch(err => {
-            console.log(err);
             toast.show('服务端异常');
             this.setState({
                 isLoading: false
