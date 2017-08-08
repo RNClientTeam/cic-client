@@ -124,7 +124,7 @@ export default class QualityCheckPlan extends Component{
         }).then(responseData => {
             if (responseData.code === 1) {
                 const authority = responseData.data;
-                if (authority.addZljcjh || authority.updateZljcjh || authority.deleteZljcjh || authority.effectZljcjh) {
+                if (authority.updateZljcjh || authority.deleteZljcjh || authority.effectZljcjh) {
                     this.setState({
                         authority
                     });
