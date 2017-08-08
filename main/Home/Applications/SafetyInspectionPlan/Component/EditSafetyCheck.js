@@ -64,7 +64,13 @@ export default class EditSafetyCheck extends Component {
                         jhkssj: res.data.jhkssj,
                         jhjssj: res.data.jhjssj,
                         zrrmc: res.data.zrrmc,
-                        cjsj: res.data.cjsj
+                        cjsj: res.data.cjsj,
+                        cfxxId: res.data.cfxxId,
+                        gczxId: res.data.gczxId,
+                        sgrwId: res.data.id,
+                        zrr: res.data.zrr,
+                        zrbm: res.data.zrbm,
+                        zt: res.data.zt
                     });
                 } else {
                     Toast.show(res.message);

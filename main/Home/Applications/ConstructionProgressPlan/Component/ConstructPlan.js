@@ -226,7 +226,6 @@ export default class ConstructPlan extends Component {
                 callID: true,
             }
         }).then(responseData => {
-            console.log('-------', responseData);
             if (responseData.code === 1) {
                 if (responseData.data.effectSgrw ||
                     responseData.data.deleteSgrw ||

@@ -15,8 +15,8 @@ export default class KeyValueLeft extends Component {
     render() {
         return (
             <View style={styles.keyValue}>
-                <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>{this.props.propsKey}</Text>
-                <Text style={styles.textStyle} numberOfLines={1}>{this.props.propsValue}</Text>
+                <Text style={[styles.textKey,{color:'#5476a1'}]} numberOfLines={1}>{this.props.propsKey}</Text>
+                <Text style={styles.textValue} numberOfLines={2}>{this.props.propsValue}</Text>
             </View>
         )
     }
@@ -32,8 +32,11 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#ddd',
     },
-    textStyle: {
-        flex: 1,
-        marginLeft:width*0.02,
+    textKey: {
+        width: width * 0.4,
+        marginLeft: 15
+    },
+    textValue: {
+        width: width * 0.6 - 25
     }
 });
