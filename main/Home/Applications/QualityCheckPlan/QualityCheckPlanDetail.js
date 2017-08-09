@@ -53,10 +53,6 @@ export default class QualityCheckPlanDetail extends Component {
         )
     }
 
-    // componentWillMount() {
-    //     this.getAuthority(this.props.id);
-    // }
-
     componentDidMount() {
         axios.get('/psmZljcjh/detail',{
             params:{
@@ -92,21 +88,6 @@ export default class QualityCheckPlanDetail extends Component {
             });
         });
     }
-
-    // getAuthority(id) {
-    //     axios.get('/psmZljcjh/getOperationAuthority4Zljcjh', {
-    //         params: {
-    //             userID: GLOBAL_USERID,
-    //             zlcjhId: id,
-    //             callID: true,
-    //         }
-    //     }).then(responseData => {
-    //         // 填报按钮
-    //         this.setState({
-    //             tbZljcjl: responseData.data.tbZljcjl
-    //         })
-    //     });
-    // }
 
     tianbao() {
         this.props.navigator.push({
