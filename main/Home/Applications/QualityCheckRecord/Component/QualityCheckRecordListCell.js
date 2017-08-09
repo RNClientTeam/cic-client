@@ -74,7 +74,7 @@ export default class QualityCheckRecordListCell extends Component {
             params: {
                 data: data,
                 fromList: true,
-                reload:this.props.reload
+                reloadInfo:this.props.reloadInfo
             }
         })
     }

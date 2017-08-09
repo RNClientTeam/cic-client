@@ -25,32 +25,38 @@ export default class QualityCheckModal extends Component{
                 img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
                 name: '增加'
             });
-        } else if (this.props.auth.editZljcjl) {
+        }
+        if (this.props.auth.editZljcjl) {
             dataArr.push({
                 img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
                 name: '修改'
             });
-        } else if (this.props.auth.checkZljcjl) {
+        }
+        if (this.props.auth.checkZljcjl) {
             dataArr.push({
                 img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
                 name: '审核'
             });
-        } else if (this.props.auth.checkAndaddZgrw) {
+        }
+        if (this.props.auth.checkAndaddZgrw) {
             dataArr.push({
                 img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
                 name: '下发整改任务'
             });
-        } else if (this.props.auth.tbZgwcqk) {
+        }
+        if (this.props.auth.tbZgwcqk) {
             dataArr.push({
                 img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
                 name: '填报整改情况'
             });
-        } else if (this.props.auth.tbFcjl) {
+        }
+        if (this.props.auth.tbFcjl) {
             dataArr.push({
                 img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
                 name: '填报复查记录'
             });
-        } else if (this.props.auth.deleteZljcjl) {
+        }
+        if (this.props.auth.deleteZljcjl) {
             dataArr.push({
                 img: require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),
                 name: '删除'

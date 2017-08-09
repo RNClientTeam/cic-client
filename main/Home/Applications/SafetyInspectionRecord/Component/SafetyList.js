@@ -50,7 +50,8 @@ export default class SafetyList extends Component {
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
             <SafetyListCell key={rowID} data={item} navigator={this.props.navigator}
-                setModalVisible={this.props.setModalVisible} rowID={rowID}/>
+                setModalVisible={this.props.setModalVisible} rowID={rowID}
+                reloadInfo={this.props.reloadInfo}/>
         );
     }
 

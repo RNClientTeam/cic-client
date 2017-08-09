@@ -22,6 +22,7 @@ import Organization from '../../../../Organization/Organization.js';
 import ChoiceFileComponent from '../../Component/ChoiceFileComponent.js';
 import SelectedPage from './SelectedPage.js';
 import StatusBar from '../../../../Component/StatusBar.js';
+import CheckFlowInfo from './CheckFlowInfo.js';
 export default class DoubleCheckDetail extends Component {
     constructor(props) {
         super(props);
@@ -287,7 +288,22 @@ export default class DoubleCheckDetail extends Component {
             }).then((res) => {
                 if (res.code === 1) {
                     Toast.show('保存成功');
-                    this.props.navigator.pop();
+                    if (res.data.isToSubmit) {
+                        //跳转到流程
+                        this.props.navigator.push({
+                            name: "CheckFlowInfo",
+                            component: CheckFlowInfo,
+                            params: {
+                                resID: res.data.aqjcjlId,
+                                reloadInfo: this.props.reloadInfo,
+                                wfName: 'jdjhaqjcjl',
+                                name:'SafetyInspectionRecord'
+                            }
+                        })
+                    } else {
+                        this.props.reloadInfo();
+                        this.props.navigator.pop();
+                    }
                 } else {
                     Toast.show(res.message);
                 }
@@ -331,6 +347,7 @@ export default class DoubleCheckDetail extends Component {
             }).then((res) => {
                 if (res.code === 1) {
                     Toast.show('保存成功');
+                    this.props.reloadInfo();
                     this.props.navigator.pop();
                 } else {
                     Toast.show(res.message);

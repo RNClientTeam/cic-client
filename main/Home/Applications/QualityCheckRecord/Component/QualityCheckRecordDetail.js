@@ -78,6 +78,7 @@ export default class DoubleCheckDetail extends Component {
                 callID: true
             }
         }).then(data => {
+            console.log(data);
             this.setState({isLoading: false});
             if (data.code === 1) {
                 this.setState({
@@ -90,7 +91,7 @@ export default class DoubleCheckDetail extends Component {
                     jcr: data.data.jcr,
                     jcrmc: data.data.jcrmc,
                     id: data.data.id,
-                    gcjd: data.data.gcjd||1,
+                    gcjd: data.data.gcjd,
                     rwnr: data.data.rwnr,
                     zxid: data.data.zxid,
                     sfxczg: data.data.sfxczg,
@@ -213,7 +214,7 @@ export default class DoubleCheckDetail extends Component {
             this.setState({
                 selList:this.state.selList,
                 wtlb: '1',
-                sfxczg: false,
+                sfxczg: '0',
                 zgyq: ''
             });
         } else {
@@ -249,7 +250,7 @@ export default class DoubleCheckDetail extends Component {
             xmgh: rowData.xmgh,
             xmmc: rowData.xmmc,
             zxmc: rowData.zxmc,
-            gczxid: rowData.zxid,
+            zxid: rowData.zxid,
             rwnrid: rowData.rwid
         });
     }
@@ -257,7 +258,7 @@ export default class DoubleCheckDetail extends Component {
     render() {
         return (
             <View style={{flex:1}}>
-                <StatusBar navigator={this.props.navigator} title="质量检查纪录编辑"/>
+                <StatusBar navigator={this.props.navigator} title="质量检查记录编辑"/>
                 <ScrollView>
                     <TouchableWithoutFeedback onPress={this.onPress.bind(this)}>
                         <View style={styles.keyValue}>
@@ -405,7 +406,7 @@ export default class DoubleCheckDetail extends Component {
             jcbm: this.state.jcbm,
             jcr: this.state.jcr,
             jcsj: this.state.jcsj,
-            jcjg: this.checkResult,
+            jcjg: this.state.jcjg,
             jcfj: this.state.jcfj,
             zgyq: this.state.zgyq,
             sfxczg: this.state.sfxczg,
@@ -416,6 +417,7 @@ export default class DoubleCheckDetail extends Component {
             cjsj: this.state.cjsj,
             callID: true
         }).then((res) => {
+            console.log(res);
             if (res.code === 1) {
                 toast.show('保存成功');
                 this.props.reloadInfo();
@@ -424,6 +426,7 @@ export default class DoubleCheckDetail extends Component {
                 toast.show(res.message);
             }
         }).catch((error) => {
+            console.log(error);
             toast.show('服务端异常');
         });
     }

@@ -161,6 +161,8 @@ export default class CheckFlowInfo extends Component{
                     self.props.reloadInfo && self.props.reloadInfo();
                     if (route) {
                         self.props.navigator.popToRoute(route);
+                    } else {
+                        self.props.navigator.pop();
                     }
                     clearTimeout(timer);
                 });

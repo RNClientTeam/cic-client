@@ -31,32 +31,38 @@ export default class MoreOperation extends Component {
                 img: require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),
                 name: '增加'
             });
-        } else if (this.props.auth.editAqjcjl) {
+        }
+        if (this.props.auth.editAqjcjl) {
             dataArr.push({
                 img: require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),
                 name: '修改'
             });
-        } else if (this.props.auth.checkAqjcjl) {
+        }
+        if (this.props.auth.checkAqjcjl) {
             dataArr.push({
                 img: require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),
                 name: '审核'
             });
-        } else if (this.props.auth.checkAndaddZgrw) {
+        }
+        if (this.props.auth.checkAndaddZgrw) {
             dataArr.push({
                 img: require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),
                 name: '下达整改任务'
             });
-        } else if (this.props.auth.tbZgwcqk) {
+        }
+        if (this.props.auth.tbZgwcqk) {
             dataArr.push({
                 img: require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),
                 name: '填报整改情况'
             });
-        } else if (this.props.auth.tbFcjl) {
+        }
+        if (this.props.auth.tbFcjl) {
             dataArr.push({
                 img: require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),
                 name: '填报复查记录'
             });
-        } else if (this.props.auth.deleteAqjcjl) {
+        }
+        if (this.props.auth.deleteAqjcjl) {
             dataArr.push({
                 img: require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),
                 name: '删除'
@@ -96,7 +102,8 @@ export default class MoreOperation extends Component {
                 params: {
                     add: true,
                     initialPage: 0,
-                    data: this.props.data
+                    data: this.props.data,
+                    reloadInfo: this.props.reloadInfo
                 }
             });
         } else if (rowData.name === '修改') {
@@ -106,7 +113,8 @@ export default class MoreOperation extends Component {
                 params: {
                     edit: true,
                     initialPage: 0,
-                    data: this.props.data
+                    data: this.props.data,
+                    reloadInfo: this.props.reloadInfo
                 }
             });
         } else if (rowData.name === '审核') {
@@ -116,7 +124,8 @@ export default class MoreOperation extends Component {
                 params: {
                     check: true,
                     initialPage: 0,
-                    data: this.props.data
+                    data: this.props.data,
+                    reloadInfo: this.props.reloadInfo
                 }
             });
         } else if (rowData.name === '下达整改任务') {
@@ -126,7 +135,8 @@ export default class MoreOperation extends Component {
                 params: {
                     checkAndZgrw: true,
                     initialPage: 1,
-                    data: this.props.data
+                    data: this.props.data,
+                    reloadInfo: this.props.reloadInfo
                 }
             });
         } else if (rowData.name === '填报整改情况') {
@@ -136,7 +146,8 @@ export default class MoreOperation extends Component {
                 params: {
                     tbzgqk: true,
                     initialPage: 1,
-                    data: this.props.data
+                    data: this.props.data,
+                    reloadInfo: this.props.reloadInfo
                 }
             });
         } else if (rowData.name === '填报复查记录') {
@@ -146,7 +157,8 @@ export default class MoreOperation extends Component {
                 params: {
                     fcjl: true,
                     initialPage: 2,
-                    data: this.props.data
+                    data: this.props.data,
+                    reloadInfo: this.props.reloadInfo
                 }
             });
         } else if (rowData.name === '删除') {

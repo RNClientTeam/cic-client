@@ -34,6 +34,7 @@ export default class LabelTextArea extends Component {
                         numberOfLines = {4}
                         value={this.state.value}
                         placeholder="请填写"
+                        underlineColorAndroid="transparent"
                         editable={!this.props.readOnly}
                         onChangeText={(text)=>{
                             this.setState({value:text});

@@ -85,8 +85,7 @@ export default class QualityDoubleCheckRecord extends Component {
             component:AddModification,
             params:{
                 id:this.props.data.id,
-                nodeId:this.props.data.nodeId,
-                reload:this.props.reload
+                nodeId:this.props.data.nodeId
             }
         })
     }

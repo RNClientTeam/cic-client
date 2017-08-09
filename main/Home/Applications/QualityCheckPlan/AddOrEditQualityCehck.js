@@ -229,6 +229,7 @@ export default class AddOrEditQualityCheck extends Component {
                     let that = this;
                     setTimeout(function () {
                         that.props.navigator.pop()
+                        that.props.reload();
                     },500)
                 }else{
                     toast.show(data.message)

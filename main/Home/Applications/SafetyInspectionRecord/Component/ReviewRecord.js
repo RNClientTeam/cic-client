@@ -158,11 +158,12 @@ export default class ReviewRecord extends Component {
                 if (res.code === 1) {
                     Toast.show('保存成功');
                     this.props.navigator.pop();
+                    this.props.reloadInfo();
                 } else {
                     Toast.show(res.message);
                 }
             }).catch((error) => {
-
+                Toast.show('服务端异常');
             });
         }
     }

@@ -71,7 +71,7 @@ export default class QualityCheckRecord extends Component {
                           year={this.state.year} month={this.state.month}/>
                 <QualityCheckRecordList navigator={this.props.navigator}
                                         dataSource={this.state.dataSource}
-                                        reload={(resolve) => this.getData(1, resolve)}
+                                        reloadInfo={(resolve) => this.getData(1, resolve)}
                                         loadMore={this.loadMore.bind(this)}
                                         showModal={(auth, data) => {
                                             let tempAuth = false;

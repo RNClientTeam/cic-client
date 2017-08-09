@@ -162,12 +162,11 @@ export default class CheckFlowInfo extends Component{
                     self.props.reloadInfo && self.props.reloadInfo();
                     if (route) {
                         self.props.navigator.popToRoute(route);
-                        console.log('fj!@!@@');
                     } else {
                         self.props.navigator.pop();
                     }
                     clearTimeout(timer);
-                });
+                }, 200);
             } else {
                 Toast.show(responseData.message);
             }
