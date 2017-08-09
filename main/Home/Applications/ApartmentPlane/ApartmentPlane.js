@@ -1,7 +1,7 @@
 /**
  * Created by fan on 2017/05/10.
  */
-import React,{Component} from 'react'
+import React, {Component} from 'react'
 import {
     View,
     StyleSheet,
@@ -12,33 +12,35 @@ import {
     Modal,
     TouchableWithoutFeedback
 } from 'react-native'
-const {width}  = Dimensions.get('window');
+
+const {width} = Dimensions.get('window');
 import StatusBar from '../../../Component/StatusBar.js';
 import ApartmentPlaneList from './Component/ApartmentPlaneList.js';
 import SearchHeader from '../Component/SearchHeader.js';
 import MoreOperation from './Component/MoreOperation.js';
 import AddApartmentPlane from './Component/AddApartmentPlane.js';
 import Loading from "../../../Component/Loading";
-import {getCurrentMonS,getCurrentMonE} from '../../../Util/Util'
+import {getCurrentMonS, getCurrentMonE} from '../../../Util/Util'
 import ApartmentListModalView from "./Component/ApartmentListModalView";
 import toast from 'react-native-simple-toast'
-export default class ApartmentPlane extends Component{
-    constructor(props){
+
+export default class ApartmentPlane extends Component {
+    constructor(props) {
         super(props);
-        this.state={
-            isModalVisible:false,
+        this.state = {
+            isModalVisible: false,
             modalVisible: false,
-            isLoading:false,
-            dataType:'我的',//1,全部:2
-            jhmc:'',
-            sDate:getCurrentMonS(),
-            eDate:getCurrentMonE(),
-            pageNum:1,
-            rwzt:'请选择任务状态',
-            rwztmc:'请选择任务状态',
-            dataList:[],
-            operatingItem:{},
-            authList:[],
+            isLoading: false,
+            dataType: '我的',//1,全部:2
+            jhmc: '',
+            sDate: getCurrentMonS(),
+            eDate: getCurrentMonE(),
+            pageNum: 1,
+            rwzt: '请选择任务状态',
+            rwztmc: '请选择任务状态',
+            dataList: [],
+            operatingItem: {},
+            authList: [],
         }
     }
 
@@ -46,184 +48,192 @@ export default class ApartmentPlane extends Component{
         this.props.navigator.push({
             component: AddApartmentPlane,
             name: 'AddApartmentPlane',
-            params:{
-                reload:()=>this.getDataFromNet()
+            params: {
+                reload: () => this.getDataFromNet()
             }
         });
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <View style={styles.earlierStage}>
                 <StatusBar navigator={this.props.navigator} title="部门计划">
                     <TouchableWithoutFeedback
-                        onPress={()=>{this.addBtn()}}
+                        onPress={() => {
+                            this.addBtn()
+                        }}
                     >
-                        <Image style={{width: 0.045 * width, height: 0.045 * width,position:'absolute',right:width*0.15}}
+                        <Image style={{
+                            width: 0.045 * width,
+                            height: 0.045 * width,
+                            position: 'absolute',
+                            right: width * 0.15
+                        }}
                                source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
                     </TouchableWithoutFeedback>
                     <TouchableOpacity
-                        onPress={()=>{this.setState({isModalVisible:!this.state.isModalVisible})}}
+                        onPress={() => {
+                            this.setState({isModalVisible: !this.state.isModalVisible})
+                        }}
                     >
                         <Image style={styles.filtrate}
                                source={require('../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
                     </TouchableOpacity>
                 </StatusBar>
                 {/*添加功能*/}
-                <SearchHeader changeZxmc={(text)=>this.setState({jhmc:text})} getData={()=>this.getDataFromNet()}/>
+                <SearchHeader changeZxmc={(text) => this.setState({jhmc: text})} getData={() => this.getDataFromNet()}/>
                 <ApartmentPlaneList
-                    loadMore={()=>this.loadMore()}
+                    loadMore={() => this.loadMore()}
                     dataSource={this.state.dataList}
                     navigator={this.props.navigator}
-                    refresh={(resolve)=>this.getDataFromNet(1,resolve)}
-                    getOperatingItem={(item)=>this.getOperatingItem(item)}
-                    setModalVisible={(item)=>this._getAuthList(item)}/>
+                    refresh={(resolve) => this.getDataFromNet(1, resolve)}
+                    getOperatingItem={(item) => this.getOperatingItem(item)}
+                    setModalVisible={(item) => this._getAuthList(item)}/>
                 {this.state.isModalVisible &&
-                    <ApartmentListModalView
-                        rwzt={this.state.rwzt}
-                        rwztmc={this.state.rwztmc}
-                        sDate={this.state.sDate}
-                        eDate={this.state.eDate}
-                        isModalVisible={this.state.isModalVisible}
-                        changeFilter={(sDate,eDate,rwzt,rwztmc)=>this.changeFilter(sDate,eDate,rwzt,rwztmc)}
-                        choiceRwzt={(rwzt)=>this.setState({rwzt:rwzt})}
-                        closeModal={()=>this.setState({isModalVisible:false})}
-                    />}
+                <ApartmentListModalView
+                    rwzt={this.state.rwzt}
+                    rwztmc={this.state.rwztmc}
+                    sDate={this.state.sDate}
+                    eDate={this.state.eDate}
+                    isModalVisible={this.state.isModalVisible}
+                    changeFilter={(sDate, eDate, rwzt, rwztmc) => this.changeFilter(sDate, eDate, rwzt, rwztmc)}
+                    choiceRwzt={(rwzt) => this.setState({rwzt: rwzt})}
+                    closeModal={() => this.setState({isModalVisible: false})}
+                />}
                 {
                     this.state.modalVisible &&
                     <Modal
                         animationType={"slide"}
                         transparent={true}
                         visible={this.state.modalVisible}
-                        onRequestClose={() => {this.setState({modalVisible: false})}}
+                        onRequestClose={() => {
+                            this.setState({modalVisible: false})
+                        }}
                         style={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}>
                         <MoreOperation
                             operatingItem={this.state.operatingItem}
                             reload={this.getDataFromNet.bind(this)}
                             navigator={this.props.navigator}
-                            authList = {this.state.authList}
-                            closeModal={()=>this.setState({modalVisible: false})}/>
+                            authList={this.state.authList}
+                            closeModal={() => this.setState({modalVisible: false})}/>
                     </Modal>
                 }
-                {this.state.isLoading?<Loading/>:null}
+                {this.state.isLoading ? <Loading/> : null}
             </View>
         )
     }
 
-    getOperatingItem(item){
+    getOperatingItem(item) {
         this.setState({
-            operatingItem:item
+            operatingItem: item
         })
     }
 
-    showLoading(){
+    showLoading() {
         this.setState({
-            isLoading:true
+            isLoading: true
         })
     }
 
-    changeFilter(sDate,eDate,rwzt,rwztmc){
+    changeFilter(sDate, eDate, rwzt, rwztmc) {
         this.setState({
-            sDate:sDate,
-            eDate:eDate,
-            rwzt:rwzt,
-            rwztmc:rwztmc
-        },function () {
-            this.getDataFromNet();
+            sDate: sDate,
+            eDate: eDate,
+            rwzt: rwzt,
+            rwztmc: rwztmc,
+            pageNum: 1
+        }, function () {
+            this.getDataFromNet(1);
         })
     }
 
-    loadMore(){
+    loadMore() {
         this.setState({
-            pageNum:this.state.pageNum+1
-        },function () {
+            pageNum: this.state.pageNum + 1
+        }, function () {
             this.getDataFromNet(this.state.pageNum)
         })
     }
 
-    hideLoading(){
+    hideLoading() {
         this.setState({
-            isLoading:false
+            isLoading: false
         })
     }
+
     componentDidMount() {
         this.getDataFromNet();
     }
-    _getAuthList(jhId){
+
+    _getAuthList(jhId) {
         this.showLoading();
-        this.setState({modalVisible:true});
-        axios.get('/psmBmjh/getOperationAuthority4Bmjh',{
-            params:{
-                userID:GLOBAL_USERID,
-                jhId:jhId,
-                callID:true
+        this.setState({modalVisible: true});
+        axios.get('/psmBmjh/getOperationAuthority4Bmjh', {
+            params: {
+                userID: GLOBAL_USERID,
+                jhId: jhId,
+                callID: true
             }
-        }).then(data=>{
+        }).then(data => {
             this.hideLoading();
-            if(data.code === 1){
+            if (data.code === 1) {
                 let arr = [];
-                for(let item in data.data){
+                for (let item in data.data) {
                     let templateObj = {};
                     templateObj.name = item;
-                    templateObj.show=data.data[item];
+                    templateObj.show = data.data[item];
                     arr.push(templateObj);
                 }
                 this.setState({
-                    modalVisible:true,
-                    authList:arr
+                    modalVisible: true,
+                    authList: arr
                 })
-            }else{
+            } else {
                 toast.show(data.message)
             }
-        }).catch(err=>{
+        }).catch(err => {
             this.hideLoading();
             toast.show('服务端异常');
         })
     }
-    getDataFromNet(pageNum=1,resolve=()=>{}){
+
+    getDataFromNet(pageNum = 1, resolve = () => {
+    }) {
         this.showLoading();
-        let rwzt='all';
-        axios.get('/psmBmjh/list',{
-            params:{
-                userID:GLOBAL_USERID,
-                dataType:2,
-                jhmc:this.state.jhmc,
-                sDate:this.state.sDate,
-                eDate:this.state.eDate,
-                rwzt:this.state.rwzt==='请选择任务状态'?rwzt:this.state.rwzt,
-                pageNum:pageNum,
-                pageSize:10,
-                callID:true
+        let rwzt = 'all';
+        axios.get('/psmBmjh/list', {
+            params: {
+                userID: GLOBAL_USERID,
+                dataType: 2,
+                jhmc: this.state.jhmc,
+                sDate: this.state.sDate,
+                eDate: this.state.eDate,
+                rwzt: this.state.rwzt === '请选择任务状态' ? rwzt : this.state.rwzt,
+                pageNum: pageNum,
+                pageSize: 10,
+                callID: true
             }
-        }).then(data=>{
+        }).then(data => {
             this.hideLoading();
-            console.log(data)
-            if(data.code ===1){
-                let result = true;
-                if(data.data && data.data.list && data.data.list.length>0){
-                    if(pageNum === 1){
-                        this.setState({
-                            dataList:data.data.list
-                        })
-                    }else{
-                        for(let i = 0;i<data.data.list.length;i++){
-                            this.state.dataList.push(data.data.list[i])
-                        }
-                        this.setState({
-                            dataList:this.state.dataList
-                        })
+            if (data.code === 1) {
+                if (pageNum === 1) {
+                    this.setState({
+                        dataList: data.data.list
+                    })
+                } else {
+                    for (let i = 0; i < data.data.list.length; i++) {
+                        this.state.dataList.push(data.data.list[i])
                     }
-
-                }else{
-                    result = false
+                    this.setState({
+                        dataList: this.state.dataList
+                    })
                 }
-
                 resolve();
-                return result;
-            }else{
+                return data.data.list.length > 0;
+            } else {
                 toast.show(data.message)
             }
-        }).catch(err=>{
+        }).catch(err => {
             this.hideLoading();
             toast.show('服务端异常');
         })
@@ -231,12 +241,12 @@ export default class ApartmentPlane extends Component{
 }
 
 const styles = StyleSheet.create({
-    earlierStage:{
-        backgroundColor:'#f2f2f2',
-        flex:1
+    earlierStage: {
+        backgroundColor: '#f2f2f2',
+        flex: 1
     },
-    filtrate:{
-        width:width*0.045,
-        height:width*0.045
+    filtrate: {
+        width: width * 0.045,
+        height: width * 0.045
     }
 });

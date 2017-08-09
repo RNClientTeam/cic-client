@@ -14,6 +14,7 @@ import {
 import Splash from 'react-native-splash-screen';
 import Storage from 'react-native-storage';
 import Login from './Login.js';
+import Main from './main'
 
 export default class Entrance extends Component {
     render() {

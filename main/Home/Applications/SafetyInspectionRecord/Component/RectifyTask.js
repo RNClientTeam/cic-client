@@ -82,7 +82,6 @@ export default class RectifyTask extends Component {
                     callID:true
                 }
             }).then(data=>{
-                console.log(data);
                 if(data.code === 1){
                     this.setState({
                         canAdd:data.data.checkAndaddZgrw
