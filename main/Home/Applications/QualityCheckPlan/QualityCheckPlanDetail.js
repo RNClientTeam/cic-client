@@ -100,18 +100,6 @@ export default class QualityCheckPlanDetail extends Component {
                 callID: true,
             }
         }).then(responseData => {
-            console.log('-------data', responseData);
-            responseData = {
-                "code": 1,
-                "data": {
-                    "addZljcjh": true,
-                    "updateZljcjh": true,
-                    "deleteZljcjh": false,
-                    "effectZljcjh": false,
-                    "tbZljcjl": true,
-                },
-                "message": "成功"
-            };
             // 填报按钮
             this.setState({
                 tbZljcjl: responseData.data.tbZljcjl

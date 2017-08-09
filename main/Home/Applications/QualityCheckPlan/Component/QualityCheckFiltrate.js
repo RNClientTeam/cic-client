@@ -100,7 +100,6 @@ export default class QualityCheckFiltrate extends Component {
                 callID:true
             }
         }).then(xzData=>{
-            console.log(xzData);
             axios.get('/dictionary/list',{
                 params:{
                     userID:GLOBAL_USERID,

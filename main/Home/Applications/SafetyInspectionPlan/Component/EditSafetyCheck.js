@@ -64,7 +64,13 @@ export default class EditSafetyCheck extends Component {
                         jhkssj: res.data.jhkssj,
                         jhjssj: res.data.jhjssj,
                         zrrmc: res.data.zrrmc,
-                        cjsj: res.data.cjsj
+                        cjsj: res.data.cjsj,
+                        cfxxId: res.data.cfxxId,
+                        gczxId: res.data.gczxId,
+                        sgrwId: res.data.id,
+                        zrr: res.data.zrr,
+                        zrbm: res.data.zrbm,
+                        zt: res.data.zt
                     });
                 } else {
                     Toast.show(res.message);
@@ -154,7 +160,7 @@ export default class EditSafetyCheck extends Component {
         } else if (this.state.xmbh.length === 0 || this.state.xmmc.length === 0
             || this.state.gczxmc.length === 0 || this.state.gczxmc.length === 0) {
             Toast.show('请选择项目');
-        } else if (this.satte.jhkssj.length === 0) {
+        } else if (this.state.jhkssj.length === 0) {
             Toast.show('请选择计划开始时间');
         } else if (this.state.jhjssj.length === 0) {
             Toast.show('请选择计划结束时间');

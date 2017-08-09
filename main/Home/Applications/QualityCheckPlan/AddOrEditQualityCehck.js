@@ -35,8 +35,8 @@ export default class AddOrEditQualityCheck extends Component {
             rwnr: '',
             zrr: '',
             zrbm: '',
-            jhkssj: getCurrentDate(),
-            jhjssj: getCurrentMonE(),
+            jhkssj: '',
+            jhjssj: '',
             rwxzCn: [],
             rwxzCode: [],
             twztCn: [],
@@ -107,12 +107,16 @@ export default class AddOrEditQualityCheck extends Component {
                                    source={require('../../../../resource/imgs/home/applications/triangle.png')}/>
                         </View>
                     </View>
+                    {/*<KeyValueRight propKey="责任部门" readOnly={true} defaultValue={this.state.zrbmmc}/>*/}
                     <KeySelect propKey="责任人" choiceInfo={this.choicePeople.bind(this)} value={this.state.zrrmc}/>
                     <KeyTime propKey="计划开始时间" onlyDate={true} showDate={this.state.jhkssj}
                              changeDate={(date) => this.setState({jhkssj: date})}/>
                     <KeyTime propKey="计划结束时间" onlyDate={true} showDate={this.state.jhjssj}
                              changeDate={(date) => this.setState({jhjssj: date})}/>
-
+                    {
+                        this.props.jhrwId &&
+                            <KeyValueRight propKey="创建时间" readOnly={true} defaultValue={this.state.cjsjt}/>
+                    }
                 </ScrollView>
                 {
                     this.props.flag === 'add' ?
@@ -337,6 +341,7 @@ export default class AddOrEditQualityCheck extends Component {
                 callID: true,
             }
         }).then(responseData => {
+            console.log(responseData);
             this.setState({
                 isLoading: false
             });
@@ -349,8 +354,9 @@ export default class AddOrEditQualityCheck extends Component {
                     rwxzmc: responseData.data.rwxzmc,
                     twztmc: responseData.data.twztmc,
                     zrrmc: responseData.data.zrrmc,
-                    jhkssjt: responseData.data.jhkssjt,
-                    jhjssjt: responseData.data.jhkssjt,
+                    jhkssj: responseData.data.jhkssjt,
+                    jhjssj: responseData.data.jhjssjt,
+                    cjsjt: responseData.data.cjsjt,
                 })
             } else {
                 toast.show(responseData.message)

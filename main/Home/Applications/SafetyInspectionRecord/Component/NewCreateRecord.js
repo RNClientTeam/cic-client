@@ -1,74 +1,40 @@
-"use strict";
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 import {
     View,
-    Text,
-    TextInput,
     StyleSheet,
     Dimensions,
-    TouchableHighlight,
-    Image,
+    Text,
     ScrollView,
+    Image,
     TouchableOpacity,
-    TouchableWithoutFeedback,
-    Platform,
-    Switch
+    TextInput,
+    TouchableHighlight,
+    Switch,
+    TouchableWithoutFeedback
 } from 'react-native';
-import CheckFlowInfo from './CheckFlowInfo.js';
 import ChoiceDate from "../../../../Component/ChoiceDate.js";
-import ChoiceFileComponent from '../../Component/ChoiceFileComponent.js';
+import Loading from "../../../../Component/Loading.js";
 import Toast from 'react-native-simple-toast';
-import Organization from '../../../../Organization/Organization.js';
-
 const {width, height} = Dimensions.get('window');
-import StatusBar from '../../../../Component/StatusBar.js';
+import KeyValueLeft from './KeyValueLeft.js';
 import ModalDropdown from 'react-native-modal-dropdown';
-
-export default class NewCreateRecord extends Component {
+import Organization from '../../../../Organization/Organization.js';
+import ChoiceFileComponent from '../../Component/ChoiceFileComponent.js';
+import SelectedPage from './SelectedPage.js';
+import StatusBar from '../../../../Component/StatusBar.js';
+export default class DoubleCheckDetail extends Component {
     constructor(props) {
         super(props);
-        this.imageId = [];      //图片附件的id
+        this.zgyq = '';
         this.jianchaResult = '';
         this.state = {
-            jcbm: '',           //检查部门
-            zxmc: '',           //子项名称
-            xmmc: '',           //项目名称
-            fcsj: '',           //复查时间
-            aqjcjhId: '',       //安全检查计划Id
-            jcsj: '',           //检查时间
-            fcr: '',            //复查人
-            fcfj: '',           //复查附件
-            id: '',             //安全检查记录id
-            jcr: '',            //检查人
-            jcrmc: '请选择>',    //检查人名称
-            wtlbmc: '',         //问题类别名称
-            aqjcjhmc: '',       //安全检查计划名称
-            fcrmc: '',          //复查人名称
-            gczxId: '',         //工程子项Id
-            jcfj: '',           //检查附件ID
-            fcjg: '',           //复查结果
-            xmbh: '',           //项目编号
-            sfxczg: false,      //是否现场整改
-            wtlb: '',           //问题类别编码
-            zgyq: '',           //整改要求
-            fcjlisAttach: '',
-            businessModule: '',
+            isLoading: false,
+            data: {},
             questionList: [],
             proList: [],
-            choiceFileName: '所选文件名',
-            jcjlisAttach:'',
-            wenti: ''
+            wenti: '',
+            isFinished: false
         }
-    }
-
-    componentDidMount() {
-        if (this.props.fromDetail) {
-            this.anotherInit();
-        } else {
-            this.initData();
-        }
-        //获取问题类别
-        this.getQuestionType();
     }
 
     //获取问题类别
@@ -82,7 +48,7 @@ export default class NewCreateRecord extends Component {
         }).then((res) => {
             if (res.code === 1) {
                 this.setState({
-                    questionList: res.data.map((elem, index) => {
+                    questionList:res.data.map((elem, index) => {
                         return elem.name
                     }),
                     proList: res.data
@@ -95,51 +61,10 @@ export default class NewCreateRecord extends Component {
         });
     }
 
-    //初始化数据
-    anotherInit() {
-        axios.get('/psmAqjcjh/init4Aqjcjl2', {
-            params: {
-                userID: GLOBAL_USERID,
-                aqjcjhId: this.props.aqjcjhId,
-                callID: true
-            }
-        }).then((res) => {
-            if (res.code === 1) {
-                this.setState({
-                    jcbm: res.data.jcbm,
-                    fcsj: res.data.fcsj,
-                    aqjcjhmc: res.data.aqjcjhmc,
-                    aqjcjhId: res.data.aqjcjhId,
-                    xmbh: res.data.xmbh,
-                    xmmc: res.data.xmmc,
-                    zxmc: res.data.zxmc,
-                    jcsj: res.data.jcsj,
-                    jcrmc: res.data.jcrmc,
-                    wtlbmc: res.data.wtlbmc || '请选择>',
-                    fcr: res.data.fcr,
-                    jcr: res.data.jcr,
-                    fcfj: res.data.fcfj,
-                    id: res.data.id,
-                    fcrmc: res.data.fcrmc,
-                    gczxId: res.data.gczxId,
-                    jcfj: res.data.jcfj,
-                    fcjg: res.data.fcjg,
-                    sfxczg: res.data.sfxczg == 1 ? true : false,
-                    wtlb: res.data.wtlb,
-                    businessModule: res.data.businessModule,
-                    fcjlisAttach: res.data.fcjlisAttach,
-                    jcjlisAttach:res.data.jcjlisAttach
-                });
-            } else {
-                Toast.show(res.message);
-            }
-        }).catch((error) => {
-            Toast.show('服务端异常');
-        })
-    }
-
-    //初始化数据
-    initData() {
+    componentDidMount() {
+        //获取问题类别
+        this.getQuestionType();
+        this.setState({isLoading:true});
         axios.get('/psmAqjcjh/init4Aqjcjl', {
             params: {
                 userID: GLOBAL_USERID,
@@ -149,224 +74,220 @@ export default class NewCreateRecord extends Component {
         }).then((res) => {
             if (res.code === 1) {
                 this.setState({
-                    jcbm: res.data.jcbm,
-                    fcsj: res.data.fcsj,
-                    aqjcjhmc: res.data.aqjcjhmc,
-                    aqjcjhId: res.data.aqjcjhId,
-                    xmbh: res.data.xmbh,
-                    xmmc: res.data.xmmc,
-                    zxmc: res.data.zxmc,
-                    jcsj: res.data.jcsj,
-                    jcrmc: res.data.jcrmc,
-                    wtlbmc: res.data.wtlbmc || '请选择>',
-                    fcr: res.data.fcr,
-                    jcr: res.data.jcr,
-                    fcfj: res.data.fcfj,
-                    id: res.data.id,
-                    fcrmc: res.data.fcrmc,
-                    gczxId: res.data.gczxId,
-                    jcfj: res.data.jcfj,
-                    fcjg: res.data.fcjg,
-                    sfxczg: res.data.sfxczg == 1 ? true : false,
-                    wtlb: res.data.wtlb,
-                    businessModule: res.data.businessModule,
-                    fcjlisAttach: res.data.fcjlisAttach,
-                    jcjlisAttach:res.data.jcjlisAttach
+                    data: res.data,
+                    isLoading: false,
+                    wenti: res.data.wtlb
                 });
             } else {
-                Toash.show(res.message);
+                this.setState({isLoading:false});
+                Toast.show(res.message);
             }
         }).catch((error) => {
-            Toast.show('服务端异常');
+            this.setState({isLoading:false});
         });
     }
 
-    render() {
-        return (
-            <View style={styles.flex}>
-                <StatusBar title="项目安全检查记录" navigator={this.props.navigator}/>
-                <ScrollView>
-                    <View style={styles.viewStyle}>
-                        <Text style={styles.keyText}>检验任务</Text>
-                        <Text style={styles.valueText}>{this.state.aqjcjhmc}</Text>
-                    </View>
-                    <View style={styles.viewStyle}>
-                        <Text style={styles.keyText}>项目工号</Text>
-                        <Text style={styles.valueText}>{this.state.xmbh}</Text>
-                    </View>
-                    <View style={styles.viewStyle}>
-                        <Text style={styles.keyText}>项目名称</Text>
-                        <Text style={styles.valueText}>{this.state.xmmc}</Text>
-                    </View>
-                    <View style={styles.viewStyle}>
-                        <Text style={styles.keyText}>工程子项名称</Text>
-                        <Text style={styles.valueText}>{this.state.zxmc}</Text>
-                    </View>
-                    <View style={styles.viewStyle}>
-                        <Text style={styles.keyText}>问题类别</Text>
-                        <ModalDropdown
-                            options={this.state.questionList}
-                            animated={true}
-                            defaultValue={this.state.wtlbmc}
-                            style={{flex: 1, alignItems: 'flex-end'}}
-                            textStyle={{fontSize: 14}}
-                            onSelect={(a) => {
-                                this.setState({
-                                    wenti: this.state.proList[a].code,
-                                    sfxczg: this.state.proList[a].code === '1' ? false : this.state.sfxczg,
-                                    zgyq: this.state.proList[a].code === '1' ? '' : this.state.zgyq,
-                                    wtlbmc: this.state.proList[a].name
-                                });
-                            }}
-                            showsVerticalScrollIndicator={false}/>
-                    </View>
-                    <View style={styles.viewStyle}>
-                        <Text style={styles.keyText}>检验时间</Text>
-                        <ChoiceDate showDate={this.state.jcsj}
-                                    changeDate={(date) => {
-                                        this.setState({jcsj: date})
-                                    }}/>
-                    </View>
-                    <TouchableHighlight onPress={this.getNewPerson.bind(this)} underlayColor="transparent">
-                        <View style={styles.viewStyle}>
-                            <Text style={styles.keyText}>检验人</Text>
-                            <Text style={styles.valueText}>{this.state.jcrmc}</Text>
-                        </View>
-                    </TouchableHighlight>
-                    <ChoiceFileComponent
-                        getFileID={(theID) => {
-                        }}
-                        businessModule={this.state.businessModule}
-                        resourceId={this.state.jcfj}
-                        isAttach={this.state.jcjlisAttach}/>
-                    <View style={styles.footSeparator}></View>
-                    <View style={styles.footIntor}>
-                        <Text style={styles.keyText}>检查结果</Text>
-                    </View>
-                    <View style={styles.footInfo}>
-                        <TextInput style={styles.textinputStyle}
-                                   multiline={true}
-                                   autoCapitalize="none"
-                                   autoCorrect={false}
-                                   onChangeText={(text) => {
-                                       this.jianchaResult = text;
-                                   }}
-                                   underlineColorAndroid="transparent"
-                                   placeholder=""/>
-                    </View>
-                    {
-                        this.state.wenti !== '1' &&
-                        <View style={styles.footIntor}>
-                            <Text style={styles.keyText}>整改要求</Text>
-                        </View>
-                    }
-                    {
-                        this.state.wenti !== '1' &&
-                        <View style={styles.footInfo}>
-                            <TextInput style={styles.textinputStyle}
-                                       multiline={true}
-                                       defaultValue={this.state.zgyq || ''}
-                                       autoCapitalize="none"
-                                       autoCorrect={false}
-                                       onChangeText={(text) => {
-                                           this.setState({zgyq: text})
-                                       }}
-                                       underlineColorAndroid="transparent"/>
-                        </View>
-                    }
-                    {
-                        this.state.wenti !== '1' &&
-                        <View style={styles.viewStyle}>
-                            <Text style={styles.keyText}>是否已现场整改</Text>
-                            <Switch onValueChange={(value) => {
-                                this.setState({sfxczg: value})
-                            }}
-                                    value={this.state.sfxczg}/>
-                        </View>
-                    }
-                </ScrollView>
-                <View style={styles.bottomView}>
-                    <TouchableHighlight underlayColor="transparent" onPress={this.saveAndCommit.bind(this)}>
-                        <View style={[styles.btnView, {backgroundColor: '#41cc85'}]}>
-                            <Text style={styles.btnText}>保存并提交</Text>
-                        </View>
-                    </TouchableHighlight>
-                    <TouchableHighlight underlayColor="transparent" onPress={this.save.bind(this)}>
-                        <View style={[styles.btnView, {backgroundColor: '#216fd0'}]}>
-                            <Text style={styles.btnText}>保存</Text>
-                        </View>
-                    </TouchableHighlight>
-                </View>
-            </View>
-        );
-    }
-
-    //跳转到组织选择获取检验人
-    getNewPerson() {
+    gotoOrganization() {
         this.props.navigator.push({
             name: 'Organization',
             component: Organization,
             params: {
                 getInfo: this.getInfo.bind(this)
             }
-        })
+        });
     }
 
     //获取检验人：部门id  姓名  id
     getInfo(bmid, name, id) {
-        this.setState({
-            jcrmc: name,
-            jcr: id,
-            jcbm: bmid
+        this.state.data.jcrmc = name;
+        this.state.data.jcr = id;
+        this.setState({data:data});
+    }
+
+    //选择任务
+    gotoSele() {
+        this.props.navigator.push({
+            name: 'SelectedPage',
+            component: SelectedPage,
+            params: {
+                getSelInfo: this.getSelInfo.bind(this)
+            }
         });
     }
 
-    //保存并提交
+    getSelInfo(rowData) {
+        this.state.data.aqjcjhmc = rowData.aqjcjhmc;
+        this.state.data.xmbh = rowData.xmbh;
+        this.state.data.xmmc = rowData.xmmc;
+        this.state.data.zxmc = rowData.gczxmc;
+        this.state.data.aqjcjhId = rowData.aqjcjhId;
+        this.state.data.gczxId = rowData.gczxId;
+        this.setState({data: this.state.data});
+    }
+
+    render() {
+        return (
+            <View style={{flex:1}}>
+                <StatusBar title="项目安全检查记录" navigator={this.props.navigator}/>
+                <ScrollView style={{flex:1}}>
+                    <TouchableWithoutFeedback onPress={this.gotoSele.bind(this)}>
+                        <View style={styles.keyValue}>
+                            <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>检验任务</Text>
+                            <Text style={styles.contentText} numberOfLines={2}>
+                                {this.state.data.aqjcjhmc||'请选择>'}
+                            </Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+
+                    <View style={styles.keyValue}>
+                        <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>工程工号</Text>
+                        <Text style={styles.contentText} numberOfLines={2}>
+                            {this.state.data.xmbh||'请选择>'}
+                        </Text>
+                    </View>
+                    <View style={styles.keyValue}>
+                        <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>项目名称</Text>
+                        <Text style={styles.contentText} numberOfLines={2}>
+                            {this.state.data.xmmc||'请选择>'}
+                        </Text>
+                    </View>
+                    <View style={styles.keyValue}>
+                        <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>工程子项名称</Text>
+                        <Text style={styles.contentText} numberOfLines={2}>
+                            {this.state.data.zxmc||'请选择>'}
+                        </Text>
+                    </View>
+                    <View style={styles.keyValue}>
+                        <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>问题类别</Text>
+                        <ModalDropdown
+                            options={this.state.questionList}
+                            animated={true}
+                            defaultValue={this.state.data.wtlb?this.state.questionList[this.state.data.wtlb-1]:'请选择>'}
+                            style={{flex:1, alignItems:'flex-end'}}
+                            textStyle={{fontSize:14}}
+                            onSelect={(a) => {
+                                this.setState({
+                                    wenti:this.state.proList[a].code,
+                                    isFinished:this.state.proList[a].code==='1'?false:this.state.isFinished,
+                                });
+                                this.zgyq = this.state.proList[a].code==='1'?'':this.zgyq;
+                            }}
+                            showsVerticalScrollIndicator={false}/>
+                    </View>
+                    <View style={styles.keyValue}>
+                        <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>检验时间</Text>
+                        <ChoiceDate showDate={this.state.data.jcsj||''}
+                            changeDate={(date)=>{
+                                this.state.data.jcsj = date;
+                                this.setState({data:this.state.data});
+                            }}/>
+                    </View>
+                    <TouchableOpacity onPress={this.gotoOrganization.bind(this)}>
+                        <View style={styles.keyValue}>
+                            <Text style={[styles.textStyle,{color:'#5476a1'}]} numberOfLines={1}>检验人</Text>
+                            <Text style={styles.contentText} numberOfLines={1}>{this.state.data.jcrmc||''}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <View style={styles.divide}/>
+                    <ChoiceFileComponent
+                        businessModule={this.state.data.businessModule}
+                        resourceId={this.state.data.jcfj}
+                        readOnly={false}
+                        isAttach={'1'}/>
+                    <View style={styles.divide}/>
+                    <View style={styles.bottomRow}>
+                        <Text style={styles.labelColor}>检查结果</Text>
+                    </View>
+                    <View style={styles.textContent}>
+                        <TextInput style={styles.textinputStyle}
+                            multiline={true}
+                            defaultValue={this.state.data.fcjg}
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            onChangeText={(text) => {this.jianchaResult=text;}}
+                            underlineColorAndroid="transparent"/>
+                    </View>
+                    {
+                        this.state.wenti !== '1' &&
+                        <View style={styles.bottomRow}>
+                            <Text style={styles.labelColor}>整改要求</Text>
+                        </View>
+                    }
+                    {
+                        this.state.wenti !== '1' &&
+                        <View style={styles.textContent}>
+                            <TextInput style={styles.textinputStyle}
+                                multiline={true}
+                                defaultValue={this.state.data.zgyq||''}
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                onChangeText={(text) => {this.zgyq=text;}}
+                                underlineColorAndroid="transparent"/>
+                        </View>
+                    }
+                    {
+                        this.state.wenti !== '1' &&
+                        <View style={styles.keyValue}>
+                            <Text style={[styles.labelColor,{marginLeft:width*0.02}]}>是否已现场整改</Text>
+                            <Switch onValueChange={(value) => {
+                                    this.setState({isFinished:value});
+                                }}
+                                value={this.state.isFinished}/>
+                        </View>
+                    }
+                </ScrollView>
+                <View style={styles.bottomView}>
+                    <TouchableHighlight underlayColor="transparent" onPress={this.saveAndCommit.bind(this)}>
+                        <View style={[styles.btnView, {backgroundColor:'#41cc85'}]}>
+                            <Text style={styles.btnText}>保存并提交</Text>
+                        </View>
+                    </TouchableHighlight>
+                    <TouchableHighlight underlayColor="transparent" onPress={this.save.bind(this)}>
+                        <View style={[styles.btnView, {backgroundColor:'#216fd0'}]}>
+                            <Text style={styles.btnText}>保存</Text>
+                        </View>
+                    </TouchableHighlight>
+                </View>
+                {this.state.isLoading ? <Loading/> : null}
+            </View>
+        )
+    }
+
+    //提交并保存
     saveAndCommit() {
-        if (this.state.wtlbmc === '请选择>') {
+        let data = this.state.data;
+        if (data.aqjcjhmc.length === 0 || data.xmbh.length === 0) {
+            Toast.show('请选择任务');
+        } else if (this.state.wenti.length === 0) {
             Toast.show('请选择问题类别');
-        } else if (this.state.jcsj.length === 0) {
+        } else if (data.jcsj.length === 0) {
             Toast.show('请选择检查时间');
-        } else if (this.state.jcrmc.length) {
-            Toast.show('请选择检查人');
-        } else if (this.state.fcfj.length === 0) {
-            Toast.show('请选择附件');
+        } else if (this.jianchaResult.length === 0) {
+            Toast.show('请填写检查结果');
+        } else if (this.state.wenti != '1' && this.zgyq.length === 0) {
+            Toast.show('请填写整改要求');
         } else {
             axios.post('/psmAqjcjh/saveAndsumbitAqjcjl', {
                 userID: GLOBAL_USERID,
-                id: this.state.id,
-                aqjcjhId: this.state.aqjcjhId,
-                aqjcjhmc: this.state.aqjcjhmc,
-                gczxId: this.state.gczxId,
-                xmbh: this.state.xmbh,
-                jcr: this.state.jcr,
-                jcbm: this.state.jcbm,
-                jcsj: this.state.jcsj,
+                id: this.state.data.id,
+                aqjcjhId: this.state.data.aqjcjhId,
+                aqjcjhmc: this.state.data.aqjcjhmc,
+                gczxId: this.state.data.gczxId,
+                xmbh: this.state.data.xmbh,
+                jcr: this.state.data.jcr,
+                jcbm: this.state.data.jcbm,
+                jcsj: this.state.data.jcsj,
                 jcjg: this.jianchaResult,
-                zgyq: this.state.zgyq,
+                zgyq: this.zgyq,
                 wtlb: this.state.wenti,
-                sfxczg: this.state.sfxczg ? '1' : '0',
-                jcfj: this.state.jcfj,
-                fcfj: this.state.fcfj,
+                sfxczg: this.state.isFinished?'1':'0',
+                jcfj: this.state.data.jcfj,
+                fcfj: this.state.data.fcfj,
                 callID: true
             }).then((res) => {
                 if (res.code === 1) {
-                    if (res.data.isToSubmit) {
-                        //进入流程审批页面
-                        this.props.navigator.push({
-                            name: 'CheckFlowInfo',
-                            component: CheckFlowInfo,
-                            params: {
-                                resID: res.data.aqjcjlId,
-                                wfName: 'jdjhaqjcjl',
-                                name: 'SafetyInspectionRecord',
-                                reloadInfo: this.props.reloadInfo
-                            }
-                        })
-                    } else {
-                        Toast.show('提交成功');
-                        this.props.navigator.pop();
-                    }
+                    Toast.show('保存成功');
+                    this.props.navigator.pop();
                 } else {
                     Toast.show(res.message);
                 }
@@ -376,33 +297,36 @@ export default class NewCreateRecord extends Component {
         }
     }
 
-    //保存
+    //提交
     save() {
-        if (this.state.wtlbmc === '请选择>') {
-            Toast.show('请选择问题类比');
-        } else if (this.state.jcsj.length === 0) {
+        let data = this.state.data;
+        if (data.aqjcjhmc.length === 0 || data.xmbh.length === 0) {
+            Toast.show('请选择任务');
+        } else if (this.state.wenti.length === 0) {
+            Toast.show('请选择问题类别');
+        } else if (data.jcsj.length === 0) {
             Toast.show('请选择检查时间');
-        } else if (this.state.jcrmc.length) {
-            Toast.show('请选择检查人');
-        } else if (this.state.fcfj.length === 0) {
-            Toast.show('请选择附件');
+        } else if (this.jianchaResult.length === 0) {
+            Toast.show('请填写检查结果');
+        } else if (this.state.wenti != '1' && this.zgyq.length === 0) {
+            Toast.show('请填写整改要求');
         } else {
             axios.post('/psmAqjcjh/saveAqjcjl', {
                 userID: GLOBAL_USERID,
-                id: this.state.id,
-                aqjcjhId: this.state.aqjcjhId,
-                aqjcjhmc: this.state.aqjcjhmc,
-                gczxId: this.state.gczxId,
-                xmbh: this.state.xmbh,
-                jcr: this.state.jcr,
-                jcbm: this.state.jcbm,
-                jcsj: this.state.jcsj,
+                id: this.state.data.id,
+                aqjcjhId: this.state.data.aqjcjhId,
+                aqjcjhmc: this.state.data.aqjcjhmc,
+                gczxId: this.state.data.gczxId,
+                xmbh: this.state.data.xmbh,
+                jcr: this.state.data.jcr,
+                jcbm: this.state.data.jcbm,
+                jcsj: this.state.data.jcsj,
                 jcjg: this.jianchaResult,
-                zgyq: this.state.zgyq,
+                zgyq: this.zgyq,
                 wtlb: this.state.wenti,
-                sfxczg: this.state.sfxczg ? '1' : '0',
-                jcfj: this.state.jcfj,
-                fcfj: this.state.fcfj,
+                sfxczg: this.state.isFinished?'1':'0',
+                jcfj: this.state.data.jcfj,
+                fcfj: this.state.data.fcfj,
                 callID: true
             }).then((res) => {
                 if (res.code === 1) {
@@ -419,61 +343,64 @@ export default class NewCreateRecord extends Component {
 }
 
 const styles = StyleSheet.create({
-    flex: {
-        flex: 1,
-        backgroundColor: '#f1f1f1'
+    divide: {
+        height: 0.02 * width
     },
-    viewStyle: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: width,
-        paddingHorizontal: 15,
-        justifyContent: 'space-between',
-        backgroundColor: '#fff',
-        height: 0.0734 * height,
-        marginBottom: 1
-    },
-    footSeparator: {
-        width: width,
-        height: 0.0165 * height,
-        backgroundColor: '#f1f1f1'
-    },
-    footIntor: {
-        width: width,
-        height: 0.07 * height,
-        paddingLeft: 15,
-        justifyContent: 'center',
-        backgroundColor: '#fff',
+    row: {
+        paddingLeft: width * 0.02,
+        paddingRight: width * 0.02,
+        height: 0.12 * width,
         borderBottomWidth: 1,
-        borderBottomColor: '#f1f1f1'
+        borderBottomColor: '#dcdcdc',
+        flexDirection: 'row',
+        backgroundColor: 'white',
+        alignItems: 'center',
+        justifyContent: 'space-between'
     },
-    separatorView: {
-        width: width,
-        height: 1,
-        backgroundColor: '#f1f1f1'
+    labelColor: {
+        color: '#5476a1'
     },
-    footInfo: {
+    bottomRow: {
+        paddingLeft: width*0.02,
+        paddingRight: width*0.02,
+        justifyContent: 'center',
+        height: 0.12 * width,
+        marginBottom :1,
+        backgroundColor: 'white'
+    },
+    textContent: {
         width: width,
         height: 0.117 * height,
         paddingVertical: 8,
-        paddingHorizontal: 17,
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
+        paddingHorizontal: 0.02 * width,
     },
-    keyText: {
-        fontSize: 15,
-        color: '#5476a1'
+    keyValue: {
+        height: width * 0.12,
+        alignItems: 'center',
+        flexDirection: 'row',
+        backgroundColor: '#fff',
+        borderBottomWidth: 1,
+        borderBottomColor: '#ddd',
+        justifyContent: 'space-between',
+        paddingRight:15
     },
-    valueText: {
-        fontSize: 15,
-        color: '#3d3d3d',
-        alignItems: 'flex-end'
+    textStyle: {
+        width: width*0.35,
+        marginLeft:width*0.02,
     },
-    textinputStyle: {
+    contentText: {
         flex: 1,
-        backgroundColor: '#f1f1f1',
-        borderRadius: 5,
-        paddingLeft: 5,
-        fontSize: 15
+        textAlign: 'right',
+        fontSize: 14
+    },
+    bottomView: {
+        paddingHorizontal: 25,
+        paddingVertical: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#fff'
     },
     btnView: {
         height: 0.045 * height,
@@ -486,45 +413,11 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: '#fff'
     },
-    bottomView: {
-        paddingHorizontal: 25,
-        paddingVertical: 10,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        backgroundColor: '#fff'
-    },
-    attachment: {
-        paddingLeft: 0.02 * width,
-        paddingRight: 0.02 * width,
-        backgroundColor: 'white'
-    },
-    attachmentLabel: {
-        height: 0.12 * width,
-        justifyContent: 'center',
-        borderBottomWidth: 1,
-        borderBottomColor: '#f1f1f1'
-    },
-    attachmentContent: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        paddingBottom: 10
-    },
-    choicImgSty: {
-        height: 0.2 * width,
-        width: 0.2 * width,
-        marginRight: 0.03 * width,
-        marginTop: 0.04 * width
-    },
-    square: {
-        height: 0.2 * width,
-        width: 0.2 * width,
-        borderWidth: 1.5,
-        borderColor: '#d2d2d2',
-        borderStyle: 'dashed',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginRight: 0.03 * width,
-        marginTop: 0.04 * width
+    textinputStyle: {
+        flex: 1,
+        backgroundColor: '#f1f1f1',
+        borderRadius: 5,
+        paddingLeft: 5,
+        fontSize:15
     }
 });

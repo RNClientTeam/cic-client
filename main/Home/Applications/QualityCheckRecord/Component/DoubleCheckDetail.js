@@ -300,7 +300,7 @@ export default class DoubleCheckDetail extends Component {
                             options={this.state.reasonListText}
                             animated={true}
                             disabled={!this.props.add&&!this.props.edit}
-                            defaultValue={this.state.reasonListText[this.state.gcjd-1]}
+                            defaultValue={this.state.gcjd?this.state.reasonListText[this.state.gcjd-1]:'请选择>'}
                             style={{flex:1, alignItems:'flex-end'}}
                             textStyle={{fontSize:14}}
                             onSelect={(a) => {
@@ -395,14 +395,19 @@ export default class DoubleCheckDetail extends Component {
 
     //保存
     save() {
+        if (this.state.rwnr.length === 0 || this.state.xmgh.length === 0 || this.state.xmmc.length === 0 || this.state.zxmc.length === 0) {
+            toast.show('请选择任务');
+            return;
+        }
+        if (this.state.gcjd.length === 0) {
+            toast.show('请选择工程节点');
+            return;
+        }
         if (this.state.jcsj.length === 0) {
             toast.show('请选择检查时间');
             return;
         } else if (this.state.jcrmc.length === 0) {
             toast.show('请选择检验人');
-            return;
-        } else if (this.state.jcfj.length === 0) {
-            toast.show('请选择附件');
             return;
         } else if (this.state.jcjg.length === 0) {
             toast.show('请填写检查结果');

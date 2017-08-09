@@ -59,7 +59,6 @@ export default class SafetyCheckPlanModal extends Component{
     // }
 
     assignAuthority(authority) {
-        console.log('-------data', authority);
         let data = [];
         // 新建
         // if (authority.addAqjcjh) {

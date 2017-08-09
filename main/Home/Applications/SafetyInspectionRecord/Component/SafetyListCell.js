@@ -28,7 +28,7 @@ export default class SafetyInspectionListCell extends Component {
                                 <Text style={styles.stateText} numberOfLines={1}>{this.props.data.ztmc}</Text>
                             </View>
                         </View>
-                        <Text style={styles.projectName} numberOfLines={0}>{this.props.data.xmmc}</Text>
+                        <Text style={styles.projectName} numberOfLines={0}>{this.props.data.xmmc} - {this.props.data.aqjcjhmc}</Text>
                     </View>
                     <View style={styles.aboutPrincipal}>
                         <Text style={[{marginRight: 15}, styles.textStyle]}>{this.props.data.jcrmc}</Text>

@@ -295,12 +295,11 @@ export default class DoubleCheckDetail extends Component {
                 jcjg: this.jianchaResult,
                 zgyq: this.zgyq,
                 wtlb: this.state.wenti,
-                sfxczg: this.state.isFinished,
+                sfxczg: this.state.isFinished?'1':'0',
                 jcfj: this.state.data.jcfj,
                 fcfj: this.state.data.fcfj,
                 callID: true
             }).then((res) => {
-                console.log(res);
                 if (res.code === 1) {
                     Toast.show('保存成功');
                     this.props.navigator.pop();
@@ -334,18 +333,17 @@ export default class DoubleCheckDetail extends Component {
                 aqjcjhmc: this.state.data.aqjcjhmc,
                 gczxId: this.state.data.gczxId,
                 xmbh: this.state.data.xmbh,
-                jcr: this.state.data.JCR,
+                jcr: this.state.data.jcr,
                 jcbm: this.state.data.jcbm,
                 jcsj: this.state.data.jcsj,
                 jcjg: this.jianchaResult,
                 zgyq: this.zgyq,
                 wtlb: this.state.wenti,
-                sfxczg: this.state.isFinished,
+                sfxczg: this.state.isFinished?'1':'0',
                 jcfj: this.state.data.jcfj,
                 fcfj: this.state.data.fcfj,
                 callID: true
             }).then((res) => {
-                console.log(res);
                 if (res.code === 1) {
                     Toast.show('保存成功');
                     this.props.navigator.pop();
