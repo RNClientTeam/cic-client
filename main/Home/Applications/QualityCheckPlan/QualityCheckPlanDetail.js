@@ -78,7 +78,7 @@ export default class QualityCheckPlanDetail extends Component {
                     twztmc: responseData.data.twztmc,
                     zrrmc: responseData.data.zrrmc,
                     jhkssjt: responseData.data.jhkssjt,
-                    jhjssjt: responseData.data.jhkssjt,
+                    jhjssjt: responseData.data.jhjssjt,
                     cjsjt: responseData.data.cjsjt,
                 })
             } else {
@@ -104,6 +104,8 @@ export default class QualityCheckPlanDetail extends Component {
             this.setState({
                 tbZljcjl: responseData.data.tbZljcjl
             })
+        }).catch((error) => {
+            
         });
     }
 

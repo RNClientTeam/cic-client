@@ -43,7 +43,7 @@ export default class QualityCheckRecordList extends Component {
 
     onPullRelease(resolve) {
         //do refresh
-        this.props.reload(()=>{resolve()})
+        this.props.reloadInfo(()=>{resolve()})
     }
 
     renderRow(item, sectionID, rowID, highlightRow) {
@@ -53,7 +53,7 @@ export default class QualityCheckRecordList extends Component {
         }
         return (
             <QualityCheckRecordListCell
-                reload={()=>this.props.reload()}
+                reloadInfo={()=>this.props.reloadInfo()}
                 showModal={this.props.showModal}
                 bgC={bgC} key={rowID}
                 navigator={this.props.navigator}

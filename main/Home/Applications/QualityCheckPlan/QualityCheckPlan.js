@@ -221,7 +221,8 @@ export default class QualityCheckPlan extends Component{
             name: "AddOrEditQualityCheck",
             component: AddOrEditQualityCheck,
             params:{
-                flag:'add'
+                flag:'add',
+                reload: this.getTask.bind(this)
             }
         })
     }

@@ -138,10 +138,10 @@ export default class MyPlanDetail extends Component {
         };
         axios.post('/psmSgjdjh/addSgjhJhrw', data)
             .then(data => {
-                console.log('--------data', data);
                 if (data.code === 1) {
                     Toast.show('保存成功!');
-                    setTimeout(() => this.goBack());
+                    this.props.navigator.pop();
+                    this.props.reloadInfo();
                 } else {
                     Toast.show(data.message);
                 }
@@ -172,7 +172,8 @@ export default class MyPlanDetail extends Component {
             .then(data => {
                 if (data.code === 1) {
                     Toast.show('保存成功!');
-                    setTimeout(() => this.goBack());
+                    this.props.navigator.pop();
+                    this.props.reloadInfo();
                 } else {
                     Toast.show(data.message);
                 }
@@ -217,11 +218,6 @@ export default class MyPlanDetail extends Component {
         } else {
             return true;
         }
-    }
-
-    goBack() {
-        this.props.navigator.pop();
-        this.props.reloadInfo();
     }
 
     goPersonSelector() {

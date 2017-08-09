@@ -66,7 +66,8 @@ export default class QualityCheckModalCell extends Component {
                 params: {
                     checkAndZgrw: true,
                     initialPage: 1,
-                    data: this.props.data
+                    data: this.props.data,
+                    reloadInfo: this.props.reloadInfo
                 }
             })
         } else if (this.props.dataSource.name === '填报整改情况') {
@@ -76,7 +77,8 @@ export default class QualityCheckModalCell extends Component {
                 params: {
                     tbzgqk: true,
                     initialPage: 1,
-                    data: this.props.data
+                    data: this.props.data,
+                    reloadInfo: this.props.reloadInfo
                 }
             })
         } else if (this.props.dataSource.name === '填报复查记录') {

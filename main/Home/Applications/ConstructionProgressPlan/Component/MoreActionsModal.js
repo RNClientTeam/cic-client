@@ -84,7 +84,8 @@ export default class MoreActionsModal extends Component {
             params:{
                 resID: rwid,
                 wfName:'sgjdjhbz',
-                name: 'ProgressPlanDetail'
+                name: 'ProgressPlanDetail',
+                reloadInfo:this.props.reloadInfo
             }
         });
         this.props.closeModal();

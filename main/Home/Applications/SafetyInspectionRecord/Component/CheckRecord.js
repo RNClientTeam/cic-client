@@ -21,6 +21,7 @@ import ModalDropdown from 'react-native-modal-dropdown';
 import Organization from '../../../../Organization/Organization.js';
 import ChoiceFileComponent from '../../Component/ChoiceFileComponent.js';
 import SelectedPage from './SelectedPage.js';
+import CheckFlowInfo from './CheckFlowInfo.js';
 export default class DoubleCheckDetail extends Component {
     constructor(props) {
         super(props);
@@ -71,6 +72,7 @@ export default class DoubleCheckDetail extends Component {
                 callID: true
             }
         }).then((res) => {
+            console.log(res);
             if (res.code === 1) {
                 this.setState({
                     data: res.data,
@@ -201,7 +203,7 @@ export default class DoubleCheckDetail extends Component {
                         businessModule={this.state.data.businessModule}
                         resourceId={this.state.data.jcfj}
                         readOnly={!this.props.edit&&!this.props.add}
-                        isAttach={this.props.fromList?this.state.data.jcfjisAttach:this.state.data.jcjlisAttach}/>
+                        isAttach={this.props.add?this.state.data.jcjlisAttach:this.state.data.jcfjisAttach}/>
                     <View style={styles.divide}/>
                     <View style={styles.bottomRow}>
                         <Text style={styles.labelColor}>检查结果</Text>
@@ -302,7 +304,21 @@ export default class DoubleCheckDetail extends Component {
             }).then((res) => {
                 if (res.code === 1) {
                     Toast.show('保存成功');
-                    this.props.navigator.pop();
+                    if (res.data.isToSubmit) {
+                        this.props.navigator.push({
+                            name: 'CheckFlowInfo',
+                            component: CheckFlowInfo,
+                            params: {
+                                resID: data.data.aqjcjlId,
+                                reloadInfo: this.props.reloadInfo,
+                                wfName: 'jdjhaqjcjl',
+                                name:'SafetyInspectionRecord'
+                            }
+                        })
+                    } else {
+                        this.props.navigator.pop();
+                        this.props.reloadInfo();
+                    }
                 } else {
                     Toast.show(res.message);
                 }
@@ -347,6 +363,7 @@ export default class DoubleCheckDetail extends Component {
                 if (res.code === 1) {
                     Toast.show('保存成功');
                     this.props.navigator.pop();
+                    this.props.reloadInfo();
                 } else {
                     Toast.show(res.message);
                 }

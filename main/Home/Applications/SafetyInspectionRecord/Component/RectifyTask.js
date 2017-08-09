@@ -55,16 +55,19 @@ export default class RectifyTask extends Component {
                         data={this.props.data}
                         fromList={this.props.fromList}
                         add={this.props.add}
+                        reloadInfo={this.props.reloadInfo}
                         edit={this.props.edit}/>
                     <ReformTask tabLabel='整改任务'
                         navigator={this.props.navigator}
                         item={this.props.data}
+                        reloadInfo={this.props.reloadInfo}
                         tbzgqk={this.props.tbzgqk}
                         fromList={this.props.fromList}
                         checkAndZgrw={this.props.checkAndZgrw}/>
                     <ReviewRecord tabLabel="复查记录"
                         navigator={this.props.navigator}
                         data={this.props.data}
+                        reloadInfo={this.props.reloadInfo}
                         fromList={this.props.fromList}
                         fcjl={this.props.fcjl}/>
                 </ScrollableTabView>
