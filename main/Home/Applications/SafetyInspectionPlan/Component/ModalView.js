@@ -20,9 +20,8 @@ export default class ModalView extends Component {
     constructor(props){
         super(props);
         this.jhlxMap = {
-            100: '我的待办',
-            200: '我参与的',
-            300: '全部计划',
+            100: '我主责的',
+            200: '所有计划',
         };
 
         this.state={
@@ -105,8 +104,9 @@ export default class ModalView extends Component {
     }
 
     getDict() {
-        let jhlxList = [100, 200, 300];
-        let jhlxmcList = ['我的待办', '我参与的', '全部计划'];
+        let jhlxList = [100, 200];
+        let jhlxmcList = ['我主责的', '所有计划'];
+        // let jhlxmcList = ['我的待办', '我参与的', '全部计划'];
         this.setState({
             jhlxList,
             jhlxmcList,
