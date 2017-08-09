@@ -74,17 +74,18 @@ export default class RectifyTask extends Component {
 
     componentDidMount() {
         if (this.props.fromList || this.props.tbzgqk || this.props.checkAndZgrw) {
-            axios.get('/psmAqjcjh/operationAuthority4add',{
+            axios.get('/psmAqjcjh/getOperationAuthority4Aqjcjl',{
                 params:{
                     userID:GLOBAL_USERID,
-                    type:'addAqjcjl',
+                    stepId:this.props.data.stepId,
+                    isTodo:this.props.data.isTodo,
                     callID:true
                 }
             }).then(data=>{
+                console.log(data);
                 if(data.code === 1){
-                    console.log(data);
                     this.setState({
-                        canAdd:data.data.addAqjcjl
+                        canAdd:data.data.checkAndaddZgrw
                     })
                 }else{
                     toast.show(data.message);
