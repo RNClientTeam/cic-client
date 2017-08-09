@@ -82,6 +82,7 @@ export default class RectifyTask extends Component {
                 }
             }).then(data=>{
                 if(data.code === 1){
+                    console.log(data);
                     this.setState({
                         canAdd:data.data.addAqjcjl
                     })
