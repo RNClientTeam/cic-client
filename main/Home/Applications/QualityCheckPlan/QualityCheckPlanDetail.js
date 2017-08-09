@@ -40,7 +40,7 @@ export default class QualityCheckPlanDetail extends Component {
                     <KeyValueLeft propsKey="负责人" propsValue={this.state.zrrmc} />
                     <KeyValueLeft propsKey="创建时间" propsValue={this.state.cjsjt} />
                 </ScrollView>
-                {this.state.addZljcjl==='true' ?
+                {this.state.addZljcjl=='true' ?
                     <TouchableOpacity
                         style={styles.editRecord}
                         onPress={() => this.tianbao()}>
