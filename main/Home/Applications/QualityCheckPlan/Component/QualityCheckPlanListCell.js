@@ -87,13 +87,14 @@ const styles = StyleSheet.create({
         color: '#216fd0'
     },
     stateView: {
-        width: width * 0.18,
         height: width * 0.05,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 5
+        borderRadius: 5,
+        paddingLeft:5,
+        paddingRight:5
     },
-    stateStyle: {color: '#fff', fontSize: width * 0.035},
+    stateStyle: {color: '#fff', fontSize: width * 0.03},
     topTaskStyle: {
         lineHeight: parseInt(width * 0.055),
         fontSize: width * 0.04
