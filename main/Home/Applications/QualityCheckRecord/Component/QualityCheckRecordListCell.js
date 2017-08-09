@@ -48,11 +48,12 @@ export default class QualityCheckRecordListCell extends Component {
     }
 
     editBtn() {
+        console.log(this.props.data);
         axios.get('/psmZljcjl/getOperationAuthority4Zljcjl', {
             params: {
                 userID: GLOBAL_USERID,
-                stepId: this.props.data.stepId||'0',
-                isTodo: this.props.data.isTodo||'1',
+                stepId: this.props.data.nodeId,
+                isTodo: this.props.data.sfdb,
                 callID: true
             }
         }).then((res) => {
@@ -109,11 +110,12 @@ const styles = StyleSheet.create({
         color: '#216fd0'
     },
     stateView: {
-        width: width * 0.18,
         height: width * 0.05,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 5
+        borderRadius: 5,
+        paddingLeft:5,
+        paddingRight:5
     },
     stateStyle: {color: '#fff', fontSize: width * 0.035},
     topTaskStyle: {

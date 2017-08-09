@@ -48,8 +48,8 @@ export default class SafetyInspectionListCell extends Component {
         axios.get('/psmAqjcjh/getOperationAuthority4Aqjcjl', {
             params: {
                 userID: GLOBAL_USERID,
-                stepId: this.props.data.stepId||0,
-                isTodo: this.props.data.isTodo||1,
+                stepId: this.props.data.stepId,
+                isTodo: this.props.data.isTodo,
                 callID: true
             }
         }).then((res) => {

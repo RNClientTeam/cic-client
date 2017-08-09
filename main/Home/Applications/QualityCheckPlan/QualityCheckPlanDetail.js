@@ -40,7 +40,7 @@ export default class QualityCheckPlanDetail extends Component {
                     <KeyValueLeft propsKey="负责人" propsValue={this.state.zrrmc} />
                     <KeyValueLeft propsKey="创建时间" propsValue={this.state.cjsjt} />
                 </ScrollView>
-                {this.state.tbZljcjl ?
+                {this.state.addZljcjl==='true' ?
                     <TouchableOpacity
                         style={styles.editRecord}
                         onPress={() => this.tianbao()}>
@@ -53,9 +53,9 @@ export default class QualityCheckPlanDetail extends Component {
         )
     }
 
-    componentWillMount() {
-        this.getAuthority(this.props.id);
-    }
+    // componentWillMount() {
+    //     this.getAuthority(this.props.id);
+    // }
 
     componentDidMount() {
         axios.get('/psmZljcjh/detail',{
@@ -80,6 +80,7 @@ export default class QualityCheckPlanDetail extends Component {
                     jhkssjt: responseData.data.jhkssjt,
                     jhjssjt: responseData.data.jhjssjt,
                     cjsjt: responseData.data.cjsjt,
+                    addZljcjl:responseData.data.addZljcjl
                 })
             } else {
                 toast.show(responseData.message)
@@ -92,22 +93,20 @@ export default class QualityCheckPlanDetail extends Component {
         });
     }
 
-    getAuthority(id) {
-        axios.get('/psmZljcjh/getOperationAuthority4Zljcjh', {
-            params: {
-                userID: GLOBAL_USERID,
-                zlcjhId: id,
-                callID: true,
-            }
-        }).then(responseData => {
-            // 填报按钮
-            this.setState({
-                tbZljcjl: responseData.data.tbZljcjl
-            })
-        }).catch((error) => {
-            
-        });
-    }
+    // getAuthority(id) {
+    //     axios.get('/psmZljcjh/getOperationAuthority4Zljcjh', {
+    //         params: {
+    //             userID: GLOBAL_USERID,
+    //             zlcjhId: id,
+    //             callID: true,
+    //         }
+    //     }).then(responseData => {
+    //         // 填报按钮
+    //         this.setState({
+    //             tbZljcjl: responseData.data.tbZljcjl
+    //         })
+    //     });
+    // }
 
     tianbao() {
         this.props.navigator.push({

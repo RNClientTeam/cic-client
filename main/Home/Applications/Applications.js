@@ -25,6 +25,7 @@ import QualityCheckPlan from "./QualityCheckPlan/QualityCheckPlan";
 import QualityCheckRecord from "./QualityCheckRecord/QualityCheckRecord";
 import DepartmentExecute from "./DeparmentExecute/DepartmentExecute"
 import Ssjdjh from './Ssjdjh/Ssjdjh.js';
+import ArticleApproval from "./ArticleApproval/ArticleApproval";
 
 const {width, height}  = Dimensions.get('window');
 
@@ -45,7 +46,9 @@ var businessApp = [
     {title:'质量检查计划', image: require('../../../resource/imgs/home/applications/qualityInspectionPlan.png'), sectionID:1},
     {title:'质量检查记录', image: require('../../../resource/imgs/home/applications/qualityInspectionRecord.png'), sectionID:1},
     {title:'安全检查计划', image: require('../../../resource/imgs/home/applications/inspectionPlan.png'), sectionID:1},
-    {title:'安全检查记录', image: require('../../../resource/imgs/home/applications/inspectionRecord.png'), sectionID:1}
+    {title:'安全检查记录', image: require('../../../resource/imgs/home/applications/inspectionRecord.png'), sectionID:1},
+    {title:'公文管理', image: require('../../../resource/imgs/home/applications/gongwenguanli.png'), sectionID:1},
+
 ];
 var tradingApp = [
     {title:'物资采购', image: require('../../../resource/imgs/home/applications/materialPurchasing.png'), sectionID:2},
@@ -246,6 +249,11 @@ export default class Applications extends Component {
             this.props.navigator.push({
                 component: Ssjdjh,
                 name: 'Ssjdjh'
+            })
+        }else if (item.title === '公文管理') {
+            this.props.navigator.push({
+                component: ArticleApproval,
+                name: 'ArticleApproval'
             })
         }
 
