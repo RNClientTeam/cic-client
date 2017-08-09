@@ -48,11 +48,12 @@ export default class QualityCheckRecordListCell extends Component {
     }
 
     editBtn() {
+        console.log(this.props.data);
         axios.get('/psmZljcjl/getOperationAuthority4Zljcjl', {
             params: {
                 userID: GLOBAL_USERID,
-                stepId: this.props.data.stepId||'0',
-                isTodo: this.props.data.isTodo||'1',
+                stepId: this.props.data.nodeId,
+                isTodo: this.props.data.sfdb,
                 callID: true
             }
         }).then((res) => {

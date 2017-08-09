@@ -278,6 +278,7 @@ export default class SafetyInspectionPlane extends Component{
                 callID:true
             }
         }).then(data=>{
+            console.log(data);
             if(data.code === 1){
                 this.setState({
                     calendarState:data.data.list

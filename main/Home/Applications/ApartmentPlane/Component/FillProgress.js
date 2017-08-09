@@ -42,9 +42,9 @@ export default class FillProgress extends Component {
                 <StatusBar title="填报进展" navigator={this.props.navigator}/>
                 <KeyValueRight propKey="工作计划名称" readOnly={true} defaultValue={this.props.jhmc}/>
                 <KeyPercentage propKey="当前进度比例*" value={this.state.wcbl} textChange={(value)=>this.setState({wcbl:value})}/>
-                <KeyTime propKey="实际开始时间"  showDate={this.state.sjqdsj} changeDate={(date)=>this.setState({sjqdsj:date})}/>
+                <KeyTime propKey="实际开始时间" onlyDate={true} showDate={this.state.sjqdsj} changeDate={(date)=>this.setState({sjqdsj:date})}/>
                 {parseInt(this.state.wcbl)==100?
-                    <KeyTime propKey="实际完成时间" showDate={this.state.sjwcsj} changeDate={(date)=>this.setState({sjwcsj:date})}/>
+                    <KeyTime propKey="实际完成时间" onlyDate={true} showDate={this.state.sjwcsj} changeDate={(date)=>this.setState({sjwcsj:date})}/>
                 :null}
                 <View style={styles.keyValue}>
                     <Text style={styles.keyStyle}>上传附件</Text>
