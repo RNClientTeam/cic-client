@@ -35,7 +35,7 @@ export default class SafetyInspectionPlane extends Component{
             month: this.date.getMonth(),//当前月份
             day: this.date.getDate(),
             calendarState: [],
-            jhlx: 300,
+            jhlx: 200,
             rwzt: '',
             pageNum: 1,
             canAdd: false,
@@ -129,8 +129,8 @@ export default class SafetyInspectionPlane extends Component{
 
     getList(pageNum = 1, callBack = () => {}) {
         const {
-            jhlx = 300,
-            rwzt = '',
+            jhlx,
+            rwzt,
         } = this.state;
         const date = this.formatDate(this.state.year, this.state.month + 1, this.state.day);
 
@@ -230,7 +230,7 @@ export default class SafetyInspectionPlane extends Component{
             });
         } else {
             this.setState({
-                jhlx: 300,
+                jhlx: 200,
                 rwzt: '',
             }, () => {
                 this.getList();
