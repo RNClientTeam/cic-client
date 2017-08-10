@@ -181,6 +181,7 @@ export default class Login extends Component {
                 });
                 global.SECRETKEY = responseData.secretKey;
                 global.DEPARTMENTID = JSON.parse(userMessage).deptID;
+                global.USERNAME = JSON.parse(userMessage).userName;
                 //登录成功
                 this.timer = setTimeout(() => {
                     const {navigator} = this.props;

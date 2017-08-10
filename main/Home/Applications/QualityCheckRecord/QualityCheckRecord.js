@@ -268,7 +268,6 @@ export default class QualityCheckRecord extends Component {
             }
         }).then(data => {
             resolve();
-            console.log(data);
             this.setState({
                 isLoading: false
             });
@@ -278,7 +277,7 @@ export default class QualityCheckRecord extends Component {
                         this.setState({
                             dataSource: data.data.list
                         },function () {
-                            console.log(this.state.dataSource)
+                            
                         })
                     } else {
                         for (let i = 0; i < data.data.list.length; i++) {

@@ -66,7 +66,6 @@ export default class SafetyInspectionRecord extends Component{
                     navigator={this.props.navigator}
                     reloadInfo={this._getData.bind(this, 1)}
                     setModalVisible={(auth, data)=>{
-                        console.log(auth);
                         let tempData = false;
                         for (var key in auth) {
                             if (auth[key] && !tempData) {

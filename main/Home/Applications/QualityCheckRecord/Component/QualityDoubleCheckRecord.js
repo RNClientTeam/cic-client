@@ -32,7 +32,7 @@ export default class QualityDoubleCheckRecord extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <StatusBar navigator={this.props.navigator} title="质量检查记录复查">
+                <StatusBar navigator={this.props.navigator} title="质量检查记录详情">
                     {
                         (this.state.addIcon && this.state.canAdd)?
                         <TouchableOpacity

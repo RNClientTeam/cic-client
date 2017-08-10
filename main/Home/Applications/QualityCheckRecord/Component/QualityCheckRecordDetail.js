@@ -27,6 +27,7 @@ import {getRandomId} from '../../../../Util/Util.js';
 import ChoiceFileComponent from '../../Component/ChoiceFileComponent.js';
 import SelectedRenwuJD from './SelectedRenwuJD.js';
 import StatusBar from "../../../../Component/StatusBar.js";
+import CheckFlowInfo from '../../SafetyInspectionRecord/Component/CheckFlowInfo.js';
 const {width, height} = Dimensions.get('window');
 
 export default class DoubleCheckDetail extends Component {
@@ -78,7 +79,6 @@ export default class DoubleCheckDetail extends Component {
                 callID: true
             }
         }).then(data => {
-            console.log(data);
             this.setState({isLoading: false});
             if (data.code === 1) {
                 this.setState({
@@ -258,7 +258,7 @@ export default class DoubleCheckDetail extends Component {
     render() {
         return (
             <View style={{flex:1}}>
-                <StatusBar navigator={this.props.navigator} title="质量检查记录编辑"/>
+                <StatusBar navigator={this.props.navigator} title="质量检查记录新建"/>
                 <ScrollView>
                     <TouchableWithoutFeedback onPress={this.onPress.bind(this)}>
                         <View style={styles.keyValue}>
@@ -364,7 +364,12 @@ export default class DoubleCheckDetail extends Component {
                     }
                 </ScrollView>
                 <View style={styles.bottomView}>
-                    <TouchableHighlight underlayColor="transparent" onPress={this.save.bind(this)}>
+                    <TouchableHighlight underlayColor="transparent" onPress={this.save.bind(this, true)}>
+                        <View style={[styles.btnView, {backgroundColor:'#41cc85'}]}>
+                            <Text style={styles.btnText}>保存并提交</Text>
+                        </View>
+                    </TouchableHighlight>
+                    <TouchableHighlight underlayColor="transparent" onPress={this.save.bind(this, false)}>
                         <View style={[styles.btnView, {backgroundColor:'#216fd0'}]}>
                             <Text style={styles.btnText}>保存</Text>
                         </View>
@@ -376,7 +381,7 @@ export default class DoubleCheckDetail extends Component {
     }
 
     //保存
-    save() {
+    save(gotoCheck) {
         if (this.state.rwnr.length === 0 || this.state.xmgh.length === 0 || this.state.xmmc.length === 0 || this.state.zxmc.length === 0) {
             toast.show('请选择任务');
             return;
@@ -398,7 +403,13 @@ export default class DoubleCheckDetail extends Component {
             toast.show('请填写整改要求');
             return;
         }
-        axios.post('/psmZljcjl/save', {
+        let reqURL;
+        if (gotoCheck) {
+            reqURL = '/psmZljcjl/saveAndsumbitZljcjl';
+        } else {
+            reqURL = '/psmZljcjl/save';
+        }
+        axios.post(reqURL, {
             userID: GLOBAL_USERID,
             rwnrid: this.state.rwnrid,
             gcjd: this.state.gcjd,
@@ -419,9 +430,23 @@ export default class DoubleCheckDetail extends Component {
             callID: true
         }).then((res) => {
             if (res.code === 1) {
-                toast.show('保存成功');
-                this.props.reloadInfo();
-                this.props.navigator.pop();
+                if (gotoCheck && res.data.isToSubmit) {
+                    //跳转到流程
+                    this.props.navigator.push({
+                        name: "CheckFlowInfo",
+                        component: CheckFlowInfo,
+                        params: {
+                            resID: res.data.id,
+                            reloadInfo: this.props.reloadInfo,
+                            wfName: 'jdjhzljcjl',
+                            name:'QualityCheckRecord'
+                        }
+                    });
+                } else {
+                    toast.show('保存成功');
+                    this.props.reloadInfo();
+                    this.props.navigator.pop();
+                }
             } else {
                 toast.show(res.message);
             }
@@ -464,7 +489,7 @@ const styles = StyleSheet.create({
     },
     btnView: {
         height: 0.05 * height,
-        width: width - 40,
+        width: (width - 60)/2,
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center'

@@ -72,7 +72,6 @@ export default class DoubleCheckDetail extends Component {
                 callID: true
             }
         }).then((res) => {
-            console.log(res);
             if (res.code === 1) {
                 this.setState({
                     data: res.data,
@@ -130,7 +129,6 @@ export default class DoubleCheckDetail extends Component {
     }
 
     render() {
-        console.log(this.props.check);
         return (
             <View>
                 <ScrollView>
@@ -213,7 +211,7 @@ export default class DoubleCheckDetail extends Component {
                         <TextInput style={styles.textinputStyle}
                             multiline={true}
                             editable={(this.props.add||this.props.edit)?true:false}
-                            defaultValue={this.state.data.fcjg}
+                            defaultValue={this.state.data.jcjg}
                             autoCapitalize="none"
                             autoCorrect={false}
                             onChangeText={(text) => {this.jianchaResult=text;}}
@@ -282,7 +280,7 @@ export default class DoubleCheckDetail extends Component {
             Toast.show('请选择检查时间');
         } else if (this.jianchaResult.length === 0) {
             Toast.show('请填写检查结果');
-        } else if (this.state.wenti != '1' && this.zgyq.length === 0) {
+        } else if (this.state.wenti != '1' && (this.zgyq.length === 0 && this.state.data.zgyq.length === 0)) {
             Toast.show('请填写整改要求');
         } else {
             axios.post('/psmAqjcjh/saveAndsumbitAqjcjl', {
@@ -296,7 +294,7 @@ export default class DoubleCheckDetail extends Component {
                 jcbm: this.state.data.jcbm,
                 jcsj: this.state.data.jcsj,
                 jcjg: this.jianchaResult,
-                zgyq: this.zgyq,
+                zgyq: this.zgyq || this.state.data.zgyq,
                 wtlb: this.state.wenti,
                 sfxczg: this.state.isFinished?'1':'0',
                 jcfj: this.state.data.jcfj,
@@ -310,7 +308,7 @@ export default class DoubleCheckDetail extends Component {
                             name: 'CheckFlowInfo',
                             component: CheckFlowInfo,
                             params: {
-                                resID: data.data.aqjcjlId,
+                                resID: res.data.aqjcjlId,
                                 reloadInfo: this.props.reloadInfo,
                                 wfName: 'jdjhaqjcjl',
                                 name:'SafetyInspectionRecord'
@@ -340,7 +338,7 @@ export default class DoubleCheckDetail extends Component {
             Toast.show('请选择检查时间');
         } else if (this.jianchaResult.length === 0) {
             Toast.show('请填写检查结果');
-        } else if (this.state.wenti != '1' && this.zgyq.length === 0) {
+        } else if (this.state.wenti != '1' && this.zgyq.length === 0 && this.state.data.zgyq.length === 0) {
             Toast.show('请填写整改要求');
         } else {
             axios.post('/psmAqjcjh/saveAqjcjl', {
@@ -354,7 +352,7 @@ export default class DoubleCheckDetail extends Component {
                 jcbm: this.state.data.jcbm,
                 jcsj: this.state.data.jcsj,
                 jcjg: this.jianchaResult,
-                zgyq: this.zgyq,
+                zgyq: this.zgyq||this.state.data.zgyq,
                 wtlb: this.state.wenti,
                 sfxczg: this.state.isFinished?'1':'0',
                 jcfj: this.state.data.jcfj,

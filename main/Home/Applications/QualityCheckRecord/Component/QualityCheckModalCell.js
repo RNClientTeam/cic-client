@@ -101,7 +101,6 @@ export default class QualityCheckModalCell extends Component {
                 if (res.code === 1) {
                     Toast.show('删除成功');
                     this.props.reloadInfo();
-                    this.props.navigator.pop();
                 } else {
                     Toast.show(res.message);
                 }

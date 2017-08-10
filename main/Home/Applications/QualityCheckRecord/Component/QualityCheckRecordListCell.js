@@ -33,8 +33,8 @@ export default class QualityCheckRecordListCell extends Component {
                 <View style={styles.bottomView}>
                     <View style={styles.bottomLeftView}>
                         <View style={styles.bottomLeftBottomView}>
-                            <Text style={[styles.bottomTextStyle,{marginRight:width*0.03}]}>{this.props.data.xmgh}</Text>
-                            <Text style={styles.bottomTextStyle}>{this.props.data.jcr}</Text>
+                            <Text style={[styles.bottomTextStyle,{marginRight:width*0.03}]}>{this.props.data.jcrmc}</Text>
+                            <Text style={styles.bottomTextStyle}>{this.props.data.xmgh}</Text>
                         </View>
                         <Text style={styles.bottomTextStyle}>{this.props.data.cjsj}</Text>
                     </View>
@@ -48,7 +48,6 @@ export default class QualityCheckRecordListCell extends Component {
     }
 
     editBtn() {
-        console.log(this.props.data);
         axios.get('/psmZljcjl/getOperationAuthority4Zljcjl', {
             params: {
                 userID: GLOBAL_USERID,

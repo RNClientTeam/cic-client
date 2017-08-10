@@ -45,6 +45,8 @@ export default class AddOrEditQualityCheck extends Component {
             twztmc: props.flag==='add'?'新建任务':'请选择任务状态',
             xmmc: '',
             zxmc: "",
+            zrbmmc: '',
+            cjsjt: getCurrentDate(),
             isLoading: false
         };
 
@@ -84,6 +86,10 @@ export default class AddOrEditQualityCheck extends Component {
                                    source={require('../../../../resource/imgs/home/applications/triangle.png')}/>
                         </View>
                     </View>
+                    <KeyTime propKey="计划开始时间" onlyDate={true} showDate={this.state.jhkssj}
+                             changeDate={(date) => this.setState({jhkssj: date})}/>
+                    <KeyTime propKey="计划结束时间" onlyDate={true} showDate={this.state.jhjssj}
+                             changeDate={(date) => this.setState({jhjssj: date})}/>
                     <View style={styles.cellStyle}>
                         <Text style={{color: '#216fd0'}}>任务状态</Text>
                         <View style={styles.indicateView}>
@@ -107,16 +113,10 @@ export default class AddOrEditQualityCheck extends Component {
                                    source={require('../../../../resource/imgs/home/applications/triangle.png')}/>
                         </View>
                     </View>
-                    {/*<KeyValueRight propKey="责任部门" readOnly={true} defaultValue={this.state.zrbmmc}/>*/}
+                    <KeyValueRight propKey="责任部门" readOnly={true} defaultValue={this.state.zrbmmc}/>
                     <KeySelect propKey="责任人" choiceInfo={this.choicePeople.bind(this)} value={this.state.zrrmc}/>
-                    <KeyTime propKey="计划开始时间" onlyDate={true} showDate={this.state.jhkssj}
-                             changeDate={(date) => this.setState({jhkssj: date})}/>
-                    <KeyTime propKey="计划结束时间" onlyDate={true} showDate={this.state.jhjssj}
-                             changeDate={(date) => this.setState({jhjssj: date})}/>
-                    {
-                        this.props.jhrwId &&
-                            <KeyValueRight propKey="创建时间" readOnly={true} defaultValue={this.state.cjsjt}/>
-                    }
+                    <KeyValueRight propKey="创建时间" readOnly={true} defaultValue={this.state.cjsjt}/>
+                    <KeyValueRight propKey="创建人" readOnly={true} defaultValue={USERNAME}/>
                 </ScrollView>
                 {
                     this.props.flag === 'add' ?
@@ -163,7 +163,8 @@ export default class AddOrEditQualityCheck extends Component {
                     this.setState({
                         zrr: id,
                         zrrmc: name,
-                        zrbm: bmid
+                        zrbm: bmid,
+                        zrbmmc: bmmc
                     })
                 }
             }
@@ -342,7 +343,6 @@ export default class AddOrEditQualityCheck extends Component {
                 callID: true,
             }
         }).then(responseData => {
-            console.log(responseData);
             this.setState({
                 isLoading: false
             });
