@@ -130,6 +130,7 @@ export default class DoubleCheckDetail extends Component {
     }
 
     render() {
+        console.log(this.props.check);
         return (
             <View>
                 <ScrollView>

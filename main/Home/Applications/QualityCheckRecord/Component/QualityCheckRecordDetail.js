@@ -415,9 +415,9 @@ export default class DoubleCheckDetail extends Component {
             xmgh: this.state.xmgh,
             cjbm: this.state.cjbm,
             cjsj: this.state.cjsj,
+            id: this.state.id,
             callID: true
         }).then((res) => {
-            console.log(res);
             if (res.code === 1) {
                 toast.show('保存成功');
                 this.props.reloadInfo();
@@ -426,7 +426,6 @@ export default class DoubleCheckDetail extends Component {
                 toast.show(res.message);
             }
         }).catch((error) => {
-            console.log(error);
             toast.show('服务端异常');
         });
     }

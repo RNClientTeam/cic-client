@@ -28,43 +28,43 @@ export default class MoreOperation extends Component {
         let dataArr = [];
         if (this.props.auth.addAqjcjl) {
             dataArr.push({
-                img: require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),
+                img: require('../../../../../resource/imgs/home/applications/createItem.png'),
                 name: '增加'
             });
         }
         if (this.props.auth.editAqjcjl) {
             dataArr.push({
-                img: require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),
+                img: require('../../../../../resource/imgs/home/applications/modification.png'),
                 name: '修改'
             });
         }
         if (this.props.auth.checkAqjcjl) {
             dataArr.push({
-                img: require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),
+                img: require('../../../../../resource/imgs/home/applications/checkDetail.png'),
                 name: '审核'
             });
         }
         if (this.props.auth.checkAndaddZgrw) {
             dataArr.push({
-                img: require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),
+                img: require('../../../../../resource/imgs/home/applications/inspectionPlan.png'),
                 name: '下达整改任务'
             });
         }
         if (this.props.auth.tbZgwcqk) {
             dataArr.push({
-                img: require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),
+                img: require('../../../../../resource/imgs/home/applications/implementationSchedule.png'),
                 name: '填报整改情况'
             });
         }
         if (this.props.auth.tbFcjl) {
             dataArr.push({
-                img: require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),
+                img: require('../../../../../resource/imgs/home/applications/schedulePlanning.png'),
                 name: '填报复查记录'
             });
         }
         if (this.props.auth.deleteAqjcjl) {
             dataArr.push({
-                img: require('../../../../../resource/imgs/home/earlierStage/writeCompleteInfo.png'),
+                img: require('../../../../../resource/imgs/home/applications/delete.png'),
                 name: '删除'
             });
         }

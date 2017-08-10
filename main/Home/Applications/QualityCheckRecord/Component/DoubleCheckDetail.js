@@ -92,7 +92,7 @@ export default class DoubleCheckDetail extends Component {
                     jcr: data.data.jcr,
                     jcrmc: data.data.jcrmc,
                     id: data.data.id,
-                    gcjd: data.data.gcjd||1,
+                    gcjd: data.data.gcjd,
                     rwnr: data.data.rwnr,
                     zxid: data.data.zxid,
                     sfxczg: data.data.sfxczg,
@@ -433,6 +433,7 @@ export default class DoubleCheckDetail extends Component {
             xmgh: this.state.xmgh,
             cjbm: this.state.cjbm,
             cjsj: this.state.cjsj,
+            id: this.state.id,
             callID: true
         }).then((res) => {
             if (res.code === 1) {
