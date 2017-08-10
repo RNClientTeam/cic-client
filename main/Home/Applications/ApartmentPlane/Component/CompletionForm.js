@@ -87,7 +87,7 @@ export default class CompletionForm extends Component {
                 });
                 axios.post('/psmBmjh/updateQrwc', {
                     userID: GLOBAL_USERID,
-                    gzjhid: this.props.id,
+                    gzjhId: this.props.id,
                     sjwcsj: this.state.sjwcsj,
                     callID: true
                 }).then(data => {

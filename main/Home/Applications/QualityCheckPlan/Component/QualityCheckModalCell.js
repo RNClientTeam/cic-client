@@ -44,6 +44,8 @@ export default class QualityCheckModalCell extends Component {
                 params:{
                     flag:'edit',
                     jhrwId: this.props.jhrwId,
+                    reload:this.props.reloadInfo
+                    cfxxId: this.props.cfxxId,
                 }
             })
         }else if (this.props.dataSource.name === '生效') {

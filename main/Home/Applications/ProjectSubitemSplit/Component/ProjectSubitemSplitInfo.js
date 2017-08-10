@@ -19,7 +19,8 @@ export default class ProjectSubitemSplitInfo extends Component {
         super(props);
         this.state = {
             dataSource:[],
-            xmmc:''
+            xmmc:'',
+            data:{}
         }
     }
 
@@ -27,24 +28,20 @@ export default class ProjectSubitemSplitInfo extends Component {
         return (
             <View>
                 <View style={styles.headerView}>
-                    <Text style={styles.headerText} numberOfLines={1}>
-                        {this.state.xmmc}
+                    <Text style={styles.headerText}>
+                        {this.state.data.xmmc}
                     </Text>
                 </View>
-                {this.renderKV(this.state.dataSource)}
+                <KeyValue propsKey='所属部门' propsValue={this.state.data.ssdw}/>
+                <KeyValue propsKey='项目经理' propsValue={this.state.data.xmjl}/>
+                <KeyValue propsKey='合同工期开始时间' propsValue={this.state.data.htkssj}/>
+                <KeyValue propsKey='合同工期结束时间' propsValue={this.state.data.htjssj}/>
+                <KeyValue propsKey='项目计划开始时间' propsValue={this.state.data.xmkssj}/>
+                <KeyValue propsKey='项目计划结束时间' propsValue={this.state.data.xmjssj}/>
             </View>
         )
     }
 
-    renderKV = (dataSource)=>{
-        let tpl = [];
-        for(let i = 0;i<dataSource.length;i++){
-            tpl.push(
-                <KeyValue key={i} propsKey={dataSource[i].key} propsValue={dataSource[i].value}/>
-            )
-        }
-        return tpl;
-    };
 
     componentDidMount() {
       axios.get('/psmGczx/xmDetail',{
@@ -57,28 +54,8 @@ export default class ProjectSubitemSplitInfo extends Component {
           }
       }).then(data=>{
           if(data.code === 1){
-              let temp = [];
-              for(let i in data.data){
-                  if(i ==='xmmc'){
-                      this.setState({
-                          xmmc:data.data[i]
-                      })
-                  }else if(i==='ssdw'){
-                      temp.push({key:'所属部门',value:data.data[i]});
-                  }else if(i==='xmjl'){
-                      temp.push({key:'项目经理',value:data.data[i]});
-                  }else if(i==='htjssj'){
-                      temp.push({key:'合同结束时间',value:data.data[i]});
-                  }else if(i==='htkssj'){
-                      temp.push({key:'合同开始时间',value:data.data[i]});
-                  }else if(i ==='xmjssj'){
-                      temp.push({key:'项目结束时间',value:data.data[i]});
-                  }else if(i==='xmkssj'){
-                      temp.push({key:'项目开始时间',value:data.data[i]});
-                  }
-              }
               this.setState({
-                  dataSource:temp
+                  data:data.data
               })
           }else{
               toast.show(data.message)
@@ -91,11 +68,12 @@ const styles = StyleSheet.create({
     headerView: {
         backgroundColor: '#fff',
         marginTop: width * 0.02,
-        height: width * 0.12,
         borderColor: '#ddd',
         borderBottomWidth: 1,
         borderTopWidth: 1,
-        justifyContent:'center'
+        justifyContent:'center',
+        paddingTop:13,
+        paddingBottom:14
     },
     headerText: {
         fontWeight: '500',

@@ -29,7 +29,7 @@ export default class AddOrEditQualityCheck extends Component {
         super(props);
         this.state = {
             cfxxId: '',
-            gczxId: "",
+            gczxId: '',
             rwxz: '',
             twzt: props.flag==='add'?'0':'',
             rwnr: '',
@@ -186,7 +186,9 @@ export default class AddOrEditQualityCheck extends Component {
             component: ChooseProject,
             name: 'ChooseProject',
             params: {
-                addProject: this.addProject.bind(this)
+                addProject: this.addProject.bind(this),
+                jhkssj: this.state.jhkssj,
+                jhjssj: this.state.jhjssj,
             }
 
         })
@@ -262,17 +264,19 @@ export default class AddOrEditQualityCheck extends Component {
         this.setState({
             isLoading: true
         });
-        axios.get('/dictionary/list', {
+        axios.get('/dictionary/listsp', {
             params: {
                 userID: GLOBAL_USERID,
                 callID: true,
-                root: 'JDJH_SGRWXZ'
+                root: 'JDJH_SGRWXZ',
+                params:1
             }
         }).then(data => {
             this.setState({
                 isLoading: false
             });
             if (data.code === 1) {
+                console.log(data);
                 if (data.data && data.data.length > 0) {
                     let cn = [], code = [];
                     for (let i = 0; i < data.data.length; i++) {
@@ -358,6 +362,8 @@ export default class AddOrEditQualityCheck extends Component {
                     jhkssj: responseData.data.jhkssjt,
                     jhjssj: responseData.data.jhjssjt,
                     cjsjt: responseData.data.cjsjt,
+                    cfxxId: responseData.data.cfxxId,
+                    gczxId: responseData.data.gczxId,
                 })
             } else {
                 toast.show(responseData.message)

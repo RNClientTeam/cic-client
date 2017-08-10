@@ -31,7 +31,7 @@ export default class RectifyTask extends Component {
     render() {
         return (
             <View style={styles.flex}>
-                <StatusBar title="下达整改任务" navigator={this.props.navigator}>
+                <StatusBar title="安全检查记录" navigator={this.props.navigator}>
                     {
                         this.state.addIcon&&this.state.canAdd?
                             <TouchableOpacity
