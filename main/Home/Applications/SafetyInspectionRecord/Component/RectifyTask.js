@@ -55,6 +55,7 @@ export default class RectifyTask extends Component {
                         data={this.props.data}
                         fromList={this.props.fromList}
                         add={this.props.add}
+                        check={this.props.check}
                         reloadInfo={this.props.reloadInfo}
                         edit={this.props.edit}/>
                     <ReformTask tabLabel='整改任务'
