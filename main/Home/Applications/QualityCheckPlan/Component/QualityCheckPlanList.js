@@ -59,7 +59,7 @@ export default class QualityCheckPlanList extends Component {
         }
         return (
             <QualityCheckPlanListCell
-                showModal={()=>this.props.showModal(item.id)}
+                showModal={() => this.props.showModal(item.id, item.cfxxId)}
                 bgC={bgC}
                 key={rowID}
                 navigator={this.props.navigator}
