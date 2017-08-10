@@ -27,7 +27,8 @@ export default class ProjectRangeHandoverDetail extends Component{
             xmjl:'',
             jjzt:'',
             cfsj:'',
-            xmbh:''
+            xmbh:'',
+            proDetail:{}
         }
     }
     render(){
@@ -48,6 +49,7 @@ export default class ProjectRangeHandoverDetail extends Component{
                         jjzt={this.state.jjzt}
                         stateBg={this.props.stateBg}
                         cfsj={this.state.cfsj}
+                        data={this.state.proDetail}
                         tabLabel='详情'/>
                     <ProjectRangeHandoverDetailList cfxxid={this.props.xmid}
                                                     navigator={this.props.navigator}
@@ -68,6 +70,7 @@ export default class ProjectRangeHandoverDetail extends Component{
             }
         }).then(responseData=>{
             if(responseData.code === 1){
+                console.log(responseData);
                 let data = responseData.data;
                 this.setState({
                     proName:data.xmmc,
@@ -75,7 +78,8 @@ export default class ProjectRangeHandoverDetail extends Component{
                     xmjl:data.xmjl,
                     jjzt:data.gcfwjjztmc,
                     cfsj:data.cfsj,
-                    xmbh:data.xmbh
+                    xmbh:data.xmbh,
+                    proDetail:data
                 })
             }else{
                 toast.show(responseData.message);

@@ -60,6 +60,7 @@ export default class MoreOperation extends Component {
                 templateArr.push( {img:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'确认完成'})
             }
         }
+        templateArr.push( {img:require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),name:'确认完成'})
         this.setState({
             data:templateArr
         })

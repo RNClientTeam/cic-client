@@ -15,7 +15,7 @@ import {
 import StatusBar from "../../../../Component/StatusBar";
 const {width}  = Dimensions.get('window');
 import toast from 'react-native-simple-toast';
-var imgSource = [
+const imgSource = [
     require('../../../../../resource/imgs/user/push_in.png'),
     require('../../../../../resource/imgs/home/applications/down.png')
 ];
