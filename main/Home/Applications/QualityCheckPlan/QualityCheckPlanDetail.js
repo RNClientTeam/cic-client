@@ -16,6 +16,7 @@ import StatusBar from "../../../Component/StatusBar";
 import ListHeaderCell from "../Component/ListHeaderCell";
 import KeyValueLeft from "../../../Component/KeyValueLeft";
 import QualityCheckRecordDetail from "../QualityCheckRecord/Component/QualityCheckRecordDetail.js";
+import toast from 'react-native-simple-toast'
 const {width} = Dimensions.get('window');
 
 export default class QualityCheckPlanDetail extends Component {

@@ -263,17 +263,19 @@ export default class AddOrEditQualityCheck extends Component {
         this.setState({
             isLoading: true
         });
-        axios.get('/dictionary/list', {
+        axios.get('/dictionary/listsp', {
             params: {
                 userID: GLOBAL_USERID,
                 callID: true,
-                root: 'JDJH_SGRWXZ'
+                root: 'JDJH_SGRWXZ',
+                params:1
             }
         }).then(data => {
             this.setState({
                 isLoading: false
             });
             if (data.code === 1) {
+                console.log(data);
                 if (data.data && data.data.length > 0) {
                     let cn = [], code = [];
                     for (let i = 0; i < data.data.length; i++) {
