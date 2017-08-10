@@ -75,7 +75,7 @@ export default class QualityCheckPlan extends Component{
                                       reload={(resolve)=>this.getTask(1,resolve)}
                                       loadMore={this.loadMore.bind(this)}
                                       navigator={this.props.navigator}
-                                      showModal={(jhrwId) => this.setModalVisible(jhrwId)}/>
+                                      showModal={(jhrwId, cfxxId) => this.setModalVisible(jhrwId, cfxxId)}/>
 
                 <Modal
                     animationType={"slide"}
@@ -89,6 +89,7 @@ export default class QualityCheckPlan extends Component{
                     <QualityCheckModal
                         navigator={this.props.navigator}
                         jhrwId={this.state.jhrwId}
+                        cfxxId={this.state.cfxxId}
                         authority={this.state.authority}
                         reloadInfo={() => this.getTask()}
                         closeModal={() => {this.setState({modalVisible: false})
@@ -105,12 +106,13 @@ export default class QualityCheckPlan extends Component{
         )
     }
 
-    setModalVisible(jhrwId) {
+    setModalVisible(jhrwId, cfxxId) {
         this.getAuthority(jhrwId, () => {
             this.setState(
                 {
                     modalVisible: true,
-                    jhrwId
+                    jhrwId,
+                    cfxxId,
                 }
             );
         });

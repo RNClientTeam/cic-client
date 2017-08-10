@@ -29,7 +29,7 @@ export default class AddOrEditQualityCheck extends Component {
         super(props);
         this.state = {
             cfxxId: '',
-            gczxId: "",
+            gczxId: '',
             rwxz: '',
             twzt: props.flag==='add'?'0':'',
             rwnr: '',
@@ -360,6 +360,8 @@ export default class AddOrEditQualityCheck extends Component {
                     jhkssj: responseData.data.jhkssjt,
                     jhjssj: responseData.data.jhjssjt,
                     cjsjt: responseData.data.cjsjt,
+                    cfxxId: responseData.data.cfxxId,
+                    gczxId: responseData.data.gczxId,
                 })
             } else {
                 toast.show(responseData.message)
