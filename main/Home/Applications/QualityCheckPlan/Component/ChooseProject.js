@@ -5,17 +5,19 @@ import {
     View,
     Text,
     TouchableHighlight,
+    TouchableOpacity,
     ListView,
+    Image,
     Dimensions
 } from 'react-native';
-
-const {width, height} = Dimensions.get('window');
 import StatusBar from '../../../../Component/StatusBar.js';
 import toast from 'react-native-simple-toast'
 import Loading from "../../../../Component/Loading";
 import ChooseSubPro from "./ChooseSubPro";
 import EarlierStageListHeader from "../../Component/SearchHeader";
+import ProjectFiltrate from "./ProjectFiltrate";
 
+const {width, height} = Dimensions.get('window');
 export default class ChooseProject extends Component {
     constructor(props) {
         super(props);
@@ -23,14 +25,20 @@ export default class ChooseProject extends Component {
         this.state = {
             dataSource: [],
             isLoading: false,
-            xmmc: ''
+            xmmc: '',
+            kssj: this.props.jhkssj,
+            jssj: this.props.jhjssj,
         }
     }
 
     render() {
         return (
             <View style={styles.flex}>
-                <StatusBar title="选择项目" navigator={this.props.navigator}/>
+                <StatusBar title="选择项目" navigator={this.props.navigator}>
+                    <TouchableOpacity onPress={()=>{this.setState({filtrate:!this.state.filtrate})}}>
+                        <Image style={styles.filtrate} source={require('../../../../../resource/imgs/home/earlierStage/filtrate.png')}/>
+                    </TouchableOpacity>
+                </StatusBar>
                 <EarlierStageListHeader changeZxmc={(txt) => this.changeZxmc(txt)} getData={() => {
                     this.getData()
                 }}/>
@@ -42,6 +50,8 @@ export default class ChooseProject extends Component {
                     renderSeparator={(sectionID, rowID) => {
                         return (<View key={`${sectionID}-${rowID}`} style={styles.separatorView}/>)
                     }}/>
+                {this.state.filtrate?<ProjectFiltrate
+                        closeFiltrate={(kssj, jssj)=>this.filterData(kssj, jssj)}/>:null}
                 {this.state.isLoading ? <Loading/> : null}
             </View>
         );
@@ -87,7 +97,9 @@ export default class ChooseProject extends Component {
             params: {
                 userID: GLOBAL_USERID,
                 callID: true,
-                xmmc: this.state.xmmc
+                xmmc: this.state.xmmc,
+                kssj: this.state.kssj,
+                jssj: this.state.jssj,
             }
         }).then(data => {
             this.setState({
@@ -106,6 +118,14 @@ export default class ChooseProject extends Component {
             });
             toast.show('服务端异常');
         })
+    }
+
+    filterData (kssj, jssj) {
+        this.setState({
+            kssj,
+            jssj,
+            filtrate: false,
+        }, () => {this.getData()})
     }
 }
 
@@ -134,5 +154,9 @@ const styles = StyleSheet.create({
         width: width,
         height: 1,
         backgroundColor: '#f1f1f1'
+    },
+    filtrate:{
+        width:width*0.045,
+        height:width*0.045
     },
 });

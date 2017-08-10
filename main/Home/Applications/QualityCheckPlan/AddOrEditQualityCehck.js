@@ -185,7 +185,9 @@ export default class AddOrEditQualityCheck extends Component {
             component: ChooseProject,
             name: 'ChooseProject',
             params: {
-                addProject: this.addProject.bind(this)
+                addProject: this.addProject.bind(this),
+                jhkssj: this.state.jhkssj,
+                jhjssj: this.state.jhjssj,
             }
 
         })

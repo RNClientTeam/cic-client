@@ -41,6 +41,7 @@ export default class QualityCheckPlan extends Component{
             rwztid:'all',
             isLoading:false,
             dataSource:[],
+            keywords: '',
         }
     }
     render(){
@@ -271,6 +272,7 @@ export default class QualityCheckPlan extends Component{
                 rwxz:this.state.rwxzid,
                 pageNum:pageNum,
                 pageSize:10,
+                keywords: this.state.keywords,
                 callID:true
             }
         }).then(data=>{
