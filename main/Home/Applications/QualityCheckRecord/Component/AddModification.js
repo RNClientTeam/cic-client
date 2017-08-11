@@ -42,8 +42,8 @@ export default class AddModification extends Component {
             zgzrr: '',
             zgzrrmc: '',
             zgzrbm: '',
-            zgwcsjt: getCurrentDate(),
-            sjwcsjt: getCurrentDate(),
+            zgwcsjt: '',
+            sjwcsjt: '',
             zgyq: '',
             zcjg: '',
             id:getRandomId()
@@ -115,7 +115,7 @@ export default class AddModification extends Component {
                     <View style={styles.divide}/>
                     <ChoiceFileComponent
                         readOnlye={this.props.type === '查看详情'}
-                        isAttch='1'
+                        isAttach='1'
                         resourceId={this.state.id}
                         businessModule="zgrw"/>
                 </ScrollView>
@@ -231,6 +231,21 @@ export default class AddModification extends Component {
      * 提交
      */
     submit() {
+        console.log({
+            userID: GLOBAL_USERID,
+            id:this.state.id,
+            zljcjlId:this.props.zljcjlId,
+            nodeId:this.props.nodeId,
+            wtlb:this.state.wtlb,
+            zgyq:this.state.zgyq,
+            zgzrr:this.state.zgzrr,
+            zgzrbm:this.state.zgzrbm,
+            zgwcsjt:this.state.zgwcsjt,
+            sjwcsjt:this.state.sjwcsjt,
+            zcjg:this.state.zcjg,
+            callID:true
+        })
+        return;
         if (this.state.wtlb === '') {
             toast.show('请选择问题类别')
         } else if (this.state.zgzrr === '') {
@@ -288,8 +303,8 @@ export default class AddModification extends Component {
                     zgyq: this.state.zgyq,
                     zgzrr: this.state.zgzrr,
                     zgzrbm: this.state.zgzrbm,
-                    zgwcsjt: this.state.zgwcsjt,
-                    sjwcsjt: this.state.sjwcsjt,
+                    zgwcsjt: this.state.zgwcsjt.trim(),
+                    sjwcsjt: this.state.sjwcsjt.trim(),
                     zcjg: this.state.zcjg,
                     callID: true,
                     id:this.state.id
