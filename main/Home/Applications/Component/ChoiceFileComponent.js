@@ -220,6 +220,7 @@ export default class ChoiceFileComponent extends Component {
             }
         }).then(data=>{
             if(data.code === 1){
+                console.log(data);
                 data.data.forEach((elem, index) => {
                     let findRes = imgEXT.findIndex((ele, m) => {
                         return elem.fileExtension === ele;
@@ -228,13 +229,17 @@ export default class ChoiceFileComponent extends Component {
                         //图片
                         this.state.imageList.push({uri:`${baseUrl.baseUrl}/sysfile/getFile?id=${elem.id}&isdown=0&callID=&sign=`});
                     } else {
+                        if (this.state.choiceFileName.length === '所选文件名称') {
+                            this.state.choiceFileName = data.data.fileName;
+                        }
                         this.state.fileList.push({uri:`${baseUrl.baseUrl}/sysfile/getFile?id=${elem.id}&isdown=1&callID=&sign=`});
                     }
                 });
                 this.setState({
                     imageList: this.state.imageList,
                     fileList: this.state.fileList,
-                    hasFile: this.state.imageList.length !== 0 ? true : false
+                    hasFile: this.state.imageList.length !== 0 ? true : false,
+                    choiceFileName: this.state.choiceFileName
                 });
             }else{
                 Toast.show(data.message);
