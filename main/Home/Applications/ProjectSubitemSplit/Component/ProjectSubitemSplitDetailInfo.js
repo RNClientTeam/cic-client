@@ -35,16 +35,16 @@ export default class ProjectSubitemSplitDetailInfo extends Component {
                             {this.state.data.xmgh}  {this.state.data.xmmc}
                         </Text>
                     </View>
-                    <KeyValue propsKey='工程子项' propsValue={this.state.data.jhztmc}/>
-                    <KeyValue propsKey='是否锁定' propsValue={this.state.data.jhztmc}/>
-                    <KeyValue propsKey='实施经理' propsValue={this.state.data.jhztmc}/>
-                    <KeyValue propsKey='工程类别' propsValue={this.state.data.jhztmc}/>
-                    <KeyValue propsKey='工程子项承包范围' propsValue={this.state.data.jhztmc}/>
-                    <KeyValue propsKey='图纸编号及名称' propsValue={this.state.data.jhztmc}/>
-                    <KeyValue propsKey='责任人' propsValue={this.state.data.jhztmc}/>
-                    <KeyValue propsKey='责任部门' propsValue={this.state.data.jhztmc}/>
-                    <KeyValue propsKey='进场施工时间' propsValue={this.state.data.jhztmc}/>
-                    <KeyValue propsKey='竣工送电时间' propsValue={this.state.data.jhztmc}/>
+                    <KeyValue propsKey='工程子项' propsValue={this.state.data.zxmc}/>
+                    <KeyValue propsKey='是否锁定' propsValue={this.state.data.jhsd}/>
+                    <KeyValue propsKey='实施经理' propsValue={this.state.data.ssjl}/>
+                    <KeyValue propsKey='工程类别' propsValue={this.state.data.gclb}/>
+                    <KeyValue propsKey='工程子项承包范围' propsValue={this.state.data.cbfw}/>
+                    <KeyValue propsKey='图纸编号及名称' propsValue={this.state.data.tzbhmc}/>
+                    <KeyValue propsKey='责任人' propsValue={this.state.data.zrrmc}/>
+                    <KeyValue propsKey='施工部门' propsValue={this.state.data.sgbm}/>
+                    <KeyValue propsKey='进场施工时间' propsValue={this.state.data.jhkssj}/>
+                    <KeyValue propsKey='竣工送电时间' propsValue={this.state.data.jhjssj}/>
                     <View style={styles.divide}></View>
                     {
                         (this.state.data.yxsdsj||this.state.data.zwsdsj||this.state.data.jqdhsdsj)?
