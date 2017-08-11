@@ -45,7 +45,7 @@ export default class ReformTask extends Component {
                 />
                 {this.props.showWrokFlow ?
                     <TouchableOpacity style={styles.shareDataAdd} onPress={this.workFlow.bind(this)}>
-                    <Text style={styles.textStyle}>添加共享资料</Text>
+                    <Text style={styles.textStyle}>提交审核</Text>
                 </TouchableOpacity>
                     : null}
 
@@ -141,6 +141,7 @@ export default class ReformTask extends Component {
                 callID: true
             }
         }).then(data => {
+            console.log(data);
             if (data.code === 1) {
                 this.setState({
                     dataSource: data.data
