@@ -176,6 +176,7 @@ export default class ApartmentPlane extends Component {
             }
         }).then(data => {
             this.hideLoading();
+            console.log(data);
             if (data.code === 1) {
                 let arr = [];
                 for (let item in data.data) {

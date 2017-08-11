@@ -23,7 +23,7 @@ export default class ApartmentPlaneListCell extends Component {
                 <TouchableOpacity style={styles.earlierStageListCell} onPress={this.skipPage.bind(this)}>
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
-                            <Text style={{color:'#216fd0',fontSize:width*0.045}} numberOfLines={1}>{this.props.data.jhmc}</Text>
+                            <Text style={{color:'#216fd0',fontSize:width*0.045,width:width*0.7}}>{this.props.data.jhmc}</Text>
                             <View style={[styles.stateView,this.props.data.ztmc==='启动'?{backgroundColor:'#11cb43'}:{}]}>
                                 <Text style={styles.stateText}>{this.props.data.ztmc}</Text>
                             </View>
@@ -82,8 +82,9 @@ const styles = StyleSheet.create({
     numState: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        height: width * 0.1,
         alignItems: 'center',
+        paddingTop:width*0.02,
+        paddingBottom:width*0.02
     },
     projectName: {
         lineHeight: 21
