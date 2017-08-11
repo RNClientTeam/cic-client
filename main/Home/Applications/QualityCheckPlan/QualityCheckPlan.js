@@ -278,7 +278,7 @@ export default class QualityCheckPlan extends Component{
                 callID:true
             }
         }).then(data=>{
-            this.setState({isLoading:false});
+            this.setState({isLoading:false,pageNum:pageNum});
             resolve();
             if(data.code ===1){
                 if(pageNum===1){

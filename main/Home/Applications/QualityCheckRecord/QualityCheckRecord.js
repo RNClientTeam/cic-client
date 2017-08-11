@@ -269,7 +269,8 @@ export default class QualityCheckRecord extends Component {
         }).then(data => {
             resolve();
             this.setState({
-                isLoading: false
+                isLoading: false,
+                pageNum:pageNum
             });
             if (data.code == 1) {
                 if (data.data && data.data.list) {
