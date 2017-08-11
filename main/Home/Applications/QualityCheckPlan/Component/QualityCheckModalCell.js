@@ -47,14 +47,14 @@ export default class QualityCheckModalCell extends Component {
                     reload:this.props.reloadInfo,
                     cfxxId: this.props.cfxxId,
                 }
-            })
+            });
+            this.props.closeModal()
         }else if (this.props.dataSource.name === '生效') {
             this.effect(this.props.jhrwId);
         }
         else if(this.props.dataSource.name === '删除'){
             this.delete(this.props.jhrwId);
         }
-        this.props.closeModal()
     }
 
     delete(jhrwId) {
@@ -69,6 +69,7 @@ export default class QualityCheckModalCell extends Component {
             if(data.code === 1){
                 toast.show('删除成功');
                 this.props.reloadInfo();
+                this.props.closeModal();
             }else{
                 toast.show(data.message)
             }
@@ -89,6 +90,7 @@ export default class QualityCheckModalCell extends Component {
             if(data.code === 1){
                 toast.show('生效成功');
                 this.props.reloadInfo();
+                this.props.closeModal()
             }else{
                 toast.show(data.message)
             }

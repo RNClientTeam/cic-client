@@ -49,7 +49,7 @@ export default class QualityCheckModal extends Component{
                     navigator={this.props.navigator} key={i}
                     dataSource={this.state.data[i]}
                     jhrwId={this.props.jhrwId}
-                    reloadInfo={this.props.reloadInfo}
+                    reloadInfo={()=>this.props.reloadInfo()}
                 />
             )
         }
