@@ -34,7 +34,7 @@ export default class QualityDoubleCheckRecord extends Component {
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="质量检查记录详情">
                     {
-                        (this.state.addIcon)?
+                        (this.state.addIcon && this.state.canAdd)?
                         <TouchableOpacity
                             onPress={() => this.addModification()}>
                             <Image style={styles.icon} source={require('../../../../../resource/imgs/home/earlierStage/add.png')}/>

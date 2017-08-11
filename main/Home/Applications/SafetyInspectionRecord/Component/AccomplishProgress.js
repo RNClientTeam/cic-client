@@ -192,17 +192,24 @@ export default class AccomplishProgress extends Component {
         }).then(data => {
             this.hideLoading();
             if (data.code === 1) {
-                this.props.navigator.push({
-                    name: "CheckFlowInfo",
-                    component: CheckFlowInfo,
-                    params: {
-                        resID: data.data,
-                        reloadInfo: this._reloadInfo.bind(this),
-                        // TODO
-                        wfName: 'jdjhaqjcjl',
-                        name: 'RectifyTask'
-                    }
-                })
+                toast.show('保存成功');
+                let that = this;
+                let timer = setTimeout(() => {
+                   that.props.navigator.pop();
+                   that._reloadInfo();
+                    clearTimeout(timer);
+                }, 1500);
+                // this.props.navigator.push({
+                //     name: "CheckFlowInfo",
+                //     component: CheckFlowInfo,
+                //     params: {
+                //         resID: data.data,
+                //         reloadInfo: this._reloadInfo.bind(this),
+                //         // TODO
+                //         wfName: 'jdjhaqjcjl',
+                //         name: 'RectifyTask'
+                //     }
+                // })
             } else {
                 toast.show(data.message);
             }

@@ -9,7 +9,8 @@ import {
     Dimensions,
     ListView,
     Text,
-    Modal
+    Modal,
+    TouchableOpacity
 } from 'react-native'
 
 const {width, height} = Dimensions.get('window');
@@ -42,6 +43,9 @@ export default class ReformTask extends Component {
                     onEndReachedThreshold={60}
                     enableEmptySections={true}
                 />
+                <TouchableOpacity style={styles.shareDataAdd} onPress={this.skipPage.bind(this)}>
+                    <Text style={styles.textStyle}>添加共享资料</Text>
+                </TouchableOpacity>
                 {
                     this.state.modalVisible &&
                     <Modal
