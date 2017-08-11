@@ -78,7 +78,7 @@ export default class ProgressPlanList extends Component {
             target.fzr = item.zrr;
             target.bm = item.zrbm;
             target.bfb = item.jdbl ? item.jdbl : 0;
-            target.sjd = item.jhkssj.replace(/-/g, '/') + (item.jhjssj ? '-' + item.jhjssj.replace(/-/g, '/') : '');
+            target.sjd = item.jhkssj.replace(/-/g, '/') + (item.jhjssj ? ' / ' + item.jhjssj.replace(/-/g, '/') : '');
             target.count = item.count;
             target.gczxId = item.gczxId;
             return target
