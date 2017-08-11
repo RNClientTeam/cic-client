@@ -278,7 +278,7 @@ export default class DoubleCheckDetail extends Component {
             Toast.show('请选择问题类别');
         } else if (data.jcsj.length === 0) {
             Toast.show('请选择检查时间');
-        } else if (this.jianchaResult.length === 0) {
+        } else if (this.jianchaResult.length === 0 && data.jcjg.length === 0) {
             Toast.show('请填写检查结果');
         } else if (this.state.wenti != '1' && (this.zgyq.length === 0 && this.state.data.zgyq.length === 0)) {
             Toast.show('请填写整改要求');
@@ -293,7 +293,7 @@ export default class DoubleCheckDetail extends Component {
                 jcr: this.state.data.jcr,
                 jcbm: this.state.data.jcbm,
                 jcsj: this.state.data.jcsj,
-                jcjg: this.jianchaResult,
+                jcjg: this.jianchaResult||this.state.data.jcjg,
                 zgyq: this.zgyq || this.state.data.zgyq,
                 wtlb: this.state.wenti,
                 sfxczg: this.state.isFinished?'1':'0',
@@ -336,7 +336,7 @@ export default class DoubleCheckDetail extends Component {
             Toast.show('请选择问题类别');
         } else if (data.jcsj.length === 0) {
             Toast.show('请选择检查时间');
-        } else if (this.jianchaResult.length === 0) {
+        } else if (this.jianchaResult.length === 0 && data.jcjg.length === 0) {
             Toast.show('请填写检查结果');
         } else if (this.state.wenti != '1' && this.zgyq.length === 0 && this.state.data.zgyq.length === 0) {
             Toast.show('请填写整改要求');
@@ -351,7 +351,7 @@ export default class DoubleCheckDetail extends Component {
                 jcr: this.state.data.jcr,
                 jcbm: this.state.data.jcbm,
                 jcsj: this.state.data.jcsj,
-                jcjg: this.jianchaResult,
+                jcjg: this.jianchaResult||this.state.data.jcjg,
                 zgyq: this.zgyq||this.state.data.zgyq,
                 wtlb: this.state.wenti,
                 sfxczg: this.state.isFinished?'1':'0',
