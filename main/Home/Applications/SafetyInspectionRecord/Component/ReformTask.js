@@ -137,7 +137,7 @@ export default class ReformTask extends Component {
         axios.get('/psmAqjcjh/list4Zgrw', {
             params: {
                 userID: GLOBAL_USERID,
-                aqjcjlId: this.props.item.aqjcjhId,
+                aqjcjlId: this.props.aqjcjlId,
                 callID: true
             }
         }).then(data => {
