@@ -54,7 +54,6 @@ export default class EditSafetyCheck extends Component {
                     callID: true
                 }
             }).then((res) => {
-                console.log(res);
                 if (res.code === 1) {
                     this.setState({
                         aqjcjhmc: res.data.aqjcjhmc,
