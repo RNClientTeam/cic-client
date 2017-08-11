@@ -25,7 +25,7 @@ export default class QualityDoubleCheckRecord extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            addIcon: false,
+            addIcon: props.initialPage==1?true:false,
             canAdd:false
         }
     }

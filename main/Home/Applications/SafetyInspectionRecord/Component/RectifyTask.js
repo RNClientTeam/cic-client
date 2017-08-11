@@ -24,7 +24,7 @@ export default class RectifyTask extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            addIcon: false,
+            addIcon: props.initialPage==1?true:false,
             canAdd:false
         }
     }

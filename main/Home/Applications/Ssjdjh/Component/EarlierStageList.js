@@ -73,7 +73,7 @@ export default class EarlierStageList extends Component {
             zxmc: item.zxmc
         };
         if(item.jhkssj&&item.jhjssj){
-            temp.sjd = item.jhkssj+'／'+item.jhjssj
+            temp.sjd = item.jhkssj+' / '+item.jhjssj
         }
         return (
             <SsjdjhCell stateBg={stateBg} key={rowID} navigator={this.props.navigator} data={temp} />

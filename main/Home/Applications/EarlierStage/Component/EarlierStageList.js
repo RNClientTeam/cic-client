@@ -77,7 +77,7 @@ export default class EarlierStageList extends Component {
             isTodo:item.isTodo
         };
         if(item.sDate&&item.eDate){
-            temp.sjd = item.sDate+'／'+item.eDate
+            temp.sjd = item.sDate+' / '+item.eDate
         }
         return (
             <EarlierStageListCell stateBg={stateBg} key={rowID} navigator={this.props.navigator} data={temp} target="EarlierStageDetail"/>
