@@ -123,9 +123,9 @@ export default class ProgressPlan extends Component {
             }
         }).then(responseData => {
             this.setState({
-                isLoading: false
+                isLoading: false,
+                pageNum:pageNum
             });
-            console.log(responseData);
             if (responseData.code === 1) {
                 //第一页数据 设置total 清空dataSource数组
                 if (pageNum === 1) {

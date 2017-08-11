@@ -175,8 +175,10 @@ export default class SafetyInspectionRecord extends Component{
                 callID:true
             }
         }).then(data=>{
+            console.log(data);
             this.setState({
-                isLoading:false
+                isLoading:false,
+                pageNum:pageNum
             });
             if(data.code === 1){
                 resolve();
@@ -195,7 +197,7 @@ export default class SafetyInspectionRecord extends Component{
                     }
 
                 }
-                return data.data.length>0
+                return data.data.data.length>0
             }else{
                 toast.show(data.message);
                 return false;
