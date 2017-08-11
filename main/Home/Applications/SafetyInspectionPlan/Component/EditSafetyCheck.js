@@ -54,6 +54,7 @@ export default class EditSafetyCheck extends Component {
                     callID: true
                 }
             }).then((res) => {
+                console.log(res);
                 if (res.code === 1) {
                     this.setState({
                         aqjcjhmc: res.data.aqjcjhmc,
@@ -67,7 +68,7 @@ export default class EditSafetyCheck extends Component {
                         cjsj: res.data.cjsj,
                         cfxxId: res.data.cfxxId,
                         gczxId: res.data.gczxId,
-                        sgrwId: res.data.id,
+                        sgrwId: res.data.sgrwId,
                         zrr: res.data.zrr,
                         zrbm: res.data.zrbm,
                         zt: res.data.zt
@@ -82,6 +83,7 @@ export default class EditSafetyCheck extends Component {
     }
 
     addProject(xmbh, xmmc, gczxmc, sgrwmc, gczxId, sgrwId, cfxxId) {
+        console.log(xmbh,xmmc,gczxmc,sgrwmc,gczxId,sgrwId,cfxxId);
         this.setState({
             xmbh,
             xmmc,
