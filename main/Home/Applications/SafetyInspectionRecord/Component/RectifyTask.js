@@ -105,7 +105,7 @@ export default class RectifyTask extends Component {
             component:AccomplishProgress,
             params:{
                 type:'新建',
-                aqjcjlId:this.props.data.aqjcjlId
+                aqjcjlId:this.props.data.id
             }
         })
     }

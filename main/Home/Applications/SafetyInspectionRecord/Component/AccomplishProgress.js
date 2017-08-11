@@ -42,8 +42,8 @@ export default class AccomplishProgress extends Component {
             zgzrr: '',
             zgzrrmc: '',
             zgzrbm: '',
-            zgwcsj: getCurrentDate(),
-            sjwcsj: getCurrentDate(),
+            zgwcsj: '',
+            sjwcsj: '',
             zgyq: '',
             zcjg: '',
             aqjcjlId: '',
@@ -193,7 +193,7 @@ export default class AccomplishProgress extends Component {
             this.hideLoading();
             if (data.code === 1) {
                 this.props.navigator.push({
-                    name: "",
+                    name: "CheckFlowInfo",
                     component: CheckFlowInfo,
                     params: {
                         resID: data.data,

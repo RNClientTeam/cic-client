@@ -219,8 +219,8 @@ export default class ChoiceFileComponent extends Component {
                 callID:true
             }
         }).then(data=>{
+            console.log(data);
             if(data.code === 1){
-                console.log(data);
                 data.data.forEach((elem, index) => {
                     let findRes = imgEXT.findIndex((ele, m) => {
                         return elem.fileExtension === ele;
