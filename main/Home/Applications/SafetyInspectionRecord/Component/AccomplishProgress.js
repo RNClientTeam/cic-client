@@ -62,8 +62,8 @@ export default class AccomplishProgress extends Component {
                 <StatusBar title="整改任务完成情况" navigator={this.props.navigator}/>
                 <ScrollView>
                     {
-                        this.props.readOnly||this.props.type==='填报完成情况' ?
-                            <KeyValueRight propKey="问题类别" readOnly={true} defaultValue={this.state.wtlbmc}/>:
+                        this.props.readOnly || this.props.type === '填报完成情况' ?
+                            <KeyValueRight propKey="问题类别" readOnly={true} defaultValue={this.state.wtlbmc}/> :
                             <View style={styles.cellStyle}>
                                 <Text style={{color: '#216fd0'}}>问题类别</Text>
                                 <View style={styles.indicateView}>
@@ -90,13 +90,13 @@ export default class AccomplishProgress extends Component {
                     }
 
                     {
-                        this.props.readOnly ||this.props.type==='填报完成情况'?
-                            <KeyValueRight propKey="整改责任人" readOnly={true} defaultValue={this.state.zgzrrmc}/>:
+                        this.props.readOnly || this.props.type === '填报完成情况' ?
+                            <KeyValueRight propKey="整改责任人" readOnly={true} defaultValue={this.state.zgzrrmc}/> :
                             <KeySelect propKey="整改责任人" value={this.state.zgzrrmc}
                                        choiceInfo={this.choicePeople.bind(this)}/>
                     }
                     {
-                        this.props.readOnly ||this.props.type==='填报完成情况'?
+                        this.props.readOnly || this.props.type === '填报完成情况' ?
                             <KeyValueRight propKey="要求完成时间" readOnly={true} defaultValue={this.state.zgwcsj}/>
                             :
                             <KeyTime propKey="要求完成时间"
@@ -106,7 +106,7 @@ export default class AccomplishProgress extends Component {
                     }
 
                     {
-                        this.props.readOnly||this.props.type ==='编辑' ?
+                        this.props.readOnly || this.props.type === '编辑'||this.props.type==='新建' ?
 
                             <KeyValueRight propKey="实际完成时间" readOnly={true} defaultValue={this.state.sjwcsj}/> :
                             <KeyTime propKey="实际完成时间"
@@ -119,16 +119,16 @@ export default class AccomplishProgress extends Component {
                         this.state.wtlbmc === '正常' ?
                             null
                             : <KeyValueN propKey="整改要求"
-                                         readOnly={this.props.readOnly||this.props.type==='填报完成情况'}
+                                         readOnly={this.props.readOnly || this.props.type === '填报完成情况'}
                                          value={this.state.zgyq}
                                          textChange={(text) => this.setState({zgyq: text})}
                             />
                     }
                     <View style={{height: 10}}/>
                     {
-                        this.state.wtlbmc === '正常' ?null
+                        this.state.wtlbmc === '正常' ? null
                             : <KeyValueN propKey="整改情况"
-                                         readOnly={this.props.readOnly||this.props.type==='编辑'}
+                                         readOnly={this.props.readOnly || this.props.type === '编辑' ||this.props.type==='新建'}
                                          value={this.state.zcjg}
                                          textChange={(text) => this.setState({zcjg: text})}
                             />
@@ -177,51 +177,38 @@ export default class AccomplishProgress extends Component {
      * 保存
      */
     saveAndCommit() {
-        if (this.props.type === '新建') {
-            if (this.state.wtlb === '') {
-                toast.show('请选择问题类别');
-            } else if (this.state.zgyq === '') {
-                toast.show('请填写整改要求');
-            } else if (this.state.zgzrr === '') {
-                toast.show('请选择整改责任人');
-            } else if (this.state.zcjg === '') {
-                toast.show('请填写整改情况');
-            } else {
-                this.showLoading();
-                axios.post('psmAqjcjh/saveZgrw', {
-                    userID: GLOBAL_USERID,
-                    id: this.state.id,
-                    aqjcjlId: this.props.aqjcjlId,
-                    wtlb: this.state.wtlb,
-                    zgyq: this.state.zgyq,
-                    zgzrbm: this.state.zgzrbm,
-                    zgzrr: this.state.zgzrr,
-                    zgwcsj: this.state.zgwcsj,
-                    sjwcsj: this.state.sjwcsj,
-                    zcjg: this.state.zcjg
-                }).then(data => {
-                    this.hideLoading();
-                    if (data.code === 1) {
-                        this.props.navigator.push({
-                            name: "",
-                            component: CheckFlowInfo,
-                            params: {
-                                resID: data.data,
-                                reloadInfo: this._reloadInfo.bind(this),
-                                // TODO
-                                wfName: 'jdjhaqjcjl',
-                                name:'RectifyTask'
-                            }
-                        })
-                    } else {
-                        toast.show(data.message);
+        this.showLoading();
+        axios.post('psmAqjcjh/saveZgrw', {
+            userID: GLOBAL_USERID,
+            id: this.state.id,
+            aqjcjlId: this.props.aqjcjlId,
+            wtlb: this.state.wtlb,
+            zgyq: this.state.zgyq,
+            zgzrbm: this.state.zgzrbm,
+            zgzrr: this.state.zgzrr,
+            zgwcsj: this.state.zgwcsj,
+            sjwcsj: this.state.sjwcsj,
+            zcjg: this.state.zcjg
+        }).then(data => {
+            this.hideLoading();
+            if (data.code === 1) {
+                this.props.navigator.push({
+                    name: "",
+                    component: CheckFlowInfo,
+                    params: {
+                        resID: data.data,
+                        reloadInfo: this._reloadInfo.bind(this),
+                        // TODO
+                        wfName: 'jdjhaqjcjl',
+                        name: 'RectifyTask'
                     }
-                }).catch(err => {
-                    toast.show('服务端异常')
                 })
+            } else {
+                toast.show(data.message);
             }
-
-        }
+        }).catch(err => {
+            toast.show('服务端异常')
+        })
     }
 
     _reloadInfo() {
