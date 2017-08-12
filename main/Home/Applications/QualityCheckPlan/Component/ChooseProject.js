@@ -51,6 +51,8 @@ export default class ChooseProject extends Component {
                         return (<View key={`${sectionID}-${rowID}`} style={styles.separatorView}/>)
                     }}/>
                 {this.state.filtrate?<ProjectFiltrate
+                        kssj={this.state.kssj}
+                        jssj={this.state.jssj}
                         closeFiltrate={(kssj, jssj)=>this.filterData(kssj, jssj)}/>:null}
                 {this.state.isLoading ? <Loading/> : null}
             </View>

@@ -44,8 +44,8 @@ export default class AddOrEditQualityCheck extends Component {
             rwxzmc: '请选择任务性质',
             twztmc: props.flag==='add'?'新建任务':'请选择任务状态',
             xmmc: '',
-            zxmc: "",
-            zrbmmc: '',
+            zxmc: '',
+            ssbmmc: '',
             cjsjt: getCurrentDate(),
             isLoading: false
         };
@@ -113,7 +113,7 @@ export default class AddOrEditQualityCheck extends Component {
                                    source={require('../../../../resource/imgs/home/applications/triangle.png')}/>
                         </View>
                     </View>
-                    <KeyValueRight propKey="责任部门" readOnly={true} defaultValue={this.state.zrbmmc}/>
+                    <KeyValueRight propKey="责任部门" readOnly={true} defaultValue={this.state.ssbmmc}/>
                     <KeySelect propKey="责任人" choiceInfo={this.choicePeople.bind(this)} value={this.state.zrrmc}/>
                     <KeyValueRight propKey="创建时间" readOnly={true} defaultValue={this.state.cjsjt}/>
                     <KeyValueRight propKey="创建人" readOnly={true} defaultValue={USERNAME}/>
@@ -164,7 +164,7 @@ export default class AddOrEditQualityCheck extends Component {
                         zrr: id,
                         zrrmc: name,
                         zrbm: bmid,
-                        zrbmmc: bmmc
+                        ssbmmc: bmmc
                     })
                 }
             }
@@ -364,6 +364,7 @@ export default class AddOrEditQualityCheck extends Component {
                     cjsjt: responseData.data.cjsjt,
                     cfxxId: responseData.data.cfxxId,
                     gczxId: responseData.data.gczxId,
+                    ssbmmc: responseData.data.ssbmmc,
                 })
             } else {
                 toast.show(responseData.message)

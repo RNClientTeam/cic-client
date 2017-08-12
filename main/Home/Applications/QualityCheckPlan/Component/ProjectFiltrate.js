@@ -48,11 +48,11 @@ export default class ProjectFiltrate extends Component {
                 </View>
                 <View style={styles.buttonView}>
                     <TouchableOpacity style={[styles.clickButton, {backgroundColor: '#dbdada'}]}
-                                      onPress={() => this.props.closeFiltrate(0, '', '')}>
+                                      onPress={() => this.props.closeFiltrate('', '')}>
                         <Text>重置</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.clickButton, {backgroundColor: '#216fd0'}]}
-                                      onPress={() => this.props.closeFiltrate(1, this.state.kssj,this.state.jssj)}>
+                                      onPress={() => this.props.closeFiltrate(this.state.kssj,this.state.jssj)}>
                         <Text style={{color: '#fff'}}>确定</Text>
                     </TouchableOpacity>
                 </View>
