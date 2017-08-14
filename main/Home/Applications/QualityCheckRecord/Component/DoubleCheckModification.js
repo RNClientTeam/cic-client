@@ -105,8 +105,8 @@ export default class DoubleCheckModification extends Component {
                 }
             }).then(data=>{
                 if(data.code === 1){
-                    let showModal = false
-                    for (var key in data.data) {
+                    let showModal = false;
+                    for (let key in data.data) {
                         if (data.data[key]) {
                             showModal = true;
                         }

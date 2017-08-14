@@ -231,7 +231,7 @@ export default class AddModification extends Component {
      * 提交
      */
     submit() {
-        if (this.props.type) {
+        if (this.props.type!=='新建') {
             //修改
             axios.post('/psmZljcjl/zgrwEdit', {
                 userID: GLOBAL_USERID,
