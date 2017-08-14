@@ -73,6 +73,7 @@ export default class QualityCheckRecord extends Component {
                                         dataSource={this.state.dataSource}
                                         reloadInfo={(resolve) => this.getData(1, resolve)}
                                         loadMore={this.loadMore.bind(this)}
+                                        reload={()=>this.getData()}
                                         showModal={(auth, data) => {
                                             let tempAuth = false;
                                             for (var key in auth) {

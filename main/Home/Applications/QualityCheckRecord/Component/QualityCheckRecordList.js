@@ -53,7 +53,7 @@ export default class QualityCheckRecordList extends Component {
         }
         return (
             <QualityCheckRecordListCell
-                reloadInfo={()=>this.props.reloadInfo()}
+                reloadInfo={()=>this.props.reload()}
                 showModal={this.props.showModal}
                 bgC={bgC} key={rowID}
                 navigator={this.props.navigator}

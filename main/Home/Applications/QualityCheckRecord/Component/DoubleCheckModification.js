@@ -16,6 +16,7 @@ import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 import ModificationTaskCell from './ModificationTaskCell'
 import ZLZGMoreOperation from "./ZLZGMoreOperation";
 import toast from 'react-native-simple-toast'
+import CheckFlowInfo from "../../SafetyInspectionRecord/Component/CheckFlowInfo";
 const {width} = Dimensions.get('window');
 
 export default class DoubleCheckModification extends Component {
@@ -41,6 +42,9 @@ export default class DoubleCheckModification extends Component {
                     onEndReachedThreshold={60}
                     enableEmptySections={true}
                 />
+                <TouchableOpacity style={styles.shareDataAdd} onPress={this.workFlow.bind(this)}>
+                    <Text style={styles.textStyle}>提交审核</Text>
+                </TouchableOpacity>
                 {
                     this.state.modalVisible &&
                     <Modal
@@ -63,6 +67,23 @@ export default class DoubleCheckModification extends Component {
                 }
             </View>
         )
+    }
+
+    /**
+     * 流程
+     */
+
+    workFlow(){
+        this.props.navigator.push({
+            name: 'CheckFlowInfo',
+            component: CheckFlowInfo,
+            params: {
+                resID: this.props.id,
+                wfName: 'jdjhzljcjl',
+                reloadInfo: this.props.reloadInfo(),
+                name: 'QualityDoubleCheckRecord'
+            }
+        })
     }
 
     /**
@@ -146,5 +167,18 @@ const styles = StyleSheet.create({
     },
     divide: {
         height: 0.02 * width
+    },
+    shareDataAdd: {
+        width: width,
+        height: width * 0.1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        backgroundColor: '#fff'
+    },
+    textStyle: {
+        color: '#216fd0',
+        fontSize: width * 0.035,
+        marginLeft: width * 0.02
     }
 });

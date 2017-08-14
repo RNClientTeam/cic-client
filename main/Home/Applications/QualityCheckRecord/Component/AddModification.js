@@ -25,7 +25,7 @@ import Loading from "../../../../Component/Loading";
 import KeySelect from "../../../../Component/KeySelect";
 import Organization from "../../../../Organization/Organization";
 import KeyTime from "../../../../Component/KeyTime";
-import {getCurrentDate,getRandomId} from '../../../../Util/Util'
+import {getCurrentDate, getRandomId} from '../../../../Util/Util'
 import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'
 import ChoiceFileComponent from "../../Component/ChoiceFileComponent";
 import CheckFlowInfo from "../../SafetyInspectionRecord/Component/CheckFlowInfo";
@@ -46,7 +46,7 @@ export default class AddModification extends Component {
             sjwcsjt: '',
             zgyq: '',
             zcjg: '',
-            id:getRandomId()
+            id: getRandomId()
         }
     }
 
@@ -55,7 +55,7 @@ export default class AddModification extends Component {
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="新增整改任务"/>
                 <ScrollView>
-                    {this.props.type === '查看详情' ||this.props.type==='填报完成情况'?
+                    {this.props.type === '查看详情' || this.props.type === '填报完成情况' ?
                         <KeyValueRight propKey="问题类别" readOnly={true} defaultValue={this.state.wtlbCn}/> :
                         <View style={styles.cellStyle}>
                             <Text style={{color: '#216fd0'}}>问题类别</Text>
@@ -81,19 +81,19 @@ export default class AddModification extends Component {
                         </View>
                     }
                     {
-                        this.props.type === '查看详情'||this.props.type==='填报完成情况' ?
+                        this.props.type === '查看详情' || this.props.type === '填报完成情况' ?
                             <KeyValueRight propKey="整改责任人" readOnly={true} defaultValue={this.state.zgzrrmc}/> :
                             <KeySelect propKey="整改责任人" choiceInfo={this.choicePeople.bind(this)}
                                        value={this.state.zgzrrmc}/>
                     }
                     {
-                        this.props.type === '查看详情'||this.props.type==='填报完成情况' ?
+                        this.props.type === '查看详情' || this.props.type === '填报完成情况' ?
                             <KeyValueRight propKey="整改完成时间" readOnly={true} defaultValue={this.state.zgwcsjt}/> :
                             <KeyTime propKey="整改完成时间" onlyDate={true} showDate={this.state.zgwcsjt}
                                      changeDate={(date) => this.setState({zgwcsjt: date})}/>
                     }
                     {
-                        this.props.type === '查看详情' ||this.props.type === '编辑'?
+                        this.props.type === '查看详情' || this.props.type === '编辑' || this.props.type === '新建' ?
                             <KeyValueRight propKey="实际完成时间" readOnly={true} defaultValue={this.state.sjwcsjt}/> :
                             <KeyTime propKey="实际完成时间" onlyDate={true} showDate={this.state.sjwcsjt}
                                      changeDate={(date) => this.setState({sjwcsjt: date})}/>
@@ -102,13 +102,13 @@ export default class AddModification extends Component {
                     <View style={styles.divide}/>
                     {this.state.wtlbCn === '正常' ? null :
                         <LabelTextArea
-                            readOnly={this.props.type === '查看详情'||this.props.type==='填报完成情况'}
+                            readOnly={this.props.type === '查看详情' || this.props.type === '填报完成情况'}
                             value={this.state.zgyq}
                             onTextChange={(text) => this.setState({zgyq: text})}
                             label="整改要求"/>}
                     <View style={styles.divide}/>
                     <LabelTextArea
-                        readOnly={this.props.type === '查看详情'||this.props.type === '编辑'}
+                        readOnly={this.props.type === '查看详情' || this.props.type === '编辑' || this.props.type === '新建'}
                         value={this.state.zcjg}
                         onTextChange={(text) => this.setState({zcjg: text})}
                         label="检查结果"/>
@@ -196,7 +196,7 @@ export default class AddModification extends Component {
      * 获取详情
      */
     _getDetail() {
-        if (this.props.type) {
+        if (this.props.type != '新建') {
             axios.get('/psmZljcjl/zgrwDetail', {
                 params: {
                     userID: GLOBAL_USERID,
@@ -216,7 +216,7 @@ export default class AddModification extends Component {
                         zgyq: data.zgyq,
                         zcjg: data.zcjg,
                         zgzrbm: data.zgzrbm,
-                        id:data.id
+                        id: data.id
                     })
                 } else {
                     toast.show(data.message)
@@ -231,114 +231,94 @@ export default class AddModification extends Component {
      * 提交
      */
     submit() {
-        console.log({
-            userID: GLOBAL_USERID,
-            id:this.state.id,
-            zljcjlId:this.props.zljcjlId,
-            nodeId:this.props.nodeId,
-            wtlb:this.state.wtlb,
-            zgyq:this.state.zgyq,
-            zgzrr:this.state.zgzrr,
-            zgzrbm:this.state.zgzrbm,
-            zgwcsjt:this.state.zgwcsjt,
-            sjwcsjt:this.state.sjwcsjt,
-            zcjg:this.state.zcjg,
-            callID:true
-        })
-        return;
-        if (this.state.wtlb === '') {
-            toast.show('请选择问题类别')
-        } else if (this.state.zgzrr === '') {
-            toast.show('请选择责任人')
+        if (this.props.type) {
+            //修改
+            axios.post('/psmZljcjl/zgrwEdit', {
+                userID: GLOBAL_USERID,
+                id: this.state.id,
+                zljcjlId: this.props.zljcjlId,
+                nodeId: this.props.nodeId,
+                wtlb: this.state.wtlb,
+                zgyq: this.state.zgyq,
+                zgzrr: this.state.zgzrr,
+                zgzrbm: this.state.zgzrbm,
+                zgwcsjt: this.state.zgwcsjt,
+                sjwcsjt: this.state.sjwcsjt,
+                zcjg: this.state.zcjg,
+                callID: true
+            }).then(data => {
+                console.log(data);
+                if (data.code === 1) {
+                    toast.show('提交成功');
+                    // if (data.data) {
+                    //     this.props.navigator.push({
+                    //         name: 'CheckFlowInfo',
+                    //         component: CheckFlowInfo,
+                    //         params: {
+                    //             resID: data.data,
+                    //             wfName: 'jdjhzljcjl',
+                    //             reloadInfo: this._reloadInfo.bind(this),
+                    //             name: 'QualityDoubleCheckRecord'
+                    //         }
+                    //     })
+                    // } else {
+                    let that = this;
+                    setTimeout(function () {
+                        that.props.navigator.pop();
+                        that._reloadInfo();
+                    }, 500)
+                } else {
+                    toast.show(data.message)
+                }
+            }).catch(err => {
+                console.log(err);
+                toast.show('服务端异常')
+            })
         } else {
-            if(this.props.type){
-                //修改
-                axios.post('/psmZljcjl/zgrwEdit',{
-                    userID: GLOBAL_USERID,
-                    id:this.state.id,
-                    zljcjlId:this.props.zljcjlId,
-                    nodeId:this.props.nodeId,
-                    wtlb:this.state.wtlb,
-                    zgyq:this.state.zgyq,
-                    zgzrr:this.state.zgzrr,
-                    zgzrbm:this.state.zgzrbm,
-                    zgwcsjt:this.state.zgwcsjt,
-                    sjwcsjt:this.state.sjwcsjt,
-                    zcjg:this.state.zcjg,
-                    callID:true
-                }).then(data => {
-                    console.log(data);
-                    if (data.code === 1) {
-                        toast.show('提交成功');
-                        if (data.data) {
-                            this.props.navigator.push({
-                                name: 'CheckFlowInfo',
-                                component: CheckFlowInfo,
-                                params: {
-                                    resID: data.data,
-                                    wfName: 'jdjhzljcjl',
-                                    reloadInfo: this._reloadInfo.bind(this),
-                                    name: 'QualityDoubleCheckRecord'
-                                }
-                            })
-                        } else {
-                            let that = this;
-                            setTimeout(function () {
-                                that.props.navigator.pop();
-                            }, 500)
-                        }
-                    } else {
-                        toast.show(data.message)
-                    }
-                }).catch(err => {
-                    console.log(err);
-                    toast.show('服务端异常')
-                })
-            }else{
-                axios.post('/psmZljcjl/zgrwSave', {
-                    userID: GLOBAL_USERID,
-                    zljcjlId: this.state.id,
-                    nodeId: this.props.nodeId,
-                    wtlb: this.state.wtlb,
-                    zgyq: this.state.zgyq,
-                    zgzrr: this.state.zgzrr,
-                    zgzrbm: this.state.zgzrbm,
-                    zgwcsjt: this.state.zgwcsjt.trim(),
-                    sjwcsjt: this.state.sjwcsjt.trim(),
-                    zcjg: this.state.zcjg,
-                    callID: true,
-                    id:this.state.id
-                }).then(data => {
-                    if (data.code === 1) {
-                        toast.show('提交成功');
-                        if (data.data) {
-                            this.props.navigator.push({
-                                name: 'CheckFlowInfo',
-                                component: CheckFlowInfo,
-                                params: {
-                                    resID: data.data,
-                                    wfName: 'jdjhzljcjl',
-                                    reloadInfo: this._reloadInfo.bind(this),
-                                    name: 'QualityDoubleCheckRecord'
-                                }
-                            })
-                        } else {
-                            let that = this;
-                            setTimeout(function () {
-                                that.props.navigator.pop();
-                            }, 500)
-                        }
-                    } else {
-                        toast.show(data.message)
-                    }
-                }).catch(err => {
-                    console.log(err);
-                    toast.show('服务端异常')
-                })
-
-            }
+            axios.post('/psmZljcjl/zgrwSave', {
+                userID: GLOBAL_USERID,
+                zljcjlId: this.state.id,
+                nodeId: this.props.nodeId,
+                wtlb: this.state.wtlb,
+                zgyq: this.state.zgyq,
+                zgzrr: this.state.zgzrr,
+                zgzrbm: this.state.zgzrbm,
+                zgwcsjt: this.state.zgwcsjt.trim(),
+                sjwcsjt: this.state.sjwcsjt.trim(),
+                zcjg: this.state.zcjg,
+                callID: true,
+                id: this.state.id
+            }).then(data => {
+                if (data.code === 1) {
+                    toast.show('提交成功');
+                    // if (data.data) {
+                    //     this.props.navigator.push({
+                    //         name: 'CheckFlowInfo',
+                    //         component: CheckFlowInfo,
+                    //         params: {
+                    //             resID: data.data,
+                    //             wfName: 'jdjhzljcjl',
+                    //             reloadInfo: this._reloadInfo.bind(this),
+                    //             name: 'QualityDoubleCheckRecord'
+                    //         }
+                    //     })
+                    // } else {
+                    let that = this;
+                    setTimeout(function () {
+                        that.props.navigator.pop();
+                        that._reloadInfo();
+                    }, 500)
+                    // }
+                } else {
+                    toast.show(data.message)
+                }
+            }).catch(err => {
+                console.log(err);
+                toast.show('服务端异常')
+            })
 
         }
+
     }
 }
 

@@ -77,7 +77,7 @@ export default class QualityCheckPlanDetail extends Component {
                     jhkssjt: responseData.data.jhkssjt,
                     jhjssjt: responseData.data.jhjssjt,
                     cjsjt: responseData.data.cjsjt,
-                    addZljcjl:responseData.data.addZljcjl
+                    addZljcjl: responseData.data.addZljcjl
                 })
             } else {
                 toast.show(responseData.message)

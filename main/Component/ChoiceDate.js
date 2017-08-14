@@ -21,9 +21,9 @@ export default class ChoiceDate extends Component{
 
     render(){
         return(
-            <View>
+            <View style={{backgroundColor:'#fff'}}>
                 <DatePicker
-                    style={{width: 200, backgroundColor:'white'}}
+                    style={{width: 200, backgroundColor:'#fff'}}
                     date={this.state.date || this.props.showDate}
                     mode={this.props.dateTime?"datetime":"date"}
                     placeholder="请选择>"

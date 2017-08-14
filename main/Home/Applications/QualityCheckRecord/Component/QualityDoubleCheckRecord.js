@@ -34,7 +34,7 @@ export default class QualityDoubleCheckRecord extends Component {
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="质量检查记录详情">
                     {
-                        (this.state.addIcon && this.state.canAdd)?
+                        (this.state.addIcon )?
                         <TouchableOpacity
                             onPress={() => this.addModification()}>
                             <Image style={styles.icon} source={require('../../../../../resource/imgs/home/earlierStage/add.png')}/>
@@ -67,6 +67,7 @@ export default class QualityDoubleCheckRecord extends Component {
                         tbzgqk={this.props.tbzgqk}
                         fromList={this.props.fromList}
                         tabLabel="整改任务"
+                        reloadInfo={this.props.reloadInfo}
                         navigator={this.props.navigator}/>
                     <DoubleCheckRecord
                         tabLabel="复查"
@@ -85,7 +86,8 @@ export default class QualityDoubleCheckRecord extends Component {
             component:AddModification,
             params:{
                 id:this.props.data.id,
-                nodeId:this.props.data.nodeId
+                nodeId:this.props.data.nodeId,
+                type:'新建'
             }
         })
     }
