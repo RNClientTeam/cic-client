@@ -14,11 +14,12 @@ const {width} = Dimensions.get('window');
 
 export default class ProjectRangeHandoverInfo extends Component {
     render() {
+        console.log(this.props);
         return (
             <View>
                 <View style={styles.headerView}>
                     <Text style={styles.headerText}>
-                        【{this.props.xmbh}】 {this.props.proName}
+                        {this.props.data.xmlbmc}【{this.props.xmbh}】 {this.props.proName}
                     </Text>
                 </View>
                 <KeyValue  propsKey='所属部门' propsValue={this.props.ssbm}/>

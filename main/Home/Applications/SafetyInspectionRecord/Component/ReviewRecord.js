@@ -150,7 +150,7 @@ export default class ReviewRecord extends Component {
             axios.post('/psmAqjcjh/saveAqjcjl4fc', {
                 userID: GLOBAL_USERID,
                 id: this.props.data.aqjcjhId,
-                frc: this.state.fcr,
+                fcr: this.state.fcr,
                 fcsj: this.state.fcsj,
                 fcjg: this.state.fcjg,
                 callID: true
