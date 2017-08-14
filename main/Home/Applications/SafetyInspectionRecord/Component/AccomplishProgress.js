@@ -224,7 +224,7 @@ export default class AccomplishProgress extends Component {
 
     componentDidMount() {
         this._getWtlb();
-        if (this.props.type === '查看详情' || this.props.type === '编辑') {
+        if (this.props.type === '查看详情' || this.props.type === '编辑'||this.props.type === '填报完成情况') {
             this._initPage();
         }
     }
