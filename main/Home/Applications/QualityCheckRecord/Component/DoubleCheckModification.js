@@ -84,7 +84,7 @@ export default class DoubleCheckModification extends Component {
             params: {
                 resID: this.props.id,
                 wfName: 'jdjhzljcjl',
-                reloadInfo: this.props.reloadInfo(),
+                reloadInfo: this._getData.bind(this),
                 name: 'QualityDoubleCheckRecord'
             }
         })

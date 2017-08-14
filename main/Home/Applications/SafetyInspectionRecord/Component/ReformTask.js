@@ -79,13 +79,14 @@ export default class ReformTask extends Component {
             component: CheckFlowInfo,
             params: {
                 resID: this.props.aqjcjlId,
-                reloadInfo: this.props.reloadInfo(),
+                reloadInfo: this._getData.bind(this),
                 // TODO
                 wfName: 'jdjhaqjcjl',
                 name: 'RectifyTask'
             }
         })
     }
+
 
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
