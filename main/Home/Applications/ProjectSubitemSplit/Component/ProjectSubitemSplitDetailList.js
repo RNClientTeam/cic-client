@@ -10,9 +10,11 @@ import {
     ListView
 } from 'react-native'
 import ApplicationSubitemCell from "../../Component/ApplicationSubitemCell";
+
 const {width} = Dimensions.get('window');
 import {PullList} from 'react-native-pull';
 import toast from 'react-native-simple-toast'
+
 export default class ProjectSubitemSplitDetailList extends Component {
     constructor(props) {
         super(props);
@@ -73,16 +75,17 @@ export default class ProjectSubitemSplitDetailList extends Component {
                 callID: true
             }
         }).then(data => {
-                if(data.code === 1){
-
+                if (data.code === 1) {
                     this.setState({
-                        dataSource:data.data
+                        dataSource: data.data
                     })
-                }else{
-
+                } else {
+                    toast.show(data.message)
                 }
             }
-        )
+        ).catch(err => {
+            toast.show('服务端异常');
+        })
     }
 
 }

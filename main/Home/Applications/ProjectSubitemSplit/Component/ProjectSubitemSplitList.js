@@ -50,11 +50,11 @@ export default class ProjectSubitemSplitSearchHeader extends Component {
 
     renderRow(item, sectionID, rowID, highlightRow) {
         let stateBg = '#fe9a25';
-        if(item.state === '新建'){
+        if(item.gcfwjjztmc === '新建'){
             stateBg='#29b0f5';
-        }else if(item.state === '已拆分子项'){
+        }else if(item.gcfwjjztmc === '已拆分子项'){
             stateBg='#1f92e2';
-        }else if(item.state === '已交接'){
+        }else if(item.gcfwjjztmc === '已交接'){
             stateBg='#18d0ca';
         }
         return (

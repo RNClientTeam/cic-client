@@ -31,6 +31,7 @@ export default class ProjectSubitemSplitDetailCell extends Component {
                     <View style={styles.aboutPrincipal}>
                         <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.ssjlmc}</Text>
                         <Text style={[{width: width * 0.5}, styles.textStyle]}>权重:{this.props.data.jdqz}</Text>
+                        <Text style={[{width: width * 0.2}, styles.textStyle]}> {this.props.data.jdbl}% > </Text>
                         <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.jhkssj&&this.props.data.jhjssj?this.props.data.jhkssj+'/'+this.props.data.jhjssj:''}</Text>
                     </View>
                 </TouchableOpacity>
