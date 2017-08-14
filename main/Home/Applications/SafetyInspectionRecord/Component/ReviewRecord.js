@@ -114,7 +114,7 @@ export default class ReviewRecord extends Component {
                 <TextInput style={styles.inpurResult}
                     placeholder="请填写"
                     numberOfLines={2}
-                    editable={this.props.fcjl?ture:false}
+                    editable={this.props.fcjl?true:false}
                     underlineColorAndroid="transparent"
                     defaultValue={this.state.fcjg}
                     multiline={true}

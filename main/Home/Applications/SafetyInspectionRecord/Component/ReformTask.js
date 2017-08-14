@@ -110,12 +110,21 @@ export default class ReformTask extends Component {
                 }
             }).then(data => {
                 if (data.code === 1) {
-                    console.log(data);
-                    this.setState({
-                        modalVisible: true,
-                        modalAuth: data.data,
-                        operateItem: item
-                    });
+                    let showModal = false
+                    for (var key in data.data) {
+                        if (data.data[key]) {
+                            showModal = true;
+                        }
+                    }
+                    if (showModal) {
+                        this.setState({
+                            modalVisible: true,
+                            modalAuth: data.data,
+                            operateItem: item
+                        });
+                    } else {
+                        toast.show('没有相关权限');
+                    }
                 } else {
                     toast.show(data.message);
                 }

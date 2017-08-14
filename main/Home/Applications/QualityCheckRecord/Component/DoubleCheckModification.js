@@ -105,12 +105,22 @@ export default class DoubleCheckModification extends Component {
                 }
             }).then(data=>{
                 if(data.code === 1){
-                    this.setState({
-                        modalVisible: true,
-                        auth:data.data,
-                        operateItemId:zgrwId
-                    })
-                }else{
+                    let showModal = false
+                    for (var key in data.data) {
+                        if (data.data[key]) {
+                            showModal = true;
+                        }
+                    }
+                    if (showModal) {
+                        this.setState({
+                            modalVisible: true,
+                            auth:data.data,
+                            operateItemId:zgrwId
+                        })
+                    } else {
+                        toast.show('没有相关权限');
+                    }
+                } else{
                     toast.show(data.message)
                 }
             }).catch(err=>{
