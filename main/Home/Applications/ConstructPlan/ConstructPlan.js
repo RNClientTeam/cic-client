@@ -77,12 +77,23 @@ export default class ConstructPlan extends Component{
         })
     }
 
+    //判断是否为闰年,是则返回1，否则返回0
+    isLeap(year) {
+        return year % 4 == 0 ? (year % 100 != 0 ? 1 : (year % 400 == 0 ? 1 : 0)) : 0;
+    }
+
     changeYearAndMonth(data){
         const showDate = new Date(this.formatDate(data.substr(0,4), parseInt(data.substr(-2,data.length-1)), 1));
+        let days_per_month = new Array(31, 28 + this.isLeap(data.substr(0,4)), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31); //创建月份数组
+        let day = this.state.day;
+        if(this.state.day>days_per_month[parseInt(data.substr(-2,data.length-1))-1]){
+            day=days_per_month[parseInt(data.substr(-2,data.length-1))-1]
+        }
         this.setState({
             year:data.substr(0,4),
             month:parseInt(data.substr(-2,data.length-1))-1,
             showDate,
+            day
         },function () {
             this.getTask();
             this.getDataFronNet()
