@@ -42,9 +42,13 @@ export default class DoubleCheckModification extends Component {
                     onEndReachedThreshold={60}
                     enableEmptySections={true}
                 />
-                <TouchableOpacity style={styles.shareDataAdd} onPress={this.workFlow.bind(this)}>
-                    <Text style={styles.textStyle}>提交审核</Text>
-                </TouchableOpacity>
+                {this.props.canFlow?
+                    <TouchableOpacity style={styles.shareDataAdd} onPress={this.workFlow.bind(this)}>
+                        <Text style={styles.textStyle}>提交审核</Text>
+                    </TouchableOpacity>
+                    :null
+                }
+
                 {
                     this.state.modalVisible &&
                     <Modal

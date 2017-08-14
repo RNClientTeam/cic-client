@@ -26,7 +26,8 @@ export default class QualityDoubleCheckRecord extends Component {
         super(props);
         this.state = {
             addIcon: props.initialPage==1?true:false,
-            canAdd:false
+            canAdd:false,
+            canFLow:false
         }
     }
     render() {
@@ -34,7 +35,7 @@ export default class QualityDoubleCheckRecord extends Component {
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="质量检查记录详情">
                     {
-                        (this.state.addIcon )?
+                        (this.state.addIcon && this.state.canAdd)?
                         <TouchableOpacity
                             onPress={() => this.addModification()}>
                             <Image style={styles.icon} source={require('../../../../../resource/imgs/home/earlierStage/add.png')}/>
@@ -64,6 +65,7 @@ export default class QualityDoubleCheckRecord extends Component {
                         nodeId={this.props.data.nodeId}
                         data={this.props.data}
                         checkAndZgrw={this.props.checkAndZgrw}
+                        canFlow={this.state.canAdd||this.state.canFLow}
                         tbzgqk={this.props.tbzgqk}
                         fromList={this.props.fromList}
                         tabLabel="整改任务"
@@ -104,7 +106,8 @@ export default class QualityDoubleCheckRecord extends Component {
             }).then(data=>{
                 if(data.code === 1){
                     this.setState({
-                        canAdd:data.data.checkAndaddZgrw
+                        canAdd:data.data.checkAndaddZgrw,
+                        canFLow:data.data.tbZgwcqk
                     })
                 }else{
                     toast.show(data.message)

@@ -25,7 +25,8 @@ export default class RectifyTask extends Component {
         super(props);
         this.state = {
             addIcon: props.initialPage == 1 ? true : false,
-            canAdd: false
+            canAdd: false,
+            canFlow:false
         }
     }
 
@@ -67,7 +68,7 @@ export default class RectifyTask extends Component {
                                  edit={this.props.edit}/>
                     <ReformTask tabLabel='整改任务'
                                 aqjcjlId={this.props.data.id}
-                                showWrokFlow={this.state.canAdd}
+                                showWrokFlow={this.state.canAdd||this.state.canFlow}
                                 navigator={this.props.navigator}
                                 item={this.props.data}
                                 reloadInfo={this.props.reloadInfo}
@@ -97,7 +98,8 @@ export default class RectifyTask extends Component {
             }).then(data => {
                 if (data.code === 1) {
                     this.setState({
-                        canAdd: data.data.checkAndaddZgrw
+                        canAdd: data.data.checkAndaddZgrw,
+                        canFlow:data.data.tbZgwcqk
                     })
                 } else {
                     toast.show(data.message);
