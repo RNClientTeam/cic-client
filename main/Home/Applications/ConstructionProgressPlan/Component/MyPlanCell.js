@@ -34,7 +34,7 @@ export default class MyPlanCell extends Component {
                 <View style={styles.aboutPrincipal}>
                     <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zrrmc}</Text>
                     <Text style={[{width: width * 0.5}, styles.textStyle]}>
-                        {this.props.data.jhkssj + (this.props.data.jhjssj ? ' - ' + this.props.data.jhjssj : '')}
+                        {this.props.data.jhkssj + (this.props.data.jhjssj ? ' / ' + this.props.data.jhjssj : '')}
                     </Text>
                     <View style={styles.blank}/>
                     <TouchableOpacity

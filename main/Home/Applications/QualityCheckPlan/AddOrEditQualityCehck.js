@@ -231,7 +231,7 @@ export default class AddOrEditQualityCheck extends Component {
                     toast.show('创建成功');
                     let that = this;
                     setTimeout(function () {
-                        that.props.navigator.pop()
+                        that.props.navigator.pop();
                         that.props.reload();
                     },500)
                 }else{
@@ -351,6 +351,7 @@ export default class AddOrEditQualityCheck extends Component {
                 isLoading: false
             });
             if (responseData.code === 1) {
+                console.log('detail', responseData);
                 this.setState({
                     xmmc: responseData.data.xmmc,
                     xmgh: responseData.data.xmgh,
@@ -365,6 +366,10 @@ export default class AddOrEditQualityCheck extends Component {
                     cfxxId: responseData.data.cfxxId,
                     gczxId: responseData.data.gczxId,
                     ssbmmc: responseData.data.ssbmmc,
+                    zrr: responseData.data.zrr,
+                    zrbm: responseData.data.zrbm,
+                    twzt: responseData.data.twzt,
+                    rwxz: responseData.data.rwxz,
                 })
             } else {
                 toast.show(responseData.message)
@@ -388,6 +393,10 @@ export default class AddOrEditQualityCheck extends Component {
             });
             if (responseData.code === 1) {
                 toast.show('生效成功!');
+                setTimeout(() => {
+                    this.props.navigator.pop();
+                    this.props.reload();
+                },500)
             } else {
                 toast.show(responseData.message);
             }
@@ -419,6 +428,10 @@ export default class AddOrEditQualityCheck extends Component {
             });
             if (responseData.code === 1) {
                 toast.show('保存成功!');
+                setTimeout(() => {
+                    this.props.navigator.pop();
+                    this.props.reload();
+                },500)
             } else {
                 toast.show(responseData.message);
             }
@@ -457,6 +470,10 @@ export default class AddOrEditQualityCheck extends Component {
                 }).then( data => {
                     if (data.code === 1) {
                         toast.show('审批成功');
+                        setTimeout(() => {
+                            this.props.navigator.pop();
+                            this.props.reload();
+                        },500)
                     } else {
                         toast.show(data.message);
                     }
