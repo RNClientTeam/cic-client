@@ -37,7 +37,8 @@ export default class ProgressPlanListModalView extends Component {
                 <View style={styles.containerStyle}>
                     <Text style={styles.nameStyle}>开始时间</Text>
                     <View style={styles.indicateView}>
-                        <ChoiceDate showDate={this.state.startDate} changeDate={(date)=> this.setState({startDate: date})}/>
+                        <ChoiceDate showDate={this.state.startDate || '请选择'}
+                                    changeDate={(date)=> this.setState({startDate: date})}/>
                         <Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
                     </View>
 
@@ -45,7 +46,7 @@ export default class ProgressPlanListModalView extends Component {
                 <View style={styles.containerStyle}>
                     <Text style={styles.nameStyle}>结束时间</Text>
                     <View style={styles.indicateView}>
-                        <ChoiceDate showDate={this.state.endDate} changeDate={(date)=> this.setState({endDate: date})}/>
+                        <ChoiceDate showDate={this.state.endDate || '请选择'} changeDate={(date)=> this.setState({endDate: date})}/>
                         <Image style={styles.indicateImage}  source={require('../../../../../resource/imgs/home/applications/triangle.png')}/>
                     </View>
                 </View>
@@ -70,7 +71,8 @@ export default class ProgressPlanListModalView extends Component {
                     </View>
                 </View>
                 <View style={styles.buttonView}>
-                    <TouchableOpacity style={[styles.clickButton,{backgroundColor:'#dbdada'}]} onPress={()=>this.props.closeModal()}>
+                    <TouchableOpacity style={[styles.clickButton,{backgroundColor:'#dbdada'}]}
+                                      onPress={()=> {this.props.closeModal(); this.props.changeFilter('', '', '全部');}}>
                         <Text>重置</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.clickButton,{backgroundColor:'#216fd0'}]} onPress={()=>{this.props.closeModal();this.props.changeFilter(this.state.startDate,this.state.endDate,this.state.jhlx)}}>
@@ -95,7 +97,7 @@ const styles = StyleSheet.create({
     },
     containerStyle:{
         backgroundColor:'#fff',
-        height:width*0.1,
+        height:width * 0.12,
         flexDirection:'row',
         justifyContent:'space-between',
         alignItems:'center',
