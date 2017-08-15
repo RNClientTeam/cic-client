@@ -18,6 +18,7 @@ import {
 const {width, height} = Dimensions.get('window');
 import Toast from 'react-native-simple-toast';
 import Loading from "../../../../Component/Loading.js";
+import CheckFlowInfo from './CheckFlowInfo.js';
 import ChoiceDate from "../../../../Component/ChoiceDate.js";
 import Organization from '../../../../Organization/Organization.js';
 import ChoiceFileComponent from '../../Component/ChoiceFileComponent.js';
@@ -127,7 +128,12 @@ export default class ReviewRecord extends Component {
                 {
                     this.props.fcjl &&
                     <View style={styles.bottomView}>
-                        <TouchableHighlight underlayColor="transparent" onPress={this.save.bind(this)}>
+                        <TouchableHighlight underlayColor="transparent" onPress={this.save.bind(this,true)}>
+                            <View style={[styles.btnView, {backgroundColor:'#41cc85'}]}>
+                                <Text style={styles.btnText}>保存并提交</Text>
+                            </View>
+                        </TouchableHighlight>
+                        <TouchableHighlight underlayColor="transparent" onPress={this.save.bind(this,false)}>
                             <View style={[styles.btnView, {backgroundColor:'#216fd0'}]}>
                                 <Text style={styles.btnText}>保存</Text>
                             </View>
@@ -139,7 +145,7 @@ export default class ReviewRecord extends Component {
         );
     }
 
-    save() {
+    save(param) {
         if (this.state.fcsj.length === 0) {
             Toast.show('请选择复查时间');
         } else if (this.state.fcr.length === 0) {
@@ -157,8 +163,23 @@ export default class ReviewRecord extends Component {
             }).then((res) => {
                 if (res.code === 1) {
                     Toast.show('保存成功');
-                    this.props.navigator.pop();
-                    this.props.reloadInfo();
+                    if (param && res.data.isToSubmit) {
+                        //保存并提交
+                        this.props.navigator.push({
+                            name: 'CheckFlowInfo',
+                            component: CheckFlowInfo,
+                            params: {
+                                resID: res.data.id,
+                                wfName: 'jdjhanjcjl',
+                                reloadInfo: this.props.reloadInfo,
+                                name: 'SafetyInspectionRecord'
+                            }
+                        });
+                    } else if (!param) {
+                        //保存
+                        this.props.navigator.pop();
+                        this.props.reloadInfo();
+                    }
                 } else {
                     Toast.show(res.message);
                 }
@@ -199,12 +220,14 @@ const styles = StyleSheet.create({
         bottom: 0,
         right: 0,
         paddingVertical: 10,
+        paddingHorizontal:10,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'space-between',
+        flexDirection: 'row'
     },
     btnView: {
         height: 0.06 * height,
-        width: 0.8 * width,
+        width: 0.42 * width,
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center'

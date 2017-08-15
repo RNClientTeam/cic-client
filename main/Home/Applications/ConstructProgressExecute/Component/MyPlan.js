@@ -118,6 +118,14 @@ export default class MyPlan extends Component {
     }
 
     renderRow(item, sectionID, rowID, highlightRow) {
+        let bgC = '#21cf7f';
+        if (item.rwztmc === '已生效') {
+            bgC = '#fe9a25'
+        } else if (item.rwztmc === '新建') {
+            bgC = '#1f92e2';
+        } else if (item.rwztmc === '已提交审核') {
+            bgC = '#18d0ca';
+        }
         return (
             <MyPlanCell key={rowID} data={item} navigator={this.props.navigator}
                               setModalVisible={this.setModalVisible.bind(this,item.id)}/>

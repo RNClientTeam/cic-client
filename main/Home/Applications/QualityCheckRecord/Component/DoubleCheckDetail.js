@@ -209,7 +209,7 @@ export default class DoubleCheckDetail extends Component {
 
     //选择问题
     proBtn(elem, index) {
-        if (this.props.add || this.props.eidt) {
+        if (this.props.add || this.props.edit) {
             if (elem.name === '正常') {
                 let tempList = this.state.selList.concat();
                 this.state.selList = [];

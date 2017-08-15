@@ -30,6 +30,7 @@ export default class MyPlanCell extends Component {
                 <View style={styles.aboutPrincipal}>
                     <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zrrmc}</Text>
                     <Text style={[{width: width * 0.5}, styles.textStyle]}>{`${this.props.data.jhkssj}/${this.props.data.jhjssj}`}</Text>
+                    <Text style={[{width: width * 0.15}, styles.textStyle]}>{this.props.data.wcbl||'0'}%</Text>
                     <View style={styles.blank}/>
                     <TouchableOpacity onPress={()=>{this.props.setModalVisible()}} style={styles.editTouch}>
                         <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}

@@ -94,6 +94,10 @@ export default class QualityCheckPlanDetail extends Component {
         this.props.navigator.push({
             component: QualityCheckRecordDetail,
             name: 'QualityCheckRecordDetail',
+            params: {
+                name: 'QualityCheckPlan',
+                reloadInfo: ()=>{}
+            }
         });
     }
 }
