@@ -9,6 +9,7 @@ import {
     StyleSheet,
     Dimensions,
     TouchableOpacity,
+    TouchableWithoutFeedback,
     Image
 } from 'react-native'
 import StatusBar from "../../../Component/StatusBar";
@@ -41,9 +42,12 @@ export default class ConstructPlan extends Component{
         return(
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="施工日计划">
-                    {this.state.canEdit?<TouchableOpacity onPress={()=>this.props.navigator.push({name:'NewProject',component:NewProject,params:{reload:()=>{this.getDataFronNet();this.getTask()}}})}>
-                        <Image style={[styles.filtrate, {marginLeft:-width*0.045-10}]} source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
-                    </TouchableOpacity>:null}
+                    {this.state.canEdit&&
+                    <TouchableWithoutFeedback onPress={()=>this.props.navigator.push({name:'NewProject',component:NewProject,params:{reload:()=>{this.getDataFronNet();this.getTask()}}})}>
+                        <Image style={{width: 0.045 * width, height: 0.045 * width,position:'absolute',right:width*0.16}}
+                               source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
+                    </TouchableWithoutFeedback>
+                        }
                     <TouchableOpacity onPress={()=>{this.skipPage()}}>
                         <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/constuctPlan/projectList.png')}/>
                     </TouchableOpacity>
@@ -161,6 +165,7 @@ export default class ConstructPlan extends Component{
                 callID:true
             }
         }).then(data=>{
+            console.log(data,1111);
             if(data.code === 1){
                 this.setState({
                     canEdit:data.data.newcreate

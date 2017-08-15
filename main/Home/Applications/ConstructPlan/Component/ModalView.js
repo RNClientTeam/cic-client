@@ -45,7 +45,6 @@ export default class ModalView extends Component {
 
     componentDidMount() {
         let templateArr = [];
-        console.log(this.props.authList)
         if (this.props.authList.length > 0) {
             this.props.authList.map((item, index) => {
                 if (item.key === 'tg' && item.value) {
