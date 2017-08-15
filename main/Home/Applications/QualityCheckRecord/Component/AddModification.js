@@ -231,6 +231,8 @@ export default class AddModification extends Component {
      * 提交
      */
     submit() {
+        console.log(this.props.type)
+        return;
         if (this.props.type!=='新建') {
             //修改
             axios.post('/psmZljcjl/zgrwEdit', {
@@ -277,7 +279,7 @@ export default class AddModification extends Component {
         } else {
             axios.post('/psmZljcjl/zgrwSave', {
                 userID: GLOBAL_USERID,
-                zljcjlId: this.state.id,
+                zljcjlId: this.props.id,
                 nodeId: this.props.nodeId,
                 wtlb: this.state.wtlb,
                 zgyq: this.state.zgyq,
