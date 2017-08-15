@@ -91,9 +91,16 @@ export default class MyPlan extends Component {
     }
 
     renderRow(item, sectionID, rowID, highlightRow) {
+        let stateBg = '#21cf7f';
+        if (item.rwztmc === '已生效') {
+            stateBg = '#fe9a25'
+        } if (item.rwztmc === '已提交审核') {
+            stateBg = '#216fd0'
+        }
         return (
             <MyPlanCell key={rowID}
                         navigator={this.props.navigator}
+                        stateBg={stateBg}
                         data={item}
                         setModalVisible={ (rwid) => this.props.setModalVisible(rwid) }
             />
