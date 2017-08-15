@@ -252,18 +252,6 @@ export default class AddModification extends Component {
                 console.log(data);
                 if (data.code === 1) {
                     toast.show('提交成功');
-                    // if (data.data) {
-                    //     this.props.navigator.push({
-                    //         name: 'CheckFlowInfo',
-                    //         component: CheckFlowInfo,
-                    //         params: {
-                    //             resID: data.data,
-                    //             wfName: 'jdjhzljcjl',
-                    //             reloadInfo: this._reloadInfo.bind(this),
-                    //             name: 'QualityDoubleCheckRecord'
-                    //         }
-                    //     })
-                    // } else {
                     let that = this;
                     setTimeout(function () {
                         that.props.navigator.pop();
@@ -293,24 +281,11 @@ export default class AddModification extends Component {
             }).then(data => {
                 if (data.code === 1) {
                     toast.show('提交成功');
-                    // if (data.data) {
-                    //     this.props.navigator.push({
-                    //         name: 'CheckFlowInfo',
-                    //         component: CheckFlowInfo,
-                    //         params: {
-                    //             resID: data.data,
-                    //             wfName: 'jdjhzljcjl',
-                    //             reloadInfo: this._reloadInfo.bind(this),
-                    //             name: 'QualityDoubleCheckRecord'
-                    //         }
-                    //     })
-                    // } else {
                     let that = this;
                     setTimeout(function () {
                         that.props.navigator.pop();
                         that._reloadInfo();
                     }, 500)
-                    // }
                 } else {
                     toast.show(data.message)
                 }
