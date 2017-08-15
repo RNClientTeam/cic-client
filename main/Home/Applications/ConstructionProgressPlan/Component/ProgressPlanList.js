@@ -81,6 +81,7 @@ export default class ProgressPlanList extends Component {
             target.sjd = item.jhkssj.replace(/-/g, '/') + (item.jhjssj ? ' / ' + item.jhjssj.replace(/-/g, '/') : '');
             target.count = item.count;
             target.gczxId = item.gczxId;
+            target.cfxxId = item.cfxxId;
             return target
         })
     }
