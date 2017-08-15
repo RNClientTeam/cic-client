@@ -211,14 +211,14 @@ export default class Home extends Component {
     //app内部接收到推送
     onReceiveMessage(message) {
         if (Platform.OS === 'android') {
-            this.showNoti(message);
+            let extra = JSON.parse(message._data['cn.jpush.android.EXTRA']);
+            this.showNoti(extra);
         } else {
-            alert('iOS推送等待完成');
+            this.showNoti(message._data);
         }
     }
 
-    showNoti(message) {
-        let extra = JSON.parse(message._data['cn.jpush.android.EXTRA']);
+    showNoti(extra) {
         if (extra.type == 2) {
             axios.get('/msg/getAction',{
                 params:{

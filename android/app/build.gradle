@@ -91,7 +91,7 @@ android {
                 JPush_APPID: "ef9c2bcf90e00172cc2c5490",     //在此修改JPush的APPID
                 APP_CHANNEL: "app_channel"        //应用渠道号
         ]
-        applicationId "com.cic_client"
+//        applicationId "com.cic_client"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
