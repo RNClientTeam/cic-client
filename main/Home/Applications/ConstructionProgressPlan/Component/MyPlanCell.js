@@ -27,7 +27,7 @@ export default class MyPlanCell extends Component {
                         {this.props.data.rwmc}
                     </Text>
                     <View style={styles.blank}/>
-                    <View style={styles.stateView}>
+                    <View style={[styles.stateView, {backgroundColor: this.props.stateBg || '#fe9a25'}]}>
                         <Text style={styles.stateText}>{this.props.data.rwztmc}</Text>
                     </View>
                 </View>
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         color:'#4f74a3'
     },
     stateView: {
-        backgroundColor: '#fe9a25',
+
         width:width*0.17,
         height:width*0.05,
         borderRadius:3,

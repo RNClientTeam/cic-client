@@ -27,7 +27,7 @@ export default class ProjectListCell extends Component{
                               onPress={()=>{this.props.choiceThisCell();this.setState({isSelected:!this.state.isSelected})}}>
                 <View style={styles.leftView}>
                     <Text numberOfLines={1} style={styles.numberStyle}>{this.props.data.xmgh}</Text>
-                    <Text numberOfLines={1}>{this.props.data.xmmc}</Text>
+                    <Text numberOfLines={1}>{this.props.data.zxmc}</Text>
                 </View>
                 <View style={styles.imgView}>
                     <Image style={styles.imgStyle} source={this.state.isSelected?require('../../../../../resource/imgs/home/constuctPlan/choiced.png'):require('../../../../../resource/imgs/home/constuctPlan/unchoiced.png')}/>

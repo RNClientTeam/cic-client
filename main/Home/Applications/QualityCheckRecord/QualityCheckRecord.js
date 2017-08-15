@@ -123,6 +123,7 @@ export default class QualityCheckRecord extends Component {
         )
     }
 
+
     addBtn() {
         this.props.navigator.push({
             component: QualityCheckRecordDetail,

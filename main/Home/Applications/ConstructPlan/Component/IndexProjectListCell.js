@@ -24,9 +24,16 @@ export default class IndexProjectListCell extends Component{
                     </View>
                 </View>
                 <View style={styles.bottomView}>
-                    <Text style={styles.bottomText}>{this.props.item.zrrmc}</Text>
-                    <Text style={styles.bottomText}>进度{this.props.item.wcbl}%</Text>
-                    <Text style={styles.bottomText}>{this.props.item.kssj.substr(0,10)}/{this.props.item.wcsj.substr(0,10)}</Text>
+                    <View>
+                        <View style={{flexDirection:'row',marginBottom:2}}>
+                            <Text style={styles.bottomText}>{this.props.item.zrrmc}</Text>
+                            <Text style={[styles.bottomText,{marginLeft:width*0.04}]}>进度{this.props.item.wcbl}%</Text>
+                        </View>
+                        <View>
+                            <Text style={styles.bottomText}>{this.props.item.kssj}/{this.props.item.wcsj}</Text>
+                        </View>
+                    </View>
+
                     <TouchableOpacity onPress={()=>{this.props.showModal();this.props.setCurrentItem(this.props.item)}}>
                         <Image style={styles.editImg} source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}/>
                     </TouchableOpacity>
@@ -62,7 +69,6 @@ const styles = StyleSheet.create({
         backgroundColor:'#f6f9fa',
         alignItems:'center',
         padding:width*0.02,
-        height:width*0.14
     },
     bottomText:{
         color:'#4f74a3',

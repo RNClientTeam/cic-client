@@ -35,12 +35,12 @@ export default class QualityCheckRecordFiltrate extends Component {
         return (
             <View style={[styles.containerStyle, Platform.OS === 'android' ? {top: 44} : {top: 64}]}>
                 <View style={styles.cellStyle}>
-                    <Text style={{color:'#216fd0'}}>任务状态</Text>
+                    <Text style={{color:'#216fd0'}}>记录状态</Text>
                     <View style={styles.indicateView}>
                         <ModalDropdown
                             options={this.state.rwztCns}
                             animated={true}
-                            defaultValue={this.state.rwztCn||'请选择任务状态'}
+                            defaultValue={this.state.rwztCn||'请选择记录状态'}
                             style={styles.modalDropDown}
                             textStyle={styles.modalDropDownText}
                             dropdownStyle={styles.dropdownStyle}
@@ -101,7 +101,7 @@ export default class QualityCheckRecordFiltrate extends Component {
                 </View>
                 <View style={styles.buttonView}>
                     <TouchableOpacity style={[styles.clickButton, {backgroundColor: '#dbdada'}]}
-                                      onPress={() => this.props.closeFiltrate(0,'全部','','','all','all')}>
+                                      onPress={() => this.props.closeFiltrate(1,'全部','','','all','all')}>
                         <Text>重置</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.clickButton, {backgroundColor: '#216fd0'}]}
@@ -134,7 +134,7 @@ export default class QualityCheckRecordFiltrate extends Component {
                 axios.get('/dictionary/list',{
                     params:{
                         userID:GLOBAL_USERID,
-                        root:"JDJH_RWZT",
+                        root:"JDJH_ZLJCJLZT",
                         callID:true
                     }
                 }).then(ztData=>{

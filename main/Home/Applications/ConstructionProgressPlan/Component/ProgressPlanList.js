@@ -55,7 +55,9 @@ export default class ProgressPlanList extends Component {
 
     renderRow(item, sectionID, rowID, highlightRow) {
         return (
-            <ApplicationListCell key={rowID} navigator={this.props.navigator} data={item} target="ProgressPlanDetail"/>
+            <ApplicationListCell key={rowID}
+                                 navigator={this.props.navigator}
+                                 data={item} target="ProgressPlanDetail"/>
         );
     }
 
