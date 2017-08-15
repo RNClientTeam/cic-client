@@ -123,17 +123,6 @@ export default class QualityCheckRecord extends Component {
         )
     }
 
-    chongzhi(){
-        this.setState({
-            type: '全部',
-            rwzt: 'all',
-            rwxz: 'all',
-            rwztCn: '',
-            rwxzCn: ''
-        },function () {
-            this.getData()
-        })
-    }
 
     addBtn() {
         this.props.navigator.push({
