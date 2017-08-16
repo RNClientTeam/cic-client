@@ -163,19 +163,19 @@ export default class ReviewRecord extends Component {
             }).then((res) => {
                 if (res.code === 1) {
                     Toast.show('保存成功');
-                    if (param && res.data.isToSubmit) {
+                    if (param) {
                         //保存并提交
                         this.props.navigator.push({
                             name: 'CheckFlowInfo',
                             component: CheckFlowInfo,
                             params: {
-                                resID: res.data.id,
+                                resID: res.data,
                                 wfName: 'jdjhanjcjl',
                                 reloadInfo: this.props.reloadInfo,
                                 name: 'SafetyInspectionRecord'
                             }
                         });
-                    } else if (!param) {
+                    } else {
                         //保存
                         this.props.navigator.pop();
                         this.props.reloadInfo();
