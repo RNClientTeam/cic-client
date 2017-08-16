@@ -107,7 +107,7 @@ export default class DoubleCheckRecord extends Component {
                     resourceId={this.state.fcfj}
                     businessModule='zljcjl'/>
                 {
-                    (this.props.fromList || this.props.fcjl) &&
+                    this.props.fcjl &&
                     <View style={styles.bottomView}>
                         <TouchableOpacity onPress={this.save.bind(this,true)}>
                             <View style={[styles.btnView, {backgroundColor:'#41cc85'}]}>
@@ -142,6 +142,7 @@ export default class DoubleCheckRecord extends Component {
                 fcjg: this.state.fcjg,
                 callID: true
             }).then((res) => {
+                console.log(res);
                 if (res.code === 1) {
                     Toast.show('保存成功');
                     if (param) {
@@ -165,7 +166,8 @@ export default class DoubleCheckRecord extends Component {
                     Toast.show(res.message);
                 }
             }).catch((error) => {
-
+                console.log(error);
+                Toast.show('服务端异常');
             });
         }
     }

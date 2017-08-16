@@ -175,7 +175,6 @@ export default class SafetyInspectionRecord extends Component{
                 callID:true
             }
         }).then(data=>{
-            console.log(data);
             this.setState({
                 isLoading:false,
                 pageNum:pageNum

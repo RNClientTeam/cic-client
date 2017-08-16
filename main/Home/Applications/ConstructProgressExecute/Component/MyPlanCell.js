@@ -23,7 +23,7 @@ export default class MyPlanCell extends Component {
             <View style={styles.earlierStageListCell}>
                 <View style={styles.aboutProject}>
                     <Text style={{color:'#216fd0',fontSize:width*0.038,flex:1}}>{this.props.data.rwmc}</Text>
-                    <View style={styles.stateView}>
+                    <View style={[styles.stateView, {backgroundColor:this.props.bgC}]}>
                         <Text style={styles.stateText}>{this.props.data.rwztmc}</Text>
                     </View>
                 </View>
@@ -76,7 +76,6 @@ const styles = StyleSheet.create({
         color:'#4f74a3'
     },
     stateView: {
-        backgroundColor: '#fe9a25',
         width:width*0.17,
         height:width*0.05,
         borderRadius:3,

@@ -219,6 +219,7 @@ export default class Home extends Component {
     }
 
     showNoti(extra) {
+        console.log(extra);
         if (extra.type == 2) {
             axios.get('/msg/getAction',{
                 params:{
@@ -243,20 +244,29 @@ export default class Home extends Component {
                 toast.show('推送服务异常')
             })
         } else {
-            this.setState({
-                showNotification:true,
-                notificationTitle:message._data['cn.jpush.android.NOTIFICATION_CONTENT_TITLE'],
-                notificationContent:message._data['cn.jpush.android.ALERT']
-            });
+            if (Platform.OS === 'android') {
+                this.setState({
+                    showNotification:true,
+                    notificationTitle:extra._data['cn.jpush.android.NOTIFICATION_CONTENT_TITLE'],
+                    notificationContent:extra._data['cn.jpush.android.ALERT']
+                });
+            } else {
+                this.setState({
+                    showNotification:true,
+                    notificationTitle:extra.aps.alert.title,
+                    notificationContent:extra.aps.alert.body
+                });
+            }
         }
     }
 
     //从通知栏打开推送
     onOpenMessage(message) {
         if (Platform.OS === 'android') {
-            this.showNoti(message);
+            let extra = JSON.parse(message._data['cn.jpush.android.EXTRA']);
+            this.showNoti(extra);
         } else {
-            alert('iOS推送等待完成');
+            this.showNoti(message._data);
         }
     }
 

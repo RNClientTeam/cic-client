@@ -41,10 +41,11 @@ export default class ReviewRecord extends Component {
         axios.get('/psmAqjcjh/init4Aqjcjl', {
             params: {
                 userID: GLOBAL_USERID,
-                id: this.props.fromList?this.props.data.id:'',
+                id: this.props.data.id,
                 callID: true
             }
         }).then((res) => {
+            console.log(res);
             if (res.code === 1) {
                 this.setState({
                     fcrmc: res.data.fcrmc,
@@ -53,7 +54,7 @@ export default class ReviewRecord extends Component {
                     fcjg: res.data.fcjg,
                     fcfj: res.data.fcfj,
                     aqjcjhId: res.data.aqjcjhId,
-                    isAttach:this.props.fromList?res.data.fcfjisAttach:res.data.fcjlisAttach,
+                    isAttach:res.data.fcfjisAttach,
                     businessModule:res.data.businessModule
                 });
             } else {
@@ -170,7 +171,7 @@ export default class ReviewRecord extends Component {
                             component: CheckFlowInfo,
                             params: {
                                 resID: res.data,
-                                wfName: 'jdjhanjcjl',
+                                wfName: 'jdjhaqjcjl',
                                 reloadInfo: this.props.reloadInfo,
                                 name: 'SafetyInspectionRecord'
                             }
