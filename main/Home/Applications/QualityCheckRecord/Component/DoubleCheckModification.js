@@ -84,8 +84,8 @@ export default class DoubleCheckModification extends Component {
             params: {
                 resID: this.props.id,
                 wfName: 'jdjhzljcjl',
-                reloadInfo: this._getData.bind(this),
-                name: 'QualityDoubleCheckRecord'
+                reloadInfo: this.props.reloadInfo,
+                name: 'QualityCheckRecord'
             }
         })
     }
@@ -160,6 +160,7 @@ export default class DoubleCheckModification extends Component {
             }
         }).then(data => {
             if (data.code === 1) {
+                console.log(data);
                 if (data.data) {
                     this.setState({
                         dataSource: data.data

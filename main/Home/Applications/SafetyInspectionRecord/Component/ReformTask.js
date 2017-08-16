@@ -79,10 +79,10 @@ export default class ReformTask extends Component {
             component: CheckFlowInfo,
             params: {
                 resID: this.props.aqjcjlId,
-                reloadInfo: this._getData.bind(this),
+                reloadInfo: this.props.reloadInfo,
                 // TODO
                 wfName: 'jdjhaqjcjl',
-                name: 'RectifyTask'
+                name: 'SafetyInspectionRecord'
             }
         })
     }
@@ -111,7 +111,7 @@ export default class ReformTask extends Component {
                 }
             }).then(data => {
                 if (data.code === 1) {
-                    let showModal = false
+                    let showModal = false;
                     for (var key in data.data) {
                         if (data.data[key]) {
                             showModal = true;
