@@ -45,7 +45,6 @@ export default class ReviewRecord extends Component {
                 callID: true
             }
         }).then((res) => {
-            console.log(res);
             if (res.code === 1) {
                 this.setState({
                     fcrmc: res.data.fcrmc,
@@ -156,7 +155,7 @@ export default class ReviewRecord extends Component {
         } else {
             axios.post('/psmAqjcjh/saveAqjcjl4fc', {
                 userID: GLOBAL_USERID,
-                id: this.props.data.aqjcjhId,
+                id: this.props.data.id,
                 fcr: this.state.fcr,
                 fcsj: this.state.fcsj,
                 fcjg: this.state.fcjg,

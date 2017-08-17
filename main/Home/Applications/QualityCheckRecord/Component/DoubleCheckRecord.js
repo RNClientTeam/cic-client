@@ -41,7 +41,7 @@ export default class DoubleCheckRecord extends Component {
         axios.get('/psmZljcjl/detail', {
             params: {
                 userID: GLOBAL_USERID,
-                id: this.props.fromList?this.props.data.id:'',
+                id: this.props.data.id,
                 callID: true
             }
         }).then((res) => {
