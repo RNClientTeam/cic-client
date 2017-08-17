@@ -31,8 +31,8 @@ export default class NewProject extends Component {
         this.state = {
             zrr: '',
             zrbm: '',
-            kssj: getCurrentDate(),
-            wcsj: getCurrentDate(),
+            kssj: '',
+            wcsj: '',
             cyry: '',
             sgdd: '',
             rwmc: '',
@@ -51,9 +51,9 @@ export default class NewProject extends Component {
                 <ScrollView>
                     <ListHeaderCell name="临时任务"/>
                     <KeySelect value={this.state.zrrCN} choiceInfo={this.choiceInfo.bind(this)} propKey="任务负责人"/>
-                    <KeyTime changeDate={(date) => this.setState({kssj: date})} showDate={this.state.kssj}
+                    <KeyTime onlyDate={false} changeDate={(date) => this.setState({kssj: date})} showDate={this.state.kssj}
                              propKey="任务开始时间"/>
-                    <KeyTime changeDate={(date) => this.setState({wcsj: date})} showDate={this.state.wcsj}
+                    <KeyTime onlyDate={false} changeDate={(date) => this.setState({wcsj: date})} showDate={this.state.wcsj}
                              propKey="任务结束时间"/>
                     <KeySelect value={this.state.cyryCN} choiceInfo={this.choiceCYRN.bind(this)} propKey="参与人员"/>
                     <View style={{marginTop: width * 0.02, marginBottom: width * 0.03}}>
@@ -141,13 +141,13 @@ export default class NewProject extends Component {
                 userID: GLOBAL_USERID,
                 zrr: this.state.zrr,
                 zrbm: this.state.zrbm,
-                kssj: this.state.kssj,
+                kssj: this.state.kssj.trim(),
                 cyry: this.state.cyry,
                 sgdd: this.state.sgdd,
                 rwmc: this.state.rwmc,
                 wcqk: this.state.wcqk,
                 wcbl: this.state.wcbl,
-                wcsj:this.state.wcsj,
+                wcsj:this.state.wcsj.trim(),
                 callID: true
             };
             axios.post('/psmSgrjh/saveRjh', data)

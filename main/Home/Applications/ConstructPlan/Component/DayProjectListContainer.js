@@ -65,7 +65,6 @@ export default class DayProjectListContainer extends Component {
     }
 
     renderContent(list) {
-        console.log(list);
         return list.map((items, index) =>
             (
                 <View key={index}>

@@ -18,7 +18,7 @@ import ModalView from "./Component/ModalView.js";
 import toast from 'react-native-simple-toast';
 import Calendar from "../Component/Calendar";
 import QualityCheckPlanHeader from "./Component/QualityCheckPlanHeader";
-import {padStart} from '../../../Util/Util'
+import {padStart,getCurrentDate} from '../../../Util/Util'
 import SafetyCheckPlanModal from "./Component/SafetyCheckPlanModal";
 import EditSafetyCheck from './Component/EditSafetyCheck';
 
@@ -40,6 +40,7 @@ export default class SafetyInspectionPlane extends Component{
             pageNum: 1,
             canAdd: false,
             date: this.formatDate(this.date.getFullYear(), this.date.getMonth() + 1, this.date.getDate()),
+            showDate:getCurrentDate()
         }
     }
 
@@ -242,29 +243,19 @@ export default class SafetyInspectionPlane extends Component{
     changeDay(day){
         this.setState({
             day: day,
+            showDate:this.state.year+'-'+padStart(this.state.month+1)+'-'+padStart(day)
         },function () {
             this.getList()
         })
     }
 
-    //判断是否为闰年,是则返回1，否则返回0
-    isLeap(year) {
-        return year % 4 == 0 ? (year % 100 != 0 ? 1 : (year % 400 == 0 ? 1 : 0)) : 0;
-    }
-
     // 选择日期
     changeYearAndMonth(data){
-        const showDate = new Date(this.formatDate(data.substr(0,4), parseInt(data.substr(-2,data.length-1)), 1));
-        let days_per_month = new Array(31, 28 + this.isLeap(data.substr(0,4)), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31); //创建月份数组
-        let day = this.state.day;
-        if(this.state.day>days_per_month[parseInt(data.substr(-2,data.length-1))-1]){
-            day=days_per_month[parseInt(data.substr(-2,data.length-1))-1]
-        }
         this.setState({
-            year: data.substr(0,4),
-            month: parseInt(data.substr(-2,data.length-1))-1,
-            showDate,
-            day
+            year:data.substr(0,4),
+            month:parseInt(data.substr(5,2))-1,
+            showDate:data,
+            day:data.substr(-2,2)
         },function () {
             this.getList();
             this.getCalendarData();

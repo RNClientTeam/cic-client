@@ -21,7 +21,7 @@ import QualityCheckModal from "./Component/QualityCheckModal";
 import toast from 'react-native-simple-toast';
 import Loading from "../../../Component/Loading";
 import AddOrEditQualityCheck from "./AddOrEditQualityCehck"
-import {padStart} from '../../../Util/Util'
+import {padStart,getCurrentDate} from '../../../Util/Util'
 const {width}  = Dimensions.get('window');
 
 export default class QualityCheckPlan extends Component{
@@ -42,6 +42,7 @@ export default class QualityCheckPlan extends Component{
             isLoading:false,
             dataSource:[],
             keywords: '',
+            showDate:getCurrentDate()
         }
     }
     render(){
@@ -160,24 +161,14 @@ export default class QualityCheckPlan extends Component{
         })
     }
 
-    //判断是否为闰年,是则返回1，否则返回0
-    isLeap(year) {
-        return year % 4 == 0 ? (year % 100 != 0 ? 1 : (year % 400 == 0 ? 1 : 0)) : 0;
-    }
 
     // 选择日期
     changeYearAndMonth(data){
-        const showDate = new Date(this.formatDate(data.substr(0,4), parseInt(data.substr(-2,data.length-1)), 1));
-        let days_per_month = new Array(31, 28 + this.isLeap(data.substr(0,4)), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31); //创建月份数组
-        let day = this.state.day;
-        if(this.state.day>days_per_month[parseInt(data.substr(-2,data.length-1))-1]){
-            day=days_per_month[parseInt(data.substr(-2,data.length-1))-1]
-        }
         this.setState({
-            year: data.substr(0,4),
-            month: parseInt(data.substr(-2,data.length-1))-1,
-            showDate,
-            day
+            year:data.substr(0,4),
+            month:parseInt(data.substr(5,2))-1,
+            showDate:data,
+            day:data.substr(-2,2)
         },function () {
             this.getTask();
             this.getCalendarData();
@@ -187,7 +178,8 @@ export default class QualityCheckPlan extends Component{
     // 点击某一天
     changeDay(day){
         this.setState({
-            day:day
+            day:day,
+            showDate:this.state.year+'-'+padStart(this.state.month+1)+'-'+padStart(day)
         },function () {
             this.getTask()
         })
