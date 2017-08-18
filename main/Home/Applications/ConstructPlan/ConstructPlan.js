@@ -126,6 +126,7 @@ export default class ConstructPlan extends Component{
             zxid:arr.join(',')
         },function () {
             this.getDataFronNet();
+            this.getTask();
         })
     }
 
@@ -180,7 +181,7 @@ export default class ConstructPlan extends Component{
                 userID:GLOBAL_USERID,
                 month:this.state.year+'-'+padStart(this.state.month + 1),
                 zxid:this.state.zxid,
-                rwlx:this.state.rwlx,
+                rwlx:this.state.zxid===''?0:1,
                 lx:lx,
                 callID:true
             }
@@ -210,7 +211,7 @@ export default class ConstructPlan extends Component{
                 userID:GLOBAL_USERID,
                 date:this.state.year+'-'+padStart(this.state.month+1)+'-'+padStart(this.state.day),
                 zxid:this.state.zxid,
-                rwlx:0,
+                rwlx:this.state.zxid===''?0:1,
                 lx:lx,
                 callID:true
             }

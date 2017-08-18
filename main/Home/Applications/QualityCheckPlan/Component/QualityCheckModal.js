@@ -64,6 +64,7 @@ export default class QualityCheckModal extends Component{
         //         name:'新建'
         //     });
         // }
+
         if (authority.updateZljcjh) { // 编辑
             data.push({
                 img:require('../../../../../resource/imgs/home/earlierStage/approveDealy.png'),

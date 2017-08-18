@@ -33,7 +33,11 @@ export default class ProjectListView extends Component {
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="选择子项"/>
                 <SearchHeader getData={()=>this.getDataFromNet(1)} changeZxmc={(name)=>this.changeZxmc(name)}/>
-                <ProjectList zxid={this.props.zxid} setZxid={(arr)=>{this.props.setZxid(arr);}} loadMore={() => this.loadMore()} getDataFromNet={(resolve) => {
+                <ProjectList
+                    zxid={this.props.zxid}
+                    setZxid={(arr)=>{this.props.setZxid(arr);}}
+                    loadMore={() => this.loadMore()}
+                    getDataFromNet={(resolve) => {
                     this.getDataFromNet(1, resolve)
                 }} dataSource={this.state.list} navigator={this.props.navigator}/>
                 {this.state.isLoading ? <Loading/> : null}
