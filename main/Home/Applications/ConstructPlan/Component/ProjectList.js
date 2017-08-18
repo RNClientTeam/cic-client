@@ -52,7 +52,7 @@ export default class ProjectList extends Component {
 
     renderRow(item, sectionID, rowID, highlightRow) {
         item.selected = false;
-        if(this.props.zxid.indexOf(item.zxid)>0){
+        if(this.props.zxid.indexOf(item.zxid)>-1){
             item.selected = true
         }
         return (
