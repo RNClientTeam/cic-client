@@ -21,7 +21,7 @@ export default class ShareFileCell extends Component {
             <TouchableOpacity style={styles.shareDataCell} onPress={this.skipToPage.bind(this)}>
                 <View style={styles.topView}>
                     <View style={styles.imgStyle}>
-                        <Image style={styles.pdfStyle} source={require('../../../../../resource/imgs/home/earlierStage/pdf.png')}/>
+                        <Image style={styles.pdfStyle} source={require('../../../../../resource/imgs/home/earlierStage/fj.png')}/>
                     </View>
                     <View style={styles.infoView}>
                         <View style={styles.topTopView}>

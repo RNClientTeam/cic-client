@@ -34,7 +34,7 @@ export default class CameraPage extends Component{
     onBarCodeRead(objData) {
         if (this.showCamera) {
             this.showCamera = false;
-            if(objData.data.indexOf('http')>0){
+            if(objData.data.indexOf('http')>-1){
                 this.props.navigator.replace({
                     name:"UrlWebView",
                     component:UrlWebView,

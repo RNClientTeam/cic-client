@@ -50,7 +50,8 @@ export default class ZongzhixinQK extends Component {
                                                borderColor: "#216fd0",
                                                borderRadius: 5,
                                                color: "#216fd0",
-                                               textAlign: "center"
+                                               textAlign: "center",
+                                               padding:0
                                            }}/>
                             </View>
                             <Text style={{color: "#216fd0"}}>%</Text>

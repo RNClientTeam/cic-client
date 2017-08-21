@@ -11,6 +11,7 @@ import {
     Platform,
     NativeModules
 } from 'react-native';
+
 const {width} = Dimensions.get('window');
 import StatusBar from '../Component/StatusBar'
 import MenuItems from './Component/MenuItems'
@@ -24,6 +25,10 @@ import FetchUrl from '../Util/service.json'
 import Loading from "../Component/Loading";
 import axios from 'axios'
 import toast from 'react-native-simple-toast'
+import JPush, {JpushEventReceiveMessage, JpushEventOpenMessage} from 'react-native-jpush'
+import JGNotification from "./Applications/Component/JGNotification";
+import ArticleDetail from "./Applications/ArticleApproval/Component/ArticleDetail";
+
 export default class Home extends Component {
     constructor(props) {
         super(props);
@@ -36,7 +41,11 @@ export default class Home extends Component {
             badges: {
                 todo: 0,
                 remind: 0
-            }
+            },
+            showNotification: false,
+            notificationTitle: '通知标题',
+            notificationContent: '通知的内容',
+            notificationType: 1
         }
     }
 
@@ -65,8 +74,23 @@ export default class Home extends Component {
                         <Notification dataSource={this.state.msgList.data} navigator={this.props.navigator}/>
                     </View>
                 </ScrollView>
+                {this.state.showNotification && <JGNotification
+                    title={this.state.notificationTitle}
+                    content={this.state.notificationContent}
+                    type={this.state.notificationType}
+                    hideNotification={this._hideNotification.bind(this)}/>}
+                {this.state.isLoading ? <Loading/> : null}
             </View>
         );
+    }
+
+    _hideNotification() {
+        this.setState({
+            showNotification: false
+        });
+        if(this.state.notificationType===2){
+            this._goToArticleDetail();
+        }
     }
 
 
@@ -179,7 +203,109 @@ export default class Home extends Component {
                 })
             })
         });
+        //添加推送相关
+        this.addPush();
     }
+
+    addPush() {
+        JPush.requestPermissions();
+        this.pushlisteners = [
+            JPush.addEventListener(JpushEventReceiveMessage, this.onReceiveMessage.bind(this)),
+            JPush.addEventListener(JpushEventOpenMessage, this.onOpenMessage.bind(this)),
+        ];
+    }
+
+    //app内部接收到推送
+    onReceiveMessage(message) {
+        if (Platform.OS === 'android') {
+            let extra = JSON.parse(message._data['cn.jpush.android.EXTRA']);
+            this.showNoti(extra);
+        } else {
+            this.showNoti(message._data);
+        }
+    }
+
+    showNoti(extra) {
+        if (extra.type == 2) {
+            if (Platform.OS === 'android') {
+                this.setState({
+                    showNotification: true,
+                    notificationTitle: '推送消息',
+                    notificationContent: '收到一条公文推送相关消息,点击确定查看消息',
+                    notificationType: 2
+                });
+            } else {
+                this.setState({
+                    showNotification: true,
+                    notificationTitle: '推送消息',
+                    notificationContent: '收到一条公文推送相关消息,点击确定查看消息',
+                    notificationType: 2
+                });
+            }
+        } else {
+            if (Platform.OS === 'android') {
+                this.setState({
+                    showNotification: true,
+                    notificationTitle: extra._data['cn.jpush.android.NOTIFICATION_CONTENT_TITLE'],
+                    notificationContent: extra._data['cn.jpush.android.ALERT'],
+                    notificationType: 1
+                });
+            } else {
+                this.setState({
+                    showNotification: true,
+                    notificationTitle: extra.aps.alert.title,
+                    notificationContent: extra.aps.alert.body,
+                    notificationType: 1
+                });
+            }
+        }
+    }
+
+    //推送
+    _goToArticleDetail() {
+        axios.get('/msg/getAction', {
+            params: {
+                msgID: extra.id,
+                userID: GLOBAL_USERID,
+                callID: true
+            }
+        }).then(data => {
+            if (data.code === 1) {
+                this.props.navigator.push({
+                    name: "ArticleDetail",
+                    component: ArticleDetail,
+                    params: {
+                        tag: 'jpush',
+                        id: data.data.params.id
+                    }
+                });
+            } else {
+                toast.show(data.message);
+            }
+        }).catch(err => {
+            toast.show('推送服务异常')
+        })
+    }
+
+    //从通知栏打开推送
+    onOpenMessage(message) {
+        if (Platform.OS === 'android') {
+            let extra = JSON.parse(message._data['cn.jpush.android.EXTRA']);
+            this.showNoti(extra);
+        } else {
+            this.showNoti(message._data);
+        }
+    }
+
+    componentWillUnmount() {
+        axios.interceptors.request.eject(this.reqInterceptor);
+        axios.interceptors.response.eject(this.resInterceptor);
+        //移除推送的监听
+        this.pushlisteners.forEach(listener => {
+            JPush.removeEventListener(listener);
+        });
+    }
+
 }
 
 const styles = StyleSheet.create({
