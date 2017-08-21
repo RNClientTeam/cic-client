@@ -51,7 +51,7 @@ export default class PDFView extends Component {
                         path={this.pdfPath}
                         style={styles.pdf}/>) :
                     <View style={styles.flex}>
-                        <Image source={require('../../../../../resource/imgs/home/earlierStage/pdfImg.png')}
+                        <Image source={require('../../../../../resource/imgs/home/earlierStage/fj.png')}
                             style={styles.pdfImgSty}/>
                         <Text style={styles.textSty}>{this.state.fileName}</Text>
                         <TouchableOpacity onPress={this.downAndPreview.bind(this)}>
