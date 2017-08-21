@@ -11,6 +11,7 @@ import {
     Platform,
     NativeModules
 } from 'react-native';
+
 const {width} = Dimensions.get('window');
 import StatusBar from '../Component/StatusBar'
 import MenuItems from './Component/MenuItems'
@@ -24,9 +25,10 @@ import FetchUrl from '../Util/service.json'
 import Loading from "../Component/Loading";
 import axios from 'axios'
 import toast from 'react-native-simple-toast'
-import JPush , {JpushEventReceiveMessage, JpushEventOpenMessage} from 'react-native-jpush'
+import JPush, {JpushEventReceiveMessage, JpushEventOpenMessage} from 'react-native-jpush'
 import JGNotification from "./Applications/Component/JGNotification";
 import ArticleDetail from "./Applications/ArticleApproval/Component/ArticleDetail";
+
 export default class Home extends Component {
     constructor(props) {
         super(props);
@@ -40,9 +42,10 @@ export default class Home extends Component {
                 todo: 0,
                 remind: 0
             },
-            showNotification:false,
-            notificationTitle:'通知标题',
-            notificationContent:'通知的内容'
+            showNotification: false,
+            notificationTitle: '通知标题',
+            notificationContent: '通知的内容',
+            notificationType: 1
         }
     }
 
@@ -71,19 +74,23 @@ export default class Home extends Component {
                         <Notification dataSource={this.state.msgList.data} navigator={this.props.navigator}/>
                     </View>
                 </ScrollView>
-                {this.state.showNotification&&<JGNotification
+                {this.state.showNotification && <JGNotification
                     title={this.state.notificationTitle}
                     content={this.state.notificationContent}
+                    type={this.state.notificationType}
                     hideNotification={this._hideNotification.bind(this)}/>}
                 {this.state.isLoading ? <Loading/> : null}
             </View>
         );
     }
 
-    _hideNotification(){
+    _hideNotification() {
         this.setState({
-            showNotification:false
-        })
+            showNotification: false
+        });
+        if(this.state.notificationType===2){
+            this._goToArticleDetail();
+        }
     }
 
 
@@ -219,45 +226,65 @@ export default class Home extends Component {
     }
 
     showNoti(extra) {
-        console.log(extra);
         if (extra.type == 2) {
-            axios.get('/msg/getAction',{
-                params:{
-                    msgID:extra.id,
-                    userID:GLOBAL_USERID,
-                    callID:true
-                }
-            }).then(data=>{
-                if(data.code === 1){
-                    this.props.navigator.push({
-                        name:"ArticleDetail",
-                        component:ArticleDetail,
-                        params:{
-                            tag:'jpush',
-                            id:data.data.params.id
-                        }
-                    });
-                } else {
-                    toast.show(data.message);
-                }
-            }).catch(err=>{
-                toast.show('推送服务异常')
-            })
-        } else {
             if (Platform.OS === 'android') {
                 this.setState({
-                    showNotification:true,
-                    notificationTitle:extra._data['cn.jpush.android.NOTIFICATION_CONTENT_TITLE'],
-                    notificationContent:extra._data['cn.jpush.android.ALERT']
+                    showNotification: true,
+                    notificationTitle: '推送消息',
+                    notificationContent: '收到一条公文推送相关消息,点击确定查看消息',
+                    notificationType: 2
                 });
             } else {
                 this.setState({
-                    showNotification:true,
-                    notificationTitle:extra.aps.alert.title,
-                    notificationContent:extra.aps.alert.body
+                    showNotification: true,
+                    notificationTitle: '推送消息',
+                    notificationContent: '收到一条公文推送相关消息,点击确定查看消息',
+                    notificationType: 2
+                });
+            }
+        } else {
+            if (Platform.OS === 'android') {
+                this.setState({
+                    showNotification: true,
+                    notificationTitle: extra._data['cn.jpush.android.NOTIFICATION_CONTENT_TITLE'],
+                    notificationContent: extra._data['cn.jpush.android.ALERT'],
+                    notificationType: 1
+                });
+            } else {
+                this.setState({
+                    showNotification: true,
+                    notificationTitle: extra.aps.alert.title,
+                    notificationContent: extra.aps.alert.body,
+                    notificationType: 1
                 });
             }
         }
+    }
+
+    //推送
+    _goToArticleDetail() {
+        axios.get('/msg/getAction', {
+            params: {
+                msgID: extra.id,
+                userID: GLOBAL_USERID,
+                callID: true
+            }
+        }).then(data => {
+            if (data.code === 1) {
+                this.props.navigator.push({
+                    name: "ArticleDetail",
+                    component: ArticleDetail,
+                    params: {
+                        tag: 'jpush',
+                        id: data.data.params.id
+                    }
+                });
+            } else {
+                toast.show(data.message);
+            }
+        }).catch(err => {
+            toast.show('推送服务异常')
+        })
     }
 
     //从通知栏打开推送
@@ -274,7 +301,7 @@ export default class Home extends Component {
         axios.interceptors.request.eject(this.reqInterceptor);
         axios.interceptors.response.eject(this.resInterceptor);
         //移除推送的监听
-        this.pushlisteners.forEach(listener=> {
+        this.pushlisteners.forEach(listener => {
             JPush.removeEventListener(listener);
         });
     }

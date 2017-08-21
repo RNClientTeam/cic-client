@@ -24,7 +24,7 @@ export default class ShareDataCell extends Component {
                 <View style={styles.topView}>
                     <View style={styles.imgStyle}>
                         <Image style={styles.pdfStyle}
-                               source={require('../../../../../resource/imgs/home/earlierStage/pdf.png')}/>
+                               source={require('../../../../../resource/imgs/home/earlierStage/fj.png')}/>
                     </View>
                     <View style={styles.infoView}>
                         <View style={styles.topTopView}>

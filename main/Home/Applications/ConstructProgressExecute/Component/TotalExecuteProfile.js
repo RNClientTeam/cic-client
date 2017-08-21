@@ -115,7 +115,8 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 1,
         borderColor: '#216fd0',
-        textAlign: 'center'
+        textAlign: 'center',
+        padding:0
     },
     blank: {
         flex: 1
