@@ -142,7 +142,6 @@ export default class DoubleCheckRecord extends Component {
                 fcjg: this.state.fcjg,
                 callID: true
             }).then((res) => {
-                console.log(res);
                 if (res.code === 1) {
                     Toast.show('保存成功');
                     if (param) {
