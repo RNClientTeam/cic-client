@@ -66,7 +66,6 @@ export default class Entrance extends Component {
         }
     }
 
-
     onBackAndroid() {
         let routers = this.refs.navigator.getCurrentRoutes();
         if (routers.length > 1) {

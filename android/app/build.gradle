@@ -75,12 +75,12 @@ apply from: "../../node_modules/react-native/react.gradle"
  * Upload all the APKs to the Play Store and people will download
  * the correct one based on the CPU architecture of their device.
  */
-def enableSeparateBuildPerCPUArchitecture = false
+def enableSeparateBuildPerCPUArchitecture = true
 
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
 
 android {
     compileSdkVersion 23
@@ -91,7 +91,7 @@ android {
                 JPush_APPID: "ef9c2bcf90e00172cc2c5490",     //在此修改JPush的APPID
                 APP_CHANNEL: "app_channel"        //应用渠道号
         ]
-//        applicationId "com.cic_client"
+        applicationId "com.cic_client"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
