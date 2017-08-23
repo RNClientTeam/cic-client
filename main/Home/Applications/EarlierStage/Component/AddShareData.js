@@ -55,7 +55,7 @@ export default class AddShareData extends Component {
         return (
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="添加共享资料"/>
-                <ScrollView scrollEnabled={false}>
+                <ScrollView>
                     <View style={styles.keyValue}>
                         <Text style={styles.keyStyle}>资料分类</Text>
                         <View style={styles.indicateView}>
