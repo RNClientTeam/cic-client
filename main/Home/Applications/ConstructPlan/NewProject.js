@@ -37,7 +37,7 @@ export default class NewProject extends Component {
             sgdd: '',
             rwmc: '',
             wcqk: '',
-            wcbl: '',
+            wcbl: 0,
             zrrCN: '',
             cyryCN: '',
             isLoading: false
@@ -67,7 +67,9 @@ export default class NewProject extends Component {
                             this.setState({wcqk: txt})
                         }} propKey="完成情况"/>
                     </View>
-                    <KeyPercentage textChange={(txt) => {
+                    <KeyPercentage
+                        value={this.state.wcbl+''}
+                        textChange={(txt) => {
                         this.setState({wcbl: txt})
                     }} propKey="完成比例"/>
 
