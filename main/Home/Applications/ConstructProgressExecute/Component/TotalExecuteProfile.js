@@ -9,7 +9,8 @@ import {
     Text,
     TextInput,
     StyleSheet,
-    Dimensions
+    Dimensions,
+    ScrollView
 } from 'react-native'
 import StatusBar from '../../../../Component/StatusBar'
 import Toast from 'react-native-simple-toast';
@@ -26,28 +27,30 @@ export default class TotalExecuteProfile extends Component {
         return (
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="总执行情况表单"/>
-                <View style={styles.content}>
-                    <View style={styles.row}>
-                        <Text style={styles.labelColor}>项目总进度比例</Text>
-                        <View style={styles.blank}/>
-                        <View>
-                            <TextInput style={styles.input}
-                                       underlineColorAndroid="transparent"
-                                onChangeText={(value) => this.inputJdbl = value}/>
+                <ScrollView scrollEnabled={false}>
+                    <View style={styles.content}>
+                        <View style={styles.row}>
+                            <Text style={styles.labelColor}>项目总进度比例</Text>
+                            <View style={styles.blank}/>
+                            <View>
+                                <TextInput style={styles.input}
+                                           underlineColorAndroid="transparent"
+                                    onChangeText={(value) => this.inputJdbl = value}/>
+                            </View>
+                            <Text style={[styles.textColor, styles.leftMargin]}>%</Text>
                         </View>
-                        <Text style={[styles.textColor, styles.leftMargin]}>%</Text>
+                        <View style={styles.row}>
+                            <Text style={styles.labelColor}>当前完成情况</Text>
+                        </View>
+                        <View style={styles.textArea}>
+                            <TextInput style={{height: 0.2 * width}}
+                                       multiline = {true}
+                                       placeholder="请输入"
+                                       underlineColorAndroid="transparent"
+                                       onChangeText={(text) => this.inputInfo = text}/>
+                        </View>
                     </View>
-                    <View style={styles.row}>
-                        <Text style={styles.labelColor}>当前完成情况</Text>
-                    </View>
-                    <View style={styles.textArea}>
-                        <TextInput style={{height: 0.2 * width}}
-                                   multiline = {true}
-                                   placeholder="请输入"
-                                   underlineColorAndroid="transparent"
-                                   onChangeText={(text) => this.inputInfo = text}/>
-                    </View>
-                </View>
+                </ScrollView>
                 <View style={styles.blank}/>
                 <TouchableOpacity onPress={() => this.submit()}>
                     <View style={styles.button}>
