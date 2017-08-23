@@ -8,7 +8,8 @@ import {
     Dimensions,
     ListView,
     TouchableOpacity,
-    Image
+    Image,
+    ScrollView
 } from 'react-native';
 
 const {width, height} = Dimensions.get('window');
@@ -19,34 +20,36 @@ export default class ExamineAndApprove extends Component {
         return (
             <View style={styles.flex}>
                 <StatusBar title="审批" navigator={this.props.navigator}/>
-                <View style={styles.itemStyle}>
-                    <Text style={styles.keyText}>当前步骤</Text>
-                    <Text style={{fontSize:15,color:'#3d3d3d'}}>主管领导</Text>
-                </View>
-                <View style={styles.itemStyle}>
-                    <Text style={styles.keyText}>当前操作</Text>
-                    <Text style={{fontSize:15,color:'#999'}}>请选择></Text>
-                </View>
-                <View style={styles.footerView}>
-                    <Text style={styles.keyText}>审批意见</Text>
-                    <TextInput
-                        style={styles.textInputSty}
-                        multiline={true}
-                        autoCorrect={false}
-                        underlineColorAndroid="transparent"
-                        autoCapitalize="none"
-                        placeholder="输入审批意见"/>
-                </View>
-                <View style={styles.footerBtn}>
-                    <TouchableOpacity onPress={this.monitor.bind(this)} style={styles.btnSty}>
-                        <Image source={require('../../../../../resource/imgs/home/earlierStage/structure.png')} style={styles.img}/>
-                        <Text style={styles.btnText}>流程监控</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={this.check.bind(this)} style={[styles.btnSty, {marginLeft:1}]}>
-                        <Image source={require('../../../../../resource/imgs/home/earlierStage/schedule.png')} style={styles.img}/>
-                        <Text style={styles.btnText}>查看已完成步骤</Text>
-                    </TouchableOpacity>
-                </View>
+                <ScrollView>
+                    <View style={styles.itemStyle}>
+                        <Text style={styles.keyText}>当前步骤</Text>
+                        <Text style={{fontSize:15,color:'#3d3d3d'}}>主管领导</Text>
+                    </View>
+                    <View style={styles.itemStyle}>
+                        <Text style={styles.keyText}>当前操作</Text>
+                        <Text style={{fontSize:15,color:'#999'}}>请选择></Text>
+                    </View>
+                    <View style={styles.footerView}>
+                        <Text style={styles.keyText}>审批意见</Text>
+                        <TextInput
+                            style={styles.textInputSty}
+                            multiline={true}
+                            autoCorrect={false}
+                            underlineColorAndroid="transparent"
+                            autoCapitalize="none"
+                            placeholder="输入审批意见"/>
+                    </View>
+                    <View style={styles.footerBtn}>
+                        <TouchableOpacity onPress={this.monitor.bind(this)} style={styles.btnSty}>
+                            <Image source={require('../../../../../resource/imgs/home/earlierStage/structure.png')} style={styles.img}/>
+                            <Text style={styles.btnText}>流程监控</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={this.check.bind(this)} style={[styles.btnSty, {marginLeft:1}]}>
+                            <Image source={require('../../../../../resource/imgs/home/earlierStage/schedule.png')} style={styles.img}/>
+                            <Text style={styles.btnText}>查看已完成步骤</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
                 <TouchableOpacity style={styles.bottomBtn} onPress={this.makeSure.bind(this)}>
                     <Text style={{fontSize:15,color:'#fff'}}>确定</Text>
                 </TouchableOpacity>

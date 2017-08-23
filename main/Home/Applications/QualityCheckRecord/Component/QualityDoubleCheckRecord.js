@@ -30,10 +30,23 @@ export default class QualityDoubleCheckRecord extends Component {
             canFLow:false
         }
     }
+
+    componentWillMount() {
+        if (this.props.add) {
+            this.title = '质量检查记录新建';
+        } else if (this.props.edit) {
+            this.title = '质量检查记录修改';
+        } else if (this.props.check) {
+            this.title = '质量检查记录审核';
+        } else {
+            this.title = '质量检查记录详情';
+        }
+    }
+
     render() {
         return (
             <View style={styles.container}>
-                <StatusBar navigator={this.props.navigator} title="质量检查记录详情">
+                <StatusBar navigator={this.props.navigator} title={this.title}>
                     {
                         (this.state.addIcon && this.state.canAdd)?
                         <TouchableOpacity

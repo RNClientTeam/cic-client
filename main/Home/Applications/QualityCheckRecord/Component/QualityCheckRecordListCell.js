@@ -21,20 +21,20 @@ export default class QualityCheckRecordListCell extends Component {
             <TouchableOpacity style={styles.container} onPress={this.skipToDetail.bind(this,this.props.data)}>
                 <View style={styles.topView}>
                     <View style={styles.topTopView}>
-                        <Text style={styles.projectNameStyle}>{this.props.data.zxmc}</Text>
+                        <Text style={styles.projectNameStyle}>{this.props.data.rwnr}</Text>
                         <View style={[styles.stateView, {backgroundColor: this.props.bgC}]}>
                             <Text style={styles.stateStyle}>{this.props.data.dqztmc}</Text>
                         </View>
                     </View>
-                    <Text style={styles.topTaskStyle}>
-                        {this.props.data.xmmc}
+                    <Text style={styles.topTaskStyle} numberOfLines={2}>
+                        {this.props.data.xmmc} - {this.props.data.zxmc}
                     </Text>
                 </View>
                 <View style={styles.bottomView}>
                     <View style={styles.bottomLeftView}>
                         <View style={styles.bottomLeftBottomView}>
-                            <Text style={[styles.bottomTextStyle,{marginRight:width*0.03}]}>{this.props.data.jcrmc}</Text>
-                            <Text style={styles.bottomTextStyle}>{this.props.data.xmgh}</Text>
+                            <Text style={[styles.bottomTextStyle,{marginRight:width*0.03}]}>{this.props.data.xmgh}</Text>
+                            <Text style={styles.bottomTextStyle}>{this.props.data.jcrmc}</Text>
                         </View>
                         <Text style={styles.bottomTextStyle}>{this.props.data.cjsj}</Text>
                     </View>

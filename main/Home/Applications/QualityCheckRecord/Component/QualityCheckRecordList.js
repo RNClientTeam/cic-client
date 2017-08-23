@@ -48,8 +48,12 @@ export default class QualityCheckRecordList extends Component {
 
     renderRow(item, sectionID, rowID, highlightRow) {
         let bgC = '#21cf7f';
-        if (item.state === '已生效') {
+        if (item.dqztmc === '已生效') {
             bgC = '#fe9a25'
+        } else if (item.dqztmc === '新建') {
+            bgC = '#1f92e2';
+        } else if (item.dqztmc === '审批中') {
+            bgC = '#18d0ca';
         }
         return (
             <QualityCheckRecordListCell

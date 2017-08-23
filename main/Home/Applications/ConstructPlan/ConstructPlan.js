@@ -9,6 +9,7 @@ import {
     StyleSheet,
     Dimensions,
     TouchableOpacity,
+    TouchableWithoutFeedback,
     Image
 } from 'react-native'
 import StatusBar from "../../../Component/StatusBar";
@@ -20,7 +21,7 @@ import NewProject from "./NewProject";
 const {width}  = Dimensions.get('window');
 import toast from 'react-native-simple-toast'
 import Loading from "../../../Component/Loading";
-import {padStart} from '../../../Util/Util'
+import {padStart,getCurrentDate} from '../../../Util/Util'
 export default class ConstructPlan extends Component{
     constructor(props){
         super(props);
@@ -34,16 +35,20 @@ export default class ConstructPlan extends Component{
             calendarState:[],
             isLoading:false,
             taskList:[],
-            canEdit:false
+            canEdit:false,
+            showDate:getCurrentDate()
         }
     }
     render(){
         return(
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="施工日计划">
-                    {this.state.canEdit?<TouchableOpacity onPress={()=>this.props.navigator.push({name:'NewProject',component:NewProject,params:{reload:()=>{this.getDataFronNet();this.getTask()}}})}>
-                        <Image style={[styles.filtrate, {marginLeft:-width*0.045-10}]} source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
-                    </TouchableOpacity>:null}
+                    {this.state.canEdit&&
+                    <TouchableWithoutFeedback onPress={()=>this.props.navigator.push({name:'NewProject',component:NewProject,params:{reload:()=>{this.getDataFronNet();this.getTask()}}})}>
+                        <Image style={{width: 0.045 * width, height: 0.045 * width,position:'absolute',right:width*0.16}}
+                               source={require('../../../../resource/imgs/home/earlierStage/add.png')}/>
+                    </TouchableWithoutFeedback>
+                        }
                     <TouchableOpacity onPress={()=>{this.skipPage()}}>
                         <Image style={styles.filtrate} source={require('../../../../resource/imgs/home/constuctPlan/projectList.png')}/>
                     </TouchableOpacity>
@@ -77,23 +82,12 @@ export default class ConstructPlan extends Component{
         })
     }
 
-    //判断是否为闰年,是则返回1，否则返回0
-    isLeap(year) {
-        return year % 4 == 0 ? (year % 100 != 0 ? 1 : (year % 400 == 0 ? 1 : 0)) : 0;
-    }
-
     changeYearAndMonth(data){
-        const showDate = new Date(this.formatDate(data.substr(0,4), parseInt(data.substr(-2,data.length-1)), 1));
-        let days_per_month = new Array(31, 28 + this.isLeap(data.substr(0,4)), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31); //创建月份数组
-        let day = this.state.day;
-        if(this.state.day>days_per_month[parseInt(data.substr(-2,data.length-1))-1]){
-            day=days_per_month[parseInt(data.substr(-2,data.length-1))-1]
-        }
         this.setState({
             year:data.substr(0,4),
-            month:parseInt(data.substr(-2,data.length-1))-1,
-            showDate,
-            day
+            month:parseInt(data.substr(5,2))-1,
+            showDate:data,
+            day:data.substr(-2,2)
         },function () {
             this.getTask();
             this.getDataFronNet()
@@ -112,9 +106,10 @@ export default class ConstructPlan extends Component{
 
     changeDay(day){
         this.setState({
-            day:day
+            day:day,
+            showDate:this.state.year+'-'+padStart(this.state.month+1)+'-'+padStart(day)
         },function () {
-            this.getTask()
+            this.getTask();
         })
     }
 
@@ -131,6 +126,7 @@ export default class ConstructPlan extends Component{
             zxid:arr.join(',')
         },function () {
             this.getDataFronNet();
+            this.getTask();
         })
     }
 
@@ -161,6 +157,7 @@ export default class ConstructPlan extends Component{
                 callID:true
             }
         }).then(data=>{
+            console.log(data,1111);
             if(data.code === 1){
                 this.setState({
                     canEdit:data.data.newcreate
@@ -184,7 +181,7 @@ export default class ConstructPlan extends Component{
                 userID:GLOBAL_USERID,
                 month:this.state.year+'-'+padStart(this.state.month + 1),
                 zxid:this.state.zxid,
-                rwlx:this.state.rwlx,
+                rwlx:this.state.zxid===''?0:1,
                 lx:lx,
                 callID:true
             }
@@ -214,7 +211,7 @@ export default class ConstructPlan extends Component{
                 userID:GLOBAL_USERID,
                 date:this.state.year+'-'+padStart(this.state.month+1)+'-'+padStart(this.state.day),
                 zxid:this.state.zxid,
-                rwlx:0,
+                rwlx:this.state.zxid===''?0:1,
                 lx:lx,
                 callID:true
             }

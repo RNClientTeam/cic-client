@@ -251,7 +251,10 @@ export default class DoubleCheckDetail extends Component {
             xmmc: rowData.xmmc,
             zxmc: rowData.zxmc,
             zxid: rowData.zxid,
-            rwnrid: rowData.rwid
+            rwnrid: rowData.rwid,
+            jcrmc: rowData.zrrmc,
+            jcr: rowData.zrr,
+            jcbm: rowData.zrbm
         });
     }
 
@@ -439,12 +442,12 @@ export default class DoubleCheckDetail extends Component {
                             resID: res.data.id,
                             reloadInfo: this.props.reloadInfo,
                             wfName: 'jdjhzljcjl',
-                            name:'QualityCheckRecord'
+                            name:this.props.name||'QualityCheckRecord'
                         }
                     });
                 } else {
                     toast.show('保存成功');
-                    this.props.reloadInfo();
+                    this.props.reloadInfo&&this.props.reloadInfo();
                     this.props.navigator.pop();
                 }
             } else {

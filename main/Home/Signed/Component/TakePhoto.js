@@ -25,7 +25,9 @@ const photoOptions = {
     }
 };
 import ImagePicker from 'react-native-image-picker';
+import toast from 'react-native-simple-toast'
 import CameraPage from '../../Component/CameraPage'
+const Platform = require('Platform');
 
 export default class TakePhoto extends Component {
 
@@ -52,6 +54,8 @@ export default class TakePhoto extends Component {
         ImagePicker.launchCamera(photoOptions, (response)  => {
             if (response.uri) {
                 this.props.showLoading();
+                Platform.OS === 'android'?response.uri=response.uri:response.uri=response.uri.replace(/file:\/\//,'');
+                console.info(response.uri);
                 this.setState({image: {uri:response.uri}});
                 let data = {
                     userID:GLOBAL_USERID,
@@ -76,7 +80,7 @@ export default class TakePhoto extends Component {
                     }else{
                         this.props.showToast('图片上传失败，请重试');
                     }
-                },(response)=>{console.log(response,'err')});
+                },(response)=>{console.log(response,'err');this.props.hideLoading(); this.props.showToast('图片上传失败，请重试');});
 
             }
         });

@@ -46,9 +46,9 @@ export default class EarlierStageListCell extends Component {
                         </View>
                     </View>
                     <View style={styles.aboutPrincipal}>
-                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.fzr}</Text>
-                        <Text style={[{width: width * 0.4}, styles.textStyle]}>{this.props.data.bm}</Text>
-                        <Text style={[{width: width * 0.3,paddingLeft:width*0.04}, styles.textStyle]}>{this.props.data.bfb?this.props.data.bfb+'%':''}</Text>
+                        <Text style={[styles.textStyle,{marginRight:9}]}>{this.props.data.fzr}</Text>
+                        <Text style={[ styles.textStyle]}>{this.props.data.bm}</Text>
+                        <Text style={[{paddingLeft:width*0.04}, styles.textStyle]}>{this.props.data.bfb?this.props.data.bfb+'%':''}</Text>
                         <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.sjd}</Text>
                     </View>
                 </TouchableOpacity>

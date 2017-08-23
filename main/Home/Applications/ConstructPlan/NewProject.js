@@ -31,13 +31,13 @@ export default class NewProject extends Component {
         this.state = {
             zrr: '',
             zrbm: '',
-            kssj: getCurrentDate(),
-            wcsj: getCurrentDate(),
+            kssj: '',
+            wcsj: '',
             cyry: '',
             sgdd: '',
             rwmc: '',
             wcqk: '',
-            wcbl: '',
+            wcbl: 0,
             zrrCN: '',
             cyryCN: '',
             isLoading: false
@@ -51,9 +51,9 @@ export default class NewProject extends Component {
                 <ScrollView>
                     <ListHeaderCell name="临时任务"/>
                     <KeySelect value={this.state.zrrCN} choiceInfo={this.choiceInfo.bind(this)} propKey="任务负责人"/>
-                    <KeyTime changeDate={(date) => this.setState({kssj: date})} showDate={this.state.kssj}
+                    <KeyTime onlyDate={false} changeDate={(date) => this.setState({kssj: date})} showDate={this.state.kssj}
                              propKey="任务开始时间"/>
-                    <KeyTime changeDate={(date) => this.setState({wcsj: date})} showDate={this.state.wcsj}
+                    <KeyTime onlyDate={false} changeDate={(date) => this.setState({wcsj: date})} showDate={this.state.wcsj}
                              propKey="任务结束时间"/>
                     <KeySelect value={this.state.cyryCN} choiceInfo={this.choiceCYRN.bind(this)} propKey="参与人员"/>
                     <View style={{marginTop: width * 0.02, marginBottom: width * 0.03}}>
@@ -67,11 +67,14 @@ export default class NewProject extends Component {
                             this.setState({wcqk: txt})
                         }} propKey="完成情况"/>
                     </View>
-                    <KeyPercentage textChange={(txt) => {
+                    <KeyPercentage
+                        value={this.state.wcbl+''}
+                        textChange={(txt) => {
                         this.setState({wcbl: txt})
                     }} propKey="完成比例"/>
-                    <BottomSaveButton submit={this.submit.bind(this)}/>
+
                 </ScrollView>
+                <BottomSaveButton submit={this.submit.bind(this)}/>
                 {this.state.isLoading ? <Loading/> : null}
             </View>
         )
@@ -120,37 +123,54 @@ export default class NewProject extends Component {
     }
 
     submit() {
-        this.setState({isLoading: true});
-        let data = {
-            userID: GLOBAL_USERID,
-            zrr: this.state.zrr,
-            zrbm: this.state.zrbm,
-            kssj: this.state.kssj,
-            cyry: this.state.cyry,
-            sgdd: this.state.sgdd,
-            rwmc: this.state.rwmc,
-            wcqk: this.state.wcqk,
-            wcbl: this.state.wcbl,
-            wcsj:this.state.wcsj,
-            callID: true
-        };
-        axios.post('/psmSgrjh/saveRjh', data)
-            .then(data => {
+        if(this.state.zrr === ''){
+            toast.show('请填写整改人');
+        }else if(this.state.kssj === ''){
+            toast.show('请选择开始时间');
+        }else if(this.state.wcsj === ''){
+            toast.show('请选择完成时间');
+        }else if(this.state.cyry === ''){
+            toast.show('请选择参与人员');
+        }else if(this.state.wcbl === ''){
+            toast.show('请填写完成比例');
+        }else if(this.state.wcqk === ''){
+            toast.show('请填写完成情况');
+        }else if(this.state.rwmc === ''){
+            toast.show('请填写工作内容');
+        }else{
+            this.setState({isLoading: true});
+            let data = {
+                userID: GLOBAL_USERID,
+                zrr: this.state.zrr,
+                zrbm: this.state.zrbm,
+                kssj: this.state.kssj.trim(),
+                cyry: this.state.cyry,
+                sgdd: this.state.sgdd,
+                rwmc: this.state.rwmc,
+                wcqk: this.state.wcqk,
+                wcbl: this.state.wcbl,
+                wcsj:this.state.wcsj.trim(),
+                callID: true
+            };
+            axios.post('/psmSgrjh/saveRjh', data)
+                .then(data => {
+                    this.setState({isLoading: false});
+                    if (data.code === 1) {
+                        toast.show('提交成功!');
+                        let that = this;
+                        setTimeout(function () {
+                            that.props.reload();
+                            that.props.navigator.pop();
+                        }, 500)
+                    } else {
+                        toast.show(data.message)
+                    }
+                }).catch(err => {
                 this.setState({isLoading: false});
-                if (data.code === 1) {
-                    toast.show('提交成功!');
-                    let that = this;
-                    setTimeout(function () {
-                        that.props.reload();
-                        that.props.navigator.pop();
-                    }, 500)
-                } else {
-                    toast.show(data.message)
-                }
-            }).catch(err => {
-            this.setState({isLoading: false});
-            toast.show('服务端异常');
-        })
+                toast.show('服务端异常');
+            })
+        }
+
     }
 }
 

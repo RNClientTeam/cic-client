@@ -30,10 +30,22 @@ export default class RectifyTask extends Component {
         }
     }
 
+    componentWillMount() {
+        if (this.props.add) {
+            this.title = '安全检查记录新建';
+        } else if (this.props.edit) {
+            this.title = '安全检查记录修改';
+        } else if (this.props.check) {
+            this.title = '安全检查记录审核';
+        } else {
+            this.title = '安全检查记录详情';
+        }
+    }
+
     render() {
         return (
             <View style={styles.flex}>
-                <StatusBar title="安全检查记录" navigator={this.props.navigator}>
+                <StatusBar title={this.title} navigator={this.props.navigator}>
                     {
                         this.state.addIcon && this.state.canAdd ?
                             <TouchableOpacity

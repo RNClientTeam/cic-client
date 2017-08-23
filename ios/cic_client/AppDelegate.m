@@ -19,8 +19,12 @@
 {
   [RCTJPush application:application didFinishLaunchingWithOptions:launchOptions];
   NSURL *jsCodeLocation;
-
+  
+#ifdef DEBUG
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
+#else
+  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"cic_client" withExtension:@"jsbundle"];
+#endif
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"cic_client"
@@ -35,7 +39,7 @@
   [self.window makeKeyAndVisible];
   
   //修复启动白屏问题
-  //[SplashScreen show];
+  [SplashScreen show];
   return YES;
 }
 

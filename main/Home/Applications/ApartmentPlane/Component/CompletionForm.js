@@ -6,7 +6,8 @@ import {
     Text,
     TouchableOpacity,
     Dimensions,
-    TextInput
+    TextInput,
+    ScrollView
 } from 'react-native';
 
 const {width, height} = Dimensions.get('window');
@@ -34,31 +35,34 @@ export default class CompletionForm extends Component {
         return (
             <View style={styles.flex}>
                 <StatusBar title="确认完成" navigator={this.props.navigator}/>
-                <KeyValueRight propKey="工作计划名称" readOnly={true} defaultValue={this.props.jhmc}/>
-                <KeyPercentage readOnly={true} propKey="当前进度" value={this.state.wcbl}
-                               textChange={(value) => this.setState({wcbl: value})}/>
-                <KeyValueRight propKey="实际开始时间" defaultValue={this.state.sjqdsj} readOnly={true}/>
-                {parseInt(this.state.wcbl) == 100 ?
-                    <KeyValueRight propKey="实际完成时间" defaultValue={this.state.sjwcsj} readOnly={true}/>
-                    : null}
+                <ScrollView>
+                    <KeyValueRight propKey="工作计划名称" readOnly={true} defaultValue={this.props.jhmc}/>
+                    <KeyPercentage readOnly={true} propKey="当前进度" value={this.state.wcbl}
+                                   textChange={(value) => this.setState({wcbl: value})}/>
+                    <KeyValueRight propKey="实际开始时间" defaultValue={this.state.sjqdsj} readOnly={true}/>
+                    {parseInt(this.state.wcbl) == 100 ?
+                        <KeyValueRight propKey="实际完成时间" defaultValue={this.state.sjwcsj} readOnly={true}/>
+                        : null}
 
-                <View style={styles.lastItem}>
-                    <Text style={styles.textKeySty}>当前完成情况*</Text>
-                    <TextInput
-                        underlineColorAndroid="transparent"
-                        style={styles.textInput}
-                        placeholder="在此输入"
-                        multiline={true}
-                        onChangeText={(value) => {
-                            this.setState({
-                                wcbz: value
-                            })
-                        }}
-                        value={this.state.wcbz}
-                        editable={false}
-                        autoCapitalize="none"
-                        autoCorrect={false}/>
-                </View>
+                    <View style={styles.lastItem}>
+                        <Text style={styles.textKeySty}>当前完成情况*</Text>
+                        <TextInput
+                            underlineColorAndroid="transparent"
+                            style={styles.textInput}
+                            placeholder="在此输入"
+                            multiline={true}
+                            onChangeText={(value) => {
+                                this.setState({
+                                    wcbz: value
+                                })
+                            }}
+                            value={this.state.wcbz}
+                            editable={false}
+                            autoCapitalize="none"
+                            autoCorrect={false}/>
+                    </View>
+                </ScrollView>
+
                 {
                     parseInt(this.state.wcbl) === 100 ?
                         <TouchableOpacity style={styles.btnView} onPress={this.clickBtn.bind(this)}>

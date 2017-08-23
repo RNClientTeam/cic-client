@@ -9,7 +9,8 @@ import {
     TextInput,
     TouchableHighlight,
     Image,
-    NativeModules
+    NativeModules,
+    ScrollView
 } from 'react-native';
 const Platform = require('Platform');
 const {width, height} = Dimensions.get('window');
@@ -40,35 +41,37 @@ export default class FillProgress extends Component {
         return (
             <View style={styles.flex}>
                 <StatusBar title="填报进展" navigator={this.props.navigator}/>
-                <KeyValueRight propKey="工作计划名称" readOnly={true} defaultValue={this.props.jhmc}/>
-                <KeyPercentage propKey="当前进度比例*" value={this.state.wcbl} textChange={(value)=>this.setState({wcbl:value})}/>
-                <KeyTime propKey="实际开始时间" onlyDate={true} showDate={this.state.sjqdsj} changeDate={(date)=>this.setState({sjqdsj:date})}/>
-                {parseInt(this.state.wcbl)==100?
-                    <KeyTime propKey="实际完成时间" onlyDate={true} showDate={this.state.sjwcsj} changeDate={(date)=>this.setState({sjwcsj:date})}/>
-                :null}
-                <View style={styles.keyValue}>
-                    <Text style={styles.keyStyle}>上传附件</Text>
-                    <TouchableHighlight style={{paddingLeft: 50}} underlayColor='transparent' onPress={this.choiceFile.bind(this)}>
-                        <Image style={styles.accessory}
-                               source={this.state.uploadSuccess?require('../../../../../resource/imgs/home/earlierStage/fj.png'):require('../../../../../resource/imgs/home/earlierStage/accessory.png')}/>
-                    </TouchableHighlight>
-                </View>
-                <View style={styles.lastItem}>
-                    <Text style={styles.textKeySty}>当前完成情况*</Text>
-                    <TextInput
-                        underlineColorAndroid="transparent"
-                        style={styles.textInput}
-                        placeholder="在此输入"
-                        multiline={true}
-                        onChangeText={(value)=>{
-                            this.setState({
-                                wcbz:value
-                            })
-                        }}
-                        value={this.state.wcbz}
-                        autoCapitalize="none"
-                        autoCorrect={false}/>
-                </View>
+                <ScrollView>
+                    <KeyValueRight propKey="工作计划名称" readOnly={true} defaultValue={this.props.jhmc}/>
+                    <KeyPercentage propKey="当前进度比例*" value={this.state.wcbl} textChange={(value)=>this.setState({wcbl:value})}/>
+                    <KeyTime propKey="实际开始时间" onlyDate={true} showDate={this.state.sjqdsj} changeDate={(date)=>this.setState({sjqdsj:date})}/>
+                    {parseInt(this.state.wcbl)==100?
+                        <KeyTime propKey="实际完成时间" onlyDate={true} showDate={this.state.sjwcsj} changeDate={(date)=>this.setState({sjwcsj:date})}/>
+                        :null}
+                    <View style={styles.keyValue}>
+                        <Text style={styles.keyStyle}>上传附件</Text>
+                        <TouchableHighlight style={{paddingLeft: 50}} underlayColor='transparent' onPress={this.choiceFile.bind(this)}>
+                            <Image style={styles.accessory}
+                                   source={this.state.uploadSuccess?require('../../../../../resource/imgs/home/earlierStage/fj.png'):require('../../../../../resource/imgs/home/earlierStage/accessory.png')}/>
+                        </TouchableHighlight>
+                    </View>
+                    <View style={styles.lastItem}>
+                        <Text style={styles.textKeySty}>当前完成情况*</Text>
+                        <TextInput
+                            underlineColorAndroid="transparent"
+                            style={styles.textInput}
+                            placeholder="在此输入"
+                            multiline={true}
+                            onChangeText={(value)=>{
+                                this.setState({
+                                    wcbz:value
+                                })
+                            }}
+                            value={this.state.wcbz}
+                            autoCapitalize="none"
+                            autoCorrect={false}/>
+                    </View>
+                </ScrollView>
 
                 <TouchableOpacity style={styles.btnView} onPress={this.clickBtn.bind(this)}>
                     <Text style={{fontSize:15,color:'#fff'}}>

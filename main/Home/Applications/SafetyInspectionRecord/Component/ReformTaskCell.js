@@ -20,16 +20,16 @@ export default class ReformTaskCell extends Component {
             <View style={styles.modificationTaskCell}>
                 <TouchableOpacity  onPress={this.skipPage.bind(this)}>
                     <View style={styles.aboutProject}>
-                        <Text style={{color:'#216fd0',fontSize:width*0.04}}>{this.props.data.zgzrbmmc}</Text>
+                        <Text style={{color:'#216fd0',fontSize:width*0.04}}>{this.props.data.wtlbmc}</Text>
                         <View style={styles.blank}/>
                         <View style={styles.stateView}>
                             <Text style={styles.stateText}>{this.props.data.dqztmc}</Text>
                         </View>
                     </View>
                     <View style={styles.aboutPrincipal}>
-                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zgzrrmc}</Text>
-                        <Text style={[{width: width * 0.6}, styles.textStyle]} numberOfLines={1}>{this.props.data.zgzrbmmc}</Text>
-                        <Text style={[{width: width * 0.7, marginTop:10}, styles.textStyle]}>{this.props.data.zgwcsj}</Text>
+                        <Text style={[{width: width * 0.3}, styles.textStyle]}>{this.props.data.zgzrrmc}</Text>
+                        <Text style={[{width: width * 0.5}, styles.textStyle]} numberOfLines={1}>{this.props.data.zgzrbmmc}</Text>
+                        <Text style={[{width: width * 0.7, marginTop:15}, styles.textStyle]}>{this.props.data.zgwcsj}</Text>
                         <TouchableWithoutFeedback onPress={this.editBtn.bind(this)}>
                             <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')} style={styles.editBtnSty}/>
                         </TouchableWithoutFeedback>
@@ -76,7 +76,6 @@ const styles = StyleSheet.create({
     },
     aboutPrincipal: {
         backgroundColor: '#f6f9fa',
-        height: width * 0.15,
         paddingLeft: width * 0.02,
         paddingRight: width * 0.02,
         flexDirection: 'row',

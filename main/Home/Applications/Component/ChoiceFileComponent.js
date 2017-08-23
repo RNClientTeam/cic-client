@@ -35,7 +35,6 @@ import baseUrl from '../../../Util/service.json';
 import {getRandomId, getTimestamp, uploadFile} from '../../../Util/Util.js';
 const {width, height} = Dimensions.get('window');
 const imgEXT = ['png','jpg','gif','jpeg','bmp'];
-
 export default class ChoiceFileComponent extends Component {
     constructor(props) {
         super(props);
@@ -78,6 +77,7 @@ export default class ChoiceFileComponent extends Component {
     }
 
     uploadFileFun(msg, choiceImg) {
+        Platform.OS === 'android'?msg=msg:msg=msg.replace(/file:\/\//,'');
         let tempArr = msg.split('/');
         let reqData = [
             {name: 'userID', data: GLOBAL_USERID},

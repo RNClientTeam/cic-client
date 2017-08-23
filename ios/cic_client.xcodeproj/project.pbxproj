@@ -34,6 +34,8 @@
 		2D02E4C91E0B4AEC006451C7 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* cic_clientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* cic_clientTests.m */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		7D22144F1F4D8B4300086ABA /* cic_client.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 7D22144D1F4D8B4300086ABA /* cic_client.jsbundle */; };
+		7D2214501F4D8B4300086ABA /* cic_client.jsbundle.meta in Resources */ = {isa = PBXBuildFile; fileRef = 7D22144E1F4D8B4300086ABA /* cic_client.jsbundle.meta */; };
 		7D305CE61EBA1E950088C329 /* libLRDRCTSimpleToast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D305CC71EBA1E550088C329 /* libLRDRCTSimpleToast.a */; };
 		7D53FF231EAF26C90002D5A4 /* launchscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D53FF221EAF26C90002D5A4 /* launchscreen.png */; };
 		7D53FF691EAF27E50002D5A4 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D53FF681EAF27B80002D5A4 /* libSplashScreen.a */; };
@@ -338,6 +340,8 @@
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7A32B7ECFCB14E518B726246 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		7CD0C991B9A8435096D9FF94 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
+		7D22144D1F4D8B4300086ABA /* cic_client.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cic_client.jsbundle; sourceTree = "<group>"; };
+		7D22144E1F4D8B4300086ABA /* cic_client.jsbundle.meta */ = {isa = PBXFileReference; lastKnownFileType = file; path = cic_client.jsbundle.meta; sourceTree = "<group>"; };
 		7D2EDEFB1EB5DA350037740E /* QBImagePicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QBImagePicker.framework; path = "../../../Library/Developer/Xcode/DerivedData/cic_client-bnmbnugkycviidgslbxmxdfclirk/Build/Products/Debug-iphonesimulator/QBImagePicker.framework"; sourceTree = "<group>"; };
 		7D2EDEFD1EB5DA390037740E /* RSKImageCropper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RSKImageCropper.framework; path = "../../../Library/Developer/Xcode/DerivedData/cic_client-bnmbnugkycviidgslbxmxdfclirk/Build/Products/Debug-iphonesimulator/RSKImageCropper.framework"; sourceTree = "<group>"; };
 		7D53FF221EAF26C90002D5A4 /* launchscreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launchscreen.png; sourceTree = "<group>"; };
@@ -502,6 +506,8 @@
 			isa = PBXGroup;
 			children = (
 				7DC9DD3F1F36BB7600F8DB40 /* cic_client.entitlements */,
+				7D22144D1F4D8B4300086ABA /* cic_client.jsbundle */,
+				7D22144E1F4D8B4300086ABA /* cic_client.jsbundle.meta */,
 				7D53FF211EAF26C90002D5A4 /* Resource */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -1175,7 +1181,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				7D22144F1F4D8B4300086ABA /* cic_client.jsbundle in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				7D2214501F4D8B4300086ABA /* cic_client.jsbundle.meta in Resources */,
 				7D53FF231EAF26C90002D5A4 /* launchscreen.png in Resources */,
 				7DEDA4D21F28F7C1006A3A3E /* PushConfig.plist in Resources */,
 			);
@@ -1373,7 +1381,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = cic_client/cic_client.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
@@ -1414,7 +1422,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = cic_client/cic_client.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6XCZ433574;
 				HEADER_SEARCH_PATHS = (

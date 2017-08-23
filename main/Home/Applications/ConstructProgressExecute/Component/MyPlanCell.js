@@ -23,13 +23,14 @@ export default class MyPlanCell extends Component {
             <View style={styles.earlierStageListCell}>
                 <View style={styles.aboutProject}>
                     <Text style={{color:'#216fd0',fontSize:width*0.038,flex:1}}>{this.props.data.rwmc}</Text>
-                    <View style={styles.stateView}>
+                    <View style={[styles.stateView, {backgroundColor:this.props.bgC}]}>
                         <Text style={styles.stateText}>{this.props.data.rwztmc}</Text>
                     </View>
                 </View>
                 <View style={styles.aboutPrincipal}>
                     <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zrrmc}</Text>
                     <Text style={[{width: width * 0.5}, styles.textStyle]}>{`${this.props.data.jhkssj}/${this.props.data.jhjssj}`}</Text>
+                    <Text style={[{width: width * 0.15}, styles.textStyle]}>{this.props.data.wcbl||'0'}%</Text>
                     <View style={styles.blank}/>
                     <TouchableOpacity onPress={()=>{this.props.setModalVisible()}} style={styles.editTouch}>
                         <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}
@@ -75,7 +76,6 @@ const styles = StyleSheet.create({
         color:'#4f74a3'
     },
     stateView: {
-        backgroundColor: '#fe9a25',
         width:width*0.17,
         height:width*0.05,
         borderRadius:3,

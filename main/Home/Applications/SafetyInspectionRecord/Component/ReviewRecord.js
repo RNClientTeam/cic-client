@@ -18,6 +18,7 @@ import {
 const {width, height} = Dimensions.get('window');
 import Toast from 'react-native-simple-toast';
 import Loading from "../../../../Component/Loading.js";
+import CheckFlowInfo from './CheckFlowInfo.js';
 import ChoiceDate from "../../../../Component/ChoiceDate.js";
 import Organization from '../../../../Organization/Organization.js';
 import ChoiceFileComponent from '../../Component/ChoiceFileComponent.js';
@@ -40,7 +41,7 @@ export default class ReviewRecord extends Component {
         axios.get('/psmAqjcjh/init4Aqjcjl', {
             params: {
                 userID: GLOBAL_USERID,
-                id: this.props.fromList?this.props.data.id:'',
+                id: this.props.data.id,
                 callID: true
             }
         }).then((res) => {
@@ -52,7 +53,7 @@ export default class ReviewRecord extends Component {
                     fcjg: res.data.fcjg,
                     fcfj: res.data.fcfj,
                     aqjcjhId: res.data.aqjcjhId,
-                    isAttach:this.props.fromList?res.data.fcfjisAttach:res.data.fcjlisAttach,
+                    isAttach:res.data.fcfjisAttach,
                     businessModule:res.data.businessModule
                 });
             } else {
@@ -127,7 +128,12 @@ export default class ReviewRecord extends Component {
                 {
                     this.props.fcjl &&
                     <View style={styles.bottomView}>
-                        <TouchableHighlight underlayColor="transparent" onPress={this.save.bind(this)}>
+                        <TouchableHighlight underlayColor="transparent" onPress={this.save.bind(this,true)}>
+                            <View style={[styles.btnView, {backgroundColor:'#41cc85'}]}>
+                                <Text style={styles.btnText}>保存并提交</Text>
+                            </View>
+                        </TouchableHighlight>
+                        <TouchableHighlight underlayColor="transparent" onPress={this.save.bind(this,false)}>
                             <View style={[styles.btnView, {backgroundColor:'#216fd0'}]}>
                                 <Text style={styles.btnText}>保存</Text>
                             </View>
@@ -139,7 +145,7 @@ export default class ReviewRecord extends Component {
         );
     }
 
-    save() {
+    save(param) {
         if (this.state.fcsj.length === 0) {
             Toast.show('请选择复查时间');
         } else if (this.state.fcr.length === 0) {
@@ -149,7 +155,7 @@ export default class ReviewRecord extends Component {
         } else {
             axios.post('/psmAqjcjh/saveAqjcjl4fc', {
                 userID: GLOBAL_USERID,
-                id: this.props.data.aqjcjhId,
+                id: this.props.data.id,
                 fcr: this.state.fcr,
                 fcsj: this.state.fcsj,
                 fcjg: this.state.fcjg,
@@ -157,8 +163,23 @@ export default class ReviewRecord extends Component {
             }).then((res) => {
                 if (res.code === 1) {
                     Toast.show('保存成功');
-                    this.props.navigator.pop();
-                    this.props.reloadInfo();
+                    if (param) {
+                        //保存并提交
+                        this.props.navigator.push({
+                            name: 'CheckFlowInfo',
+                            component: CheckFlowInfo,
+                            params: {
+                                resID: res.data,
+                                wfName: 'jdjhaqjcjl',
+                                reloadInfo: this.props.reloadInfo,
+                                name: 'SafetyInspectionRecord'
+                            }
+                        });
+                    } else {
+                        //保存
+                        this.props.navigator.pop();
+                        this.props.reloadInfo();
+                    }
                 } else {
                     Toast.show(res.message);
                 }
@@ -199,12 +220,14 @@ const styles = StyleSheet.create({
         bottom: 0,
         right: 0,
         paddingVertical: 10,
+        paddingHorizontal:10,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'space-between',
+        flexDirection: 'row'
     },
     btnView: {
         height: 0.06 * height,
-        width: 0.8 * width,
+        width: 0.42 * width,
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center'

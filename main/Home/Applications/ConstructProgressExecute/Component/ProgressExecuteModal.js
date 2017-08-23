@@ -15,7 +15,7 @@ import {
 
 import ModalDropdown from 'react-native-modal-dropdown'
 import ChoiceDate from "../../../../Component/ChoiceDate"
-
+import {getCurrentMonS, getCurrentMonE} from '../../../../Util/Util.js';
 const {width, height} = Dimensions.get('window');
 const Platform = require('Platform');
 
@@ -54,7 +54,7 @@ export default class ProgressExecuteListModal extends Component {
                         <ModalDropdown
                             options={this.state.options}
                             animated={true}
-                            defaultValue={'请选择类型'}
+                            defaultValue={this.state.jhlx||'请选择类型'}
                             style={styles.modalDropDown}
                             textStyle={styles.modalDropDownText}
                             dropdownStyle={styles.dropdownStyle}
@@ -65,7 +65,11 @@ export default class ProgressExecuteListModal extends Component {
                     </View>
                 </View>
                 <View style={styles.buttonView}>
-                    <TouchableOpacity style={[styles.clickButton,{backgroundColor:'#dbdada'}]} onPress={()=>this.props.closeModal()}>
+                    <TouchableOpacity style={[styles.clickButton,{backgroundColor:'#dbdada'}]}
+                        onPress={()=>{
+                            this.props.closeModal();
+                            this.props.changeFilter(getCurrentMonS(), getCurrentMonE(), '全部');
+                        }}>
                         <Text>重置</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.clickButton,{backgroundColor:'#216fd0'}]} onPress={()=>{

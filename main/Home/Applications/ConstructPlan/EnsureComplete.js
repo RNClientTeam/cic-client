@@ -51,7 +51,7 @@ export default class EnsureComplete extends Component{
         }else if(parseInt(this.state.wcbl)<0 || parseInt(this.state.wcbl)>100){
             toast.show('请填写合法的比例')
         }else{
-            axios.post('/psmSgrjh/updateRjhZt',{
+            axios.post('/psmSgrjh/updateRjhQrwcZt',{
                 userID:GLOBAL_USERID,
                 rwid:this.props.currentItem.rwid,
                 wcbl:this.state.wcbl,

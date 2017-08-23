@@ -47,7 +47,6 @@ export default class CheckFlowInfo extends Component{
             wfName: 'sgphrwyqbg',
             callID: true
         }).then((responseData) => {
-            console.log(responseData);
             if (responseData.code === 1) {
                 let res = responseData.data;
                 res.options.forEach((elem, index) => {
@@ -144,7 +143,7 @@ export default class CheckFlowInfo extends Component{
         axios.post('/workFlow/submit', {
             userID: GLOBAL_USERID,
             resID: this.props.resID,
-            wfName: 'sgjdjhbz',
+            wfName: 'sgphrwyqbg',
             entityID: this.state.entry_id,
             stepID: this.state.stepID,
             actionID: this.state.actionID,
@@ -156,7 +155,7 @@ export default class CheckFlowInfo extends Component{
                 let route;
                 let currentRoutes = this.props.navigator.getCurrentRoutes();
                 currentRoutes.forEach((elem, index) => {
-                    if (elem.name === "EarlierStageDetail") {
+                    if (elem.name === "ProgressExecuteDetail") {
                         route = elem;
                         return;
                     }

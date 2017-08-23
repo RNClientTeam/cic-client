@@ -128,11 +128,11 @@ export default class AddOrEditQualityCheck extends Component {
                         </View>
                         :
                         <View style={styles.buttonView}>
-                            <TouchableOpacity
-                                style={[styles.button, {backgroundColor: '#02bd93'}]}
-                                onPress={() => this.approval(this.props.jhrwId)}>
-                                <Text style={{color: '#fff'}}>提交审核</Text>
-                            </TouchableOpacity>
+                            {/*<TouchableOpacity*/}
+                                {/*style={[styles.button, {backgroundColor: '#02bd93'}]}*/}
+                                {/*onPress={() => this.approval(this.props.jhrwId)}>*/}
+                                {/*<Text style={{color: '#fff'}}>提交审核</Text>*/}
+                            {/*</TouchableOpacity>*/}
                             <TouchableOpacity
                                 style={[styles.button, {backgroundColor: '#216fd0'}]}
                                 onPress={() => this.update(this.props.jhrwId)}>

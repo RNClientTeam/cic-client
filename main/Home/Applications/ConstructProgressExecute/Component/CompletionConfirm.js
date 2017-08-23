@@ -43,6 +43,7 @@ export default class CompletionConfirm extends Component {
                 callID: true
             }
         }).then((res) => {
+            console.log(res);
             if (res.code === 1) {
                 this.setState({
                     jhkssj: res.data.jhkssj,
@@ -105,22 +106,22 @@ export default class CompletionConfirm extends Component {
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>表单状态</Text>
                             <View style={styles.blank}/>
-                            <Text style={[styles.textColor]}>--</Text>
-                        </View>
-                        <View style={styles.row}>
-                            <Text style={[styles.labelColor]}>计划开始时间</Text>
-                            <View style={styles.blank}/>
-                            <Text style={[styles.textColor]}>{this.state.jhkssj}</Text>
-                        </View>
-                        <View style={styles.row}>
-                            <Text style={[styles.labelColor]}>计划结束时间</Text>
-                            <View style={styles.blank}/>
-                            <Text style={[styles.textColor]}>{this.state.jhjssj}</Text>
+                            <Text style={[styles.textColor]}></Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>实际开始时间</Text>
                             <View style={styles.blank}/>
                             <Text style={[styles.textColor]}>{this.state.sjkssj}</Text>
+                        </View>
+                        <View style={styles.row}>
+                            <Text style={[styles.labelColor]}>实际结束时间</Text>
+                            <View style={styles.blank}/>
+                            <Text style={[styles.textColor]}>{this.state.sjjssj}</Text>
+                        </View>
+                        <View style={styles.row}>
+                            <Text style={[styles.labelColor]}>计划结束时间</Text>
+                            <View style={styles.blank}/>
+                            <Text style={[styles.textColor]}>{this.state.jhjssj}</Text>
                         </View>
                         <View style={styles.divide}/>
                         <View style={styles.row}>
@@ -130,13 +131,12 @@ export default class CompletionConfirm extends Component {
                             <Text>{this.state.wcqk}</Text>
                         </View>
                     </View>
-                    <View style={styles.bottomDivide}/>
+                    <TouchableOpacity onPress={this.submit.bind(this)}>
+                        <View style={styles.button}>
+                            <Text style={styles.buttonText}>确认提交</Text>
+                        </View>
+                    </TouchableOpacity>
                 </ScrollView>
-                <TouchableOpacity onPress={() => this.submit()}>
-                    <View style={styles.button}>
-                        <Text style={styles.buttonText}>确认提交</Text>
-                    </View>
-                </TouchableOpacity>
             </View>
         )
     }
@@ -159,7 +159,7 @@ export default class CompletionConfirm extends Component {
                 Toast.show(res.message);
             }
         }).catch((error) => {
-
+            Toast.show('服务端异常');
         });
     }
 }
@@ -199,20 +199,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#f2f2f2'
     },
     button: {
-        position: 'absolute',
         backgroundColor: '#216fd0',
         height: 0.12 * width,
         width: 0.9 * width,
         justifyContent: 'center',
         alignItems: 'center',
-        left: 0.05 * width,
-        bottom: 0.05 * width,
-        borderRadius: 5
+        marginHorizontal: 0.05 * width,
+        borderRadius: 5,
+        marginVertical: 20
     },
     buttonText: {
         color: 'white'
-    },
-    bottomDivide: {
-        height: 0.22 * width
     }
 });

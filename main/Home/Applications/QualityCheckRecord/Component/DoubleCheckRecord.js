@@ -18,6 +18,7 @@ import LabelTextArea from "../../../../Component/LabelTextArea"
 import ChoiceFileComponent from '../../Component/ChoiceFileComponent.js';
 import Organization from '../../../../Organization/Organization.js';
 import ChoiceDate from "../../../../Component/ChoiceDate.js";
+import CheckFlowInfo from '../../SafetyInspectionRecord/Component/CheckFlowInfo.js';
 import Toast from 'react-native-simple-toast';
 import {getRandomId} from '../../../../Util/Util.js';
 const {width, height} = Dimensions.get('window');
@@ -40,7 +41,7 @@ export default class DoubleCheckRecord extends Component {
         axios.get('/psmZljcjl/detail', {
             params: {
                 userID: GLOBAL_USERID,
-                id: this.props.fromList?this.props.data.id:'',
+                id: this.props.data.id,
                 callID: true
             }
         }).then((res) => {
@@ -106,9 +107,14 @@ export default class DoubleCheckRecord extends Component {
                     resourceId={this.state.fcfj}
                     businessModule='zljcjl'/>
                 {
-                    (this.props.fromList || this.props.fcjl) &&
+                    this.props.fcjl &&
                     <View style={styles.bottomView}>
-                        <TouchableOpacity onPress={this.save.bind(this)}>
+                        <TouchableOpacity onPress={this.save.bind(this,true)}>
+                            <View style={[styles.btnView, {backgroundColor:'#41cc85'}]}>
+                                <Text style={styles.btnText}>保存并提交</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={this.save.bind(this,false)}>
                             <View style={[styles.btnView, {backgroundColor:'#216fd0'}]}>
                                 <Text style={styles.btnText}>保存</Text>
                             </View>
@@ -120,7 +126,7 @@ export default class DoubleCheckRecord extends Component {
     }
 
     //保存
-    save() {
+    save(param) {
         if (this.state.fcsj.length === 0) {
             Toast.show('请选择复查时间');
         } else if (this.state.fcrmc.length === 0) {
@@ -138,13 +144,29 @@ export default class DoubleCheckRecord extends Component {
             }).then((res) => {
                 if (res.code === 1) {
                     Toast.show('保存成功');
-                    this.props.navigator.pop();
-                    this.props.reloadInfo();
+                    if (param) {
+                        //保存并提交
+                        this.props.navigator.push({
+                            name: 'CheckFlowInfo',
+                            component: CheckFlowInfo,
+                            params: {
+                                resID: res.data,
+                                wfName: 'jdjhzljcjl',
+                                reloadInfo: this.props.reloadInfo,
+                                name: 'QualityCheckRecord'
+                            }
+                        });
+                    } else {
+                        //保存
+                        this.props.navigator.pop();
+                        this.props.reloadInfo();
+                    }
                 } else {
                     Toast.show(res.message);
                 }
             }).catch((error) => {
-
+                console.log(error);
+                Toast.show('服务端异常');
             });
         }
     }
@@ -174,7 +196,8 @@ const styles = StyleSheet.create({
         fontSize: 14
     },
     bottomView: {
-        paddingHorizontal: 20,
+        marginTop: 20,
+        paddingHorizontal: 10,
         paddingVertical: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -183,7 +206,7 @@ const styles = StyleSheet.create({
     },
     btnView: {
         height: 0.05 * height,
-        width: width - 40,
+        width: width * 0.4,
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center'

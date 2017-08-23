@@ -8,7 +8,9 @@ import {
     Dimensions,
     ScrollView,
     Image,
-    Keyboard
+    Keyboard,
+    Platform,
+    AppState
 } from 'react-native';
 
 let {width, height} = Dimensions.get('window');
@@ -19,7 +21,7 @@ import {getKey, MD5Encrypt, AESDecrypt, getSign} from './Util/Util.js';
 import FetURL from './Util/service.json';
 import Toast from 'react-native-simple-toast';
 import Loading from "./Component/Loading";
-
+import JPush, {JpushEventReceiveMessage, JpushEventOpenMessage} from 'react-native-jpush';
 export default class Login extends Component {
     constructor(props) {
         super(props);
@@ -70,7 +72,23 @@ export default class Login extends Component {
         });
         this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', this._keyboardWillShow.bind(this));
         this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', this._keyboardWillHide.bind(this));
+        if (Platform.OS === 'android') {
+            AppState.addEventListener('change', this.changeState.bind(this));
+        }
     }
+
+    changeState(appState) {
+        //后台点击推送进入app
+        if(appState == 'active') {
+            JPush.getHoldMessages((message)=>{
+                storage.save({
+                    key: 'notificationInfo',
+                    data: message
+                });
+            });
+        }
+    }
+
     //键盘弹出调用
     _keyboardWillShow() {
         this.refs.scroll.scrollTo({x:0, y:50, animated:true});
@@ -213,6 +231,7 @@ export default class Login extends Component {
         this.keyboardWillShowListener.remove();
         this.keyboardWillHideListener.remove();
         this.timer && clearTimeout(this.timer);
+        AppState.removeEventListener('change', this.changeState.bind(this));
     }
 }
 

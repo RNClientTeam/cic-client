@@ -45,7 +45,6 @@ export default class ModalView extends Component {
 
     componentDidMount() {
         let templateArr = [];
-        console.log(this.props.authList)
         if (this.props.authList.length > 0) {
             this.props.authList.map((item, index) => {
                 if (item.key === 'tg' && item.value) {
@@ -63,7 +62,6 @@ export default class ModalView extends Component {
                 if(item.key === 'del' && item.value){
                     templateArr.push({src: require('../../../../../resource/imgs/home/applications/delete.png'), name: '删除'})
                 }
-                console.log(item.key,item.key==='tbwcqk',item.value)
                 if (item.key === 'tbwcqk' && item.value) {
                     templateArr.push({
                         src: require('../../../../../resource/imgs/home/constuctPlan/editComplete.png'),
@@ -76,6 +74,10 @@ export default class ModalView extends Component {
                         name: '确认完成'
                     })
                 }
+                templateArr.push({
+                    src: require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),
+                    name: '确认完成'
+                })
             });
             this.setState({
                 modals:templateArr
@@ -87,24 +89,8 @@ export default class ModalView extends Component {
 
 const styles = StyleSheet.create({
     modalView: {
-        width: width,
-        height: height,
+        flex:1,
         justifyContent: 'flex-end',
         backgroundColor: 'rgba(0, 0, 0,0.75)'
-    },
-    buttonView: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        height: width * 0.2,
-        alignItems: 'center',
-        backgroundColor: '#fff'
-    },
-    button: {
-        width: width * 0.29,
-        backgroundColor: 'red',
-        height: width * 0.1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 5
     }
 });
