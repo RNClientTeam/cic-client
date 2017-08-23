@@ -36,7 +36,6 @@ var highLightTab =
 export default class Main extends Component {
     constructor(props) {
         super(props);
-        this.pushMes = false;
         this.state = {
             selectedTab: 'Home',
             showNotification: false,
@@ -100,27 +99,22 @@ export default class Main extends Component {
     }
 
     componentDidMount() {
-        this.pushMes = true;
         //添加推送相关
         this.addPush();
+        if (Platform.OS === 'android') {
+            storage.load({
+                key: 'notificationInfo'
+            }).then((res)=>{
+                if (res) {
+                    let extra = JSON.parse(res._data['cn.jpush.android.EXTRA']);
+                    this.showNoti(extra, res);
+                    storage.remove({key: 'notificationInfo'});
+                }
+            }).catch(err => {
 
-        // AppState.addEventListener('change', this.changeState.bind(this));
+            });
+        }
     }
-
-    // changeState(appState) {
-    //     //后台点击推送进入app
-    //     if(appState == 'active') {
-    //         this.tempTimer = setInterval(() => {
-    //             if (this.pushMes) {
-    //                 this.pushMes = false;
-    //                 JPush.getHoldMessages((message)=>{
-    //                     this.onOpenMessage(message);
-    //                     clearInterval(this.tempTimer);
-    //                 });
-    //             }
-    //         }, 500);
-    //     }
-    // }
 
     _hideNotification() {
         this.setState({
@@ -214,13 +208,10 @@ export default class Main extends Component {
     }
 
     componentWillUnmount() {
-        this.pushMes = false;
-        // this.tempTimer && clearInterval(this.tempTimer);
         //移除推送的监听
         this.pushlisteners.forEach(listener=> {
             JPush.removeEventListener(listener);
         });
-        // AppState.removeEventListener('change', this.changeState.bind(this));
     }
 }
 
