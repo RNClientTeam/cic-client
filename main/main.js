@@ -8,7 +8,8 @@ import {
     Dimensions,
     Image,
     DeviceEventEmitter,
-    Platform
+    Platform,
+    AppState
 } from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
 import Home from './Home/Home.js';
@@ -35,6 +36,7 @@ var highLightTab =
 export default class Main extends Component {
     constructor(props) {
         super(props);
+        this.pushMes = false;
         this.state = {
             selectedTab: 'Home',
             showNotification: false,
@@ -98,9 +100,27 @@ export default class Main extends Component {
     }
 
     componentDidMount() {
+        this.pushMes = true;
         //添加推送相关
         this.addPush();
+
+        // AppState.addEventListener('change', this.changeState.bind(this));
     }
+
+    // changeState(appState) {
+    //     //后台点击推送进入app
+    //     if(appState == 'active') {
+    //         this.tempTimer = setInterval(() => {
+    //             if (this.pushMes) {
+    //                 this.pushMes = false;
+    //                 JPush.getHoldMessages((message)=>{
+    //                     this.onOpenMessage(message);
+    //                     clearInterval(this.tempTimer);
+    //                 });
+    //             }
+    //         }, 500);
+    //     }
+    // }
 
     _hideNotification() {
         this.setState({
@@ -123,13 +143,13 @@ export default class Main extends Component {
     onReceiveMessage(message) {
         if (Platform.OS === 'android') {
             let extra = JSON.parse(message._data['cn.jpush.android.EXTRA']);
-            this.showNoti(extra);
+            this.showNoti(extra, message);
         } else {
             this.showNoti(message._data);
         }
     }
 
-    showNoti(extra) {
+    showNoti(extra, message) {
         this.extra = extra;
         if (extra.type == 2) {
             this.setState({
@@ -142,8 +162,8 @@ export default class Main extends Component {
             if (Platform.OS === 'android') {
                 this.setState({
                     showNotification: true,
-                    notificationTitle: extra._data['cn.jpush.android.NOTIFICATION_CONTENT_TITLE'],
-                    notificationContent: extra._data['cn.jpush.android.ALERT'],
+                    notificationTitle: message._data['cn.jpush.android.NOTIFICATION_CONTENT_TITLE'],
+                    notificationContent: message._data['cn.jpush.android.ALERT'],
                     notificationType: 1
                 });
             } else {
@@ -187,17 +207,20 @@ export default class Main extends Component {
     onOpenMessage(message) {
         if (Platform.OS === 'android') {
             let extra = JSON.parse(message._data['cn.jpush.android.EXTRA']);
-            this.showNoti(extra);
+            this.showNoti(extra, message);
         } else {
             this.showNoti(message._data);
         }
     }
 
     componentWillUnmount() {
+        this.pushMes = false;
+        // this.tempTimer && clearInterval(this.tempTimer);
         //移除推送的监听
         this.pushlisteners.forEach(listener=> {
             JPush.removeEventListener(listener);
         });
+        // AppState.removeEventListener('change', this.changeState.bind(this));
     }
 }
 
