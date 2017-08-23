@@ -7,7 +7,8 @@ import {
     StyleSheet,
     Dimensions,
     ListView,
-    TouchableOpacity
+    TouchableOpacity,
+    ScrollView,
 } from 'react-native';
 import KeyValueRight from "../../../../Component/KeyValueRight";
 import StatusBar from '../../../../Component/StatusBar.js';
@@ -178,23 +179,26 @@ export default class EditSafetyCheck extends Component {
         return (
             <View style={styles.flex}>
                 <StatusBar title={this.state.title} navigator={this.props.navigator}/>
-                <KeyValueRight propKey="安全检查计划名称" defaultValue={this.state.aqjcjhmc} txtChange={(text)=>{this.setState({aqjcjhmc:text});}}/>
-                <KeyValueRight propKey="项目编号" readOnly={true} defaultValue={this.state.xmbh}/>
-                <KeySelect propKey="项目名称" choiceInfo={() => this.choiceInfo()} value={this.state.xmmc || "请选择"} />
-                <KeyValueRight propKey="工程子项名称" readOnly={true} defaultValue={this.state.gczxmc}/>
-                <KeyValueRight propKey="施工任务" readOnly={true} defaultValue={this.state.sgrwmc}/>
-                <KeyTime propKey="计划开始时间" onlyDate={true} showDate={this.state.jhkssj}
-                         changeDate={(date) => this.setState({jhkssj: date})}/>
-                <KeyTime propKey="计划结束时间" onlyDate={true} showDate={this.state.jhjssj}
-                         changeDate={(date) => this.setState({jhjssj: date})}/>
-                <KeySelect propKey="责任人" choiceInfo={this.choicePeople.bind(this)} value={this.state.zrrmc}/>
-                {
-                    this.props.id &&
-                    <KeyValueRight propKey="创建时间" readOnly={true} defaultValue={this.state.cjsj}/>
-                }
+                <ScrollView>
+                    <KeyValueRight propKey="安全检查计划名称" defaultValue={this.state.aqjcjhmc} txtChange={(text)=>{this.setState({aqjcjhmc:text});}}/>
+                    <KeyValueRight propKey="项目编号" readOnly={true} defaultValue={this.state.xmbh}/>
+                    <KeySelect propKey="项目名称" choiceInfo={() => this.choiceInfo()} value={this.state.xmmc || "请选择"} />
+                    <KeyValueRight propKey="工程子项名称" readOnly={true} defaultValue={this.state.gczxmc}/>
+                    <KeyValueRight propKey="施工任务" readOnly={true} defaultValue={this.state.sgrwmc}/>
+                    <KeyTime propKey="计划开始时间" onlyDate={true} showDate={this.state.jhkssj}
+                             changeDate={(date) => this.setState({jhkssj: date})}/>
+                    <KeyTime propKey="计划结束时间" onlyDate={true} showDate={this.state.jhjssj}
+                             changeDate={(date) => this.setState({jhjssj: date})}/>
+                    <KeySelect propKey="责任人" choiceInfo={this.choicePeople.bind(this)} value={this.state.zrrmc}/>
+                    {
+                        this.props.id &&
+                        <KeyValueRight propKey="创建时间" readOnly={true} defaultValue={this.state.cjsj}/>
+                    }
+                </ScrollView>
                 <TouchableOpacity style={styles.btnView} onPress={() => this.submit()}>
                     <Text style={{color:'#fff',fontSize:15}}>保存</Text>
                 </TouchableOpacity>
+
             </View>
         );
     }
