@@ -179,6 +179,7 @@ export default class Login extends Component {
                     key: getKey('userMessage'),
                     data: JSON.parse(userMessage)
                 });
+                global.LOGIN = false;
                 global.SECRETKEY = responseData.secretKey;
                 global.DEPARTMENTID = JSON.parse(userMessage).deptID;
                 global.USERNAME = JSON.parse(userMessage).userName;
