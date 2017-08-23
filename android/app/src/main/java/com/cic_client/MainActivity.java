@@ -3,13 +3,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-//import com.facebook.soloader.SoLoader;
-
-//import com.cboy.rn.splashscreen.SplashScreen;
 import com.cboy.rn.splashscreen.SplashScreen;
 import com.facebook.react.ReactActivity;
-import cn.reactnative.modules.jpush.JPushPackage;
-import com.yoloci.fileupload.FileUploadPackage;
+
+import cn.jpush.android.api.JPushInterface;
 import com.facebook.soloader.SoLoader;
 
 import java.util.concurrent.ArrayBlockingQueue;
@@ -21,6 +18,10 @@ public class MainActivity extends ReactActivity {
         SplashScreen.show(this);
         super.onCreate(savedInstanceState);
         SoLoader.init(this, /* native exopackage */ false);
+        if((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0){
+            finish();
+            return;
+        }
     }
 
     /**
@@ -31,28 +32,4 @@ public class MainActivity extends ReactActivity {
     protected String getMainComponentName() {
         return "cic_client";
     }
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == Activity.RESULT_OK){
-//            try {
-//                if (resultCode == RESULT_OK ) {
-//                    Uri uri = data.getData();
-//                    String url = FileUtils2.getPath(this,uri);
-//                    String url2 = url.trim();
-//                    if (url2 != null && !url2.equals("") ) {
-//                        mQueue.add(url2);
-//                    } else {
-//                        mQueue.add("请选择合适的pdf格式文件");
-//                    }
-//                } else {
-//                    mQueue.add("请选择合适的pdf格式文件");
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }else{
-//            mQueue.add("没有选择文件");
-//        }
-//    }
 }

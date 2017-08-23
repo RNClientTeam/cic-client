@@ -8,7 +8,8 @@ import {
     Dimensions,
     Image,
     DeviceEventEmitter,
-    Platform
+    Platform,
+    AppState
 } from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
 import Home from './Home/Home.js';
@@ -100,6 +101,19 @@ export default class Main extends Component {
     componentDidMount() {
         //添加推送相关
         this.addPush();
+        if (Platform.OS === 'android') {
+            storage.load({
+                key: 'notificationInfo'
+            }).then((res)=>{
+                if (res) {
+                    let extra = JSON.parse(res._data['cn.jpush.android.EXTRA']);
+                    this.showNoti(extra, res);
+                    storage.remove({key: 'notificationInfo'});
+                }
+            }).catch(err => {
+
+            });
+        }
     }
 
     _hideNotification() {
@@ -123,13 +137,13 @@ export default class Main extends Component {
     onReceiveMessage(message) {
         if (Platform.OS === 'android') {
             let extra = JSON.parse(message._data['cn.jpush.android.EXTRA']);
-            this.showNoti(extra);
+            this.showNoti(extra, message);
         } else {
             this.showNoti(message._data);
         }
     }
 
-    showNoti(extra) {
+    showNoti(extra, message) {
         this.extra = extra;
         if (extra.type == 2) {
             this.setState({
@@ -142,8 +156,8 @@ export default class Main extends Component {
             if (Platform.OS === 'android') {
                 this.setState({
                     showNotification: true,
-                    notificationTitle: extra._data['cn.jpush.android.NOTIFICATION_CONTENT_TITLE'],
-                    notificationContent: extra._data['cn.jpush.android.ALERT'],
+                    notificationTitle: message._data['cn.jpush.android.NOTIFICATION_CONTENT_TITLE'],
+                    notificationContent: message._data['cn.jpush.android.ALERT'],
                     notificationType: 1
                 });
             } else {
@@ -187,7 +201,7 @@ export default class Main extends Component {
     onOpenMessage(message) {
         if (Platform.OS === 'android') {
             let extra = JSON.parse(message._data['cn.jpush.android.EXTRA']);
-            this.showNoti(extra);
+            this.showNoti(extra, message);
         } else {
             this.showNoti(message._data);
         }
