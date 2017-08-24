@@ -123,7 +123,6 @@ export default class ConstructPlan extends Component{
     }
 
     setZxid(arr){
-        console.log(arr);
         this.setState({
             zxid:arr.join(',')
         },function () {
