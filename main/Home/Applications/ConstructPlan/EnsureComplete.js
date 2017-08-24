@@ -41,7 +41,7 @@ export default class EnsureComplete extends Component{
                     <KeyPercentage propKey="完成比例" textChange={(txt)=>this.setState({wcbl:txt})} readOnly={false}/>
                     {/*<Remark textChange={(txt)=>this.setState({wcqk:txt})} propKey="完成情况" remark=""/>*/}
                 </ScrollView>
-                <BottomSaveButton submit={()=>this.submit()}/>
+                {this.state.wcbl==100?<BottomSaveButton submit={()=>this.submit()}/>:null}
             </View>
         )
     }

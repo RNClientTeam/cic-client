@@ -89,6 +89,7 @@ export default class ProjectListView extends Component {
             }
         }).then(data => {
             this.hideLoading();
+            console.log(data);
             if(data.code === 1){
                 resolve();
                 if (data.data && data.data.list) {
