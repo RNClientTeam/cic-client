@@ -117,7 +117,8 @@ export default class ConstructPlan extends Component{
         this.setState({
             lx:txt
         },function () {
-            this.getTask()
+            this.getTask();
+            this.getDataFronNet();
         })
     }
 
