@@ -7,7 +7,8 @@ import {
     View,
     StyleSheet,
     Dimensions,
-    ListView
+    ListView,
+    Text
 } from 'react-native'
 import StatusBar from "../../../Component/StatusBar";
 const {width} = Dimensions.get('window');
@@ -31,7 +32,9 @@ export default class ProjectListView extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <StatusBar navigator={this.props.navigator} title="选择子项"/>
+                <StatusBar navigator={this.props.navigator} title="选择子项">
+                    {/*<Text>确定</Text>*/}
+                </StatusBar>
                 <SearchHeader getData={()=>this.getDataFromNet(1)} changeZxmc={(name)=>this.changeZxmc(name)}/>
                 <ProjectList
                     zxid={this.props.zxid}
@@ -93,7 +96,6 @@ export default class ProjectListView extends Component {
             if(data.code === 1){
                 resolve();
                 if (data.data && data.data.list) {
-                    if (data.data.list.length > 0) {
                         if (pageNum === 1) {
                             this.setState({
                                 list: data.data.list,
@@ -107,11 +109,7 @@ export default class ProjectListView extends Component {
                                 list: this.state.list
                             })
                         }
-
-                        return true
-                    } else {
-                        return false
-                    }
+                    return data.data.list.length>0
                 } else {
                     return false
                 }
