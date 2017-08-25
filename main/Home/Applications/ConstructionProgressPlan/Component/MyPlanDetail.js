@@ -31,6 +31,7 @@ export default class MyPlanDetail extends Component {
             rwxzmc: '请选择>',
             zrrmc: '请选择>',
             ssrymc: '请选择>',
+            zrbm:''
         };
     }
 
@@ -279,6 +280,7 @@ export default class MyPlanDetail extends Component {
                     bzgq: responseData.data.bzgq,
                     jhkssj: responseData.data.jhkssj,
                     jhjssj: responseData.data.jhjssj,
+                    zrbm:responseData.data.zrbm
                 }
             );
         })

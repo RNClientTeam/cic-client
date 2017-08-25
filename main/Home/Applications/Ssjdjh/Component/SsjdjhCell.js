@@ -68,10 +68,10 @@ export default class SsjdjhCell extends Component {
                         </View>
                     </View>
                     <View style={styles.aboutPrincipal}>
-                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.fzr}</Text>
-                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.bm}</Text>
-                        <Text style={[{width: width * 0.5,paddingLeft:width*0.04}, styles.textStyle]}>{this.props.data.bfb?this.props.data.bfb+'%':''}</Text>
-                        <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.sjd}</Text>
+                        <Text style={[{marginRight: 15}, styles.textStyle]}>{this.props.data.fzr}</Text>
+                        <Text style={[{marginRight: 15}, styles.textStyle]}>{this.props.data.bm}</Text>
+                        <Text style={styles.textStyle}>{this.props.data.bfb?this.props.data.bfb+'%':''}</Text>
+                        <Text style={styles.textStyle}>{this.props.data.sjd}</Text>
                     </View>
                 </TouchableOpacity>
             </View>

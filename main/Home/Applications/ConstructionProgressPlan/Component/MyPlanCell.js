@@ -23,10 +23,9 @@ export default class MyPlanCell extends Component {
         return (
             <View style={styles.earlierStageListCell}>
                 <View style={styles.aboutProject}>
-                    <Text style={{color:'#216fd0',fontSize:width*0.04, width: width * 0.7}}>
+                    <Text style={{color:'#216fd0',fontSize:width*0.04}}>
                         {this.props.data.rwmc}
                     </Text>
-                    <View style={styles.blank}/>
                     <View style={[styles.stateView, {backgroundColor: this.props.stateBg || '#fe9a25'}]}>
                         <Text style={styles.stateText}>{this.props.data.rwztmc}</Text>
                     </View>
@@ -65,7 +64,8 @@ const styles = StyleSheet.create({
         paddingTop: width * 0.03,
         paddingBottom: width * 0.03,
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent:'space-between'
     },
     aboutPrincipal: {
         backgroundColor: '#f6f9fa',
@@ -84,19 +84,19 @@ const styles = StyleSheet.create({
         color:'#4f74a3'
     },
     stateView: {
-
-        width:width*0.17,
         height:width*0.05,
         borderRadius:3,
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
+        paddingLeft:5,
+        paddingRight:5
     },
     stateText: {
         color: '#fff',
         fontSize: width * 0.03
     },
     blank: {
-        flex: 1
+        flex: 1,
     },
     editImg: {
         width: 22,

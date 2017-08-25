@@ -12,7 +12,7 @@ import {
 const {width}  = Dimensions.get('window');
 import OptionCell from './OptionCell';
 import toast from 'react-native-simple-toast'
-const optionCells = [];
+let optionCells = [];
 export default class ApproveView extends Component{
     constructor(props){
         super(props);
@@ -48,6 +48,7 @@ export default class ApproveView extends Component{
     }
     componentDidMount() {
         this.props.showLoading();
+        optionCells = [];
         axios.get('/todo/list4ysp',{
             params:{
                 userID:GLOBAL_USERID,
