@@ -74,10 +74,6 @@ export default class ModalView extends Component {
                         name: '确认完成'
                     })
                 }
-                templateArr.push({
-                    src: require('../../../../../resource/imgs/home/earlierStage/ensureComplete.png'),
-                    name: '确认完成'
-                })
             });
             this.setState({
                 modals:templateArr

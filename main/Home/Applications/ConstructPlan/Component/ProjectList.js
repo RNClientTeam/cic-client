@@ -79,17 +79,6 @@ export default class ProjectList extends Component {
             })
         }
     }
-    componentWillUnmount() {
-        //selected为TRUE的传出去要
-        let str = [];
-        for(let i = 0;i<this.props.dataSource.length;i++){
-            if(this.props.dataSource[i].selected){
-                str.push(this.props.dataSource[i].zxid);
-            }
-        }
-        console.log(str)
-        this.props.setZxid(str);
-    }
 
 }
 
