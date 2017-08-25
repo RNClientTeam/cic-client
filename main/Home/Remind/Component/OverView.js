@@ -10,7 +10,7 @@ import {
 } from 'react-native'
 const {width}  = Dimensions.get('window');
 import OptionCell from '../../Backlog/Component/OptionCell';
-const optionCells = [];
+let optionCells = [];
 import toast from 'react-native-simple-toast'
 export default class OverView extends Component{
 
@@ -50,6 +50,7 @@ export default class OverView extends Component{
 
     componentDidMount() {
         this.props.showLoading();
+        optionCells = [];
         axios.get('/msg/list4his',{
             params:{
                 userID:GLOBAL_USERID,
@@ -59,7 +60,6 @@ export default class OverView extends Component{
             this.props.hideLoading();
             if(data.code ===1){
                 for(let i in data.data){
-                    console.log(data.data[i]);
                     if(i === 'P0301'){
                         optionCells.push({name:'前期进度计划执行',src:require('../../../../resource/imgs/home/backlog/frontPlan.png'),badge:data.data[i]})
                     }else if(i==='P0302'){
