@@ -105,4 +105,3 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffb432'
     }
 });
-
