@@ -74,6 +74,7 @@ export default class ModalView extends Component {
                         name: '确认完成'
                     })
                 }
+
             });
             this.setState({
                 modals:templateArr
