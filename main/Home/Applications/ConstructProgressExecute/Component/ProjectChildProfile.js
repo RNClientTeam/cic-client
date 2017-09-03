@@ -91,7 +91,7 @@ export default class ProjectChildProfile extends Component {
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>指定工程主管(副)经理</Text>
                             <View style={styles.blank}/>
-                            <Text>{this.props.rowData.zrr}</Text>
+                            <Text>{this.state.zrr}</Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>意向送电时间</Text>
@@ -111,7 +111,7 @@ export default class ProjectChildProfile extends Component {
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>子项负责人</Text>
                             <View style={styles.blank}/>
-                            <Text>{this.state.zrr}</Text>
+                            <Text>{this.props.rowData.zrr}</Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>计划开始时间</Text>

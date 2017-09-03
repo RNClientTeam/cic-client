@@ -71,10 +71,8 @@ export default class SendView extends Component{
                         optionCells.push({name:'施工进度计划执行',src:require('../../../../resource/imgs/home/backlog/todoTodo.png'),badge:data.data[i]})
                     }else if(i==='P0307'){
                         optionCells.push({name:'施工日计划',src:require('../../../../resource/imgs/home/backlog/constructDayPlan.png'),badge:data.data[i]})
-                    }else if(i==='P0308'){
-                        optionCells.push({name:'部门计划编制',src:require('../../../../resource/imgs/home/backlog/departmentPlan.png'),badge:data.data[i]})
                     }else if(i==='P0309'){
-                        optionCells.push({name:'部门计划执行',src:require('../../../../resource/imgs/home/backlog/departmentPlanTodo.png'),badge:data.data[i]})
+                        optionCells.push({name:'部门计划',src:require('../../../../resource/imgs/home/backlog/departmentPlanTodo.png'),badge:data.data[i]})
                     }else if(i==='P0310'){
                         optionCells.push({name:'质量检查计划',src:require('../../../../resource/imgs/home/backlog/qualityInspectionPlan.png'),badge:data.data[i]})
                     }else if(i==='P0311'){
