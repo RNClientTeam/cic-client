@@ -207,9 +207,6 @@ export default class MyPlanDetail extends Component {
         } else if (!this.state.bzgq) {
             Toast.show('请输入标准工期');
             return false;
-        } else if (!this.state.ssry) {
-            Toast.show('请选择实施人员');
-            return false;
         } else if (!this.state.jhkssj) {
             Toast.show('请输入开始时间');
             return false;
@@ -243,7 +240,6 @@ export default class MyPlanDetail extends Component {
     }
 
     getEmps(emps) {
-        console.log(emps);
         if (emps && emps.length) {
             let ssrymc = emps.map((item) => item.name).join(',');
             let ssry = emps.map((item) => item.id).join(',');
