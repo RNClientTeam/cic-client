@@ -1,6 +1,7 @@
 /**
  * Created by fan on 2017/05/18.
  */
+
 'use strict';
 import React, {Component} from 'react'
 import {
@@ -16,11 +17,13 @@ import SafetyDetail from './SafetyDetail.js';
 import ExamineAndApprove from './ExamineAndApprove.js';
 import RectifyTask from './RectifyTask.js';
 import Toast from 'react-native-simple-toast';
+import IsTodo from "../../Component/IsTodo";
 export default class SafetyInspectionListCell extends Component {
     render() {
         return (
             <View>
                 <TouchableOpacity style={styles.earlierStageListCell} onPress={this.skipPage.bind(this)}>
+                    {this.props.data.isTodo=='00'?null:<IsTodo isTodo={this.props.data.isTodo}/>}
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
                             <Text style={{color:'#216fd0',fontSize:width*0.045, width:width*0.7}} numberOfLines={2}>{this.props.data.aqjcjhmc}</Text>

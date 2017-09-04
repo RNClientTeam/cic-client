@@ -127,7 +127,7 @@ export default class OptionCell extends Component {
                     component: ApartmentPlane
                 });
                 break;
-            case '部门计划执行':
+            case '部门计划':
                 this.props.navigator.push({
                     name: 'ApartmentPlane',
                     component: ApartmentPlane

@@ -99,10 +99,10 @@ const styles = StyleSheet.create({
     topView: {
         flexDirection: "row",
         alignItems: 'center',
-        height: width * 0.12,
         paddingLeft: width * 0.02,
         paddingRight: width * 0.02,
-        width: width * 0.96
+        width: width * 0.96,
+        paddingVertical: 10
     },
     bottomView: {
         alignItems: 'center',

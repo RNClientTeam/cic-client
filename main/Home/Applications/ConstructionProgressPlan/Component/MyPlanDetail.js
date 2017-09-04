@@ -31,6 +31,7 @@ export default class MyPlanDetail extends Component {
             rwxzmc: '请选择>',
             zrrmc: '请选择>',
             ssrymc: '请选择>',
+            zrbm:''
         };
     }
 
@@ -206,9 +207,6 @@ export default class MyPlanDetail extends Component {
         } else if (!this.state.bzgq) {
             Toast.show('请输入标准工期');
             return false;
-        } else if (!this.state.ssry) {
-            Toast.show('请选择实施人员');
-            return false;
         } else if (!this.state.jhkssj) {
             Toast.show('请输入开始时间');
             return false;
@@ -242,7 +240,6 @@ export default class MyPlanDetail extends Component {
     }
 
     getEmps(emps) {
-        console.log(emps);
         if (emps && emps.length) {
             let ssrymc = emps.map((item) => item.name).join(',');
             let ssry = emps.map((item) => item.id).join(',');
@@ -279,6 +276,7 @@ export default class MyPlanDetail extends Component {
                     bzgq: responseData.data.bzgq,
                     jhkssj: responseData.data.jhkssj,
                     jhjssj: responseData.data.jhjssj,
+                    zrbm:responseData.data.zrbm
                 }
             );
         })

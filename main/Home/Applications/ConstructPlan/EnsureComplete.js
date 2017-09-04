@@ -23,10 +23,11 @@ export default class EnsureComplete extends Component{
         super(props);
         this.state={
             wcqk:'',
-            wcbl:''
+            wcbl:this.props.currentItem.wcbl
         }
     }
     render(){
+        console.log(this.props.currentItem);
         return(
             <View style={styles.container}>
                 <StatusBar navigator={this.props.navigator} title="确认完成"/>
@@ -38,10 +39,10 @@ export default class EnsureComplete extends Component{
                     <KeyValueRight propKey="结束时间" readOnly={true} defaultValue={this.props.currentItem.wcsj}/>
                     <KeyValueRight propKey="工作地点" readOnly={true} defaultValue={this.props.currentItem.sgdd}/>
                     <KeyValueRight propKey="参与人员" readOnly={true} defaultValue={this.props.currentItem.sgcymc}/>
-                    <KeyPercentage propKey="完成比例" textChange={(txt)=>this.setState({wcbl:txt})} readOnly={false}/>
+                    <KeyPercentage value={this.state.wcbl} propKey="完成比例" textChange={(txt)=>this.setState({wcbl:txt})} readOnly={false}/>
                     {/*<Remark textChange={(txt)=>this.setState({wcqk:txt})} propKey="完成情况" remark=""/>*/}
                 </ScrollView>
-                <BottomSaveButton submit={()=>this.submit()}/>
+                {this.state.wcbl==100?<BottomSaveButton submit={()=>this.submit()}/>:null}
             </View>
         )
     }
@@ -61,7 +62,7 @@ export default class EnsureComplete extends Component{
                     toast.show('填报成功');
                     let that  = this;
                     setTimeout(function () {
-                        that.navigator.pop();
+                        that.props.navigator.pop();
                         that.props.reload();
                     },500)
                 }else{

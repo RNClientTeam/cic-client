@@ -3,6 +3,7 @@
  * 前期进度计划详情页 - 进度计划cell
  */
 
+
 'use strict';
 import React, {Component} from 'react'
 import {
@@ -16,11 +17,13 @@ import {
 const {width} = Dimensions.get('window');
 import HistoricalCompletion from './HistoricalCompletion.js';
 import ApartmentPlaneDetail from "./ApartmentPlaneDetail";
+import IsTodo from "../../Component/IsTodo";
 export default class ApartmentPlaneListCell extends Component {
     render() {
         return (
             <View>
                 <TouchableOpacity style={styles.earlierStageListCell} onPress={this.skipPage.bind(this)}>
+                    {this.props.data.isTodo == '00'?null:<IsTodo isTodo={this.props.data.isTodo}/>}
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
                             <Text style={{color:'#216fd0',fontSize:width*0.045,width:width*0.7}}>{this.props.data.jhmc}</Text>

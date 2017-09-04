@@ -5,7 +5,6 @@ import {
     Dimensions,
     Image,
     TouchableOpacity,
-    Text
 } from 'react-native'
 import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 import StatusBar from '../../../Component/StatusBar'
@@ -64,6 +63,7 @@ export default class ProgressPlan extends Component {
                 callID: true
             }
         }).then((responseData) => {
+            console.log(responseData)
             if (responseData.code === 1) {
                 this.setState({
                     dataSource: this.state.dataSource.concat(responseData.data.data),

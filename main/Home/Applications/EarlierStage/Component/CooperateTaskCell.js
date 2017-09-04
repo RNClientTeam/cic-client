@@ -1,6 +1,7 @@
 /**
  * Created by Nealyang on 2017/5/2.
  */
+
 'use strict';
 import React, {Component} from 'react'
 import {
@@ -11,47 +12,19 @@ import {
     Image,
     TouchableOpacity
 } from 'react-native'
+import IsTodo from "../../Component/IsTodo";
 const {width} = Dimensions.get('window');
 
 export default class CooperateTaskCell extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            diyiwei: parseInt(parseInt(this.props.dataSource.isTodo) / 10),
-            dierwei: parseInt(parseInt(this.props.dataSource.isTodo) % 10)
-        }
-    }
 
     render() {
-        let first = '', second = '';
-        if (this.state.diyiwei === 0) {
-            first = null;
-        } else if (this.state.diyiwei === 1) {
-            first = require('../../../../../resource/imgs/home/11.png')
-        }
-        if (this.state.dierwei === 0) {
-            second = null
-        } else if (this.state.dierwei === 1) {
-            second = require('../../../../../resource/imgs/home/21.png')
-        } else if (this.state.dierwei === 2) {
-            second = require('../../../../../resource/imgs/home/22.png')
-        } else if (this.state.dierwei === 3) {
-            second = require('../../../../../resource/imgs/home/23.png')
-        } else if (this.state.dierwei === 4) {
-            second = require('../../../../../resource/imgs/home/24.png')
-        } else if (this.state.dierwei === 5) {
-            second = require('../../../../../resource/imgs/home/25.png')
-        }
         return (
+
             <View style={styles.cooperateTaskCell}>
                 {
                     this.props.dataSource.isTodo=='00'?
-                        null:<View style={styles.topView}>
-                        {this.state.diyiwei === 0 ? null : <Image style={styles.iconImg} source={first}/>}
-                        {this.state.dierwei === 0 ? null : <Image style={styles.iconImg} source={second}/>}
-                    </View>
+                        null:<IsTodo isTodo={this.props.dataSource.isTodo}/>
                 }
-
 
                 <View style={styles.topView}>
                     <Text style={{color: '#729bdc', fontSize: width * 0.04, flex: 1}}
@@ -99,10 +72,10 @@ const styles = StyleSheet.create({
     topView: {
         flexDirection: "row",
         alignItems: 'center',
-        height: width * 0.12,
         paddingLeft: width * 0.02,
         paddingRight: width * 0.02,
-        width: width * 0.96
+        width: width * 0.96,
+        paddingVertical: 10
     },
     bottomView: {
         alignItems: 'center',

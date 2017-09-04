@@ -100,54 +100,57 @@ export default class Login extends Component {
     }
     render() {
         return(
-            <ScrollView style={styles.flex}
-                contentContainerStyle={{alignItems:'center'}}
-                ref="scroll"
-                overScrollMode='always'
-                bounces={false}>
-                <Image source={require('../resource/imgs/login/loginBG.png')}
-                    style={styles.loginBG} resizeMode="contain"/>
+            <View style={styles.flex}>
+                <ScrollView
+                    contentContainerStyle={{alignItems:'center'}}
+                    ref="scroll"
+                    overScrollMode='always'
+                    bounces={false}>
+                    <Image source={require('../resource/imgs/login/loginBG.png')}
+                        style={styles.loginBG} resizeMode="contain"/>
 
-                {/**用户名或密码输入有误的提示信息**/}
-                <Text style={styles.warningSty}>{this.state.warningText}</Text>
+                    {/**用户名或密码输入有误的提示信息**/}
+                    <Text style={styles.warningSty}>{this.state.warningText}</Text>
 
-                {/**用户名**/}
-                <MyTextInput
-                    placeholder="请输入用户名"
-                    leftImageSource={require('../resource/imgs/login/ic_user.png')}
-                    style={styles.myInput}
-                    defaultValue={this.state.username}
-                    text={this.state.username}
-                    onChangeText={(text)=>this.setState({username:text,warningText:''})}/>
-                {/**密码**/}
-                <MyTextInput
-                    placeholder="请输入密码"
-                    leftImageSource={require('../resource/imgs/login/ic_lock.png')}
-                    style={styles.myInput}
-                    defaultValue={this.state.password}
-                    secureTextEntry={true}
-                    text={this.state.password}
-                    onChangeText={(text)=>this.setState({password:text,warningText:''})}/>
+                    {/**用户名**/}
+                    <MyTextInput
+                        placeholder="请输入用户名"
+                        leftImageSource={require('../resource/imgs/login/ic_user.png')}
+                        style={styles.myInput}
+                        defaultValue={this.state.username}
+                        text={this.state.username}
+                        onChangeText={(text)=>this.setState({username:text,warningText:''})}/>
+                    {/**密码**/}
+                    <MyTextInput
+                        placeholder="请输入密码"
+                        leftImageSource={require('../resource/imgs/login/ic_lock.png')}
+                        style={styles.myInput}
+                        defaultValue={this.state.password}
+                        secureTextEntry={true}
+                        text={this.state.password}
+                        onChangeText={(text)=>this.setState({password:text,warningText:''})}/>
 
-                {/**忘记密码**/}
-                <TouchableHighlight underlayColor='transparent' onPress={this.rememberPassword.bind(this)} style={{alignSelf:'flex-start',marginLeft:20}}>
-                    <View style={styles.selectedView}>
-                        <View style={styles.outerView}>
-                            <View style={[styles.innerView, {backgroundColor:this.state.selected?'#1969b8':'#fff'}]}></View>
+                    {/**忘记密码**/}
+                    <TouchableHighlight underlayColor='transparent' onPress={this.rememberPassword.bind(this)} style={{alignSelf:'flex-start',marginLeft:20}}>
+                        <View style={styles.selectedView}>
+                            <View style={styles.outerView}>
+                                <View style={[styles.innerView, {backgroundColor:this.state.selected?'#1969b8':'#fff'}]}></View>
+                            </View>
+                            <Text style={styles.forgetPassword}>记住密码</Text>
                         </View>
-                        <Text style={styles.forgetPassword}>记住密码</Text>
-                    </View>
-                </TouchableHighlight>
+                    </TouchableHighlight>
+                    {this.state.isLoading?<Loading/>:null}
+                </ScrollView>
                 {/**登录**/}
-                <TouchableHighlight onPress={this.onPress.bind(this)} underlayColor='transparent' style={styles.loginTouch}>
+                <TouchableHighlight onPress={this.onPress.bind(this)} underlayColor='transparent'>
                     <View style={styles.loginView}>
                         <Text style={styles.loginText}>
                             登录
                         </Text>
                     </View>
                 </TouchableHighlight>
-                {this.state.isLoading?<Loading/>:null}
-            </ScrollView>
+            </View>
+
         );
     }
 
@@ -254,7 +257,9 @@ const styles = StyleSheet.create({
         width:width - 40,
         height:height*0.0705,
         borderRadius:5,
-        backgroundColor:'#0965b5'
+        backgroundColor:'#0965b5',
+        marginLeft: 20,
+        marginBottom: 40
     },
     loginText: {
         fontSize: 20,
@@ -274,9 +279,6 @@ const styles = StyleSheet.create({
     forgetPassword: {
         fontSize: 16,
         color: '#1969b8'
-    },
-    loginTouch: {
-        marginTop: height*0.14
     },
     selectedView: {
         flexDirection: 'row',

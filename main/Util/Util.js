@@ -11,7 +11,7 @@ export function padStart(num) {
     if(parseInt(num)/10>=1){
         return num
     }else{
-        return '0'+num
+        return '0'+parseInt(num)
     }
 }
 

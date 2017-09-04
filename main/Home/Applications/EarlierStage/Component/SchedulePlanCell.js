@@ -2,6 +2,7 @@
  * Created by fan on 2017/05/02.
  * 前期进度计划详情页 - 进度计划cell
  */
+
 'use strict';
 import React, {Component} from 'react'
 import {
@@ -12,43 +13,17 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native'
+import IsTodo from "../../Component/IsTodo";
 const {width} = Dimensions.get('window');
 
 export default class SchedulePlanCell extends Component {
-    constructor(props){
-        super(props);
-        this.state={
-            diyiwei:parseInt(parseInt(this.props.data.isTodo)/10),
-            dierwei:parseInt(parseInt(this.props.data.isTodo)%10)
-        }
-    }
     render() {
-        let first = '',second='';
-        if(this.state.diyiwei===0){
-            first = null;
-        }else if(this.state.diyiwei === 1){
-            first = require('../../../../../resource/imgs/home/11.png')
-        }
-        if(this.state.dierwei===0){
-            second = null
-        }else if(this.state.dierwei === 1){
-            second = require('../../../../../resource/imgs/home/21.png')
-        }else if(this.state.dierwei === 2){
-            second = require('../../../../../resource/imgs/home/22.png')
-        }else if(this.state.dierwei === 3){
-            second = require('../../../../../resource/imgs/home/23.png')
-        }else if(this.state.dierwei === 4){
-            second = require('../../../../../resource/imgs/home/24.png')
-        }else if(this.state.dierwei === 5){
-            second = require('../../../../../resource/imgs/home/25.png')
-        }
         return (
             <View style={styles.earlierStageListCell}>
                 <View style={styles.aboutProject}>
+                    {this.props.data.isTodo =='00'?null:<IsTodo isTodo={this.props.data.isTodo}/>}
                     <View style={styles.numState}>
                         <View style={styles.iconView}>
-                            {this.state.diyiwei===0?null:<Image style={styles.iconImg} source={first}/>}
-                            {this.state.dierwei === 0?null:<Image style={styles.iconImg} source={second}/>}
                         </View>
                         <View style={[styles.stateView,{width:this.props.data.ztmc.length*width*0.04}]}>
                             <Text style={styles.stateText}>{this.props.data.ztmc}</Text>

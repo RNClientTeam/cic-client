@@ -10,7 +10,7 @@ import {
 } from 'react-native'
 const {width}  = Dimensions.get('window');
 import OptionCell from '../../Backlog/Component/OptionCell';
-const optionCells = [];
+let optionCells = [];
 import toast from 'react-native-simple-toast'
 export default class TodoView extends Component{
     constructor(props){
@@ -47,6 +47,7 @@ export default class TodoView extends Component{
     }
     componentDidMount() {
         this.props.showLoading();
+        optionCells = [];
         axios.get('/msg/list4bs',{
             params:{
                 userID:GLOBAL_USERID,
@@ -56,7 +57,6 @@ export default class TodoView extends Component{
             this.props.hideLoading();
             if(data.code ===1){
                 for(let i in data.data){
-                    console.log(data.data[i]);
                     if(i === 'P0301'){
                         optionCells.push({name:'前期进度计划执行',src:require('../../../../resource/imgs/home/backlog/frontPlan.png'),badge:data.data[i]})
                     }else if(i==='P0302'){
@@ -71,10 +71,8 @@ export default class TodoView extends Component{
                         optionCells.push({name:'施工进度计划执行',src:require('../../../../resource/imgs/home/backlog/todoTodo.png'),badge:data.data[i]})
                     }else if(i==='P0307'){
                         optionCells.push({name:'施工日计划',src:require('../../../../resource/imgs/home/backlog/constructDayPlan.png'),badge:data.data[i]})
-                    }else if(i==='P0308'){
-                        optionCells.push({name:'部门计划编制',src:require('../../../../resource/imgs/home/backlog/departmentPlan.png'),badge:data.data[i]})
                     }else if(i==='P0309'){
-                        optionCells.push({name:'部门计划执行',src:require('../../../../resource/imgs/home/backlog/departmentPlanTodo.png'),badge:data.data[i]})
+                        optionCells.push({name:'部门计划',src:require('../../../../resource/imgs/home/backlog/departmentPlanTodo.png'),badge:data.data[i]})
                     }else if(i==='P0310'){
                         optionCells.push({name:'质量检查计划',src:require('../../../../resource/imgs/home/backlog/qualityInspectionPlan.png'),badge:data.data[i]})
                     }else if(i==='P0311'){
@@ -110,6 +108,7 @@ export default class TodoView extends Component{
             toast.show('服务端错误！');
         })
     }
+
 }
 
 const styles = StyleSheet.create({

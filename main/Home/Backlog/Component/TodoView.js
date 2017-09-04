@@ -12,7 +12,7 @@ import {
 const {width} = Dimensions.get('window');
 import OptionCell from './OptionCell';
 import toast from 'react-native-simple-toast'
-const optionCells = [];
+let optionCells = [];
 export default class TodoView extends Component {
     constructor(props){
         super(props);
@@ -47,6 +47,7 @@ export default class TodoView extends Component {
     }
     componentDidMount() {
         this.props.showLoading();
+        optionCells = [];
         axios.get('/todo/list4bs',{
             params:{
                 userID:GLOBAL_USERID,
@@ -55,7 +56,6 @@ export default class TodoView extends Component {
         }).then(data=>{
             this.props.hideLoading();
             if(data.code ===1){
-                console.log(data.data);
                 for(let i in data.data){
                     if(i === 'P0301'){
                         optionCells.push({name:'前期进度计划执行',src:require('../../../../resource/imgs/home/backlog/frontPlan.png'),badge:data.data[i]})
@@ -71,10 +71,12 @@ export default class TodoView extends Component {
                         optionCells.push({name:'施工进度计划执行',src:require('../../../../resource/imgs/home/backlog/todoTodo.png'),badge:data.data[i]})
                     }else if(i==='P0307'){
                         optionCells.push({name:'施工日计划',src:require('../../../../resource/imgs/home/backlog/constructDayPlan.png'),badge:data.data[i]})
-                    }else if(i==='P0308'){
-                        optionCells.push({name:'部门计划编制',src:require('../../../../resource/imgs/home/backlog/departmentPlan.png'),badge:data.data[i]})
-                    }else if(i==='P0309'){
-                        optionCells.push({name:'部门计划执行',src:require('../../../../resource/imgs/home/backlog/departmentPlanTodo.png'),badge:data.data[i]})
+                    }
+                    // else if(i==='P0308'){
+                    //     optionCells.push({name:'部门计划编制',src:require('../../../../resource/imgs/home/backlog/departmentPlan.png'),badge:data.data[i]})
+                    // }
+                    else if(i==='P0309'){
+                        optionCells.push({name:'部门计划',src:require('../../../../resource/imgs/home/backlog/departmentPlanTodo.png'),badge:data.data[i]})
                     }else if(i==='P0310'){
                         optionCells.push({name:'质量检查计划',src:require('../../../../resource/imgs/home/backlog/qualityInspectionPlan.png'),badge:data.data[i]})
                     }else if(i==='P0311'){
