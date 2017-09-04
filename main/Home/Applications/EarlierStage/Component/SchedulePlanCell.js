@@ -2,6 +2,7 @@
  * Created by fan on 2017/05/02.
  * 前期进度计划详情页 - 进度计划cell
  */
+
 'use strict';
 import React, {Component} from 'react'
 import {
@@ -12,6 +13,7 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native'
+import IsTodo from "../../Component/IsTodo";
 const {width} = Dimensions.get('window');
 
 export default class SchedulePlanCell extends Component {
@@ -45,10 +47,9 @@ export default class SchedulePlanCell extends Component {
         return (
             <View style={styles.earlierStageListCell}>
                 <View style={styles.aboutProject}>
+                    {this.props.data.isTodo =='00'?null:<IsTodo isTodo={this.props.data.isTodo}/>}
                     <View style={styles.numState}>
                         <View style={styles.iconView}>
-                            {this.state.diyiwei===0?null:<Image style={styles.iconImg} source={first}/>}
-                            {this.state.dierwei === 0?null:<Image style={styles.iconImg} source={second}/>}
                         </View>
                         <View style={[styles.stateView,{width:this.props.data.ztmc.length*width*0.04}]}>
                             <Text style={styles.stateText}>{this.props.data.ztmc}</Text>
