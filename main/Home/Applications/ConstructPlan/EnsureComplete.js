@@ -62,7 +62,7 @@ export default class EnsureComplete extends Component{
                     toast.show('填报成功');
                     let that  = this;
                     setTimeout(function () {
-                        that.navigator.pop();
+                        that.props.navigator.pop();
                         that.props.reload();
                     },500)
                 }else{

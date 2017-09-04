@@ -2,6 +2,7 @@
  * Created by zhubin on 17/5/9.
  */
 
+
 'use strict';
 import React, {Component} from 'react'
 import {
@@ -12,6 +13,7 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native'
+import IsTodo from "../../Component/IsTodo";
 
 
 const {width} = Dimensions.get('window');
@@ -21,6 +23,7 @@ export default class MyPlanCell extends Component {
     render() {
         return (
             <View style={styles.earlierStageListCell}>
+                {this.props.data.isTodo=='00'?null:<IsTodo isTodo={this.props.data.isTodo}/>}
                 <View style={styles.aboutProject}>
                     <Text style={{color:'#216fd0',fontSize:width*0.038,flex:1}}>{this.props.data.rwmc}</Text>
                     <View style={[styles.stateView, {backgroundColor:this.props.bgC}]}>
@@ -76,11 +79,12 @@ const styles = StyleSheet.create({
         color:'#4f74a3'
     },
     stateView: {
-        width:width*0.17,
         height:width*0.05,
         borderRadius:3,
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
+        paddingLeft:3,
+        paddingRight:3
     },
     stateText: {
         color: '#fff',
