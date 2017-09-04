@@ -63,6 +63,7 @@ export default class ProgressPlan extends Component {
                                                changeFilter={(sDate, eDate, lx) => {
                                                    this.filter(sDate, eDate, lx)
                                                }}
+                                               reset={() => this.reset()}
                                                closeModal={() => this.setState({isModalVisible: false})}/> :
                     <View/>}
                 {this.state.isLoading ? <Loading/> : null}
@@ -79,6 +80,16 @@ export default class ProgressPlan extends Component {
             jhlx: lx,
             ksrq: sDate,
             jsrq: eDate
+        }, () => {
+            this.getDataFromNet();
+        })
+    }
+
+    reset() {
+        this.setState({
+            jhlx: '全部',
+            ksrq: getCurrentMonS(),
+            jsrq: getCurrentMonE(),
         }, () => {
             this.getDataFromNet();
         })
