@@ -45,14 +45,12 @@ export default class CooperateTaskCell extends Component {
         return (
             <View style={styles.cooperateTaskCell}>
                 {
-                    this.props.dataSource.isTodo=='00'?
-                        null:<View style={styles.topView}>
+                    this.props.dataSource.isTodo !=='00' &&
+                    <View style={styles.topView}>
                         {this.state.diyiwei === 0 ? null : <Image style={styles.iconImg} source={first}/>}
                         {this.state.dierwei === 0 ? null : <Image style={styles.iconImg} source={second}/>}
                     </View>
                 }
-
-
                 <View style={styles.topView}>
                     <Text style={{color: '#729bdc', fontSize: width * 0.04, flex: 1}}
                           numberOfLines={3}>{this.props.dataSource.rwmc}</Text>

@@ -14,7 +14,7 @@ import {
 } from 'react-native'
 
 import MyPlanDetail from './MyPlanDetail'
-
+import IsTodo from '../../Component/IsTodo.js';
 const {width} = Dimensions.get('window');
 
 
@@ -22,6 +22,8 @@ export default class MyPlanCell extends Component {
     render() {
         return (
             <View style={styles.earlierStageListCell}>
+                {this.props.data.isTodo != '00' &&
+                <IsTodo isTodo={this.props.data.isTodo}/>}
                 <View style={styles.aboutProject}>
                     <Text style={{color:'#216fd0',fontSize:width*0.04}}>
                         {this.props.data.rwmc}
@@ -55,6 +57,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#ddd',
         width: width * 0.96,
+        backgroundColor: '#fff'
     },
     aboutProject: {
         backgroundColor: '#fff',

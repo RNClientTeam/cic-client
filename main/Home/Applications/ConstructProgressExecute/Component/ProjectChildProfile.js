@@ -38,21 +38,22 @@ export default class ProjectChildProfile extends Component {
     }
 
     componentDidMount() {
-        axios.get('/psmSsjdjh/gczxgk', {
+        axios.get('/psmSgjdjh/gczxgk', {
             params: {
                 userID: GLOBAL_USERID,
                 gczxId: this.props.rowData.gczxId,
                 callID: true
             }
         }).then((responseData) => {
+            console.log(responseData);
             if (responseData.code === 1) {
                 let data = responseData.data;
                 this.setState({
                     zxmc: data.zxmc,
                     xmbh: data.xmbh,
                     xmmc: data.xmmc,
-                    zrr: data.zrr,
-                    zrbm: data.zrbm,
+                    zrrmc: data.zrrmc,
+                    zrbmmc: data.zrbmmc,
                     jhkssj: data.jhkssj,
                     jhjssj: data.jhjssj,
                     yxsdsj: data.yxsdsj,
@@ -60,7 +61,9 @@ export default class ProjectChildProfile extends Component {
                     jqdhsdsj: data.jqdhsdsj,
                     htgqkssj: data.htgqkssj,
                     htgqjssj: data.htgqjssj,
-                    cbfw: data.cbfw
+                    zgfjlmc: data.zgfjlmc,
+                    cbfw: data.cbfw,
+                    jhsd: data.jhsd
                 });
             }
         }).catch((error) => {
@@ -81,7 +84,7 @@ export default class ProjectChildProfile extends Component {
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>工程子项锁定</Text>
                             <View style={styles.blank}/>
-                            <Text>未锁定</Text>
+                            <Text>{this.state.jhsd}</Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>工程子项名称</Text>
@@ -91,7 +94,7 @@ export default class ProjectChildProfile extends Component {
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>指定工程主管(副)经理</Text>
                             <View style={styles.blank}/>
-                            <Text>{this.state.zrr}</Text>
+                            <Text>{this.state.zgfjlmc}</Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>意向送电时间</Text>
@@ -106,12 +109,12 @@ export default class ProjectChildProfile extends Component {
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>责任部门</Text>
                             <View style={styles.blank}/>
-                            <Text>{this.state.zrbm}</Text>
+                            <Text>{this.state.zrbmmc}</Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>子项负责人</Text>
                             <View style={styles.blank}/>
-                            <Text>{this.props.rowData.zrr}</Text>
+                            <Text>{this.state.zrrmc}</Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={[styles.labelColor]}>计划开始时间</Text>
@@ -137,7 +140,6 @@ export default class ProjectChildProfile extends Component {
             </View>
         )
     }
-    submit() {}
 }
 
 const styles = StyleSheet.create({

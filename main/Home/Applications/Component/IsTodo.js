@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingLeft: width * 0.02,
         paddingRight: width * 0.02,
-        width: width * 0.96,
+        width: width * 0.6,
         paddingVertical: 10
     },
     iconImg: {

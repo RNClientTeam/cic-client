@@ -19,13 +19,10 @@ export default class CooperateTaskCell extends Component {
 
     render() {
         return (
-
             <View style={styles.cooperateTaskCell}>
                 {
-                    this.props.dataSource.isTodo=='00'?
-                        null:<IsTodo isTodo={this.props.dataSource.isTodo}/>
+                    this.props.dataSource.isTodo!='00'&&<IsTodo isTodo={this.props.dataSource.isTodo}/>
                 }
-
                 <View style={styles.topView}>
                     <Text style={{color: '#729bdc', fontSize: width * 0.04, flex: 1}}
                           numberOfLines={3}>{this.props.dataSource.rwmc}</Text>
@@ -75,7 +72,7 @@ const styles = StyleSheet.create({
         paddingLeft: width * 0.02,
         paddingRight: width * 0.02,
         width: width * 0.96,
-        paddingVertical: 10
+        paddingVertical: 5
     },
     bottomView: {
         alignItems: 'center',

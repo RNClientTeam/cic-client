@@ -21,10 +21,8 @@ export default class SchedulePlanCell extends Component {
         return (
             <View style={styles.earlierStageListCell}>
                 <View style={styles.aboutProject}>
-                    {this.props.data.isTodo =='00'?null:<IsTodo isTodo={this.props.data.isTodo}/>}
                     <View style={styles.numState}>
-                        <View style={styles.iconView}>
-                        </View>
+                        {this.props.data.isTodo !='00'?<IsTodo isTodo={this.props.data.isTodo}/>:<View style={styles.iconView}/>}
                         <View style={[styles.stateView,{width:this.props.data.ztmc.length*width*0.04}]}>
                             <Text style={styles.stateText}>{this.props.data.ztmc}</Text>
                         </View>
@@ -61,9 +59,9 @@ const styles = StyleSheet.create({
     },
     aboutProject: {
         backgroundColor: '#fff',
-        height: width * 0.2,
         paddingLeft: width * 0.01,
-        paddingRight: width * 0.01
+        paddingRight: width * 0.01,
+        paddingVertical: 5
     },
     aboutPrincipal: {
         backgroundColor: '#f6f9fa',
@@ -81,7 +79,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     projectName: {
-        height: width * 0.1,
         lineHeight: 21
     },
     textStyle: {
