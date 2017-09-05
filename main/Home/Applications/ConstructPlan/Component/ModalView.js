@@ -75,6 +75,7 @@ export default class ModalView extends Component {
                     })
                 }
 
+
             });
             this.setState({
                 modals:templateArr

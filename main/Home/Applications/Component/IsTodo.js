@@ -15,8 +15,8 @@ export default class IsTodo extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            diyiwei: parseInt(parseInt(this.props.isTodo) / 10),
-            dierwei: parseInt(parseInt(this.props.isTodo) % 10)
+            diyiwei: parseInt(parseInt(this.props.isTodo) / 10)||0,
+            dierwei: parseInt(parseInt(this.props.isTodo) % 10)||0
         }
     }
     render() {
@@ -57,7 +57,8 @@ const styles = StyleSheet.create({
         paddingLeft: width * 0.02,
         paddingRight: width * 0.02,
         width: width * 0.6,
-        paddingVertical: 10
+        paddingVertical: 10,
+        backgroundColor:'#fff'
     },
     iconImg: {
         width: width * 0.05,

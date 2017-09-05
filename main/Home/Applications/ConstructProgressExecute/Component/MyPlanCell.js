@@ -79,11 +79,12 @@ const styles = StyleSheet.create({
         color:'#4f74a3'
     },
     stateView: {
-        width:width*0.17,
         height:width*0.05,
         borderRadius:3,
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
+        paddingLeft:3,
+        paddingRight:3
     },
     stateText: {
         color: '#fff',

@@ -1,6 +1,7 @@
 /**
  * Created by Nealyang on 2017/5/21.
  */
+
 'use strict';
 import React, {Component} from 'react'
 import {
@@ -13,12 +14,14 @@ import {
 } from 'react-native'
 import QualityDoubleCheckRecord from "./QualityDoubleCheckRecord.js";
 import Toast from 'react-native-simple-toast';
+import IsTodo from "../../Component/IsTodo";
 const {width} = Dimensions.get('window');
 
 export default class QualityCheckRecordListCell extends Component {
     render() {
         return (
             <TouchableOpacity style={styles.container} onPress={this.skipToDetail.bind(this,this.props.data)}>
+                {this.props.data.isTodo == '00'?null:<IsTodo isTodo={this.props.data.isTodo}/>}
                 <View style={styles.topView}>
                     <View style={styles.topTopView}>
                         <Text style={styles.projectNameStyle}>{this.props.data.rwnr}</Text>

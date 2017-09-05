@@ -1,6 +1,7 @@
 /**
  * Created by Nealyang on 2017/5/16.
  */
+
 'use strict';
 import React,{Component} from 'react'
 import {
@@ -11,12 +12,14 @@ import {
     Image,
     TouchableOpacity
 } from 'react-native'
+import IsTodo from "../../Component/IsTodo";
 const {width}  = Dimensions.get('window');
 
 export default class IndexProjectListCell extends Component{
     render(){
         return(
             <TouchableOpacity style={styles.containerStyle}>
+                {this.props.item.isTodo=='00'?null:<IsTodo isTodo={this.props.item.isTodo}/>}
                 <View style={styles.topView}>
                     <Text style={styles.topText}>{this.props.item.rwmc}</Text>
                     <View style={styles.stateStyle}>
