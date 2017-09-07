@@ -71,7 +71,7 @@ export default class EarlierStageListModalView extends Component {
                 </View>
                 <View style={styles.buttonView}>
                     <TouchableOpacity style={[styles.clickButton, {backgroundColor: '#dbdada'}]}
-                                      onPress={() => this.props.closeModal()}>
+                                      onPress={() => {this.props.closeModal();this.props.changeFilter(getCurrentMonS(),getCurrentMonE(),'全部')}}>
                         <Text>重置</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.clickButton, {backgroundColor: '#216fd0'}]}

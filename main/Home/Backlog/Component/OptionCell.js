@@ -77,13 +77,21 @@ export default class OptionCell extends Component {
                 });
                 break;
             case '前期进度计划执行':
-                this.props.navigator.push({
-                    name: 'EarlierStage',
-                    component: EarlierStage,
-                    params: {
-                        tag: 'todo'
-                    }
-                });
+                if(this.props.resource === '提醒'){
+                    this.props.navigator.push({
+                        name: 'EarlierStage',
+                        component: EarlierStage
+                    });
+                }else{
+                    this.props.navigator.push({
+                        name: 'EarlierStage',
+                        component: EarlierStage,
+                        params: {
+                            tag: 'todo'
+                        }
+                    });
+                }
+
                 break;
             case '工程子项拆分':
                 this.props.navigator.push({
