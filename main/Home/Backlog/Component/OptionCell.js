@@ -105,7 +105,7 @@ export default class OptionCell extends Component {
                     component: ProjectRangeHandover
                 });
                 break;
-            case '实施进度计划执行':
+            case '实施进度计划':
                 this.props.navigator.push({
                     name: 'Ssjdjh',
                     component: Ssjdjh
@@ -148,10 +148,21 @@ export default class OptionCell extends Component {
                 });
                 break;
             case '质量检查记录':
-                this.props.navigator.push({
-                    name: 'QualityCheckRecord',
-                    component: QualityCheckRecord
-                });
+                if(this.props.resource){
+                    this.props.navigator.push({
+                        name: 'QualityCheckRecord',
+                        component: QualityCheckRecord,
+                        params:{
+                            resource:this.props.resource
+                        }
+                    });
+                }else{
+                    this.props.navigator.push({
+                        name: 'QualityCheckRecord',
+                        component: QualityCheckRecord
+                    });
+                }
+
                 break;
             case '安全检查计划':
                 this.props.navigator.push({

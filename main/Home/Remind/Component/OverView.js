@@ -37,6 +37,7 @@ export default class OverView extends Component{
         for(let i = 0;i<this.state.dataSource.length;i++){
             optionCell.push(
                 <OptionCell
+                    resource='提醒'
                     badge={optionCells[i].badge?optionCells[i].badge:0}
                     src={optionCells[i].src}
                     name={optionCells[i].name}

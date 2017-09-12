@@ -238,7 +238,10 @@ export default class Applications extends Component {
         }else if (item.title === '质量检查记录') {
             this.props.navigator.push({
                 component: QualityCheckRecord,
-                name: 'QualityCheckRecord'
+                name: 'QualityCheckRecord',
+                params:{
+                    resource:'应用'
+                }
             })
         } else if (item.title === '部门计划执行') {
             this.props.navigator.push({

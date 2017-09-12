@@ -35,7 +35,7 @@ export default class QualityCheckRecord extends Component {
             selectRange: "mine",
             filtrate: false,
             modalVisible: false,
-            type: '全部',
+            type: this.props.resource?'全部':'我代办',
             rwzt: 'all',
             rwxz: 'all',
             rwztCn: '',
