@@ -21,8 +21,8 @@ export default class SchedulePlanCell extends Component {
         return (
             <View style={styles.earlierStageListCell}>
                 <View style={styles.aboutProject}>
+                    {this.props.data.isTodo !='00'?<IsTodo isTodo={this.props.data.isTodo}/>:<View style={styles.iconView}/>}
                     <View style={styles.numState}>
-                        {this.props.data.isTodo !='00'?<IsTodo isTodo={this.props.data.isTodo}/>:<View style={styles.iconView}/>}
                         <View style={[styles.stateView,{width:this.props.data.ztmc.length*width*0.04}]}>
                             <Text style={styles.stateText}>{this.props.data.ztmc}</Text>
                         </View>
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     numState: {
-        flexDirection: 'row',
+        flexDirection: 'row-reverse',
         justifyContent: 'space-between',
         height: width * 0.1,
         alignItems: 'center',
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
         height:width*0.05,
         borderRadius:3,
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
     },
     stateText: {color: '#fff', fontSize: width * 0.03},
     editTouch: {
