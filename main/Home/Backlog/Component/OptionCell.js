@@ -105,6 +105,12 @@ export default class OptionCell extends Component {
                     component: ProjectRangeHandover
                 });
                 break;
+            case '实施进度计划执行':
+                this.props.navigator.push({
+                    name: 'Ssjdjh',
+                    component: Ssjdjh
+                });
+                break;
             case '实施进度计划':
                 this.props.navigator.push({
                     name: 'Ssjdjh',
