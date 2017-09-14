@@ -41,7 +41,7 @@ export default class MyPlan extends Component {
     }
 
     fetchData(pageNum, resolve) {
-        axios.get('/psmSgjdjh/sgjhJhrwlb', {
+        axios.get('/psmSgjdjh/sgjhJhrwZxlb', {
             params: {
                 userID: GLOBAL_USERID,
                 gczxId: this.props.rowData.gczxId,

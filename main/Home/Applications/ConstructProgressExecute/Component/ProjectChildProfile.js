@@ -45,7 +45,6 @@ export default class ProjectChildProfile extends Component {
                 callID: true
             }
         }).then((responseData) => {
-            console.log(responseData);
             if (responseData.code === 1) {
                 let data = responseData.data;
                 this.setState({

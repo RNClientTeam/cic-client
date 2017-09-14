@@ -47,8 +47,6 @@ var businessApp = [
     {title:'质量检查记录', image: require('../../../resource/imgs/home/applications/qualityInspectionRecord.png'), sectionID:1},
     {title:'安全检查计划', image: require('../../../resource/imgs/home/applications/inspectionPlan.png'), sectionID:1},
     {title:'安全检查记录', image: require('../../../resource/imgs/home/applications/inspectionRecord.png'), sectionID:1},
-    {title:'公文管理', image: require('../../../resource/imgs/home/applications/gongwenguanli.png'), sectionID:1},
-
 ];
 var tradingApp = [
     {title:'物资采购', image: require('../../../resource/imgs/home/applications/materialPurchasing.png'), sectionID:2},
@@ -59,7 +57,8 @@ var tradingApp = [
 var officialApp = [
     {title:'工作计划', image: require('../../../resource/imgs/home/applications/workPlane.png'), sectionID:3},
     {title:'考勤', image: require('../../../resource/imgs/home/applications/attendance.png'), sectionID:3},
-    {title:'办公用品', image: require('../../../resource/imgs/home/applications/officeSupplies.png'), sectionID:3}
+    {title:'办公用品', image: require('../../../resource/imgs/home/applications/officeSupplies.png'), sectionID:3},
+    {title:'公文管理', image: require('../../../resource/imgs/home/applications/gongwenguanli.png'), sectionID:1},
 ];
 var otherApp = [
     {title:'派车申请', image: require('../../../resource/imgs/home/applications/applyFor.png'), sectionID:4}
