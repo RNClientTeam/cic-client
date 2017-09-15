@@ -37,8 +37,7 @@ export default class ProjectSubitemSplitListCell extends Component {
                     </View>
                     <View style={styles.aboutPrincipal}>
                         <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.xmjl}</Text>
-                        <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.ssdw}</Text>
-                        {/*<Text style={[{width: width * 0.5}, styles.textStyle]}>{this.props.data.schedule}</Text>*/}
+                        <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.ssdw}</Text>
                         <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.cfsj}</Text>
                     </View>
                 </TouchableOpacity>

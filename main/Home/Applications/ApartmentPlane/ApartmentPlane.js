@@ -31,13 +31,12 @@ export default class ApartmentPlane extends Component {
             isModalVisible: false,
             modalVisible: false,
             isLoading: false,
-            dataType: '我的',//1,全部:2
             jhmc: '',
             sDate: getCurrentMonS(),
             eDate: getCurrentMonE(),
             pageNum: 1,
             rwzt: '请选择任务状态',
-            rwztmc: '请选择任务状态',
+            rwztmc: this.props.tag==='todo'?'我的待办':'请选择任务状态',
             dataList: [],
             operatingItem: {},
             authList: [],
@@ -176,7 +175,6 @@ export default class ApartmentPlane extends Component {
             }
         }).then(data => {
             this.hideLoading();
-            console.log(data);
             if (data.code === 1) {
                 let arr = [];
                 for (let item in data.data) {
@@ -205,7 +203,7 @@ export default class ApartmentPlane extends Component {
         axios.get('/psmBmjh/list', {
             params: {
                 userID: GLOBAL_USERID,
-                dataType: 2,
+                dataType: this.props.tag==='todo'?3:2,
                 jhmc: this.state.jhmc,
                 sDate: this.state.sDate,
                 eDate: this.state.eDate,

@@ -32,7 +32,7 @@ export default class ProgressPlan extends Component {
             isModalVisible:false,
             sDate: getCurrentMonS(),
             eDate: getCurrentMonE(),
-            jhlx: '全部',
+            jhlx: this.props.tag==='todo'?'我的待办':'全部',
             keywords: '',
             dataSource: [],
             hasMoreData: true

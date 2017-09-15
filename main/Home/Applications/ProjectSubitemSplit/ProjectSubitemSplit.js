@@ -162,7 +162,6 @@ export default class ProjectSubitemSplit extends Component {
                     xmmc:this.state.xmmc
                 }
             }).then(data => {
-                console.log(data);
                 if (data) {
                     if(data.code === 1){
                         if(data.data&&data.data.list&&data.data.list.length>0){

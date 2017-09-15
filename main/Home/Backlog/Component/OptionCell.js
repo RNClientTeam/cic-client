@@ -108,25 +108,28 @@ export default class OptionCell extends Component {
             case '实施进度计划执行':
                 this.props.navigator.push({
                     name: 'Ssjdjh',
-                    component: Ssjdjh
-                });
-                break;
-            case '实施进度计划':
-                this.props.navigator.push({
-                    name: 'Ssjdjh',
-                    component: Ssjdjh
+                    component: Ssjdjh,
+                    params: {
+                        tag: 'todo'
+                    }
                 });
                 break;
             case '施工进度计划编制':
                 this.props.navigator.push({
                     name: 'ConstructionProgressPlan',
-                    component: ConstructionProgressPlan
+                    component: ConstructionProgressPlan,
+                    params: {
+                        tag: 'todo'
+                    }
                 });
                 break;
             case '施工进度计划执行':
                 this.props.navigator.push({
                     name: 'ProgressExecute',
-                    component: ProgressExecute
+                    component: ProgressExecute,
+                    params: {
+                        tag: 'todo'
+                    }
                 });
                 break;
             case '施工日计划':
@@ -144,7 +147,10 @@ export default class OptionCell extends Component {
             case '部门计划':
                 this.props.navigator.push({
                     name: 'ApartmentPlane',
-                    component: ApartmentPlane
+                    component: ApartmentPlane,
+                    params: {
+                        tag: 'todo'
+                    }
                 });
                 break;
             case '质量检查计划':
@@ -179,10 +185,12 @@ export default class OptionCell extends Component {
             case '安全检查记录':
                 this.props.navigator.push({
                     name: 'SafetyInspectionRecord',
-                    component: SafetyInspectionRecord
+                    component: SafetyInspectionRecord,
+                    params: {
+                        tag: 'todo'
+                    }
                 });
                 break;
-
         }
     }
 }

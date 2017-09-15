@@ -28,7 +28,7 @@ export default class SafetyInspectionRecord extends Component{
             modalVisible: false,
             ksrq:getCurrentMonS(),
             jsrq:getCurrentMonE(),
-            jhlx:'所有计划',
+            jhlx:this.props.tag==='todo'?'我的待办':'所有计划',
             keywords:'',
             pageNum:1,
             isLoading:false,

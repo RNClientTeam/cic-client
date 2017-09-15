@@ -28,7 +28,7 @@ export default class ProgressPlan extends Component {
             isModalVisible: false,
             ksrq: getCurrentMonS(),
             jsrq: getCurrentMonE(),
-            jhlx: '全部',//全部,我参与的，我审核的，我的计划，我的待办
+            jhlx: this.props.tag==='todo'?'我的待办':'全部',//全部,我参与的，我审核的，我的计划，我的待办
             pageNum: 1,
             pageSize: 10,
             keywords: '',

@@ -164,7 +164,7 @@ export default class MoreOperation extends Component {
         } else if (rowData.name === '删除') {
             axios.post('/psmAqjcjh/deleteAqjcjl', {
                 userID: GLOBAL_USERID,
-                id: this.props.data.aqjcjlId,
+                id: this.props.data.id,
                 callID: true
             }).then((res) => {
                 if (res.code ===1) {
