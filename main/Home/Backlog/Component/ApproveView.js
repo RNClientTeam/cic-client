@@ -65,7 +65,7 @@ export default class ApproveView extends Component{
                     }else if(i==='P0303'){
                         optionCells.push({name:'工程范围交接',src:require('../../../../resource/imgs/home/backlog/projectSplit.png'),badge:data.data[i]})
                     }else if(i==='P0304'){
-                        optionCells.push({name:'实施进度计划',src:require('../../../../resource/imgs/home/backlog/toDoPlan.png'),badge:data.data[i]})
+                        optionCells.push({name:'实施进度计划执行',src:require('../../../../resource/imgs/home/backlog/toDoPlan.png'),badge:data.data[i]})
                     }else if(i==='P0305'){
                         optionCells.push({name:'施工进度计划编制',src:require('../../../../resource/imgs/home/backlog/toDoPlanEdit.png'),badge:data.data[i]})
                     }else if(i==='P0306'){
