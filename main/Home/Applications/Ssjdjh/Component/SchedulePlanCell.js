@@ -57,9 +57,9 @@ export default class SchedulePlanCell extends Component {
                     <Text style={styles.projectName}>{this.props.data.rwmc}</Text>
                 </View>
                 <View style={styles.aboutPrincipal}>
-                    <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zrr}</Text>
-                    <Text style={[{width: width * 0.2}, styles.textStyle]}>{this.props.data.zrbm}</Text>
-                    <Text style={[{width: width * 0.5}, styles.textStyle]}>{this.props.data.wcbl||'0'}%</Text>
+                    <Text style={[styles.textStyle]}>{this.props.data.zrr}</Text>
+                    <Text style={[{marginLeft:width*0.05,marginRight:width*0.05}, styles.textStyle]}>{this.props.data.zrbm}</Text>
+                    <Text style={[ styles.textStyle]}>{this.props.data.wcbl||'0'}%</Text>
                     <Text style={[{width: width * 0.7}, styles.textStyle]}>{this.props.data.sDate}{this.props.data.sDate&&this.props.data.eDate&&'/'}{this.props.data.eDate}</Text>
                     <TouchableOpacity onPress={this.skipPage.bind(this,this.props.data.rwid,this.props.data.sDate,this.props.data.eDate)} style={styles.editTouch}>
                         <Image source={require('../../../../../resource/imgs/home/earlierStage/edit.png')}

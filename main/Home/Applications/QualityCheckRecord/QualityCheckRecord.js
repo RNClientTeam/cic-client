@@ -77,6 +77,7 @@ export default class QualityCheckRecord extends Component {
                                         reload={()=>this.getData()}
                                         showModal={(auth, data) => {
                                             let tempAuth = false;
+                                            auth.workFlow = true;//查看已完成步骤
                                             for (var key in auth) {
                                                 if (auth[key] && !tempAuth) {
                                                     tempAuth = true;

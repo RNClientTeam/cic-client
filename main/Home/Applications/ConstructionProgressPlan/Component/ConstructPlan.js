@@ -226,10 +226,11 @@ export default class ConstructPlan extends Component {
             }
         }).then(responseData => {
             if (responseData.code === 1) {
+                responseData.data.chakan = true;//查看已完成步骤
                 if (responseData.data.effectSgrw ||
                     responseData.data.deleteSgrw ||
                     responseData.data.submit ||
-                    responseData.data.updateSgrw) {
+                    responseData.data.updateSgrw||responseData.data.chakan) {
                     this.setState({
                         authority: responseData.data,
                         modalVisible: true,

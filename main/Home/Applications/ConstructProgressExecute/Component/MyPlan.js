@@ -145,6 +145,7 @@ export default class MyPlan extends Component {
         }).then((res) => {
             if (res.code === 1) {
                 let showToast = true;
+                res.data.workflow = true;//查看已完成步骤
                 for (var key in res.data) {
                     if (res.data[key] && showToast) {
                         showToast = false;

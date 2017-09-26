@@ -13,6 +13,7 @@ import {
 } from 'react-native'
 import NewCreateRecord from './NewCreateRecord.js';
 import ExamineAndApprove from './ExamineAndApprove.js';
+import FinishedPath from './FinishedPath'
 import RectifyTask from './RectifyTask.js';
 import Toast from 'react-native-simple-toast';
 const {width} = Dimensions.get('window');
@@ -30,6 +31,12 @@ export default class MoreOperation extends Component {
             dataArr.push({
                 img: require('../../../../../resource/imgs/home/applications/createItem.png'),
                 name: '增加'
+            });
+        }
+        if (this.props.auth.workflow) {
+            dataArr.push({
+                img: require('../../../../../resource/imgs/home/earlierStage/workflow.png'),
+                name: '查看已完成步骤'
             });
         }
         if (this.props.auth.editAqjcjl) {
@@ -159,6 +166,15 @@ export default class MoreOperation extends Component {
                     initialPage: 2,
                     data: this.props.data,
                     reloadInfo: this.props.reloadInfo
+                }
+            });
+        } else if (rowData.name === '查看已完成步骤') {
+            this.props.navigator.push({
+                name: 'finishedPath',
+                component: FinishedPath,
+                params: {
+                    wfName:'jdjhaqjcjl',
+                    resID: this.props.data.id
                 }
             });
         } else if (rowData.name === '删除') {

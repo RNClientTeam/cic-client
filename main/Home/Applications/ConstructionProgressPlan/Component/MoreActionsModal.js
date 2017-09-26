@@ -14,6 +14,7 @@ import {
 import toast from 'react-native-simple-toast'
 import MyPlanDetail from './MyPlanDetail'
 import CheckFlowInfo  from '../../SafetyInspectionRecord/Component/CheckFlowInfo'
+import FinishedPath from '../../SafetyInspectionRecord/Component/FinishedPath'
 
 const {width} = Dimensions.get('window');
 
@@ -108,12 +109,33 @@ export default class MoreActionsModal extends Component {
         this.props.closeModal();
     }
 
+    chakan(rwid){
+        this.props.navigator.push({
+            name: 'finishedPath',
+            component: FinishedPath,
+            params: {
+                wfName: 'sgjdjhbz',
+                resID: rwid
+            }
+        });
+        this.props.closeModal();
+    }
+
     componentDidMount() {
         let actionList = [];
         const authority = this.props.authority;
         console.log(authority);
         // 有创建权限
         if (authority) {
+            if(authority.chakan){
+                actionList.push(
+                    {
+                        img: require('../../../../../resource/imgs/home/earlierStage/workflow.png'),
+                        name: '查看已完成步骤',
+                        action: () => this.chakan(this.props.rwid)
+                    }
+                );
+            }
             if (authority.updateSgrw) {
                 actionList.push(
                     {

@@ -48,7 +48,7 @@ const styles = StyleSheet.create(
     {
         content:{
             backgroundColor: '#fff',
-            borderColor: '#d2d2d2',
+            borderColor: '#fff',
             marginLeft: 0.01 * width,
             marginRight: 0.01 * width,
             marginBottom: 0.02 * width,

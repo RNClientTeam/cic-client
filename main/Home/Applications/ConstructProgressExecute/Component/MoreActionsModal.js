@@ -14,7 +14,7 @@ import {
 import CompletionForm from './CompletionForm'
 import CompletionConfirm from './CompletionConfirm'
 import YanqiBG from './YanqiBGSQ.js';
-
+import FinishedPath from './FinishedPath'
 const {width} = Dimensions.get('window');
 
 export default class MoreActionsModal extends Component {
@@ -122,7 +122,17 @@ export default class MoreActionsModal extends Component {
                     reloadInfo:this.props.reloadInfo
                 }
             });
+        }else if(dataSource.name === '查看已完成流程步骤'){
+            this.props.navigator.push({
+                name:'CompletionConfirm',
+                component:FinishedPath,
+                params:{
+                    resID:this.props.sgrwId,
+                    wfName:'sgphrwyqbg'
+                }
+            });
         }
+
         this.props.closeModal();
     }
 }
