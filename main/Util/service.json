@@ -1,5 +1,5 @@
 {
-  "baseUrl" : "http://was.jzfyjt.com:9092/service"
+  "baseUrl" : "http://10.1.0.20:9092/service"
 }
 /*http://10.1.1.8:9092/service*/
 /*http://was.jzfyjt.com:9092/service*/
