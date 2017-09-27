@@ -58,7 +58,7 @@ export default class ConstructPlan extends Component {
                     let resultData = responseData.data.data;
                     if (resultData.length) {
                         this.setState({
-                            myTask: [...this.state.myTask, ...resultData],
+                            myTask: this.state.myTask.concat(resultData),
                             currentPageMy: pageNum,
                             totalMy: responseData.data.total
                         });
@@ -93,7 +93,7 @@ export default class ConstructPlan extends Component {
                     let resultData = responseData.data.data;
                     if (resultData.length) {
                         this.setState({
-                            allTask: [...this.state.myTask, ...resultData],
+                            allTask: this.state.allTask.concat(resultData),
                             currentPageAll: pageNum,
                             totalAll: responseData.data.total
                         });

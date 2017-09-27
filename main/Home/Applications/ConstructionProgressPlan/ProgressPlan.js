@@ -99,7 +99,8 @@ export default class ProgressPlan extends Component {
     }) {
         let jhlx = 500;
         this.setState({
-            isLoading: true
+            isLoading: true,
+            pageNum: pageNum
         });
         switch (this.state.jhlx) {
             case '全部':
@@ -118,9 +119,6 @@ export default class ProgressPlan extends Component {
                 jhlx = 100;
                 break;
         }
-        this.setState({
-            pageNum
-        });
         axios.get('/psmSgjdjh/list', {
             params: {
                 userID: GLOBAL_USERID,
@@ -133,30 +131,22 @@ export default class ProgressPlan extends Component {
                 callID: true
             }
         }).then(responseData => {
-            this.setState({
-                isLoading: false,
-                pageNum:pageNum
-            });
             if (responseData.code === 1) {
                 //第一页数据 设置total 清空dataSource数组
                 if (pageNum === 1) {
-                    this.setState({
-                        total: responseData.data.total
-                    });
                     this.state.dataSource = [];
                 }
-                let data = responseData.data;
-                let tmp = this.state.dataSource;
-                for (let i = 0; i < data.data.length; i++) {
-                    tmp.push(data.data[i]);
-                }
-                resolve();
                 this.setState({
-                    dataSource: tmp
+                    dataSource: this.state.dataSource.concat(responseData.data.data),
+                    total: pageNum === 1 ? responseData.data.total : this.state.total,
+                    isLoading: false
                 });
-                return data.data.length > 0
-
+                resolve();
+                return responseData.data.data.length > 0
             } else {
+                this.setState({
+                    isLoading: false
+                });
                 toast.show(responseData.message);
                 return false
             }
