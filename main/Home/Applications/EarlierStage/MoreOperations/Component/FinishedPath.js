@@ -50,7 +50,7 @@ export default class FinishedPath extends Component{
     renderSection(dataArr){
         return dataArr.map((item,index)=>
             (
-                <View key={index}>
+                <View key={index} >
                         <View style={[styles.titleContent, {width:(item.text.length*15+0.1*width)}]}>
                             <Text style={styles.titleText} numberOfLines={1}>{item.text}</Text>
                         </View>
@@ -86,7 +86,6 @@ export default class FinishedPath extends Component{
         axios.get(reqURL,{
             params:params
         }).then(data=>{
-            console.log(data)
             if(data.message === '成功'){
                 this.setState({
                     dataSource:data.data

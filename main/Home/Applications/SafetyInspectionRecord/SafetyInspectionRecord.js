@@ -67,6 +67,7 @@ export default class SafetyInspectionRecord extends Component{
                     reloadInfo={this._getData.bind(this, 1)}
                     setModalVisible={(auth, data)=>{
                         let tempData = false;
+                        auth.workflow = true;
                         for (var key in auth) {
                             if (auth[key] && !tempData) {
                                 tempData = true;

@@ -26,6 +26,12 @@ export default class QualityCheckModal extends Component{
                 name: '增加'
             });
         }
+        if (this.props.auth.workFlow) {
+            dataArr.push({
+                img: require('../../../../../resource/imgs/home/earlierStage/workflow.png'),
+                name: '查看已完成步骤'
+            });
+        }
         if (this.props.auth.editZljcjl) {
             dataArr.push({
                 img: require('../../../../../resource/imgs/home/applications/modification.png'),

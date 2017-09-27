@@ -13,6 +13,7 @@ import {
 } from 'react-native'
 import QualityDoubleCheckRecord from "./QualityDoubleCheckRecord"
 import Toast from 'react-native-simple-toast';
+import FinishedPath from '../../SafetyInspectionRecord/Component/FinishedPath'
 const {width} = Dimensions.get('window');
 export default class QualityCheckModalCell extends Component {
     render() {
@@ -81,6 +82,15 @@ export default class QualityCheckModalCell extends Component {
                     reloadInfo: this.props.reloadInfo
                 }
             })
+        }else if (this.props.dataSource.name === '查看已完成步骤') {
+            this.props.navigator.push({
+                name: 'finishedPath',
+                component: FinishedPath,
+                params: {
+                    wfName: 'jdjhzljcjl',
+                    resID: this.props.data.id
+                }
+            });
         } else if (this.props.dataSource.name === '填报复查记录') {
             this.props.navigator.push({
                 name: 'QualityDoubleCheckRecord',

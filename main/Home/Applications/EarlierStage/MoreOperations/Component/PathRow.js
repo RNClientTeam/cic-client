@@ -48,7 +48,7 @@ const styles = StyleSheet.create(
     {
         content:{
             backgroundColor: '#fff',
-            borderColor: '#d2d2d2',
+            borderColor: '#fff',
             marginLeft: 0.01 * width,
             marginRight: 0.01 * width,
             marginBottom: 0.02 * width,
@@ -61,7 +61,8 @@ const styles = StyleSheet.create(
             alignItems: 'center',
             borderBottomWidth: 1,
             borderBottomColor: '#dcdcdc',
-            height: 0.07 * height
+            height: 0.07 * height,
+            backgroundColor:'white'
         },
         icon: {
             width:width*0.05,

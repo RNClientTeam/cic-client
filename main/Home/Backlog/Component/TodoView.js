@@ -56,36 +56,20 @@ export default class TodoView extends Component {
         }).then(data=>{
             this.props.hideLoading();
             if(data.code ===1){
+                optionCells.push({name:'前期进度计划执行',src:require('../../../../resource/imgs/home/backlog/frontPlan.png'),badge:data.data.P0301});
+                optionCells.push({name:'工程子项拆分',src:require('../../../../resource/imgs/home/backlog/projectSplit.png'),badge:data.data.P0302});
+                optionCells.push({name:'工程范围交接',src:require('../../../../resource/imgs/home/backlog/projectSplit.png'),badge:data.data.P0303})
+                optionCells.push({name:'实施进度计划执行',src:require('../../../../resource/imgs/home/backlog/toDoPlan.png'),badge:data.data.P0304})
+                optionCells.push({name:'施工进度计划编制',src:require('../../../../resource/imgs/home/backlog/toDoPlanEdit.png'),badge:data.data.P0305})
+                optionCells.push({name:'施工进度计划执行',src:require('../../../../resource/imgs/home/backlog/todoTodo.png'),badge:data.data.P0306})
+                optionCells.push({name:'施工日计划',src:require('../../../../resource/imgs/home/backlog/constructDayPlan.png'),badge:data.P0307})
+                optionCells.push({name:'部门计划',src:require('../../../../resource/imgs/home/backlog/departmentPlanTodo.png'),badge:data.data.P0309})
+                optionCells.push({name:'质量检查计划',src:require('../../../../resource/imgs/home/backlog/qualityInspectionPlan.png'),badge:data.data.P0310})
+                optionCells.push({name:'质量检查记录',src:require('../../../../resource/imgs/home/backlog/qualityInspectionRecord.png'),badge:data.data.P0311})
+                optionCells.push({name:'安全检查计划',src:require('../../../../resource/imgs/home/backlog/safetyInspectPlan.png'),badge:data.data.P0312})
+                optionCells.push({name:'安全检查记录',src:require('../../../../resource/imgs/home/backlog/safetyInspectRecord.png'),badge:data.data.P0313})
                 for(let i in data.data){
-                    if(i === 'P0301'){
-                        optionCells.push({name:'前期进度计划执行',src:require('../../../../resource/imgs/home/backlog/frontPlan.png'),badge:data.data[i]})
-                    }else if(i==='P0302'){
-                        optionCells.push({name:'工程子项拆分',src:require('../../../../resource/imgs/home/backlog/projectSplit.png'),badge:data.data[i]})
-                    }else if(i==='P0303'){
-                        optionCells.push({name:'工程范围交接',src:require('../../../../resource/imgs/home/backlog/projectSplit.png'),badge:data.data[i]})
-                    }else if(i==='P0304'){
-                        optionCells.push({name:'实施进度计划执行',src:require('../../../../resource/imgs/home/backlog/toDoPlan.png'),badge:data.data[i]})
-                    }else if(i==='P0305'){
-                        optionCells.push({name:'施工进度计划编制',src:require('../../../../resource/imgs/home/backlog/toDoPlanEdit.png'),badge:data.data[i]})
-                    }else if(i==='P0306'){
-                        optionCells.push({name:'施工进度计划执行',src:require('../../../../resource/imgs/home/backlog/todoTodo.png'),badge:data.data[i]})
-                    }else if(i==='P0307'){
-                        optionCells.push({name:'施工日计划',src:require('../../../../resource/imgs/home/backlog/constructDayPlan.png'),badge:data.data[i]})
-                    }
-                    // else if(i==='P0308'){
-                    //     optionCells.push({name:'部门计划编制',src:require('../../../../resource/imgs/home/backlog/departmentPlan.png'),badge:data.data[i]})
-                    // }
-                    else if(i==='P0309'){
-                        optionCells.push({name:'部门计划',src:require('../../../../resource/imgs/home/backlog/departmentPlanTodo.png'),badge:data.data[i]})
-                    }else if(i==='P0310'){
-                        optionCells.push({name:'质量检查计划',src:require('../../../../resource/imgs/home/backlog/qualityInspectionPlan.png'),badge:data.data[i]})
-                    }else if(i==='P0311'){
-                        optionCells.push({name:'质量检查记录',src:require('../../../../resource/imgs/home/backlog/qualityInspectionRecord.png'),badge:data.data[i]})
-                    }else if(i==='P0312'){
-                        optionCells.push({name:'安全检查计划',src:require('../../../../resource/imgs/home/backlog/safetyInspectPlan.png'),badge:data.data[i]})
-                    }else if(i==='P0313'){
-                        optionCells.push({name:'安全检查记录',src:require('../../../../resource/imgs/home/backlog/safetyInspectRecord.png'),badge:data.data[i]})
-                    }else if(i==='P04'){
+                    if(i==='P04'){
                         optionCells.push({name:'公文管理',src:require('../../../../resource/imgs/home/backlog/documentManage.png'),badge:data.data[i]})
                     }else if(i==='P05'){
                         optionCells.push({name:'工作计划',src:require('../../../../resource/imgs/home/backlog/workPlan.png'),badge:data.data[i]})
