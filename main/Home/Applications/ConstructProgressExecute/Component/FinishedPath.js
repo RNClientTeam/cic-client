@@ -41,11 +41,11 @@ export default class FinishedPath extends Component{
     }
 
     componentDidMount() {
-        axios.get('/workFlow/actionList', {
+        axios.get('/workFlow/multiActionList', {
             params: {
                 userID: GLOBAL_USERID,
                 resID: this.props.resID,
-                wfName: this.props.wfName,
+                groupWfName: 'jdjhsgjh-zx',
                 callID: true
             }
         }).then(data=>{
