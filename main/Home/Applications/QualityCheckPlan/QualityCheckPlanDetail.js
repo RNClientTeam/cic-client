@@ -78,7 +78,7 @@ export default class QualityCheckPlanDetail extends Component {
                     jhjssjt: responseData.data.jhjssjt,
                     cjsjt: responseData.data.cjsjt,
                     addZljcjl: responseData.data.addZljcjl
-                })
+                });
             } else {
                 toast.show(responseData.message)
             }
@@ -96,6 +96,11 @@ export default class QualityCheckPlanDetail extends Component {
             name: 'QualityCheckRecordDetail',
             params: {
                 name: 'QualityCheckPlan',
+                rwnr: this.state.rwnr,
+                xmmc: this.state.xmmc,
+                xmgh: this.state.xmgh,
+                zxmc: this.state.zxmc,
+                zrrmc: this.state.zrrmc,
                 reloadInfo: ()=>{}
             }
         });

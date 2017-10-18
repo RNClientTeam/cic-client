@@ -82,17 +82,17 @@ export default class DoubleCheckDetail extends Component {
             this.setState({isLoading: false});
             if (data.code === 1) {
                 this.setState({
-                    zxmc: data.data.zxmc,
-                    xmgh: data.data.xmgh,
-                    xmmc: data.data.xmmc,
+                    zxmc: data.data.zxmc || this.props.zxmc,
+                    xmgh: data.data.xmgh || this.props.xmgh,
+                    xmmc: data.data.xmmc || this.props.xmmc,
                     cjsj: data.data.cjsj,
                     jcsj: data.data.jcsj,
                     dqzt: data.data.dqzt,
                     jcr: data.data.jcr,
-                    jcrmc: data.data.jcrmc,
+                    jcrmc: data.data.jcrmc || this.props.zrrmc,
                     id: data.data.id,
                     gcjd: data.data.gcjd,
-                    rwnr: data.data.rwnr,
+                    rwnr: data.data.rwnr || this.props.rwnr,
                     zxid: data.data.zxid,
                     sfxczg: data.data.sfxczg,
                     cjr: data.data.cjr,
