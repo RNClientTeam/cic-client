@@ -59,7 +59,7 @@ export default class Home extends Component {
                 <ScrollView>
                     <View style={styles.viewSty}>
                         {/*菜单栏*/}
-                        <MenuItems badges={this.state.badges} navigator={this.props.navigator}/>
+                        <MenuItems reloadHome={()=>this.load()} badges={this.state.badges} navigator={this.props.navigator}/>
                         {/*公司经营状况*/}
                         <ManageState bsData={this.state.bsData}/>
                         {/*最新消息*/}
@@ -142,6 +142,10 @@ export default class Home extends Component {
             return Promise.reject(err);
         });
 
+        this.load();
+    }
+
+    load(){
         storage.load({
             key: keys.userMessage
         }).then((data) => {

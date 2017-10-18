@@ -62,6 +62,9 @@ export default class Remind extends Component {
         });
         this.refs.remindScroll.scrollTo({x: width * index, y: 0, animated: true})
     }
+    componentWillUnmount(){
+        this.props.reloadHome();
+    }
 
 }
 

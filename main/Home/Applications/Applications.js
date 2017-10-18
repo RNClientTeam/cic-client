@@ -81,6 +81,11 @@ export default class Applications extends Component {
             canEdit: false
         }
     }
+
+    componentWillUnmount(){
+        this.props.reloadHome();
+    }
+
     componentDidMount() {
         storage.load({
             key: getKey('nativeCommonlyApp')

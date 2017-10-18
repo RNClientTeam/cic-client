@@ -14,10 +14,10 @@ export default class MenuItems extends Component{
     render(){
         return(
             <View style={styles.containerStyle}>
-                <MenuItem navigator={this.props.navigator}  src={require('../../../resource/imgs/home/commission.png')} name='待办' badge={this.props.badges.todo}/>
-                <MenuItem navigator={this.props.navigator} src={require('../../../resource/imgs/home/remind.png')} name='提醒' badge={this.props.badges.remind}/>
-                <MenuItem navigator={this.props.navigator} src={require('../../../resource/imgs/home/watch.png')} name='监控' badge="0"/>
-                <MenuItem navigator={this.props.navigator} src={require('../../../resource/imgs/home/applications.png')} name='应用'/>
+                <MenuItem reloadHome = {this.props.reloadHome} navigator={this.props.navigator}  src={require('../../../resource/imgs/home/commission.png')} name='待办' badge={this.props.badges.todo}/>
+                <MenuItem reloadHome = {this.props.reloadHome} navigator={this.props.navigator} src={require('../../../resource/imgs/home/remind.png')} name='提醒' badge={this.props.badges.remind}/>
+                <MenuItem reloadHome = {this.props.reloadHome} navigator={this.props.navigator} src={require('../../../resource/imgs/home/watch.png')} name='监控' badge="0"/>
+                <MenuItem reloadHome = {this.props.reloadHome} navigator={this.props.navigator} src={require('../../../resource/imgs/home/applications.png')} name='应用'/>
             </View>
         )
     }

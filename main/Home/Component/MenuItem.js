@@ -54,18 +54,25 @@ export default class MenuItem extends Component {
                 name:'backlog',
                 component:Backlog,
                 params:{
-                    badge:this.props.badge
+                    badge:this.props.badge,
+                    reloadHome:this.props.reloadHome
                 }
             })
         }else if(this.props.name === '提醒'){
             this.props.navigator.push({
                 name:'remind',
-                component:Remind
+                component:Remind,
+                params:{
+                    reloadHome:this.props.reloadHome
+                }
             })
         } else if (this.props.name === '应用') {
             this.props.navigator.push({
                 name: 'Applications',
-                component: Applications
+                component: Applications,
+                params:{
+                    reloadHome:this.props.reloadHome
+                }
             })
         }
     }

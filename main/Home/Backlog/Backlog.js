@@ -63,6 +63,10 @@ export default class Backlog extends Component {
         this.refs.todoScroll.scrollTo({x: width * index, y: 0, animated: true})
     }
 
+    componentWillUnmount(){
+        this.props.reloadHome();
+    }
+
 }
 
 const styles = StyleSheet.create({
