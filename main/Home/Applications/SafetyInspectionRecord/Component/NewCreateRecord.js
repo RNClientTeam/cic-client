@@ -78,6 +78,10 @@ export default class DoubleCheckDetail extends Component {
                     data: res.data,
                     isLoading: false,
                     wenti: res.data.wtlb
+                },function () {
+                    if(this.props.fromDetail){
+                        this.getSelInfo(this.props.rowData)
+                    }
                 });
             } else {
                 this.setState({isLoading:false});
@@ -86,6 +90,7 @@ export default class DoubleCheckDetail extends Component {
         }).catch((error) => {
             this.setState({isLoading:false});
         });
+
     }
 
     gotoOrganization() {
@@ -127,6 +132,7 @@ export default class DoubleCheckDetail extends Component {
     }
 
     render() {
+        console.log(this.state.data)
         return (
             <View style={{flex:1}}>
                 <StatusBar title="项目安全检查记录" navigator={this.props.navigator}/>

@@ -121,6 +121,7 @@ const styles = StyleSheet.create({
     signedButton:{
         width:width*0.2,
         height:width*0.2,
-        marginTop:width*0.1
+        marginTop:width*0.1,
+        marginBottom:width*0.1
     }
 });
