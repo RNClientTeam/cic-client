@@ -77,8 +77,8 @@ export default class Signed extends Component{
 
     getSigned(){
         let reqData = {};
-        this.showLoading();
         if(this.state.isSuccess){
+            this.showLoading();
             navigator.geolocation.getCurrentPosition((initialPosition) => {
                 reqData.qdsj = getCurrentTime();
                 reqData.ids = this.state.ids;
@@ -91,7 +91,6 @@ export default class Signed extends Component{
                     params:reqData
                 }).then(data=>{
                     this.hideLoading();
-                    console.log(data)
                     if(data.code === 1){
                         toast.show('签到成功!');
                         let that = this;
