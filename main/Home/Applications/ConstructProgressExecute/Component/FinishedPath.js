@@ -27,17 +27,29 @@ export default class FinishedPath extends Component{
             <View style={styles.containerStyle}>
                 <StatusBar navigator={this.props.navigator} title="已完成流程步骤"/>
                 <ScrollView>
-                    <View style={[styles.titleContent, {width:(4*15+0.1*width)}]}>
-                        <Text style={styles.titleText} numberOfLines={1}>{'延期申请'}</Text>
-                    </View>
-                    {this.renderRows(this.state.dataSource)}
+                    {this.renderSection(this.state.dataSource)}
                 </ScrollView>
             </View>
         )
     }
 
     renderRows(arr) {
-        return arr.map((item, index) => (<PathRow key={`${item.id}${index}`} data={item}/>))
+        return arr.map((item, index) => (
+            <PathRow key={`${item.id}${index}`} data={item}/>)
+        );
+    }
+
+    renderSection(dataArr){
+        return dataArr.map((item,index)=>
+            (
+                <View key={index} >
+                        <View style={[styles.titleContent, {width:(item.text.length*15+0.1*width)}]}>
+                            <Text style={styles.titleText} numberOfLines={1}>{item.text}</Text>
+                        </View>
+                    {this.renderRows(item.data)}
+                </View>
+            )
+        )
     }
 
     componentDidMount() {
