@@ -23,7 +23,13 @@ export default class SafetyInspectionDetail extends Component {
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             dataSource: [],
-            add: false
+            add: false,
+            id:'',
+            gczxId:'',
+            zxmc:'',
+            xmmc:'',
+            aqjcjhmc:'',
+            xmbh:''
         };
     }
 
@@ -106,7 +112,14 @@ export default class SafetyInspectionDetail extends Component {
                 name: 'NewCreateRecord',
                 params: {
                     fromDetail: true,
-                    aqjcjhId: this.props.id
+                    rowData:{
+                        aqjcjhId: this.state.id,
+                        gczxId:this.state.gczxId,
+                        gczxmc:this.state.zxmc,
+                        xmmc:this.state.xmmc,
+                        aqjcjhmc:this.state.aqjcjhmc,
+                        xmbh:this.state.xmbh
+                    }
                 }
             });
         } else {
@@ -136,7 +149,13 @@ export default class SafetyInspectionDetail extends Component {
                         {name: '计划结束时间', value: data.jhjssj},
                         {name: '责任人', value: data.zrrmc},
                         {name: '创建时间', value: data.cjsj},
-                    ]
+                    ],
+                    id:data.id,
+                    gczxId:data.gczxId,
+                    zxmc:data.zxmc,
+                    xmmc:data.xmmc,
+                    aqjcjhmc:data.aqjcjhmc,
+                    xmbh:data.xmbh
                 })
             } else {
                 toast.show(responseData.message);
