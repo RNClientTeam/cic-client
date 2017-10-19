@@ -88,11 +88,7 @@ export default class Organization extends Component {
             <View style={styles.container}>
                 {this.props.getInfo || this.props.type === 'dep' || this.props.type === 'emp'?
                     <StatusBar navigator={this.props.navigator} title="请选择"
-                               notBack={
-                                   !(this.state.deps.length &&
-                                    this.state.deps[0] &&
-                                    this.state.deps[0].parent && this.state.deps[0].parent.parent)
-                               }
+                               notBack={false}
                                backButtonFun = {this.goBack.bind(this, this.state.deps)}>
                         {action}
                     </StatusBar> :statusBar}
@@ -210,6 +206,8 @@ export default class Organization extends Component {
         let dep = deps[0];
         if (dep.parent && dep.parent.parent) {
             this.setState({deps: dep.parent.parent.item});
+        } else {
+            this.props.navigator.pop();
         }
         // else if (dep.parent) {
         //     let tmp = [];
