@@ -20,39 +20,6 @@ import Reload from "../../../../Component/Reload.js"
 import MyPlanCell from "./MyPlanCell"
 
 const {width, height} = Dimensions.get('window');
-// let dataArr = [
-//     {
-//         period: '准备设备',
-//         state: '执行中',
-//         principal: '杨磊',
-//         time: '2017/11/11-2017/12/12'
-//     },
-//     {
-//         period: '设备检测',
-//         state: '执行中',
-//         principal: '杨磊',
-//         time: '2017/11/11-2017/12/12'
-//     },
-//     {
-//         period: '开始施工',
-//         state: '执行中',
-//         principal: '杨磊',
-//         time: '2017/11/11-2017/12/12'
-//     },
-//     {
-//         period: '施工收尾',
-//         state: '执行中',
-//         principal: '杨磊',
-//         time: '2017/11/11-2017/12/12'
-//     },
-//     {
-//         period: '施工收尾',
-//         state: '执行中',
-//         principal: '杨磊',
-//         time: '2017/11/11-2017/12/12'
-//     },
-// ];
-// let tempArr = dataArr;
 
 export default class AllPlan extends Component {
     constructor(props) {

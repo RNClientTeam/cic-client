@@ -25,7 +25,7 @@ export default class QualityCheckPlanListCell extends Component {
                             <Text style={styles.stateStyle}>{this.props.data.twztmc}</Text>
                         </View>
                     </View>
-                    <Text style={styles.topTaskStyle} numberOfLines={2}>
+                    <Text style={styles.topTaskStyle}>
                         {this.props.data.xmmc} - {this.props.data.zxmc}
                     </Text>
                 </View>
@@ -81,9 +81,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        height: width * 0.1,
+        paddingVertical: 5
     },
     projectNameStyle: {
+        flex:1,
+        marginRight: 10,
         color: '#216fd0'
     },
     stateView: {

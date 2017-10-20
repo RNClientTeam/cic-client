@@ -26,7 +26,7 @@ export default class ApartmentPlaneListCell extends Component {
                     {this.props.data.isTodo == '00'?null:<IsTodo isTodo={this.props.data.isTodo}/>}
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
-                            <Text style={{color:'#216fd0',fontSize:width*0.045,width:width*0.7}}>{this.props.data.jhmc}</Text>
+                            <Text style={{color:'#216fd0',fontSize:width*0.045,flex:1,marginRight:10}}>{this.props.data.jhmc}</Text>
                             <View style={[styles.stateView,this.props.data.ztmc==='启动'?{backgroundColor:'#11cb43'}:{}]}>
                                 <Text style={styles.stateText}>{this.props.data.ztmc}</Text>
                             </View>

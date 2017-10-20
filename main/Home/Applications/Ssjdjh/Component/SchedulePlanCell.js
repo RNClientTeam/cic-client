@@ -86,7 +86,6 @@ const styles = StyleSheet.create({
     },
     aboutProject: {
         backgroundColor: '#fff',
-        height: width * 0.2,
         paddingLeft: width * 0.01,
         paddingRight: width * 0.01
     },
@@ -106,7 +105,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     projectName: {
-        height: width * 0.1,
         lineHeight: 21
     },
     textStyle: {

@@ -20,10 +20,10 @@ export default class SafetyInspectionListCell extends Component {
                 <TouchableOpacity style={styles.earlierStageListCell} onPress={this.skipPage.bind(this)}>
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
-                            <Text style={{color:'#216fd0',fontSize:width*0.045}} numberOfLines={1}>{this.props.data.aqjcjhmc}</Text>
+                            <Text style={{color:'#216fd0',fontSize:width*0.045,flex:1,marginRight:10}}>{this.props.data.aqjcjhmc}</Text>
                             <Text style={[styles.stateText, this.props.data.ztmc==='新建任务'&&{backgroundColor:'#18d0ca'}]}>{this.props.data.ztmc}</Text>
                         </View>
-                        <Text style={styles.projectName} numberOfLines={0}>{this.props.data.xmmc} - {this.props.data.gczxmc}</Text>
+                        <Text style={styles.projectName}>{this.props.data.xmmc} - {this.props.data.gczxmc}</Text>
                     </View>
                     <View style={styles.aboutPrincipal}>
                         <View style={{flexDirection: 'row', paddingBottom: 12}}>
@@ -77,8 +77,8 @@ const styles = StyleSheet.create({
     numState: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        height: width * 0.1,
         alignItems: 'center',
+        paddingVertical: 8
     },
     projectName: {
         lineHeight: 21,

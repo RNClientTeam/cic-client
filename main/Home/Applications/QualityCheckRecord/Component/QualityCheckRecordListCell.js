@@ -29,7 +29,7 @@ export default class QualityCheckRecordListCell extends Component {
                             <Text style={styles.stateStyle}>{this.props.data.dqztmc}</Text>
                         </View>
                     </View>
-                    <Text style={styles.topTaskStyle} numberOfLines={2}>
+                    <Text style={styles.topTaskStyle}>
                         {this.props.data.xmmc} - {this.props.data.zxmc}
                     </Text>
                 </View>
@@ -90,10 +90,8 @@ const styles = StyleSheet.create({
     },
     topView: {
         backgroundColor: '#fff',
-        minHeight: width * 0.2,
-        paddingLeft: width * 0.02,
-        paddingRight: width * 0.02,
-        paddingBottom: width * 0.02
+        paddingHorizontal: width * 0.02,
+        paddingVertical: 10
     },
     bottomView: {
         backgroundColor: '#f6f9fa',
@@ -105,10 +103,11 @@ const styles = StyleSheet.create({
     topTopView: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        height: width * 0.1,
+        justifyContent: 'space-between'
     },
     projectNameStyle: {
+        flex:1,
+        marginRight:10,
         color: '#216fd0'
     },
     stateView: {

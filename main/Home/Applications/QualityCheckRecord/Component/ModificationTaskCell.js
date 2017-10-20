@@ -23,8 +23,7 @@ export default class ModificationTaskCell extends Component {
         return (
             <TouchableOpacity style={styles.modificationTaskCell} onPress={this.skipToDetail.bind(this)}>
                 <View style={styles.aboutProject}>
-                    <Text style={{color:'#216fd0',fontSize:width*0.045}}>{this.props.data.wtlb}</Text>
-                    <View style={styles.blank}/>
+                    <Text style={{color:'#216fd0',fontSize:width*0.045,flex:1,marginRight:10}}>{this.props.data.wtlb}</Text>
                     <View style={styles.stateView}>
                         <Text style={styles.stateText}>{this.props.data.dqztmc}</Text>
                     </View>
@@ -69,11 +68,10 @@ const styles = StyleSheet.create({
     },
     aboutProject: {
         backgroundColor: '#fff',
-        height: width * 0.12,
-        paddingLeft: width * 0.02,
-        paddingRight: width * 0.02,
+        padding: 10,
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'space-between'
     },
     aboutPrincipal: {
         backgroundColor: '#f6f9fa',
@@ -84,27 +82,20 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingTop: 10
     },
-    projectName: {
-        height: width * 0.1,
-        lineHeight: 21
-    },
     textStyle: {
         color:'#4f74a3'
     },
     stateView: {
         backgroundColor: '#23afe9',
-        width:width*0.17,
-        height:width*0.05,
         borderRadius:3,
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
+        paddingHorizontal:5,
+        height:width*0.05
     },
     stateText: {
         color: '#fff',
         fontSize: width * 0.03
-    },
-    blank: {
-        flex: 1
     },
     editImg: {
         width: 22,
