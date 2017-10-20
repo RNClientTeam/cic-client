@@ -99,7 +99,7 @@ export default class EnsureCompleteOfCooper extends Component{
                         </View>
                         <View style={styles.cell}>
                             <Text style={styles.label}>配合工作内容</Text>
-                            <Text style={{width:width*0.7}}>{this.state.rwnr}</Text>
+                            <Text style={{width:width*0.7,textAlign:'right'}}>{this.state.rwnr}</Text>
                         </View>
                         <View style={styles.cell}>
                             <Text style={styles.label}>要求完成时间</Text>
