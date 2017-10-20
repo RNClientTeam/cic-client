@@ -17,7 +17,7 @@ export default class ProjectTagName extends Component{
             <View style={styles.contianerStyle}>
                 <View style={[styles.textContainer,
                     {width:(this.props.name.length*width*0.038+width*0.04)<width*0.8?(this.props.name.length*width*0.038+width*0.04):width*0.8}]}>
-                    <Text style={{color:'#fff',fontSize:width*0.035}} numberOfLines={2}>{this.props.name}</Text>
+                    <Text style={{color:'#fff',fontSize:width*0.035}}>{this.props.name}</Text>
                 </View>
             </View>
         )

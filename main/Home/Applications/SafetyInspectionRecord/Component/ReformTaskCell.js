@@ -20,8 +20,7 @@ export default class ReformTaskCell extends Component {
             <View style={styles.modificationTaskCell}>
                 <TouchableOpacity  onPress={this.skipPage.bind(this)}>
                     <View style={styles.aboutProject}>
-                        <Text style={{color:'#216fd0',fontSize:width*0.04}}>{this.props.data.wtlbmc}</Text>
-                        <View style={styles.blank}/>
+                        <Text style={{color:'#216fd0',fontSize:width*0.04, flex:1,marginRight:10}}>{this.props.data.wtlbmc}</Text>
                         <View style={styles.stateView}>
                             <Text style={styles.stateText}>{this.props.data.dqztmc}</Text>
                         </View>
@@ -68,11 +67,10 @@ const styles = StyleSheet.create({
     },
     aboutProject: {
         backgroundColor: '#fff',
-        height: width * 0.12,
-        paddingLeft: width * 0.02,
-        paddingRight: width * 0.02,
+        padding: 10,
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent:'space-between'
     },
     aboutPrincipal: {
         backgroundColor: '#f6f9fa',

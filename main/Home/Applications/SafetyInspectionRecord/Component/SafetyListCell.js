@@ -26,12 +26,12 @@ export default class SafetyInspectionListCell extends Component {
                     {this.props.data.isTodo=='00'?null:<IsTodo isTodo={this.props.data.isTodo}/>}
                     <View style={styles.aboutProject}>
                         <View style={styles.numState}>
-                            <Text style={{color:'#216fd0',fontSize:width*0.045, width:width*0.7}} numberOfLines={2}>{this.props.data.aqjcjhmc}</Text>
+                            <Text style={{color:'#216fd0',fontSize:width*0.045,flex:1,marginRight:10}}>{this.props.data.aqjcjhmc}</Text>
                             <View style={[styles.stateView, (this.props.data.ztmc==='新建'||this.props.data.ztmc==='新建任务'||this.props.data.ztmc==='正常')&&{backgroundColor:'#18d0ca'}]}>
                                 <Text style={styles.stateText} numberOfLines={1}>{this.props.data.ztmc}</Text>
                             </View>
                         </View>
-                        <Text style={styles.projectName} numberOfLines={0}>{this.props.data.xmmc} - {this.props.data.zxmc}</Text>
+                        <Text style={styles.projectName}>{this.props.data.xmmc} - {this.props.data.zxmc}</Text>
                     </View>
                     <View style={styles.aboutPrincipal}>
                         <Text style={[{marginRight: 15}, styles.textStyle]}>{this.props.data.jcrmc}</Text>
@@ -103,8 +103,8 @@ const styles = StyleSheet.create({
     numState: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        height: width * 0.1,
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingVertical: 8
     },
     projectName: {
         lineHeight: 21,

@@ -24,8 +24,9 @@ export default class CooperateTaskCell extends Component {
                     this.props.dataSource.isTodo!='00'&&<IsTodo isTodo={this.props.dataSource.isTodo}/>
                 }
                 <View style={styles.topView}>
-                    <Text style={{color: '#729bdc', fontSize: width * 0.04, flex: 1}}
-                          numberOfLines={3}>{this.props.dataSource.rwmc}</Text>
+                    <Text style={{color: '#729bdc', fontSize: width * 0.04, flex: 1}}>
+                        {this.props.dataSource.rwmc}
+                    </Text>
                     <View style={[styles.stateView, {width: this.props.dataSource.ztmc.length * width * 0.04}]}>
                         <Text style={styles.stateText}>{this.props.dataSource.ztmc}</Text>
                     </View>

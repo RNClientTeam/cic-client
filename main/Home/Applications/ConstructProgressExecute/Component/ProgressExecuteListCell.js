@@ -25,7 +25,7 @@ export default class ProgressExecuteListCell extends Component {
                             <Text style={{color: '#216fd0', fontSize: width * 0.045}}>{this.props.data.xmbh}</Text>
                         </View>
                         <View style={styles.projectName}>
-                            <Text style={{width:width*0.85,lineHeight:parseInt(width*0.05)}} numberOfLines={2}>
+                            <Text style={{width:width*0.85,lineHeight:parseInt(width*0.05)}}>
                                 {this.props.data.xmmc} - {this.props.data.zxmc}
                             </Text>
                             <View style={{flexDirection: 'row', alignItems: 'center'}}>

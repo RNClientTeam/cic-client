@@ -28,7 +28,7 @@ export default class ProjectSubitemSplitListCell extends Component {
                             </View>
                         </View>
                         <View style={styles.projectName}>
-                            <Text>{this.props.data.xmmc}</Text>
+                            <Text style={{width:width*0.8}}>{this.props.data.xmmc}</Text>
                             <View style={{flexDirection: 'row',alignItems:'center'}}>
                                 <Text>{this.props.data.zxcount}</Text>
                                 <Text style={{color:'#999',fontSize:width*0.05}}> > </Text>
@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
     },
     aboutProject: {
         backgroundColor: '#fff',
-        height: width * 0.2,
         paddingLeft: width * 0.01,
         paddingRight: width * 0.01
     },
@@ -94,7 +93,6 @@ const styles = StyleSheet.create({
     projectName: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        height: width * 0.1,
         alignItems: 'center'
     },
     textStyle: {

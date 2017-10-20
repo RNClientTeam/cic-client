@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     topView:{
         flexDirection:'row',
         justifyContent:'space-between',
-        height:width*0.1,
+        minHeight:width*0.1,
         alignItems:'center',
         padding:width*0.02
     },
