@@ -25,7 +25,7 @@ export default class MyPlanCell extends Component {
                 {this.props.data.isTodo != '00' &&
                 <IsTodo isTodo={this.props.data.isTodo}/>}
                 <View style={styles.aboutProject}>
-                    <Text style={{color:'#216fd0',fontSize:width*0.04}}>
+                    <Text style={{color:'#216fd0',fontSize:width*0.04,maxWidth:width*0.7}}>
                         {this.props.data.rwmc}
                     </Text>
                     <View style={[styles.stateView, {backgroundColor: this.props.stateBg || '#fe9a25'}]}>
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         paddingBottom: width * 0.03,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent:'space-between'
+        justifyContent:'space-between',
     },
     aboutPrincipal: {
         backgroundColor: '#f6f9fa',

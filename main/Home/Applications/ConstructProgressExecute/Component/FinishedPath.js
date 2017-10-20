@@ -35,14 +35,14 @@ export default class FinishedPath extends Component{
 
     renderRows(arr) {
         return arr.map((item, index) => (
-            <PathRow key={`${item.id}${index}`} data={item}/>)
+            <PathRow key={`${item.id}${index}`}  data={item}/>)
         );
     }
 
     renderSection(dataArr){
         return dataArr.map((item,index)=>
             (
-                <View key={index} >
+                <View key={index}>
                         <View style={[styles.titleContent, {width:(item.text.length*15+0.1*width)}]}>
                             <Text style={styles.titleText} numberOfLines={1}>{item.text}</Text>
                         </View>
@@ -91,7 +91,7 @@ const styles = StyleSheet.create(
         },
         titleText: {
             color: 'white',
-            fontSize: 14
+            fontSize: 14,
         }
     }
 );

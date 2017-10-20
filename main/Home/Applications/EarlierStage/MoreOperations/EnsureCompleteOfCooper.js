@@ -209,17 +209,17 @@ const styles = StyleSheet.create({
     cell: {
         flexDirection: 'row',
         alignItems: 'center',
-        height: height*0.07,
+        minHeight: height*0.07,
         paddingLeft: width*0.02,
         paddingRight: width*0.02,
         borderBottomWidth: 1,
-        borderBottomColor: '#dcdcdc'
+        borderBottomColor: '#dcdcdc',
+        justifyContent:'space-between'
     },
     label: {
         color: '#5476a1'
     },
     blank: {
-        flex: 1
     },
     button: {
         backgroundColor: '#216fd0',
