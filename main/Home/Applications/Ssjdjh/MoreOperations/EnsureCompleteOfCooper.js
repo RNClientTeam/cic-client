@@ -99,8 +99,7 @@ export default class EnsureCompleteOfCooper extends Component{
                         </View>
                         <View style={styles.cell}>
                             <Text style={styles.label}>配合工作内容</Text>
-                            <View style={styles.blank}/>
-                            <Text>{this.state.rwnr}</Text>
+                            <Text style={{width:width*0.7,textAlign:'right'}}>{this.state.rwnr}</Text>
                         </View>
                         <View style={styles.cell}>
                             <Text style={styles.label}>要求完成时间</Text>
@@ -209,14 +208,16 @@ const styles = StyleSheet.create({
     cell: {
         flexDirection: 'row',
         alignItems: 'center',
-        height: height*0.07,
+        minHeight: height*0.07,
         paddingLeft: width*0.02,
         paddingRight: width*0.02,
         borderBottomWidth: 1,
-        borderBottomColor: '#dcdcdc'
+        borderBottomColor: '#dcdcdc',
+        justifyContent:'space-between'
     },
     label: {
-        color: '#5476a1'
+        color: '#5476a1',
+        width:width*0.23
     },
     blank: {
         flex: 1
