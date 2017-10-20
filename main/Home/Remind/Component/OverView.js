@@ -66,7 +66,7 @@ export default class OverView extends Component{
                 optionCells.push({name:'实施进度计划执行',src:require('../../../../resource/imgs/home/backlog/toDoPlan.png'),badge:data.data.P0304})
                 optionCells.push({name:'施工进度计划编制',src:require('../../../../resource/imgs/home/backlog/toDoPlanEdit.png'),badge:data.data.P0305})
                 optionCells.push({name:'施工进度计划执行',src:require('../../../../resource/imgs/home/backlog/todoTodo.png'),badge:data.data.P0306})
-                optionCells.push({name:'施工日计划',src:require('../../../../resource/imgs/home/backlog/constructDayPlan.png'),badge:data.P0307})
+                optionCells.push({name:'施工日计划',src:require('../../../../resource/imgs/home/backlog/constructDayPlan.png'),badge:data.data.P0307})
                 optionCells.push({name:'部门计划',src:require('../../../../resource/imgs/home/backlog/departmentPlanTodo.png'),badge:data.data.P0309})
                 optionCells.push({name:'质量检查计划',src:require('../../../../resource/imgs/home/backlog/qualityInspectionPlan.png'),badge:data.data.P0310})
                 optionCells.push({name:'质量检查记录',src:require('../../../../resource/imgs/home/backlog/qualityInspectionRecord.png'),badge:data.data.P0311})

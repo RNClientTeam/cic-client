@@ -44,7 +44,7 @@ const styles = StyleSheet.create(
     {
         content:{
             backgroundColor: '#fff',
-            borderColor: '#d2d2d2',
+            borderColor: '#fff',
             marginLeft: 0.01 * width,
             marginRight: 0.01 * width,
             marginBottom: 0.02 * width,
@@ -69,14 +69,15 @@ const styles = StyleSheet.create(
             paddingTop: 0.04 * width,
             paddingBottom: 0.04 * width,
             flexDirection:'row',
-            justifyContent:'space-between'
+            justifyContent:'space-between',
+            backgroundColor:'#fff'
         },
         paddingBottom: {
             paddingBottom: 0.02 * width,
             marginRight:width*0.04
         },
         blank: {
-            flex: 1
+            flex: 1,
         },
         titleColor: {
             color: '#637388'
