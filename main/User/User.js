@@ -143,7 +143,6 @@ export default class User extends Component {
                         <Image source={require('../../resource/imgs/user/recommend.png')} style={styles.recommendImg}/>
                         <Text style={styles.recommendText}>{this.state.recommend}</Text>
                     </View>
-                    <Text style={styles.department}>单位名称：{this.state.department}</Text>
                 </Image>
                 <View style={styles.headerTail}>
                 </View>

@@ -15,7 +15,7 @@ public class MainActivity extends ReactActivity {
     public static ArrayBlockingQueue<String> mQueue = new ArrayBlockingQueue<String>(1);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SplashScreen.show(this);
+        // SplashScreen.show(this);
         super.onCreate(savedInstanceState);
         SoLoader.init(this, /* native exopackage */ false);
         if((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0){

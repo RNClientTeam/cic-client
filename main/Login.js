@@ -106,9 +106,9 @@ export default class Login extends Component {
                     ref="scroll"
                     overScrollMode='always'
                     bounces={false}>
-                    <Image source={require('../resource/imgs/login/loginBG.png')}
-                        style={styles.loginBG} resizeMode="contain"/>
-
+                    <View style={styles.loginBG}>
+                        <Text style={styles.title}>业务管理系统</Text>
+                    </View>
                     {/**用户名或密码输入有误的提示信息**/}
                     <Text style={styles.warningSty}>{this.state.warningText}</Text>
 
@@ -243,6 +243,12 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white'
     },
+    title: {
+        color: 'white',
+        textAlign: 'center',
+        marginTop: 0.4 * width,
+        fontSize: 0.1 * width
+    },
     myInput: {
         width:width - 40,
         height:height*0.0705,
@@ -274,7 +280,8 @@ const styles = StyleSheet.create({
     loginBG: {
         width: width,
         height: width * 0.713,
-        marginBottom: height*0.0334
+        marginBottom: height*0.0334,
+        backgroundColor: '#1969b8'
     },
     forgetPassword: {
         fontSize: 16,

@@ -39,7 +39,7 @@
   [self.window makeKeyAndVisible];
   
   //修复启动白屏问题
-  [SplashScreen show];
+  //[SplashScreen show];
   return YES;
 }
 

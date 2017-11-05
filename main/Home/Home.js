@@ -45,8 +45,6 @@ export default class Home extends Component {
         return (
             <View style={{paddingBottom: 50}}>
                 <StatusBar notBack={true} navigator={this.props.navigator}>
-                    <Image style={styles.logoStyle} source={require('../../resource/imgs/home/home_logo.png')}/>
-                    <Text style={styles.logoText}>九州方圆</Text>
                     <View style={styles.operationViewStyle}>
                         <TouchableOpacity onPress={this.onPressSweep.bind(this)}>
                             <Image style={styles.sweepStyle} source={require('../../resource/imgs/home/sweep.png')}/>
@@ -60,8 +58,6 @@ export default class Home extends Component {
                     <View style={styles.viewSty}>
                         {/*菜单栏*/}
                         <MenuItems badges={this.state.badges} navigator={this.props.navigator}/>
-                        {/*公司经营状况*/}
-                        <ManageState bsData={this.state.bsData}/>
                         {/*最新消息*/}
                         <Notification dataSource={this.state.msgList.data} navigator={this.props.navigator}/>
                     </View>

@@ -109,10 +109,7 @@ export default class Applications extends Component {
                     keyExtractor={(item, index)=>this.keyExtractor(item,index)}
                     sections={[
                         {data:[this.state.commonlyApp], key:'常用应用', sectionID:0},
-                        {data:[this.state.businessApp], key:'业务类应用', sectionID:1},
-                        {data:[this.state.tradingApp], key:'商务类应用', sectionID:2},
-                        {data:[this.state.officialApp], key:'办公类应用', sectionID:3},
-                        {data:[this.state.otherApp], key:'其他应用', sectionID:4}
+                        {data:[this.state.businessApp], key:'业务类应用', sectionID:1}
                     ]}/>
             </View>
         );
