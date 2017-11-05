@@ -93,7 +93,7 @@ android {
         ]
         applicationId "com.cic_client"
         minSdkVersion 16
-        targetSdkVersion 22
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         ndk {
@@ -144,7 +144,7 @@ dependencies {
     compile project(':react-native-fetch-blob')
     compile project(':react-native-image-picker')
     compile project(':react-native-fileupload')
-    compile project(':react-native-pdf-view')
+//    compile project(':react-native-pdf-view')
     compile project(':react-native-fs')
     compile project(':react-native-spinkit')
     compile project(':react-native-splash-screen')

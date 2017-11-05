@@ -3,7 +3,7 @@
     "axios": "^0.16.1",
     "crypto-js": "^3.1.9-1",
     "qs": "^6.4.0",
-    "react": "16.0.0-alpha.6",
+    "react": "16.0.0-alpha.12",
     "react-native": "0.43.4",
     "react-native-actionsheet": "^2.1.0",
     "react-native-barcodescanner": "^3.1.1",
@@ -16,7 +16,7 @@
     "react-native-image-picker": "^0.26.3",
     "react-native-jpush": "^1.0.9",
     "react-native-modal-dropdown": "^0.4.2",
-    "react-native-pdf-view": "git+https://github.com/cnjon/react-native-pdf-view.git",
+
     "react-native-pull": "^2.0.2",
     "react-native-scrollable-tab-view": "^0.6.3",
     "react-native-simple-modal": "^5.0.0",

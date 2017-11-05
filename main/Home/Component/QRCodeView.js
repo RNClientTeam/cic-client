@@ -13,7 +13,7 @@ import {
 
 var {width, height} = Dimensions.get('window');
 import StatusBar from '../../Component/StatusBar.js';
-import PDF from 'react-native-pdf-view';
+// import PDF from 'react-native-pdf-view';
 import Loading from '../../Component/Loading.js';
 import RNFS from 'react-native-fs';
 
@@ -44,18 +44,6 @@ export default class PDFView extends Component {
         return (
             <View style={styles.flex}>
                 <StatusBar navigator={this.props.navigator} />
-                {this.state.loading && <Loading />}
-                {
-                    this.state.showPDF &&
-                    (Platform.OS === 'ios' ?
-                    <WebView source={{uri:this.props.downloadURL}}
-                        automaticallyAdjustContentInsets={true}
-                        scalesPageToFit={true}
-                        style={styles.pdf}/> :
-                    <PDF ref={(pdf)=>{this.pdfView = pdf;}}
-                        path={this.pdfPath}
-                        style={styles.pdf}/>)
-                }
             </View>
         );
     }

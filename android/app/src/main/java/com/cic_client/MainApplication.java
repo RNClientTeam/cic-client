@@ -6,9 +6,8 @@ import com.eguma.barcodescanner.BarcodeScannerPackage;
 import com.facebook.react.ReactApplication;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.imagepicker.ImagePickerPackage;
-import com.keyee.pdfview.PDFView;
 import com.rnfs.RNFSPackage;
-import com.keyee.pdfview.PDFView;
+//import com.keyee.pdfview.PDFView;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.cboy.rn.splashscreen.SplashScreenReactPackage;
 import com.facebook.react.ReactNativeHost;
@@ -36,9 +35,9 @@ public class MainApplication extends Application implements ReactApplication {
               new MainReactPackage(),
             new RNFetchBlobPackage(),
             new ImagePickerPackage(),
-            new PDFView(),
+//            new PDFView(),
               new RNFSPackage(),
-              new PDFView(),
+//              new PDFView(),
               new RNSpinkitPackage(),
               new RCTCameraPackage(),
               new BarcodeScannerPackage(),

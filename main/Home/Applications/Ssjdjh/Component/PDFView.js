@@ -15,7 +15,7 @@ import {
 
 var {width, height} = Dimensions.get('window');
 import StatusBar from '../../../../Component/StatusBar.js';
-import PDF from 'react-native-pdf-view';
+// import PDF from 'react-native-pdf-view';
 import Loading from '../../../../Component/Loading.js';
 import RNFS from 'react-native-fs';
 import {baseUrl} from '../../../../Util/service.json'
@@ -41,29 +41,29 @@ export default class PDFView extends Component {
                 </StatusBar>
 
                 {
-                    this.state.showPDF ?
-                    (Platform.OS === 'ios' ?
-                    <WebView source={{uri:pdfDownloadURL}}
-                        automaticallyAdjustContentInsets={true}
-                        scalesPageToFit={true}
-                        style={styles.pdf}/> :
-                    <PDF ref={(pdf)=>{this.pdfView = pdf;}}
-                        path={this.pdfPath}
-                        style={styles.pdf}/>) :
-                    <View style={styles.flex}>
-                        <Image source={require('../../../../../resource/imgs/home/earlierStage/fj.png')}
-                            style={styles.pdfImgSty}/>
-                        <Text style={styles.textSty}>{this.state.fileName}</Text>
-                        <TouchableOpacity onPress={this.downAndPreview.bind(this)}>
-                            <View style={styles.downloadView}>
-                                <Text style={styles.downloadText}>下载并预览</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
+//                    this.state.showPDF ?
+//                    (Platform.OS === 'ios' ?
+//                    <WebView source={{uri:pdfDownloadURL}}
+//                        automaticallyAdjustContentInsets={true}
+//                        scalesPageToFit={true}
+//                        style={styles.pdf}/> :
+//                    <PDF ref={(pdf)=>{this.pdfView = pdf;}}
+//                        path={this.pdfPath}
+//                        style={styles.pdf}/>) :
+//                    <View style={styles.flex}>
+//                        <Image source={require('../../../../../resource/imgs/home/earlierStage/fj.png')}
+//                            style={styles.pdfImgSty}/>
+//                        <Text style={styles.textSty}>{this.state.fileName}</Text>
+//                        <TouchableOpacity onPress={this.downAndPreview.bind(this)}>
+//                            <View style={styles.downloadView}>
+//                                <Text style={styles.downloadText}>下载并预览</Text>
+//                            </View>
+//                        </TouchableOpacity>
+//                    </View>
                 }
                 {
-                    this.state.loading &&
-                    <Loading />
+//                    this.state.loading &&
+//                    <Loading />
                 }
             </View>
         );
